@@ -3,6 +3,7 @@ package restaurant.gui;
 import restaurant.CustomerAgent;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 /**
@@ -13,7 +14,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */
-	JFrame animationFrame = new JFrame("Restaurant Animation");
+	JFrame animationFrame = new JFrame("SimCity Animation");
 	AnimationPanel animationPanel = new AnimationPanel();
 	
     /* restPanel holds 2 panels
@@ -25,6 +26,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
     
     /* infoPanel holds information about the clicked customer, if there is one*/
     private JPanel infoPanel;
+    private JPanel myPanel;
     private JLabel infoLabel; //part of infoPanel
     private JCheckBox stateCB;//part of infoLabel
 
@@ -36,31 +38,46 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * Sets up all the gui components.
      */
     public RestaurantGui() {
-        int WINDOWX = 450;
-        int WINDOWY = 350;
-
-        animationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        animationFrame.setBounds(100+WINDOWX, 50 , WINDOWX+100, WINDOWY+100);
-        animationFrame.setVisible(true);
-    	animationFrame.add(animationPanel); 
+        int WINDOWX = 1050;
+        int WINDOWY = 850;
+        
+        myPanel = new JPanel();
+        JPanel animPan=new JPanel();
+        
+        setLayout(new BorderLayout());
+        
+//        animationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        animationFrame.setBounds(20, 30 , WINDOWX, WINDOWY);
+//        animationFrame.setVisible(true);
+//    	animationFrame.add(animationPanel); 
+        
+        Dimension animationDim = new Dimension((int)(WINDOWX * 0.2), (int) (WINDOWY));
+//        animationPanel.setBounds(100+WINDOWX, 50 , WINDOWX+100, WINDOWY+100);
+//        animationPanel.setMinimumSize(animationDim);
+//    	 animPan.setMinimumSize(animationDim);
+    	setBounds(30, 30, WINDOWX, WINDOWY);
     	
-    	setBounds(50, 50, WINDOWX, WINDOWY);
+    	 Dimension e = new Dimension((int)(WINDOWX * 0.8), (int) (WINDOWY));
 
         setLayout(new BoxLayout((Container) getContentPane(), 
         		BoxLayout.Y_AXIS));
 
-        Dimension restDim = new Dimension(WINDOWX, (int) (WINDOWY * .6));
-        restPanel.setPreferredSize(restDim);
-        restPanel.setMinimumSize(restDim);
-        restPanel.setMaximumSize(restDim);
-        add(restPanel);
+//        Dimension restDim = new Dimension(WINDOWX, (int) (WINDOWY));
+//        restPanel.setPreferredSize(restDim);
+//        restPanel.setMinimumSize(restDim);
+//        restPanel.setMaximumSize(restDim);
+        
+//        restPanel.setMaximumSize(animationDim);
+        myPanel.setBorder(BorderFactory.createTitledBorder("SimCity Character Creator"));
+        myPanel.add(restPanel);
+//        myPanel.setMaximumSize(animationDim);
         
         // Now, setup the info panel
-        Dimension infoDim = new Dimension(WINDOWX, (int) (WINDOWY * .25));
+//        Dimension infoDim = new Dimension((int)(WINDOWX * 0.2), WINDOWY);
         infoPanel = new JPanel();
-        infoPanel.setPreferredSize(infoDim);
-        infoPanel.setMinimumSize(infoDim);
-        infoPanel.setMaximumSize(infoDim);
+//        infoPanel.setPreferredSize(infoDim);
+//        infoPanel.setMinimumSize(infoDim);
+//        infoPanel.setMaximumSize(infoDim);
         infoPanel.setBorder(BorderFactory.createTitledBorder("Information"));
 
         stateCB = new JCheckBox();
@@ -68,12 +85,18 @@ public class RestaurantGui extends JFrame implements ActionListener {
         stateCB.addActionListener(this);
 
         infoPanel.setLayout(new GridLayout(1, 2, 30, 0));
-        
+//        infoPanel.setMaximumSize(animationDim);
         infoLabel = new JLabel(); 
         infoLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
         infoPanel.add(infoLabel);
         infoPanel.add(stateCB);
-        add(infoPanel);
+        myPanel.add(infoPanel);
+        animPan.setLayout(new BorderLayout());
+        animPan.add(animationPanel, BorderLayout.CENTER);
+        add(animPan, BorderLayout.CENTER);
+        add(myPanel, BorderLayout.SOUTH);
+       
+     
     }
     /**
      * updateInfoPanel() takes the given customer (or, for v3, Host) object and
