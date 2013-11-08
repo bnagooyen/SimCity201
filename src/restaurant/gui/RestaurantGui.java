@@ -38,22 +38,22 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * Sets up all the gui components.
      */
     public RestaurantGui() {
-        int WINDOWX = 1050;
-        int WINDOWY = 850;
+        int WINDOWX = 350;
+        int WINDOWY = 650;
         
         myPanel = new JPanel();
         JPanel animPan=new JPanel();
         
         setLayout(new BorderLayout());
         
-//        animationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        animationFrame.setBounds(20, 30 , WINDOWX, WINDOWY);
-//        animationFrame.setVisible(true);
-//    	animationFrame.add(animationPanel); 
+        animationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        animationFrame.setBounds(WINDOWX+40, 30 , WINDOWX+520, WINDOWY);
+        animationFrame.setVisible(true);
+    	animationFrame.add(animationPanel); 
         
         Dimension animationDim = new Dimension((int)(WINDOWX * 0.2), (int) (WINDOWY));
-//        animationPanel.setBounds(100+WINDOWX, 50 , WINDOWX+100, WINDOWY+100);
-//        animationPanel.setMinimumSize(animationDim);
+//        animationPanel.setBounds(50, WINDOWY+100 , WINDOWX, WINDOWY+200);
+        animationPanel.setMinimumSize(animationDim);
 //    	 animPan.setMinimumSize(animationDim);
     	setBounds(30, 30, WINDOWX, WINDOWY);
     	
@@ -69,7 +69,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
         
 //        restPanel.setMaximumSize(animationDim);
         myPanel.setBorder(BorderFactory.createTitledBorder("SimCity Character Creator"));
-        myPanel.add(restPanel);
+       add(restPanel);
 //        myPanel.setMaximumSize(animationDim);
         
         // Now, setup the info panel
@@ -90,11 +90,11 @@ public class RestaurantGui extends JFrame implements ActionListener {
         infoLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
         infoPanel.add(infoLabel);
         infoPanel.add(stateCB);
-        myPanel.add(infoPanel);
-        animPan.setLayout(new BorderLayout());
-        animPan.add(animationPanel, BorderLayout.CENTER);
-        add(animPan, BorderLayout.CENTER);
-        add(myPanel, BorderLayout.SOUTH);
+        add(infoPanel);
+//        animPan.setLayout(new BorderLayout());
+//        animPan.add(animationPanel, BorderLayout.CENTER);
+//        add(animPan, BorderLayout.CENTER);
+//        add(myPanel, BorderLayout.SOUTH);
        
      
     }
