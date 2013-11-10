@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 public class AnimationPanel extends JPanel implements ActionListener {
 
-    private final int WINDOWX = 1050;
-    private final int WINDOWY = 650;
-    private Image bufferImage;
+    private final int WINDOWX = 900;
+    private final int WINDOWY = 500;
+    private Image background;
     private Dimension bufferSize;
 
     private List<Gui> guis = new ArrayList<Gui>();
@@ -22,6 +22,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
         setVisible(true);
         
         bufferSize = this.getSize();
+        background = Toolkit.getDefaultToolkit().createImage("images/RestaurantLayoutv1.png");
+        
  
     	Timer timer = new Timer(20, this );
     	timer.start();
@@ -33,7 +35,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
-
+        
+        
+        //Image background = Toolkit.getDefaultToolkit().createImage("images/RestaurantLayoutv1.png");
+        /**
         //Clear the screen by painting a rectangle the size of the frame
         g2.setColor(getBackground());
         g2.fillRect(0, 0, WINDOWX, WINDOWY );
@@ -42,18 +47,23 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.setColor(Color.ORANGE);
         g2.fillRect(200, 250, 50, 50);//200 and 250 need to be table params
 
-
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
-
+		*/
+        g2.drawImage(background, 0, 0, null);
+        
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
             }
         }
+        
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
+        
+
+        
     }
 
     public void addGui(CustomerGui gui) {

@@ -14,9 +14,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */
-	JFrame animationFrame = new JFrame("SimCity Animation");
-	AnimationPanel animationPanel = new AnimationPanel();
-	
+        JFrame animationFrame = new JFrame("SimCity Animation");
+        AnimationPanel animationPanel = new AnimationPanel();
+        
     /* restPanel holds 2 panels
      * 1) the staff listing, menu, and lists of current customers all constructed
      *    in RestaurantPanel()
@@ -31,7 +31,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
     private JCheckBox stateCB;//part of infoLabel
 
     private Object currentPerson;/* Holds the agent that the info is about.
-    								Seems like a hack */
+                                                                    Seems like a hack */
 
     /**
      * Constructor for RestaurantGui class.
@@ -47,20 +47,25 @@ public class RestaurantGui extends JFrame implements ActionListener {
         setLayout(new BorderLayout());
         
         animationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        animationFrame.setBounds(WINDOWX+40, 30 , WINDOWX+520, WINDOWY);
+        animationFrame.setBounds(100, 100 , 900, 500);
+        //animationFrame.setContentPane(new JLabel(new ImageIcon("images/RestaurantLayoutv1.png")));
+        JButton house1 = new JButton(new ImageIcon("images/house.png")); 
+        house1.setBounds(90, 10, 32, 39);
         animationFrame.setVisible(true);
-    	animationFrame.add(animationPanel); 
+        animationFrame.add(animationPanel);
+        animationFrame.add(house1); 
+
         
         Dimension animationDim = new Dimension((int)(WINDOWX * 0.2), (int) (WINDOWY));
 //        animationPanel.setBounds(50, WINDOWY+100 , WINDOWX, WINDOWY+200);
         animationPanel.setMinimumSize(animationDim);
-//    	 animPan.setMinimumSize(animationDim);
-    	setBounds(30, 30, WINDOWX, WINDOWY);
-    	
-    	 Dimension e = new Dimension((int)(WINDOWX * 0.8), (int) (WINDOWY));
+//             animPan.setMinimumSize(animationDim);
+            setBounds(30, 30, WINDOWX, WINDOWY);
+            
+             Dimension e = new Dimension((int)(WINDOWX * 0.8), (int) (WINDOWY));
 
         setLayout(new BoxLayout((Container) getContentPane(), 
-        		BoxLayout.Y_AXIS));
+                        BoxLayout.Y_AXIS));
 
 //        Dimension restDim = new Dimension(WINDOWX, (int) (WINDOWY));
 //        restPanel.setPreferredSize(restDim);
