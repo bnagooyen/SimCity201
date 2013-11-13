@@ -3,24 +3,47 @@ package restaurant.gui;
 
 import restaurant.CustomerAgent;
 import restaurant.HostAgent;
+import restaurant.HostAgent.Table;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class HostGui implements Gui {
 
     private HostAgent agent = null;
 
+    public boolean hostAtFront()
+    {
+    	if(xPos==-20 && yPos==-20) return true;
+    	else return false;
+    }
+    
     private int xPos = -20, yPos = -20;//default waiter position
     private int xDestination = -20, yDestination = -20;//default start position
 
-    public static final int xTable = 200;
-    public static final int yTable = 250;
+    public static final int TABLE_gap=50;
+    
+    public static final int TABLESZ_xy = 50;
+    
+    public static final int restaurantFront_x = -20;
+    public static final int restaurantFront_y = -20;
+   
+    public static final int nTABLES = 12;
+    public static final int TABLES_perRow = 4;
+    
+    public ArrayList<Table> Tables = new ArrayList<Table>();
 
+    private int seatingAt;
+    private int seatingAt_x, seatingAt_y;
+    
+    private void setSeatingAt(int t) { seatingAt=t; }
+    
     public HostGui(HostAgent agent) {
         this.agent = agent;
     }
 
-    public void updatePosition() {
+    @Override
+	public void updatePosition() {
         if (xPos < xDestination)
             xPos++;
         else if (xPos > xDestination)
@@ -30,30 +53,38 @@ public class HostGui implements Gui {
             yPos++;
         else if (yPos > yDestination)
             yPos--;
-
+        /*
         if (xPos == xDestination && yPos == yDestination
-        		& (xDestination == xTable + 20) & (yDestination == yTable - 20)) {
+        		& (xDestination == seatingAt_x) & (yDestination == seatingAt_y)) {
            agent.msgAtTable();
-        }
+        } */
     }
 
-    public void draw(Graphics2D g) {
+    @Override
+	public void draw(Graphics2D g) {
         g.setColor(Color.MAGENTA);
         g.fillRect(xPos, yPos, 20, 20);
     }
 
-    public boolean isPresent() {
-        return true;
+    @Override
+	public boolean isPresent() {
+        return false;
     }
 
-    public void DoBringToTable(CustomerAgent customer) {
-        xDestination = xTable + 20;
-        yDestination = yTable - 20;
+    public void DoBringToTable(CustomerAgent customer, int table) {
+        seatingAt=table;
+    	xDestination = ((table -1)%TABLES_perRow*TABLESZ_xy*2) + TABLE_gap;
+    	seatingAt_x= xDestination;
+       
+        yDestination = ((table-1)/TABLES_perRow)*TABLESZ_xy*2+TABLE_gap;
+        seatingAt_y= yDestination;
+        
+      
     }
 
     public void DoLeaveCustomer() {
-        xDestination = -20;
-        yDestination = -20;
+        xDestination = restaurantFront_x;
+        yDestination = restaurantFront_y;
     }
 
     public int getXPos() {

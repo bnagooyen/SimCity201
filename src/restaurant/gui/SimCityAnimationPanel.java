@@ -8,10 +8,11 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanel extends JPanel implements ActionListener {
+public class SimCityAnimationPanel extends JPanel implements ActionListener {
 
     private final int WINDOWX = 680;
-    private final int WINDOWY = 650;
+    private final int WINDOWY = 400;
+   
     public static final int x_Offset = 100;
     public static final int BTMX = 0, BTMY=0;
     public static final int nTABLES=4;
@@ -44,9 +45,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     private List<Gui> guis = new ArrayList<Gui>();
 
-    public AnimationPanel(RestaurantGui gui) {
+    public SimCityAnimationPanel(RestaurantGui gui) {
     	this.gui=gui;
     	setSize(WINDOWX, WINDOWY);
+
         setVisible(true);
         
         bufferSize = this.getSize();
@@ -67,26 +69,26 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.fillRect(BTMX, BTMY, WINDOWX, WINDOWY );
 
         //Here is the table
-        g2.setColor(Color.ORANGE);
-        for(int i=0; i<nTABLES; i++)
-        {
-        	int fillx = (i%TABLES_perRow)*TABLESZ_xy*2 + TABLE_gap + x_Offset;
-        	int filly = (i/TABLES_perRow)*TABLESZ_xy*2 + TABLE_gap;
-        	g2.fillRect(fillx, filly, TABLESZ_xy, TABLESZ_xy);//200 and 250 need to be table params
+   
+//        for(int i=0; i<nTABLES; i++)
+//        {
+//        	int fillx = (i%TABLES_perRow)*TABLESZ_xy*2 + TABLE_gap + x_Offset;
+//        	int filly = (i/TABLES_perRow)*TABLESZ_xy*2 + TABLE_gap;
+//        	g2.fillRect(fillx, filly, TABLESZ_xy, TABLESZ_xy);//200 and 250 need to be table params
+//        
+//        }
         
-        }
-        
-        //draw kitchen components
-        g2.setColor(Color.cyan);
-        g2.fillRect(allKitchenItems_x, refrig_y, refrig_xsz, refrig_ysz);
-        g2.setColor(Color.LIGHT_GRAY);
-        g2.fillRect(allKitchenItems_x, grillPizza_y, grill_xsz, grill_ysz);
-        g2.fillRect(allKitchenItems_x, grillChicken_y, grill_xsz, grill_ysz);
-        g2.fillRect(allKitchenItems_x, grillSteak_y, grill_xsz, grill_ysz);
-        g2.fillRect(allKitchenItems_x, grillSalad_y, grill_xsz, grill_ysz);
-
-        g2.setColor(Color.pink);
-        g2.fillRect(allKitchenItems_x, plating_x, grill_xsz, plating_ysz);
+//        //draw kitchen components
+//        g2.setColor(Color.cyan);
+//        g2.fillRect(allKitchenItems_x, refrig_y, refrig_xsz, refrig_ysz);
+//        g2.setColor(Color.LIGHT_GRAY);
+//        g2.fillRect(allKitchenItems_x, grillPizza_y, grill_xsz, grill_ysz);
+//        g2.fillRect(allKitchenItems_x, grillChicken_y, grill_xsz, grill_ysz);
+//        g2.fillRect(allKitchenItems_x, grillSteak_y, grill_xsz, grill_ysz);
+//        g2.fillRect(allKitchenItems_x, grillSalad_y, grill_xsz, grill_ysz);
+//
+//        g2.setColor(Color.pink);
+//        g2.fillRect(allKitchenItems_x, plating_x, grill_xsz, plating_ysz);
         
         for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -99,6 +101,15 @@ public class AnimationPanel extends JPanel implements ActionListener {
                 gui.draw(g2);
             }
         }
+        
+        //doreen's restaurant
+        g2.setColor(Color.ORANGE);
+        g2.fillRect(330, 70, 40, 40);
+        
+    }
+   
+    public void addGui(PersonGui gui) {
+        guis.add(gui);
     }
 
     public void addGui(CustomerGui gui) {
