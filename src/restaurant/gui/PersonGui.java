@@ -1,6 +1,6 @@
 package restaurant.gui;
 
-import restaurant.PersonAgent;
+import simcity.PersonAgent;
 import restaurant.CookAgent;
 import restaurant.CustomerAgent;
 import restaurant.gui.CookGui.CookLabel.LabelState;

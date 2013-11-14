@@ -16,7 +16,8 @@ public abstract class Role {
     PersonAgent myPerson; 
     
 
-    protected Role() {
+    protected Role(PersonAgent p) {
+    	myPerson=p;
     }
 
     /**

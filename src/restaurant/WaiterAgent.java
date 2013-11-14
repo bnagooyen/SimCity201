@@ -38,7 +38,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	Timer timer = new Timer();
 	
 	CookAgent cook;
-	HostAgent host;
+	HostRole host;
 	CashierAgent cashier;
 	
 	//note that tables is typed with Collection semantics.
@@ -112,7 +112,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		cashier= ca;
 	}
 	
-	public void msgAddHost(HostAgent h) {
+	public void msgAddHost(HostRole h) {
 		host=h;
 	}
 	

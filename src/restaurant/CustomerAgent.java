@@ -35,7 +35,7 @@ public class CustomerAgent extends Agent implements Customer {
 	Semaphore atFront = new Semaphore(0, true);
 	
 	// agent correspondents
-	private HostAgent host;
+	private HostRole host;
 	private WaiterAgent waiter;
 	private CashierAgent cashier;
 	
@@ -95,7 +95,7 @@ public class CustomerAgent extends Agent implements Customer {
 	/**
 	 * hack to establish connection to Host agent.
 	 */
-	public void setHost(HostAgent host) {
+	public void setHost(HostRole host) {
 		this.host = host;
 	}
 

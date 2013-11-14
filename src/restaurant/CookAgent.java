@@ -36,7 +36,7 @@ public class CookAgent extends Agent {
 	private Semaphore atPlating = new Semaphore(0, true);
 	
 	private WaiterAgent waiter;
-	private HostAgent host;
+	private HostRole host;
 
 	private boolean waitingForInventory; // order at once, don't order when waiting for an order to arrive
 	//private boolean reOrdering;
@@ -137,7 +137,7 @@ public class CookAgent extends Agent {
 
 	//hack!
 	
-	public void AddHost(HostAgent h) {
+	public void AddHost(HostRole h) {
 		//System.out.println("host added to cook");
 		host=h;
 	}

@@ -1,12 +1,14 @@
 package restaurant;
 
+import agent.Role;
 import agent.Agent;
 import restaurant.gui.HostGui;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
-import restaurant.HostAgent.MyCustomer.CustState;
-import restaurant.HostAgent.MyWaiter.MyWaiterState;
+import restaurant.HostRole.MyCustomer.CustState;
+import restaurant.HostRole.MyWaiter.MyWaiterState;
 import restaurant.WaiterAgent.WaiterState;
+import simcity.PersonAgent;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -18,7 +20,8 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class HostAgent extends Agent {
+public class HostRole extends Role {
+	
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -43,8 +46,8 @@ public class HostAgent extends Agent {
 
 	boolean KitchenReadyForOpen;
 
-	public HostAgent(String name) {
-		super();
+	public HostRole(PersonAgent p) {
+		super(p);
 
 		this.name = name;
 		// make some tables

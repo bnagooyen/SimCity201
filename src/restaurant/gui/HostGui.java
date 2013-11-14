@@ -2,15 +2,15 @@ package restaurant.gui;
 
 
 import restaurant.CustomerAgent;
-import restaurant.HostAgent;
-import restaurant.HostAgent.Table;
+import restaurant.HostRole;
+import restaurant.HostRole.Table;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class HostGui implements Gui {
 
-    private HostAgent agent = null;
+    private HostRole agent = null;
 
     public boolean hostAtFront()
     {
@@ -38,7 +38,7 @@ public class HostGui implements Gui {
     
     private void setSeatingAt(int t) { seatingAt=t; }
     
-    public HostGui(HostAgent agent) {
+    public HostGui(HostRole agent) {
         this.agent = agent;
     }
 

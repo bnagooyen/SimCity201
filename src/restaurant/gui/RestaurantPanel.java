@@ -1,8 +1,8 @@
 package restaurant.gui;
 
 import restaurant.CustomerAgent;
-import restaurant.HostAgent;
-import restaurant.PersonAgent;
+import simcity.PersonAgent;
+import restaurant.HostRole;
 import restaurant.WaiterAgent;
 import restaurant.CookAgent;
 import restaurant.MarketAgent;
@@ -21,7 +21,8 @@ import java.util.Vector;
 public class RestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
-    private HostAgent host = new HostAgent("Sarah");
+	private PersonAgent myHost = new PersonAgent("Sarah");
+    private HostRole host = new HostRole(myHost);
     private HostGui hostGui = new HostGui(host);
     
     
@@ -66,7 +67,7 @@ public class RestaurantPanel extends JPanel {
         cashier.startThread();
         
         //waiter.startThread();
-        host.startThread();
+//        host.startThread();
 
         
         //cook.msgAddWaiter(waiter);
@@ -181,31 +182,31 @@ public class RestaurantPanel extends JPanel {
     }
 
     public void msgTogglePause() {
-    	if(host.isPaused) {
-    		host.isPaused=false;
-    		host.Restart();
-    	}
-    	else host.isPaused=true;
-    	for(WaiterAgent waiter: waiters) {
-	    	if(waiter.isPaused) {
-	    		waiter.isPaused=false;
-	    		waiter.Restart();
-	    	}
-	    	else waiter.isPaused=true;
-    	}
-    	for(CustomerAgent customer: customers) {
-    		if(customer.isPaused) {
-    			customer.isPaused=false;
-    			customer.Restart();
-    		}
-    		else customer.isPaused=true;
-    	}
-    	
-    	if(cook.isPaused) {
-    		cook.isPaused=false;
-    		cook.Restart();
-    	}
-    	else cook.isPaused=true;
+//    	if(host.isPaused) {
+//    		host.isPaused=false;
+//    		host.Restart();
+//    	}
+//    	else host.isPaused=true;
+//    	for(WaiterAgent waiter: waiters) {
+//	    	if(waiter.isPaused) {
+//	    		waiter.isPaused=false;
+//	    		waiter.Restart();
+//	    	}
+//	    	else waiter.isPaused=true;
+//    	}
+//    	for(CustomerAgent customer: customers) {
+//    		if(customer.isPaused) {
+//    			customer.isPaused=false;
+//    			customer.Restart();
+//    		}
+//    		else customer.isPaused=true;
+//    	}
+//    	
+//    	if(cook.isPaused) {
+//    		cook.isPaused=false;
+//    		cook.Restart();
+//    	}
+//    	else cook.isPaused=true;
     }
     /*
      *         if(e.getSource()==kitchenThresholdInc) {
