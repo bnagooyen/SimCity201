@@ -1,4 +1,4 @@
-package restaurant;
+package simcity;
 
 import agent.Agent;
 import restaurant.CustomerAgent.AgentEvent;
