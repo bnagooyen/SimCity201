@@ -61,10 +61,10 @@ public class RestaurantGui extends JFrame implements ActionListener {
         int WINDOWY = 750;
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+        simCityFrame.setVisible(true);
       simCityFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         simCityFrame.setBounds(50, 50 , WINDOWX+400, WINDOWY+100);
-         simCityFrame.setVisible(true);
+         simCityFrame.setBounds(50, 50 , WINDOWX+400, WINDOWY-300);
+         
          simCityFrame.setLayout(new BorderLayout());
 //     	animationFrame.add(animationPanel); 
          simCityFrame.add(simCityPanel, BorderLayout.CENTER);
@@ -72,13 +72,14 @@ public class RestaurantGui extends JFrame implements ActionListener {
          
          JPanel cityPanels = new JPanel();
          cityPanels.setLayout(new GridLayout(1,1));
-         cityPanels.setMaximumSize(new Dimension((int)(WINDOWX*0.4), (int)(200)));
-         cityPanels.setPreferredSize(new Dimension((int)(WINDOWX*0.4), (int)(200)));
-         cityPanels.setMinimumSize(new Dimension((int)(WINDOWX*0.4), (int)(200)));
+         cityPanels.setMaximumSize(new Dimension((int)(WINDOWX*0.3), (int)(100)));
+         cityPanels.setPreferredSize(new Dimension((int)(WINDOWX*0.4), (int)(100)));
+         cityPanels.setMinimumSize(new Dimension((int)(WINDOWX*0.4), (int)(100)));
          cityPanels.add(addPersonPanel);
          
          simCityFrame.add(cityPanels, BorderLayout.WEST);
-         
+        
+         simCityFrame.validate();
         
        // animationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        // animationFrame.setBounds(100+WINDOWX, 50 , WINDOWX+100, WINDOWY+100);
