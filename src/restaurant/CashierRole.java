@@ -10,6 +10,7 @@ import restaurant.test.mock.LoggedEvent;
 import restaurant.test.mock.MockMarket;
 import restaurant.CashierRole.InventoryBill.InventoryBillState;
 import restaurant.Check.CheckState;
+import simcity.PersonAgent;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -53,8 +54,8 @@ public class CashierRole extends Role implements Cashier {
 		return myBills;
 	}
 
-	public CashierRole(String name) {
-		super();
+	public CashierRole(PersonAgent p) {
+		super(p);
 
 		this.name = name;
 		// make some tables

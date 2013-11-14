@@ -1,6 +1,6 @@
 package restaurant.gui;
 import agent.Agent;
-import restaurant.CustomerAgent;
+import restaurant.CustomerRole;
 import restaurant.WaiterAgent;
 
 import javax.swing.*;
@@ -215,8 +215,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
         stateCB.setVisible(true);
         currentPerson = person;
 
-        if (person instanceof CustomerAgent) {
-            CustomerAgent customer = (CustomerAgent) person;
+        if (person instanceof CustomerRole) {
+            CustomerRole customer = (CustomerRole) person;
             stateCB.setText("Hungry?");
           //Should checkmark be there? 
             stateCB.setSelected(customer.getGui().isHungry());
@@ -235,8 +235,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == stateCB) {
-            if (currentPerson instanceof CustomerAgent) {
-                CustomerAgent c = (CustomerAgent) currentPerson;
+            if (currentPerson instanceof CustomerRole) {
+                CustomerRole c = (CustomerRole) currentPerson;
                 c.getGui().setHungry();
                 stateCB.setEnabled(false);
             }
@@ -263,13 +263,13 @@ public class RestaurantGui extends JFrame implements ActionListener {
         if(e.getSource()==kitchenAmntDec) {
         	restPanel.msgDecreaseKitchenAmount();
         }
-        if(e.getSource()==marketAmntInc) {
-        	restPanel.msgIncreaseMarketAmount();
-        }
-        if(e.getSource()==marketAmntDec) {
-        	restPanel.msgDecreaseMarketAmount();
-        }
-        
+//        if(e.getSource()==marketAmntInc) {
+//        	restPanel.msgIncreaseMarketAmount();
+//        }
+//        if(e.getSource()==marketAmntDec) {
+//        	restPanel.msgDecreaseMarketAmount();
+//        }
+//        
         if(e.getSource()==setAmounts) {
         	kitchenThresholdInc.setEnabled(false);
         	kitchenThresholdDec.setEnabled(false);
@@ -289,7 +289,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(CustomerAgent c) {
+    public void setCustomerEnabled(CustomerRole c) {
        /* if (currentPerson instanceof CustomerAgent) {
             CustomerAgent cust = (CustomerAgent) currentPerson;
             if (c.equals(cust)) {

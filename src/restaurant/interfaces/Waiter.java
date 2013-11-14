@@ -3,7 +3,7 @@ package restaurant.interfaces;
 import java.util.List;
 
 import restaurant.Check;
-import restaurant.CustomerAgent;
+import restaurant.CustomerRole;
 import restaurant.Order;
 import restaurant.Order.OrderState;
 import restaurant.WaiterAgent.MyCustomer;
@@ -11,18 +11,18 @@ import restaurant.WaiterAgent.WaiterState;
 
 public interface Waiter {
 
-	public abstract void msgSitAtTable(int t, CustomerAgent cust);
-	public void msgImReadyToOrder(CustomerAgent cust);
+	public abstract void msgSitAtTable(int t, CustomerRole cust);
+	public void msgImReadyToOrder(CustomerRole cust);
 	
-	public abstract void msgHereIsMyChoice(CustomerAgent cust, String choice);
+	public abstract void msgHereIsMyChoice(CustomerRole cust, String choice);
 	public abstract void msgCheckIsReady();
 	public abstract void msgOutOfFood(Order o);
 	
 //	public abstract void msgOrderIsReady(Order o);
 	
-	public abstract void msgDoneEatingAndLeaving(CustomerAgent cust);
+	public abstract void msgDoneEatingAndLeaving(CustomerRole cust);
 
-	public abstract void msgCantAffordNotStaying(CustomerAgent cust);
+	public abstract void msgCantAffordNotStaying(CustomerRole cust);
 
 	public abstract void msgAtTable();
 	

@@ -3,7 +3,9 @@ package restaurant;
 import restaurant.gui.CustomerGui;
 import restaurant.gui.RestaurantGui;
 import restaurant.interfaces.Customer;
+import simcity.PersonAgent;
 import agent.Agent;
+import agent.Role;
 
 import java.text.DecimalFormat;
 import java.util.Timer;
@@ -15,7 +17,7 @@ import java.util.concurrent.Semaphore;
 /**
  * Restaurant customer agent.
  */
-public class CustomerAgent extends Agent implements Customer {
+public class CustomerRole extends Role implements Customer {
 	private String name;
 	private String myText;
 	//parse through string
@@ -37,7 +39,7 @@ public class CustomerAgent extends Agent implements Customer {
 	// agent correspondents
 	private HostRole host;
 	private WaiterAgent waiter;
-	private CashierAgent cashier;
+	private CashierRole cashier;
 	
 	//table
 	private int tableNum;
@@ -60,8 +62,8 @@ public class CustomerAgent extends Agent implements Customer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerAgent(String name){
-		super();
+	public CustomerRole(PersonAgent p){
+		super(p);
 		
 		//parsing string
 		//Input: Name, MoneyVal, Order , Stay/Leave
@@ -99,7 +101,7 @@ public class CustomerAgent extends Agent implements Customer {
 		this.host = host;
 	}
 
-	public void setCashier(CashierAgent ca) {
+	public void setCashier(CashierRole ca) {
 		cashier= ca;
 	}
 	public String getCustomerName() {

@@ -1,12 +1,13 @@
 package restaurant;
 
 import agent.Role;
-import restaurant.CustomerAgent.AgentEvent;
+import restaurant.CustomerRole.AgentEvent;
 import restaurant.Order.OrderState;
 import restaurant.gui.CookGui;
 import restaurant.gui.HostGui;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.Cashier;
+import simcity.PersonAgent;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -45,7 +46,7 @@ public class CookRole extends Role {
 	
 	ArrayList<ArrayList<FoodOrder>> delivery= new ArrayList<ArrayList<FoodOrder>>();
 	List<Order> orders =  Collections.synchronizedList(new ArrayList<Order>());
-	ArrayList<MarketAgent> markets = new ArrayList<MarketAgent>();
+//	ArrayList<MarketAgent> markets = new ArrayList<MarketAgent>();
 	List<InventoryOrder> myOrders =  Collections.synchronizedList(new ArrayList<InventoryOrder>());
 	private int ORDER_ID;
 	ArrayList<FoodOrder> orderToMarket = new ArrayList<FoodOrder>();
@@ -54,8 +55,8 @@ public class CookRole extends Role {
 	Cashier myCashier;
 	boolean RestaurantIsOpen, CheckedAtFirst, valsAreSet;
 	
-	public CookRole(String name) {
-		super();
+	public CookRole(PersonAgent p) {
+		super(p);
 		
 		this.name = name;
 		
@@ -151,11 +152,11 @@ public class CookRole extends Role {
 		waiter=w;
 	}
 	
-	public void msgAddMarket(MarketAgent m) {
-		//System.out.println("added");
-		markets.add(m);
-	}
-	
+//	public void msgAddMarket(MarketAgent m) {
+//		//System.out.println("added");
+//		markets.add(m);
+//	}
+//	
 	public void msgIncKitchenThreshold() {
 		threshold++;
 		System.out.println("Kitchen threshold increased to "+ threshold);
@@ -513,26 +514,26 @@ public class CookRole extends Role {
 				orderToMarket.add(new FoodOrder("Salad", MAXCAPACITY-myFood.get("Salad").getAmount()));
 			}
 			
-			markets.get(0).msgHereIsAnInventoryOrder(orderToMarket, ORDER_ID, myCashier);
+//			markets.get(0).msgHereIsAnInventoryOrder(orderToMarket, ORDER_ID, myCashier);
 			myOrders.add(new InventoryOrder(orderToMarket, ORDER_ID));
 			ORDER_ID++;
 			waitingForInventory=true;
 		}
 		
 		private void ReorderFood(InventoryOrder reord) {
-			if(reord.getMarketOrderingFrom()>markets.size()) {
-				for(int i=0; i< reord.myorder.size(); i++) {
-					System.out.println("all markets are out of "+ reord.myorder.get(i).getFood());
-				}
-				if(!RestaurantIsOpen && reord.getMarketOrderingFrom()>markets.size()) { //markets don't have it.. should just open anyway
-					RestaurantIsOpen=true;
-					host.msgKitchenIsReady();
-				}
-				myOrders.remove(reord);
-				return;
-			}
+//			if(reord.getMarketOrderingFrom()>markets.size()) {
+//				for(int i=0; i< reord.myorder.size(); i++) {
+//					System.out.println("all markets are out of "+ reord.myorder.get(i).getFood());
+//				}
+//				if(!RestaurantIsOpen && reord.getMarketOrderingFrom()>markets.size()) { //markets don't have it.. should just open anyway
+//					RestaurantIsOpen=true;
+//					host.msgKitchenIsReady();
+//				}
+//				myOrders.remove(reord);
+//				return;
+			//}
 			System.out.println("sent reorder");
-			markets.get(reord.mktOrderingFrom-1).msgHereIsAnInventoryOrder(reord.myorder, reord.getID(), myCashier);
+//			markets.get(reord.mktOrderingFrom-1).msgHereIsAnInventoryOrder(reord.myorder, reord.getID(), myCashier);
 			reord.reorder=false;
 			
 		}

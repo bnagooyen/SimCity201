@@ -1,8 +1,8 @@
 package restaurant.gui;
 
 
-import restaurant.CookAgent;
-import restaurant.CustomerAgent;
+import restaurant.CookRole;
+import restaurant.CustomerRole;
 import restaurant.gui.CookGui.CookLabel.LabelState;
 
 import java.awt.*;
@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 
 public class CookGui implements Gui {
 
-    private CookAgent agent = null;
+    private CookRole agent = null;
 
     public boolean waiterAtFront()
     {
@@ -95,7 +95,7 @@ public class CookGui implements Gui {
     String foodReady;
 
    // private int seatingAt;
-    private CustomerAgent takingOrderFrom;//, orderFrom;
+    private CustomerRole takingOrderFrom;//, orderFrom;
     
     private int seatingAt_x, seatingAt_y;
     
@@ -103,7 +103,7 @@ public class CookGui implements Gui {
     
    //f private void setSeatingAt(int t) { seatingAt=t; }
     
-    public CookGui(CookAgent agent, RestaurantGui g) {
+    public CookGui(CookRole agent, RestaurantGui g) {
     	gui=g;
         this.agent = agent;
         madeToFront=true;

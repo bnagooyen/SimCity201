@@ -1,7 +1,7 @@
 package restaurant.gui;
 
 
-import restaurant.CustomerAgent;
+import restaurant.CustomerRole;
 import restaurant.HostRole;
 import restaurant.HostRole.Table;
 
@@ -71,7 +71,7 @@ public class HostGui implements Gui {
         return false;
     }
 
-    public void DoBringToTable(CustomerAgent customer, int table) {
+    public void DoBringToTable(CustomerRole customer, int table) {
         seatingAt=table;
     	xDestination = ((table -1)%TABLES_perRow*TABLESZ_xy*2) + TABLE_gap;
     	seatingAt_x= xDestination;

@@ -24,8 +24,8 @@ public class WaiterAgent extends Agent implements Waiter {
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
-	public List<CustomerAgent> waitingCustomers
-	=  Collections.synchronizedList(new ArrayList<CustomerAgent>());
+	public List<CustomerRole> waitingCustomers
+	=  Collections.synchronizedList(new ArrayList<CustomerRole>());
 
 	public List<Order> orders=  Collections.synchronizedList(new ArrayList<Order>());
 	
@@ -37,9 +37,9 @@ public class WaiterAgent extends Agent implements Waiter {
 	
 	Timer timer = new Timer();
 	
-	CookAgent cook;
+	CookRole cook;
 	HostRole host;
-	CashierAgent cashier;
+	CashierRole cashier;
 	
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
@@ -104,11 +104,11 @@ public class WaiterAgent extends Agent implements Waiter {
 	// Messages
 
 	//hack!
-	public void msgAddCook(CookAgent c) {
+	public void msgAddCook(CookRole c) {
 		cook=c;
 	}
 	
-	public void msgAddCashier(CashierAgent ca) {
+	public void msgAddCashier(CashierRole ca) {
 		cashier= ca;
 	}
 	
@@ -135,7 +135,7 @@ public class WaiterAgent extends Agent implements Waiter {
 //	}
 	
 	@Override
-	public void msgImReadyToOrder(CustomerAgent cust) {
+	public void msgImReadyToOrder(CustomerRole cust) {
 		System.out.println("waiter received ready message");
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
@@ -147,7 +147,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	}
 	
 	@Override
-	public void msgHereIsMyChoice(CustomerAgent cust, String choice) {
+	public void msgHereIsMyChoice(CustomerRole cust, String choice) {
 		
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
@@ -190,7 +190,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	}
 	
 	@Override
-	public void msgDoneEatingAndLeaving(CustomerAgent cust) {
+	public void msgDoneEatingAndLeaving(CustomerRole cust) {
 		//System.out.println("received done eating");
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
@@ -201,7 +201,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	}
 	
 	@Override
-	public void msgCantAffordNotStaying(CustomerAgent cust) {
+	public void msgCantAffordNotStaying(CustomerRole cust) {
 		//System.out.println("received done eating");
 		//state=WaiterState.working;
 		//DoGoHangAtTheFront();
@@ -521,7 +521,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		cust.state=MyCustomer.MyCustomerState.seated;
 
 		cust.getCustomer().msgFollowMe(new Menu(), cust.tablenum, this);
-		DoSeatCustomer((CustomerAgent) cust.getCustomer(), cust.getTablenum());
+		DoSeatCustomer((CustomerRole) cust.getCustomer(), cust.getTablenum());
 
 		try {
 			atTable.acquire();
@@ -623,7 +623,7 @@ public class WaiterAgent extends Agent implements Waiter {
 				customer.getCustomer().msgFoodIsServed();
 				customer.state=MyCustomer.MyCustomerState.served;
 //				System.err.println((CustomerAgent)(customer.getCustomer()));
-				cashier.msgComputeBill(o.getChoice(), (CustomerAgent)(customer.getCustomer()), (((CustomerAgent)(customer.getCustomer())).getName()), o.tablenum, this);
+				cashier.msgComputeBill(o.getChoice(), (CustomerRole)(customer.getCustomer()), (((CustomerRole)(customer.getCustomer())).getName()), o.tablenum, this);
 //				System.err.println("requested bill for " + (((CustomerAgent) (customer.getCustomer())).getName()) + " at table "+  o.tablenum);
 				DoGoHangAtTheFront();
 //				o.state=OrderState.billPending;
@@ -711,7 +711,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	private void DoGoToFront() {
 		WaiterGui.DoGoToFrontLine();
 	}
-	private void DoSeatCustomer(CustomerAgent customer, int table) {
+	private void DoSeatCustomer(CustomerRole customer, int table) {
 		//Notice how we print "customer" directly. It's toString method will do it.
 		//Same with "table"
 		print("Seating " + customer + " at " + table);
@@ -737,7 +737,7 @@ public class WaiterAgent extends Agent implements Waiter {
 			WaiterGui.DoGoToTable(customer.getCustomer(), table);
 			state=WaiterState.goingToTakeOrder;
 		}*/
-		WaiterGui.DoGoToTable((CustomerAgent)customer, table);
+		WaiterGui.DoGoToTable((CustomerRole)customer, table);
 	}
 
 //	private void DoClearTable(int t) {
@@ -786,7 +786,7 @@ public class WaiterAgent extends Agent implements Waiter {
 			return c;
 		}
 		
-		public void setCustomer(CustomerAgent c) {
+		public void setCustomer(CustomerRole c) {
 			this.c = c;
 		}
 
@@ -815,7 +815,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	}
 
 	@Override
-	public void msgSitAtTable(int t, CustomerAgent cust) {
+	public void msgSitAtTable(int t, CustomerRole cust) {
 		// TODO Auto-generated method stub
 		
 	}

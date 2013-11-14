@@ -1,12 +1,14 @@
 package restaurant.gui;
 
-import restaurant.CustomerAgent;
+import restaurant.CustomerRole;
 import simcity.PersonAgent;
+import restaurant.CashierRole;
+import restaurant.CookRole;
 import restaurant.HostRole;
 import restaurant.WaiterAgent;
-import restaurant.CookAgent;
-import restaurant.MarketAgent;
-import restaurant.CashierAgent;
+import restaurant.CookRole;
+//import restaurant.MarketAgent;
+import restaurant.CashierRole;
 
 import javax.swing.*;
 
@@ -29,7 +31,7 @@ public class RestaurantPanel extends JPanel {
     //private WaiterAgent waiter = new WaiterAgent("Joe");
     //private WaiterGui waiterGui = new WaiterGui(waiter);
     
-    private CookAgent cook = new CookAgent("Michael Crowley");
+    private CookRole cook;
     private CookGui cookGui = null;
     
 //    private PersonAgent person = new PersonAgent("Doreen");
@@ -38,14 +40,14 @@ public class RestaurantPanel extends JPanel {
     private Vector<PersonAgent> people = new Vector<PersonAgent>();
     //private CookGui cookGui = new CookGui(cook);
     
-    private CashierAgent cashier = new CashierAgent("Betty");
+    private CashierRole cashier;
    
     private int waiterIndex = 1;
     private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
-    private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
+    private Vector<CustomerRole> customers = new Vector<CustomerRole>();
     
     private final int numMarkets = 3;
-    private Vector<MarketAgent> markets = new Vector<MarketAgent>();
+//    private Vector<MarketAgent> markets = new Vector<MarketAgent>();
     
     private JPanel restLabel = new JPanel();
    //customer drop down!
@@ -64,7 +66,7 @@ public class RestaurantPanel extends JPanel {
        
         host.setGui(hostGui);
         //waiter.setGui(waiterGui);
-        cashier.startThread();
+//        cashier.startThread();
         
         //waiter.startThread();
 //        host.startThread();
@@ -89,17 +91,20 @@ public class RestaurantPanel extends JPanel {
         add(restLabel);
         
         //add markets and start their threads
-        for(int i=1; i<=numMarkets; i++) {
-        	MarketAgent myMarket = new MarketAgent(i);
-        	cook.msgAddMarket(myMarket);
-        	myMarket.msgAddCook(cook);
-        	markets.add(myMarket);
-        	myMarket.startThread();
-        }
+//        for(int i=1; i<=numMarkets; i++) {
+//        	MarketAgent myMarket = new MarketAgent(i);
+//        	cook.msgAddMarket(myMarket);
+//        	myMarket.msgAddCook(cook);
+//        	markets.add(myMarket);
+//        	myMarket.startThread();
+//        }
         
         
         
         //need this for checking if kitchen has enough food
+        
+        PersonAgent myCook = new PersonAgent("Jerry");
+        cook=new CookRole(myCook);
         cookGui= new CookGui(cook, gui);
         cook.setGui(cookGui);
         gui.animationPanel.addGui(cookGui);
@@ -107,7 +112,7 @@ public class RestaurantPanel extends JPanel {
         cook.AddHost(host);
         cook.AddCashier(cashier);
         
-        cook.startThread();
+//        cook.startThread();
         
 //        personGui=new PersonGui(person, gui);
 //        person.setGui(personGui);
@@ -149,7 +154,7 @@ public class RestaurantPanel extends JPanel {
         if (type.equals("Customers")) {
 
             for (int i = 0; i < customers.size(); i++) {
-                CustomerAgent temp = customers.get(i);
+                CustomerRole temp = customers.get(i);
                 if (temp.getText() == name) {
                 	return temp;
                 }
@@ -249,17 +254,17 @@ public class RestaurantPanel extends JPanel {
     public void msgDecreaseKitchenAmount() {
     	cook.msgDecKitchenAmnt();
     }
-    public void msgIncreaseMarketAmount() {
-    	for(MarketAgent market: markets) {
-    		market.msgIncMarketAmnt();
-    	}
-    }
-    
-    public void msgDecreaseMarketAmount() {
-    	for(MarketAgent market: markets) {
-    		market.msgDecMarketAmnt();
-    	}
-    }
+//    public void msgIncreaseMarketAmount() {
+//    	for(MarketAgent market: markets) {
+//    		market.msgIncMarketAmnt();
+//    	}
+//    }
+//    
+//    public void msgDecreaseMarketAmount() {
+//    	for(MarketAgent market: markets) {
+//    		market.msgDecMarketAmnt();
+//    	}
+//    }
     
     /**
      * Adds a customer or waiter to the appropriate list
@@ -271,7 +276,8 @@ public class RestaurantPanel extends JPanel {
     public void addPerson(String type, String name) {
 
     	if (type.equals("Customers")) {
-    		CustomerAgent c = new CustomerAgent(name);	
+    		PersonAgent p = new PersonAgent(name);
+    		CustomerRole c = new CustomerRole(p);	
     		CustomerGui g = new CustomerGui(c, gui);
 
     		gui.animationPanel.addGui(g);// dw
@@ -279,7 +285,7 @@ public class RestaurantPanel extends JPanel {
     		c.setCashier(cashier);
     		c.setGui(g);
     		customers.add(c);
-    		c.startThread();
+//    		c.startThread();
 //    		System.out.println("added");
     	}
     	
@@ -317,7 +323,7 @@ public class RestaurantPanel extends JPanel {
     
     public void setCustomerEnabled(String name, double val) {
     	
-    	for(CustomerAgent c: customers) {
+    	for(CustomerRole c: customers) {
     		if(c.getText()==name) {
     			String s[] = name.split(", ");
     			String temp = s[0].trim()+", "+ String.valueOf(val)+ ", "+ s[2].trim()+", "+s[3].trim();

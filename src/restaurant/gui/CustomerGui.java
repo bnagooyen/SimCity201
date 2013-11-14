@@ -1,6 +1,6 @@
 package restaurant.gui;
 
-import restaurant.CustomerAgent;
+import restaurant.CustomerRole;
 import restaurant.HostRole;
 
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class CustomerGui implements Gui{
 
-	private CustomerAgent agent = null;
+	private CustomerRole agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 	private boolean isServed = false;
@@ -44,7 +44,7 @@ public class CustomerGui implements Gui{
     public static final int nTABLES = 12;
     public static final int TABLES_perRow = 4;
 
-	public CustomerGui(CustomerAgent c, RestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(CustomerRole c, RestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xPos = -40;
 		yPos = -40;

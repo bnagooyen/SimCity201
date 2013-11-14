@@ -1,7 +1,7 @@
 package restaurant.gui;
 
 
-import restaurant.CustomerAgent;
+import restaurant.CustomerRole;
 import restaurant.WaiterAgent;
 
 import java.awt.*;
@@ -59,7 +59,7 @@ public class WaiterGui implements Gui {
     String foodReady;
 
    // private int seatingAt;
-    private CustomerAgent takingOrderFrom;//, orderFrom;
+    private CustomerRole takingOrderFrom;//, orderFrom;
     
     private int seatingAt_x, seatingAt_y;
     
@@ -161,7 +161,7 @@ public class WaiterGui implements Gui {
     	yDestination=frontline_y;
     }
 
-    public void DoBringToTable(CustomerAgent customer, int table) {
+    public void DoBringToTable(CustomerRole customer, int table) {
         //seatingAt=table;
     	command=Command.GoSeatCustomer;
     	
@@ -174,7 +174,7 @@ public class WaiterGui implements Gui {
       
     }
     
-    public void DoGoToTable(CustomerAgent customer, int table) {
+    public void DoGoToTable(CustomerRole customer, int table) {
     	//madeToFront=false; // reset
     	//System.out.println("do go to table called");
  

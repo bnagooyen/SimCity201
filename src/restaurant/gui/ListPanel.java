@@ -1,6 +1,6 @@
 package restaurant.gui;
 
-import restaurant.CustomerAgent;
+import restaurant.CustomerRole;
 import restaurant.HostRole;
 import simcity.PersonAgent;
 import restaurant.WaiterAgent;
@@ -146,9 +146,9 @@ public class ListPanel extends JPanel implements ActionListener {
 //                	System.err.println(pplList.get(i).getText());
                     currentPerson=restPanel.showInfo(type, pplList.get(i).getText());
 //                    System.err.println(currentPerson);
-                    if (currentPerson instanceof CustomerAgent) {
+                    if (currentPerson instanceof CustomerRole) {
                     	list.get(i).setEnabled(false);
-                        CustomerAgent c = (CustomerAgent) currentPerson;
+                        CustomerRole c = (CustomerRole) currentPerson;
                         c.getGui().setHungry();
                         //System.out.println("found!");
                         
@@ -228,7 +228,7 @@ public class ListPanel extends JPanel implements ActionListener {
 	                 currentPerson=restPanel.showInfo(type, button.getText());
 	               
                 	//list.get(i).setEnabled(false);
-                    CustomerAgent c = (CustomerAgent) currentPerson;
+                    CustomerRole c = (CustomerRole) currentPerson;
                     c.getGui().setHungry();
                     System.out.println("found!");
                     return;

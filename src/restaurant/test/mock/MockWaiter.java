@@ -3,7 +3,7 @@ package restaurant.test.mock;
 import java.util.List;
 
 import restaurant.Check;
-import restaurant.CustomerAgent;
+import restaurant.CustomerRole;
 import restaurant.Order;
 import restaurant.interfaces.Waiter;
 
@@ -16,19 +16,19 @@ public class MockWaiter extends Mock implements Waiter {
 	}
 
 	@Override
-	public void msgSitAtTable(int t, CustomerAgent cust) {
+	public void msgSitAtTable(int t, CustomerRole cust) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgSitAtTable"));
 	}
 
 	@Override
-	public void msgImReadyToOrder(CustomerAgent cust) {
+	public void msgImReadyToOrder(CustomerRole cust) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgImReadyToOrder"));	
 	}
 
 	@Override
-	public void msgHereIsMyChoice(CustomerAgent cust, String choice) {
+	public void msgHereIsMyChoice(CustomerRole cust, String choice) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgHereIsMyChoice"));		
 	}
@@ -47,13 +47,13 @@ public class MockWaiter extends Mock implements Waiter {
 	}
 
 	@Override
-	public void msgDoneEatingAndLeaving(CustomerAgent cust) {
+	public void msgDoneEatingAndLeaving(CustomerRole cust) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgDoneEatingAndLeaving"));	
 	}
 
 	@Override
-	public void msgCantAffordNotStaying(CustomerAgent cust) {
+	public void msgCantAffordNotStaying(CustomerRole cust) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgCantAffordNotStaying"));	
 	}

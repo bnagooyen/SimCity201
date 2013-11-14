@@ -28,8 +28,8 @@ public class HostRole extends Role {
 	public List<MyCustomer> waitingCustomers
 	=  Collections.synchronizedList(new ArrayList<MyCustomer>());
 
-	CustomerAgent custLeavingWaitlist;
-	CustomerAgent sendFullMsgTo;
+	CustomerRole custLeavingWaitlist;
+	CustomerRole sendFullMsgTo;
 	
 	//list of waiters
 	public List<MyWaiter> waiters =  Collections.synchronizedList(new ArrayList<MyWaiter>());
@@ -89,7 +89,7 @@ public class HostRole extends Role {
 		KitchenReadyForOpen=true;
 		stateChanged();
 	}
-	public void msgIWantFood(CustomerAgent cust) { //telling agent i want food (once seated)
+	public void msgIWantFood(CustomerRole cust) { //telling agent i want food (once seated)
 		if(customersInRST<NTABLES) {
 			System.out.println("adding "+cust+" to host customer list");
 			waitingCustomers.add(new MyCustomer(cust));
@@ -103,7 +103,7 @@ public class HostRole extends Role {
 			stateChanged();
 		}
 	}
-	public void msgIDontWantToWait(CustomerAgent cust) {
+	public void msgIDontWantToWait(CustomerRole cust) {
 		for(MyCustomer c: waitingCustomers) {
 			if(c.c==cust) {
 				custLeavingWaitlist=cust;
@@ -282,7 +282,7 @@ public class HostRole extends Role {
 		
 	}
 	private void TellWaiterToSeat(MyCustomer cust, MyWaiter w, Table t) {
-		t.occupiedBy=(CustomerAgent) cust.c;
+		t.occupiedBy=(CustomerRole) cust.c;
 		w.numCustomers++;
 		//waitingCustomers.remove(cust);
 		cust.w=w;
@@ -362,7 +362,7 @@ public class HostRole extends Role {
 	}
 
 	public class Table {
-		CustomerAgent occupiedBy;
+		CustomerRole occupiedBy;
 		int tableNumber;
 
 		Table(int tableNumber) {
@@ -371,7 +371,7 @@ public class HostRole extends Role {
 
 		int getTableNum() { return tableNumber; }
 
-		void setOccupant(CustomerAgent cust) {
+		void setOccupant(CustomerRole cust) {
 			occupiedBy = cust;
 		}
 
@@ -379,7 +379,7 @@ public class HostRole extends Role {
 			occupiedBy = null;
 		}
 
-		CustomerAgent getOccupant() {
+		CustomerRole getOccupant() {
 			return occupiedBy;
 		}
 

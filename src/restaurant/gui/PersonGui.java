@@ -1,8 +1,8 @@
 package restaurant.gui;
 
 import simcity.PersonAgent;
-import restaurant.CookAgent;
-import restaurant.CustomerAgent;
+import restaurant.CookRole;
+import restaurant.CustomerRole;
 import restaurant.gui.CookGui.CookLabel.LabelState;
 
 import java.awt.*;
@@ -96,7 +96,7 @@ public class PersonGui implements Gui {
     String foodReady;
 
    // private int seatingAt;
-    private CustomerAgent takingOrderFrom;//, orderFrom;
+    private CustomerRole takingOrderFrom;//, orderFrom;
     
     private int seatingAt_x, seatingAt_y;
     

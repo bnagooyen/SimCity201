@@ -1,7 +1,7 @@
 package simcity;
 
 import agent.Agent;
-import restaurant.CustomerAgent.AgentEvent;
+import restaurant.CustomerRole.AgentEvent;
 import restaurant.Order.OrderState;
 import restaurant.gui.CookGui;
 import restaurant.gui.CustomerGui;

@@ -1,10 +1,10 @@
 package restaurant.interfaces;
 
 import restaurant.Check;
-import restaurant.CustomerAgent;
+import restaurant.CustomerRole;
 import restaurant.Menu;
 import restaurant.WaiterAgent;
-import restaurant.CustomerAgent.AgentEvent;
+import restaurant.CustomerRole.AgentEvent;
 
 public interface Customer {
 	public abstract void gotHungry(); 
