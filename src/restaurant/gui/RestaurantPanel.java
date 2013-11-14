@@ -24,25 +24,24 @@ import java.util.Vector;
 public class RestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
-	private PersonAgent myHost = new PersonAgent("Sarah");
-    private HostRole host = new HostRole(myHost);
-    private HostGui hostGui = new HostGui(host);
+	private PersonAgent host = new PersonAgent("Host");
+    private HostRole h = new HostRole(host);
+    //private HostGui hostGui = new HostGui(host);
+    
     private PersonAgent p1 = new PersonAgent("p1");
     
-    //private WaiterAgent waiter = new WaiterAgent("Joe");
-    //private WaiterGui waiterGui = new WaiterGui(waiter);
+    private PersonAgent waiter = new PersonAgent("Waiter");
+    private WaiterRole w = new WaiterRole(waiter);
     
-    private CookRole cook;
-    private CookGui cookGui = null;
+    private PersonAgent cook = new PersonAgent("Cook");
+    private CookRole c = new CookRole(cook);   
     
-//    private PersonAgent person = new PersonAgent("Doreen");
-//    private PersonGui personGui=null;
+    private PersonAgent cashier = new PersonAgent("Cashier");
+    private CashierRole cash = new CashierRole(cashier);
     
     private Vector<PersonAgent> people = new Vector<PersonAgent>();
     //private CookGui cookGui = new CookGui(cook);
-    
-    private CashierRole cashier;
-   
+       
     private int waiterIndex = 1;
     private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
     private Vector<CustomerRole> customers = new Vector<CustomerRole>();
@@ -60,11 +59,16 @@ public class RestaurantPanel extends JPanel {
 
     public RestaurantPanel(RestaurantGui gui) {
         this.gui = gui;
-        p1.setHost(host);
+        p1.setHost(host.getHostRole());
         p1.startThread();
         p1.gotHungry();
         
-        host.setGui(hostGui);
+        host.startThread();
+        waiter.startThread();
+        cook.startThread();
+        cashier.startThread();
+        
+        //host.setGui(hostGui);
         //waiter.setGui(waiterGui);
 //        cashier.startThread();
         
@@ -101,16 +105,8 @@ public class RestaurantPanel extends JPanel {
         
         
         
-        //need this for checking if kitchen has enough food
-        
-        PersonAgent myCook = new PersonAgent("Jerry");
-        cook=new CookRole(myCook);
-        cookGui= new CookGui(cook, gui);
-        cook.setGui(cookGui);
-        gui.animationPanel.addGui(cookGui);
-        
-        cook.AddHost(host);
-        cook.AddCashier(cashier);
+        //cook.AddHost(host);
+        //cook.AddCashier(cashier);
         
 //        cook.startThread();
         
@@ -228,6 +224,7 @@ public class RestaurantPanel extends JPanel {
      * 
      */
     
+<<<<<<< HEAD
     public void msgInventoryValsSet() {
     	cook.msgCheckInventoryValsForOpen();
     }
@@ -247,6 +244,38 @@ public class RestaurantPanel extends JPanel {
     public void msgDecreaseKitchenAmount() {
     	cook.msgDecKitchenAmnt();
     }
+=======
+//    public void msgInventoryValsSet() {
+//    	cook.msgCheckInventoryValsForOpen();
+//    }
+//    
+//    public void msgIncreaseKitchenThreshold() {
+//    	cook.msgIncKitchenThreshold();
+//    }
+//    
+//    public void msgDecreaseKitchenThreshold() {
+//    	cook.msgDecKitchenThreshold();
+//    }
+//    
+//    public void msgIncreaseKitchenAmount() {
+//    	cook.msgIncKitchenAmnt();
+//    }
+//    
+//    public void msgDecreaseKitchenAmount() {
+//    	cook.msgDecKitchenAmnt();
+//    }
+//    public void msgIncreaseMarketAmount() {
+//    	for(MarketAgent market: markets) {
+//    		market.msgIncMarketAmnt();
+//    	}
+//    }
+//    
+//    public void msgDecreaseMarketAmount() {
+//    	for(MarketAgent market: markets) {
+//    		market.msgDecMarketAmnt();
+//    	}
+//    }
+>>>>>>> d91644cc014bfaf6ae424eeaee615c251913ed82
     
     /**
      * Adds a customer or waiter to the appropriate list
@@ -257,20 +286,20 @@ public class RestaurantPanel extends JPanel {
     
     public void addPerson(String type, String name) {
 
-    	if (type.equals("Customers")) {
-    		PersonAgent p = new PersonAgent(name);
-    		CustomerRole c = new CustomerRole(p, host);	
-    		CustomerGui g = new CustomerGui(c, gui);
-
-   		gui.animationPanel.addGui(g);// dw
-    		c.setHost(host);
-    		c.setCashier(cashier);
-    		c.setGui(g);
-    		customers.add(c);
-    		c.startThread();
-    		System.out.println("added");
-    	}
-    	
+//    	if (type.equals("Customers")) {
+//    		PersonAgent p = new PersonAgent(name);
+//    		//CustomerRole c = new CustomerRole(p, host);	
+//    		CustomerGui g = new CustomerGui(c, gui);
+//
+//   		gui.animationPanel.addGui(g);// dw
+//    		//c.setHost(host);
+//    		c.setCashier(cashier);
+//    		c.setGui(g);
+//    		customers.add(c);
+//    		//c.startThread();
+//    		System.out.println("added");
+//    	}
+//    	
     	if(type.equals("Waiters")) {
     		PersonAgent p = new PersonAgent(name);
     		WaiterRole w = new WaiterRole(p);
@@ -281,10 +310,10 @@ public class RestaurantPanel extends JPanel {
     		w.setGui(g);
     		
     		
-    		w.msgAddCook(cook);
-            w.msgAddHost(host);
-            w.msgAddCashier(cashier);
-            host.msgAddWaiter(w);
+    		//w.msgAddCook(cook);
+          //  w.msgAddHost(host);
+          //  w.msgAddCashier(cashier);
+           // host.msgAddWaiter(w);
             waiters.add(w);
     		
     		
