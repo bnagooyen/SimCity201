@@ -27,7 +27,7 @@ public class RestaurantPanel extends JPanel {
 	private PersonAgent myHost = new PersonAgent("Sarah");
     private HostRole host = new HostRole(myHost);
     private HostGui hostGui = new HostGui(host);
-    
+    private PersonAgent p1 = new PersonAgent("p1");
     
     //private WaiterAgent waiter = new WaiterAgent("Joe");
     //private WaiterGui waiterGui = new WaiterGui(waiter);
@@ -64,7 +64,10 @@ public class RestaurantPanel extends JPanel {
 
     public RestaurantPanel(RestaurantGui gui) {
         this.gui = gui;
-       
+        p1.setHost(host);
+        p1.startThread();
+        p1.gotHungry();
+        
         host.setGui(hostGui);
         //waiter.setGui(waiterGui);
 //        cashier.startThread();
@@ -276,19 +279,19 @@ public class RestaurantPanel extends JPanel {
     
     public void addPerson(String type, String name) {
 
-    	if (type.equals("Customers")) {
-    		PersonAgent p = new PersonAgent(name);
-    		CustomerRole c = new CustomerRole(p);	
-    		CustomerGui g = new CustomerGui(c, gui);
-
-    		gui.animationPanel.addGui(g);// dw
-    		c.setHost(host);
-    		c.setCashier(cashier);
-    		c.setGui(g);
-    		customers.add(c);
-//    		c.startThread();
-//    		System.out.println("added");
-    	}
+//    	if (type.equals("Customers")) {
+//    		PersonAgent p = new PersonAgent(name);
+//    		CustomerRole c = new CustomerRole(p);	
+//    		CustomerGui g = new CustomerGui(c, gui);
+//
+//    		gui.animationPanel.addGui(g);// dw
+//    		c.setHost(host);
+//    		c.setCashier(cashier);
+//    		c.setGui(g);
+//    		customers.add(c);
+////    		c.startThread();
+////    		System.out.println("added");
+//    	}
     	
     	if(type.equals("Waiters")) {
     		PersonAgent p = new PersonAgent(name);

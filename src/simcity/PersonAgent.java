@@ -26,7 +26,8 @@ public class PersonAgent extends Agent {
 
 	Timer timer = new Timer();
 	private String name;
-
+	Role host = null;
+	
 	List<Role> roles = new ArrayList<Role>();
 	enum PersonState { doingNothing, gotHungry, atRestaurant };
 	private PersonState state;
@@ -48,7 +49,9 @@ public class PersonAgent extends Agent {
 
 	// The animation DoXYZ() routines
 	
-
+	public void setHost(Role r){
+		host = r;
+	}
 
 	public String getName() {
 		return name;
@@ -84,6 +87,7 @@ public class PersonAgent extends Agent {
 		 */
 
 		if(state==PersonState.gotHungry) {
+			print("GOT HERE");
 			GoToRestaurant();
 			return true;
 		}
@@ -104,11 +108,10 @@ public class PersonAgent extends Agent {
 
 	// Actions
 	private void GoToRestaurant() {
-		System.out.println("going to restaurant");
 		state=PersonState.atRestaurant;
-		roles.add(new CustomerRole(this));
+		roles.add(new CustomerRole(this, host));
 		roles.get(0).isActive = true;
-		Do("i'm hungry");
+		print("I'm going to the restaurant");
 	}
 		
 		
