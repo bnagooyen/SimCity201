@@ -1,6 +1,8 @@
 package simcity;
 
 import agent.Agent;
+import agent.Role;
+import restaurant.CustomerRole;
 import restaurant.CustomerRole.AgentEvent;
 import restaurant.Order.OrderState;
 import restaurant.gui.CookGui;
@@ -25,6 +27,7 @@ public class PersonAgent extends Agent {
 	Timer timer = new Timer();
 	private String name;
 
+	List<Role> roles = new ArrayList<Role>();
 	enum PersonState { doingNothing, gotHungry, atRestaurant };
 	private PersonState state;
 	//private final int NUM_MARKETS = 3;
@@ -84,8 +87,15 @@ public class PersonAgent extends Agent {
 			GoToRestaurant();
 			return true;
 		}
+		boolean anyTrue = false;
+		for(Role r : roles) {
+			if(r.isActive) {
+				r.pickAndExecuteAnAction();
+				anyTrue = true;
+			}
+		}
 		
-		return false;
+		return anyTrue;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
 		//and wait.
@@ -96,6 +106,9 @@ public class PersonAgent extends Agent {
 	private void GoToRestaurant() {
 		System.out.println("going to restaurant");
 		state=PersonState.atRestaurant;
+		roles.add(new CustomerRole(this));
+		roles.get(0).isActive = true;
+		Do("i'm hungry");
 	}
 		
 		

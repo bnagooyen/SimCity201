@@ -54,7 +54,7 @@ public class CustomerRole extends Role implements Customer {
 
 	public enum AgentEvent 
 	{none, gotHungry, followHost, seated, iKnowWhatIWant, waiterIsHere, waiterIsHereForReorder, foodIsHere, doneEating, doneLeaving, arrivedAtCashier, gotReceipt, restaurantIsFull, goToHangout, tableReady};
-	AgentEvent event = AgentEvent.none; //initialized to none
+	public AgentEvent event = AgentEvent.none; //initialized to none
 
 	/**
 	 * Constructor for CustomerAgent class
@@ -86,6 +86,8 @@ public class CustomerRole extends Role implements Customer {
 		//System.out.print(wallet);
 
 		state=AgentState.DoingNothing;
+		event = AgentEvent.gotHungry; //event is the state change
+
 //		debt=0;
 		
 	}
@@ -204,7 +206,7 @@ public class CustomerRole extends Role implements Customer {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 
 		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry ){
