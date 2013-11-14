@@ -30,7 +30,6 @@ public class PersonAgent extends Agent {
 	List<Role> roles = new ArrayList<Role>();
 	enum PersonState { doingNothing, gotHungry, atRestaurant };
 	private PersonState state;
-	//private final int NUM_MARKETS = 3;
     
     public PersonGui PersonGui = null;
 	
@@ -60,7 +59,7 @@ public class PersonAgent extends Agent {
 
 	public void gotHungry() {//from animation
 		print("I'm hungry");
-		state = PersonState.gotHungry; //event is the state change
+		state = PersonState.gotHungry; 
 		stateChanged();
 	}
 	

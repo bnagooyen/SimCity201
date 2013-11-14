@@ -148,7 +148,6 @@ public class CookRole extends Role {
 	public void msgIncKitchenAmnt() {
 		if(initialFoodAmnt<MAXCAPACITY) {
 		initialFoodAmnt++;
-		//fill up kitchen with food
 			myFood.put("Chicken", new Food("Chicken", 5, initialFoodAmnt));
 			myFood.put("Steak", new Food("Steak", 10, initialFoodAmnt));
 			myFood.put("Salad", new Food("Salad", 3, initialFoodAmnt));
@@ -163,7 +162,6 @@ public class CookRole extends Role {
 	public void msgDecKitchenAmnt() {
 		if(initialFoodAmnt>0) {
 			initialFoodAmnt--;
-			//fill up kitchen with food
 			myFood.put("Chicken", new Food("Chicken", 5, initialFoodAmnt));
 			myFood.put("Steak", new Food("Steak", 10, initialFoodAmnt));
 			myFood.put("Salad", new Food("Salad", 3, initialFoodAmnt));
@@ -361,7 +359,6 @@ public class CookRole extends Role {
 				public void run() {
 					print(o+" is cooked!");
 					o.state=OrderState.cooked;
-					//isHungry = false;
 					stateChanged();
 				}
 			},
@@ -415,7 +412,7 @@ public class CookRole extends Role {
 			
 			System.out.println("need to order");
 			
-			orderToMarket.clear(); //restart a new order
+			orderToMarket.clear(); 
 			
 			if(myFood.get("Chicken").getAmount()<=threshold) {
 				orderToMarket.add(new FoodOrder("Chicken", MAXCAPACITY- myFood.get("Chicken").getAmount()));

@@ -51,14 +51,10 @@ public class RestaurantPanel extends JPanel {
 //    private Vector<MarketAgent> markets = new Vector<MarketAgent>();
     
     private JPanel restLabel = new JPanel();
-   //customer drop down!
     private ListPanel customerPanel = new ListPanel(this, "Customers");
     private ListPanel waiterPanel = new ListPanel(this, "Waiters");
-    //private JPanel group = new JPanel();
 
-    private RestaurantGui gui; //reference to main gui
-    
-  //Person
+    private RestaurantGui gui;
 
     
 
@@ -133,16 +129,11 @@ public class RestaurantPanel extends JPanel {
     private void initRestLabel() {
         JLabel label = new JLabel();
      
-        //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
-        //restLabel.setLayout(new BorderLayout());
         label.setText(
                 "<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
-
-        //label.setText("aaaah");
-        //restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
+        
         restLabel.add(label, BorderLayout.CENTER);
-        //restLabel.add(new JLabel("               "), BorderLayout.EAST);
-        //restLabel.add(new JLabel("       "), BorderLayout.WEST);
+   
     }
 
     /**
@@ -175,12 +166,10 @@ public class RestaurantPanel extends JPanel {
         }
         
         if (type.equals("Person")) {
-//        	System.err.println("lsdfjlkasdjf");
-      
+
             for (int i = 0; i < people.size(); i++) {
                 PersonAgent temp = people.get(i);
                 if (temp.getName() == name) {
-//                	System.out.println("sdljflskjdf");
                 	return temp;
                 }
             }
@@ -258,17 +247,6 @@ public class RestaurantPanel extends JPanel {
     public void msgDecreaseKitchenAmount() {
     	cook.msgDecKitchenAmnt();
     }
-//    public void msgIncreaseMarketAmount() {
-//    	for(MarketAgent market: markets) {
-//    		market.msgIncMarketAmnt();
-//    	}
-//    }
-//    
-//    public void msgDecreaseMarketAmount() {
-//    	for(MarketAgent market: markets) {
-//    		market.msgDecMarketAmnt();
-//    	}
-//    }
     
     /**
      * Adds a customer or waiter to the appropriate list
