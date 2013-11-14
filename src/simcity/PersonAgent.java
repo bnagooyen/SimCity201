@@ -79,7 +79,6 @@ public class PersonAgent extends Agent {
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-		System.err.println("aaah");
 
 		if(state==PersonState.gotHungry) {
 			GoToRestaurant();
