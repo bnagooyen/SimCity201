@@ -38,7 +38,7 @@ public class CustomerRole extends Role implements Customer {
 	
 	// agent correspondents
 	private HostRole host;
-	private WaiterAgent waiter;
+	private WaiterRole waiter;
 	private CashierRole cashier;
 	
 	//table
@@ -132,7 +132,7 @@ public class CustomerRole extends Role implements Customer {
 		stateChanged();
 	}
 
-	public void msgFollowMe(Menu menu, int tnum, WaiterAgent w) {
+	public void msgFollowMe(Menu menu, int tnum, WaiterRole w) {
 		myMenu=menu;
 		waiter=w;
 		tableNum=tnum;

@@ -3,7 +3,7 @@ package restaurant.gui;
 import restaurant.CustomerRole;
 import restaurant.HostRole;
 import simcity.PersonAgent;
-import restaurant.WaiterAgent;
+import restaurant.WaiterRole;
 
 import javax.swing.*;
 
@@ -162,8 +162,8 @@ public class ListPanel extends JPanel implements ActionListener {
 //                        System.err.println("found!");
                         
                     }
-                    else if(currentPerson instanceof WaiterAgent) {
-                    	WaiterAgent w = (WaiterAgent) currentPerson;
+                    else if(currentPerson instanceof WaiterRole) {
+                    	WaiterRole w = (WaiterRole) currentPerson;
                     	if(((AbstractButton) e.getSource()).getText()=="Break?") {
                     		w.msgIWantABreak();
                     		//list.get(i).setEnabled(false);

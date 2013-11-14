@@ -4,11 +4,11 @@ public class Order {
 
 		int tablenum;
 		private String choice;
-		private WaiterAgent w;
+		private WaiterRole w;
 		public enum OrderState {needsReOrder, pending, cooking, cooked, serving, billPending, billProcessed, grillInUse, ordered, clearPlating, plated, plating};
 		OrderState state;
 
-		Order(String c, int t, WaiterAgent wa) //new Order(cust.getChoice(), cust.getTablenum(), this)
+		Order(String c, int t, WaiterRole wa) //new Order(cust.getChoice(), cust.getTablenum(), this)
 		{
 			choice=c;
 			tablenum=t;
@@ -21,10 +21,10 @@ public class Order {
 		public void setChoice(String choice) {
 			this.choice = choice;
 		}
-		public WaiterAgent getWaiter() {
+		public WaiterRole getWaiter() {
 			return w;
 		}
-		public void setWaiter(WaiterAgent w) {
+		public void setWaiter(WaiterRole w) {
 			this.w = w;
 		}
 		

@@ -6,8 +6,8 @@ import restaurant.Check;
 import restaurant.CustomerRole;
 import restaurant.Order;
 import restaurant.Order.OrderState;
-import restaurant.WaiterAgent.MyCustomer;
-import restaurant.WaiterAgent.WaiterState;
+import restaurant.WaiterRole.MyCustomer;
+import restaurant.WaiterRole.WaiterState;
 
 public interface Waiter {
 

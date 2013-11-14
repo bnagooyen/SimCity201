@@ -2,13 +2,14 @@ package restaurant.gui;
 
 
 import restaurant.CustomerRole;
-import restaurant.WaiterAgent;
+
+import restaurant.WaiterRole;
 
 import java.awt.*;
 
 public class WaiterGui implements Gui {
 
-    private WaiterAgent agent = null;
+    private WaiterRole agent = null;
 
     public boolean waiterAtFront()
     {
@@ -67,7 +68,7 @@ public class WaiterGui implements Gui {
     
    //f private void setSeatingAt(int t) { seatingAt=t; }
     
-    public WaiterGui(WaiterAgent agent, RestaurantGui g, int startPos) {
+    public WaiterGui(WaiterRole agent, RestaurantGui g, int startPos) {
     	gui=g;
         this.agent = agent;
         madeToFront=true;

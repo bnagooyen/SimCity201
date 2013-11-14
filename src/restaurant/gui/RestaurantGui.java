@@ -1,9 +1,11 @@
 package restaurant.gui;
 import agent.Agent;
 import restaurant.CustomerRole;
-import restaurant.WaiterAgent;
+
+import restaurant.WaiterRole;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 /**
@@ -301,15 +303,15 @@ public class RestaurantGui extends JFrame implements ActionListener {
     		
     }
     
-    public void setWaiterEnabled(WaiterAgent w) {
+    public void setWaiterEnabled(WaiterRole w) {
     	restPanel.setWaiterEnabled(w.getName());
     }
     
-    public void setWaiterDisabled(WaiterAgent w) {
+    public void setWaiterDisabled(WaiterRole w) {
     	restPanel.setWaiterDisabled(w.getName());
     }
     
-    public void setWaiterToBreak(WaiterAgent w) {
+    public void setWaiterToBreak(WaiterRole w) {
     	restPanel.setWaiterToBreak(w.getName());
     }
     /**

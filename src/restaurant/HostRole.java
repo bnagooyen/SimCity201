@@ -7,7 +7,7 @@ import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
 import restaurant.HostRole.MyCustomer.CustState;
 import restaurant.HostRole.MyWaiter.MyWaiterState;
-import restaurant.WaiterAgent.WaiterState;
+import restaurant.WaiterRole.WaiterState;
 import simcity.PersonAgent;
 
 import java.util.*;
@@ -112,7 +112,7 @@ public class HostRole extends Role {
 		}
 	}
 
-	public void msgAddWaiter(WaiterAgent w) {
+	public void msgAddWaiter(WaiterRole w) {
 		//waiters.add(w);
 		waiters.add(new MyWaiter(w));
 		
@@ -135,7 +135,7 @@ public class HostRole extends Role {
 		customerAtFront.release();
 		stateChanged();
 	}
-	public void msgTableIsClear(int t, WaiterAgent wa)
+	public void msgTableIsClear(int t, WaiterRole wa)
 	{
 		for(MyWaiter waiter: waiters) {
 			if (waiter.w==wa) {
@@ -154,7 +154,7 @@ public class HostRole extends Role {
 		}
 	}
 	
-	public void msgGoOnBreakPlease(WaiterAgent w) {
+	public void msgGoOnBreakPlease(WaiterRole w) {
 		for(MyWaiter waiter: waiters) {
 			if(waiter.w==w) {
 				waiter.state=MyWaiterState.requestedBreak;
@@ -163,7 +163,7 @@ public class HostRole extends Role {
 		}
 	}
 	
-	public void msgBackToWork(WaiterAgent w) {
+	public void msgBackToWork(WaiterRole w) {
 		for(MyWaiter waiter: waiters) {
 			if(waiter.w==w) {
 				waiter.state=MyWaiterState.working;
@@ -337,11 +337,11 @@ public class HostRole extends Role {
 	
 	static public class MyWaiter {
 		
-		WaiterAgent w;
+		WaiterRole w;
 		enum MyWaiterState {working, onBreak, atFront, requestedBreak};
 		MyWaiterState state;
 		int numCustomers;
-		public MyWaiter(WaiterAgent w2) {
+		public MyWaiter(WaiterRole w2) {
 			// TODO Auto-generated constructor stub
 			w=w2;
 			state=MyWaiterState.working;

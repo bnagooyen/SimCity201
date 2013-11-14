@@ -5,10 +5,11 @@ import simcity.PersonAgent;
 import restaurant.CashierRole;
 import restaurant.CookRole;
 import restaurant.HostRole;
-import restaurant.WaiterAgent;
+
 import restaurant.CookRole;
 //import restaurant.MarketAgent;
 import restaurant.CashierRole;
+import restaurant.WaiterRole;
 
 import javax.swing.*;
 
@@ -43,7 +44,7 @@ public class RestaurantPanel extends JPanel {
     private CashierRole cashier;
    
     private int waiterIndex = 1;
-    private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
+    private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
     private Vector<CustomerRole> customers = new Vector<CustomerRole>();
     
     private final int numMarkets = 3;
@@ -164,7 +165,7 @@ public class RestaurantPanel extends JPanel {
         if (type.equals("Waiters")) {
 
             for (int i = 0; i < waiters.size(); i++) {
-                WaiterAgent temp = waiters.get(i);
+                WaiterRole temp = waiters.get(i);
                 if (temp.getName() == name)
                     return temp;
             }
@@ -290,14 +291,15 @@ public class RestaurantPanel extends JPanel {
     	}
     	
     	if(type.equals("Waiters")) {
-    		WaiterAgent w = new WaiterAgent(name);
+    		PersonAgent p = new PersonAgent(name);
+    		WaiterRole w = new WaiterRole(p);
     		WaiterGui g= new WaiterGui(w, gui, waiterIndex);
     		waiterIndex++;
     		
     		gui.animationPanel.addGui(g);
     		w.setGui(g);
     		
-    		w.startThread();
+    	
     		//System.out.println("called thread start for + " + name);
     		
     		w.msgAddCook(cook);

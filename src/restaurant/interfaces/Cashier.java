@@ -2,7 +2,7 @@ package restaurant.interfaces;
 
 import restaurant.Check;
 import restaurant.CustomerRole;
-import restaurant.WaiterAgent;
+import restaurant.WaiterRole;
 import restaurant.Check.CheckState;
 
 public interface Cashier {

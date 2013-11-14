@@ -36,7 +36,7 @@ public class CookRole extends Role {
 	private Semaphore atGrill = new Semaphore(0, true);
 	private Semaphore atPlating = new Semaphore(0, true);
 	
-	private WaiterAgent waiter;
+	private WaiterRole waiter;
 	private HostRole host;
 
 	private boolean waitingForInventory; // order at once, don't order when waiting for an order to arrive
@@ -148,7 +148,7 @@ public class CookRole extends Role {
 		myCashier=h;
 	}
 	
-	public void msgAddWaiter(WaiterAgent w) {
+	public void msgAddWaiter(WaiterRole w) {
 		waiter=w;
 	}
 	

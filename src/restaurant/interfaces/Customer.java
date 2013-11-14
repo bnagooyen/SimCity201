@@ -3,14 +3,15 @@ package restaurant.interfaces;
 import restaurant.Check;
 import restaurant.CustomerRole;
 import restaurant.Menu;
-import restaurant.WaiterAgent;
+
 import restaurant.CustomerRole.AgentEvent;
+import restaurant.WaiterRole;
 
 public interface Customer {
 	public abstract void gotHungry(); 
 	public void msgNoRoomForYou();
 
-	public abstract void msgFollowMe(Menu menu, int tnum, WaiterAgent w);
+	public abstract void msgFollowMe(Menu menu, int tnum, WaiterRole w);
 	public abstract void msgHereIsYourBill(int tnum, double d);
 	
 

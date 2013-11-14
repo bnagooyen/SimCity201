@@ -2,7 +2,7 @@ package restaurant.test.mock;
 
 
 import restaurant.Menu;
-import restaurant.WaiterAgent;
+import restaurant.WaiterRole;
 import restaurant.interfaces.Cashier;
 import restaurant.interfaces.Customer;
 
@@ -76,7 +76,7 @@ public class MockCustomer extends Mock implements Customer {
 	}
 
 	@Override
-	public void msgFollowMe(Menu menu, int tnum, WaiterAgent w) {
+	public void msgFollowMe(Menu menu, int tnum, WaiterRole w) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgFollowMe"));
 	}
