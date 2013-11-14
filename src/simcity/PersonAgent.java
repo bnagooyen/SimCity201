@@ -114,6 +114,10 @@ public class PersonAgent extends Agent {
 	}
 		
 		
+	// utilities
+	public Role getHostRole() {
+		return roles.get(0);
+	}
 }
 
 

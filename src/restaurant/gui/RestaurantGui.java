@@ -254,18 +254,18 @@ public class RestaurantGui extends JFrame implements ActionListener {
 //      private JButton kitchenAmntDec;
 //      private JButton marketAmntInc;
 //      private JButton marketAmntDec;
-        if(e.getSource()==kitchenThresholdInc) {
-        	restPanel.msgIncreaseKitchenThreshold();
-        }
-        if(e.getSource()==kitchenThresholdDec) {
-        	restPanel.msgDecreaseKitchenThreshold();
-        }
-        if(e.getSource()==kitchenAmntInc) {
-        	restPanel.msgIncreaseKitchenAmount();
-        }
-        if(e.getSource()==kitchenAmntDec) {
-        	restPanel.msgDecreaseKitchenAmount();
-        }
+//        if(e.getSource()==kitchenThresholdInc) {
+//        	restPanel.msgIncreaseKitchenThreshold();
+//        }
+//        if(e.getSource()==kitchenThresholdDec) {
+//        	restPanel.msgDecreaseKitchenThreshold();
+//        }
+//        if(e.getSource()==kitchenAmntInc) {
+//        	restPanel.msgIncreaseKitchenAmount();
+//        }
+//        if(e.getSource()==kitchenAmntDec) {
+//        	restPanel.msgDecreaseKitchenAmount();
+//        }
 //        if(e.getSource()==marketAmntInc) {
 //        	restPanel.msgIncreaseMarketAmount();
 //        }
@@ -281,7 +281,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
         	marketAmntDec.setEnabled(false);
         	marketAmntInc.setEnabled(false);
         	setAmounts.setEnabled(false);
-        	restPanel.msgInventoryValsSet();
+        //	restPanel.msgInventoryValsSet();
         }
         
         
