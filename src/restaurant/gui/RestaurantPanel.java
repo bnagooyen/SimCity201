@@ -279,19 +279,19 @@ public class RestaurantPanel extends JPanel {
     
     public void addPerson(String type, String name) {
 
-//    	if (type.equals("Customers")) {
-//    		PersonAgent p = new PersonAgent(name);
-//    		CustomerRole c = new CustomerRole(p);	
-//    		CustomerGui g = new CustomerGui(c, gui);
-//
-//    		gui.animationPanel.addGui(g);// dw
-//    		c.setHost(host);
-//    		c.setCashier(cashier);
-//    		c.setGui(g);
-//    		customers.add(c);
-////    		c.startThread();
-////    		System.out.println("added");
-//    	}
+    	if (type.equals("Customers")) {
+    		PersonAgent p = new PersonAgent(name);
+    		CustomerRole c = new CustomerRole(p, host);	
+    		CustomerGui g = new CustomerGui(c, gui);
+
+   		gui.animationPanel.addGui(g);// dw
+    		c.setHost(host);
+    		c.setCashier(cashier);
+    		c.setGui(g);
+    		customers.add(c);
+    		c.startThread();
+    		System.out.println("added");
+    	}
     	
     	if(type.equals("Waiters")) {
     		PersonAgent p = new PersonAgent(name);
@@ -302,8 +302,6 @@ public class RestaurantPanel extends JPanel {
     		gui.animationPanel.addGui(g);
     		w.setGui(g);
     		
-    	
-    		//System.out.println("called thread start for + " + name);
     		
     		w.msgAddCook(cook);
             w.msgAddHost(host);
@@ -315,9 +313,7 @@ public class RestaurantPanel extends JPanel {
     	}
     	
     	if(type.equals("Person")) {
-//    		System.out.println("added");
     		PersonAgent p = new PersonAgent(name);
-//    		System.err.println("**** "+ name);
     		PersonGui g = new PersonGui(p, gui);
     		p.setGui(g);
     		gui.simCityPanel.addGui(g);

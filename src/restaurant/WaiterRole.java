@@ -193,7 +193,6 @@ public class WaiterRole extends Role implements Waiter {
 	
 	@Override
 	public void msgDoneEatingAndLeaving(CustomerRole cust) {
-		//System.out.println("received done eating");
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
 				customer.state=restaurant.WaiterRole.MyCustomer.MyCustomerState.gone;
@@ -247,7 +246,6 @@ public class WaiterRole extends Role implements Waiter {
 	
 	@Override
 	public void msgOutOfBreak() {
-		//System.out.println("received out of break!");
 		returnFromWorkChecked=true;
 		onBreak=false;
 		stateChanged();
@@ -270,14 +268,13 @@ public class WaiterRole extends Role implements Waiter {
 	
 	
 	public void msgAnimationArrivedAtFront() {
-//		System.out.println("made it");
+
 		atFront.release();
 		stateChanged();
 	}
 	
 	public void msgAnimationArrivedAtCashier() {
-//		System.out.println("made it to cashier!");
-		//state=WaiterState.atCashier;
+
 		
 		atCashier.release();
 		stateChanged();
@@ -290,16 +287,12 @@ public class WaiterRole extends Role implements Waiter {
 	}
 	
 	public void msgAnimationDoneSeating() {
-		state= WaiterState.working; // using working as default state
-		//inMotion=false;
-		//System.out.println("madeit");
+		state= WaiterState.working; 
 		atTable.release();
 		stateChanged();
 	}
 	
 	public void msgAnimationArrivedAtKitchen() {
-		//System.out.println("made it to kitchen");
-		//state= WaiterState.atKitchen;
 		atCook.release();
 		stateChanged();
 	}
@@ -314,13 +307,9 @@ public class WaiterRole extends Role implements Waiter {
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-		//`System.out.println("in watier scheduler");
+		
 		if(!onBreak)
 		{
-			//System.out.println("waiter is on duty!");
-			//if gui is still seating a customer, cannot schedule any other task
-			
-			//notifying clear table to host on the radio
 			
 			if(wantBreakChecked) {
 				AskHostForBreak();
@@ -386,15 +375,6 @@ public class WaiterRole extends Role implements Waiter {
 						//return false;
 					}
 				}
-				/*
-				for (MyCustomer customer : customers) {
-					if(customer.state==MyCustomer.MyCustomerState.ordered) {
-						//System.out.println("found customer who ordered!");
-						customer.state= MyCustomer.MyCustomerState.waitingForFood;
-						GoToCook();
-						return true;
-					}
-				}*/
 			
 				for (MyCustomer customer : customers) {
 					if(customer.state==WaiterRole.MyCustomer.MyCustomerState.gone) {
@@ -637,7 +617,6 @@ public class WaiterRole extends Role implements Waiter {
 	
 	
 	private void UpdateHostOnClearTable(MyCustomer cust) {
-		//System.out.println("going to clear table");
 		host.msgTableIsClear(cust.getTablenum(), this);
 //		DoClearTable(cust.getTablenum());
 		//DoGoToFront();
@@ -645,8 +624,7 @@ public class WaiterRole extends Role implements Waiter {
 		customers.remove(cust);
 	}
 	
-	private void UpdateHostOnClearTableAndLeave(MyCustomer cust) { // so waiter doesn't hang out at a table if customer can't afford
-		//System.out.println("going to clear table");
+	private void UpdateHostOnClearTableAndLeave(MyCustomer cust) {
 		host.msgTableIsClear(cust.getTablenum(), this);
 //		DoClearTable(cust.getTablenum());
 		DoGoHangAtTheFront();
@@ -681,7 +659,6 @@ public class WaiterRole extends Role implements Waiter {
 	
 	private void DistributeCheck(Check bill) {
 	
-//		System.err.println(bill.customer);
 		DoGoToTable(bill.customer, bill.tablenum);
 		try {
 			atTable.acquire();
@@ -718,33 +695,13 @@ public class WaiterRole extends Role implements Waiter {
 		//Same with "table"
 		print("Seating " + customer + " at " + table);
 		WaiterGui.DoBringToTable(customer,table); 
-		//send info to customerGui
-		//customer.getGui().DoGoToSeat(table, 1);
 
 	}
 	
 	private void DoGoToTable(Customer customer, int table) {
-		/*
-		if(customer.state==MyCustomer.MyCustomerState.serveMe) {
-			System.out.println("Serving "+ customer.getCustomer() + " at "+ table);
-			WaiterGui.DoGoToTable(customer.getCustomer(), table);
-			//state=WaiterState.servingFood;
-		}
-		else if(state==WaiterState.goingToGiveBill) {
-			//System.out.println("going to give "+ customer.getCustomer() + "bill!");
-			WaiterGui.DoGoToTable(customer.getCustomer(), table);
-		}
-		else {
-			System.out.println("Going to "+ customer.getCustomer() + " at " + table);
-			WaiterGui.DoGoToTable(customer.getCustomer(), table);
-			state=WaiterState.goingToTakeOrder;
-		}*/
 		WaiterGui.DoGoToTable((CustomerRole)customer, table);
 	}
 
-//	private void DoClearTable(int t) {
-//		WaiterGui.DoClearTable(t);
-//	}
 	private void DoGoToCook() {
 		WaiterGui.DoGoToCook();
 	}
@@ -822,36 +779,5 @@ public class WaiterRole extends Role implements Waiter {
 		
 	}
 	
-	
-	/* private class Table {
-		CustomerAgent occupiedBy;
-		int tableNumber;
-		
-		Table(int tableNumber) {
-			this.tableNumber = tableNumber;
-		}
-		
-		int getTableNum() { return tableNumber; }
-
-		void setOccupant(CustomerAgent cust) {
-			occupiedBy = cust;
-		}
-
-		void setUnoccupied() {
-			occupiedBy = null;
-		}
-
-		CustomerAgent getOccupant() {
-			return occupiedBy;
-		}
-
-		boolean isOccupied() {
-			return occupiedBy != null;
-		}
-
-		public String toString() {
-			return "table " + tableNumber;
-		}
-	}*/
 }
 

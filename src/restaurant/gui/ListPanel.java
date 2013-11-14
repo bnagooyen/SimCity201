@@ -142,24 +142,21 @@ public class ListPanel extends JPanel implements ActionListener {
                 JButton temp = list.get(i);*/
         	for (int i=0; i<list.size(); i++){
                 if (e.getSource() == list.get(i)) {
-//                	System.out.println("yup");
-//                	System.err.println(pplList.get(i).getText());
+
                     currentPerson=restPanel.showInfo(type, pplList.get(i).getText());
-//                    System.err.println(currentPerson);
                     if (currentPerson instanceof CustomerRole) {
                     	list.get(i).setEnabled(false);
                         CustomerRole c = (CustomerRole) currentPerson;
                         c.getGui().setHungry();
-                        //System.out.println("found!");
+       
                         
                     }
                     else if (currentPerson instanceof PersonAgent) {
-//                    	System.out.println("yupyup");
+
                     	list.get(i).setEnabled(false);
                         PersonAgent p = (PersonAgent) currentPerson;
                         p.getGui().setHungry();
-                 
-//                        System.err.println("found!");
+                
                         
                     }
                     else if(currentPerson instanceof WaiterRole) {
@@ -193,10 +190,8 @@ public class ListPanel extends JPanel implements ActionListener {
         	JPanel myPerson = new JPanel();
         	myPerson.setLayout(new BorderLayout());
             JLabel button = new JLabel(name, SwingConstants.CENTER);
-//            System.err.println("addPerson");
             button.setBorder(BorderFactory.createLineBorder(Color.black));
             if(type == "Customers") {
-//            	System.err.println("eeeeee");
 	            JCheckBox custStateCB = new JCheckBox();
 	            custStateCB.setText("Hungry?");
 	            custStateCB.addActionListener(this);
@@ -237,10 +232,8 @@ public class ListPanel extends JPanel implements ActionListener {
 	            
 	            list.add(custStateCB);
 	            myPerson.add(custStateCB, BorderLayout.EAST);
-//	       	 	System.err.println("added button");
             }
             else if(type == "Person") {
-//            	System.out.println("ayayayayya");
 	            JCheckBox custStateCB = new JCheckBox();
 	            custStateCB.setText("Hungry?");
 	            custStateCB.addActionListener(this);
@@ -279,7 +272,6 @@ public class ListPanel extends JPanel implements ActionListener {
 	                 
 	            }
 	            else {
-//	            	System.err.println("asdkljfldsjflk");
 	            pplList.add(button);
 	            list.add(custStateCB);
 	            myPerson.add(custStateCB, BorderLayout.EAST);

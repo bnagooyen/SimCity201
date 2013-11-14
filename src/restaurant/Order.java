@@ -8,7 +8,7 @@ public class Order {
 		public enum OrderState {needsReOrder, pending, cooking, cooked, serving, billPending, billProcessed, grillInUse, ordered, clearPlating, plated, plating};
 		OrderState state;
 
-		Order(String c, int t, WaiterRole wa) //new Order(cust.getChoice(), cust.getTablenum(), this)
+		Order(String c, int t, WaiterRole wa) 
 		{
 			choice=c;
 			tablenum=t;

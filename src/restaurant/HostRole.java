@@ -30,13 +30,10 @@ public class HostRole extends Role {
 
 	CustomerRole custLeavingWaitlist;
 	CustomerRole sendFullMsgTo;
-	
-	//list of waiters
+
 	public List<MyWaiter> waiters =  Collections.synchronizedList(new ArrayList<MyWaiter>());
 	
 	public Collection<Table> tables;
-	//note that tables is typed with Collection semantics.
-	//Later we will see how it is implemented
 
 	private int customersInRST;
 	private String name;
@@ -50,15 +47,13 @@ public class HostRole extends Role {
 		super(p);
 
 		this.name = name;
-		// make some tables
+		
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		for (int ix = 1; ix <= NTABLES; ix++) {
-			tables.add(new Table(ix));//how you add to a collections
+			tables.add(new Table(ix));
 		}
 		
 		KitchenReadyForOpen=false;
-		//adding one waiter.. to be changed
-		//waiters.add(new WaiterAgent("Joe"));
 
 		customersInRST=0;
 		
@@ -113,7 +108,7 @@ public class HostRole extends Role {
 	}
 
 	public void msgAddWaiter(WaiterRole w) {
-		//waiters.add(w);
+		
 		waiters.add(new MyWaiter(w));
 		
 		System.out.println("waiter "+ w.getName() +" added to host list");
@@ -212,12 +207,11 @@ public class HostRole extends Role {
 			MyWaiter w=waiters.get(0); int minCustomers=waiters.get(0).numCustomers; //dummy value for initialization.. theoretically if only 1 waiter will be the one at the top
 			for(MyWaiter waiter: waiters)
 			{
-				//System.out.println("checking waiter "+ waiter.getName());
 				if(waiter.state==MyWaiterState.working)
 					if (waiter.numCustomers<minCustomers)
 						{ w=waiter; minCustomers=waiter.numCustomers; }
 			}
-//			System.err.println("chose waiter "+ w);
+
 			for (Table table : tables) {
 				for(MyCustomer cust: waitingCustomers) {
 					if (!(table.isOccupied()) && cust.state==CustState.waiting) {
@@ -255,7 +249,7 @@ public class HostRole extends Role {
 	
 	private void CallCustomerToFront(MyCustomer cu) {
 		cu.c.msgYourTableIsReady();
-//		System.err.println(customerAtFront.availablePermits());
+
 		try {
 			customerAtFront.acquire();
 		} catch (InterruptedException e) {
@@ -284,25 +278,13 @@ public class HostRole extends Role {
 	private void TellWaiterToSeat(MyCustomer cust, MyWaiter w, Table t) {
 		t.occupiedBy=(CustomerRole) cust.c;
 		w.numCustomers++;
-		//waitingCustomers.remove(cust);
 		cust.w=w;
 		w.w.msgHereIsAWaitingCustomer(cust.c, t.getTableNum());
 		cust.state=CustState.assignedWaiter;
 		
 	}
 	
-//	private void AssignToTable(MyCustomer cust, MyWaiter w, Table t)
-//	{
-//		t.occupiedBy=(CustomerAgent) cust.c;
-//		waitingCustomers.remove(cust);
-//		w.w.msgSitAtTable(t.getTableNum(), cust.c);
-//		Do(((CustomerAgent) (cust.c)).getName() +" assigned waiter: " + w.w.getName());
-//		w.numCustomers++;
-//		System.out.println(name+": sent sitAtTable msg");
-//		customersInRST++;
-//		
-//	}
-//	
+
 	private void AnswerWaiterBreakRequest(MyWaiter w) {
 		int waitersOnDuty=0;
 		for(MyWaiter waiter: waiters) {
@@ -310,18 +292,15 @@ public class HostRole extends Role {
 				waitersOnDuty++;
 			}
 		}
-		//System.out.println("num waiters :: " + waitersOnDuty );
 		if(waitersOnDuty>=1) {
 			Do("yes "+ w.w.getName()+", you can take a break!");
 			w.w.msgBreakReply(true);
 			w.state=MyWaiterState.onBreak;
-			//w.requestedBreak=false;
 		}
 		else {
 			Do("no "+ w.w.getName()+", you can't take a break!");
 			w.w.msgBreakReply(false);
 			w.state=MyWaiterState.working;
-			//w.requestedBreak=false;
 		}
 	}
 
