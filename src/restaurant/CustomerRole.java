@@ -23,7 +23,6 @@ public class CustomerRole extends Role implements Customer {
 	//parse through string
 	public String choice;
 	private int hungerLevel = 5;        // determines length of meal
-	//private int sittingAt; //table handling
 	Timer timer = new Timer();
 	private CustomerGui customerGui;
 	
@@ -31,9 +30,8 @@ public class CustomerRole extends Role implements Customer {
 	
 	private Menu myMenu;
 	private double wallet;
-//	private double debt;
 	
-	//semahores
+	//semaphores
 	Semaphore atFront = new Semaphore(0, true);
 	
 	// agent correspondents
@@ -47,7 +45,6 @@ public class CustomerRole extends Role implements Customer {
 	//check
 	Check myBill = null;
 	
-	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
 	{DoingNothing, WaitingInRestaurant, BeingSeated, Seated, ReadyToOrder, Ordered, Eating, Paying, DoneEating, Leaving, Gone, GoingToCashier, Paid, WaitingForCheck, WaitingInHangout, AtFront};
 	private AgentState state = AgentState.DoingNothing;//The start state
@@ -66,32 +63,9 @@ public class CustomerRole extends Role implements Customer {
 		super(p);
 		host = (HostRole) r;
 		name = super.getName();
-		
-		//parsing string
-		//Input: Name, MoneyVal, Order , Stay/Leave
-//		String[] inputs = name.split(", "); 
-		
-		
-//		this.myText = name;
-//		wallet= Double.parseDouble(inputs[1].trim());
-//		this.name=inputs[0].trim();
-//		choice=inputs[2].trim();
-//		//System.out.println(inputs[3]);
-//		if(inputs[3].trim().equals("Stay")) {
-//			stayOrLeave=true;
-//			//System.out.println("staying.");
-//		}
-//		if(inputs[3].trim().equals("Leave")) {
-//			stayOrLeave=false;
-//		}
-		//System.out.printf("Name: "+ name + " Money: "+ "%d ", wallet);
-		//System.out.print(wallet);
 
 		state=AgentState.DoingNothing;
-		event = AgentEvent.gotHungry; //event is the state change
-
-//		debt=0;
-		
+		event = AgentEvent.gotHungry; //event is the state change		
 	}
 	
 	public double getWallet() {
@@ -131,7 +105,6 @@ public class CustomerRole extends Role implements Customer {
 	}
 	
 	public void msgYourTableIsReady(){
-//		System.err.println("receivedmsgtableready");
 		event=AgentEvent.tableReady;
 		stateChanged();
 	}
@@ -140,16 +113,13 @@ public class CustomerRole extends Role implements Customer {
 		myMenu=menu;
 		waiter=w;
 		tableNum=tnum;
-		//System.out.println("received followme msg");
 		event = AgentEvent.followHost;
 		stateChanged();
 	}
 	
 	public void msgHereIsYourBill(int tnum, double d) {
-		//System.out.println(tnum);
 		System.out.println("cust received bill");
 		myBill = new Check((Customer)this, choice, tnum, d);
-//		System.err.println(myBill);
 		stateChanged();
 	}
 	
@@ -166,12 +136,10 @@ public class CustomerRole extends Role implements Customer {
 	
 	public void msgWhatWouldYouLike() {
 		event = AgentEvent.waiterIsHere;
-		//System.out.println("received msg waiter here");
 		stateChanged();
 	}
 	public void msgWhatWouldYouLike(String foodOutOfStock) {
 		event = AgentEvent.waiterIsHereForReorder;
-		//System.out.println("received msg waiter here for reorder");
 		stateChanged();
 	}
 	
@@ -184,10 +152,8 @@ public class CustomerRole extends Role implements Customer {
 		if(num>=0) {
 			System.out.println("customer received change of "+ num);
 			wallet+=num;
-			//System.out.print("wallet now = "+ wallet);
 		}
 		else {
-			;//System.out.println("customer acquired debt of "+ (-1)*num);
 		}
 		event = AgentEvent.gotReceipt;
 		stateChanged();
@@ -238,22 +204,18 @@ public class CustomerRole extends Role implements Customer {
 		
 		if (state == AgentState.BeingSeated && event == AgentEvent.seated){
 			DecideWhatIWantToEat(myMenu);
-			//EatFood();
 			return true;
 		}
 
 		if (state == AgentState.Seated && event == AgentEvent.iKnowWhatIWant){
 			CallWaiter();
-			//leaveTable();
 			return true;
 		}
 		if (state == AgentState.ReadyToOrder && event == AgentEvent.waiterIsHere){
-			//System.out.println("made it to giveorder call");
 			GiveOrder();
 			return true;
 		}
 		if(state==AgentState.Ordered && event == AgentEvent.waiterIsHereForReorder) {
-			//System.out.println("got to new order");
 			GiveNewOrder();
 			return true;
 		}
@@ -294,7 +256,6 @@ public class CustomerRole extends Role implements Customer {
 	}
 	
 	private void ShouldIStayOrShouldIGo() {
-		//System.out.println("in shouldistay");
 		if(!stayOrLeave) {
 			host.msgIDontWantToWait(this);
 			DoLeaveRestaurant();
@@ -326,24 +287,12 @@ public class CustomerRole extends Role implements Customer {
 		Do("Being seated. Going to table");
 		state = AgentState.BeingSeated;
 		DoGoToSeat();
-		//customerGui.DoGoToSeat(sittingAt, 1);//hack; only one table
-		//do is being called by waitergui
+		
 	}
 	
 	private void DecideWhatIWantToEat(final Menu myMenu) {
 		//Do("Deciding what to order...");
 		state = AgentState.Seated;
-		/*timer.schedule(new TimerTask() {
-			public void run() {
-				Random generator= new Random();
-				choice= myMenu.myOptions[generator.nextInt(myMenu.getSize())];
-				Do("I'm ordering " +choice);
-				event = AgentEvent.iKnowWhatIWant;
-				//isHungry = false;
-				stateChanged();
-			}
-		},
-		3000); */
 		timer.schedule(new TimerTask() {
 			public void run() {
 				
@@ -387,9 +336,7 @@ public class CustomerRole extends Role implements Customer {
 			DoDisplayOrderCard();
 			
 	}
-		//waiter.msgHereIsMyChoice(this, choice);
-		//DoDisplayOrderCard();
-	//}
+		
 	
 	private void GiveNewOrder() {
 		if(!stayOrLeave) { //will leave if restaurant doesn't have their only choice 
@@ -402,13 +349,7 @@ public class CustomerRole extends Role implements Customer {
 		System.out.println("giving waiter new order");
 		String ch=myMenu.OutOf(choice, wallet);
 		System.out.println("menu recommended " + ch);
-		/* if requirement allows user to eat anyway...
-		if(ch.equals("None") && !stayOrLeave) {
-			waiter.msgCantAffordNotStaying(this);
-			DoLeaveRestaurant();
-			return;
-		}
-		else choice=ch; */
+		
 		if(ch.equals("None")) {
 			state=AgentState.Leaving;
 			waiter.msgCantAffordNotStaying(this);
@@ -426,14 +367,6 @@ public class CustomerRole extends Role implements Customer {
 		state = AgentState.Eating;
 		Do("Eating Food");
 		DoUpdateOrderCard();
-		//This next complicated line creates and starts a timer thread.
-		//We schedule a deadline of getHungerLevel()*1000 milliseconds.
-		//When that time elapses, it will call back to the run routine
-		//located in the anonymous class created right there inline:
-		//TimerTask is an interface that we implement right there inline.
-		//Since Java does not all us to pass functions, only objects.
-		//So, we use Java syntactic mechanism to create an
-		//anonymous inner class that has the public method run() in it.
 		timer.schedule(new TimerTask() {
 			Object cookie = 1;
 			public void run() {
@@ -444,7 +377,7 @@ public class CustomerRole extends Role implements Customer {
 				stateChanged();
 			}
 		},
-		5000);//getHungerLevel() * 1000);//how long to wait before running task
+		5000);
 	}
 
 	private void leaveTable() {
@@ -457,28 +390,6 @@ public class CustomerRole extends Role implements Customer {
 		DoGoToCashier();
 	}
 	
-//	private void PayMyBill() {
-//		DecimalFormat df = new DecimalFormat("###.##");
-//		//normative scenario.. pays amount due;
-//		System.err.println("PAYING BILL...");
-//		if(debt>0) {
-//			;//System.out.print("adding my debt of " + debt+ " to bill.. paying "+ (wallet+debt));
-//		}
-//		double myPay=  Double.valueOf(df.format(wallet+debt));
-//		myBill.setCustomerPaid(myPay);
-//		debt=0; // paid it, no more
-//		cashier.msgHereIsAPayment(this, myBill.getTablenum(), myBill.getCustomerPaid());
-//		if((myBill.getBillAmnt()+debt)>wallet) {
-//			System.out.print("bill: "+ myBill.getBillAmnt() + " Wallet: "+ wallet + " Debt: "+ debt);
-//
-//			double myDebt = Double.valueOf(df.format(myBill.getBillAmnt()+debt-wallet));
-//			
-//			System.out.print("added "+ myDebt + " debt");
-//			debt+=myDebt;
-//		}
-//		wallet=0;
-//		state=AgentState.Paid;
-//	}
 	
 	private void PayMyBill() {
 		DecimalFormat df = new DecimalFormat("###.##");

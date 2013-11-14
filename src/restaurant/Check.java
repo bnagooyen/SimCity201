@@ -8,7 +8,6 @@ public class Check {
 	double BillAmnt;
 	double CustomerPaid;
 	double debt;
-	//double Change;
 	String choice;
 	Waiter waiter;
 	String name;
@@ -20,7 +19,6 @@ public class Check {
 		choice = ch;
 		tablenum = tnum;
 		waiter = wa;
-		//Change = 0;
 		BillAmnt = amnt;
 		state=CheckState.processing;
 		debt=0;
@@ -32,7 +30,6 @@ public class Check {
 		tablenum=tnum;
 		customer=cust;
 		waiter = wa;
-		//Change = 0;
 		BillAmnt = 0;
 		state=CheckState.processing;
 	}

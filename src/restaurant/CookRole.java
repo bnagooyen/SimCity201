@@ -15,20 +15,14 @@ import java.util.concurrent.Semaphore;
 /**
  * Restaurant Host Agent
  */
-//We only have 2 types of agents in this prototype. A customer and an agent that
-//does all the rest. Rather than calling the other agent a waiter, we called him
-//the HostAgent. A Host is the manager of a restaurant who sees that all
-//is proceeded as he wishes.
 public class CookRole extends Role {
 
 	Timer timer = new Timer();
 	private String name;
 	private Map<String, Food> myFood = new HashMap<String, Food>();
-	//public HostGui hostGui = null;
 	private int initialFoodAmnt= 2;
 	private static final int MAXCAPACITY=10;
 	private int threshold = 1;
-	//private final int NUM_MARKETS = 3;
     
     public CookGui CookGui = null;
 	
@@ -39,18 +33,15 @@ public class CookRole extends Role {
 	private WaiterRole waiter;
 	private HostRole host;
 
-	private boolean waitingForInventory; // order at once, don't order when waiting for an order to arrive
-	//private boolean reOrdering;
+	private boolean waitingForInventory; 
 	
 	Map<String, Boolean> grillOccupied = new HashMap<String, Boolean>();
 	
 	ArrayList<ArrayList<FoodOrder>> delivery= new ArrayList<ArrayList<FoodOrder>>();
 	List<Order> orders =  Collections.synchronizedList(new ArrayList<Order>());
-//	ArrayList<MarketAgent> markets = new ArrayList<MarketAgent>();
 	List<InventoryOrder> myOrders =  Collections.synchronizedList(new ArrayList<InventoryOrder>());
 	private int ORDER_ID;
 	ArrayList<FoodOrder> orderToMarket = new ArrayList<FoodOrder>();
-	//private int marketToSendOrdersTo;
 
 	Cashier myCashier;
 	boolean RestaurantIsOpen, CheckedAtFirst, valsAreSet;
@@ -60,11 +51,6 @@ public class CookRole extends Role {
 		
 		this.name = name;
 		
-		//GRADER: CHANGE KITCHEN VALS HERE
-		//myFood.put("Chicken", new Food("Chicken", 5, X));
-		// or change initialFoodAmnt variable, threshold to reaorder is 1/2 of that value
-		
-		//fill up kitchen with food
 		myFood.put("Chicken", new Food("Chicken", 5, initialFoodAmnt));
 		myFood.put("Steak", new Food("Steak", 10, initialFoodAmnt));
 		myFood.put("Salad", new Food("Salad", 3, initialFoodAmnt));
@@ -80,17 +66,12 @@ public class CookRole extends Role {
 		
 		
 		waitingForInventory=false;
-		//reOrdering=false;
-		//marketToSendOrdersTo=1;
 		
 		ORDER_ID=1;
 		
 		RestaurantIsOpen=false; CheckedAtFirst=false; valsAreSet=false;
 		
 	}
-
-
-	// The animation DoXYZ() routines
 	
 	private void DoClearPlating(String foo) {
 		CookGui.DoClearPlating(foo);
@@ -135,8 +116,6 @@ public class CookRole extends Role {
 	}
 
 	// Messages
-
-	//hack!
 	
 	public void AddHost(HostRole h) {
 		//System.out.println("host added to cook");
@@ -152,11 +131,6 @@ public class CookRole extends Role {
 		waiter=w;
 	}
 	
-//	public void msgAddMarket(MarketAgent m) {
-//		//System.out.println("added");
-//		markets.add(m);
-//	}
-//	
 	public void msgIncKitchenThreshold() {
 		threshold++;
 		System.out.println("Kitchen threshold increased to "+ threshold);
@@ -207,34 +181,14 @@ public class CookRole extends Role {
 		valsAreSet=true;
 		stateChanged();
 	}
-	
-//	public void msgClearPlatingForOrder(String order) {
-//		System.err.println("received clear plating");
-//		for(Order ord: orders) {
-//			if(ord.tablenum==o.tablenum) {
-//				ord.state=OrderState.clearPlating;
-//				stateChanged();
-//			}
-//		}
-//	}
+
 	
 	public void msgHereIsAnOrder(Order order) {
 		orders.add(new Order(order.getChoice(), order.getTablenum(), order.getWaiter()));
 		System.out.println("cook received order of "+ order.getChoice()+ " from table "+order.tablenum);
 		stateChanged();
 	}
-	/*
-	public void msgHereIsYourFoodOrder(String food, int val) {
-		delivery.add(new FoodOrder(food, val));
-		System.out.println("received order of "+ food + " for "+ val + " from market");
-		stateChanged();
-	}
-	
-	public void msgCouldNotFulFillFullOrderOf(String foo) {
-		if(InventoryMarketTracker.get(foo)<=markets.size()) // if at last market possible or below
-		InventoryMarketTracker.put(foo, InventoryMarketTracker.get(foo)+1);
-	}*/
-	
+
 	public void msgHereIsYourFoodOrder(ArrayList<FoodOrder> dlv) {
 		delivery.add(dlv);
 		System.out.println("received order from cook");
@@ -281,12 +235,7 @@ public class CookRole extends Role {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-		/* Think of this next rule as:
-            Does there exist a table and customer,
-            so that table is unoccupied and customer is waiting.
-            If so seat him at the table.
-		 */
-		
+	
 		for(int i=0; i<orders.size(); i++) {
 			if(orders.get(i).state==OrderState.clearPlating) {
 				ClearPlating(orders.get(i));
@@ -296,8 +245,6 @@ public class CookRole extends Role {
 	
 		for(int i=0; i<orders.size(); i++) {
 			if(orders.get(i).state==OrderState.grillInUse && !grillOccupied.get(orders.get(i).getChoice())) {
-//				CookOrder(orders.get(i));
-//				System.err.println("****");
 				CookOrder(orders.get(i));
 				return true;
 			}
@@ -305,8 +252,6 @@ public class CookRole extends Role {
 		
 		for(int i=0; i<orders.size(); i++) {
 			if(orders.get(i).state==OrderState.pending) {
-//				CookOrder(orders.get(i));
-//				System.err.println("*****");
 				CookOrder(orders.get(i));
 				return true;
 			}
@@ -315,7 +260,6 @@ public class CookRole extends Role {
 		for(int i=0; i<orders.size(); i++) {
 			if(orders.get(i).state==OrderState.cooked) {
 				PlateOrderAndCallWaiter(orders.get(i));
-				//CallWaiter(orders.get(i));
 				return true;
 			}
 		}
@@ -346,21 +290,16 @@ public class CookRole extends Role {
 		
 		
 		return false;
-		//we have tried all our rules and found
-		//nothing to do. So return false to main loop of abstract agent
-		//and wait.
 	}
 
 
 	// Actions
 	
 		private void ClearPlating(Order o) {
-//			System.err.println("***");
 			DoClearPlating(o.getChoice().substring(0,2));
 			orders.remove(o);
 		}
 		private void CheckIfFullyStocked() {
-			//System.out.println("called");
 			if(myFood.get("Chicken").getAmount()>=threshold && myFood.get("Steak").getAmount()>=threshold &&
 					myFood.get("Pizza").getAmount()>=threshold && myFood.get("Salad").getAmount()>=threshold) {
 				host.msgKitchenIsReady();
@@ -369,7 +308,6 @@ public class CookRole extends Role {
 		}
 		
 		private void CookOrder(final Order o) {
-//			System.out.println("asdfjlaksdjflkasj");
 			Food food=myFood.get(o.getChoice());
 			
 			if(food.getAmount()==0) {
@@ -398,19 +336,15 @@ public class CookRole extends Role {
 			
 			if(o.getChoice().equals("Pizza")) {
 				DoGoToPizzaGrill();
-//				System.err.println("called dofuncpizza");
 			}
 			else if(o.getChoice().equals("Steak")) {
 				DoGoToSteakGrill();
-//				System.err.println("called dofuncsteak");
 			}
 			else if(o.getChoice().equals("Chicken")) {
 				DoGoToChickenGrill();
-//				System.err.println("called dofuncChicken");
 			}
 			else if(o.getChoice().equals("Salad")) {
 				DoGoToSaladGrill();
-//				System.err.println("called dofuncsalad");
 			}
 			
 			
@@ -420,9 +354,7 @@ public class CookRole extends Role {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-//			System.err.println("made to grill");
-			
+						
 			o.state=OrderState.cooking;
 			
 			timer.schedule(new TimerTask() {
@@ -462,8 +394,7 @@ public class CookRole extends Role {
 			}
 			
 			grillOccupied.put(o.getChoice(), false);
-//			
-//			System.out.println("at Grill!");
+			
 			
 			DoGoToPlating();
 			
@@ -478,22 +409,10 @@ public class CookRole extends Role {
 			o.getWaiter().msgOrderIsReady(o.getTablenum());
 			orders.remove(o);
 		}
-		
-//		private void CallWaiter(Order o) {
-//			o.getWaiter().msgOrderIsReady(o);
-//			orders.remove(o);
-//		}
+
 		
 		private void OrderFoodFromMarket() {
-			/*
-			 	if(food.getAmount()==threshold) // made it ==, not <= so won't keep ordering
-				{
-					System.out.println("Out of "+ food.getChoice()+"!");
-					markets.get(InventoryMarketTracker.get(o.getChoice())).msgHereIsAnInventoryOrder(o.getChoice(), threshold);
-					System.out.println("Made an order to mkt#"+ InventoryMarketTracker.get(o.getChoice()) + " for " + threshold);
-					
-				}
-			 */
+			
 			System.out.println("need to order");
 			
 			orderToMarket.clear(); //restart a new order
@@ -514,26 +433,13 @@ public class CookRole extends Role {
 				orderToMarket.add(new FoodOrder("Salad", MAXCAPACITY-myFood.get("Salad").getAmount()));
 			}
 			
-//			markets.get(0).msgHereIsAnInventoryOrder(orderToMarket, ORDER_ID, myCashier);
 			myOrders.add(new InventoryOrder(orderToMarket, ORDER_ID));
 			ORDER_ID++;
 			waitingForInventory=true;
 		}
 		
 		private void ReorderFood(InventoryOrder reord) {
-//			if(reord.getMarketOrderingFrom()>markets.size()) {
-//				for(int i=0; i< reord.myorder.size(); i++) {
-//					System.out.println("all markets are out of "+ reord.myorder.get(i).getFood());
-//				}
-//				if(!RestaurantIsOpen && reord.getMarketOrderingFrom()>markets.size()) { //markets don't have it.. should just open anyway
-//					RestaurantIsOpen=true;
-//					host.msgKitchenIsReady();
-//				}
-//				myOrders.remove(reord);
-//				return;
-			//}
 			System.out.println("sent reorder");
-//			markets.get(reord.mktOrderingFrom-1).msgHereIsAnInventoryOrder(reord.myorder, reord.getID(), myCashier);
 			reord.reorder=false;
 			
 		}
@@ -545,7 +451,6 @@ public class CookRole extends Role {
 				temp.setAmount(temp.getAmount()+foo.getVal());
 				myFood.put(foo.getFood(), temp);
 				System.out.println("update on " + temp.getChoice() + ": "+ myFood.get(temp.getChoice()).getAmount());
-				//myFood.put(f.getFood(), myFood.get(f.getVal()+));
 				
 			}
 			waitingForInventory=false;
@@ -555,7 +460,6 @@ public class CookRole extends Role {
 						myFood.get("Pizza").getAmount()==initialFoodAmnt && myFood.get("Salad").getAmount()==initialFoodAmnt) {
 					host.msgKitchenIsReady();
 					RestaurantIsOpen=true;
-					//System.out.println("ready!");
 				}
 			}
 		}
