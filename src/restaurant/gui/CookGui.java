@@ -509,11 +509,11 @@ public class CookGui implements Gui {
         return yPos;
     }
     
-   static class CookLabel {
+   public static class CookLabel {
     	String food;
     	int xPos, yPos;
     	boolean isFollowing;
-    	enum LabelState {ingredient, cooking, cooked, plating, plated};
+    	public enum LabelState {ingredient, cooking, cooked, plating, plated};
     	LabelState state;
     	CookLabel(String f, int x, int y) {
 //    		System.err.println(f);
