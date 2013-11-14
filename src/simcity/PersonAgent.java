@@ -6,7 +6,6 @@ import restaurant.Order.OrderState;
 import restaurant.gui.CookGui;
 import restaurant.gui.CustomerGui;
 import restaurant.gui.HostGui;
-import restaurant.gui.PersonGui;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.Cashier;
 

@@ -1,6 +1,12 @@
-package restaurant.gui;
+package simcity;
 
 import javax.swing.*;
+
+import restaurant.gui.CookGui;
+import restaurant.gui.CustomerGui;
+import restaurant.gui.Gui;
+import restaurant.gui.RestaurantGui;
+import restaurant.gui.WaiterGui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
