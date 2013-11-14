@@ -1,6 +1,6 @@
 package restaurant;
 
-import agent.Agent;
+import agent.Role;
 import restaurant.interfaces.Cashier;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Market;
@@ -8,7 +8,7 @@ import restaurant.interfaces.Waiter;
 import restaurant.test.mock.EventLog;
 import restaurant.test.mock.LoggedEvent;
 import restaurant.test.mock.MockMarket;
-import restaurant.CashierAgent.InventoryBill.InventoryBillState;
+import restaurant.CashierRole.InventoryBill.InventoryBillState;
 import restaurant.Check.CheckState;
 
 import java.text.DecimalFormat;
@@ -22,7 +22,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class CashierAgent extends Agent implements Cashier {
+public class CashierRole extends Role implements Cashier {
 	//static final int NTABLES = 12;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -53,7 +53,7 @@ public class CashierAgent extends Agent implements Cashier {
 		return myBills;
 	}
 
-	public CashierAgent(String name) {
+	public CashierRole(String name) {
 		super();
 
 		this.name = name;

@@ -1,6 +1,6 @@
 package restaurant;
 
-import agent.Agent;
+import agent.Role;
 import restaurant.CustomerAgent.AgentEvent;
 import restaurant.Order.OrderState;
 import restaurant.gui.CookGui;
@@ -18,7 +18,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class CookAgent extends Agent {
+public class CookRole extends Role {
 
 	Timer timer = new Timer();
 	private String name;
@@ -54,7 +54,7 @@ public class CookAgent extends Agent {
 	Cashier myCashier;
 	boolean RestaurantIsOpen, CheckedAtFirst, valsAreSet;
 	
-	public CookAgent(String name) {
+	public CookRole(String name) {
 		super();
 		
 		this.name = name;
