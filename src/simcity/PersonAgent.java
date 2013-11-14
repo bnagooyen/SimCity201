@@ -83,17 +83,15 @@ public class PersonAgent extends Agent {
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-
 		if(state==PersonState.gotHungry) {
-			print("GOT HERE");
 			GoToRestaurant();
 			return true;
 		}
 		boolean anyTrue = false;
 		for(Role r : roles) {
 			if(r.isActive) {
-				r.pickAndExecuteAnAction();
-				anyTrue = true;
+				anyTrue = r.pickAndExecuteAnAction();
+				Do("returned "+anyTrue);
 			}
 		}
 		
@@ -116,6 +114,14 @@ public class PersonAgent extends Agent {
 	// utilities
 	public Role getHostRole() {
 		return roles.get(0);
+	}
+	
+	public Role getWaiterRole() {
+		return roles.get(0);
+	}
+	
+	public void addRole(Role r) {
+		roles.add(r);
 	}
 }
 

@@ -46,7 +46,7 @@ public class HostRole extends Role {
 	public HostRole(PersonAgent p) {
 		super(p);
 
-		this.name = name;
+		name = p.getName();
 		
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		for (int ix = 1; ix <= NTABLES; ix++) {
@@ -86,7 +86,7 @@ public class HostRole extends Role {
 	}
 	public void msgIWantFood(CustomerRole cust) { //telling agent i want food (once seated)
 		if(customersInRST<NTABLES) {
-			System.out.println("adding "+cust+" to host customer list");
+			Do("adding "+cust+" to host customer list");
 			waitingCustomers.add(new MyCustomer(cust));
 			
 			stateChanged();

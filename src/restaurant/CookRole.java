@@ -55,9 +55,9 @@ public class CookRole extends Role {
 		myFood.put("Steak", new Food("Steak", 10, initialFoodAmnt));
 		myFood.put("Salad", new Food("Salad", 3, initialFoodAmnt));
 		myFood.put("Pizza", new Food("Pizza", 6, initialFoodAmnt));
-		System.out.println("INITALIZE VALUES OF KITCHEN AND HIT 'SET' IN ORDER FOR COOK TO BEGIN CHECKING IF READY FOR OPEN");
-		System.out.println("Cook Kitchen Inventory is initialized to "+ initialFoodAmnt+ " and threshold is "+ threshold);
-		System.out.println("Maximum capacity in kitchen is 10");
+//		System.out.println("INITALIZE VALUES OF KITCHEN AND HIT 'SET' IN ORDER FOR COOK TO BEGIN CHECKING IF READY FOR OPEN");
+//		System.out.println("Cook Kitchen Inventory is initialized to "+ initialFoodAmnt+ " and threshold is "+ threshold);
+//		System.out.println("Maximum capacity in kitchen is 10");
 	
 		grillOccupied.put("Pizza", false);
 		grillOccupied.put("Steak", false);

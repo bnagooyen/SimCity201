@@ -25,7 +25,7 @@ public abstract class Role {
      * the agent to do something.
      */
     protected void stateChanged() {
-        stateChange.release();
+        myPerson.stateChanged();
     }
 
     /**

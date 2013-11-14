@@ -62,7 +62,7 @@ public class CustomerRole extends Role implements Customer {
 	public CustomerRole(PersonAgent p, Role r){
 		super(p);
 		host = (HostRole) r;
-		name = super.getName();
+		name = p.getName();
 
 		state=AgentState.DoingNothing;
 		event = AgentEvent.gotHungry; //event is the state change		
