@@ -16,7 +16,7 @@ import restaurant.Order.OrderState;
 import restaurant.WaiterRole.MyCustomer.MyCustomerState;
 import simcity.PersonAgent;
 /**
- * Restaurant Host Agent
+ * Restaurant Waiter Agent
  */
 //We only have 2 types of agents in this prototype. A customer and an agent that
 //does all the rest. Rather than calling the other agent a waiter, we called him
