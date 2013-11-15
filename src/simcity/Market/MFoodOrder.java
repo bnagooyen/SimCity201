@@ -1,9 +1,9 @@
-package simcity;
+package simcity.Market;
 
-public class FoodOrder {
+public class MFoodOrder {
 	String type;
 	int amount;
-	public FoodOrder(String t, int a) {
+	public MFoodOrder(String t, int a) {
 		type = t;
 		amount = a;
 	}
