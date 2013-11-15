@@ -244,9 +244,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
                 stateCB.setEnabled(false);
             }
         }
-        if(e.getSource()== pause) {
-        	restPanel.msgTogglePause();
-        }
+//        if(e.getSource()== pause) {
+//        	restPanel.msgTogglePause();
+//        }
 //        if(e.getSource()==)
 //      private JButton kitchenThresholdInc;
 //      private JButton kitchenThresholdDec;
