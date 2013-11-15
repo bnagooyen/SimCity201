@@ -7,13 +7,15 @@ import java.util.concurrent.*;
 import restaurant.test.mock.EventLog;
 import simcity.PersonAgent;
 
+
+//new comment to check git
 /**
  * Base class for simple agents
  */
 public abstract class Role {
     Semaphore stateChange = new Semaphore(1, true);//binary semaphore, fair
     public boolean isActive;
-    PersonAgent myPerson; 
+    PersonAgent myPerson;
     
 
     protected Role(PersonAgent p) {
