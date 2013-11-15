@@ -72,6 +72,8 @@ public class RestaurantPanel extends JPanel {
         w.isActive = true;
         waiter.startThread();
         
+        h.setWaiter(w);
+        
         cook.addRole(c);
         c.isActive = true;
         cook.startThread();

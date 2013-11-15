@@ -60,7 +60,7 @@ public class HostRole extends Role {
 		custLeavingWaitlist=null;
 		sendFullMsgTo=null;
 	}
-
+	
 	public String getMaitreDName() {
 		return name;
 	}
@@ -204,17 +204,22 @@ public class HostRole extends Role {
 		if(!waiters.isEmpty() && KitchenReadyForOpen)
 		{
 		
-			MyWaiter w=waiters.get(0); int minCustomers=waiters.get(0).numCustomers; //dummy value for initialization.. theoretically if only 1 waiter will be the one at the top
+			MyWaiter w=waiters.get(0); 
+			int minCustomers=waiters.get(0).numCustomers; //dummy value for initialization.. theoretically if only 1 waiter will be the one at the top
 			for(MyWaiter waiter: waiters)
 			{
 				if(waiter.state==MyWaiterState.working)
 					if (waiter.numCustomers<minCustomers)
-						{ w=waiter; minCustomers=waiter.numCustomers; }
+						{	
+							w=waiter; 
+							minCustomers=waiter.numCustomers; 
+						}
 			}
 
 			for (Table table : tables) {
 				for(MyCustomer cust: waitingCustomers) {
 					if (!(table.isOccupied()) && cust.state==CustState.waiting) {
+						print("Assigning waiter to cust");
 						TellWaiterToSeat(cust, w, table);//the action
 						return true;//return true to the abstract agent to reinvoke the scheduler.
 					}
@@ -306,6 +311,10 @@ public class HostRole extends Role {
 
 	//utilities
 
+	public void setWaiter(WaiterRole r){
+		waiters.add(new MyWaiter(r));
+	}
+	
 	public void setGui(HostGui gui) {
 		hostGui = gui;
 	}
@@ -320,9 +329,8 @@ public class HostRole extends Role {
 		enum MyWaiterState {working, onBreak, atFront, requestedBreak};
 		MyWaiterState state;
 		int numCustomers;
-		public MyWaiter(WaiterRole w2) {
-			// TODO Auto-generated constructor stub
-			w=w2;
+		public MyWaiter(WaiterRole w) {
+			this.w=w;
 			state=MyWaiterState.working;
 			numCustomers=0;
 		}

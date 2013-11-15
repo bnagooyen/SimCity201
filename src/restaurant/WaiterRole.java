@@ -119,7 +119,7 @@ public class WaiterRole extends Role implements Waiter {
 	}
 	
 	public void msgHereIsAWaitingCustomer(Customer c, int t) {
-		System.out.println("waiter: adding "+c+ " to my customers list");
+		print("waiter: adding "+c+ " to my customers list");
 		customers.add(new MyCustomer(c, t, restaurant.WaiterRole.MyCustomer.MyCustomerState.waiting));
 		stateChanged();
 	}
