@@ -15,5 +15,10 @@ public class BankManagerRole extends Role implements BankManager {
 		enum MyTellerState {justArrived, available, occupied};
 		MyTellerState state;
 		
+		MyTeller (BankTeller tel) {
+			teller = tel;
+			state= MyTellerState.justArrived;
+		}
+		
 	}
 }

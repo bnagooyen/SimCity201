@@ -1,4 +1,4 @@
-package bank.interfaces;
+package simcity.interfaces.copy;
 
 public interface BankManager {
 
