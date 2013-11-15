@@ -413,35 +413,35 @@ public class CustomerRole extends Role implements Customer {
 	//DoXYZ commands
 	
 	private void DoGoToHangout() {
-		customerGui.DoGoToHangout();
+//		customerGui.DoGoToHangout();
 	}
 	
 	private void DoGoToFront() {
-		customerGui.DoGoToFront();
+//		customerGui.DoGoToFront();
 	}
 	
 	private void DoGoToSeat() {
-		customerGui.DoGoToSeat(tableNum, 1);
+//		customerGui.DoGoToSeat(tableNum, 1);
 	}
 	
 	private void DoDisplayOrderCard() {
-		customerGui.DoDisplayOrderCard(choice);
+//		customerGui.DoDisplayOrderCard(choice);
 	}
 	
 	private void DoUpdateOrderCard() {
-		customerGui.DoUpdateOrderCard();
+//		customerGui.DoUpdateOrderCard();
 	}
 	
 	private void DoHideOrderCard() {
-		customerGui.DoHideOrderCard();
+//		customerGui.DoHideOrderCard();
 	}
 	
 	private void DoGoToCashier() {
-		customerGui.DoGoToCashier();
+//		customerGui.DoGoToCashier();
 	}
 	
 	private void DoLeaveRestaurant() {
-		customerGui.DoExitRestaurant();
+//		customerGui.DoExitRestaurant();
 		//System.out.println("called doleave..");
 		myBill=null; // wow, tricky little bug
 	}
@@ -478,7 +478,7 @@ public class CustomerRole extends Role implements Customer {
 	}
 
 	public void setGui(CustomerGui g) {
-		customerGui = g;
+//		customerGui = g;
 	}
 
 	public CustomerGui getGui() {

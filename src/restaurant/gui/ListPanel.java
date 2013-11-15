@@ -142,8 +142,9 @@ public class ListPanel extends JPanel implements ActionListener {
                 JButton temp = list.get(i);*/
         	for (int i=0; i<list.size(); i++){
                 if (e.getSource() == list.get(i)) {
-
+                	System.err.println("actionperformed listpanel");
                     currentPerson=restPanel.showInfo(type, pplList.get(i).getText());
+                    System.err.println(currentPerson);
                     if (currentPerson instanceof CustomerRole) {
                     	list.get(i).setEnabled(false);
                         CustomerRole c = (CustomerRole) currentPerson;
@@ -152,7 +153,7 @@ public class ListPanel extends JPanel implements ActionListener {
                         
                     }
                     else if (currentPerson instanceof PersonAgent) {
-
+                    	System.err.println("list panel action performed");
                     	list.get(i).setEnabled(false);
                         PersonAgent p = (PersonAgent) currentPerson;
                         p.getGui().setHungry();
@@ -275,7 +276,7 @@ public class ListPanel extends JPanel implements ActionListener {
 	            pplList.add(button);
 	            list.add(custStateCB);
 	            myPerson.add(custStateCB, BorderLayout.EAST);
-//	       	 	System.err.println("added button");
+	       	 	System.err.println("added button.. "+ list.size());
 	            }
             }
             else {

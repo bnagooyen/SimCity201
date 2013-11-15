@@ -15,7 +15,6 @@ public class CustomerGui implements Gui{
 	private boolean isServed = false;
 	private boolean orderDisplayed=false;
 	private String dispChoice;
-	//private HostAgent host;
 	RestaurantGui gui;
 
     public static final int x_Offset = 100;
@@ -126,8 +125,6 @@ public class CustomerGui implements Gui{
 		
 	}
 	public void DoGoToSeat(int table, int seatnumber) {//later you will map seatnumber to table coordinates.
-		//xDestination = xTable;
-		//yDestination = yTable;
 		
 		xDestination = ((table -1)%TABLES_perRow*TABLESZ_xy*2) + TABLE_gap+ x_Offset;
         yDestination = ((table-1)/TABLES_perRow)*TABLESZ_xy*2+TABLE_gap;
