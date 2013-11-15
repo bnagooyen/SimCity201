@@ -10,10 +10,10 @@ public class MarketCustomerRole extends Role {
 	private List<FoodOrder> order;
 	private double myCheck;
 	
-	public enum customerState { timeToOrder, waiting, paying, done, storeClosed, pending }
+	public enum customerState { talkToManager, timeToOrder, waiting, paying, done, storeClosed, pending }
 	private customerState state;
 	
-	private MarketCashier mc;
+	private MarketCashierRole mc;
 	private MarketManager manager;
 	
 	public MarketCustomerRole(PersonAgent p) {
@@ -22,7 +22,7 @@ public class MarketCustomerRole extends Role {
 	
 	// messages
 	
-	public void msgGoToCashier(MarketCashier c) {
+	public void msgGoToCashier(MarketCashierRole c) {
 		mc = c;
 		state = customerState.timeToOrder;	
 		stateChanged();
@@ -42,25 +42,53 @@ public class MarketCustomerRole extends Role {
 	
 	//scheduler
 	public boolean pickAndExecuteAnAction() {
+		if ( state == customerState.talkToManager) {
+			goToManager();
+			return true; 
+		}
 		if ( state == customerState.timeToOrder ) {
 			orderFood();
 			return true;
 		}
 		if ( state == customerState.paying ) {
-			
+			payCheck();
+			return true;
 		}
+		if ( state == customerState.storeClosed ) {
+			leaveStore();
+			return true;
+		}
+		
 		return false;
 	}
 
-	
-	// actions
 
+	// actions
+	private void goToManager() {
+		manager.msgIAmHere(this);
+	}
+	
 	private void orderFood() {
+		state = customerState.waiting;
+		mc.msgOrder(this, order, super.p.home);
+	}
+
+	private void payCheck() {
+		state = customerState.done;
+		mc.msgHereIsPayment(this, myCheck);
+	}
+	
+	private void leaveStore() {
+		state = customerState.done;
+		super.isActive = false;
+		DoGoHome();
+	}
+	
+	// animation
+	private void DoGoHome() {
 		// TODO Auto-generated method stub
 		
 	}
-
-	
 
 	// utilities
 	private void updateMyFood(List<FoodOrder> canGive) {
