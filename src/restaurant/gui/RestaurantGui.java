@@ -2,7 +2,7 @@ package restaurant.gui;
 import agent.Agent;
 import restaurant.CustomerRole;
 import restaurant.WaiterRole;
-import simcity.SimCityAnimationPanel;
+import simcity.gui.SimCityAnimationPanel;
 
 import javax.swing.*;
 

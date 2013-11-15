@@ -2,7 +2,7 @@ package restaurant.gui;
 
 import restaurant.CustomerRole;
 import simcity.PersonAgent;
-import simcity.PersonGui;
+import simcity.gui.PersonGui;
 import restaurant.CashierRole;
 import restaurant.CookRole;
 import restaurant.HostRole;
