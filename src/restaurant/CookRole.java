@@ -16,7 +16,8 @@ import java.util.concurrent.Semaphore;
  * Restaurant Host Agent
  */
 public class CookRole extends Role {
-
+	
+	//TESTTTTTYO
 	Timer timer = new Timer();
 	private String name;
 	private Map<String, Food> myFood = new HashMap<String, Food>();
