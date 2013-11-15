@@ -1,4 +1,4 @@
-package simcity;
+package simcity.Market;
 
 public class InventoryBoyRole {
 

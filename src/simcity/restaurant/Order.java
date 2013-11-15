@@ -1,4 +1,4 @@
-package restaurant;
+package simcity.restaurant;
 
 public class Order {
 

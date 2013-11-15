@@ -1,8 +1,8 @@
-package restaurant;
+package simcity.restaurant;
  
-import restaurant.gui.CustomerGui;
-import restaurant.gui.RestaurantGui;
-import restaurant.interfaces.Customer;
+import simcity.restaurant.gui.CustomerGui;
+import simcity.restaurant.gui.RestaurantGui;
+import simcity.restaurant.interfaces.Customer;
 import simcity.PersonAgent;
 import agent.Agent;
 import agent.Role;

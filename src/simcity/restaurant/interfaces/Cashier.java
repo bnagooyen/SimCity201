@@ -1,9 +1,9 @@
-package restaurant.interfaces;
+package simcity.restaurant.interfaces;
 
-import restaurant.Check;
-import restaurant.CustomerRole;
-import restaurant.WaiterRole;
-import restaurant.Check.CheckState;
+import simcity.restaurant.Check;
+import simcity.restaurant.CustomerRole;
+import simcity.restaurant.WaiterRole;
+import simcity.restaurant.Check.CheckState;
 
 public interface Cashier {
 

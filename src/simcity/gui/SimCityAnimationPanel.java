@@ -2,11 +2,11 @@ package simcity.gui;
 
 import javax.swing.*;
 
-import restaurant.gui.CookGui;
-import restaurant.gui.CustomerGui;
-import restaurant.gui.Gui;
-import restaurant.gui.RestaurantGui;
-import restaurant.gui.WaiterGui;
+import simcity.restaurant.gui.CookGui;
+import simcity.restaurant.gui.CustomerGui;
+import simcity.restaurant.gui.Gui;
+import simcity.restaurant.gui.RestaurantGui;
+import simcity.restaurant.gui.WaiterGui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

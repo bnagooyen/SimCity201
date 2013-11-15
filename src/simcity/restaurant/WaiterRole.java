@@ -1,19 +1,19 @@
 
 
-package restaurant;
+package simcity.restaurant;
 
 import agent.Agent;
 import agent.Role;
-import restaurant.gui.WaiterGui;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Waiter;
+import simcity.restaurant.gui.WaiterGui;
+import simcity.restaurant.interfaces.Customer;
+import simcity.restaurant.interfaces.Waiter;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import restaurant.Order;
-import restaurant.Order.OrderState;
-import restaurant.WaiterRole.MyCustomer.MyCustomerState;
+import simcity.restaurant.Order;
+import simcity.restaurant.Order.OrderState;
+import simcity.restaurant.WaiterRole.MyCustomer.MyCustomerState;
 import simcity.PersonAgent;
 /**
  * Restaurant Waiter Agent
@@ -120,7 +120,7 @@ public class WaiterRole extends Role implements Waiter {
 	
 	public void msgHereIsAWaitingCustomer(Customer c, int t) {
 		print("waiter: adding "+c+ " to my customers list");
-		customers.add(new MyCustomer(c, t, restaurant.WaiterRole.MyCustomer.MyCustomerState.waiting));
+		customers.add(new MyCustomer(c, t, simcity.restaurant.WaiterRole.MyCustomer.MyCustomerState.waiting));
 		stateChanged();
 	}
 	
@@ -141,7 +141,7 @@ public class WaiterRole extends Role implements Waiter {
 		System.out.println("waiter received ready message");
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
-				customer.state=restaurant.WaiterRole.MyCustomer.MyCustomerState.readyToOrder;
+				customer.state=simcity.restaurant.WaiterRole.MyCustomer.MyCustomerState.readyToOrder;
 				System.out.println("found customer on list!");
 				stateChanged();
 			}
@@ -155,7 +155,7 @@ public class WaiterRole extends Role implements Waiter {
 			if(customer.getCustomer()==cust) {
 				System.out.println(cust + " ordered: "+ choice);
 				customer.setChoice(choice);
-				customer.state=restaurant.WaiterRole.MyCustomer.MyCustomerState.ordered;
+				customer.state=simcity.restaurant.WaiterRole.MyCustomer.MyCustomerState.ordered;
 				Order newOrder = new Order(choice, customer.getTablenum(), this);
 				orders.add(newOrder);
 				System.out.println("waiter added order of "+ choice);
@@ -195,7 +195,7 @@ public class WaiterRole extends Role implements Waiter {
 	public void msgDoneEatingAndLeaving(CustomerRole cust) {
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
-				customer.state=restaurant.WaiterRole.MyCustomer.MyCustomerState.gone;
+				customer.state=simcity.restaurant.WaiterRole.MyCustomer.MyCustomerState.gone;
 				stateChanged();
 			}
 		}
@@ -208,7 +208,7 @@ public class WaiterRole extends Role implements Waiter {
 		//DoGoHangAtTheFront();
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
-				customer.state=restaurant.WaiterRole.MyCustomer.MyCustomerState.couldNotAffordAndLeaving;
+				customer.state=simcity.restaurant.WaiterRole.MyCustomer.MyCustomerState.couldNotAffordAndLeaving;
 				stateChanged();
 			}
 		}

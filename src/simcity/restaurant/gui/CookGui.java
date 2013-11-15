@@ -1,9 +1,9 @@
-package restaurant.gui;
+package simcity.restaurant.gui;
 
 
-import restaurant.CookRole;
-import restaurant.CustomerRole;
-import restaurant.gui.CookGui.CookLabel.LabelState;
+import simcity.restaurant.CookRole;
+import simcity.restaurant.CustomerRole;
+import simcity.restaurant.gui.CookGui.CookLabel.LabelState;
 
 import java.awt.*;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package simcity;
+package simcity.Market;
 
 import java.util.List;
 

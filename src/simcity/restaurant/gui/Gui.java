@@ -1,4 +1,4 @@
-package restaurant.gui;
+package simcity.restaurant.gui;
 
 import java.awt.*;
 

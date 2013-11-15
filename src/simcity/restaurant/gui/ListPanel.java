@@ -1,9 +1,9 @@
-package restaurant.gui;
+package simcity.restaurant.gui;
 
-import restaurant.CustomerRole;
-import restaurant.HostRole;
+import simcity.restaurant.CustomerRole;
+import simcity.restaurant.HostRole;
 import simcity.PersonAgent;
-import restaurant.WaiterRole;
+import simcity.restaurant.WaiterRole;
 
 import javax.swing.*;
 

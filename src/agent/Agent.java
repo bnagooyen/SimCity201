@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-import simcity.restaurant.test.mock.EventLog;
+import simcity.test.mock.EventLog;
 
 /**
  * Base class for simple agents

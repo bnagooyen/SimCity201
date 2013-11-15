@@ -1,13 +1,13 @@
-package restaurant.interfaces;
+package simcity.restaurant.interfaces;
 
 import java.util.List;
 
-import restaurant.Check;
-import restaurant.CustomerRole;
-import restaurant.Order;
-import restaurant.Order.OrderState;
-import restaurant.WaiterRole.MyCustomer;
-import restaurant.WaiterRole.WaiterState;
+import simcity.restaurant.Check;
+import simcity.restaurant.CustomerRole;
+import simcity.restaurant.Order;
+import simcity.restaurant.Order.OrderState;
+import simcity.restaurant.WaiterRole.MyCustomer;
+import simcity.restaurant.WaiterRole.WaiterState;
 
 public interface Waiter {
 

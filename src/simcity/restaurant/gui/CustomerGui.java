@@ -1,7 +1,7 @@
-package restaurant.gui;
+package simcity.restaurant.gui;
 
-import restaurant.CustomerRole;
-import restaurant.HostRole;
+import simcity.restaurant.CustomerRole;
+import simcity.restaurant.HostRole;
 
 import java.awt.*;
 import java.util.Random;

@@ -1,4 +1,4 @@
-package simcity;
+package simcity.Bank;
 
 import java.util.List;
 

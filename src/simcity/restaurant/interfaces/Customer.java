@@ -1,11 +1,11 @@
-package restaurant.interfaces;
+package simcity.restaurant.interfaces;
 
-import restaurant.Check;
-import restaurant.CustomerRole;
-import restaurant.Menu;
+import simcity.restaurant.Check;
+import simcity.restaurant.CustomerRole;
+import simcity.restaurant.Menu;
 
-import restaurant.CustomerRole.AgentEvent;
-import restaurant.WaiterRole;
+import simcity.restaurant.CustomerRole.AgentEvent;
+import simcity.restaurant.WaiterRole;
 
 public interface Customer {
 	public abstract void gotHungry(); 
