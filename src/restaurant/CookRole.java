@@ -20,6 +20,7 @@ public class CookRole extends Role {
 	Timer timer = new Timer();
 	private String name;
 	private Map<String, Food> myFood = new HashMap<String, Food>();
+	private Map<String, Double> prices = new HashMap<String, Double>();
 	private int initialFoodAmnt= 2;
 	private static final int MAXCAPACITY=10;
 	private int threshold = 1;
@@ -70,6 +71,11 @@ public class CookRole extends Role {
 		ORDER_ID=1;
 		
 		RestaurantIsOpen=false; CheckedAtFirst=false; valsAreSet=false;
+		
+		prices.put("Steak", 15.99);
+		prices.put("Chicken", 10.99);
+		prices.put("Salad", 5.99);
+		prices.put("Pizza", 8.99);
 		
 	}
 	
@@ -410,29 +416,41 @@ public class CookRole extends Role {
 		
 		private void OrderFoodFromMarket() {
 			
+			double billAmnt=0;
+			
 			System.out.println("need to order");
 			
 			orderToMarket.clear(); 
 			
 			if(myFood.get("Chicken").getAmount()<=threshold) {
 				orderToMarket.add(new FoodOrder("Chicken", MAXCAPACITY- myFood.get("Chicken").getAmount()));
+				billAmnt+=(MAXCAPACITY - myFood.get("Chicken").getAmount())*prices.get("Chicken");
 			}
 			
 			if(myFood.get("Steak").getAmount()<=threshold) {
 				orderToMarket.add(new FoodOrder("Steak", MAXCAPACITY-myFood.get("Steak").getAmount()));
+				billAmnt+=(MAXCAPACITY - myFood.get("Steak").getAmount())*prices.get("Steak");
 			}
 			
 			if(myFood.get("Pizza").getAmount()<=threshold) {
 				orderToMarket.add(new FoodOrder("Pizza", MAXCAPACITY-myFood.get("Pizza").getAmount()));
+				billAmnt+=(MAXCAPACITY - myFood.get("Pizza").getAmount())*prices.get("Pizza");
 			}
 			
 			if(myFood.get("Salad").getAmount()<=threshold) {
 				orderToMarket.add(new FoodOrder("Salad", MAXCAPACITY-myFood.get("Salad").getAmount()));
+				billAmnt+=(MAXCAPACITY - myFood.get("Salad").getAmount())*prices.get("Salad");
 			}
 			
 			myOrders.add(new InventoryOrder(orderToMarket, ORDER_ID));
 			ORDER_ID++;
 			waitingForInventory=true;
+			
+			//msg to market to call in and ask for order
+			
+			myCashier.msgMadeInventoryOrder(ORDER_ID, billAmnt);
+			
+			
 		}
 		
 		private void ReorderFood(InventoryOrder reord) {

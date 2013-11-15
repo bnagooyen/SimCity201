@@ -81,6 +81,10 @@ public class CashierRole extends Role implements Cashier {
 
 	// Messages
 	
+	public void msgMadeInventoryOrder(int orderid, double billAmt) {
+		//add it to list for confirmation
+	}
+	
 	public void msgHereIsAnInventoryBill(double amnt, Market market1) {
 		System.out.print("received bill from "+ market1+" for "+ amnt);
 		inventoryBills.add(new InventoryBill(amnt, market1));

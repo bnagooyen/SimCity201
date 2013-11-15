@@ -12,4 +12,7 @@ public interface Cashier {
 			Waiter wa);
 	public abstract void setRegisterAmnt(double amnt);
 	public abstract double getRegisterAmnt();
+	public abstract void msgMadeInventoryOrder(int orderid, double billAmt);
+		
+	
 }
