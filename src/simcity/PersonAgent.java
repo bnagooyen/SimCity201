@@ -10,6 +10,7 @@ import restaurant.gui.CustomerGui;
 import restaurant.gui.HostGui;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.Cashier;
+import simcity.gui.PersonGui;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
