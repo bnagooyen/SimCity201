@@ -2,7 +2,7 @@ package restaurant.gui;
 import agent.Agent;
 import restaurant.CustomerRole;
 import restaurant.WaiterRole;
-import simcity.SimCityAnimationPanel;
+import simcity.gui.SimCityAnimationPanel;
 
 import javax.swing.*;
 
@@ -240,13 +240,16 @@ public class RestaurantGui extends JFrame implements ActionListener {
         if (e.getSource() == stateCB) {
             if (currentPerson instanceof CustomerRole) {
                 CustomerRole c = (CustomerRole) currentPerson;
+                System.err.println("ahh");
                 c.getGui().setHungry();
                 stateCB.setEnabled(false);
             }
         }
+
         if(e.getSource()== pause) {
 //        	restPanel.msgTogglePause();
         }
+
 //        if(e.getSource()==)
 //      private JButton kitchenThresholdInc;
 //      private JButton kitchenThresholdDec;

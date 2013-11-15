@@ -24,7 +24,7 @@ public class CustomerRole extends Role implements Customer {
 	public String choice;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
-//	private CustomerGui customerGui;
+	private CustomerGui customerGui;
 	
 	private boolean stayOrLeave;
 	
@@ -481,9 +481,9 @@ public class CustomerRole extends Role implements Customer {
 //		customerGui = g;
 	}
 
-//	public CustomerGui getGui() {
-//		return customerGui;
-//	}
+	public CustomerGui getGui() {
+		return customerGui;
+	}
 
 }
 

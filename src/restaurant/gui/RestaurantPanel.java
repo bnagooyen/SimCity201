@@ -2,7 +2,7 @@ package restaurant.gui;
 
 import restaurant.CustomerRole;
 import simcity.PersonAgent;
-import simcity.PersonGui;
+import simcity.gui.PersonGui;
 import restaurant.CashierRole;
 import restaurant.CookRole;
 import restaurant.HostRole;
@@ -58,7 +58,7 @@ public class RestaurantPanel extends JPanel {
     
 
     public RestaurantPanel(RestaurantGui gui) {
-        //this.gui = gui;
+        this.gui = gui;
 
         
         c1.startThread();
@@ -178,15 +178,15 @@ public class RestaurantPanel extends JPanel {
 //            }
 //        }
 //        
-//        if (type.equals("Person")) {
-//
-//            for (int i = 0; i < people.size(); i++) {
-//                PersonAgent temp = people.get(i);
-//                if (temp.getName() == name) {
-//                	return temp;
-//                }
-//            }
-//        }
+        if (type.equals("Person")) {
+
+            for (int i = 0; i < people.size(); i++) {
+                PersonAgent temp = people.get(i);
+                if (temp.getName() == name) {
+                	return temp;
+                }
+            }
+        }
 //        
 //        
         return new Object();
@@ -336,14 +336,15 @@ public class RestaurantPanel extends JPanel {
 //    		
 //    	}
 //    	
-//    	if(type.equals("Person")) {
-//    		PersonAgent p = new PersonAgent(name);
-//    		PersonGui g = new PersonGui(p, gui);
-//    		p.setGui(g);
-//    		gui.simCityPanel.addGui(g);
-//    		p.startThread();
-//    		people.add(p);
-//    	}
+    	if(type.equals("Person")) {
+    		PersonAgent p = new PersonAgent(name);
+    		PersonGui g = new PersonGui(p, gui);
+    		p.setGui(g);
+    		gui.simCityPanel.addGui(g);
+    		p.startThread();
+    		people.add(p);
+    		System.err.println("added person in restpanel");
+    	}
     }
     
     public void setCustomerEnabled(String name, double val) {

@@ -1,4 +1,4 @@
-package simcity;
+package simcity.gui;
 
 import javax.swing.*;
 
