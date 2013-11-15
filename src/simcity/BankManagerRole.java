@@ -1,8 +1,8 @@
-package bank;
+package simcity;
 
 import java.util.List;
 
-import bank.interfaces.BankManager;
+
 import agent.Role;
 
 public class BankManagerRole extends Role implements BankManager {

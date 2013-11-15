@@ -1,7 +1,7 @@
-package restaurant;
+package simcity.restaurant;
 
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Waiter;
+import simcity.restaurant.interfaces.Customer;
+import simcity.restaurant.interfaces.Waiter;
 
 public class Check {
 	int tablenum;

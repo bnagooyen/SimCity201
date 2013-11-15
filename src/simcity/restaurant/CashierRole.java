@@ -1,15 +1,15 @@
-package restaurant;
+package simcity.restaurant;
 
 import agent.Role;
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Market;
-import restaurant.interfaces.Waiter;
-import restaurant.test.mock.EventLog;
-import restaurant.test.mock.LoggedEvent;
-import restaurant.test.mock.MockMarket;
-import restaurant.CashierRole.InventoryBill.InventoryBillState;
-import restaurant.Check.CheckState;
+import simcity.restaurant.interfaces.Cashier;
+import simcity.restaurant.interfaces.Customer;
+import simcity.restaurant.interfaces.Market;
+import simcity.restaurant.interfaces.Waiter;
+import simcity.restaurant.test.mock.EventLog;
+import simcity.restaurant.test.mock.LoggedEvent;
+import simcity.restaurant.test.mock.MockMarket;
+import simcity.restaurant.CashierRole.InventoryBill.InventoryBillState;
+import simcity.restaurant.Check.CheckState;
 import simcity.PersonAgent;
 
 import java.text.DecimalFormat;

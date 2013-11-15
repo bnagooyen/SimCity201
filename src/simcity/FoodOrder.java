@@ -1,4 +1,4 @@
-package market;
+package simcity;
 
 public class FoodOrder {
 	String type;

@@ -2,14 +2,14 @@ package simcity;
 
 import agent.Agent;
 import agent.Role;
-import restaurant.CustomerRole;
-import restaurant.CustomerRole.AgentEvent;
-import restaurant.Order.OrderState;
-import restaurant.gui.CookGui;
-import restaurant.gui.CustomerGui;
-import restaurant.gui.HostGui;
-import restaurant.gui.WaiterGui;
-import restaurant.interfaces.Cashier;
+import simcity.restaurant.CustomerRole;
+import simcity.restaurant.CustomerRole.AgentEvent;
+import simcity.restaurant.Order.OrderState;
+import simcity.restaurant.gui.CookGui;
+import simcity.restaurant.gui.CustomerGui;
+import simcity.restaurant.gui.HostGui;
+import simcity.restaurant.gui.WaiterGui;
+import simcity.restaurant.interfaces.Cashier;
 import simcity.gui.PersonGui;
 
 import java.util.*;

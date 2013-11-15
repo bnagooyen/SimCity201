@@ -1,4 +1,4 @@
-package bus;
+package simcity;
 
 public class BusAgent {
 
