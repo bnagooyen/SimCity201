@@ -6,12 +6,13 @@ import java.util.List;
 
 import simcity.PersonAgent;
 import simcity.restaurant.CashierRole;
+import simcity.interfaces.MarketCashier;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketManager;
 import agent.Role;
 
 
-public class MarketCashierRole extends Role{
+public class MarketCashierRole extends Role implements MarketCashier{
 
 	List<MOrder> orders =Collections.synchronizedList(new ArrayList<MOrder>());
 	
