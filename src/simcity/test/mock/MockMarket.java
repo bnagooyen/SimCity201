@@ -10,7 +10,7 @@ import restaurant.interfaces.Market;
 
 public class MockMarket extends Mock implements Market {
 
-	public Cashier cashier;
+	public Landlord cashier;
 	public EventLog log = new EventLog();
 	int inventory;
 	public MockMarket(String name) {
@@ -27,7 +27,7 @@ public class MockMarket extends Mock implements Market {
 
 	@Override
 	public void msgHereIsAnInventoryOrder(ArrayList<FoodOrder> orderToMarket,
-			int id, Cashier c) {
+			int id, Landlord c) {
 			log.add(new LoggedEvent("Received msgHereIsAnInventoryOrder"));
 			//if(marketFood.get())
 			for(FoodOrder order: orderToMarket) {
@@ -44,7 +44,7 @@ public class MockMarket extends Mock implements Market {
 	}
 
 	@Override
-	public void msgHereIsAPayment(double val, Cashier ca) {
+	public void msgHereIsAPayment(double val, Landlord ca) {
 		// TODO Auto-generated method stub
 			log.add(new LoggedEvent("Received msgHereIsAPayment "+ val));
 	}

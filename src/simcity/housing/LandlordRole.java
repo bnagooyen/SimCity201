@@ -3,11 +3,16 @@ package simcity.housing;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 //import restaurant.WaiterRoleTT.customers;
 import simcity.PersonAgent;
+import simcity.housing.interfaces.Landlord;
+import simcity.housing.interfaces.RepairMan;
 import agent.Role;
 
-public class LandlordRole extends Role{
+public class LandlordRole extends Role implements Landlord{
+	//data
 	int hour;  
 	double revenue = 0;				//money landlord keeps to pay utilities
 	final double rentBill = 50; 	//cost of rent each day
@@ -21,10 +26,10 @@ public class LandlordRole extends Role{
 	= new ArrayList<Worker>(); 
 	
 	class Worker {
-		Worker (RepairManRole r) {
+		Worker (RepairMan r) {
 			myWorker = r; 
 		}
-		RepairManRole myWorker; 
+		RepairMan myWorker; 
 		double bill; 
 		WorkerState ws; 
 	}
@@ -61,7 +66,7 @@ public class LandlordRole extends Role{
 		}
 	}
 	
-	public void AddWorker (RepairManRole w) {
+	public void AddWorker (RepairMan w) {
 		myWorkers.add(new Worker(w)); 
 	}
 	

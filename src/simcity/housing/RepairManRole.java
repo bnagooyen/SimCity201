@@ -6,18 +6,21 @@ import java.util.Timer;
 
 import simcity.PersonAgent;
 import simcity.housing.LandlordRole.Tenant;
+import simcity.housing.interfaces.Landlord;
+import simcity.housing.interfaces.RepairMan;
 import agent.Role;
 
-public class RepairManRole extends Role{
+public class RepairManRole extends Role implements RepairMan {
 	
 	List<MyJobs>jobs
-	= new ArrayList<MyJobs>();  
+	= new ArrayList<MyJobs>();
+	
 	class MyJobs {
-		MyJobs(String b, PersonAgent p) {
+		MyJobs(String b, Landlord l) {
 			building = b; 
-			person = p; 
+			employer = l;
 		}
-		LandlordRole employer; 
+		Landlord employer; 
 		String building; 
 	}
 	
@@ -30,8 +33,8 @@ public class RepairManRole extends Role{
 	
 	//messages
 	
-	public void NeedRepair(String building, PersonAgent p) {
-		jobs.add(new MyJobs(building, p)); 
+	public void NeedRepair(String building, Landlord l) {
+		jobs.add(new MyJobs(building, l)); 
 	}
 
 	public void HereIsPayment(double m) {
@@ -49,7 +52,7 @@ public class RepairManRole extends Role{
 		DoGoToBuilding(jobs.get(0).building); 
 		//setTimer
 		jobs.get(0).employer.jobDone(this, bill); 
-		jobs.get(0).remove; 
+		jobs.remove(0); 
 	}
 	
 	//gui
