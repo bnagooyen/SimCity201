@@ -13,7 +13,7 @@ import simcity.restaurant.interfaces.Cashier;
 public class MOrder {
 	List<MFoodOrder>foodsNeeded = Collections.synchronizedList(new ArrayList<MFoodOrder>());
 	List<MFoodOrder>canGive = Collections.synchronizedList(new ArrayList<MFoodOrder>());
-	orderState order;
+	orderState state;
 	Role r;
 	String building;
 	CashierRole cashier;
@@ -22,7 +22,7 @@ public class MOrder {
 		foodsNeeded = foods;
 		this.building = building;
 		this.r = r;
-		order = state;
+		this.state = state;
 		cashier = null;
 	}
 	
@@ -30,7 +30,12 @@ public class MOrder {
 		foodsNeeded = foods;
 		this.building = building;
 		this.r = r;
-		order = state;
+		this.state = state;
 		cashier = c;
+	}
+
+	public MOrder find(Role r) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

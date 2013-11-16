@@ -1,34 +1,40 @@
 package simcity.Market;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import simcity.PersonAgent;
+import simcity.restaurant.interfaces.MarketCashier;
+import simcity.restaurant.interfaces.MarketCustomer;
+import simcity.restaurant.interfaces.MarketManager;
 import agent.Role;
 
-public class MarketCustomerRole extends Role {
+public class MarketCustomerRole extends Role implements MarketCustomer{
 
-	private List<FoodOrder> order;
+	private List<MFoodOrder> order = Collections.synchronizedList(new ArrayList<MFoodOrder>());
 	private double myCheck;
 	
 	public enum customerState { talkToManager, timeToOrder, waiting, paying, done, storeClosed, pending }
 	private customerState state;
 	
-	private MarketCashierRole mc;
+	private MarketCashier mc;
 	private MarketManager manager;
 	
 	public MarketCustomerRole(PersonAgent p) {
 		super(p); 
 	}
 	
+	
 	// messages
 	
-	public void msgGoToCashier(MarketCashierRole c) {
+	public void msgGoToCashier(MarketCashier c) {
 		mc = c;
 		state = customerState.timeToOrder;	
 		stateChanged();
 	}
 	
-	public void msgHereIsOrderAndCheck(List<FoodOrder> canGive, double check) {
+	public void msgHereIsOrderAndCheck(List<MFoodOrder> canGive, double check) {
 		myCheck = calculateBill(canGive);
 		updateMyFood(canGive);
 		state = customerState.paying;
@@ -65,12 +71,13 @@ public class MarketCustomerRole extends Role {
 
 	// actions
 	private void goToManager() {
-		manager.msgIAmHere(this);
+		manager.msgIAmHere(this, "customer");
 	}
 	
 	private void orderFood() {
 		state = customerState.waiting;
-		mc.msgOrder(this, order, super.p.home);
+/************fix this message******************************************/
+		mc.msgOrder(this, order, "");
 	}
 
 	private void payCheck() {
@@ -91,12 +98,12 @@ public class MarketCustomerRole extends Role {
 	}
 
 	// utilities
-	private void updateMyFood(List<FoodOrder> canGive) {
+	private void updateMyFood(List<MFoodOrder> canGive) {
 	// TODO Auto-generated method stub
 	
 	}
 	
-	private double calculateBill(List<FoodOrder> canGive) {
+	private double calculateBill(List<MFoodOrder> canGive) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

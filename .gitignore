@@ -5,3 +5,7 @@
 *.war
 *.ear
 /bin
+*.DS_Store
+build/
+.classpath
+.project
