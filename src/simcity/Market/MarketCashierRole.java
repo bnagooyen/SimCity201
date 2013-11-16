@@ -25,7 +25,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	InventoryBoy ib;
 	MarketManager manager; 
 	
-	enum orderState{pending, inquiring, ready, given, paid, done};
+	public enum orderState{pending, inquiring, ready, given, paid, done};
 	enum myState{arrived, working, goHome, unavailable};
 	
 	myState state;

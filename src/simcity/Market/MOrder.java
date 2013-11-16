@@ -22,7 +22,7 @@ public class MOrder {
 	String building;
 	RestaurantCashier cashier;
 	
-	MOrder(List<MFoodOrder> foods, String building, MarketCustomer c, orderState state){
+	public MOrder(List<MFoodOrder> foods, String building, MarketCustomer c, orderState state){
 		foodsNeeded = foods;
 		this.building = building;
 		this.c = c;

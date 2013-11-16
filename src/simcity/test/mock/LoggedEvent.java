@@ -1,4 +1,4 @@
-package restaurant.test.mock;
+package simcity.test.mock;
 
 import java.text.DateFormat;
 import java.util.Date;

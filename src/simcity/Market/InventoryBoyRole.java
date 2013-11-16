@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import simcity.test.mock.EventLog;
 import simcity.PersonAgent;
 import simcity.restaurant.FoodOrder;
 import simcity.interfaces.InventoryBoy;
@@ -13,7 +14,7 @@ import simcity.interfaces.MarketManager;
 import agent.Role;
 
 public class InventoryBoyRole extends Role implements InventoryBoy{
-	List<MOrder> orders = Collections.synchronizedList(new ArrayList<MOrder>());
+	public List<MOrder> orders = Collections.synchronizedList(new ArrayList<MOrder>());
 	Map<String, Integer> inventory;
 	
 	MarketCashier mc;
@@ -22,6 +23,8 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	enum state {arrived, working, leave, unavailable }
 	state s;
 	
+	public EventLog log;
+
 	
 	public InventoryBoyRole(PersonAgent p) {
 		super(p);
