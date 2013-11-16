@@ -144,10 +144,42 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	//actions
 	private void SwapTellers() {
-//		tellers.get(0).emp.
+		tellers.get(0).emp.msgGoHome();
+		tellers.get(1).emp.msgGoToTellerPosition();
+		tellers.get(1).state=MyTellerState.available;
+		tellers.remove(tellers.get(0));
 	}
 	
-	static class MyTeller {
+	private void SwapLoanOfficers() {
+		officers.get(0).emp.msgGoHome();
+		officers.get(1).emp.msgToToLoanOfficerPosition();
+		officers.get(1).state=MyOfficerState.available;
+		officers.remove(officers.get(0));
+	}
+	
+	private void AddTeller() {
+		tellers.get(0).emp.msgGoToTellerPosition();
+		tellers.get(0).state=MyTellerState.available;
+	}
+	
+	private void AddLoanOfficer() {
+		officers.get(0).emp.msgGoToLoanOfficerPosition();
+		officers.get(0).state=MyOfficerState.available;
+	}
+	
+	private void SendCustomerToTeller(MyCustomer c) {
+		tellers.get(0).state=MyTellerState.occupied;
+		c.customer.msgGoToTeller(tellers.get(0));
+		customers.remove(c);
+	}
+	
+	private void SendCustomerToLoanOfficer(MyCustomer c) {
+		officers.get(0).state=MyOfficerState.occupied;
+		c.customer.msgToToLoanOfficer(officers.get(0));
+		customers.remove(c);
+	}
+	
+	public static class MyTeller {
 		BankTeller emp;
 		boolean needsAccount=false;
 		int accountNum = 0;
@@ -162,7 +194,7 @@ public class BankManagerRole extends Role implements BankManager {
 		
 	}
 
-	static class MyLoanOfficer {
+	public static class MyLoanOfficer {
 		BankLoanOfficer emp;
 		boolean needsAccount=false;
 		int accountNum = 0;
@@ -179,14 +211,14 @@ public class BankManagerRole extends Role implements BankManager {
 		
 	}
 	
-	static class MyCustomer {
-		Role BankCustomer;
+	public static class MyCustomer {
+		Role customer;
 		enum MyCustomerState {transaction, loan};
 		MyCustomerState state;
 		
 		MyCustomer(Role b, MyCustomerState st) {
 			state=st;
-			BankCustomer = b;
+			customer = b;
 		}
 		
 	}
