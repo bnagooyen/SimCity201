@@ -15,7 +15,7 @@ import simcity.PersonAgent;
 public abstract class Role {
     Semaphore stateChange = new Semaphore(1, true);//binary semaphore, fair
     public boolean isActive;
-    PersonAgent myPerson;
+    public PersonAgent myPerson;
     
 
     protected Role(PersonAgent p) {
