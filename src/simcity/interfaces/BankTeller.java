@@ -6,21 +6,21 @@ package simcity.interfaces;
 
 public interface BankTeller {
 	
-	public void makeAccount(BankCustomer BC);
+	public void msgMakeAccount(BankCustomer BC);
 	
-	public void accountCreated(int num);
+	public void msgAccountCreated(int num);
 	
-	public void Deposit(BankCustomer BC, int actNum, double amount);
+	public void msgDeposit(BankCustomer BC, int actNum, double amount);
 	
-	public void Withdrawal(BankCustomer BC, int actNum, double amount);
+	public void msgWithdrawal(BankCustomer BC, int actNum, double amount);
 	
-	public void transactionProcessed(double finalAmount);
+	public void msgTransactionProcessed(double finalAmount);
 	
-	public void iAmRobbingYou(BankRobber BR);
+	public void msgIAmRobbingYou(BankRobber BR);
 	
-	public void iShotYou();
+	public void msgIShotYou();
 	
-	public void goHome();
+	public void msgGoHome();
 	
-	public void goToTellerPosition();
+	public void msgGoToTellerPosition();
 }

@@ -46,36 +46,36 @@ public class BankTellerRole extends Role implements BankTeller {
 	}
 	
 	//Messages
-	public void makeAccount(BankCustomer BC){
+	public void msgMakeAccount(BankCustomer BC){
 		customer=new MyCustomer(BC);
 		customer.state=accountState.justMade;
 	}
-	public void accountCreated(int num){
+	public void msgAccountCreated(int num){
 		customer.state=accountState.justMade;
 	}
-	public void Deposit(BankCustomer BC, int actNum, double amount){
+	public void msgDeposit(BankCustomer BC, int actNum, double amount){
 		if(customer==null) customer= new MyCustomer(BC);
 		customer.accountNumber=actNum;
 		requested=amount;
 	}
-	public void Withdrawal(BankCustomer BC, int actNum, double amount){
+	public void msgWithdrawal(BankCustomer BC, int actNum, double amount){
 		if(customer==null) customer= new MyCustomer(BC);
 		customer.accountNumber=actNum;
 		requested=-amount;
 	}
-	public void transactionProcessed(double finalAmount){
+	public void msgTransactionProcessed(double finalAmount){
 		transacted=finalAmount;
 	}
-	public void iAmRobbingYou(BankRobber BR){
+	public void msgIAmRobbingYou(BankRobber BR){
 		robber=BR;
 	}
-	public void iShotYou(){
+	public void msgIShotYou(){
 		//Tell person he was shot, Message? Directly add to state?
 	}
-	public void goHome(){
+	public void msgGoHome(){
 		state=bankTellerState.finshed;
 	}
-	public void goToTellerPosition(){
+	public void msgGoToTellerPosition(){
 	}
 	
 	//SCHEDULER
@@ -97,7 +97,7 @@ public class BankTellerRole extends Role implements BankTeller {
 	
 	//ACTIONS
 	
-	private void createAccount(){
+	private void createNewAccount(){
 		manager.msgCreateAccount("BankTeller");
 		customer.state=accountState.requested;
 	}
