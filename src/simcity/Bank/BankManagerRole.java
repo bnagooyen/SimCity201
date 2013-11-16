@@ -1,7 +1,10 @@
 package simcity.Bank;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import simcity.PersonAgent;
 import simcity.Bank.BankManagerRole.MyEmployee.EmployeeType;
@@ -14,18 +17,19 @@ import agent.Role;
 public class BankManagerRole extends Role implements BankManager {
 	
 	//data
-	List<MyEmployee> workers = new ArrayList<MyEmployee>();
-	List<MyCustomer> customers = new ArrayList<MyCustomer>();
+	List<MyEmployee> workers = Collections.synchronizedList(new ArrayList<MyEmployee>());
+	List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
+	Map<Integer, MyAccount> accounts = new HashMap<Integer, MyAccount>();
 	
 	protected BankManagerRole(PersonAgent p) {
 		super(p);
 		// TODO Auto-generated constructor stub
 	}
 
-	private List<MyEmployee> tellers;
 	
 	//MESSAGES
 	public void msgIAmHere(Role person, String type) {
+		//if(person.instanceof(BankTeller))
 		if(type.equals("BankTeller")) {
 			workers.add(new MyEmployee(person, MyEmployee.EmployeeType.Teller));
 			stateChanged();
@@ -36,6 +40,10 @@ public class BankManagerRole extends Role implements BankManager {
 		}
 		else if(type.equals("loan")) {
 			customers.add(new MyCustomer(person, MyCustomer.MyCustomerState.loan));
+			stateChanged();
+		}
+		else if(type.equals("transaction")) {
+			customers.add(new MyCustomer(person, MyCustomer.MyCustomerState.transaction));
 			stateChanged();
 		}
 	}
@@ -57,6 +65,36 @@ public class BankManagerRole extends Role implements BankManager {
 			}
 		}
 	}
+	
+	public void msgCreateAccount(String type) {
+		if(type.equals("BankTeller")) {
+			for(MyEmployee e: workers) {
+				if(e.type==EmployeeType.Teller) {
+					e.needsAccount=true;
+					stateChanged();
+				}
+			}
+		}
+		
+		if(type.equals("LoanAgent")) {
+			for(MyEmployee e: workers) {
+				if(e.type==EmployeeType.LoanOfficer) {
+					e.needsAccount=true;
+					stateChanged();
+				}
+			}
+		}
+	}
+	
+	public void msgProcessTransaction(int AN, double amount) {
+		for(MyEmployee e: workers) {
+			if(e.type==EmployeeType.Teller) {
+				e.requested=amount;
+				e.accountNum=AN;
+				stateChanged();
+			}
+		}
+	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
@@ -66,8 +104,9 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	static class MyEmployee {
 		Role emp;
-		//boolean needsAccount=false;
+		boolean needsAccount=false;
 		int accountNum = 0;
+		double requested=0.0;
 		enum MyTellerState {justArrived, available, occupied};
 		MyTellerState state;
 		enum EmployeeType {LoanOfficer, Teller};
@@ -91,6 +130,12 @@ public class BankManagerRole extends Role implements BankManager {
 			BankCustomer = b;
 		}
 		
+	}
+	
+	class MyAccount{
+	
+		Double balance;
+		Double Loan;
 	}
 	
 }
