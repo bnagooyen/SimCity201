@@ -8,6 +8,7 @@ import simcity.PersonAgent;
 import simcity.restaurant.CashierRole;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.InventoryBoy;
+import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
 import agent.Role;
 
@@ -100,7 +101,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//Actions
 	private void tryToFulFillOrder(MOrder o){
-		ib.CheckInventory(o);
+		ib.msgCheckInventory(o);
 		o.state = orderState.inquiring;
 	}
 	
@@ -109,16 +110,16 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		
 		if(o.building.equals("")){
 			DoGiveFood();
-			o.r.HereIsOrderAndCheck(o.canGive, check);
+			o.r.msgHereIsOrderAndCheck(o.canGive, check);
 		}
 		else if(cook == null){
 			DoDeliverFood();
-			o.r.HereIsOrderAndCheck(o.canGive, check);
+			o.r.msgHereIsOrderAndCheck(o.canGive, check);
 		}
 		else{
-			o.cashier.BillFromMarket(check, this);
+			o.cashier.msgBillFromMarket(check, this);
 			DoDeliverFood();
-			o.r.HereIsDeliver(o.canGive);
+			o.r.msgHereIsDeliver(o.canGive);
 		}
 	}
 	
@@ -130,11 +131,11 @@ public class MarketCashierRole extends Role implements MarketCashier{
 
 	private void tellManager(){
 		state = myState.working;
-		manager.IAmHere(this, "cashier");
+		manager.msgIAmHere(this, "cashier");
 	}
 	
 	private void updateManager(MOrder o){
-		manager.CustomerDone(this, o.r);
+		manager.msgCustomerDone(this, (MarketCustomer)o.r);
 		o.state = orderState.done;
 	}
 

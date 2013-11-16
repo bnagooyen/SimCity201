@@ -26,19 +26,6 @@ public class BusStopAgent extends Agent{
 	}
 	
 	
-	//ACTIONS
-	
-	private void givePassengerList(BusAgent b){
-		b.msgHereArePassegers(waitingPassengers);
-		waitingPassengers.clear();
-		buses.remove(b);
-	}
-	
-	
-	
-	
-	
-	
 	//SCHEDULER
 	
 	protected boolean pickAndExecuteAnAction(){
@@ -49,5 +36,15 @@ public class BusStopAgent extends Agent{
 		
 		return false;
 	}
+	
+	
+	//ACTIONS
+	
+	private void givePassengerList(BusAgent b){
+		b.msgHereArePassegers(waitingPassengers);
+		waitingPassengers.clear();
+		buses.remove(b);
+	}
+	
 	
 }

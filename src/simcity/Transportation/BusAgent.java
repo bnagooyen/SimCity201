@@ -67,7 +67,29 @@ public class BusAgent extends Agent  {
 		}
 	}
 	
+	//Scheduler
 	
+	protected boolean pickAndExecuteAnAction(){
+		
+		if (state==busState.arrived){
+			arriveAtStop();
+			return true;
+		}
+			
+		
+		else if (state==busState.loading){
+			loadBus();
+			return true;
+		}
+		
+		if (state==busState.readyToGo){
+			goToNextStop();
+			return true;
+		}
+		
+		
+		return false;
+	}
 	
 	//Actions
 	
@@ -98,30 +120,7 @@ public class BusAgent extends Agent  {
 		state=busState.travelling;
 		//DoGoToNextStop();
 	}
-
-	//Scheduler
 	
-	protected boolean pickAndExecuteAnAction(){
-		
-		if (state==busState.arrived){
-			arriveAtStop();
-			return true;
-		}
-			
-		
-		else if (state==busState.loading){
-			loadBus();
-			return true;
-		}
-		
-		if (state==busState.readyToGo){
-			goToNextStop();
-			return true;
-		}
-		
-		
-		return false;
-	}
 	
 
 }
