@@ -11,5 +11,5 @@ public interface MarketManager {
 	
 	public void msgIAmHere(Role r, String type);
 	
-	public void msgCustomerDone(MarketCashier mc, MarketCustomer c);
+	public void msgCustomerDone(MarketCashier mc, Role r);
 }

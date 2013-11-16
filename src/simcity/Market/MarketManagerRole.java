@@ -6,6 +6,7 @@ import java.util.List;
 
 import simcity.PersonAgent;
 import simcity.restaurant.CashierRole;
+import simcity.interfaces.Cook;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
@@ -34,14 +35,17 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	public void msgIAmHere(Role r, String type){
-		if(type.equals("cahsier")){
+		if(type.equals("cashier")){
 			cashiers.add(new MyMarketCashier(r, workerState.justArrived));
 		}
 		else if(type.equals("inventory boy")){
 			inventoryBoys.add((InventoryBoy) r);
 		}
-		else{
-			customers.add(new MyCustomer(r));
+		else if(type.equals("customer")){
+			customers.add(new MyCustomer(r, "customer"));
+		}
+		else if(type.equals("cook")) {
+			customers.add(new MyCustomer(r, "cook"));
 		}
 		
 		if(!cashiers.isEmpty() && !inventoryBoys.isEmpty()){
@@ -54,16 +58,17 @@ public class MarketManagerRole extends Role implements MarketManager{
 		stateChanged();
 	}
 	
-	public void msgCustomerDone(MarketCashier mc, MarketCustomer c){
+	public void msgCustomerDone(MarketCashier mc, Role r){
 		MyMarketCashier current = ((MyMarketCashier) cashiers).find(mc);
 		current.state = workerState.available;
-		MyCustomer cust = ((MyCustomer) customers).find(c);
+		MyCustomer cust = find(r);
 		customers.remove(cust);
 		stateChanged();
 	}
-	
+
+
 	//Scheduler
-	
+
 	public boolean pickAndExecuteAnAction() {
 		
 		if(hour == 20){
@@ -115,7 +120,12 @@ public class MarketManagerRole extends Role implements MarketManager{
 	
 	private void marketClosed(){
 		for(MyCustomer c: customers){
-			c.c.msgMarketClosed();
+			if(c.type.equals("customer")) {
+				((MarketCustomer) c.c).msgMarketClosed();
+			}
+			else {
+				((Cook) c.c).msgMarketClosed();
+			}
 			customers.remove(c);
 		}
 	}
@@ -134,10 +144,21 @@ public class MarketManagerRole extends Role implements MarketManager{
 	private void handleCustomer(MyCustomer c, MyMarketCashier mc){
 		c.waiting = false;
 		mc.state = workerState.occupied;
-		c.c.msgGoToCashier((MarketCashier) mc.c);
+		if( c.type.equals("customer")) {
+			((MarketCustomer) c.c).msgGoToCashier((MarketCashier) mc.c);
+		}
+		else { // type must be cook
+			((Cook) c.c).msgGoToCashier((MarketCashier) mc.c);
+
+		}
 	}
 	
 	//Utilities
+	private MyCustomer find(Role r) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	public class MyMarketCashier{
 		MarketCashierRole c;
 		workerState state;
@@ -154,19 +175,21 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	public class MyCustomer{
-		MarketCustomer c;
+		Role c;
 		boolean waiting;
+		String type;
 		
-		MyCustomer(Role r){
-			c = (MarketCustomer) r;
+		MyCustomer(Role r, String s){
+			c = r;
+			type = s;
 			waiting = true;
 		}
 
-		public MyCustomer find(MarketCustomer c) {
+		public MyCustomer find(Role c) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
 	}
-	
+
 }

@@ -6,10 +6,12 @@ import java.util.List;
 
 import simcity.PersonAgent;
 import simcity.restaurant.CashierRole;
+import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
+import simcity.interfaces.RestaurantCashier;
 import agent.Role;
 
 
@@ -34,13 +36,13 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	//Messages
-	public void msgOrder(Role r, List<MFoodOrder> foods, String building){
-		orders.add(new MOrder(foods, building, r, orderState.pending));
+	public void msgOrder(MarketCustomer c, List<MFoodOrder> foods, String building){
+		orders.add(new MOrder(foods, building, c, orderState.pending));
 		stateChanged();
 	}
 	
-	public void msgOrder(Role r, List<MFoodOrder> foods, String building, CashierRole c){
-		orders.add(new MOrder(foods, building, r, c, orderState.pending));
+	public void msgOrder(Cook cook, List<MFoodOrder> foods, String building, RestaurantCashier c){
+		orders.add(new MOrder(foods, building, cook, c, orderState.pending));
 		stateChanged();
 	}
 	
@@ -110,16 +112,16 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		
 		if(o.building.equals("")){
 			DoGiveFood();
-			o.r.msgHereIsOrderAndCheck(o.canGive, check);
+			o.c.msgHereIsOrderAndCheck(o.canGive, check);
 		}
-		else if(cook == null){
+		else if(o.cook == null){
 			DoDeliverFood();
-			o.r.msgHereIsOrderAndCheck(o.canGive, check);
+			o.c.msgHereIsOrderAndCheck(o.canGive, check);
 		}
 		else{
 			o.cashier.msgBillFromMarket(check, this);
 			DoDeliverFood();
-			o.r.msgHereIsDeliver(o.canGive);
+			o.cook.msgHereIsDelivery(o.canGive);
 		}
 	}
 	
@@ -135,8 +137,14 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	private void updateManager(MOrder o){
-		manager.msgCustomerDone(this, (MarketCustomer)o.r);
+		if(o.cook == null) {
+			manager.msgCustomerDone(this, (Role) o.c);
+		}
+		else {
+			manager.msgCustomerDone(this, (Role) o.cook);
+		}
 		o.state = orderState.done;
+	
 	}
 
 	//Utilities
