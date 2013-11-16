@@ -1,4 +1,4 @@
-package simcity.restaurant.interfaces;
+package simcity.interfaces;
 
 import simcity.Market.MOrder;
 

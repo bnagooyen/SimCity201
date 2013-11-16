@@ -9,10 +9,11 @@ import simcity.restaurant.CashierRole;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
+import simcity.interfaces.MarketManager;
 import agent.Role;
 
 
-public class MarketManagerRole extends Role {
+public class MarketManagerRole extends Role implements MarketManager{
 	
 	List<MyMarketCashier> cashiers = Collections.synchronizedList(new ArrayList<MyMarketCashier>());
 	List<InventoryBoy> inventoryBoys = Collections.synchronizedList(new ArrayList<InventoryBoy>());
@@ -20,7 +21,7 @@ public class MarketManagerRole extends Role {
 
 	int hour;
 	boolean isClosed;
-	enum workerState{justArrived, available, occupied};
+	public enum workerState{justArrived, available, occupied};
 	
 	protected MarketManagerRole(PersonAgent p) {
 		super(p);
@@ -133,11 +134,11 @@ public class MarketManagerRole extends Role {
 	private void handleCustomer(MyCustomer c, MyMarketCashier mc){
 		c.waiting = false;
 		mc.state = workerState.occupied;
-		c.c.msgGoToCashier(mc.c);
+		c.c.msgGoToCashier((MarketCashier) mc.c);
 	}
 	
 	//Utilities
-	class MyMarketCashier{
+	public class MyMarketCashier{
 		MarketCashierRole c;
 		workerState state;
 		
@@ -146,19 +147,24 @@ public class MarketManagerRole extends Role {
 			state = w;
 		}
 
-		public MyMarketCashier find(MarketCashierRole mc) {
+		public MyMarketCashier find(MarketCashier mc) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 	}
 	
-	class MyCustomer{
+	public class MyCustomer{
 		MarketCustomer c;
 		boolean waiting;
 		
 		MyCustomer(Role r){
 			c = (MarketCustomer) r;
 			waiting = true;
+		}
+
+		public MyCustomer find(MarketCustomer c) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 	}
