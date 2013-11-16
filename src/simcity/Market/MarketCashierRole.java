@@ -6,6 +6,8 @@ import java.util.List;
 
 import simcity.PersonAgent;
 import simcity.restaurant.CashierRole;
+import simcity.interfaces.InventoryBoy;
+import simcity.interfaces.MarketManager;
 import agent.Role;
 
 
@@ -16,8 +18,8 @@ public class MarketCashierRole extends Role{
 	boolean active;
 	double marketMoney;
 	
-	InventoryBoyRole ib;
-	MarketManagerRole manager; 
+	InventoryBoy ib;
+	MarketManager manager; 
 	
 	enum orderState{pending, inquiring, ready, given, paid, done};
 	enum myState{arrived, working, goHome, unavailable};

@@ -34,6 +34,11 @@ public class MOrder {
 		cashier = c;
 	}
 
+	public MOrder find(MOrder o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public MOrder find(Role r) {
 		// TODO Auto-generated method stub
 		return null;
