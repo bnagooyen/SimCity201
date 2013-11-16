@@ -1,9 +1,16 @@
-##Restaurant Project Repository
+##SimCity Project Repository
 
-###Student Information
-  + Name: Doreen Hakimi
-  + USC Email: doreenha@usc.edu
-  + USC ID: 6913816311
+# TEAM POWER RANGERS
+![alt text](http://in10words.files.wordpress.com/2013/08/mmpr_rangers.jpg "Team Power Ranger")
+
+
+###Team Information
+  + Doreen Hakimi
+  + Linda Char
+  + Kimberly Santiago
+  + Drew Appleman
+  + Tiffany Tran
+  + Brian Nguyen 
   
 ###Anything missing or implemented incorrectly?
 	+ Everything is implemented
