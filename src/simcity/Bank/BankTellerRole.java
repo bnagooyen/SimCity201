@@ -18,18 +18,19 @@ public class BankTellerRole extends Role implements BankTeller {
 	Double requested=0.00;
 	Double transacted=0.00;
 	
-	enum bankTellerState { working, success, error };
+	enum bankTellerState { working, success, error, finshed };
 	bankTellerState state=bankTellerState.working;
 	
 	enum accountState {none,requested,justMade,existing};
 	
 	class MyCustomer{
 		BankCustomer BC;
-		int accountNumber;
+		Integer accountNumber;
 		accountState state=accountState.existing;
 		
 		MyCustomer(BankCustomer BankCust){
 			BC=BankCust;
+			accountNumber=null;
 		}
 	}
 		
@@ -46,19 +47,19 @@ public class BankTellerRole extends Role implements BankTeller {
 	
 	//Messages
 	public void makeAccount(BankCustomer BC){
-		customer=new MyCustomer (MyCustomer(BC));
+		customer=new MyCustomer(BC);
 		customer.state=accountState.justMade;
 	}
 	public void accountCreated(int num){
 		customer.state=accountState.justMade;
 	}
 	public void Deposit(BankCustomer BC, int actNum, double amount){
-		if(customer==null) customer= new MyCustomer (MyCustomer(BC));
+		if(customer==null) customer= new MyCustomer(BC);
 		customer.accountNumber=actNum;
 		requested=amount;
 	}
 	public void Withdrawal(BankCustomer BC, int actNum, double amount){
-		if(customer==null) customer= new MyCustomer (MyCustomer(BC));
+		if(customer==null) customer= new MyCustomer(BC);
 		customer.accountNumber=actNum;
 		requested=-amount;
 	}
@@ -70,6 +71,11 @@ public class BankTellerRole extends Role implements BankTeller {
 	}
 	public void iShotYou(){
 		//Tell person he was shot, Message? Directly add to state?
+	}
+	public void goHome(){
+		state=bankTellerState.finshed;
+	}
+	public void goToTellerPosition(){
 	}
 	
 	//SCHEDULER
@@ -91,10 +97,11 @@ public class BankTellerRole extends Role implements BankTeller {
 	
 	//ACTIONS
 	
-	private void createNewAccount(){
-		manager.createNewAccount();
+	private void createAccount(){
+		manager.msgCreateAccount("BankTeller");
 		customer.state=accountState.requested;
 	}
-		
 	
+	
+		
 }
