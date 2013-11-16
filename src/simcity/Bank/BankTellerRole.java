@@ -45,31 +45,38 @@ public class BankTellerRole extends Role implements BankTeller {
 	public void msgMakeAccount(BankCustomer BC){
 		customer=new MyCustomer(BC);
 		customer.state=accountState.justMade;
+		stateChanged();
 	}
 	public void msgAccountCreated(int num){
 		customer.state=accountState.justMade;
+		stateChanged();
 	}
 	public void msgDeposit(BankCustomer BC, int actNum, double amount){
 		if(customer==null) customer= new MyCustomer(BC);
 		customer.accountNumber=actNum;
 		requested=amount;
+		stateChanged();
 	}
 	public void msgWithdrawal(BankCustomer BC, int actNum, double amount){
 		if(customer==null) customer= new MyCustomer(BC);
 		customer.accountNumber=actNum;
 		requested=-amount;
+		stateChanged();
 	}
 	public void msgTransactionProcessed(double finalAmount){
 		transacted=finalAmount;
+		stateChanged();
 	}
 	public void msgIAmRobbingYou(BankRobber BR){
 		robber=BR;
+		stateChanged();
 	}
 	public void msgIShotYou(){
 		//Tell person he was shot, Message? Directly add to state?
 	}
 	public void msgGoHome(){
 		state=bankTellerState.finshed;
+		stateChanged();
 	}
 	//public void msgGoToTellerPosition(){
 	//}

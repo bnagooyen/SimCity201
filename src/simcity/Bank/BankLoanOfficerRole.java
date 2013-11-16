@@ -5,6 +5,7 @@ import java.util.*;
 import simcity.PersonAgent;
 import simcity.Bank.BankManagerRole.MyCustomer;
 import simcity.Bank.BankManagerRole.MyTeller;
+import simcity.Bank.BankTellerRole.bankTellerState;
 //import simcity.Bank.BankManagerRole.MyEmployee;
 import simcity.interfaces.*;
 import agent.Role;
@@ -14,6 +15,8 @@ public class BankLoanOfficerRole extends Role implements BankTeller {
 	//data
 	BankManager manager;
 	MyCustomer customer;
+	enum bankLoanState { working, atManager, recieved};
+	bankLoanState state=bankLoanState.working;
 	private static List<String> acceptableJobs = Collections.synchronizedList(new ArrayList<String>());
 
 
@@ -29,7 +32,7 @@ public class BankLoanOfficerRole extends Role implements BankTeller {
 			accountNumber=ANUM;
 			job=J;
 			amount=amt;
-			accepted=true;
+			accepted=false;
 		}
 	}
 
@@ -50,6 +53,14 @@ public class BankLoanOfficerRole extends Role implements BankTeller {
 	public void msgINeedALoan(BankCustomer BC, Integer AN, double amt, String Job){
 		customer=new MyCustomer(BC, AN, Job, amt);
 	}
+	public void msgLoanDenied(){
+		state=bankLoanState.recieved;
+		customer.accepted=false;
+	}
+	public void msgLoanComplete(){
+		state=bankLoanState.recieved;
+		customer.accepted=true;
+	}
 	
 	
 	//SCHEDULER	
@@ -57,8 +68,11 @@ public class BankLoanOfficerRole extends Role implements BankTeller {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub	
-		if(customer!=null){
+		if(customer!=null && state==bankLoanState.working){
 			analyzeLoan();
+		}
+		if(state==bankLoanState.recieved){
+			completeLoan();
 		}
 		return false;
 	}
@@ -68,9 +82,30 @@ public class BankLoanOfficerRole extends Role implements BankTeller {
 	private void analyzeLoan(){
 		for (String job : acceptableJobs) {
 			if (customer.job == job) {
-				customer.accepted=false;
+				customer.accepted=true;
 			}
 		}
+		if(customer.accepted){
+			manager.msgNewLoan(customer.accountNumber,customer.amount);
+			state=bankLoanState.atManager;
+		}
+		else{
+			customer.BC.msgLoanDenied();
+			customer=null;
+			manager.msgAvailable(this);
+		}
+	}
+	
+	private void completeLoan(){
+		if(customer.accepted){
+			customer.BC.msgHeresLoan(customer.amount);
+		}
+		else{
+			customer.BC.msgLoanDenied();
+		}
+		customer=null;
+		manager.msgAvailable(this);
+		state=bankLoanState.working;
 	}
 		
 
