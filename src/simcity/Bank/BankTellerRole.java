@@ -44,7 +44,7 @@ public class BankTellerRole extends Role implements BankTeller {
 	//Messages
 	public void msgMakeAccount(BankCustomer BC){
 		customer=new MyCustomer(BC);
-		customer.state=accountState.justMade;
+		customer.state=accountState.none;
 		stateChanged();
 	}
 	public void msgAccountCreated(int num){
