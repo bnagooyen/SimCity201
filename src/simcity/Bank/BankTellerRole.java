@@ -1,11 +1,11 @@
 package simcity.Bank;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import simcity.PersonAgent;
 import simcity.Bank.BankManagerRole.MyCustomer;
-import simcity.Bank.BankManagerRole.MyEmployee;
+//import simcity.Bank.BankManagerRole.MyEmployee;
 import simcity.interfaces.*;
 import agent.Role;
 
@@ -39,11 +39,7 @@ public class BankTellerRole extends Role implements BankTeller {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public boolean pickAndExecuteAnAction() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 	
 	//Messages
 	public void msgMakeAccount(BankCustomer BC){
@@ -75,32 +71,71 @@ public class BankTellerRole extends Role implements BankTeller {
 	public void msgGoHome(){
 		state=bankTellerState.finshed;
 	}
-	public void msgGoToTellerPosition(){
-	}
+	//public void msgGoToTellerPosition(){
+	//}
 	
-	//SCHEDULER
+	//SCHEDULER	
+	
+	@Override
+	public boolean pickAndExecuteAnAction() {
+		// TODO Auto-generated method stub	
 	if(customer!=null && customer.state==accountState.none){
 		createNewAccount();
+		return true;
 	}
 	if(customer!=null && customer.state==accountState.justMade){
 		hereIsYourAccount();
+		return true;
 	}
 	if(requested!=0.00){
 		executeTransaction();
+		return true;
 	}
 	if(transacted!=0.00){
 		closeTransacted();
+		return true;
 	}
 	if(robber!=null){
 		dealWithRobbery();
+		return true;
 	}
+		return false;
+	}
+
 	
 	//ACTIONS
-	
 	private void createNewAccount(){
 		manager.msgCreateAccount("BankTeller");
 		customer.state=accountState.requested;
 	}
+	
+	private void hereIsYourAccount(){
+		customer.BC.accountMade(customer.accountNumber);
+		customer.state=accountState.existing;
+	}
+	private void executeTransaction(){
+		manager.msgProcessTransaction(customer.accountNumber, requested);
+	}
+	private void closeTransaction(){
+		customer.BC.transactionComplete(transacted);
+		customer=null;
+		transacted=requested=0.00;
+		manager.msgAvailable(this);
+	}
+	private void dealWithRobbery(){
+		Random generator=new Random();
+		int choice = generator.nextInt(2);
+		if(choice==0){
+			robber.msgHereIsMoney(1000.00);
+		}
+		else if(choice==1){
+			robber.msgIRefuseToPay();
+		}
+		else if(choice==2){
+			robber.msgIShotYou();
+		}
+	}
+
 	
 	
 		
