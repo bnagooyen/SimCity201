@@ -63,7 +63,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 
 	private void tellManager() {
 		s = state.working;
-		manager.msgIAmHere(this);
+		manager.msgIAmHere(this, "inventory boy");
 	}
 	
 	private void getOrder(MOrder o) {

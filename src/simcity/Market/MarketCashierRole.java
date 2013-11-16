@@ -40,20 +40,20 @@ public class MarketCashierRole extends Role{
 		stateChanged();
 	}
 	
-	public void canGive(MOrder o){
+	public void msgCanGive(MOrder o){
 		MOrder current = ((MOrder) orders).find(o);
 		current.state = orderState.ready;
 		stateChanged();
 	}
 	
-	public void HereIsPayment(Role r, double payment){
+	public void msgHereIsPayment(Role r, double payment){
 		MOrder current = ((MOrder) orders).find(r);
 		current.state = orderState.paid;
 		marketMoney += payment;
 		stateChanged();
 	}
 	
-	public void GoHome(){
+	public void msgGoHome(){
 		state = myState.goHome;
 		stateChanged();
 	}

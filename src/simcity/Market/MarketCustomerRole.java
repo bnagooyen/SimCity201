@@ -71,7 +71,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
 
 	// actions
 	private void goToManager() {
-		manager.msgIAmHere(this);
+		manager.msgIAmHere(this, "customer");
 	}
 	
 	private void orderFood() {
