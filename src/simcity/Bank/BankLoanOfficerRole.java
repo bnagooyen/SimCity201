@@ -10,7 +10,7 @@ import simcity.Bank.BankTellerRole.bankTellerState;
 import simcity.interfaces.*;
 import agent.Role;
 
-public class BankLoanOfficerRole extends Role implements BankTeller {
+public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	
 	//data
 	BankManager manager;
@@ -107,9 +107,5 @@ public class BankLoanOfficerRole extends Role implements BankTeller {
 		manager.msgAvailable(this);
 		state=bankLoanState.working;
 	}
-		
-
-	
-	
 		
 }

@@ -1,5 +1,14 @@
 package simcity.interfaces;
 
-public interface BankLoanOfficer {
+//import simcity.Bank.BankLoanOfficerRole.MyCustomer;
+//import simcity.Bank.BankLoanOfficerRole.bankLoanState;
 
+public interface BankLoanOfficer {
+	
+	public void msgINeedALoan(BankCustomer BC, Integer AN, double amt, String Job);
+	
+	public void msgLoanDenied();
+	
+	public void msgLoanComplete();
+	
 }

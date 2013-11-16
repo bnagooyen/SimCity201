@@ -78,8 +78,8 @@ public class BankTellerRole extends Role implements BankTeller {
 		state=bankTellerState.finshed;
 		stateChanged();
 	}
-	//public void msgGoToTellerPosition(){
-	//}
+	public void msgGoToTellerPosition(){
+	}
 	
 	//SCHEDULER	
 	
@@ -99,7 +99,7 @@ public class BankTellerRole extends Role implements BankTeller {
 		return true;
 	}
 	if(transacted!=0.00){
-		closeTransacted();
+		closeTransaction();
 		return true;
 	}
 	if(robber!=null){
