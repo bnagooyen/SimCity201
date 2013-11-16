@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import simcity.PersonAgent;
+import simcity.Bank.BankLoanOfficerRole.bankLoanState;
 import simcity.interfaces.BankCustomer;
 import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;
@@ -15,11 +16,40 @@ import agent.Role;
 
 public class BankCustomerRole extends Role implements BankCustomer {
 	//data
-	BankManager manager = person.managers.get("bank"); 
+	BankManager manager; 
 	BankTeller teller; 
 	BankLoanOfficer loanOfficer; 
-	//messages
+	enum bankCustomerState { arrived, waiting, inProgress, done};
+	bankCustomerState state=bankCustomerState.arrived;
+	Integer accountNum=null;
 	
+	
+	//messages
+	public void msgGoToLoanOfficer(BankLoanOfficer BL){
+		loanOfficer=BL;
+	}
+	
+	public void msgGoToTeller(BankTeller BT){
+		teller=BT;
+	}
+	
+	public void msgTransactionComplete(double amount){
+		myPerson.money-=amount;
+		state=bankCustomerState.done;
+	}
+	
+	public void msgHeresLoan(double amount){
+		myPerson.money+=amount;
+	}
+	
+	public void msgLoanDenied(){
+		state=bankCustomerState.done;
+	}
+	
+	public void msgAccountMade(int AN){
+		accountNum=AN;
+		state=bankCustomerState.waiting;
+	}
 	
 	protected BankCustomerRole(PersonAgent p) {
 		super(p);
