@@ -19,7 +19,7 @@ public class MarketCashierRole extends Role{
 	InventoryBoyRole ib;
 	MarketManagerRole manager; 
 	
-	enum orderState{pending, inquiring, ready, given, paid};
+	enum orderState{pending, inquiring, ready, given, paid, done};
 	enum myState{arrived, working, goHome, unavailable};
 	
 	myState state;
@@ -59,7 +59,6 @@ public class MarketCashierRole extends Role{
 	}
 	
 	//Scheduler
-	@Override
 	public boolean pickAndExecuteAnAction() {
 		
 		for(MOrder o: orders){
@@ -96,6 +95,66 @@ public class MarketCashierRole extends Role{
 		return false;
 	}
 	
+	//Actions
+	private void tryToFulFillOrder(MOrder o){
+		ib.CheckInventory(o);
+		o.state = orderState.inquiring;
+	}
+	
+	private void giveOrder(MOrder o){
+		double check = calculateCheck(o);
+		
+		if(o.building.equals("")){
+			DoGiveFood();
+			o.r.HereIsOrderAndCheck(o.canGive, check);
+		}
+		else if(cook == null){
+			DoDeliverFood();
+			o.r.HereIsOrderAndCheck(o.canGive, check);
+		}
+		else{
+			o.cashier.BillFromMarket(check, this);
+			DoDeliverFood();
+			o.r.HereIsDeliver(o.canGive);
+		}
+	}
+	
+	private void goHome(){
+		state = myState.unavailable;
+		DoGoHome();
+		active = false;
+	}
+
+	private void tellManager(){
+		state = myState.working;
+		manager.IAmHere(this, "cashier");
+	}
+	
+	private void updateManager(MOrder o){
+		manager.CustomerDone(this, o.r);
+		o.state = orderState.done;
+	}
+
+	//Utilities
+	private double calculateCheck(MOrder o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	private void DoGiveFood() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void DoDeliverFood() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void DoGoHome() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 
