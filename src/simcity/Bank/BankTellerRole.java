@@ -117,14 +117,14 @@ public class BankTellerRole extends Role implements BankTeller {
 	}
 	
 	private void hereIsYourAccount(){
-		customer.BC.accountMade(customer.accountNumber);
+		customer.BC.msgAccountMade(customer.accountNumber);
 		customer.state=accountState.existing;
 	}
 	private void executeTransaction(){
 		manager.msgProcessTransaction(customer.accountNumber, requested);
 	}
 	private void closeTransaction(){
-		customer.BC.transactionComplete(transacted);
+		customer.BC.msgTransactionComplete(transacted);
 		customer=null;
 		transacted=requested=0.00;
 		manager.msgAvailable(this);

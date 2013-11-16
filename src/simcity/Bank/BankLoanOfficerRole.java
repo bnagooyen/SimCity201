@@ -96,9 +96,11 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		}
 		if(customer!=null && state==bankLoanState.working){
 			analyzeLoan();
+			return true;
 		}
 		if(state==bankLoanState.recieved){
 			completeLoan();
+			return true;
 		}
 		return false;
 	}
@@ -110,12 +112,12 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		customer.state=accountState.requested;
 	}
 	private void hereIsYourAccount(){
-		customer.BC.accountMade(customer.accountNumber);
+		customer.BC.msgAccountMade(customer.accountNumber);
 		customer.state=accountState.existing;
 	}
 	private void analyzeLoan(){
 		for (String job : acceptableJobs) {
-			if (customer.job == job) {
+			if (customer.job.toLowerCase().equals(job)) {
 				customer.accepted=true;
 			}
 		}
