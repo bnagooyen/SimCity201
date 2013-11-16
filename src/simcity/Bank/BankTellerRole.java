@@ -27,6 +27,10 @@ public class BankTellerRole extends Role implements BankTeller {
 		BankCustomer BC;
 		int accountNumber;
 		accountState state=accountState.existing;
+		
+		MyCustomer(BankCustomer BankCust){
+			BC=BankCust;
+		}
 	}
 		
 	protected BankTellerRole(PersonAgent p) {
@@ -64,8 +68,33 @@ public class BankTellerRole extends Role implements BankTeller {
 	public void iAmRobbingYou(BankRobber BR){
 		robber=BR;
 	}
-	iShotYou(){
-		Person.State=dead;     //Call to person
+	public void iShotYou(){
+		//Tell person he was shot, Message? Directly add to state?
 	}
-
+	
+	//SCHEDULER
+	if(customer!=null && customer.state==accountState.none){
+		createNewAccount();
+	}
+	if(customer!=null && customer.state==accountState.justMade){
+		hereIsYourAccount();
+	}
+	if(requested!=0.00){
+		executeTransaction();
+	}
+	if(transacted!=0.00){
+		closeTransacted();
+	}
+	if(robber!=null){
+		dealWithRobbery();
+	}
+	
+	//ACTIONS
+	
+	private void createNewAccount(){
+		manager.createNewAccount();
+		customer.state=accountState.requested;
+	}
+		
+	
 }

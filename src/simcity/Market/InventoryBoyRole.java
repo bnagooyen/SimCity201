@@ -7,9 +7,9 @@ import java.util.Map;
 
 import simcity.PersonAgent;
 import simcity.restaurant.FoodOrder;
-import simcity.restaurant.interfaces.InventoryBoy;
-import simcity.restaurant.interfaces.MarketCashier;
-import simcity.restaurant.interfaces.MarketManager;
+import simcity.interfaces.InventoryBoy;
+import simcity.interfaces.MarketCashier;
+import simcity.interfaces.MarketManager;
 import agent.Role;
 
 public class InventoryBoyRole extends Role implements InventoryBoy{

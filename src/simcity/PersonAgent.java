@@ -29,7 +29,7 @@ public class PersonAgent extends Agent {
 	Role host = null;
 	
 	List<Role> roles = new ArrayList<Role>();
-	enum PersonState { doingNothing, gotHungry, atRestaurant };
+	public enum PersonState { doingNothing, gotHungry, atRestaurant, dead };
 	private PersonState state;
     
     public PersonGui PersonGui = null;

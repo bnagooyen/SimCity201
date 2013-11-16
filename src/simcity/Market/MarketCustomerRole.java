@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import simcity.PersonAgent;
-import simcity.restaurant.interfaces.MarketCashier;
-import simcity.restaurant.interfaces.MarketCustomer;
-import simcity.restaurant.interfaces.MarketManager;
+import simcity.interfaces.MarketCashier;
+import simcity.interfaces.MarketCustomer;
+import simcity.interfaces.MarketManager;
 import agent.Role;
 
 public class MarketCustomerRole extends Role implements MarketCustomer{
