@@ -1,6 +1,7 @@
-package Bus;
+package simcity.Transportation;
 import agent.Agent;
 import simcity.PersonAgent;
+import simcity.Transportation.*;
 
 
 import java.util.*;
@@ -8,6 +9,7 @@ import java.util.*;
 
 public class BusAgent extends Agent  {
 	String currentStop;
+	Map<String, BusStopAgent> busStops=new HashMap<String, BusStopAgent>();  
 	
 	public enum busState {travelling, arrived, atStop, loading, waiting, readyToGo};
 	busState state;
@@ -33,6 +35,7 @@ public class BusAgent extends Agent  {
 	public void msgAtStop(String stop){
 		currentStop=stop;
 		state=busState.arrived;
+		stateChanged();
 		
 	}
 	
@@ -43,6 +46,7 @@ public class BusAgent extends Agent  {
 			passengers.add(thispassenger);
 			
 		}
+		stateChanged();
 	}
 	
 	public void msgGettingOn(PersonAgent p, String destination){ // first loop to get everyone on bus 
@@ -74,8 +78,8 @@ public class BusAgent extends Agent  {
 			if(currentPassenger.destination==currentStop){
 				//currentPassenger.p.msgAtDestination();
 				passengers.remove(currentPassenger);
-				//BusStop current = busStops.get(currentStop);
-				//current.AnyPassengers(this);
+				BusStopAgent current = busStops.get(currentStop);
+				current.msgAnyPassengers(this);
 			}
 		}
 	}
