@@ -66,7 +66,7 @@ public class LandlordRole extends Role implements Landlord{
 		}
 	}
 	
-	public void AddWorker (RepairMan w) {
+	public void AddWorker(RepairMan w) {
 		myWorkers.add(new Worker(w)); 
 	}
 	
@@ -78,6 +78,10 @@ public class LandlordRole extends Role implements Landlord{
 		for (PersonAgent p:myTenants.person) {
 			
 		}
+	}
+	
+	public void jobDone(RepairMan w, double cost) {
+		
 	}
 	
 	public boolean pickAndExecuteAnAction() {
