@@ -1,7 +1,7 @@
 package simcity.interfaces;
 
-import simcity.Bank.BankLoanOfficerRole.MyCustomer;
-import simcity.Bank.BankLoanOfficerRole.accountState;
+//import simcity.Bank.BankLoanOfficerRole.MyCustomer;
+//import simcity.Bank.BankLoanOfficerRole.accountState;
 
 //import simcity.Bank.BankLoanOfficerRole.MyCustomer;
 //import simcity.Bank.BankLoanOfficerRole.bankLoanState;
