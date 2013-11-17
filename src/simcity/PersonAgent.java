@@ -33,6 +33,10 @@ public class PersonAgent extends Agent {
 	private PersonState state;
     
     public PersonGui PersonGui = null;
+    
+    double money=0.00;
+    double depositThreshold=100.00;
+    double withdrawalThreshold=20.00;
 	
 
 	

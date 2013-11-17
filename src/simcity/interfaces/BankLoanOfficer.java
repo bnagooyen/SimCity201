@@ -8,7 +8,6 @@ package simcity.interfaces;
 
 public interface BankLoanOfficer {
 	
-	
 	public void msgMakeAccount(BankCustomer BC);
 	
 	public void msgAccountCreated(int num);
