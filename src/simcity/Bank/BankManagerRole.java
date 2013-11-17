@@ -138,6 +138,10 @@ public class BankManagerRole extends Role implements BankManager {
 			return true;
 		}
 		
+		if(customers.size()>0 && (tellers.isEmpty() || officers.isEmpty())) {
+			BankIsClosed();
+			return true;
+		}
 		
 		return false;
 	}
@@ -152,7 +156,7 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	private void SwapLoanOfficers() {
 		officers.get(0).emp.msgGoHome();
-		officers.get(1).emp.msgToToLoanOfficerPosition();
+		officers.get(1).emp.msgGoToLoanOfficerPosition();
 		officers.get(1).state=MyOfficerState.available;
 		officers.remove(officers.get(0));
 	}
@@ -169,15 +173,43 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	private void SendCustomerToTeller(MyCustomer c) {
 		tellers.get(0).state=MyTellerState.occupied;
-		c.customer.msgGoToTeller(tellers.get(0));
+		c.customer.msgGoToTeller(tellers.get(0).emp);
 		customers.remove(c);
 	}
 	
 	private void SendCustomerToLoanOfficer(MyCustomer c) {
 		officers.get(0).state=MyOfficerState.occupied;
-		c.customer.msgToToLoanOfficer(officers.get(0));
+		c.customer.msgGoToLoanOfficer(officers.get(0).emp);
 		customers.remove(c);
 	}
+	
+	private void BankIsClosed() {
+		for(MyCustomer c: customers) {
+			c.customer.msgLeaveBank();
+			customers.remove(c);
+		}
+	}
+	
+	private void CloseBank() {
+		officers.get(0).emp.msgGoHome();
+		officers.remove(officers.get(0));
+		tellers.get(0).emp.msgGoHome();
+		tellers.remove(tellers.get(0));
+	}
+	
+	private void NewAccount() {
+		accounts.put(accounts.size()+1, new MyAccount(0,0));
+		tellers.get(0).needsAccount=false;
+		tellers.get(0).emp.msgAccountCreated(accounts.size());
+	}
+	
+	private void CompleteTransaction() {
+		if(tellers.get(0).requested<-1*(accounts.get(tellers.get(0).accountNum)).balance) {
+			tellers.get(0).requested=-1*(accounts.get(tellers.get(0).accountNum).balance);
+		}
+	}
+	
+	//classes
 	
 	public static class MyTeller {
 		BankTeller emp;
@@ -225,8 +257,13 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	class MyAccount{
 	
-		Double balance;
-		Double Loan;
+		double balance;
+		double loan;
+		
+		MyAccount (double bal, double lo){
+			balance=bal;
+			loan=lo;
+		}
 	}
 	
 }

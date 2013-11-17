@@ -1,17 +1,18 @@
-package restaurant.test.mock;
+package simcity.test.mock;
 
 
-import restaurant.Menu;
-import restaurant.WaiterRole;
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Customer;
+import simcity.housing.interfaces.Landlord;
+import simcity.restaurant.Menu;
+import simcity.restaurant.WaiterRole;
+import simcity.restaurant.interfaces.Cashier;
+import simcity.restaurant.interfaces.Customer;
 
 public class MockCustomer extends Mock implements Customer {
 
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.
 	 */
-	public Landlord cashier;
+	public Cashier cashier;
 	public EventLog log = new EventLog();
 	public double Wallet;
 	public double Debt;

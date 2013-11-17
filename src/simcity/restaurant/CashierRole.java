@@ -7,7 +7,7 @@ import simcity.restaurant.interfaces.Market;
 import simcity.restaurant.interfaces.Waiter;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
-import simcity.test.mock.MockMarket;
+//import simcity.test.mock.MockMarket;
 import simcity.restaurant.CashierRole.InventoryBill.InventoryBillState;
 import simcity.restaurant.Check.CheckState;
 import simcity.PersonAgent;

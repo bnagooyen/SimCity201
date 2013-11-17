@@ -112,6 +112,8 @@ public class SimCityAnimationPanel extends JPanel implements ActionListener {
         g2.setColor(Color.ORANGE);
         g2.fillRect(330, 70, 40, 40);
         
+       
+        
     }
    
     public void addGui(PersonGui gui) {

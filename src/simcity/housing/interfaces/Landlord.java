@@ -1,7 +1,7 @@
 package simcity.housing.interfaces;
 
 import simcity.PersonAgent;
-import simcity.housing.LandlordRole.State;
+//import simcity.housing.LandlordRole.State;
 
 /**
  * A sample Customer interface built to unit test a CashierAgent.

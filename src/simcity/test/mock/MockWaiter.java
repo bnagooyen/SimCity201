@@ -1,11 +1,11 @@
-package restaurant.test.mock;
+package simcity.test.mock;
 
 import java.util.List;
 
-import restaurant.Check;
-import restaurant.CustomerRole;
-import restaurant.Order;
-import restaurant.interfaces.Waiter;
+import simcity.restaurant.Check;
+import simcity.restaurant.CustomerRole;
+import simcity.restaurant.Order;
+import simcity.restaurant.interfaces.Waiter;
 
 public class MockWaiter extends Mock implements Waiter {
 	private String name;
