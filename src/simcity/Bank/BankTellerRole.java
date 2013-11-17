@@ -1,10 +1,9 @@
 package simcity.Bank;
 
-import java.util.ArrayList;
 import java.util.*;
 
 import simcity.PersonAgent;
-import simcity.Bank.BankManagerRole.MyCustomer;
+//import simcity.Bank.BankManagerRole.MyCustomer;
 //import simcity.Bank.BankManagerRole.MyEmployee;
 import simcity.interfaces.*;
 import agent.Role;

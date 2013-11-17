@@ -24,7 +24,7 @@ public class BankRobberRole extends Role implements BankRobber {
 		teller=t;
 	}
 	
-	public void msgHeresMoney(double amount){
+	public void msgHereIsMoney(double amount){
 		myPerson.money+=amount;
 		state=bankRobberState.done;
 	}
