@@ -34,9 +34,9 @@ public class PersonAgent extends Agent {
     
     public PersonGui PersonGui = null;
     
-    double money=0.00;
-    double depositThreshold=100.00;
-    double withdrawalThreshold=20.00;
+    public double money=0.00;
+    public double depositThreshold=100.00;
+    public double withdrawalThreshold=20.00;
 	
 
 	
