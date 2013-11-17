@@ -10,8 +10,10 @@ import java.util.List;
 
 
 
+
 //import restaurant.WaiterRoleTT.customers;
 import simcity.PersonAgent;
+import simcity.Market.MOrder;
 import simcity.interfaces.Landlord;
 import simcity.interfaces.RepairMan;
 import agent.Role;
@@ -73,6 +75,7 @@ public class LandlordRole extends Role implements Landlord{
 		if (hour == 10) {
 			state = AgentState.callMaintanence; 
 		}
+		stateChanged(); 
 	}
 	
 	public void NewTenant(PersonAgent p) {
@@ -82,19 +85,45 @@ public class LandlordRole extends Role implements Landlord{
 	public void HereIsARentPayment(PersonAgent p, double amount) {
 		for (Tenant t:myTenants) {
 			if (t.person == p) {
-				t.ts = TenantState.paid; 
+				if (amount < rentBill) {
+					t.ts = TenantState.ShortOnMoney; 
+				}
+				else {
+					t.ts = TenantState.paid;
+				}
 			}
 		}
 	}
 	
 	public void jobDone(RepairMan w, double cost) {
-		
+		for (Worker current:myWorkers) {
+			if (current.myWorker == w) {
+				current.bill = cost;
+				current.ws = WorkerState.paying; 
+				stateChanged();
+			}
+		}
 	}
 	
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		if (state == AgentState.askingForRent) {
-			CollectRent(); 
+			CollectRent();
+			return true; 
+		}
+		if(state == AgentState.collectedRent) {
+			DistributePayments();
+			return true; 
+		}
+		for (Worker w:myWorkers) {
+			if (w.ws == WorkerState.paying) {
+				PayMaintenance(w); 
+				return true; 
+			}
+		}
+		if (state == AgentState.callMaintanence) {
+			CallMaintenance();
+			return true; 
 		}
 		return false;
 	}
@@ -105,25 +134,35 @@ public class LandlordRole extends Role implements Landlord{
 			t.person.HereIsYourRentBill(rentBill); 
 			t.ts = TenantState.waitingForPayment; 
 		}
+		state = AgentState.nothing; 
 	}
 	
 	private void DistributePayments() {
 		for (Tenant t:myTenants) {
+			/**
+			if (t.ts == TenantState.ShortOnMoney) {
+				//evict tenant
+				//remove tenant
+			}
+			*/
 			t.ts = TenantState.nothing; 
 		}
 		revenue = revenue *.70;
+		//add money to the personAgent
 		state = AgentState.nothing; 
 	}
 	
 	private void CallMaintenance() {
 		for (Tenant t:myTenants) {
-			
+			myWorkers.get(0).myWorker.NeedRepair(t.location, this);
 		}
 		state = AgentState.nothing; 
 	}
 	
-	private void PayMaintenance() {
-		
+	private void PayMaintenance(Worker w) {
+		revenue -= w.bill; 
+		w.myWorker.HereIsPayment(w.bill);
+		myWorkers.remove(w); 
 	}
 
 	//utilities
