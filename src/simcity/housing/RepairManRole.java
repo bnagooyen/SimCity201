@@ -7,8 +7,8 @@ import java.util.TimerTask;
 
 import simcity.PersonAgent;
 import simcity.housing.LandlordRole.Tenant;
-import simcity.housing.interfaces.Landlord;
-import simcity.housing.interfaces.RepairMan;
+import simcity.interfaces.Landlord;
+import simcity.interfaces.RepairMan;
 import agent.Role;
 
 public class RepairManRole extends Role implements RepairMan {

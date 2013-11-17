@@ -1,4 +1,4 @@
-package simcity.housing.interfaces;
+package simcity.interfaces;
 
 import simcity.PersonAgent;
 //import simcity.housing.LandlordRole.State;

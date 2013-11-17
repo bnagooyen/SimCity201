@@ -1,7 +1,7 @@
 package simcity.test.mock;
 
 
-import simcity.housing.interfaces.Landlord;
+import simcity.interfaces.Landlord;
 import simcity.restaurant.Menu;
 import simcity.restaurant.WaiterRole;
 import simcity.restaurant.interfaces.Cashier;

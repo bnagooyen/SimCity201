@@ -8,10 +8,12 @@ import java.util.List;
 
 
 
+
+
 //import restaurant.WaiterRoleTT.customers;
 import simcity.PersonAgent;
-import simcity.housing.interfaces.Landlord;
-import simcity.housing.interfaces.RepairMan;
+import simcity.interfaces.Landlord;
+import simcity.interfaces.RepairMan;
 import agent.Role;
 
 public class LandlordRole extends Role implements Landlord{
@@ -100,18 +102,24 @@ public class LandlordRole extends Role implements Landlord{
 	//actions
 	private void CollectRent() {
 		for (Tenant t:myTenants) {
-			if (t.person == p) {
-				t.person.HereIsYourRentBill(rentBill); 
-				t.state = TenantState.waitingForPayment; 
-			}
+			t.person.HereIsYourRentBill(rentBill); 
+			t.ts = TenantState.waitingForPayment; 
 		}
 	}
 	
 	private void DistributePayments() {
+		for (Tenant t:myTenants) {
+			t.ts = TenantState.nothing; 
+		}
+		revenue = revenue *.70;
+		state = AgentState.nothing; 
 	}
 	
 	private void CallMaintenance() {
-		
+		for (Tenant t:myTenants) {
+			
+		}
+		state = AgentState.nothing; 
 	}
 	
 	private void PayMaintenance() {
