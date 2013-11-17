@@ -1,7 +1,10 @@
 package simcity.housing;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+
 
 
 
@@ -16,9 +19,13 @@ public class LandlordRole extends Role implements Landlord{
 	int hour;  
 	double revenue = 0;				//money landlord keeps to pay utilities
 	final double rentBill = 50; 	//cost of rent each day
-	public enum State 
+	public enum AgentState 
 	{nothing, askingForRent, collectedRent, callMaintanence};
-	private State state = State.nothing; 
+	private AgentState state = AgentState.nothing;
+	
+	private List<RepairMan>repairmen		//list of repairmen that the landlord can contact
+	= Collections.synchronizedList(new ArrayList<RepairMan>()); 
+	
 	
 	List<Tenant>myTenants
 	= new ArrayList<Tenant>(); 
@@ -56,18 +63,14 @@ public class LandlordRole extends Role implements Landlord{
 	}
 	
 	//messages
-	public void TimeUpdate(int hr) {
-		hour = hr; 
+	public void TimeUpdate(int hour) {
+		this.hour = hour;
 		if (hour == 20) {
-			state = State.askingForRent;
+			state = AgentState.askingForRent;
 		}
 		if (hour == 10) {
-			state = State.callMaintanence; 
+			state = AgentState.callMaintanence; 
 		}
-	}
-	
-	public void AddWorker(RepairMan w) {
-		myWorkers.add(new Worker(w)); 
 	}
 	
 	public void NewTenant(PersonAgent p) {
@@ -75,8 +78,10 @@ public class LandlordRole extends Role implements Landlord{
 	}
 	
 	public void HereIsARentPayment(PersonAgent p, double amount) {
-		for (PersonAgent p:myTenants.person) {
-			
+		for (Tenant t:myTenants) {
+			if (t.person == p) {
+				t.ts = TenantState.paid; 
+			}
 		}
 	}
 	
@@ -86,8 +91,36 @@ public class LandlordRole extends Role implements Landlord{
 	
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
+		if (state == AgentState.askingForRent) {
+			CollectRent(); 
+		}
 		return false;
 	}
+	
+	//actions
+	private void CollectRent() {
+		for (Tenant t:myTenants) {
+			if (t.person == p) {
+				t.person.HereIsYourRentBill(rentBill); 
+				t.state = TenantState.waitingForPayment; 
+			}
+		}
+	}
+	
+	private void DistributePayments() {
+	}
+	
+	private void CallMaintenance() {
+		
+	}
+	
+	private void PayMaintenance() {
+		
+	}
 
+	//utilities
+	public void addRepairMan(RepairMan r) {
+		repairmen.add((RepairMan) r);
+	}
 
 }
