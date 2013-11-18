@@ -9,11 +9,13 @@ import simcity.interfaces.Cook;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
+import simcity.interfaces.MarketManager;
 import simcity.interfaces.RestaurantCashier;
 
 public class MockMarketCashier extends Mock implements MarketCashier {
 	
 	public InventoryBoy ib;
+	public MarketManager m;
 	public EventLog log;
 	
 	public MockMarketCashier(String name) {
@@ -24,8 +26,15 @@ public class MockMarketCashier extends Mock implements MarketCashier {
 
 	public void msgOrder(MarketCustomer c, List<MFoodOrder> foods,
 			String building) {
-		// TODO Auto-generated method stub
+		LoggedEvent e = new LoggedEvent("got customer's order");
+		log.add(e);
 		
+		double check = 0;
+		for(MFoodOrder o :foods) {
+			check += o.amount * o.price;
+		}
+		
+		c.msgHereIsOrderAndCheck(foods, check);
 	}
 
 	public void msgOrder(Cook cook, List<MFoodOrder> foods, String building,
@@ -41,7 +50,8 @@ public class MockMarketCashier extends Mock implements MarketCashier {
 
 	public void msgHereIsPayment(Role r, double payment) {
 		// TODO Auto-generated method stub
-		
+		LoggedEvent e = new LoggedEvent("received payment");
+		log.add(e);
 	}
 
 	public void msgGoHome() {
