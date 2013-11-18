@@ -37,6 +37,4 @@ public class MockBusStop extends Mock implements BusStop {
 	
 	
 	
-	
-
 }
