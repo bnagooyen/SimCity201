@@ -11,6 +11,7 @@ public class MockInventoryBoy extends Mock implements InventoryBoy{
 	
 	public MockInventoryBoy(String name) {
 		super(name);
+		log = new EventLog();
 		// TODO Auto-generated constructor stub
 	}
 	

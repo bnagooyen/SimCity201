@@ -31,7 +31,7 @@ public class MOrder {
 		cashier = null;
 	}
 	
-	MOrder(List<MFoodOrder> foods, String building, Cook cook, RestaurantCashier c, orderState state){
+	public MOrder(List<MFoodOrder> foods, String building, Cook cook, RestaurantCashier c, orderState state){
 		foodsNeeded = foods;
 		this.building = building;
 		this.cook = cook;
