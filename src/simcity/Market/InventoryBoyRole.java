@@ -15,7 +15,7 @@ import agent.Role;
 
 public class InventoryBoyRole extends Role implements InventoryBoy{
 	public List<MOrder> orders = Collections.synchronizedList(new ArrayList<MOrder>());
-	Map<String, Integer> inventory;
+	public Map<String, Integer> inventory;
 	
 	MarketCashier mc;
 	MarketManager manager;
@@ -28,6 +28,8 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	
 	public InventoryBoyRole(PersonAgent p) {
 		super(p);
+		log = new EventLog();
+
 	}
 
 	// messages

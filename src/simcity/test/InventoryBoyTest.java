@@ -24,7 +24,6 @@ public class InventoryBoyTest extends TestCase{
 		super.setUp();
 		p = new PersonAgent("InventoryBoy");
 		ib = new InventoryBoyRole(p);
-		p.addRole(ib);
 		mc = new MockMarketCashier("mockMarketCashier");
 		c = new MockMarketCustomer("mockCustomer");
 	}
@@ -35,11 +34,12 @@ public class InventoryBoyTest extends TestCase{
 		// preconditions
         assertEquals("inventoryboy should have zero orders but doesn't", ib.orders.size(), 0);
         assertEquals("inventoryboy should have an empty event log before his msgBill is called. Instead, the ib's event log read: " + ib.log.toString(), 0, ib.log.size());
-        assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: "
-                + mc.log.toString(), 0, mc.log.size());
+        assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
         
         // populate ib's inventory
-        
+        ib.inventory.put("Steak", 5);
+        assertEquals("inventory should have one thing", ib.inventory.size(), 1);
+
         
         // give ib an oder to fulfill
         List<MFoodOrder> foods = new ArrayList<MFoodOrder>();
