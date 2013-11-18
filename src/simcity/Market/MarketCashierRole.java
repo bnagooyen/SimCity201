@@ -34,7 +34,8 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	public MarketCashierRole(PersonAgent p) {
 		super(p);
-		marketMoney = 0;
+		marketMoney = 0.0;
+		log = new EventLog();
 	}
 	
 	//Messages

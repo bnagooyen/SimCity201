@@ -49,7 +49,7 @@ public class MarketCashierTest extends TestCase{
 		
 		// preconditions
         assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
-        assertEquals("MarketCashier should have collected zero money", mc.marketMoney, 0);
+        assertEquals("MarketCashier should have collected zero money", mc.marketMoney, 0.0);
         assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + mc.log.toString(), 0, mc.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
                 + ib.log.toString(), 0, ib.log.size());
@@ -57,12 +57,16 @@ public class MarketCashierTest extends TestCase{
         
         // populate mc's inventory by market customer
         mc.msgOrder(c, foods, "b1");
+        assertEquals("MarketCashier should have one order", mc.orders.size(), 1);
+        assertTrue("MarketCashier is giving order to ib.", mc.pickAndExecuteAnAction());
+        assertTrue("InventoryBoy logged: " + ib.log.getLastLoggedEvent().toString(), ib.log.containsString("Received msgCheckInventory from market cashier."));
+        
         
         // give mc an order to fulfill
-        List<MFoodOrder> foods = new ArrayList<MFoodOrder>();
+//        List<MFoodOrder> foods = new ArrayList<MFoodOrder>();
         
         MOrder o = new MOrder(foods, "", c, orderState.inquiring);
-        ib.msgCheckInventory(o);
+//        ib.msgCheckInventory(o);
         
         
 	}
