@@ -98,7 +98,7 @@ public class BankTellerRole extends Role implements BankTeller {
 		hereIsYourAccount();
 		return true;
 	}
-	if(requested!=0.00){
+	if(requested!=0.00 && transacted==0.00){
 		executeTransaction();
 		return true;
 	}

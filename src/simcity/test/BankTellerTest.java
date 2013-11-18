@@ -65,6 +65,14 @@ public class BankTellerTest extends TestCase{
         assertTrue("Scheduler should have returned True", t.pickAndExecuteAnAction());  
         assertTrue("MockBankManager should have logged an event for receiving createAccount but instead it's: " + mgr.log.getLastLoggedEvent().toString(), mgr.log.containsString("Received a message to withdraw -50.0"));
         
+        
+        //Message withdrawal has been processed
+        t.msgTransactionProcessed(-30.0);
+        assertEquals("Requested should equal 0", t.transacted, -30.0);
+        assertTrue("Scheduler should have returned True", t.pickAndExecuteAnAction());
+        assertEquals("Requested should equal 0: equals "+t.requested, t.requested, 0.0);
+        assertEquals("Requested should equal 0", t.transacted, 0.0);
+        assertTrue("Teller should have a MyCustomer", t.customer==null);
 	}
 	
 }
