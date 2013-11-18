@@ -42,6 +42,7 @@ public class MarketCashierTest extends TestCase{
 	
 	public void testCheckMarketCashier() {
 		mc.ib = ib;
+		ib.mc = mc;
 		f1 = new MFoodOrder("Ch", 2);
 		foods.add(f1);
 //		a = new MOrder(foods,"b1", c, orderState.pending);
@@ -59,15 +60,15 @@ public class MarketCashierTest extends TestCase{
         mc.msgOrder(c, foods, "b1");
         assertEquals("MarketCashier should have one order", mc.orders.size(), 1);
         assertTrue("MarketCashier is giving order to ib.", mc.pickAndExecuteAnAction());
+        assertEquals("Order state is pending.", mc.orders.get(0).state, orderState.inquiring);
         
         //give mc an order to fulfill
         assertTrue("InventoryBoy logged: " + ib.log.getLastLoggedEvent().toString(), ib.log.containsString("Received msgCheckInventory from market cashier."));
         assertFalse("MarketCashier has finished messaging ib.", mc.pickAndExecuteAnAction());
         
         //receives order back from ib
-        assertEquals("MarketCashier should have one order", mc.orders.size(), 1);
-        MOrder m = mc.orders.get(0);
-        mc.msgCanGive(m);
+        assertTrue("MarketCashier logged: " + mc.log.getLastLoggedEvent().toString(), mc.log.containsString("Received msgCanGive from inventory boy."));
+        assertEquals("Order state is ready.", mc.orders.get(0).state, orderState.ready);
         assertTrue("MarketCashier is giving order to c.", mc.pickAndExecuteAnAction());
         
 	}

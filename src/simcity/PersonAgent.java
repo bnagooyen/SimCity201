@@ -12,7 +12,7 @@ import simcity.restaurant.gui.WaiterGui;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.Transportation.BusAgent;
 import simcity.gui.PersonGui;
-import simcity.interfaces.Bus;
+//import simcity.interfaces.Bus;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;

@@ -16,7 +16,7 @@ import simcity.restaurant.interfaces.Cashier;
 public class MOrder {
 	public List<MFoodOrder>foodsNeeded = Collections.synchronizedList(new ArrayList<MFoodOrder>());
 	public List<MFoodOrder>canGive = Collections.synchronizedList(new ArrayList<MFoodOrder>());
-	orderState state;
+	public orderState state;
 	MarketCustomer c;
 	Cook cook;
 	String building;
