@@ -49,6 +49,8 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	}
 	
 	public void msgGoHome() {
+		LoggedEvent e = new LoggedEvent("told to go home");
+		log.add(e);
 		s = state.leave;
 		stateChanged();
 	}
@@ -82,6 +84,9 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	}
 	
 	private void getOrder(MOrder o) {
+		LoggedEvent e = new LoggedEvent("fulfilling an order");
+		log.add(e);
+		
 		for(MFoodOrder f : o.foodsNeeded) {
 			int currFood = inventory.get(f.type);
 			if ( currFood > f.amount) {
@@ -98,7 +103,9 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	}
 	
 	private void goHome() {
-		super.isActive = false;
+		LoggedEvent e = new LoggedEvent("going home");
+		log.add(e);
+		isActive = false;
 		s = state.unavailable;
 		DoGoHome();
 	}
