@@ -2,10 +2,12 @@ package simcity.Market;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
 import simcity.PersonAgent;
 import simcity.restaurant.FoodOrder;
 import simcity.interfaces.InventoryBoy;
@@ -15,8 +17,8 @@ import agent.Role;
 
 public class InventoryBoyRole extends Role implements InventoryBoy{
 	public List<MOrder> orders = Collections.synchronizedList(new ArrayList<MOrder>());
-	public Map<String, Integer> inventory;
-	
+	public Map<String, Integer> inventory =Collections.synchronizedMap( new HashMap<String, Integer>());
+
 	MarketCashier mc;
 	MarketManager manager;
 	
@@ -29,12 +31,20 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	public InventoryBoyRole(PersonAgent p) {
 		super(p);
 		log = new EventLog();
+		
+		// populate inventory
+        inventory.put("Steak", 5);
+        inventory.put("Chicken", 5);
+        inventory.put("Salad", 5);
+        inventory.put("Pizza", 5);
 
 	}
 
 	// messages
 	public void msgCheckInventory(MOrder o) {
 		orders.add(o);
+		LoggedEvent e = new LoggedEvent("got an order to fulfill");
+		log.add(e);
 		stateChanged();
 	}
 	
@@ -82,7 +92,6 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 				o.canGive.add(new MFoodOrder(f.type, currFood));
 				inventory.put(f.type, 0);
 			}
-			o.foodsNeeded.remove(f);
 		}
 		mc.msgCanGive(o);
 		orders.remove(o);
@@ -99,5 +108,9 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 		
 	}
 
+	// utilities
+	public void setMarketCashier(MarketCashier c) {
+		mc = c;
+	}
 	
 }
