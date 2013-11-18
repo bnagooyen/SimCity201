@@ -61,7 +61,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	public void msgCustomerDone(MarketCashier mc, Role r){
 		MyMarketCashier current = ((MyMarketCashier) cashiers).find(mc);
 		current.state = workerState.available;
-		MyCustomer cust = find(r);
+		MyCustomer cust = find(r, customers);
 		customers.remove(cust);
 		stateChanged();
 	}
@@ -154,9 +154,14 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	//Utilities
-	private MyCustomer find(Role r) {
-		// TODO Auto-generated method stub
-		return null;
+	private MyCustomer find(Role r, List<MyCustomer> custs) {
+		MyCustomer c = null;
+		for(MyCustomer cust : custs) {
+			if(cust.c == r) {
+				c = cust;
+			}
+		}
+		return c;
 	}
 	
 	public class MyMarketCashier{

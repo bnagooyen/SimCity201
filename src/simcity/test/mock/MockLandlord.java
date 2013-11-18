@@ -7,13 +7,15 @@ import simcity.interfaces.Landlord;
 import simcity.interfaces.RepairMan; 
 
 public class MockLandlord extends Mock implements Landlord{
+	
+	public EventLog log = new EventLog(); 
+	public LoggedEvent event; 
 
 	public MockLandlord(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
 
-	EventLog log;
 
 	@Override
 	public void TimeUpdate(int hour) {
@@ -35,7 +37,7 @@ public class MockLandlord extends Mock implements Landlord{
 
 	@Override
 	public void jobDone(RepairMan w, double cost) {
-		// TODO Auto-generated method stub
-		
+		LoggedEvent m = new LoggedEvent ("Received a bill from the repairman. Bill = " + cost); 
+		log.add(m);		
 	}
 }
