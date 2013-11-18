@@ -13,7 +13,7 @@ import agent.Role;
 
 public class RepairManRole extends Role implements RepairMan {
 	
-	List<MyJobs>jobs
+	public List<MyJobs>jobs
 	= new ArrayList<MyJobs>();
 	
 	class MyJobs {
@@ -33,9 +33,9 @@ public class RepairManRole extends Role implements RepairMan {
 	}
 	
 	final double bill = 30; //constant for the cost of utilities each day
-	Timer timer; 
+	Timer timer = new Timer();
 	
-	protected RepairManRole(PersonAgent p) {
+	public RepairManRole(PersonAgent p) {
 		super(p);
 		// TODO Auto-generated constructor stub
 	}
@@ -55,13 +55,14 @@ public class RepairManRole extends Role implements RepairMan {
 	
 	public boolean pickAndExecuteAnAction() {
 		if (!jobs.isEmpty()) {
-			CleanBuilding(); 
+			CleanBuilding();
+			return true; 
 		}
 		return false;
 	}
 	
 	public void CleanBuilding() {
-		DoGoToBuilding(jobs.get(0).building); 
+		//DoGoToBuilding(jobs.get(0).building); 
 		timer.schedule(new TimerTask() {
 			public void run() {
 				//animation to clean? 
