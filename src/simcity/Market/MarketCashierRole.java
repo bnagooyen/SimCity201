@@ -50,13 +50,13 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	public void msgCanGive(MOrder o){
-		MOrder current = ((MOrder) orders).find(o);
+		MOrder current = find(o, orders);
 		current.state = orderState.ready;
 		stateChanged();
 	}
 	
 	public void msgHereIsPayment(Role r, double payment){
-		MOrder current = ((MOrder) orders).find(r);
+		MOrder current = find(r,orders);
 		current.state = orderState.paid;
 		marketMoney += payment;
 		stateChanged();
@@ -151,6 +151,34 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 
 	//Utilities
+	
+	private MOrder find(Role r, List<MOrder> orders){
+		MOrder order = null;
+		for(MOrder o: orders){
+			if(o.c == r){
+				order = o;
+			}
+			else if(o.cook == r){
+				order = o;
+			}
+		}
+		
+		return order;
+	}
+	
+	private MOrder find(MOrder m, List<MOrder> orders){
+		MOrder order = null;
+		for(MOrder o: orders){
+			if(o.c == m.c){
+				order = o;
+			}
+			else if(o.cook == m.cook){
+				order = o;
+			}
+		}
+		
+		return order;
+	}
 	private double calculateCheck(MOrder o) {
 		// TODO Auto-generated method stub
 		return 0;
