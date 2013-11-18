@@ -3,12 +3,12 @@ package simcity.restaurant;
 import agent.Role;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.restaurant.interfaces.Customer;
-import simcity.restaurant.interfaces.Market;
+//import simcity.restaurant.interfaces.Market;
 import simcity.restaurant.interfaces.Waiter;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 //import simcity.test.mock.MockMarket;
-import simcity.restaurant.CashierRole.InventoryBill.InventoryBillState;
+//import simcity.restaurant.CashierRole.InventoryBill.InventoryBillState;
 import simcity.restaurant.Check.CheckState;
 import simcity.PersonAgent;
 
@@ -37,7 +37,7 @@ public class CashierRole extends Role implements Cashier {
 	private double registerAmnt;
 	
 	List<Check> myBills = Collections.synchronizedList(new ArrayList<Check>());
-	List<InventoryBill> inventoryBills = Collections.synchronizedList(new ArrayList<InventoryBill>());
+	//List<InventoryBill> inventoryBills = Collections.synchronizedList(new ArrayList<InventoryBill>());
 	public List<Check> getBills() {
 		return myBills;
 	}
@@ -74,9 +74,9 @@ public class CashierRole extends Role implements Cashier {
 		return registerAmnt;
 	}
 	
-	public List<InventoryBill> getInventoryBill() {
-		return inventoryBills;
-	}
+//	public List<InventoryBill> getInventoryBill() {
+//		return inventoryBills;
+//	}
 	
 
 	// Messages
@@ -85,12 +85,12 @@ public class CashierRole extends Role implements Cashier {
 		//add it to list for confirmation
 	}
 	
-	public void msgHereIsAnInventoryBill(double amnt, Market market1) {
-		System.out.print("received bill from "+ market1+" for "+ amnt);
-		inventoryBills.add(new InventoryBill(amnt, market1));
-		//log.add(new LoggedEvent("Received msgHereIsAnInventoryBill"));
-		stateChanged();
-	}
+//	public void msgHereIsAnInventoryBill(double amnt, Market market1) {
+//		System.out.print("received bill from "+ market1+" for "+ amnt);
+//		inventoryBills.add(new InventoryBill(amnt, market1));
+//		//log.add(new LoggedEvent("Received msgHereIsAnInventoryBill"));
+//		stateChanged();
+//	}
 	
 	public void msgComputeBill(String choice, Customer cust, String name, int tnum, Waiter wa) {
 		//System.out.println("received request for bill for table "+ (char)tnum);
@@ -141,21 +141,21 @@ public class CashierRole extends Role implements Cashier {
 			return true;
 		}
 		
-		for(InventoryBill bill: inventoryBills) {
-			if(bill.state==InventoryBillState.couldNotAfford && bill.amnt<=registerAmnt) {
-				//System.out.println("called proccess");
-				ProcessInventoryBill(bill);
-				return true;	
-			}
-		}
-		
-		
-		for(InventoryBill bill: inventoryBills) {
-			if(bill.state==InventoryBillState.processing) {
-				ProcessInventoryBill(bill);
-				return true;	
-			}
-		}
+//		for(InventoryBill bill: inventoryBills) {
+//			if(bill.state==InventoryBillState.couldNotAfford && bill.amnt<=registerAmnt) {
+//				//System.out.println("called proccess");
+//				ProcessInventoryBill(bill);
+//				return true;	
+//			}
+//		}
+//		
+//		
+//		for(InventoryBill bill: inventoryBills) {
+//			if(bill.state==InventoryBillState.processing) {
+//				ProcessInventoryBill(bill);
+//				return true;	
+//			}
+//		}
 
 	
 		
@@ -164,31 +164,31 @@ public class CashierRole extends Role implements Cashier {
 
 	// Actions
 	
-	private void ProcessInventoryBill(InventoryBill bi) {
-		System.out.println("processing... "+ bi.amnt+ "  "+ registerAmnt);
-		DecimalFormat df = new DecimalFormat("###.##");
-
-		if(bi.amnt>registerAmnt) {
-			log.add(new LoggedEvent("Could not afford"));
-			bi.state=InventoryBillState.couldNotAfford;
-			bi.amnt=Double.parseDouble(df.format((1+ MKT_interestRate)*bi.amnt));
-//			System.err.println(bi.amnt);
-			Do("Could not afford this inventory bill, bill value updated to "+ bi.amnt);
-			log.add(new LoggedEvent("Bill = "+ bi.amnt));
-			return;
-		}
-
-		registerAmnt-=bi.amnt;
-		bi.state=InventoryBillState.processed;
-		final Market ma=bi.ma;
-		final double amt=bi.amnt;
-		log.add(new LoggedEvent("Could afford. Paid "+ df.format(bi.amnt)));
-		log.add(new LoggedEvent("Register = "+ registerAmnt));
-		inventoryBills.remove(bi);
-		ma.msgHereIsAPayment(amt, this);
-
-		
-	}
+//	private void ProcessInventoryBill(InventoryBill bi) {
+//		System.out.println("processing... "+ bi.amnt+ "  "+ registerAmnt);
+//		DecimalFormat df = new DecimalFormat("###.##");
+//
+//		if(bi.amnt>registerAmnt) {
+//			log.add(new LoggedEvent("Could not afford"));
+//			bi.state=InventoryBillState.couldNotAfford;
+//			bi.amnt=Double.parseDouble(df.format((1+ MKT_interestRate)*bi.amnt));
+////			System.err.println(bi.amnt);
+//			Do("Could not afford this inventory bill, bill value updated to "+ bi.amnt);
+//			log.add(new LoggedEvent("Bill = "+ bi.amnt));
+//			return;
+//		}
+//
+//		registerAmnt-=bi.amnt;
+//		bi.state=InventoryBillState.processed;
+//		final Market ma=bi.ma;
+//		final double amt=bi.amnt;
+//		log.add(new LoggedEvent("Could afford. Paid "+ df.format(bi.amnt)));
+//		log.add(new LoggedEvent("Register = "+ registerAmnt));
+//		inventoryBills.remove(bi);
+//		ma.msgHereIsAPayment(amt, this);
+//
+//		
+//	}
 	private void ProcessBill(Check bi) {
 		bi.setBillAmnt(prices.get(bi.getChoice()));
 
@@ -261,26 +261,26 @@ public class CashierRole extends Role implements Cashier {
 	}
 	
 
-	public static class InventoryBill {
-		Market ma;
-		double amnt;
-		enum InventoryBillState {processing, couldNotAfford, processed, sent};
-		InventoryBillState state;
-		
-		InventoryBill(double a, Market market1) {
-			ma = market1;
-			amnt = a;
-			state=InventoryBillState.processing;
-			
-		}
-		
-		public Market getMarket() {
-			return ma;
-		}
-		public double getAmnt() {
-			return amnt;
-		}
-	}
+//	public static class InventoryBill {
+//		Market ma;
+//		double amnt;
+//		enum InventoryBillState {processing, couldNotAfford, processed, sent};
+//		InventoryBillState state;
+//		
+//		InventoryBill(double a, Market market1) {
+//			ma = market1;
+//			amnt = a;
+//			state=InventoryBillState.processing;
+//			
+//		}
+//		
+//		public Market getMarket() {
+//			return ma;
+//		}
+//		public double getAmnt() {
+//			return amnt;
+//		}
+//	}
 
 }
 

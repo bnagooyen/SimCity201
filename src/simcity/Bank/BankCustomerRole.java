@@ -37,19 +37,30 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public void msgTransactionComplete(double amount){
 		myPerson.money-=amount;
 		state=bankCustomerState.done;
+		stateChanged();
 	}
 	
 	public void msgHeresLoan(double amount){
 		myPerson.money+=amount;
+		stateChanged();
 	}
 	
 	public void msgLoanDenied(){
 		state=bankCustomerState.done;
+		stateChanged();
 	}
 	
 	public void msgAccountMade(int AN){
 		accountNum=AN;
 		state=bankCustomerState.waiting;
+		stateChanged();
+	}
+	
+	@Override
+	public void msgLeaveBank() {
+		// TODO Auto-generated method stub
+		state=bankCustomerState.done;
+		stateChanged();
 	}
 	
 	public BankCustomerRole(PersonAgent p) {
@@ -122,4 +133,5 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		state=bankCustomerState.arrived;
 		//doLeaveBank
 	}
+
 }

@@ -31,4 +31,16 @@ public class MockBankLoanOfficer extends Mock implements BankLoanOfficer{
 		
 	}
 
+	@Override
+	public void msgGoHome() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgGoToLoanOfficerPosition() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
