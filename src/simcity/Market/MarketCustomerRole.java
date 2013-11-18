@@ -52,6 +52,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
 	}
 
 	public void msgMarketClosed() {
+		LoggedEvent e = new LoggedEvent("told market is closed");
+		log.add(e);
 		state = customerState.storeClosed;
 		stateChanged();
 	}
@@ -104,6 +106,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
 	}
 	
 	private void leaveStore() {
+		LoggedEvent e = new LoggedEvent("leaving market");
+		log.add(e);
 		state = customerState.done;
 		isActive = false;
 		DoGoHome();

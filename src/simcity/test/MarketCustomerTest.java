@@ -27,6 +27,7 @@ public class MarketCustomerTest extends TestCase{
 		manager.mc = mc;
 		mc.m = manager;
 		c.setMarketManager(manager);
+		manager.open = true;
 		
 		// preconditions
         assertEquals("MarketCustomer should have an empty event log. Instead, the customer's event log reads: " + c.log.toString(), c.log.size(), 0);
@@ -65,5 +66,23 @@ public class MarketCustomerTest extends TestCase{
 	}
 	
 	public void testMarketClosed() {
+		c.setMarketManager(manager);
+		assertEquals("MarketCustomer should have an empty event log. Instead, the customer's event log reads: " + c.log.toString(), c.log.size(), 0);
+        assertEquals("MockMarketManager should have an empty event log. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 0);
+		
+        // have customer go talk to manager
+        c.pickAndExecuteAnAction();
+     	assertTrue("MarketCustomer should tell manager he's here but didn't", c.log.containsString("telling manager I'm here"));
+     	assertTrue("MockManager should get customer's msg but didn't", manager.log.containsString("got customer's message"));
+     	assertTrue("MarketCustomer should get msg market is closed but didn't", c.log.containsString("told market is closed"));
+     	
+     	// make sure customer leaves
+        c.pickAndExecuteAnAction();
+     	assertTrue("MarketCustomer should leave but didn't", c.log.containsString("leaving market"));
+
+     	// check postconditions
+     	assertTrue("Customer shouldn't be active anymore but is", c.isActive == false);
+		assertTrue("Customer's state should be done",c.state == customerState.done);
+        assertEquals("customer's scheduler should return false but doesn't", c.pickAndExecuteAnAction(), false);
 	}
 }

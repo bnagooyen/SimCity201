@@ -9,6 +9,7 @@ public class MockMarketManager extends Mock implements MarketManager{
 
 	public EventLog log;
 	public MarketCashier mc;
+	public boolean open;
 	
 	public MockMarketManager(String name) {
 		super(name);
@@ -23,7 +24,10 @@ public class MockMarketManager extends Mock implements MarketManager{
 	public void msgIAmHere(Role r, String type) {
 		LoggedEvent e = new LoggedEvent("got customer's message");
 		log.add(e);
-		((MarketCustomer) r).msgGoToCashier(mc);
+		if(open == true)
+			((MarketCustomer) r).msgGoToCashier(mc);
+		else
+			((MarketCustomer) r).msgMarketClosed();
 	}
 
 	public void msgCustomerDone(MarketCashier mc, Role r) {
