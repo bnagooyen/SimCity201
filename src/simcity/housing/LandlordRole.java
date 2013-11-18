@@ -15,7 +15,7 @@ public class LandlordRole extends Role implements Landlord{
 	//data
 	int hour;  
 	double revenue = 0;					//money landlord keeps to pay utilities
-	final double rentBill = 50; 		//cost of rent each day
+	final double rentBill = 25; 		//cost of rent each day
 	Random WorkerToday = new Random();	//the worker landlord decides to call that day
 	BankManager bankmanager; 
 	public enum AgentState 
@@ -41,10 +41,12 @@ public class LandlordRole extends Role implements Landlord{
 	}
 	
 	class Tenant {
-		Tenant (PersonAgent p) {
-			person = p; 
+		Tenant (PersonAgent p, Integer a) {
+			person = p;
+			account = a; 
 		}
-		PersonAgent person; 
+		PersonAgent person;
+		Integer account; 
 		String location; 
 		TenantState ts; 
 	}
@@ -73,9 +75,6 @@ public class LandlordRole extends Role implements Landlord{
 		stateChanged(); 
 	}
 	
-	public void NewTenant(PersonAgent p) {
-		myTenants.add(new Tenant(p));
-	}
 	
 	public void HereIsARentPayment(PersonAgent p, double amount) {
 		for (Tenant t:myTenants) {
@@ -124,13 +123,19 @@ public class LandlordRole extends Role implements Landlord{
 	}
 	
 	//actions
+	
 	private void CollectRent() {
-		for (Tenant t:myTenants) {
-			bankmanager.msgHereIsYourRentBill(t.person); 
-			t.ts = TenantState.waitingForPayment; 
+		for(Tenant t:myTenants) {
+			if (t.account == 0) {
+				t.person.msgHereIsYourRentBill(rentBill); 
+			}
+			else {
+				bankmanager.msgHereIsYourRentBill(this, t.account, rentBill);
+			}
 		}
 		state = AgentState.nothing; 
 	}
+	
 	
 	private void DistributePayments() {
 		for (Tenant t:myTenants) {
@@ -177,5 +182,8 @@ public class LandlordRole extends Role implements Landlord{
 	public void addBankManager(BankManager b) {
 		bankmanager = b;
 	}
-
+	
+	public void NewTenant(PersonAgent p, Integer account) {
+		myTenants.add(new Tenant(p, account));
+	}
 }
