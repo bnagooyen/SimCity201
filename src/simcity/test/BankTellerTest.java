@@ -42,7 +42,9 @@ public class BankTellerTest extends TestCase{
         
     	//Create Account
         t.msgMakeAccount(customer);
-        assertFalse("Teller should have a MyCustomer", t.myPerson==null);
+        assertFalse("Teller should have a Person", t.myPerson==null);
+        assertFalse("Teller should have a MyCustomer", t.customer==null);
+        assertFalse("Teller should have a MyCustomer", t.customer.BC==null);
         assertEquals("CustomerState should start at ", t.customer.state, accountState.none);
         
         
@@ -51,10 +53,18 @@ public class BankTellerTest extends TestCase{
         assertEquals("CustomerState should start at ", t.customer.state, accountState.requested);    
 		assertTrue("MockBankManager should have logged an event for receiving createAccount but instead it's: " + mgr.log.getLastLoggedEvent().toString(), mgr.log.containsString("Received a message to create a new account"));
 	
+		//Account Created
 		t.msgAccountCreated(3);
-        assertEquals("CustomerState should start at ", t.customer.state, accountState.justMade);  
+        assertEquals("CustomerState should be ", t.customer.state, accountState.justMade);  
         assertTrue("Scheduler should have returned True", t.pickAndExecuteAnAction());  
-        //assertEquals("CustomerState should start at ", t.customer.state, accountState.requested);  
+        assertEquals("CustomerState should be  ", t.customer.state, accountState.existing);  
+        
+        //Message Withdrawal
+        t.msgWithdrawal(customer, 3, 50);
+        assertEquals("Requested should equal -50", t.requested, -50.0);
+        assertTrue("Scheduler should have returned True", t.pickAndExecuteAnAction());  
+        assertTrue("MockBankManager should have logged an event for receiving createAccount but instead it's: " + mgr.log.getLastLoggedEvent().toString(), mgr.log.containsString("Received a message to withdraw -50.0"));
+        
 	}
 	
 }

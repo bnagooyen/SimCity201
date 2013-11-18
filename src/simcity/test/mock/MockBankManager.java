@@ -34,7 +34,8 @@ public class MockBankManager extends Mock implements BankManager{
 	}
 	
 	public void msgProcessTransaction(int AN, double amount){
-		
+		LoggedEvent m = new LoggedEvent ("Received a message to withdraw "+amount); 
+		log.add(m);	
 	}
 	
 	public void msgNewLoan(int AN, double amount){

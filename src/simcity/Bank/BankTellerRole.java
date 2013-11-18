@@ -26,7 +26,7 @@ public class BankTellerRole extends Role implements BankTeller {
 	public EventLog log;
 	
 	public class MyCustomer{
-		BankCustomer BC;
+		public BankCustomer BC;
 		public Integer accountNumber;
 		public accountState state=accountState.existing;
 		
@@ -52,6 +52,7 @@ public class BankTellerRole extends Role implements BankTeller {
 	}
 	public void msgAccountCreated(int num){
 		customer.state=accountState.justMade;
+		customer.accountNumber=num;
 		stateChanged();
 	}
 	public void msgDeposit(BankCustomer BC, int actNum, double amount){

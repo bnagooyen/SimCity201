@@ -8,6 +8,7 @@ public class MockBankCustomer extends Mock implements BankCustomer{
 	public MockBankCustomer(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
+		log = new EventLog();
 	}
 	public void msgGoToLoanOfficer(BankLoanOfficer BL){
 		
@@ -30,7 +31,8 @@ public class MockBankCustomer extends Mock implements BankCustomer{
 	}
 	
 	public void msgAccountMade(int AN){
-		
+		LoggedEvent m = new LoggedEvent ("New Account made: " + AN); 
+		log.add(m);
 	}
 
 }
