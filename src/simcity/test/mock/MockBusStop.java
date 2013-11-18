@@ -30,7 +30,7 @@ public class MockBusStop extends Mock implements BusStop {
 		
 	}
 	
-	public void msgAnyPassengers(BusAgent b){
+	public void msgAnyPassengers(Bus b){
 		
 	}
 	

@@ -10,7 +10,9 @@ import simcity.restaurant.gui.CustomerGui;
 import simcity.restaurant.gui.HostGui;
 import simcity.restaurant.gui.WaiterGui;
 import simcity.restaurant.interfaces.Cashier;
+import simcity.Transportation.BusAgent;
 import simcity.gui.PersonGui;
+import simcity.interfaces.Bus;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -27,6 +29,7 @@ public class PersonAgent extends Agent {
 	Timer timer = new Timer();
 	private String name;
 	Role host = null;
+	BusAgent bus;
 	
 	List<Role> roles = new ArrayList<Role>();
 	public enum PersonState { doingNothing, gotHungry, atRestaurant, dead };
@@ -79,6 +82,10 @@ public class PersonAgent extends Agent {
 		return PersonGui;
 	}
 	
+	public void setBus(BusAgent b){
+		bus=b;
+	}
+	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
@@ -114,6 +121,10 @@ public class PersonAgent extends Agent {
 		roles.get(0).isActive = true;
 		print("I'm going to the restaurant");
 	}
+	
+	private void GetOnBus(){
+		bus.msgGettingOn(this, "destination");
+	}
 		
 		
 	// utilities
@@ -128,6 +139,8 @@ public class PersonAgent extends Agent {
 	public void addRole(Role r) {
 		roles.add(r);
 	}
+	
+	
 }
 
 

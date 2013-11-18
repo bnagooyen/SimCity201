@@ -10,7 +10,7 @@ import simcity.Transportation.BusAgent;
 public interface BusStop {
 
 	public abstract void msgWaitingForBus(PersonAgent p);
-	public abstract void msgAnyPassengers(BusAgent b);
+	public abstract void msgAnyPassengers(Bus b);
 	
 
 }

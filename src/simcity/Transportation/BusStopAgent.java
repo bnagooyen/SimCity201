@@ -7,12 +7,13 @@ import java.util.*;
 
 import agent.Agent;
 import simcity.Transportation.BusAgent;
+import simcity.interfaces.Bus;
 import simcity.interfaces.BusStop;
 
 
 public class BusStopAgent extends Agent implements BusStop{
 	
-	List<BusAgent> buses;
+	List<Bus> buses;
 	List<PersonAgent> waitingPassengers;
 	
 	
@@ -23,7 +24,7 @@ public class BusStopAgent extends Agent implements BusStop{
 		stateChanged();
 	}
 	
-	public void msgAnyPassengers(BusAgent b){
+	public void msgAnyPassengers(Bus b){
 		buses.add(b);
 		stateChanged();
 	}
@@ -44,10 +45,10 @@ public class BusStopAgent extends Agent implements BusStop{
 	
 	//ACTIONS
 	
-	private void givePassengerList(BusAgent b){
-		b.msgHereArePassengers(waitingPassengers);
+	private void givePassengerList(Bus bus){
+		bus.msgHereArePassengers(waitingPassengers);
 		waitingPassengers.clear();
-		buses.remove(b);
+		buses.remove(bus);
 	}
 	
 	
