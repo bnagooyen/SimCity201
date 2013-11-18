@@ -2,15 +2,15 @@ package simcity.Transportation;
 import agent.Agent;
 import simcity.PersonAgent;
 import simcity.Transportation.*;
-
+import simcity.interfaces.Car;
 
 import java.util.*;
 
 
-public class CarAgent extends Agent  {
+public class CarAgent extends Agent implements Car {
 	
 	PersonAgent driver;
-	int destination;
+	String destination;
 	
 	public enum carState
 	{parked, receivedLocation, travelling, arrived};
@@ -19,7 +19,7 @@ public class CarAgent extends Agent  {
 	
 	//MESSAGES
 	
-	public void msgGoToDestination(int location, PersonAgent person){
+	public void msgGoToDestination(String location, PersonAgent person){
 		driver=person;
 		destination=location;
 		state=carState.receivedLocation;

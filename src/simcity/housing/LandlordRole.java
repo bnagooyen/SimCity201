@@ -3,17 +3,10 @@ package simcity.housing;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
-
-
-
-
-
-
-
-//import restaurant.WaiterRoleTT.customers;
 import simcity.PersonAgent;
-import simcity.Market.MOrder;
+import simcity.interfaces.BankManager;
 import simcity.interfaces.Landlord;
 import simcity.interfaces.RepairMan;
 import agent.Role;
@@ -21,8 +14,10 @@ import agent.Role;
 public class LandlordRole extends Role implements Landlord{
 	//data
 	int hour;  
-	double revenue = 0;				//money landlord keeps to pay utilities
-	final double rentBill = 50; 	//cost of rent each day
+	double revenue = 0;					//money landlord keeps to pay utilities
+	final double rentBill = 50; 		//cost of rent each day
+	Random WorkerToday = new Random();	//the worker landlord decides to call that day
+	BankManager bankmanager; 
 	public enum AgentState 
 	{nothing, askingForRent, collectedRent, callMaintanence};
 	private AgentState state = AgentState.nothing;
@@ -61,7 +56,7 @@ public class LandlordRole extends Role implements Landlord{
 	{nothing, waitingForPayment, paid, ShortOnMoney}; 
 	
 
-	protected LandlordRole(PersonAgent p) {
+	public LandlordRole(PersonAgent p) {
 		super(p);
 		// TODO Auto-generated constructor stub
 	}
@@ -131,7 +126,7 @@ public class LandlordRole extends Role implements Landlord{
 	//actions
 	private void CollectRent() {
 		for (Tenant t:myTenants) {
-			t.person.HereIsYourRentBill(rentBill); 
+			bankmanager.msgHereIsYourRentBill(t.person); 
 			t.ts = TenantState.waitingForPayment; 
 		}
 		state = AgentState.nothing; 
@@ -141,20 +136,29 @@ public class LandlordRole extends Role implements Landlord{
 		for (Tenant t:myTenants) {
 			/**
 			if (t.ts == TenantState.ShortOnMoney) {
-				//evict tenant
-				//remove tenant
+				t.person.msgEvicted(); 
+				myTenants.remove(t); 
 			}
+			else {
 			*/
 			t.ts = TenantState.nothing; 
 		}
 		revenue = revenue *.70;
-		//add money to the personAgent
+		//add money to the personAgent?
 		state = AgentState.nothing; 
 	}
 	
 	private void CallMaintenance() {
+		int workerNumber; 
+		if (myWorkers.size() <= 1) {
+			workerNumber = 0; 
+		}
+		else {
+			workerNumber = WorkerToday.nextInt(myWorkers.size()); 
+		}
+		
 		for (Tenant t:myTenants) {
-			myWorkers.get(0).myWorker.NeedRepair(t.location, this);
+			myWorkers.get(workerNumber).myWorker.NeedRepair(t.location, this);
 		}
 		state = AgentState.nothing; 
 	}
@@ -168,6 +172,10 @@ public class LandlordRole extends Role implements Landlord{
 	//utilities
 	public void addRepairMan(RepairMan r) {
 		repairmen.add((RepairMan) r);
+	}
+	
+	public void addBankManager(BankManager b) {
+		bankmanager = b;
 	}
 
 }

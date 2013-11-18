@@ -2,12 +2,15 @@ package simcity.Transportation;
 
 
 import simcity.PersonAgent;
+
 import java.util.*;
+
 import agent.Agent;
 import simcity.Transportation.BusAgent;
+import simcity.interfaces.BusStop;
 
 
-public class BusStopAgent extends Agent{
+public class BusStopAgent extends Agent implements BusStop{
 	
 	List<BusAgent> buses;
 	List<PersonAgent> waitingPassengers;
@@ -31,7 +34,8 @@ public class BusStopAgent extends Agent{
 	protected boolean pickAndExecuteAnAction(){
 	
 		if(buses.size()>0){
-			//givePassengerList(buses.get(0))
+			givePassengerList(buses.get(0));
+			return true;
 		}
 		
 		return false;
@@ -41,7 +45,7 @@ public class BusStopAgent extends Agent{
 	//ACTIONS
 	
 	private void givePassengerList(BusAgent b){
-		b.msgHereArePassegers(waitingPassengers);
+		b.msgHereArePassengers(waitingPassengers);
 		waitingPassengers.clear();
 		buses.remove(b);
 	}

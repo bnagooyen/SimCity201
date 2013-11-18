@@ -1,5 +1,6 @@
 package simcity.test.mock;
 
+import simcity.test.mock.LoggedEvent;
 import simcity.Market.MOrder;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
@@ -11,11 +12,13 @@ public class MockInventoryBoy extends Mock implements InventoryBoy{
 	
 	public MockInventoryBoy(String name) {
 		super(name);
+		log = new EventLog();
 		// TODO Auto-generated constructor stub
 	}
 	
 	public void msgCheckInventory(MOrder o){
-		
+		LoggedEvent e = new LoggedEvent("Received msgCheckInventory from market cashier.");
+		log.add(e);
 	}
 	
 	public void msgGoHome(){

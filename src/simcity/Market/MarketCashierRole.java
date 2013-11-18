@@ -6,6 +6,7 @@ import java.util.List;
 
 import simcity.PersonAgent;
 import simcity.restaurant.CashierRole;
+import simcity.test.mock.EventLog;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.InventoryBoy;
@@ -17,13 +18,14 @@ import agent.Role;
 
 public class MarketCashierRole extends Role implements MarketCashier{
 
-	List<MOrder> orders =Collections.synchronizedList(new ArrayList<MOrder>());
+	public List<MOrder> orders =Collections.synchronizedList(new ArrayList<MOrder>());
 	
 	boolean active;
-	double marketMoney;
+	public double marketMoney;
+	public EventLog log;
 	
-	InventoryBoy ib;
-	MarketManager manager; 
+	public InventoryBoy ib;
+	public MarketManager manager; 
 	
 	public enum orderState{pending, inquiring, ready, given, paid, done};
 	enum myState{arrived, working, goHome, unavailable};
@@ -32,7 +34,8 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	public MarketCashierRole(PersonAgent p) {
 		super(p);
-		// TODO Auto-generated constructor stub
+		marketMoney = 0.0;
+		log = new EventLog();
 	}
 	
 	//Messages
