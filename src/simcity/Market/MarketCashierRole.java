@@ -30,7 +30,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	myState state;
 	
-	protected MarketCashierRole(PersonAgent p) {
+	public MarketCashierRole(PersonAgent p) {
 		super(p);
 		// TODO Auto-generated constructor stub
 	}

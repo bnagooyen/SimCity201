@@ -18,6 +18,7 @@ public class MockMarketCashier extends Mock implements MarketCashier {
 	
 	public MockMarketCashier(String name) {
 		super(name);
+		log = new EventLog();
 		
 	}
 

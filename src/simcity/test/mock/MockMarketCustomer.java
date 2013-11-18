@@ -11,7 +11,7 @@ public class MockMarketCustomer extends Mock implements MarketCustomer{
 	EventLog log;
 	public MockMarketCustomer(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
+		log = new EventLog();
 	}
 
 	@Override

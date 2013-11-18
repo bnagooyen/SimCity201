@@ -7,24 +7,27 @@ import simcity.PersonAgent;
 import simcity.Market.InventoryBoyRole;
 import simcity.Market.MFoodOrder;
 import simcity.Market.MOrder;
+import simcity.Market.MarketCashierRole;
 import simcity.interfaces.MarketCashier;
+import simcity.test.mock.MockInventoryBoy;
 import simcity.test.mock.MockMarketCashier;
 import simcity.test.mock.MockMarketCustomer;
 import simcity.Market.MarketCashierRole.orderState;
 import junit.framework.TestCase;
 
-public class InventoryBoyTest extends TestCase{
+public class MarketCashierTest extends TestCase{
 
 	PersonAgent p;
-	InventoryBoyRole ib;
-	MockMarketCashier mc;
+	MarketCashierRole mc;
+	MockInventoryBoy ib;
 	MockMarketCustomer c;
 	
 	public void setUp() throws Exception{
 		super.setUp();
-		p = new PersonAgent("InventoryBoy");
-		ib = new InventoryBoyRole(p);
-		mc = new MockMarketCashier("mockMarketCashier");
+		p = new PersonAgent("MarketCashier");
+		mc = new MarketCashierRole(p);
+		p.addRole(mc);
+		ib = new MockInventoryBoy("mockInventoryBoy");
 		c = new MockMarketCustomer("mockCustomer");
 	}
 	
@@ -34,12 +37,11 @@ public class InventoryBoyTest extends TestCase{
 		// preconditions
         assertEquals("inventoryboy should have zero orders but doesn't", ib.orders.size(), 0);
         assertEquals("inventoryboy should have an empty event log before his msgBill is called. Instead, the ib's event log read: " + ib.log.toString(), 0, ib.log.size());
-        assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
+        assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: "
+                + mc.log.toString(), 0, mc.log.size());
         
         // populate ib's inventory
-        ib.inventory.put("Steak", 5);
-        assertEquals("inventory should have one thing", ib.inventory.size(), 1);
-
+        
         
         // give ib an oder to fulfill
         List<MFoodOrder> foods = new ArrayList<MFoodOrder>();
