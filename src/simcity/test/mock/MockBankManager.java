@@ -9,7 +9,7 @@ public class MockBankManager extends Mock implements BankManager{
 	public MockBankManager(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
-		log= new EventLog();
+		log = new EventLog();
 	}
 	
 	public void msgTimeUpdate(int hr){

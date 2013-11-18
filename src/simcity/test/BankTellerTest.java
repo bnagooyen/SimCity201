@@ -1,8 +1,5 @@
 package simcity.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import simcity.PersonAgent;
 import simcity.interfaces.*;
 import simcity.Bank.BankTellerRole;
