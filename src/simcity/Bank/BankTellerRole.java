@@ -6,26 +6,29 @@ import simcity.PersonAgent;
 //import simcity.Bank.BankManagerRole.MyCustomer;
 //import simcity.Bank.BankManagerRole.MyEmployee;
 import simcity.interfaces.*;
+import simcity.test.mock.EventLog;
 import agent.Role;
 
 public class BankTellerRole extends Role implements BankTeller {
 	
 	//data
-	BankManager manager;
+	public BankManager manager;
 	BankRobber robber;
-	MyCustomer customer;
-	Double requested=0.00;
-	Double transacted=0.00;
+	public MyCustomer customer=null;
+	public Double requested=0.00;
+	public Double transacted=0.00;
 	
-	enum bankTellerState { working, success, error, finshed };
-	bankTellerState state=bankTellerState.working;
+	public enum bankTellerState { working, success, error, finshed };
+	public bankTellerState state=bankTellerState.working;
 	
-	enum accountState {none,requested,justMade,existing};
+	public enum accountState {none,requested,justMade,existing};
 	
-	class MyCustomer{
+	public EventLog log;
+	
+	public class MyCustomer{
 		BankCustomer BC;
-		Integer accountNumber;
-		accountState state=accountState.existing;
+		public Integer accountNumber;
+		public accountState state=accountState.existing;
 		
 		MyCustomer(BankCustomer BankCust){
 			BC=BankCust;
@@ -33,9 +36,10 @@ public class BankTellerRole extends Role implements BankTeller {
 		}
 	}
 		
-	protected BankTellerRole(PersonAgent p) {
+	public BankTellerRole(PersonAgent p) {
 		super(p);
 		// TODO Auto-generated constructor stub
+		log=new EventLog();
 	}
 
 
