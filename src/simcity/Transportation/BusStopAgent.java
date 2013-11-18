@@ -9,12 +9,13 @@ import agent.Agent;
 import simcity.Transportation.BusAgent;
 import simcity.interfaces.Bus;
 import simcity.interfaces.BusStop;
+import simcity.interfaces.Person;
 
 
 public class BusStopAgent extends Agent implements BusStop{
 	
-	List<Bus> buses;
-	List<PersonAgent> waitingPassengers;
+	public List<Bus> buses;
+	public List<PersonAgent> waitingPassengers;
 	
 	
 	//Messages
