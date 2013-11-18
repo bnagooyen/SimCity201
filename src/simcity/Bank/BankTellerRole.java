@@ -13,12 +13,12 @@ public class BankTellerRole extends Role implements BankTeller {
 	
 	//data
 	public BankManager manager;
-	BankRobber robber;
+	public BankRobber robber;
 	public MyCustomer customer=null;
 	public Double requested=0.00;
 	public Double transacted=0.00;
 	
-	public enum bankTellerState { working, success, error, finshed };
+	public enum bankTellerState { working, success, error, finished };
 	public bankTellerState state=bankTellerState.working;
 	
 	public enum accountState {none,requested,justMade,existing};
@@ -79,7 +79,7 @@ public class BankTellerRole extends Role implements BankTeller {
 		//Tell person he was shot, Message? Directly add to state?
 	}
 	public void msgGoHome(){
-		state=bankTellerState.finshed;
+		state=bankTellerState.finished;
 		stateChanged();
 	}
 	public void msgGoToTellerPosition(){
@@ -144,6 +144,7 @@ public class BankTellerRole extends Role implements BankTeller {
 		}
 		else if(choice==2){
 			robber.msgIShotYou();
+			manager.msgAvailable(this);
 		}
 	}
 
