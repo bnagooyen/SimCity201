@@ -2,12 +2,12 @@ package simcity.Transportation;
 import agent.Agent;
 import simcity.PersonAgent;
 import simcity.Transportation.*;
-
+import simcity.interfaces.Bus;
 
 import java.util.*;
 
 
-public class BusAgent extends Agent  {
+public class BusAgent extends Agent implements Bus {
 	String currentStop;
 	Map<String, BusStopAgent> busStops=new HashMap<String, BusStopAgent>();  
 	
@@ -39,7 +39,7 @@ public class BusAgent extends Agent  {
 		
 	}
 	
-	public void msgHereArePassegers(List<PersonAgent> people){
+	public void msgHereArePassengers(List<PersonAgent> people){
 		for (int i=0; i<people.size(); i++ ){
 			MyPassenger thispassenger=new MyPassenger();
 			thispassenger.p=people.get(i);
