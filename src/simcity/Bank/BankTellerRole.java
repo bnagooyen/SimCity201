@@ -6,26 +6,29 @@ import simcity.PersonAgent;
 //import simcity.Bank.BankManagerRole.MyCustomer;
 //import simcity.Bank.BankManagerRole.MyEmployee;
 import simcity.interfaces.*;
+import simcity.test.mock.EventLog;
 import agent.Role;
 
 public class BankTellerRole extends Role implements BankTeller {
 	
 	//data
-	BankManager manager;
-	BankRobber robber;
-	MyCustomer customer;
-	Double requested=0.00;
-	Double transacted=0.00;
+	public BankManager manager;
+	public BankRobber robber;
+	public MyCustomer customer=null;
+	public Double requested=0.00;
+	public Double transacted=0.00;
 	
-	enum bankTellerState { working, success, error, finshed };
-	bankTellerState state=bankTellerState.working;
+	public enum bankTellerState { working, success, error, finished };
+	public bankTellerState state=bankTellerState.working;
 	
-	enum accountState {none,requested,justMade,existing};
+	public enum accountState {none,requested,justMade,existing};
 	
-	class MyCustomer{
-		BankCustomer BC;
-		Integer accountNumber;
-		accountState state=accountState.existing;
+	public EventLog log;
+	
+	public class MyCustomer{
+		public BankCustomer BC;
+		public Integer accountNumber;
+		public accountState state=accountState.existing;
 		
 		MyCustomer(BankCustomer BankCust){
 			BC=BankCust;
@@ -33,9 +36,10 @@ public class BankTellerRole extends Role implements BankTeller {
 		}
 	}
 		
-	protected BankTellerRole(PersonAgent p) {
+	public BankTellerRole(PersonAgent p) {
 		super(p);
 		// TODO Auto-generated constructor stub
+		log=new EventLog();
 	}
 
 
@@ -48,6 +52,7 @@ public class BankTellerRole extends Role implements BankTeller {
 	}
 	public void msgAccountCreated(int num){
 		customer.state=accountState.justMade;
+		customer.accountNumber=num;
 		stateChanged();
 	}
 	public void msgDeposit(BankCustomer BC, int actNum, double amount){
@@ -74,7 +79,7 @@ public class BankTellerRole extends Role implements BankTeller {
 		//Tell person he was shot, Message? Directly add to state?
 	}
 	public void msgGoHome(){
-		state=bankTellerState.finshed;
+		state=bankTellerState.finished;
 		stateChanged();
 	}
 	public void msgGoToTellerPosition(){
@@ -93,7 +98,7 @@ public class BankTellerRole extends Role implements BankTeller {
 		hereIsYourAccount();
 		return true;
 	}
-	if(requested!=0.00){
+	if(requested!=0.00 && transacted==0.00){
 		executeTransaction();
 		return true;
 	}
@@ -139,6 +144,7 @@ public class BankTellerRole extends Role implements BankTeller {
 		}
 		else if(choice==2){
 			robber.msgIShotYou();
+			manager.msgAvailable(this);
 		}
 	}
 
