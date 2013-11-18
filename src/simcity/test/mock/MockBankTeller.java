@@ -21,11 +21,13 @@ public class MockBankTeller extends Mock implements BankTeller{
 	}
 	
 	public void msgDeposit(BankCustomer BC, int actNum, double amount){
-		
+		LoggedEvent m = new LoggedEvent ("Deposit"+ amount +"--"+actNum); 
+		log.add(m);
 	}
 	
 	public void msgWithdrawal(BankCustomer BC, int actNum, double amount){
-		
+		LoggedEvent m = new LoggedEvent ("Withdrawal"+ amount +"--"+actNum); 
+		log.add(m);
 	}
 	
 	public void msgTransactionProcessed(double finalAmount){
