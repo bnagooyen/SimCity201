@@ -13,11 +13,12 @@ import simcity.test.mock.MockMarketCashier;
 import simcity.test.mock.MockMarketCustomer;
 import simcity.test.mock.MockRepairMan;
 import simcity.Market.MarketCashierRole.orderState;
+import simcity.Transportation.BusAgent;
 import junit.framework.TestCase;
 
 public class BusTest extends TestCase{
 	PersonAgent person; 
-	
+	BusAgent bus;
 	
 	
 	public void setUp() throws Exception{

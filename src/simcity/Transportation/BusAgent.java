@@ -98,7 +98,7 @@ public class BusAgent extends Agent implements Bus {
 		
 		for (MyPassenger currentPassenger: passengers){
 			if(currentPassenger.destination==currentStop){
-				//currentPassenger.p.msgAtDestination();
+				currentPassenger.p.msgAtDestination();
 				passengers.remove(currentPassenger);
 				BusStopAgent current = busStops.get(currentStop);
 				current.msgAnyPassengers(this);
@@ -110,7 +110,7 @@ public class BusAgent extends Agent implements Bus {
 		state = busState.waiting;
 		for(MyPassenger currentPassenger: passengers){
 			if (currentPassenger.onBus==false){
-				//currentPassenger.p.BusIsHere(this);
+				currentPassenger.p.msgBusIsHere(this);
 			}
 		}
 		

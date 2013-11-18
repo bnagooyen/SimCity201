@@ -71,6 +71,14 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 	
+	public void msgAtDestination(){
+		
+	}
+	
+	public void msgBusIsHere(Bus b){
+		
+	}
+	
 	
 	//utilities
 
