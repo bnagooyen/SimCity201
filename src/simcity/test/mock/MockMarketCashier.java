@@ -35,8 +35,8 @@ public class MockMarketCashier extends Mock implements MarketCashier {
 	}
 
 	public void msgCanGive(MOrder o) {
-		// TODO Auto-generated method stub
-		
+		LoggedEvent e = new LoggedEvent("got order back of what we can give customer");
+		log.add(e);
 	}
 
 	public void msgHereIsPayment(Role r, double payment) {
