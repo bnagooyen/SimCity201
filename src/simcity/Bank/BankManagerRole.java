@@ -9,9 +9,11 @@ import java.util.Map;
 import simcity.PersonAgent;
 import simcity.Bank.BankManagerRole.MyLoanOfficer.MyOfficerState;
 import simcity.Bank.BankManagerRole.MyTeller.MyTellerState;
+import simcity.housing.LandlordRole;
 import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.BankTeller;
+import simcity.interfaces.Landlord;
 import agent.Role;
 
 public class BankManagerRole extends Role implements BankManager {
@@ -93,6 +95,11 @@ public class BankManagerRole extends Role implements BankManager {
 	public void msgGaveALoan(double cash) {
 		vault -= cash;
 		stateChanged();
+	}
+	
+	public void msgHereIsYourRentBill(LandlordRole l, Integer account, double rentBill) {
+		
+		stateChanged(); 
 	}
 
 	@Override
@@ -252,6 +259,11 @@ public class BankManagerRole extends Role implements BankManager {
 			state=st;
 			customer = b;
 		}
+		
+	}
+	
+	class Business {
+		LandlordRole client; 
 		
 	}
 	

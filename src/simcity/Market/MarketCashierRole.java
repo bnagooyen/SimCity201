@@ -7,6 +7,7 @@ import java.util.List;
 import simcity.PersonAgent;
 import simcity.restaurant.CashierRole;
 import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.InventoryBoy;
@@ -52,6 +53,11 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public void msgCanGive(MOrder o){
 		MOrder current = find(o, orders);
 		current.state = orderState.ready;
+		LoggedEvent e = new LoggedEvent("Received msgCanGive from inventory boy.");
+		log.add(e);
+//		if(orders.get(0).state.equals(orderState.ready)){
+//			Do("HERE");
+//		}
 		stateChanged();
 	}
 	
@@ -69,25 +75,31 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
-		
-		for(MOrder o: orders){
-			if(o.state == orderState.ready){
-				giveOrder(o);
-				return true;
+		synchronized(orders){
+			for(MOrder o: orders){
+				Do("State: "+o.state);
+				if(o.state == orderState.ready){
+					giveOrder(o);
+					return true;
+				}
 			}
 		}
 		
-		for(MOrder o: orders){
-			if(o.state == orderState.pending){
-				tryToFulFillOrder(o);
-				return true;
+		synchronized(orders){
+			for(MOrder o: orders){
+				if(o.state == orderState.pending){
+					tryToFulFillOrder(o);
+					return true;
+				}
 			}
 		}
 		
-		for(MOrder o: orders){
-			if(o.state == orderState.paid){
-				updateManager(o);
-				return true;
+		synchronized(orders){
+			for(MOrder o: orders){
+				if(o.state == orderState.paid){
+					updateManager(o);
+					return true;
+				}
 			}
 		}
 		

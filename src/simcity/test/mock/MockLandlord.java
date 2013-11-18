@@ -24,12 +24,6 @@ public class MockLandlord extends Mock implements Landlord{
 	}
 
 	@Override
-	public void NewTenant(PersonAgent p) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void HereIsARentPayment(PersonAgent p, double amount) {
 		// TODO Auto-generated method stub
 		

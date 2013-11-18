@@ -13,8 +13,6 @@ public interface Landlord {
 	
 	public abstract void TimeUpdate(int hour);
 	
-	public abstract void NewTenant(PersonAgent p);
-	
 	public abstract void HereIsARentPayment(PersonAgent p, double amount);
 	
 	public abstract void jobDone(RepairMan w, double cost);

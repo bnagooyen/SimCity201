@@ -16,13 +16,13 @@ import agent.Role;
 
 public class BankCustomerRole extends Role implements BankCustomer {
 	//data
-	BankManager manager; 
-	BankTeller teller; 
-	BankLoanOfficer loanOfficer; 
-	enum bankCustomerState { arrived, waiting, inProgress, done};
-	bankCustomerState state=bankCustomerState.arrived;
-	String purpose;
-	Integer accountNum=null;
+	public BankManager manager; 
+	public BankTeller teller; 
+	public BankLoanOfficer loanOfficer; 
+	public enum bankCustomerState { arrived, waiting, inProgress, done};
+	public bankCustomerState state=bankCustomerState.arrived;
+	public String purpose;
+	public Integer accountNum=null;
 	
 	
 	//messages
@@ -52,7 +52,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		state=bankCustomerState.waiting;
 	}
 	
-	protected BankCustomerRole(PersonAgent p) {
+	public BankCustomerRole(PersonAgent p) {
 		super(p);
 		// TODO Auto-generated constructor stub
 		
