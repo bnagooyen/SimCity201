@@ -7,7 +7,9 @@ import simcity.PersonAgent;
 import simcity.Market.InventoryBoyRole;
 import simcity.Market.MFoodOrder;
 import simcity.Market.MOrder;
+import simcity.Market.MarketCashierRole;
 import simcity.interfaces.MarketCashier;
+import simcity.test.mock.MockInventoryBoy;
 import simcity.test.mock.MockMarketCashier;
 import simcity.test.mock.MockMarketCustomer;
 import simcity.Market.MarketCashierRole.orderState;
@@ -16,16 +18,16 @@ import junit.framework.TestCase;
 public class MarketCashierTest extends TestCase{
 
 	PersonAgent p;
-	InventoryBoyRole ib;
-	MockMarketCashier mc;
+	MarketCashierRole mc;
+	MockInventoryBoy ib;
 	MockMarketCustomer c;
 	
 	public void setUp() throws Exception{
 		super.setUp();
-		p = new PersonAgent("InventoryBoy");
-		ib = new InventoryBoyRole(p);
-		p.addRole(ib);
-		mc = new MockMarketCashier("mockMarketCashier");
+		p = new PersonAgent("MarketCashier");
+		mc = new MarketCashierRole(p);
+		p.addRole(mc);
+		ib = new MockInventoryBoy("mockInventoryBoy");
 		c = new MockMarketCustomer("mockCustomer");
 	}
 	
