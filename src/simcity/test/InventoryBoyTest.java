@@ -128,6 +128,5 @@ public class InventoryBoyTest extends TestCase{
         assertTrue("ib shouldn't be active but it is", ib.isActive == false);
         assertEquals("ib's scheduler should return false but doesn't", ib.pickAndExecuteAnAction(), false);
 
-
 	}
 }
