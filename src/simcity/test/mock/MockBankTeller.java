@@ -31,7 +31,7 @@ public class MockBankTeller extends Mock implements BankTeller{
 	}
 	
 	public void msgTransactionProcessed(double finalAmount){
-		
+		log.add(new LoggedEvent("Transaction processed "+finalAmount));
 	}
 	
 	public void msgIAmRobbingYou(BankRobber BR){

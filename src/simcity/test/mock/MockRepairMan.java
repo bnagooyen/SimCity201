@@ -29,9 +29,9 @@ public class MockRepairMan extends Mock implements RepairMan{
 	}
 
 	@Override
-	public void HereIsPayment(double m) {
-		// TODO Auto-generated method stub
-		
+	public void HereIsPayment(double money) {
+		LoggedEvent m = new LoggedEvent ("Received a payment for job for " + money); 
+		log.add(m);			
 	}
 
 }
