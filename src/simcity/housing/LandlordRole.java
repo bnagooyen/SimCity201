@@ -22,13 +22,13 @@ public class LandlordRole extends Role implements Landlord{
 	{nothing, askingForRent, collectedRent, callMaintanence};
 	private AgentState state = AgentState.nothing;
 	
-	private List<RepairMan>repairmen		//list of repairmen that the landlord can contact
+	public List<RepairMan>repairmen		//list of repairmen that the landlord can contact
 	= Collections.synchronizedList(new ArrayList<RepairMan>()); 
 	
 	
-	List<Tenant>myTenants
+	public List<Tenant>myTenants
 	= new ArrayList<Tenant>(); 
-	List<Worker>myWorkers
+	public List<Worker>myWorkers
 	= new ArrayList<Worker>(); 
 	
 	class Worker {
@@ -183,7 +183,7 @@ public class LandlordRole extends Role implements Landlord{
 		bankmanager = b;
 	}
 	
-	public void NewTenant(PersonAgent p, Integer account) {
+	public void addTenant(PersonAgent p, Integer account) {
 		myTenants.add(new Tenant(p, account));
 	}
 }

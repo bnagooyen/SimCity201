@@ -1,6 +1,7 @@
 package simcity.test.mock;
 
 import agent.Role;
+import simcity.housing.LandlordRole;
 import simcity.interfaces.*;
 
 public class MockBankManager extends Mock implements BankManager{
@@ -43,6 +44,11 @@ public class MockBankManager extends Mock implements BankManager{
 	}
 	
 	public void msgGaveALoan(double cash){
+		
+	}
+
+	public void msgHereIsYourRentBill(LandlordRole l, Integer account, double rentBill) {
+		// TODO Auto-generated method stub
 		
 	}
 
