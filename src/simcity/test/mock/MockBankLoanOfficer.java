@@ -24,11 +24,11 @@ public class MockBankLoanOfficer extends Mock implements BankLoanOfficer{
 	}
 	
 	public void msgLoanDenied(){
-		
+		log.add(new LoggedEvent("Processed loan"));
 	}
 	
 	public void msgLoanComplete(){
-		
+		log.add(new LoggedEvent("Processed loan"));
 	}
 
 	@Override

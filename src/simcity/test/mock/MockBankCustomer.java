@@ -4,18 +4,18 @@ import simcity.interfaces.*;
 
 public class MockBankCustomer extends Mock implements BankCustomer{
 
-	EventLog log;
+	public EventLog log;
 	public MockBankCustomer(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
 		log = new EventLog();
 	}
 	public void msgGoToLoanOfficer(BankLoanOfficer BL){
-		
+		log.add(new LoggedEvent("Going to officer"));
 	}
 	
 	public void msgGoToTeller(BankTeller BT){
-		
+		log.add(new LoggedEvent("Going to teller"));
 	}
 	
 	public void msgTransactionComplete(double amount){
@@ -37,7 +37,7 @@ public class MockBankCustomer extends Mock implements BankCustomer{
 	@Override
 	public void msgLeaveBank() {
 		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Bank closed"));
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import simcity.PersonAgent;
+import simcity.Bank.BankManagerRole.MyCustomer.MyCustomerState;
 import simcity.Bank.BankManagerRole.MyLoanOfficer.MyOfficerState;
 import simcity.Bank.BankManagerRole.MyTeller.MyTellerState;
 import simcity.housing.LandlordRole;
@@ -29,12 +30,21 @@ public class BankManagerRole extends Role implements BankManager {
 	private List<MyClient> clients = Collections.synchronizedList(new ArrayList<MyClient>()); 
 	private Map<Integer, MyAccount> accounts = new HashMap<Integer, MyAccount>();
 	int hour;
+	private boolean bankIsOpen;
+	public enum BankState {open, closed, newDay};
+	BankState bankState;
 	private double employeePayPerHour=10;
 	private double vault = 1000000000;
 	
 	public BankManagerRole(PersonAgent p) {
 		super(p);
 		// TODO Auto-generated constructor stub
+		bankState=BankState.newDay;
+		hour=0;
+		officers.clear();
+		tellers.clear();
+		customers.clear();
+		
 	}
 
 	
@@ -42,6 +52,7 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	public void msgTimeUpdate(int hr) {
 		hour=hr;
+		if(hr==1) bankState=BankState.newDay;
 		stateChanged();
 	}
 	
@@ -80,11 +91,7 @@ public class BankManagerRole extends Role implements BankManager {
 			tellers.get(0).needsAccount=true;
 			stateChanged();	
 		}
-		
-		if(type.equals("BankLoanOfficer")) {
-			officers.get(0).needsAccount=true;
-			stateChanged();
-		}
+	
 	}
 	public void msgProcessTransaction(int AN, double amount) {
 		tellers.get(0).requested=amount;
@@ -95,6 +102,7 @@ public class BankManagerRole extends Role implements BankManager {
 	public void msgNewLoan(int AN, double amount) {
 		officers.get(0).requested=amount;
 		officers.get(0).accountNum=AN;
+//		System.err.println(officers.get(0).accountNum + " "+ officers.get(0).requested);
 		stateChanged();
 	}
 	
@@ -112,15 +120,10 @@ public class BankManagerRole extends Role implements BankManager {
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		
-		if(tellers.size()>1) {
-			SwapTellers();
-			return true;
-		}
+//		if(!isActive) {
+//			return false;
+//		}
 		
-		if(officers.size()>1) {
-			SwapLoanOfficers();
-			return true;
-		}
 		if(officers.size()==1 && officers.get(0).state==MyOfficerState.justArrived) {
 			AddLoanOfficer();
 			return true;
@@ -131,17 +134,40 @@ public class BankManagerRole extends Role implements BankManager {
 			return true;
 		}
 		
-		if(tellers.get(0).needsAccount) {
+		if(hour>=8 && bankState==BankState.newDay && officers.size()>=1 && tellers.size()>=1) {
+			OpenBank();
+			return true;
+		}
+		
+		
+		if(hour>=19 && bankState==BankState.open) {
+			CloseBank();
+			return true;
+		}
+		
+		if(tellers.size()>1) {
+			SwapTellers();
+			return true;
+		}
+		
+		if(officers.size()>1) {
+			SwapLoanOfficers();
+			return true;
+		}
+	
+		
+		if(!tellers.isEmpty() && tellers.get(0).needsAccount) {
 			NewAccount();
 			return true;
 		}
 		
-		if(tellers.get(0).requested!=0) {
+		if(!tellers.isEmpty() && tellers.get(0).requested!=0) {
 			CompleteTransaction();
 			return true;
 		}
 		
-		if(officers.get(0).requested!=0) {
+		
+		if(!officers.isEmpty() && officers.get(0).requested!=0) {
 			CompleteLoan();
 			return true;
 		}
@@ -150,21 +176,39 @@ public class BankManagerRole extends Role implements BankManager {
 			TransferMoneyToLandlord(); 
 			return true; 
 		}
-		
-		if(hour>19) {
-			CloseBank();
-			return true;
-		}
+
 		
 		if(customers.size()>0 && (tellers.isEmpty() || officers.isEmpty())) {
 			BankIsClosed();
 			return true;
 		}
 		
+		if(!tellers.isEmpty() && tellers.get(0).state==MyTellerState.available) {
+			for(MyCustomer cust: customers) {
+				if (cust.state==MyCustomerState.transaction) {
+					SendCustomerToTeller(cust);
+					return true;
+				}
+			}
+		}
+		
+		if( !officers.isEmpty() && officers.get(0).state==MyOfficerState.available) {
+			for(MyCustomer cust: customers) {
+				if (cust.state==MyCustomerState.loan) {
+					SendCustomerToLoanOfficer(cust);
+					return true;
+				}
+			}
+		}
+		
 		return false;
 	}
 	
 	//actions
+	
+	private void OpenBank() {
+		bankState=BankState.open;
+	}
 	private void SwapTellers() {
 		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
 		tellers.get(1).emp.msgGoToTellerPosition();
@@ -184,14 +228,12 @@ public class BankManagerRole extends Role implements BankManager {
 	private void AddTeller() {
 		tellers.get(0).emp.msgGoToTellerPosition();
 		tellers.get(0).state=MyTellerState.available;
-		log.add(new LoggedEvent("Teller added"));
 		tellers.get(0).startHr=hour;
 	}
 	
 	private void AddLoanOfficer() {
 		officers.get(0).emp.msgGoToLoanOfficerPosition();
 		officers.get(0).state=MyOfficerState.available;
-		log.add(new LoggedEvent("Loan officer added"));
 		officers.get(0).startHr=hour;
 	}
 	
@@ -219,17 +261,21 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void BankIsClosed() {
+//		System.out.println("bankisclosed");
 		for(MyCustomer c: customers) {
 			c.customer.msgLeaveBank();
-			customers.remove(c);
 		}
+		customers.clear();
 	}
 	
 	private void CloseBank() {
-		officers.get(0).emp.msgGoHome();
-		officers.remove(officers.get(0));
-		tellers.get(0).emp.msgGoHome();
-		tellers.remove(tellers.get(0));
+		officers.get(0).emp.msgGoHome((hour-officers.get(0).startHr)*employeePayPerHour);
+		officers.clear();
+		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
+		tellers.clear();
+		bankState=BankState.closed;
+		BankIsClosed();
+		isActive = false;
 	}
 	
 	private void NewAccount() {
@@ -239,12 +285,24 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void CompleteTransaction() {
+		if(accounts.get(tellers.get(0).accountNum)==null) { // customer doesn't exist
+//			tellers.get(0).msgAccountInexistant();
+			return;
+		}
 		if(tellers.get(0).requested<-1*(accounts.get(tellers.get(0).accountNum)).balance) {
 			tellers.get(0).requested=-1*(accounts.get(tellers.get(0).accountNum).balance);
 		}
+		MyAccount update = accounts.get(tellers.get(0).accountNum);
+		update.balance+=tellers.get(0).requested;
+		accounts.put(tellers.get(0).accountNum, update);
+		tellers.get(0).emp.msgTransactionProcessed(tellers.get(0).requested);
+		tellers.get(0).requested=0.0;
+		tellers.get(0).accountNum=0;
+		
 	}
 	
 	private void CompleteLoan() {
+//		System.err.println(accounts.get(officers.get(0).accountNum));
 		if(accounts.get(officers.get(0).accountNum).loan!=0.0) { // fix based on drews answer
 			officers.get(0).emp.msgLoanDenied();
 			officers.get(0).requested=0; //reset val 
@@ -269,8 +327,24 @@ public class BankManagerRole extends Role implements BankManager {
 		return tellers;
 	}
 	
+	public List<MyCustomer> getCustomers() {
+		return customers;
+	}
+	
 	public Map<Integer, MyAccount> getAccounts() {
 		return accounts;
+	}
+	
+	public int getHour() {
+		return hour;
+	}
+	
+	public double getVault() {
+		return vault;
+	}
+	
+	public BankState getBankStatus() {
+		return bankState;
 	}
 	
 	//classes
@@ -297,8 +371,8 @@ public class BankManagerRole extends Role implements BankManager {
 		int startHr=0;
 		int accountNum = 0;
 		double requested=0.0;
-		enum MyOfficerState {justArrived, available, occupied};
-		MyOfficerState state;
+		public enum MyOfficerState {justArrived, available, occupied};
+		public MyOfficerState state;
 		enum EmployeeType {LoanOfficer, Teller};
 		EmployeeType type;
 		
@@ -311,10 +385,10 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	public static class MyCustomer {
 		BankCustomer customer;
-		enum MyCustomerState {transaction, loan};
+		public enum MyCustomerState {transaction, loan};
 		MyCustomerState state;
 		
-		MyCustomer(BankCustomer b, MyCustomerState st) {
+		public MyCustomer(BankCustomer b, MyCustomerState st) {
 			state=st;
 			customer = b;
 		}
@@ -339,7 +413,7 @@ public class BankManagerRole extends Role implements BankManager {
 		double balance;
 		double loan;
 		
-		MyAccount (double bal, double lo){
+		public MyAccount (double bal, double lo){
 			balance=bal;
 			loan=lo;
 		}
