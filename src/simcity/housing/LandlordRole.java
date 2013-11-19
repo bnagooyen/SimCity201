@@ -14,7 +14,7 @@ import agent.Role;
 public class LandlordRole extends Role implements Landlord{
 	//data
 	int hour;  
-	double revenue = 0;					//money landlord keeps to pay utilities
+	public double revenue = 0;					//money landlord keeps to pay utilities
 	final double rentBill = 25; 		//cost of rent each day
 	Random WorkerToday = new Random();	//the worker landlord decides to call that day
 	BankManager bankmanager; 
@@ -44,7 +44,8 @@ public class LandlordRole extends Role implements Landlord{
 	class Tenant {
 		Tenant (PersonAgent p, Integer a) {
 			person = p;
-			account = a; 
+			account = a;
+			location = "B2"; 
 		}
 		PersonAgent person;
 		Integer account; 
