@@ -20,7 +20,6 @@ public class MockInventoryBoy extends Mock implements InventoryBoy{
 		LoggedEvent e = new LoggedEvent("Received msgCheckInventory from market cashier.");
 		log.add(e);
 		o.canGive = o.foodsNeeded;
-//		System.out.println("Sent");
 	}
 	
 	public void msgGoHome(){

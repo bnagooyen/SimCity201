@@ -12,9 +12,9 @@ import simcity.restaurant.gui.WaiterGui;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.Transportation.BusAgent;
 import simcity.gui.PersonGui;
-import simcity.interfaces.Bus;
+//import simcity.interfaces.Bus;
 
-import simcity.interfaces.Person;
+//import simcity.interfaces.Person;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -26,7 +26,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class PersonAgent extends Agent implements Person {
+public class PersonAgent extends Agent {//implements Person 
 
 	Timer timer = new Timer();
 	private String name;
@@ -77,10 +77,10 @@ public class PersonAgent extends Agent implements Person {
 		
 	}
 	
-	public void msgBusIsHere(Bus b){
-		state=PersonState.gettingOnBus;
-		stateChanged();
-	}
+//	public void msgBusIsHere(Bus b){
+//		state=PersonState.gettingOnBus;
+//		stateChanged();
+//	}
 	
 	
 	//utilities

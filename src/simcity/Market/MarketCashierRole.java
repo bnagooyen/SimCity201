@@ -21,17 +21,17 @@ public class MarketCashierRole extends Role implements MarketCashier{
 
 	public List<MOrder> orders =Collections.synchronizedList(new ArrayList<MOrder>());
 	
-	boolean active;
+	public boolean active;
 	public double marketMoney;
 	public EventLog log;
 	
 	public InventoryBoy ib;
 	public MarketManager manager; 
 	
-	public enum orderState{pending, inquiring, ready, given, waiting, paid, done};
-	enum myState{arrived, working, goHome, unavailable};
+	public enum orderState{pending, inquiring, ready, given, paid, done};
+	public enum myState{arrived, working, goHome, unavailable};
 	
-	myState state;
+	public myState state;
 	
 	public MarketCashierRole(PersonAgent p) {
 		super(p);
@@ -122,18 +122,15 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		if(o.building.equals("")){
 			DoGiveFood();
 			o.c.msgHereIsOrderAndCheck(o.canGive, check);
-			o.state = orderState.waiting;
 		}
 		else if(o.cook == null){
 			DoDeliverFood();
 			o.c.msgHereIsOrderAndCheck(o.canGive, check);
-			o.state = orderState.waiting;
 		}
 		else{
 			o.cashier.msgBillFromMarket(check, this);
 			DoDeliverFood();
 			o.cook.msgHereIsDelivery(o.canGive);
-			o.state = orderState.waiting;
 		}
 	}
 	

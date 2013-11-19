@@ -12,13 +12,14 @@ public class MockMarketCustomer extends Mock implements MarketCustomer{
 
 	public EventLog log;
 	public MarketCashier mc;
-	public MarketCustomerRole c;
+	public MarketCustomerRole cr;
 	public PersonAgent p;
 	
 	public MockMarketCustomer(String name) {
 		super(name);
+		p = new PersonAgent("default");
 		log = new EventLog();
-		c = new MarketCustomerRole(p);
+		cr = new MarketCustomerRole(p);
 	}
 
 	@Override
