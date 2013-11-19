@@ -1,6 +1,9 @@
 package simcity.restaurant;
 
 import agent.Role;
+import simcity.Market.MFoodOrder;
+import simcity.interfaces.Cook;
+import simcity.interfaces.MarketCashier;
 import simcity.restaurant.WaiterRole;
 import simcity.restaurant.CustomerRole.AgentEvent;
 import simcity.restaurant.Order.OrderState;
@@ -16,9 +19,8 @@ import java.util.concurrent.Semaphore;
 /**
  * Restaurant Host Agent
  */
-public class CookRole extends Role {
+public class CookRole extends Role implements Cook {
 	
-	//TESTTTTTYO
 	Timer timer = new Timer();
 	private String name;
 	private Map<String, Food> myFood = new HashMap<String, Food>();
@@ -512,6 +514,25 @@ public class CookRole extends Role {
 			void setReorder(boolean r) {
 				reorder=r;
 			}
+			
+		}
+
+
+		@Override
+		public void msgHereIsDelivery(List<MFoodOrder> canGive) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void msgGoToCashier(MarketCashier c) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void msgMarketClosed() {
+			// TODO Auto-generated method stub
 			
 		}
 

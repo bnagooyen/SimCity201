@@ -24,7 +24,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	boolean isClosed;
 	public enum workerState{justArrived, available, occupied};
 	
-	protected MarketManagerRole(PersonAgent p) {
+	public MarketManagerRole(PersonAgent p) {
 		super(p);
 		// TODO Auto-generated constructor stub
 	}

@@ -6,6 +6,7 @@ import java.util.List;
 
 import simcity.PersonAgent;
 import simcity.restaurant.CashierRole;
+import simcity.restaurant.interfaces.Cashier;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import simcity.interfaces.Cook;
@@ -45,7 +46,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		stateChanged();
 	}
 	
-	public void msgOrder(Cook cook, List<MFoodOrder> foods, String building, RestaurantCashier c){
+	public void msgOrder(Cook cook, List<MFoodOrder> foods, String building, Cashier c){
 		orders.add(new MOrder(foods, building, cook, c, orderState.pending));
 		stateChanged();
 	}

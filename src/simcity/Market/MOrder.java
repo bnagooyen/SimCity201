@@ -11,6 +11,7 @@ import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.RestaurantCashier;
 import simcity.restaurant.CashierRole;
+import simcity.restaurant.CookRole;
 import simcity.restaurant.interfaces.Cashier;
 
 public class MOrder {
@@ -20,7 +21,7 @@ public class MOrder {
 	public MarketCustomer c;
 	public Cook cook;
 	String building;
-	RestaurantCashier cashier;
+	public Cashier cashier;
 	
 	public MOrder(List<MFoodOrder> foods, String building, MarketCustomer c, orderState state){
 		foodsNeeded = foods;
@@ -31,7 +32,7 @@ public class MOrder {
 		cashier = null;
 	}
 	
-	public MOrder(List<MFoodOrder> foods, String building, Cook cook, RestaurantCashier c, orderState state){
+	public MOrder(List<MFoodOrder> foods, String building, Cook cook, Cashier c, orderState state){
 		foodsNeeded = foods;
 		this.building = building;
 		this.cook = cook;

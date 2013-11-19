@@ -1,5 +1,6 @@
 package simcity.restaurant.interfaces;
 
+import simcity.Market.MarketCashierRole;
 import simcity.restaurant.Check;
 import simcity.restaurant.CustomerRole;
 import simcity.restaurant.WaiterRole;
@@ -13,6 +14,8 @@ public interface Cashier {
 	public abstract void setRegisterAmnt(double amnt);
 	public abstract double getRegisterAmnt();
 	public abstract void msgMadeInventoryOrder(int orderid, double billAmt);
+	public abstract void msgBillFromMarket(double check,
+			MarketCashierRole marketCashierRole);
 		
 	
 }
