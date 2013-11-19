@@ -14,6 +14,7 @@ import simcity.interfaces.Cook;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
+import simcity.interfaces.Person;
 import simcity.interfaces.RestaurantCashier;
 
 public class MockCar extends Mock implements Car {
@@ -27,7 +28,7 @@ public class MockCar extends Mock implements Car {
 		
 	}
 	
-	public void msgGoToDestination(String location, PersonAgent person){
+	public void msgGoToDestination(String location, Person person){
 		
 	}
 	

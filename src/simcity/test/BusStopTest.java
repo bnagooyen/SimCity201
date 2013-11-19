@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 
 public class BusStopTest extends TestCase{
 	PersonAgent person; 
+	PersonAgent person2;
 	MockBus bus;
 	BusStopAgent busStop;
 
@@ -34,6 +35,8 @@ public class BusStopTest extends TestCase{
 
 	public void setUp() throws Exception{
 		person=new PersonAgent("person");
+		person2=new PersonAgent("person2");
+		
 		bus=new MockBus("mockBus");
 		busStop=new BusStopAgent();
 

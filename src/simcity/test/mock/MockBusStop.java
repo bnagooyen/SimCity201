@@ -31,7 +31,7 @@ public class MockBusStop extends Mock implements BusStop {
 	}
 	
 	public void msgAnyPassengers(Bus b){
-		log.add(new LoggedEvent("Should have received message from bus, but did not"));
+		log.add(new LoggedEvent("Received message from bus with passengers"));
 	}
 	
 	
