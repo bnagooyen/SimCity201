@@ -13,7 +13,9 @@ public interface Landlord {
 	
 	public abstract void TimeUpdate(int hour);
 	
-	public abstract void HereIsARentPayment(PersonAgent p, double amount);
+	public abstract void HereIsARentPayment(Integer AN, double cost);
+	
+	public abstract void CannotPayForRent(Integer AN); 
 	
 	public abstract void jobDone(RepairMan w, double cost);
 }

@@ -22,13 +22,13 @@ public class LandlordRole extends Role implements Landlord{
 	{nothing, askingForRent, collectedRent, callMaintanence};
 	private AgentState state = AgentState.nothing;
 	
-	private List<RepairMan>repairmen		//list of repairmen that the landlord can contact
+	public List<RepairMan>repairmen		//list of repairmen that the landlord can contact
 	= Collections.synchronizedList(new ArrayList<RepairMan>()); 
 	
 	
-	List<Tenant>myTenants
+	public List<Tenant>myTenants
 	= new ArrayList<Tenant>(); 
-	List<Worker>myWorkers
+	public List<Worker>myWorkers
 	= new ArrayList<Worker>(); 
 	
 	class Worker {
@@ -76,18 +76,21 @@ public class LandlordRole extends Role implements Landlord{
 	}
 	
 	
-	public void HereIsARentPayment(PersonAgent p, double amount) {
+	public void HereIsARentPayment(Integer AN, double amount) {
 		for (Tenant t:myTenants) {
-			if (t.person == p) {
-				if (amount < rentBill) {
-					t.ts = TenantState.ShortOnMoney; 
-				}
-				else {
+			if (t.account == AN) {
 					t.ts = TenantState.paid;
-				}
 			}
 		}
 	}
+	
+	public void CannotPayForRent(Integer AN) {
+		for (Tenant t:myTenants) {
+			if (t.account == AN) {
+					t.ts = TenantState.ShortOnMoney;
+			}
+		}
+	}		
 	
 	public void jobDone(RepairMan w, double cost) {
 		for (Worker current:myWorkers) {
@@ -183,7 +186,7 @@ public class LandlordRole extends Role implements Landlord{
 		bankmanager = b;
 	}
 	
-	public void NewTenant(PersonAgent p, Integer account) {
+	public void addTenant(PersonAgent p, Integer account) {
 		myTenants.add(new Tenant(p, account));
 	}
 }
