@@ -28,7 +28,8 @@ public class MockInventoryBoy extends Mock implements InventoryBoy{
 	}
 	
 	public void msgGoHome(){
-		
+		LoggedEvent e = new LoggedEvent("Gone Home");
+		log.add(e);
 	}
 	
 }

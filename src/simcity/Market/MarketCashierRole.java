@@ -72,6 +72,16 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
+		if(state == myState.goHome){
+			goHome();
+			return true;
+		}
+		
+		if(state == myState.arrived){
+			tellManager();
+			return true;
+		}
+		
 		synchronized(orders){
 			for(MOrder o: orders){
 				if(o.state == orderState.ready){
@@ -97,16 +107,6 @@ public class MarketCashierRole extends Role implements MarketCashier{
 					return true;
 				}
 			}
-		}
-		
-		if(state == myState.goHome){
-			goHome();
-			return true;
-		}
-		
-		if(state == myState.arrived){
-			tellManager();
-			return true;
 		}
 		
 		return false;

@@ -92,8 +92,17 @@ public class MarketManagerTest extends TestCase{
         assertTrue("MarketManager logged: " + m.log.getLastLoggedEvent().toString(), m.log.containsString("Received msgIAmHere."));
         assertTrue("MarketManager is checking to open.", m.pickAndExecuteAnAction());
         assertEquals("Market Cashier can work", m.cashiers.get(0).state, workerState.occupied);
-        assertTrue("MarketCustomer logged: " + c.log.getLastLoggedEvent().toString(), c.log.containsString("Received msgGoToCashier from market manager."));
+        //assertTrue("MarketCustomer logged: " + c.log.getLastLoggedEvent().toString(), c.log.containsString("Received msgGoToCashier from market manager."));
+	
+        //PROBLEM: cannot test if msgGoToCashier or msgGoHome was sent because it is calling a role not a mock
         
+        //time to close market
+        m.msgTimeUpdate(20);
+        assertTrue("MarketManager is closing.", m.pickAndExecuteAnAction());
+        assertEquals("isClosed.", m.isClosed, true);
+        assertEquals("MarketManager should have zero cashiers", m.cashiers.size(), 0);
+        assertEquals("MarketManager should have zero inventoryBoys", m.inventoryBoys.size(), 0);
+        assertEquals("MarketManager should have zero customers", m.customers.size(), 0);
 	}
 	
 }

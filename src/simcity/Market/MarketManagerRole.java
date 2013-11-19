@@ -80,6 +80,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		
 		if(hour == 20){
 			closeMarket();
+			return true;
 		}
 		
 		if(isClosed){
@@ -117,6 +118,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	private void closeMarket(){
 		synchronized(cashiers){
 			for(MyMarketCashier c: cashiers){
+				//System.out.println("Cashier: "+c.c);
 				c.c.msgGoHome();
 			}
 		}
@@ -124,11 +126,11 @@ public class MarketManagerRole extends Role implements MarketManager{
 			for(InventoryBoy b: inventoryBoys){
 				b.msgGoHome();
 			}
-			cashiers.clear();
-			inventoryBoys.clear();
-			isClosed = true;
-			}
 		}
+		cashiers.clear();
+		inventoryBoys.clear();
+		isClosed = true;
+	}
 	
 	private void marketClosed(){
 		synchronized(customers){
@@ -193,7 +195,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	public class MyMarketCashier{
-		MarketCashierRole c;
+		MarketCashier c;
 		public workerState state;
 		
 		public MyMarketCashier(Role r, workerState w){

@@ -55,13 +55,13 @@ public class MockMarketCashier extends Mock implements MarketCashier {
 	}
 
 	public void msgHereIsPayment(Role r, double payment) {
-		// TODO Auto-generated method stub
 		LoggedEvent e = new LoggedEvent("received payment");
 		log.add(e);
 	}
 
 	public void msgGoHome() {
-		// TODO Auto-generated method stub
+		LoggedEvent e = new LoggedEvent("Gone Home");
+		log.add(e);
 		
 	}
 
