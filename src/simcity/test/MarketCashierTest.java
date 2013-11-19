@@ -31,10 +31,8 @@ public class MarketCashierTest extends TestCase{
 	MockMarketManager man;
 	MockCashier restaurantC;
 	
-	//List<MOrder> orders =Collections.synchronizedList(new ArrayList<MOrder>());
 	List<MFoodOrder> foods =Collections.synchronizedList(new ArrayList<MFoodOrder>());
 	MFoodOrder f1;
-	//MOrder a;
 	
 	public void setUp() throws Exception{
 		super.setUp();
@@ -56,8 +54,6 @@ public class MarketCashierTest extends TestCase{
 		c.mc = mc;
 		f1 = new MFoodOrder("Ch", 2);
 		foods.add(f1);
-//		a = new MOrder(foods,"b1", c, orderState.pending);
-//		orders.add(a);
 		
 		// preconditions
         assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
@@ -86,6 +82,7 @@ public class MarketCashierTest extends TestCase{
 		mc.manager = man;
 		f1 = new MFoodOrder("Ch", 2);
 		foods.add(f1);
+		
 		// preconditions
         assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
         assertEquals("MarketCashier should have collected zero money", mc.marketMoney, 0.0);
@@ -93,7 +90,7 @@ public class MarketCashierTest extends TestCase{
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
                 + ib.log.toString(), 0, ib.log.size());
 		
-      //give mc adding an order
+        //give mc adding an order
         mc.msgOrder(c, foods, "b1");
         assertEquals("MarketCashier should have one order", mc.orders.size(), 1);
         mc.msgCanGive(mc.orders.get(0));
@@ -140,8 +137,6 @@ public class MarketCashierTest extends TestCase{
 		cook.mc = mc;
 		f1 = new MFoodOrder("Ch", 2);
 		foods.add(f1);
-//		a = new MOrder(foods,"b1", c, orderState.pending);
-//		orders.add(a);
 		
 		// preconditions
         assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
@@ -170,6 +165,7 @@ public class MarketCashierTest extends TestCase{
 		mc.manager = man;
 		f1 = new MFoodOrder("Ch", 2);
 		foods.add(f1);
+		
 		// preconditions
         assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
         assertEquals("MarketCashier should have collected zero money", mc.marketMoney, 0.0);
@@ -197,6 +193,7 @@ public class MarketCashierTest extends TestCase{
 		mc.manager = man;
 		f1 = new MFoodOrder("Ch", 2);
 		foods.add(f1);
+		
 		// preconditions
         assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
         assertEquals("MarketCashier should have collected zero money", mc.marketMoney, 0.0);
@@ -219,6 +216,7 @@ public class MarketCashierTest extends TestCase{
 	}
 	
 	public void testMsgGoHome(){
+		
 		// preconditions
         assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
         assertEquals("MarketCashier should have collected zero money", mc.marketMoney, 0.0);
