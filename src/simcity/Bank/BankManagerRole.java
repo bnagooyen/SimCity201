@@ -23,6 +23,7 @@ public class BankManagerRole extends Role implements BankManager {
 	private List<MyTeller> tellers = Collections.synchronizedList(new ArrayList<MyTeller>());
 	private List<MyLoanOfficer> officers = Collections.synchronizedList(new ArrayList<MyLoanOfficer>());
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
+	private List<MyClient> clients = Collections.synchronizedList(new ArrayList<MyClient>()); 
 	private Map<Integer, MyAccount> accounts = new HashMap<Integer, MyAccount>();
 	int hour;
 	private double vault = 1000000000;
@@ -99,7 +100,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	public void msgHereIsYourRentBill(LandlordRole l, Integer account, double rentBill) {
-		
+		clients.add(new MyClient((Landlord) l, account, rentBill));
 		stateChanged(); 
 	}
 
@@ -139,6 +140,11 @@ public class BankManagerRole extends Role implements BankManager {
 		if(officers.get(0).requested!=0) {
 			CompleteLoan();
 			return true;
+		}
+		
+		if(!clients.isEmpty()) {
+			TransferMoneyToLandlord(); 
+			return true; 
 		}
 		
 		if(hour>19) {
@@ -189,6 +195,17 @@ public class BankManagerRole extends Role implements BankManager {
 		officers.get(0).state=MyOfficerState.occupied;
 		c.customer.msgGoToLoanOfficer(officers.get(0).emp);
 		customers.remove(c);
+	}
+	
+	private void TransferMoneyToLandlord() {
+		if (accounts.get(clients.get(0).AN).balance >= clients.get(0).bill) {
+			accounts.get(clients.get(0).AN).balance -= clients.get(0).bill;
+			clients.get(0).client.HereIsARentPayment(clients.get(0).AN, clients.get(0).bill);
+		}
+		else {
+			clients.get(0).client.CannotPayForRent(clients.get(0).AN);
+		}		
+		clients.remove(0); 
 	}
 	
 	private void BankIsClosed() {
@@ -279,8 +296,16 @@ public class BankManagerRole extends Role implements BankManager {
 		
 	}
 	
-	class Business {
-		LandlordRole client; 
+	class MyClient {
+		public MyClient(Landlord l, Integer account, double rentBill) {
+			client = l; 
+			AN = account; 
+			bill = rentBill; 
+		}
+
+		Landlord client;
+		Integer AN; 
+		double bill; 	
 		
 	}
 	

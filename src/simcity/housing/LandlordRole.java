@@ -76,18 +76,21 @@ public class LandlordRole extends Role implements Landlord{
 	}
 	
 	
-	public void HereIsARentPayment(PersonAgent p, double amount) {
+	public void HereIsARentPayment(Integer AN, double amount) {
 		for (Tenant t:myTenants) {
-			if (t.person == p) {
-				if (amount < rentBill) {
-					t.ts = TenantState.ShortOnMoney; 
-				}
-				else {
+			if (t.account == AN) {
 					t.ts = TenantState.paid;
-				}
 			}
 		}
 	}
+	
+	public void CannotPayForRent(Integer AN) {
+		for (Tenant t:myTenants) {
+			if (t.account == AN) {
+					t.ts = TenantState.ShortOnMoney;
+			}
+		}
+	}		
 	
 	public void jobDone(RepairMan w, double cost) {
 		for (Worker current:myWorkers) {
