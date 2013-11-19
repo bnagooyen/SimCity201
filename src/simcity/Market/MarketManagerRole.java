@@ -118,7 +118,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	private void closeMarket(){
 		synchronized(cashiers){
 			for(MyMarketCashier c: cashiers){
-				//System.out.println("Cashier: "+c.c);
+				System.out.println("Cashier: "+c.c);
 				c.c.msgGoHome();
 			}
 		}

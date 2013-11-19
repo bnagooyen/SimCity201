@@ -18,7 +18,6 @@ public class MockInventoryBoy extends Mock implements InventoryBoy{
 		super(name);
 		log = new EventLog();
 		ib = new InventoryBoyRole(p);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void msgCheckInventory(MOrder o){
@@ -28,7 +27,7 @@ public class MockInventoryBoy extends Mock implements InventoryBoy{
 	}
 	
 	public void msgGoHome(){
-		LoggedEvent e = new LoggedEvent("Gone Home");
+		LoggedEvent e = new LoggedEvent("Gone Home.");
 		log.add(e);
 	}
 	

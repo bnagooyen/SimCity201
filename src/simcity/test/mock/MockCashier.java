@@ -14,11 +14,6 @@ import simcity.restaurant.interfaces.Waiter;
 
 
 public class MockCashier extends Mock implements Cashier {
-
-	public MockCashier(String name) {
-		super(name);
-		cr = new CashierRole(p);
-	}
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.
 	 */
@@ -26,6 +21,11 @@ public class MockCashier extends Mock implements Cashier {
 	public EventLog log = new EventLog();
 	public PersonAgent p;
 	public CashierRole cr;
+	
+	public MockCashier(String name) {
+		super(name);
+		cr = new CashierRole(p);
+	}
 	
 	@Override
 	public void msgHereIsAPayment(Customer cust, int tnum, double valCustPaid) {

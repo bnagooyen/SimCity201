@@ -99,6 +99,7 @@ public class MarketManagerTest extends TestCase{
         //time to close market
         m.msgTimeUpdate(20);
         assertTrue("MarketManager is closing.", m.pickAndExecuteAnAction());
+        //assertTrue("Inventory Boy logged: " + m.inventoryBoys.get(0).log.getLastLoggedEvent().toString(), m.inventoryBoys.get(0).log.containsString("Gone Home."));
         assertEquals("isClosed.", m.isClosed, true);
         assertEquals("MarketManager should have zero cashiers", m.cashiers.size(), 0);
         assertEquals("MarketManager should have zero inventoryBoys", m.inventoryBoys.size(), 0);
