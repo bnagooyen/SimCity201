@@ -13,8 +13,9 @@ public class MockRepairMan extends Mock implements RepairMan{
 		// TODO Auto-generated constructor stub
 	}
 
-	public EventLog log;
-
+	public EventLog log = new EventLog(); 
+	public LoggedEvent event; 
+	
 	@Override
 	public void NeedRepair(String building, Landlord l) {
 		LoggedEvent m = new LoggedEvent ("Received a job for building " + building); 
