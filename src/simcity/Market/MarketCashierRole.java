@@ -6,6 +6,7 @@ import java.util.List;
 
 import simcity.PersonAgent;
 import simcity.restaurant.CashierRole;
+import simcity.restaurant.interfaces.Cashier;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import simcity.interfaces.Cook;
@@ -45,7 +46,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		stateChanged();
 	}
 	
-	public void msgOrder(Cook cook, List<MFoodOrder> foods, String building, RestaurantCashier c){
+	public void msgOrder(Cook cook, List<MFoodOrder> foods, String building, Cashier c){
 		orders.add(new MOrder(foods, building, cook, c, orderState.pending));
 		stateChanged();
 	}
@@ -58,6 +59,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	public void msgHereIsPayment(Role r, double payment){
 		MOrder current = find(r,orders);
+		System.out.println("Current: "+current);
 		current.state = orderState.paid;
 		marketMoney += payment;
 		stateChanged();
@@ -70,6 +72,16 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
+		if(state == myState.goHome){
+			goHome();
+			return true;
+		}
+		
+		if(state == myState.arrived){
+			tellManager();
+			return true;
+		}
+		
 		synchronized(orders){
 			for(MOrder o: orders){
 				if(o.state == orderState.ready){
@@ -95,16 +107,6 @@ public class MarketCashierRole extends Role implements MarketCashier{
 					return true;
 				}
 			}
-		}
-		
-		if(state == myState.goHome){
-			goHome();
-			return true;
-		}
-		
-		if(state == myState.arrived){
-			tellManager();
-			return true;
 		}
 		
 		return false;

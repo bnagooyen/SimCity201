@@ -1,6 +1,7 @@
 package simcity.restaurant;
 
 import agent.Role;
+import simcity.Market.MarketCashierRole;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.restaurant.interfaces.Customer;
 //import simcity.restaurant.interfaces.Market;
@@ -258,6 +259,13 @@ public class CashierRole extends Role implements Cashier {
 		}
 		log.add(new LoggedEvent("Register = "+ registerAmnt));
 				
+	}
+
+	@Override
+	public void msgBillFromMarket(double check,
+			MarketCashierRole marketCashierRole) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

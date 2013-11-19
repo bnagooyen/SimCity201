@@ -6,6 +6,9 @@ import java.util.List;
 
 import simcity.PersonAgent;
 import simcity.restaurant.CashierRole;
+import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
+import simcity.test.mock.MockMarketCustomer;
 import simcity.interfaces.Cook;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
@@ -16,17 +19,18 @@ import agent.Role;
 
 public class MarketManagerRole extends Role implements MarketManager{
 	
-	List<MyMarketCashier> cashiers = Collections.synchronizedList(new ArrayList<MyMarketCashier>());
-	List<InventoryBoy> inventoryBoys = Collections.synchronizedList(new ArrayList<InventoryBoy>());
-	List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
+	public List<MyMarketCashier> cashiers = Collections.synchronizedList(new ArrayList<MyMarketCashier>());
+	public List<InventoryBoy> inventoryBoys = Collections.synchronizedList(new ArrayList<InventoryBoy>());
+	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 
-	int hour;
-	boolean isClosed;
+	public int hour;
+	public boolean isClosed;
 	public enum workerState{justArrived, available, occupied};
+	public EventLog log;
 	
-	protected MarketManagerRole(PersonAgent p) {
+	public MarketManagerRole(PersonAgent p) {
 		super(p);
-		// TODO Auto-generated constructor stub
+		log = new EventLog();
 	}
 
 	//Messages
@@ -35,8 +39,11 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	public void msgIAmHere(Role r, String type){
+		LoggedEvent e = new LoggedEvent("Received msgIAmHere.");
+		log.add(e);
+		
 		if(type.equals("cashier")){
-			cashiers.add(new MyMarketCashier(r, workerState.justArrived));
+			cashiers.add(new MyMarketCashier(r, workerState.available));
 		}
 		else if(type.equals("inventory boy")){
 			inventoryBoys.add((InventoryBoy) r);
@@ -73,6 +80,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		
 		if(hour == 20){
 			closeMarket();
+			return true;
 		}
 		
 		if(isClosed){
@@ -110,6 +118,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	private void closeMarket(){
 		synchronized(cashiers){
 			for(MyMarketCashier c: cashiers){
+				//System.out.println("Cashier: "+c.c);
 				c.c.msgGoHome();
 			}
 		}
@@ -117,11 +126,11 @@ public class MarketManagerRole extends Role implements MarketManager{
 			for(InventoryBoy b: inventoryBoys){
 				b.msgGoHome();
 			}
-			cashiers.clear();
-			inventoryBoys.clear();
-			isClosed = true;
-			}
 		}
+		cashiers.clear();
+		inventoryBoys.clear();
+		isClosed = true;
+	}
 	
 	private void marketClosed(){
 		synchronized(customers){
@@ -186,8 +195,8 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	public class MyMarketCashier{
-		MarketCashierRole c;
-		workerState state;
+		MarketCashier c;
+		public workerState state;
 		
 		public MyMarketCashier(Role r, workerState w){
 			c = (MarketCashierRole) r;

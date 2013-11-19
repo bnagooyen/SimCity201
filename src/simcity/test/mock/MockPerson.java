@@ -24,7 +24,7 @@ public EventLog log;
 	}
 	
 	public  void msgAtDestination(){
-		
+		log.add(new LoggedEvent("Received message from car that we have arrived."));
 	}
 	
 	public  void msgBusIsHere(Bus b){

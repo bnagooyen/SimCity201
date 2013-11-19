@@ -3,23 +3,24 @@ import agent.Agent;
 import simcity.PersonAgent;
 import simcity.Transportation.*;
 import simcity.interfaces.Car;
+import simcity.interfaces.Person;
 
 import java.util.*;
 
 
 public class CarAgent extends Agent implements Car {
 	
-	PersonAgent driver;
-	String destination;
+	public Person driver=null;
+	public String destination;
 	
 	public enum carState
 	{parked, receivedLocation, travelling, arrived};
 	
-	carState state;
+	public carState state;
 	
 	//MESSAGES
 	
-	public void msgGoToDestination(String location, PersonAgent person){
+	public void msgGoToDestination(String location, Person person){
 		driver=person;
 		destination=location;
 		state=carState.receivedLocation;
@@ -28,11 +29,12 @@ public class CarAgent extends Agent implements Car {
 	
 	public void msgAtDestination(){
 		state=carState.arrived;
+		stateChanged();
 	}
 	
 	//SCHEDULER
 	
-	protected boolean pickAndExecuteAnAction(){
+	public boolean pickAndExecuteAnAction(){
 		
 		if(state==carState.receivedLocation){
 			goToLocation();
@@ -57,7 +59,7 @@ public class CarAgent extends Agent implements Car {
 	}
 	
 	private void HaveArrived(){
-		//driver.msgWeHaveArrived();
+		driver.msgAtDestination();
 	}
 	
 	
