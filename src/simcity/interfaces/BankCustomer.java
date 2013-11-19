@@ -14,4 +14,6 @@ public interface BankCustomer {
 	public void msgLoanDenied();
 	
 	public void msgAccountMade(int AN);
+
+	public void msgLeaveBank();
 }

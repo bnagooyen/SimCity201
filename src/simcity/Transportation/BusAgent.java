@@ -3,22 +3,23 @@ import agent.Agent;
 import simcity.PersonAgent;
 import simcity.Transportation.*;
 import simcity.interfaces.Bus;
+import simcity.interfaces.BusStop;
 
 import java.util.*;
 
 
 public class BusAgent extends Agent implements Bus {
 	String currentStop;
-	Map<String, BusStopAgent> busStops=new HashMap<String, BusStopAgent>();  
+	public Map<String, BusStop> busStops=new HashMap<String, BusStop>();  
 	
 	public enum busState {travelling, arrived, atStop, loading, waiting, readyToGo};
-	busState state;
-	List<MyPassenger> passengers;
+	public busState state;
+	public List<MyPassenger> passengers=new ArrayList<MyPassenger>();
 	
 	public class MyPassenger{
-		PersonAgent p;
-		String destination;
-		boolean onBus=false;
+		public PersonAgent p;
+		public String destination;
+		public boolean onBus;
 		
 		
 	}
@@ -50,8 +51,9 @@ public class BusAgent extends Agent implements Bus {
 	}
 	
 	public void msgGettingOn(PersonAgent p, String destination){ // first loop to get everyone on bus 
+		
 		for(MyPassenger currentPassenger: passengers){
-			if(currentPassenger.p==p){
+			if(p==currentPassenger.p){
 				currentPassenger.destination=destination;
 				currentPassenger.onBus=true;
 				}
@@ -59,17 +61,20 @@ public class BusAgent extends Agent implements Bus {
 		
 		for(MyPassenger currentPassenger: passengers){ //second loop to make sure everyone on the bus is actually on bus?
 			                                          // not sure if i need this but it was in design so i added it 
-			if(currentPassenger.onBus=false)
+			if(currentPassenger.onBus==false){
 				state=null;
-			else
+				break;
+			}
+			else{
 				state=busState.readyToGo;
 				stateChanged(); //not sure if i need this here
+			}
 		}
 	}
 	
 	//Scheduler
 	
-	protected boolean pickAndExecuteAnAction(){
+	public boolean pickAndExecuteAnAction(){
 		
 		if (state==busState.arrived){
 			arriveAtStop();
@@ -82,7 +87,7 @@ public class BusAgent extends Agent implements Bus {
 			return true;
 		}
 		
-		if (state==busState.readyToGo){
+		else if (state==busState.readyToGo){
 			goToNextStop();
 			return true;
 		}
@@ -95,25 +100,27 @@ public class BusAgent extends Agent implements Bus {
 	
 	private void arriveAtStop(){
 		state=busState.atStop;
-		
-		for (MyPassenger currentPassenger: passengers){
-			if(currentPassenger.destination==currentStop){
-				//currentPassenger.p.msgAtDestination();
-				passengers.remove(currentPassenger);
-				BusStopAgent current = busStops.get(currentStop);
+		synchronized(passengers){
+		for (int i=0; i<passengers.size(); i++){
+			if(passengers.get(i).destination==currentStop){
+				passengers.get(i).p.msgAtDestination();
+				passengers.remove(i);
+				BusStop current = busStops.get(currentStop);
 				current.msgAnyPassengers(this);
 			}
 		}
+	 }
 	}
 	
 	private void loadBus() {
 		state = busState.waiting;
+		synchronized(passengers){
 		for(MyPassenger currentPassenger: passengers){
 			if (currentPassenger.onBus==false){
-				//currentPassenger.p.BusIsHere(this);
+				currentPassenger.p.msgBusIsHere(this);
 			}
 		}
-		
+		}
 	}
 	
 	private void goToNextStop(){

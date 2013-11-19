@@ -10,6 +10,7 @@ import simcity.PersonAgent;
 import simcity.Bank.BankManagerRole.MyLoanOfficer.MyOfficerState;
 import simcity.Bank.BankManagerRole.MyTeller.MyTellerState;
 import simcity.housing.LandlordRole;
+import simcity.interfaces.BankCustomer;
 import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.BankTeller;
@@ -50,11 +51,11 @@ public class BankManagerRole extends Role implements BankManager {
 			stateChanged();
 		}
 		else if(type.equals("loan")) {
-			customers.add(new MyCustomer(person, MyCustomer.MyCustomerState.loan));
+			customers.add(new MyCustomer((BankCustomer)person, MyCustomer.MyCustomerState.loan));
 			stateChanged();
 		}
 		else if(type.equals("transaction")) {
-			customers.add(new MyCustomer(person, MyCustomer.MyCustomerState.transaction));
+			customers.add(new MyCustomer((BankCustomer)person, MyCustomer.MyCustomerState.transaction));
 			stateChanged();
 		}
 	}
@@ -216,6 +217,22 @@ public class BankManagerRole extends Role implements BankManager {
 		}
 	}
 	
+	private void CompleteLoan() {
+		if(accounts.get(officers.get(0).accountNum).loan!=0.0) { // fix based on drews answer
+			officers.get(0).emp.msgLoanDenied();
+			officers.get(0).requested=0; //reset val 
+			return;
+		}
+		else {
+			MyAccount update = accounts.get(officers.get(0).accountNum);
+			update.loan=officers.get(0).requested;
+			accounts.put(officers.get(0).accountNum, update);
+			officers.get(0).emp.msgLoanComplete();
+			vault-=officers.get(0).requested;
+			officers.get(0).requested=0;
+		}
+	}
+	
 	//classes
 	
 	public static class MyTeller {
@@ -251,11 +268,11 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	public static class MyCustomer {
-		Role customer;
+		BankCustomer customer;
 		enum MyCustomerState {transaction, loan};
 		MyCustomerState state;
 		
-		MyCustomer(Role b, MyCustomerState st) {
+		MyCustomer(BankCustomer b, MyCustomerState st) {
 			state=st;
 			customer = b;
 		}

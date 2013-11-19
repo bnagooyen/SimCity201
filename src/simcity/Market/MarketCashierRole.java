@@ -7,6 +7,7 @@ import java.util.List;
 import simcity.PersonAgent;
 import simcity.restaurant.CashierRole;
 import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.InventoryBoy;
@@ -27,7 +28,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public InventoryBoy ib;
 	public MarketManager manager; 
 	
-	public enum orderState{pending, inquiring, ready, given, paid, done};
+	public enum orderState{pending, inquiring, ready, given, waiting, paid, done};
 	enum myState{arrived, working, goHome, unavailable};
 	
 	myState state;
@@ -69,25 +70,30 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//Scheduler
 	public boolean pickAndExecuteAnAction() {
-		
-		for(MOrder o: orders){
-			if(o.state == orderState.ready){
-				giveOrder(o);
-				return true;
+		synchronized(orders){
+			for(MOrder o: orders){
+				if(o.state == orderState.ready){
+					giveOrder(o);
+					return true;
+				}
 			}
 		}
 		
-		for(MOrder o: orders){
-			if(o.state == orderState.pending){
-				tryToFulFillOrder(o);
-				return true;
+		synchronized(orders){
+			for(MOrder o: orders){
+				if(o.state == orderState.pending){
+					tryToFulFillOrder(o);
+					return true;
+				}
 			}
 		}
 		
-		for(MOrder o: orders){
-			if(o.state == orderState.paid){
-				updateManager(o);
-				return true;
+		synchronized(orders){
+			for(MOrder o: orders){
+				if(o.state == orderState.paid){
+					updateManager(o);
+					return true;
+				}
 			}
 		}
 		
@@ -116,15 +122,18 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		if(o.building.equals("")){
 			DoGiveFood();
 			o.c.msgHereIsOrderAndCheck(o.canGive, check);
+			o.state = orderState.waiting;
 		}
 		else if(o.cook == null){
 			DoDeliverFood();
 			o.c.msgHereIsOrderAndCheck(o.canGive, check);
+			o.state = orderState.waiting;
 		}
 		else{
 			o.cashier.msgBillFromMarket(check, this);
 			DoDeliverFood();
 			o.cook.msgHereIsDelivery(o.canGive);
+			o.state = orderState.waiting;
 		}
 	}
 	

@@ -90,16 +90,17 @@ public class MarketManagerRole extends Role implements MarketManager{
 			return true;
 		}
 		
-		
-		for(MyCustomer c: customers){
-			if(c.waiting == true){
-				for(MyMarketCashier mc: cashiers){
-					if(mc.state == workerState.available){
-						handleCustomer(c,mc);
+		synchronized(customers){
+			for(MyCustomer c: customers){
+				if(c.waiting == true){
+					for(MyMarketCashier mc: cashiers){
+						if(mc.state == workerState.available){
+							handleCustomer(c,mc);
+						}
 					}
 				}
+				return true;
 			}
-			return true;
 		}
 		
 		return false;
@@ -107,26 +108,32 @@ public class MarketManagerRole extends Role implements MarketManager{
 	
 	//Actions
 	private void closeMarket(){
-		for(MyMarketCashier c: cashiers){
-			c.c.msgGoHome();
+		synchronized(cashiers){
+			for(MyMarketCashier c: cashiers){
+				c.c.msgGoHome();
+			}
 		}
-		for(InventoryBoy b: inventoryBoys){
-			b.msgGoHome();
+		synchronized(inventoryBoys){
+			for(InventoryBoy b: inventoryBoys){
+				b.msgGoHome();
+			}
+			cashiers.clear();
+			inventoryBoys.clear();
+			isClosed = true;
+			}
 		}
-		cashiers.clear();
-		inventoryBoys.clear();
-		isClosed = true;
-	}
 	
 	private void marketClosed(){
-		for(MyCustomer c: customers){
-			if(c.type.equals("customer")) {
-				((MarketCustomer) c.c).msgMarketClosed();
+		synchronized(customers){
+			for(MyCustomer c: customers){
+				if(c.type.equals("customer")) {
+					((MarketCustomer) c.c).msgMarketClosed();
+				}
+				else {
+					((Cook) c.c).msgMarketClosed();
+				}
+				customers.remove(c);
 			}
-			else {
-				((Cook) c.c).msgMarketClosed();
-			}
-			customers.remove(c);
 		}
 	}
 	
@@ -156,9 +163,11 @@ public class MarketManagerRole extends Role implements MarketManager{
 	//Utilities
 	private MyCustomer find(Role r, List<MyCustomer> custs) {
 		MyCustomer c = null;
-		for(MyCustomer cust : custs) {
-			if(cust.c == r) {
-				c = cust;
+		synchronized(custs){
+			for(MyCustomer cust : custs) {
+				if(cust.c == r) {
+					c = cust;
+				}
 			}
 		}
 		return c;
@@ -166,9 +175,11 @@ public class MarketManagerRole extends Role implements MarketManager{
 	
 	private MyMarketCashier find(MarketCashier m, List<MyMarketCashier> cash){
 		MyMarketCashier mc = null;
-		for(MyMarketCashier cashier: cash){
-			if(cashier.c == m){
-				mc = cashier;
+		synchronized(cash){
+			for(MyMarketCashier cashier: cash){
+				if(cashier.c == m){
+					mc = cashier;
+				}
 			}
 		}
 		return mc;

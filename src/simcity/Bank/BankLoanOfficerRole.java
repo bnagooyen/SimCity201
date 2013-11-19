@@ -80,6 +80,18 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		stateChanged();
 	}
 	
+	@Override
+	public void msgGoHome() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void msgGoToLoanOfficerPosition() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	//SCHEDULER	
 	
@@ -143,5 +155,6 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		manager.msgAvailable(this);
 		state=bankLoanState.working;
 	}
+
 		
 }

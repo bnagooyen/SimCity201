@@ -16,13 +16,13 @@ import agent.Role;
 
 public class BankCustomerRole extends Role implements BankCustomer {
 	//data
-	BankManager manager; 
-	BankTeller teller; 
-	BankLoanOfficer loanOfficer; 
-	enum bankCustomerState { arrived, waiting, inProgress, done};
-	bankCustomerState state=bankCustomerState.arrived;
-	String purpose;
-	Integer accountNum=null;
+	public BankManager manager; 
+	public BankTeller teller; 
+	public BankLoanOfficer loanOfficer; 
+	public enum bankCustomerState { arrived, waiting, inProgress, done};
+	public bankCustomerState state=bankCustomerState.arrived;
+	public String purpose;
+	public Integer accountNum=null;
 	
 	
 	//messages
@@ -37,22 +37,33 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public void msgTransactionComplete(double amount){
 		myPerson.money-=amount;
 		state=bankCustomerState.done;
+		stateChanged();
 	}
 	
 	public void msgHeresLoan(double amount){
 		myPerson.money+=amount;
+		stateChanged();
 	}
 	
 	public void msgLoanDenied(){
 		state=bankCustomerState.done;
+		stateChanged();
 	}
 	
 	public void msgAccountMade(int AN){
 		accountNum=AN;
 		state=bankCustomerState.waiting;
+		stateChanged();
 	}
 	
-	protected BankCustomerRole(PersonAgent p) {
+	@Override
+	public void msgLeaveBank() {
+		// TODO Auto-generated method stub
+		state=bankCustomerState.done;
+		stateChanged();
+	}
+	
+	public BankCustomerRole(PersonAgent p) {
 		super(p);
 		// TODO Auto-generated constructor stub
 		
@@ -122,4 +133,5 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		state=bankCustomerState.arrived;
 		//doLeaveBank
 	}
+
 }

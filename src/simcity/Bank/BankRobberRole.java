@@ -8,13 +8,13 @@ import agent.Role;
 
 public class BankRobberRole extends Role implements BankRobber {
 	//data
-	BankManager manager; 
-	BankTeller teller; 
+	public BankManager manager; 
+	public BankTeller teller; 
 	
-	enum bankRobberState { arrived, waiting, inProgress, unsucessful, done};
-	bankRobberState state=bankRobberState.arrived;
+	public enum bankRobberState { arrived, waiting, inProgress, unsucessful, done};
+	public bankRobberState state=bankRobberState.arrived;
 	
-	protected BankRobberRole(PersonAgent p) {
+	public BankRobberRole(PersonAgent p) {
 		super(p);
 		// TODO Auto-generated constructor stub
 	}
@@ -34,6 +34,7 @@ public class BankRobberRole extends Role implements BankRobber {
 	}
 	
 	public void msgIShotYou(){
+		state=bankRobberState.done;
 		//tell Person He was shot				*******************************
 	}
 
@@ -41,15 +42,19 @@ public class BankRobberRole extends Role implements BankRobber {
 	public boolean pickAndExecuteAnAction() {
 		if(state==bankRobberState.arrived){
 			tellManagerArrived();
+			return true;
 		}
 		if(teller!=null && state==bankRobberState.waiting){
 			robBank();
+			return true;
 		}
 		if(state==bankRobberState.unsucessful){
 			shootTeller();
+			return true;
 		}
 		if(state==bankRobberState.done){
 			leaveBank();
+			return true;
 		}
 		return false;
 	}

@@ -14,6 +14,8 @@ import simcity.Transportation.BusAgent;
 import simcity.gui.PersonGui;
 import simcity.interfaces.Bus;
 
+import simcity.interfaces.Person;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -24,7 +26,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class PersonAgent extends Agent {
+public class PersonAgent extends Agent implements Person {
 
 	Timer timer = new Timer();
 	private String name;
@@ -32,7 +34,7 @@ public class PersonAgent extends Agent {
 	BusAgent bus;
 	
 	List<Role> roles = new ArrayList<Role>();
-	public enum PersonState { doingNothing, gotHungry, atRestaurant, dead };
+	public enum PersonState { doingNothing, gotHungry, atRestaurant, dead, gettingOnBus };
 	private PersonState state;
     
     public PersonGui PersonGui = null;
@@ -68,6 +70,15 @@ public class PersonAgent extends Agent {
 	public void gotHungry() {//from animation
 		print("I'm hungry");
 		state = PersonState.gotHungry; 
+		stateChanged();
+	}
+	
+	public void msgAtDestination(){
+		
+	}
+	
+	public void msgBusIsHere(Bus b){
+		state=PersonState.gettingOnBus;
 		stateChanged();
 	}
 	

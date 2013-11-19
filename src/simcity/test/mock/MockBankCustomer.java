@@ -34,5 +34,10 @@ public class MockBankCustomer extends Mock implements BankCustomer{
 		LoggedEvent m = new LoggedEvent ("New Account made: " + AN); 
 		log.add(m);
 	}
+	@Override
+	public void msgLeaveBank() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
