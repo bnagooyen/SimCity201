@@ -59,6 +59,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	public void msgHereIsPayment(Role r, double payment){
 		MOrder current = find(r,orders);
+		System.out.println("Current: "+current);
 		current.state = orderState.paid;
 		marketMoney += payment;
 		stateChanged();

@@ -28,13 +28,15 @@ public class MockCook extends Mock implements Cook{
 
 	@Override
 	public void msgHereIsDelivery(List<MFoodOrder> canGive) {
-		// TODO Auto-generated method stub
+		LoggedEvent e = new LoggedEvent("Received msgHereIsDelivery from market manager.");
+		log.add(e);
 		
 	}
 
 	@Override
 	public void msgGoToCashier(MarketCashier c) {
-		// TODO Auto-generated method stub
+		LoggedEvent e = new LoggedEvent("Received msgGoToCashier from market manager.");
+		log.add(e);
 		
 	}
 

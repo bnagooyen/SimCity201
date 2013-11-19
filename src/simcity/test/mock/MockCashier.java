@@ -2,10 +2,12 @@ package simcity.test.mock;
 
 
 import agent.Role;
+import simcity.PersonAgent;
 import simcity.Market.MarketCashierRole;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
+import simcity.restaurant.CashierRole;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.restaurant.interfaces.Customer;
 import simcity.restaurant.interfaces.Waiter;
@@ -15,13 +17,16 @@ public class MockCashier extends Mock implements Cashier {
 
 	public MockCashier(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
+		cr = new CashierRole(p);
 	}
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.
 	 */
 	public Cashier cashier;
 	public EventLog log = new EventLog();
+	public PersonAgent p;
+	public CashierRole cr;
+	
 	@Override
 	public void msgHereIsAPayment(Customer cust, int tnum, double valCustPaid) {
 		// TODO Auto-generated method stub

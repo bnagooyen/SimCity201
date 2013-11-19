@@ -1,6 +1,8 @@
 package simcity.test.mock;
 
+import simcity.PersonAgent;
 import simcity.test.mock.LoggedEvent;
+import simcity.Market.InventoryBoyRole;
 import simcity.Market.MOrder;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
@@ -9,10 +11,13 @@ public class MockInventoryBoy extends Mock implements InventoryBoy{
 
 	public MarketCashier mc;
 	public EventLog log;
+	public PersonAgent p;
+	public InventoryBoyRole ib;
 	
 	public MockInventoryBoy(String name) {
 		super(name);
 		log = new EventLog();
+		ib = new InventoryBoyRole(p);
 		// TODO Auto-generated constructor stub
 	}
 	

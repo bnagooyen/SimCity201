@@ -24,7 +24,8 @@ public class MockMarketCustomer extends Mock implements MarketCustomer{
 
 	@Override
 	public void msgGoToCashier(MarketCashier c) {
-		// TODO Auto-generated method stub
+		LoggedEvent e = new LoggedEvent("Received msgGoToCashier from market manager.");
+		log.add(e);
 		
 	}
 

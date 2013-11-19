@@ -12,6 +12,7 @@ import simcity.Market.MOrder;
 import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCashierRole.myState;
 import simcity.Market.MarketManagerRole;
+import simcity.Market.MarketManagerRole.workerState;
 import simcity.interfaces.MarketCashier;
 import simcity.test.mock.MockCook;
 import simcity.test.mock.MockInventoryBoy;
@@ -47,33 +48,51 @@ public class MarketManagerTest extends TestCase{
 	}
 	
 	
-	public void testMsgOrder() {
+	public void testMsgIAmHere() {
 		mc.ib = ib;
-		mc.manager = man;
+		mc.m = m;
 		ib.mc = mc;
 		c.mc = mc;
 		f1 = new MFoodOrder("Ch", 2);
 		foods.add(f1);
-//		a = new MOrder(foods,"b1", c, orderState.pending);
-//		orders.add(a);
+
 		
 		// preconditions
-        assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
-        assertEquals("MarketCashier should have collected zero money", mc.marketMoney, 0.0);
-        assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + mc.log.toString(), 0, mc.log.size());
+        assertEquals("MarketManager should have zero cashiers", m.cashiers.size(), 0);
+        assertEquals("MarketManager should have zero inventoryBoys", m.inventoryBoys.size(), 0);
+        assertEquals("MarketManager should have zero customers", m.customers.size(), 0);
+        assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + m.log.toString(), 0, m.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
                 + ib.log.toString(), 0, ib.log.size());
+        assertEquals("MockMarketCustomer should have an empty event log. The c's event log reads: "
+                + c.log.toString(), 0, c.log.size());
+        assertEquals("MockCook should have an empty event log. The cook's event log reads: "
+                + cook.log.toString(), 0, cook.log.size());
+        assertEquals("MockCashier should have an empty event log. The mc's event log reads: "
+                + mc.log.toString(), 0, mc.log.size());
         
         
-        //give mc adding an order
-        mc.msgOrder(c, foods, "b1");
-        assertEquals("MarketCashier should have one order", mc.orders.size(), 1);
-        assertTrue("MarketCashier is giving order to ib.", mc.pickAndExecuteAnAction());
-        assertEquals("Order state is inquiring.", mc.orders.get(0).state, orderState.inquiring);
+        //give mc adding an cashier
+        m.msgIAmHere(mc.mc,"cashier");
+        assertEquals("MarketManager should have one cashier", m.cashiers.size(), 1);
+        assertEquals("Market Cashier can work", m.cashiers.get(0).state, workerState.available);
+        assertTrue("MarketManager is checking to open.", m.pickAndExecuteAnAction());
+        assertEquals("isClosed.", m.isClosed, true);
+        assertTrue("MarketManager logged: " + m.log.getLastLoggedEvent().toString(), m.log.containsString("Received msgIAmHere."));
         
-        //give mc an order to fulfill
-        assertTrue("InventoryBoy logged: " + ib.log.getLastLoggedEvent().toString(), ib.log.containsString("Received msgCheckInventory from market cashier."));
-        assertFalse("MarketCashier has finished messaging ib.", mc.pickAndExecuteAnAction());
+        //adding inventory boy
+        m.msgIAmHere(ib.ib,"inventory boy");
+        assertEquals("MarketManager should have one inventory boy", m.inventoryBoys.size(), 1);
+        assertEquals("isClosed.", m.isClosed, false);
+        assertTrue("MarketManager logged: " + m.log.getLastLoggedEvent().toString(), m.log.containsString("Received msgIAmHere."));
+        
+        //adding customer
+        m.msgIAmHere(c.cr,"customer");
+        assertEquals("MarketManager should have one customer", m.customers.size(), 1);
+        assertTrue("MarketManager logged: " + m.log.getLastLoggedEvent().toString(), m.log.containsString("Received msgIAmHere."));
+        assertTrue("MarketManager is checking to open.", m.pickAndExecuteAnAction());
+        assertEquals("Market Cashier can work", m.cashiers.get(0).state, workerState.occupied);
+        assertTrue("MarketCustomer logged: " + c.log.getLastLoggedEvent().toString(), c.log.containsString("Received msgGoToCashier from market manager."));
         
 	}
 	
