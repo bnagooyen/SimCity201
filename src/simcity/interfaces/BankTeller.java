@@ -20,7 +20,7 @@ public interface BankTeller {
 	
 	public void msgIShotYou();
 	
-	public void msgGoHome();
+	public void msgGoHome(double pay);
 	
 	public void msgGoToTellerPosition();
 }

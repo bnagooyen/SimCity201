@@ -78,7 +78,8 @@ public class BankTellerRole extends Role implements BankTeller {
 	public void msgIShotYou(){
 		//Tell person he was shot, Message? Directly add to state?
 	}
-	public void msgGoHome(){
+	public void msgGoHome(double pay){
+		myPerson.money+=pay;
 		state=bankTellerState.finished;
 		stateChanged();
 	}
@@ -108,6 +109,10 @@ public class BankTellerRole extends Role implements BankTeller {
 	}
 	if(robber!=null){
 		dealWithRobbery();
+		return true;
+	}
+	if(state==bankTellerState.finished) {
+		leaveBank();
 		return true;
 	}
 		return false;
@@ -147,8 +152,11 @@ public class BankTellerRole extends Role implements BankTeller {
 			manager.msgAvailable(this);
 		}
 	}
-
 	
+	private void leaveBank() {
+		//DoLeaveBank();
+		//deactivate role ?
+	}
 	
 		
 }

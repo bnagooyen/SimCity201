@@ -32,15 +32,15 @@ public class MockBankLoanOfficer extends Mock implements BankLoanOfficer{
 	}
 
 	@Override
-	public void msgGoHome() {
+	public void msgGoHome(double pay) {
 		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Off duty pay = "+ pay));
 	}
 
 	@Override
 	public void msgGoToLoanOfficerPosition() {
 		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("On duty"));
 	}
 
 }

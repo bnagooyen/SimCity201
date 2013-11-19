@@ -16,7 +16,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	//data
 	BankManager manager;
 	MyCustomer customer;
-	enum bankLoanState { working, atManager, recieved};
+	enum bankLoanState { working, atManager, recieved, finished};
 	enum accountState {none,requested,justMade,existing};
 	bankLoanState state=bankLoanState.working;
 	private static List<String> acceptableJobs = Collections.synchronizedList(new ArrayList<String>());
@@ -81,9 +81,11 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	}
 	
 	@Override
-	public void msgGoHome() {
+	public void msgGoHome(double pay) {
 		// TODO Auto-generated method stub
-		
+		myPerson.money+=pay;
+		state=bankLoanState.finished;
+		stateChanged();
 	}
 
 

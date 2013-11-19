@@ -17,7 +17,7 @@ public class MockBankTeller extends Mock implements BankTeller{
 	}
 	
 	public void msgAccountCreated(int num){
-		
+		log.add(new LoggedEvent("Account created"));
 	}
 	
 	public void msgDeposit(BankCustomer BC, int actNum, double amount){
@@ -44,12 +44,12 @@ public class MockBankTeller extends Mock implements BankTeller{
 		log.add(m);
 	}
 	
-	public void msgGoHome(){
-		
+	public void msgGoHome(double pay){
+		log.add(new LoggedEvent("Off duty pay = "+ pay));
 	}
 	
 	public void msgGoToTellerPosition(){
-		
+		log.add(new LoggedEvent("On duty"));
 	}
 
 }

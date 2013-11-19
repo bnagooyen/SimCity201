@@ -15,19 +15,23 @@ import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.BankTeller;
 import simcity.interfaces.Landlord;
+import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
 import agent.Role;
 
 public class BankManagerRole extends Role implements BankManager {
 	
 	//data
+	public EventLog log = new EventLog();
 	private List<MyTeller> tellers = Collections.synchronizedList(new ArrayList<MyTeller>());
 	private List<MyLoanOfficer> officers = Collections.synchronizedList(new ArrayList<MyLoanOfficer>());
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	private Map<Integer, MyAccount> accounts = new HashMap<Integer, MyAccount>();
 	int hour;
+	private double employeePayPerHour=10;
 	private double vault = 1000000000;
 	
-	protected BankManagerRole(PersonAgent p) {
+	public BankManagerRole(PersonAgent p) {
 		super(p);
 		// TODO Auto-generated constructor stub
 	}
@@ -76,7 +80,7 @@ public class BankManagerRole extends Role implements BankManager {
 			stateChanged();	
 		}
 		
-		if(type.equals("LoanAgent")) {
+		if(type.equals("BankLoanOfficer")) {
 			officers.get(0).needsAccount=true;
 			stateChanged();
 		}
@@ -156,15 +160,17 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	//actions
 	private void SwapTellers() {
-		tellers.get(0).emp.msgGoHome();
+		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
 		tellers.get(1).emp.msgGoToTellerPosition();
+		tellers.get(1).startHr=hour;
 		tellers.get(1).state=MyTellerState.available;
 		tellers.remove(tellers.get(0));
 	}
 	
 	private void SwapLoanOfficers() {
-		officers.get(0).emp.msgGoHome();
+		officers.get(0).emp.msgGoHome((hour-officers.get(0).startHr)*employeePayPerHour);
 		officers.get(1).emp.msgGoToLoanOfficerPosition();
+		officers.get(1).startHr=hour;
 		officers.get(1).state=MyOfficerState.available;
 		officers.remove(officers.get(0));
 	}
@@ -172,11 +178,15 @@ public class BankManagerRole extends Role implements BankManager {
 	private void AddTeller() {
 		tellers.get(0).emp.msgGoToTellerPosition();
 		tellers.get(0).state=MyTellerState.available;
+		log.add(new LoggedEvent("Teller added"));
+		tellers.get(0).startHr=hour;
 	}
 	
 	private void AddLoanOfficer() {
 		officers.get(0).emp.msgGoToLoanOfficerPosition();
 		officers.get(0).state=MyOfficerState.available;
+		log.add(new LoggedEvent("Loan officer added"));
+		officers.get(0).startHr=hour;
 	}
 	
 	private void SendCustomerToTeller(MyCustomer c) {
@@ -233,17 +243,31 @@ public class BankManagerRole extends Role implements BankManager {
 		}
 	}
 	
+	//accessors for testing
+	public List<MyLoanOfficer> getOfficer() {
+		return officers;
+	}
+	
+	public List<MyTeller> getTeller() {
+		return tellers;
+	}
+	
+	public Map<Integer, MyAccount> getAccounts() {
+		return accounts;
+	}
+	
 	//classes
 	
 	public static class MyTeller {
 		BankTeller emp;
 		boolean needsAccount=false;
+		int startHr=0;
 		int accountNum = 0;
 		double requested=0.0;
-		enum MyTellerState {justArrived, available, occupied};
-		MyTellerState state;
+		public enum MyTellerState {justArrived, available, occupied};
+		public MyTellerState state;
 		
-		MyTeller (BankTeller p) {
+		public MyTeller (BankTeller p) {
 			emp = p;
 			state= MyTellerState.justArrived;
 		}
@@ -253,6 +277,7 @@ public class BankManagerRole extends Role implements BankManager {
 	public static class MyLoanOfficer {
 		BankLoanOfficer emp;
 		boolean needsAccount=false;
+		int startHr=0;
 		int accountNum = 0;
 		double requested=0.0;
 		enum MyOfficerState {justArrived, available, occupied};
@@ -260,7 +285,7 @@ public class BankManagerRole extends Role implements BankManager {
 		enum EmployeeType {LoanOfficer, Teller};
 		EmployeeType type;
 		
-		MyLoanOfficer (BankLoanOfficer p) {
+		public MyLoanOfficer (BankLoanOfficer p) {
 			emp = p;
 			state= MyOfficerState.justArrived;
 		}
@@ -284,7 +309,7 @@ public class BankManagerRole extends Role implements BankManager {
 		
 	}
 	
-	class MyAccount{
+	public class MyAccount{
 	
 		double balance;
 		double loan;
@@ -292,6 +317,22 @@ public class BankManagerRole extends Role implements BankManager {
 		MyAccount (double bal, double lo){
 			balance=bal;
 			loan=lo;
+		}
+		
+		public double getBalance() {
+			return balance;
+		}
+		
+		public double getLoan() {
+			return loan;
+		}
+		
+		public void setBalance(double val) {
+			balance = val;
+		}
+		
+		public void setLoan(double val) {
+			loan = val;
 		}
 	}
 	
