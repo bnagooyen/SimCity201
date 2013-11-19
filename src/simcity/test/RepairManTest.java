@@ -69,7 +69,9 @@ public class RepairManTest extends TestCase{
 		//checking postconditions
 		assertTrue("MockLandlord should have logged an event for receiving jobDone but instead it's: " + landlord.log.getLastLoggedEvent().toString(), landlord.log.containsString("Received a bill from the repairman. Bill = 30.0"));
 		assertFalse("Repairman's scheduler should have returned false now, since it has nothing to do. It didn't.", repairman.pickAndExecuteAnAction());
-		assertEquals("Repairman should have no jobs again. It doesn't.", repairman.jobs.size(), 0); 
+		assertEquals("Repairman should have no jobs again. It doesn't.", repairman.jobs.size(), 0);
+		
+		
 	}
 	
 

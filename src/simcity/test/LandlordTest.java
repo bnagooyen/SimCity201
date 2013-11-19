@@ -19,6 +19,7 @@ public class LandlordTest extends TestCase{
 		super.setUp();
 		person = new PersonAgent("Landlord");
 		landlord = new LandlordRole(person);
+		repairman = new MockRepairMan("Mock Repairman"); 
 		person.addRole(landlord);		
 	}
 	
@@ -38,9 +39,12 @@ public class LandlordTest extends TestCase{
 		//checking postconditions
 		assertEquals("Landlord should have one repairmen right now. It doesn't.", landlord.repairmen.size(), 1);
 		assertEquals("Landlord should have one tenants right now. It doesn't.", landlord.myTenants.size(), 1);
+		assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
 
-
-		
+		landlord.TimeUpdate(10);
+		assertTrue("Landlord's scheduler should have returned true now, since it has to do something. It didn't.", landlord.pickAndExecuteAnAction());
+		//assertTrue("MockRepairMan should have logged an event for receiving a job but instead it's: " + repairman.log.getLastLoggedEvent().toString(), repairman.log.containsString("Received a job for building B2"));
+		//assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
 		
 	}
 }

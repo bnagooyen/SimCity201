@@ -34,10 +34,11 @@ public class LandlordRole extends Role implements Landlord{
 	class Worker {
 		Worker (RepairMan r) {
 			myWorker = r; 
+			ws = WorkerState.working; 
 		}
 		RepairMan myWorker; 
 		double bill; 
-		WorkerState ws; 
+		WorkerState ws;
 	}
 	
 	class Tenant {
@@ -108,19 +109,22 @@ public class LandlordRole extends Role implements Landlord{
 			CollectRent();
 			return true; 
 		}
+		
 		if(state == AgentState.collectedRent) {
 			DistributePayments();
 			return true; 
 		}
+		
+		if (state == AgentState.callMaintanence) {
+			CallMaintenance();
+			return true; 
+		}
+		
 		for (Worker w:myWorkers) {
 			if (w.ws == WorkerState.paying) {
 				PayMaintenance(w); 
 				return true; 
 			}
-		}
-		if (state == AgentState.callMaintanence) {
-			CallMaintenance();
-			return true; 
 		}
 		return false;
 	}
@@ -129,12 +133,14 @@ public class LandlordRole extends Role implements Landlord{
 	
 	private void CollectRent() {
 		for(Tenant t:myTenants) {
+			/**
 			if (t.account == 0) {
 				t.person.msgHereIsYourRentBill(rentBill); 
 			}
 			else {
+			*/
 				bankmanager.msgHereIsYourRentBill(this, t.account, rentBill);
-			}
+			//}
 		}
 		state = AgentState.nothing; 
 	}
@@ -152,21 +158,22 @@ public class LandlordRole extends Role implements Landlord{
 			t.ts = TenantState.nothing; 
 		}
 		revenue = revenue *.70;
-		//add money to the personAgent?
+		//add money to the personAgent
 		state = AgentState.nothing; 
 	}
 	
 	private void CallMaintenance() {
 		int workerNumber; 
-		if (myWorkers.size() <= 1) {
+		if (repairmen.size() <= 1) {
 			workerNumber = 0; 
 		}
 		else {
-			workerNumber = WorkerToday.nextInt(myWorkers.size()); 
+			workerNumber = ((Random) repairmen).nextInt(repairmen.size()); 
 		}
-		
 		for (Tenant t:myTenants) {
-			myWorkers.get(workerNumber).myWorker.NeedRepair(t.location, this);
+			myWorkers.add(new Worker(repairmen.get(workerNumber)));
+			repairmen.get(workerNumber).NeedRepair(t.location, this);
+			
 		}
 		state = AgentState.nothing; 
 	}
