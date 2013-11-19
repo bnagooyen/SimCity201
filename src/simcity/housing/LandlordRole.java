@@ -31,12 +31,12 @@ public class LandlordRole extends Role implements Landlord{
 	public List<Worker>myWorkers
 	= new ArrayList<Worker>(); 
 	
-	class Worker {
+	public class Worker {
 		Worker (RepairMan r) {
 			myWorker = r; 
 			ws = WorkerState.working; 
 		}
-		RepairMan myWorker; 
+		public RepairMan myWorker; 
 		double bill; 
 		WorkerState ws;
 	}
