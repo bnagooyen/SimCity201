@@ -17,8 +17,8 @@ public class MOrder {
 	public List<MFoodOrder>foodsNeeded = Collections.synchronizedList(new ArrayList<MFoodOrder>());
 	public List<MFoodOrder>canGive = Collections.synchronizedList(new ArrayList<MFoodOrder>());
 	public orderState state;
-	MarketCustomer c;
-	Cook cook;
+	public MarketCustomer c;
+	public Cook cook;
 	String building;
 	RestaurantCashier cashier;
 	

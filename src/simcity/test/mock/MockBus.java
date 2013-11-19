@@ -31,7 +31,7 @@ public class MockBus extends Mock implements Bus {
 		
 	}
 	public  void msgHereArePassengers(List<PersonAgent> people){
-		
+		log.add(new LoggedEvent("Should have received message from the bus Stop, but did not"));
 	}
 	
 	public  void msgGettingOn(PersonAgent p, String destination){

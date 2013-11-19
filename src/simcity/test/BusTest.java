@@ -50,7 +50,7 @@ public class BusTest extends TestCase{
 		assertEquals("Bus should have no passengers in the bus, but it does.", bus.passengers.size(),0);
 		assertEquals("Bus should initially have no bus stops but it does", bus.busStops.size(), 0 );
 		
-		//Bus receives message of passenegers
+		//Bus receives message of passengers
 		bus.msgHereArePassengers(waitingPassengers);
 		assertEquals("Bus should have one passenger in his passenger list, but it does not", bus.passengers.size(),1);
 		
@@ -68,15 +68,13 @@ public class BusTest extends TestCase{
 		assertTrue("Bus's state should now be atStop because it is checking for passengers at the stop",bus.state==busState.atStop );
 	
 		assertEquals("Bus Stop should have received a message from bus and have a log size of 1", busStop.log.size(),1);
+		assertEquals("Because passenger has gotten off the bus, there should be no passengers in the waiting list", bus.passengers.size(),0);
 		
 		
 		
-		
-		
-		
-		
-		
-	}
+		}
+	
+	
 		
 	
 	

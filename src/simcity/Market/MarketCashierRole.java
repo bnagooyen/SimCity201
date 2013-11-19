@@ -21,7 +21,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 
 	public List<MOrder> orders =Collections.synchronizedList(new ArrayList<MOrder>());
 	
-	boolean active;
+	public boolean active;
 	public double marketMoney;
 	public EventLog log;
 	
@@ -29,9 +29,9 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public MarketManager manager; 
 	
 	public enum orderState{pending, inquiring, ready, given, paid, done};
-	enum myState{arrived, working, goHome, unavailable};
+	public enum myState{arrived, working, goHome, unavailable};
 	
-	myState state;
+	public myState state;
 	
 	public MarketCashierRole(PersonAgent p) {
 		super(p);
@@ -53,11 +53,6 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public void msgCanGive(MOrder o){
 		MOrder current = find(o, orders);
 		current.state = orderState.ready;
-		LoggedEvent e = new LoggedEvent("Received msgCanGive from inventory boy.");
-		log.add(e);
-//		if(orders.get(0).state.equals(orderState.ready)){
-//			Do("HERE");
-//		}
 		stateChanged();
 	}
 	
@@ -77,7 +72,6 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public boolean pickAndExecuteAnAction() {
 		synchronized(orders){
 			for(MOrder o: orders){
-				Do("State: "+o.state);
 				if(o.state == orderState.ready){
 					giveOrder(o);
 					return true;

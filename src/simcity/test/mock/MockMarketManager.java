@@ -31,7 +31,8 @@ public class MockMarketManager extends Mock implements MarketManager{
 	}
 
 	public void msgCustomerDone(MarketCashier mc, Role r) {
-		
+		LoggedEvent e = new LoggedEvent("Received msgCustomerDone from market cashier.");
+		log.add(e);
 	}
 
 }

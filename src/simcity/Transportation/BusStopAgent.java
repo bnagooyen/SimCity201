@@ -9,12 +9,13 @@ import agent.Agent;
 import simcity.Transportation.BusAgent;
 import simcity.interfaces.Bus;
 import simcity.interfaces.BusStop;
+import simcity.interfaces.Person;
 
 
 public class BusStopAgent extends Agent implements BusStop{
 	
-	List<Bus> buses;
-	List<PersonAgent> waitingPassengers;
+	public List<Bus> buses=new ArrayList<Bus>();
+	public List<PersonAgent> waitingPassengers=new ArrayList<PersonAgent>();
 	
 	
 	//Messages
@@ -32,7 +33,7 @@ public class BusStopAgent extends Agent implements BusStop{
 	
 	//SCHEDULER
 	
-	protected boolean pickAndExecuteAnAction(){
+	public boolean pickAndExecuteAnAction(){
 	
 		if(buses.size()>0){
 			givePassengerList(buses.get(0));
