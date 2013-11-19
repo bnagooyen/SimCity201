@@ -28,7 +28,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public InventoryBoy ib;
 	public MarketManager manager; 
 	
-	public enum orderState{pending, inquiring, ready, given, paid, done};
+	public enum orderState{pending, inquiring, ready, given, waiting, paid, done};
 	enum myState{arrived, working, goHome, unavailable};
 	
 	myState state;
@@ -53,11 +53,6 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public void msgCanGive(MOrder o){
 		MOrder current = find(o, orders);
 		current.state = orderState.ready;
-		LoggedEvent e = new LoggedEvent("Received msgCanGive from inventory boy.");
-		log.add(e);
-//		if(orders.get(0).state.equals(orderState.ready)){
-//			Do("HERE");
-//		}
 		stateChanged();
 	}
 	
@@ -77,7 +72,6 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public boolean pickAndExecuteAnAction() {
 		synchronized(orders){
 			for(MOrder o: orders){
-				Do("State: "+o.state);
 				if(o.state == orderState.ready){
 					giveOrder(o);
 					return true;
@@ -128,15 +122,18 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		if(o.building.equals("")){
 			DoGiveFood();
 			o.c.msgHereIsOrderAndCheck(o.canGive, check);
+			o.state = orderState.waiting;
 		}
 		else if(o.cook == null){
 			DoDeliverFood();
 			o.c.msgHereIsOrderAndCheck(o.canGive, check);
+			o.state = orderState.waiting;
 		}
 		else{
 			o.cashier.msgBillFromMarket(check, this);
 			DoDeliverFood();
 			o.cook.msgHereIsDelivery(o.canGive);
+			o.state = orderState.waiting;
 		}
 	}
 	
