@@ -32,10 +32,12 @@ public class LandlordRole extends Role implements Landlord{
 	= new ArrayList<Worker>(); 
 	
 	public class Worker {
-		Worker (RepairMan r) {
+		Worker (RepairMan r, String l) {
 			myWorker = r; 
-			ws = WorkerState.working; 
+			location = l; 
+			ws = WorkerState.working;
 		}
+		public String location; 
 		public RepairMan myWorker; 
 		double bill; 
 		WorkerState ws;
@@ -94,9 +96,9 @@ public class LandlordRole extends Role implements Landlord{
 		}
 	}		
 	
-	public void jobDone(RepairMan w, double cost) {
+	public void jobDone(String l, double cost) {
 		for (Worker current:myWorkers) {
-			if (current.myWorker == w) {
+			if (current.location == l) {
 				current.bill = cost;
 				current.ws = WorkerState.paying; 
 				stateChanged();
@@ -169,10 +171,10 @@ public class LandlordRole extends Role implements Landlord{
 			workerNumber = 0; 
 		}
 		else {
-			workerNumber = ((Random) repairmen).nextInt(repairmen.size()); 
+			workerNumber = WorkerToday.nextInt(repairmen.size()); 
 		}
 		for (Tenant t:myTenants) {
-			myWorkers.add(new Worker(repairmen.get(workerNumber)));
+			myWorkers.add(new Worker(repairmen.get(workerNumber), t.location));
 			repairmen.get(workerNumber).NeedRepair(t.location, this);
 			
 		}

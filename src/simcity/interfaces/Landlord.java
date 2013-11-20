@@ -17,5 +17,5 @@ public interface Landlord {
 	
 	public abstract void CannotPayForRent(Integer AN); 
 	
-	public abstract void jobDone(RepairMan w, double cost);
+	public abstract void jobDone(String l, double cost);
 }

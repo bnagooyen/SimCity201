@@ -70,7 +70,7 @@ public class RepairManRole extends Role implements RepairMan {
 		}, 5000);
 		
 		if (jobs.get(0).employer != null) {
-			jobs.get(0).employer.jobDone(this, bill);
+			jobs.get(0).employer.jobDone(jobs.get(0).building, bill);
 		}
 		/*
 		else {
