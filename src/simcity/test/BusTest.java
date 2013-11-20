@@ -106,11 +106,16 @@ public class BusTest extends TestCase{
 		assertTrue("Bus's state should now be travelling now that it is travelling",bus.state==busState.travelling);
 		
 		bus.msgAtStop("destination");
+	
 		bus.busStops.put("destination", busStop);
 		assertTrue("Bus's state should now be at arrived now that it is no longer travelling",bus.state==busState.arrived);
 		assertTrue("Bus's pickAndExecuteAnAction should be active because it is at a stop", bus.pickAndExecuteAnAction());
 		assertTrue("Bus's state should now be atStop because it is checking for passengers at the stop",bus.state==busState.atStop );
-	
+		
+		assertEquals("Bus Stop should have received a message from bus and have a log size of 3", busStop.log.size(), 3);
+		assertTrue("BusStop Logged: " + busStop.log.getLastLoggedEvent().toString(), busStop.log.containsString("Received message from bus with passengers"));
+		System.out.println(bus.passengers.size());
+		assertEquals("Because passenger has gotten off the bus, there should be no passengers in the waiting list", bus.passengers.size(),0);
 		
 	}
 	
