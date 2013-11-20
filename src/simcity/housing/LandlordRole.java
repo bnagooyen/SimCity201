@@ -70,11 +70,14 @@ public class LandlordRole extends Role implements Landlord{
 	//messages
 	public void TimeUpdate(int hour) {
 		this.hour = hour;
-		if (hour == 20) {
-			state = AgentState.askingForRent;
-		}
 		if (hour == 10) {
 			state = AgentState.callMaintanence; 
+		}
+		if (hour == 12) {
+			state = AgentState.askingForRent;
+		}
+		if (hour == 18) {
+			state = AgentState.collectedRent;
 		}
 		stateChanged(); 
 	}
@@ -84,6 +87,7 @@ public class LandlordRole extends Role implements Landlord{
 		for (Tenant t:myTenants) {
 			if (t.account == AN) {
 					t.ts = TenantState.paid;
+					revenue += amount; 
 			}
 		}
 	}
