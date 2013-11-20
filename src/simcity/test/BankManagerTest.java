@@ -7,10 +7,12 @@ import simcity.Bank.BankManagerRole.MyAccount;
 import simcity.Bank.BankManagerRole.MyCustomer;
 import simcity.Bank.BankManagerRole.MyLoanOfficer;
 import simcity.Bank.BankManagerRole.MyTeller;
+import simcity.housing.LandlordRole;
 import simcity.test.mock.MockBankCustomer;
 import simcity.test.mock.MockBankManager;
 import simcity.test.mock.MockBankLoanOfficer;
 import simcity.test.mock.MockBankTeller;
+import simcity.test.mock.MockLandlord;
 import junit.framework.TestCase;
 
 public class BankManagerTest extends TestCase{
@@ -26,6 +28,7 @@ public class BankManagerTest extends TestCase{
 	MockBankCustomer customer2t;
 	MockBankCustomer customer1l;
 	MockBankCustomer customer2l;
+	MockLandlord landlord; 
 	
 	@Override
 	public void setUp() throws Exception{
@@ -45,6 +48,8 @@ public class BankManagerTest extends TestCase{
 		customer2t = new MockBankCustomer("transaction");
 		customer1l = new MockBankCustomer("transaction");
 		customer2l = new MockBankCustomer("loan");
+		
+		landlord = new MockLandlord("Landlord"); 
 		
 	}
 	
@@ -417,6 +422,32 @@ public void testLoanOfficerrHandlesCustomer() {
 		assertEquals("customer shouldn't be on list anymore", manager.getCustomers().size(),0);
 		assertTrue("customer serviced to teller", customer1l.log.containsString("Going to officer"));
 		
+		
+	}
+
+	public void testTransferMoneyToLandlord() {
+		//checking preconditions
+		assertEquals("BankManager should have no clients right now. It doesn't.", manager.clients.size(), 0);
+		assertEquals("Teller shouldn't have any logs right now. It doesn't. ", teller.log.size(), 0);
+		assertEquals("Manager should have no accounts. It doesn't.", manager.getAccounts().size(), 0);
+		assertEquals("BankManager should no logs right now. It doesn't.", manager.log.size(), 0);
+		assertEquals("BankCustomer should have no logs right now. It doesn't.", customer1t.log.size(), 0);
+		assertFalse("BankManager's scheduler should have returned false now, since it has nothing to do. It didn't.", manager.pickAndExecuteAnAction());
+
+		//hack to create account for tenant
+		manager.accounts.put(8, manager.new MyAccount(100, 0));
+		manager.msgHereIsYourRentBill(landlord, 8, 25);
+		
+		//checking postconditions
+		assertEquals("BankManager should have one client right now. It doesn't.", manager.clients.size(), 1);
+		
+		//calling scheduler
+		assertTrue("BankManager's scheduler should have returned true now, since it has to do something. It didn't.", manager.pickAndExecuteAnAction());
+		assertTrue("Landlord should have logged an event for receiving a job but instead it's: " + landlord.log.getLastLoggedEvent().toString(), landlord.log.containsString("Received money for tenant"));
+		assertFalse("BankManager's scheduler should have returned false now, since it has nothing to do. It didn't.", manager.pickAndExecuteAnAction());
+		assertEquals("BankManager should have no clients right now. It doesn't.", manager.clients.size(), 0);
+		assertEquals("The tenant should have less money now, but it doesn't.", manager.accounts.get(8).balance, 75.0);
+
 		
 	}
 }

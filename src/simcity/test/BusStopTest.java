@@ -26,6 +26,7 @@ public class BusStopTest extends TestCase{
 	PersonAgent person; 
 	PersonAgent person2;
 	MockBus bus;
+	MockBus bus2;
 	BusStopAgent busStop;
 
 	List<PersonAgent> waitingPassengers=new ArrayList<PersonAgent>();
@@ -38,6 +39,8 @@ public class BusStopTest extends TestCase{
 		person2=new PersonAgent("person2");
 		
 		bus=new MockBus("mockBus");
+		bus2=new MockBus("mockBus2");
+		
 		busStop=new BusStopAgent();
 
 
@@ -66,6 +69,32 @@ public class BusStopTest extends TestCase{
 		assertEquals("Bus Stop should not have bus in a list because bus has left the stop, but it does", busStop.buses.size(),0);
 
 
+	}
+	
+	public void testTwoBusStop(){
+		
+		//preconditions
+				assertEquals("Bus Stop should have no buses in it's list if bus hasnt landed at stop", busStop.buses.size(),0);
+				assertEquals("Bus Stop should have no waiting customers if bus has not received message, and it does",busStop.waitingPassengers.size(),0);
+				assertEquals("Bus should have no message from Bus Stop with passengers before any messages are sent", bus.log.size(),0);
+				//receives messages from passenger that the passenger is waiting
+				busStop.msgWaitingForBus(person);
+				busStop.msgWaitingForBus(person2);
+				
+				assertEquals("Bus Stop should now have two people added to its list of waiting Passengers, but it does not",busStop.waitingPassengers.size(),2 );
+				
+				//receives message from bus that it has arrived at this particular spot
+				busStop.msgAnyPassengers(bus);
+				busStop.msgAnyPassengers(bus2);
+				
+				assertEquals("Bus Stop should now have two buses added to its list of buses, but it does not", busStop.buses.size(),2);
+				assertTrue("Bus Stop's pickAndExecuteAnAction should be active because there is a bus that it can give the passengers to", busStop.pickAndExecuteAnAction());
+				assertEquals("Bus should have received message from Bus Stop with passengers, but it did not", bus.log.size(),1);
+				
+				assertEquals("Bus Stop should clear all of its passengers once it has already given them to the bus and should have an empty list", busStop.waitingPassengers.size(),0);
+				assertEquals("Bus Stop should have 1 bus left at the stop because one has left, but it does", busStop.buses.size(),1);
+		
+		
 	}
 
 
