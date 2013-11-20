@@ -14,6 +14,8 @@ import simcity.Market.MarketCashierRole.myState;
 import simcity.Market.MarketManagerRole;
 import simcity.Market.MarketManagerRole.workerState;
 import simcity.interfaces.MarketCashier;
+import simcity.mockrole.MockRoleMarketCashier;
+import simcity.mockrole.MockRoleMarketCustomer;
 import simcity.test.mock.MockCook;
 import simcity.test.mock.MockInventoryBoy;
 import simcity.test.mock.MockMarketCashier;
@@ -25,9 +27,9 @@ import junit.framework.TestCase;
 public class MarketManagerTest extends TestCase{
 
 	PersonAgent p;
-	MockMarketCashier mc;
+	MockRoleMarketCashier mc;
 	MockInventoryBoy ib;
-	MockMarketCustomer c;
+	MockRoleMarketCustomer c;
 	MockCook cook;
 	MarketManagerRole m;
 	
@@ -39,10 +41,10 @@ public class MarketManagerTest extends TestCase{
 	public void setUp() throws Exception{
 		super.setUp();
 		p = new PersonAgent("MarketCashier");
-		mc = new MockMarketCashier("mockMarketCashier");
+		mc = new MockRoleMarketCashier("mockMarketCashier", p);
 		p.addRole(m);
 		ib = new MockInventoryBoy("mockInventoryBoy");
-		c = new MockMarketCustomer("mockCustomer");
+		c = new MockRoleMarketCustomer("mockCustomer", p);
 		cook = new MockCook("mockCook");
 		m = new MarketManagerRole(p);
 	}
@@ -73,36 +75,37 @@ public class MarketManagerTest extends TestCase{
         
         
         //give mc adding an cashier
-        m.msgIAmHere(mc.mc,"cashier");
+        m.msgIAmHere(mc,"cashier");
         assertEquals("MarketManager should have one cashier", m.cashiers.size(), 1);
         assertEquals("Market Cashier can work", m.cashiers.get(0).state, workerState.available);
-        assertTrue("MarketManager is checking to open.", m.pickAndExecuteAnAction());
+        //assertTrue("MarketManager is checking to open.", m.pickAndExecuteAnAction());
         assertEquals("isClosed.", m.isClosed, true);
         assertTrue("MarketManager logged: " + m.log.getLastLoggedEvent().toString(), m.log.containsString("Received msgIAmHere."));
-        
         //adding inventory boy
         m.msgIAmHere(ib.ib,"inventory boy");
         assertEquals("MarketManager should have one inventory boy", m.inventoryBoys.size(), 1);
         assertEquals("isClosed.", m.isClosed, false);
         assertTrue("MarketManager logged: " + m.log.getLastLoggedEvent().toString(), m.log.containsString("Received msgIAmHere."));
-        
         //adding customer
-        m.msgIAmHere(c.cr,"customer");
+        m.msgIAmHere(c,"customer");
         assertEquals("MarketManager should have one customer", m.customers.size(), 1);
         assertTrue("MarketManager logged: " + m.log.getLastLoggedEvent().toString(), m.log.containsString("Received msgIAmHere."));
         assertTrue("MarketManager is checking to open.", m.pickAndExecuteAnAction());
         assertEquals("Market Cashier can work", m.cashiers.get(0).state, workerState.occupied);
-        //assertTrue("MarketCustomer logged: " + c.log.getLastLoggedEvent().toString(), c.log.containsString("Received msgGoToCashier from market manager."));
+        assertTrue("MarketCustomer logged: " + c.log.getLastLoggedEvent().toString(), c.log.containsString("Received msgGoToCashier from market manager."));
 	
-        //PROBLEM: cannot test if msgGoToCashier or msgGoHome was sent because it is calling a role not a mock
-        
+      
         //time to close market
         m.msgTimeUpdate(20);
-        assertTrue("MarketManager is closing.", m.pickAndExecuteAnAction());
+        assertEquals("isClosed.", m.isClosed, false);     
+        m.pickAndExecuteAnAction();
+
         //assertTrue("Inventory Boy logged: " + m.inventoryBoys.get(0).log.getLastLoggedEvent().toString(), m.inventoryBoys.get(0).log.containsString("Gone Home."));
         assertEquals("isClosed.", m.isClosed, true);
+        assertTrue("MarketManager is closing.", m.pickAndExecuteAnAction());
         assertEquals("MarketManager should have zero cashiers", m.cashiers.size(), 0);
         assertEquals("MarketManager should have zero inventoryBoys", m.inventoryBoys.size(), 0);
+        m.pickAndExecuteAnAction(); 
         assertEquals("MarketManager should have zero customers", m.customers.size(), 0);
 	}
 	

@@ -13,6 +13,7 @@ import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.RestaurantCashier;
+import simcity.mockrole.MockRoleMarketCashier;
 import simcity.restaurant.interfaces.Cashier;
 
 public class MockMarketCashier extends Mock implements MarketCashier {
@@ -21,12 +22,12 @@ public class MockMarketCashier extends Mock implements MarketCashier {
 	public MarketManager m;
 	public EventLog log;
 	public PersonAgent p;
-	public MarketCashierRole mc;
+	public MockRoleMarketCashier mc;
 	
 	public MockMarketCashier(String name) {
 		super(name);
 		log = new EventLog();
-		mc = new MarketCashierRole(p);
+		mc = new MockRoleMarketCashier(name,p);
 		
 	}
 
