@@ -25,8 +25,8 @@ public class MockLandlord extends Mock implements Landlord{
 
 	@Override
 	public void HereIsARentPayment(Integer AN, double bill) {
-		// TODO Auto-generated method stub
-		
+		LoggedEvent m = new LoggedEvent ("Received money for tenant"); 
+		log.add(m);		
 	}
 	
 	@Override

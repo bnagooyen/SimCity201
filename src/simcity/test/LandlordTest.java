@@ -21,13 +21,16 @@ public class LandlordTest extends TestCase{
 	public void setUp() throws Exception{
 		super.setUp();
 		person = new PersonAgent("Landlord");
+		landlord = new LandlordRole(person);
+		person.addRole(landlord);
+		
 		resident = new PersonAgent("Resident"); 
 		resident2 = new PersonAgent("Resident2"); 
-		landlord = new LandlordRole(person);
+		
 		repairman = new MockRepairMan("MockRepairman");
 		repairman2 = new MockRepairMan("MockRepairman2");
-		bankmanager = new MockBankManager("MockBankManager"); 
-		person.addRole(landlord);
+		
+		bankmanager = new MockBankManager("MockBankManager");
 		
 	}
 	

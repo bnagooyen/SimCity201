@@ -27,8 +27,8 @@ public class BankManagerRole extends Role implements BankManager {
 	private List<MyTeller> tellers = Collections.synchronizedList(new ArrayList<MyTeller>());
 	private List<MyLoanOfficer> officers = Collections.synchronizedList(new ArrayList<MyLoanOfficer>());
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
-	private List<MyClient> clients = Collections.synchronizedList(new ArrayList<MyClient>()); 
-	private Map<Integer, MyAccount> accounts = new HashMap<Integer, MyAccount>();
+	public List<MyClient> clients = Collections.synchronizedList(new ArrayList<MyClient>()); 
+	public Map<Integer, MyAccount> accounts = new HashMap<Integer, MyAccount>();
 	int hour;
 	private boolean bankIsOpen;
 	public enum BankState {open, closed, newDay};
@@ -111,7 +111,7 @@ public class BankManagerRole extends Role implements BankManager {
 		stateChanged();
 	}
 	
-	public void msgHereIsYourRentBill(LandlordRole l, Integer account, double rentBill) {
+	public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill) {
 		clients.add(new MyClient((Landlord) l, account, rentBill));
 		stateChanged(); 
 	}
@@ -410,7 +410,7 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	public class MyAccount{
 	
-		double balance;
+		public double balance;
 		double loan;
 		
 		public MyAccount (double bal, double lo){

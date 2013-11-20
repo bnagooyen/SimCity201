@@ -48,7 +48,7 @@ public class MockBankManager extends Mock implements BankManager{
         }
 
         @Override
-        public void msgHereIsYourRentBill(LandlordRole l, Integer account, double rentBill) {
+        public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill) {
             LoggedEvent m = new LoggedEvent ("Received from landlord for account " + account); 
             log.add(m);                  
         }
