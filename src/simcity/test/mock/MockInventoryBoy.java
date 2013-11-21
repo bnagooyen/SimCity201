@@ -16,7 +16,7 @@ public class MockInventoryBoy extends Mock implements InventoryBoy{
 	
 	public MockInventoryBoy(String name) {
 		super(name);
-		p = new PersonAgent("default");
+		p = new PersonAgent("default", ib);
 		log = new EventLog();
 		ib = new InventoryBoyRole(p);
 	}

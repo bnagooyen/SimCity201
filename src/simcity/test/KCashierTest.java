@@ -33,7 +33,7 @@ public class KCashierTest extends TestCase
 	 */
 	public void setUp() throws Exception{
 		super.setUp();		
-		p = new PersonAgent("person");
+		p = new PersonAgent("person", cashier);
 		cashier = new KCashierRole(p);		
 		customer = new MockKRestaurantCustomer("mockcustomer");		
 		waiter = new MockKRestaurantWaiter("mockwaiter");

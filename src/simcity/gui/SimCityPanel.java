@@ -1,5 +1,6 @@
 package simcity.gui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import agent.Role;
 import simcity.PersonAgent;
 import simcity.BRestaurant.BCustomerRole;
 import simcity.Bank.BankCustomerRole;
+import simcity.Bank.BankManagerRole;
 import simcity.Drew_restaurant.CustomerRole;
 import simcity.KRestaurant.KCustomerRole;
 import simcity.Market.MarketCustomerRole;
@@ -21,10 +23,18 @@ public class SimCityPanel {
 
 	private SimCityGui gui;
 	public Map<String, List<Location>> buildings = new HashMap<String, List<Location>>();
-	
+	public List<Location> restaurants = new ArrayList<Location>();
+	public List<Location> banks = new ArrayList<Location>();
+	public List<Location> markets = new ArrayList<Location>();
 	
 	public SimCityPanel(SimCityGui gui) {
 		this.gui = gui;
+		
+		// populate buildings map 
+		BankManagerRole m = null;
+		PersonAgent p1 = new PersonAgent("bankmanager", m);
+		m = new BankManagerRole(p1);
+		banks.add(new Bank("Bank", m));
 		
 		
 	}

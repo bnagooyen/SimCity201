@@ -17,7 +17,7 @@ public class MockMarketCustomer extends Mock implements MarketCustomer{
 	
 	public MockMarketCustomer(String name) {
 		super(name);
-		p = new PersonAgent("default");
+		p = new PersonAgent("default", cr);
 		log = new EventLog();
 		cr = new MarketCustomerRole(p);
 	}

@@ -20,7 +20,7 @@ public class MockCook extends Mock implements Cook{
 	
 	public MockCook(String name) {
 		super(name);
-		p = new PersonAgent("default");
+		p = new PersonAgent("default", cr);
 		log = new EventLog();
 		cr = new CookRole(p);
 		// TODO Auto-generated constructor stub
