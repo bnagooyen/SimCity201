@@ -10,13 +10,14 @@ import simcity.restaurant.gui.CustomerGui;
 import simcity.restaurant.gui.HostGui;
 import simcity.restaurant.gui.WaiterGui;
 import simcity.restaurant.interfaces.Cashier;
+import simcity.BRestaurant.BCustomerRole;
+import simcity.Bank.BankCustomerRole;
+import simcity.KRestaurant.KCustomerRole;
+import simcity.Market.MarketCustomerRole;
 import simcity.Transportation.BusAgent;
 import simcity.Transportation.CarAgent;
 import simcity.gui.PersonGui;
-//import simcity.interfaces.Bus;
-
-//import simcity.interfaces.Person;
-
+import simcity.interfaces.*;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -32,37 +33,67 @@ public class PersonAgent extends Agent {//implements Person
 
 	Timer timer = new Timer();
 	private String name;
-	Role host = null;
 	BusAgent bus;
 	CarAgent myCar;
-	
 	List<Role> roles = new ArrayList<Role>();
-	public enum personState { doingNothing, gotHungry, atRestaurant, dead, gettingOnBus, awake, sleep, arrived, sleeping };
-	private personState state;
+	//List<Role> customerRoles = new ArrayList<Role>();
+	private Role myJob;
+	public enum PersonState { none };
+	public enum EnergyState {tired, asleep, awake, none };
+	public enum LocationState { atHome, inTransit, atWork };
+	public enum TransitState { };
+	public enum MoneyState { poor, adequate, rich};
+	private PersonState personState;
+	private EnergyState energyState;
+	private LocationState locationState;
+	private TransitState transitState;
+	private MoneyState moneyState;
+	
 	boolean flake;
-	boolean broke;
-    
+	//boolean broke;
+	boolean needToGoToWork = false;
+	
     public PersonGui PersonGui = null;
     
-    private int hour;
-    public double money=0.00;
+    private int hour=0;
+   
+    public double money=200.00;
     public double depositThreshold=100.00;
     public double withdrawalThreshold=20.00;
+    public int kitchenAmnt = 5;
+    private int hungerLevel = 0; // out of 100.. anything over 50 means hungry
 	
-	public PersonAgent(String name) {
+	public PersonAgent(String name, Role job) {
 		super();
 		
+		
 		this.name = name;
-	
-		state=personState.doingNothing;
+		myJob = job;
+		
+		personState=PersonState.none;
+		energyState=EnergyState.asleep;
+		locationState=LocationState.atHome;
+		moneyState=MoneyState.adequate;
+		roles.add(myJob);
+		roles.add(new MarketCustomerRole(this));
+		roles.add(new BankCustomerRole(this));
+		roles.add(new KCustomerRole(this));
+		roles.add(new Drew_CustomerRole(this));
+		roles.add(new BCustomerRole(this));
+		roles.add(new KCustomerRole(this));
+		roles.add(new TCustomerRole(this));
+		roles.add(new LCustomerRole(this));
+
+
+
 	}
 
 
 	// The animation DoXYZ() routines
 	
-	public void setHost(Role r){
-		host = r;
-	}
+//	public void setHost(Role r){
+//		host = r;
+//	}
 
 	public String getName() {
 		return name;
@@ -71,22 +102,30 @@ public class PersonAgent extends Agent {//implements Person
 	// Messages
 	public void msgTimeUpdate(int hr) {
 		hour = hr;
-		if(hr == 7) state= personState.awake;
-		if(hr ==23) state= personState.sleep;
-
-	}
-	
-	public void gotHungry() {//from animation
-		print("I'm hungry");
-		state = personState.gotHungry; 
+		if(hr == 7) { 
+			energyState= energyState.awake;
+		}
+		if(hr ==24) { 
+			energyState = energyState.asleep;
+		}
+		if(hr==myJob.startHour-1) {
+			needToGoToWork=true;
+		}
+		hungerLevel+=10;
 		stateChanged();
 	}
 	
-	public void msgAtDestination(){
-		state = personState.arrived;
-		stateChanged();
-	}
-	
+//	public void gotHungry() {//from animation
+//		print("I'm hungry");
+//		state = personState.gotHungry; 
+//		stateChanged();
+//	}
+//	
+//	public void msgAtDestination(){
+//		state = personState.arrived;
+//		stateChanged();
+//	}
+//	
 //	public void msgBusIsHere(Bus b){
 //		state=PersonState.gettingOnBus;
 //		stateChanged();
@@ -99,45 +138,97 @@ public class PersonAgent extends Agent {//implements Person
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	protected boolean pickAndExecuteAnAction() {
-		if(state==personState.gotHungry) {
-			GoToRestaurant();
+//		if(state==personState.gotHungry) {
+//			GoToRestaurant();
+//			return true;
+//		}
+//		if(state==personState.awake) {
+//			
+//		if(myLoc==location.atHome && hungerLevel>=50) {
+//			EatFood(); 
+//			return true;
+//		}
+		
+		//boolean anyTrue = false;
+//		for(Role r : roles) {
+//			if(r.isActive) {
+//				anyTrue = r.pickAndExecuteAnAction();
+//				Do("returned "+anyTrue);
+//			}
+//		}
+		
+		//return anyTrue;
+		//}
+		
+		if(energyState==EnergyState.none) {
+			Die();
 			return true;
 		}
-		boolean anyTrue = false;
-		for(Role r : roles) {
+		
+		boolean anyTrue=false;
+		boolean activatedRole = false;
+		for(Role r: roles) {
 			if(r.isActive) {
-				anyTrue = r.pickAndExecuteAnAction();
-				Do("returned "+anyTrue);
+				anyTrue=r.pickAndExecuteAnAction();
+				activatedRole=true;
 			}
 		}
+		if(activatedRole) return anyTrue;
 		
-		return anyTrue;
-	
+		
+		if(locationState==LocationState.atHome && !(energyState==EnergyState.asleep)) {
+			if(hungerLevel>=50) {
+				EatFood();
+				return true;
+			}
+			if(needToGoToWork) {
+				GoToWork();
+				return true;
+			}
+			if(energyState==EnergyState.tired) {
+				GoToBed();
+				return true;
+			}
+			
+			//enter bank stuff here
+		}		
+		
+		if(locationState==LocationState.inTransit && !(energyState==EnergyState.asleep)) {
+			//enter transit stuff here
+		}
+		
+		return false;
+		
 	}
 
 
 	// Actions
-	private void GoToRestaurant() {
-		state=personState.atRestaurant;
-		roles.add(new CustomerRole(this, host));
-		roles.get(0).isActive = true;
-		print("I'm going to the restaurant");
+	
+	private void Die() {
+		DoDie();
+		this.stopThread();
 	}
 	
-	private void GetOnBus(){
-		bus.msgGettingOn(this, "destination");
+	private void EatFood() {
+		Do("eating food");
+		hungerLevel=0;
 	}
-		
-	private void GoToSleep() {
-		state=personState.sleeping;
-	    DoGoToSleep();
-	}	
+	
+	private void GoToWork() {
+		Do("going to work");
+		needToGoToWork=false;
+		//locationState=LocationState.inTransit;
+	}
+	
+	private void GoToBed() {
+		Do("going to bed");
+		energyState=EnergyState.asleep;
+	}
 	// utilities
-
-	private void DoGoToSleep() {
-		
+	
+	private void DoDie() {
+		System.out.println("Dieing");
 	}
-
 
 	public void addRole(Role r) {
 		roles.add(r);

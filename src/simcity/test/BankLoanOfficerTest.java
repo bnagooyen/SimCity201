@@ -36,7 +36,7 @@ public class BankLoanOfficerTest extends TestCase{
 		customer2= new MockBankCustomer("customer2");
 	}
 	
-	public void testCreateAccount() {
+	public void testCreateAccountAndRequestLoan() {
 		assertEquals("mock bank manager should have 0 logs", mgr.log.size(), 0);
 		assertEquals("mock cus1 should have 0 logs", customer1.log.size(), 0);
 		assertEquals("mock cus2 should have 0 logs", customer2.log.size(), 0);
@@ -71,7 +71,7 @@ public class BankLoanOfficerTest extends TestCase{
 		//make sure PAEAA returns false;
 		assertFalse(loanOfficer.pickAndExecuteAnAction());
 		
-		
+		loanOfficer.msgINeedALoan(customer1, 1, 1000, "waiter");
 	}   
 	
 }
