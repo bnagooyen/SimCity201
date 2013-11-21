@@ -3,11 +3,8 @@ import agent.Agent;
 
 import java.util.*;
 
-import restaurant.interfaces.BCashier;
-import restaurant.interfaces.BCustomer;
-import restaurant.interfaces.BMarket;
-import agent.Role;
-import simcity.PersonAgent;
+import simcity.interfaces.*;
+import simcity.BRestaurant.*;
 
 
 

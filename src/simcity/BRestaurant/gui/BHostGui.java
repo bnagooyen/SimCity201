@@ -1,10 +1,12 @@
-package simcity.BRestaurant;
+package simcity.BRestaurant.gui;
 
 
-import restaurant.BCustomerRole;
-import restaurant.BWaiterRole;
-import restaurant.interfaces.BCustomer;
-import restaurant.BHostRole;
+
+
+import simcity.PersonAgent;
+import simcity.interfaces.*;
+import simcity.BRestaurant.*;
+
 
 import java.awt.*;
 

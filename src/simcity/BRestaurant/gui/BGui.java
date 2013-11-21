@@ -1,4 +1,6 @@
-package simcity.BRestaurant;
+package simcity.BRestaurant.gui;
+
+
 
 import java.awt.*;
 

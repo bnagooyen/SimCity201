@@ -1,12 +1,18 @@
 package simcity.BRestaurant;
 
 import agent.Agent;
-import restaurant.gui.BHostGui;
 
+import simcity.BRestaurant.*;
+import simcity.interfaces.*;
+import simcity.BRestaurant.gui.*;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 import agent.Role;
 import simcity.PersonAgent;
+import simcity.PersonAgent;
+import simcity.interfaces.*;
+import simcity.BRestaurant.*;
+
 
 /**
  * Restaurant Host Agent
@@ -146,7 +152,7 @@ public class BHostRole extends Role {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 		for (myWaiter thisWaiter : waiterList ){
 			if(thisWaiter.needBreak==true){

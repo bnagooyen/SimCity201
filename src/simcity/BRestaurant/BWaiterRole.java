@@ -2,12 +2,10 @@ package simcity.BRestaurant;
 
 import agent.Agent;
 import agent.Role;
-import restaurant.BCustomerRole.AgentEvent;
-import restaurant.gui.BHostGui;
-import restaurant.interfaces.BCashier;
-import restaurant.interfaces.BCook;
-import restaurant.interfaces.BCustomer;
-import restaurant.interfaces.BWaiter;
+import simcity.PersonAgent;
+import simcity.interfaces.*;
+import simcity.BRestaurant.*;
+
 import simcity.PersonAgent;
 
 import java.util.*;
@@ -200,7 +198,7 @@ public class BWaiterRole extends Role implements BWaiter{
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.

@@ -4,9 +4,10 @@ import agent.Agent;
 
 import java.util.*;
 
-import restaurant.interfaces.BCashier;
-import restaurant.interfaces.BCook;
-import restaurant.interfaces.BMarket;
+import simcity.PersonAgent;
+import simcity.interfaces.*;
+import simcity.BRestaurant.*;
+
 
 
 

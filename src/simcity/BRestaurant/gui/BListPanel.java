@@ -1,7 +1,11 @@
-package simcity.BRestaurant;
+package simcity.BRestaurant.gui;
 
-import restaurant.BCustomerRole;
-import restaurant.BWaiterRole;
+
+
+import simcity.PersonAgent;
+import simcity.interfaces.*;
+import simcity.BRestaurant.*;
+
 
 import javax.swing.*;
 
@@ -102,9 +106,6 @@ public class BListPanel extends JPanel implements ActionListener, KeyListener {
 
 
 		}
-		else if (e.getSource()==pausebutton){
-			pauseEverything();
-		}
 		
 		else if (e.getSource() == addWaiter) {
 			// Chapter 2.19 describes showInputDialog()
@@ -182,14 +183,7 @@ public class BListPanel extends JPanel implements ActionListener, KeyListener {
 
 	}
 
-	public void pauseEverything(){
-		restPanel.getCook().setToPause();
-		for(int i=0; i<restPanel.waiters.size(); i++){
-			restPanel.waiters.get(i).setToPause();
-		}
-		
-
-	}
+	
 
 	@Override
 	public void keyReleased(KeyEvent e) {
