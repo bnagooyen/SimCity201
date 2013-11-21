@@ -316,6 +316,11 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	private void CompleteLoan() {
 //		System.err.println(accounts.get(officers.get(0).accountNum));
+		if(accounts.get(officers.get(0).accountNum)==null) { //means account doesn't exist
+			officers.get(0).emp.msgLoanDenied();
+			officers.get(0).requested=0; //reset val 
+			return;
+		}
 		if(accounts.get(officers.get(0).accountNum).loan!=0.0) { // fix based on drews answer
 			officers.get(0).emp.msgLoanDenied();
 			officers.get(0).requested=0; //reset val 

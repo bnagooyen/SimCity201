@@ -17,7 +17,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	public BankManager manager;
 	MyCustomer customer;
 	public enum bankLoanState { working, atManager, recieved, finished};
-	public enum accountState {none,requested,created, exists, loanRequested, loanApproved};
+	public enum accountState {none,requested,created, exists, loanRequested, loanApproved, loanRequestSent};
 	bankLoanState state=bankLoanState.working;
 	private static List<String> acceptableJobs = Collections.synchronizedList(new ArrayList<String>());
 
@@ -142,6 +142,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		if(customer.accepted){
 			manager.msgNewLoan(customer.accountNumber,customer.amount);
 			state=bankLoanState.atManager;
+			customer.state=accountState.loanRequestSent;
 		}
 		else{
 			customer.BC.msgLoanDenied();

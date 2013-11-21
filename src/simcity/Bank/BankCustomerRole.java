@@ -80,7 +80,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			makeAccount();
 			return true;
 		}
-		if(loanOfficer!=null && state==bankCustomerState.waiting){
+		if(loanOfficer!=null && accountNum!=null && state==bankCustomerState.waiting){
 			requestLoan();
 			return true;
 		}
