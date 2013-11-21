@@ -1,7 +1,6 @@
 package simcity.test;
 
 import simcity.PersonAgent;
-import simcity.interfaces.*;
 import simcity.Bank.BankTellerRole;
 import simcity.Bank.BankTellerRole.accountState;
 import simcity.Bank.BankTellerRole.bankTellerState;
