@@ -1,9 +1,9 @@
-package simcity.restaurant.gui;
+package simcity.DRestaurant.gui;
 
-import simcity.restaurant.CustomerRole;
-import simcity.restaurant.HostRole;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DHostRole;
+import simcity.DRestaurant.DWaiterRole;
 import simcity.PersonAgent;
-import simcity.restaurant.WaiterRole;
 
 import javax.swing.*;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Subpanel of restaurantPanel.
  * This holds the scroll panes for the customers and, later, for waiters
  */
-public class ListPanel extends JPanel implements ActionListener {
+public class DListPanel extends JPanel implements ActionListener {
 
     public JScrollPane pane =
             new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -30,7 +30,7 @@ public class ListPanel extends JPanel implements ActionListener {
     private JButton addPersonAndSetHungryB = new JButton("Add + Set Hungry");
     private JTextField myPerson = new JTextField(); 
     private JComboBox roleSelection = new JComboBox();
-    private RestaurantPanel restPanel;
+    private DRestaurantPanel restPanel;
     private String type;
     private Object currentPerson;/* Holds the agent that the info is about.
 	Seems like a hack */
@@ -41,7 +41,7 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param rp   reference to the restaurant panel
      * @param type indicates if this is for customers or waiters
      */
-    public ListPanel(RestaurantPanel rp, String type) {
+    public DListPanel(DRestaurantPanel rp, String type) {
         restPanel = rp;
         this.type = type;
 
@@ -145,9 +145,9 @@ public class ListPanel extends JPanel implements ActionListener {
 //                	System.err.println("actionperformed listpanel");
                     currentPerson=restPanel.showInfo(type, pplList.get(i).getText());
 //                    System.err.println(currentPerson);
-                    if (currentPerson instanceof CustomerRole) {
+                    if (currentPerson instanceof DCustomerRole) {
                     	list.get(i).setEnabled(false);
-                        CustomerRole c = (CustomerRole) currentPerson;
+                        DCustomerRole c = (DCustomerRole) currentPerson;
                         c.getGui().setHungry();
        
                         
@@ -160,8 +160,8 @@ public class ListPanel extends JPanel implements ActionListener {
                 
                         
                     }
-                    else if(currentPerson instanceof WaiterRole) {
-                    	WaiterRole w = (WaiterRole) currentPerson;
+                    else if(currentPerson instanceof DWaiterRole) {
+                    	DWaiterRole w = (DWaiterRole) currentPerson;
                     	if(((AbstractButton) e.getSource()).getText()=="Break?") {
                     		w.msgIWantABreak();
                     		//list.get(i).setEnabled(false);
@@ -224,7 +224,7 @@ public class ListPanel extends JPanel implements ActionListener {
 	                 currentPerson=restPanel.showInfo(type, button.getText());
 	               
                 	//list.get(i).setEnabled(false);
-                    CustomerRole c = (CustomerRole) currentPerson;
+                    DCustomerRole c = (DCustomerRole) currentPerson;
                     c.getGui().setHungry();
                     System.out.println("found!");
                     return;

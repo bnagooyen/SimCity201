@@ -1,6 +1,6 @@
-package simcity.restaurant;
+package simcity.DRestaurant;
 
-public class Menu {
+public class DMenu {
 	
 	public String[] myOptions = new String[]{"Steak", "Chicken", "Salad", "Pizza"};
 	public int getSize() {

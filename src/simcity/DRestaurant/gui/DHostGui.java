@@ -1,16 +1,16 @@
-package simcity.restaurant.gui;
+package simcity.DRestaurant.gui;
 
 
-import simcity.restaurant.CustomerRole;
-import simcity.restaurant.HostRole;
-import simcity.restaurant.HostRole.Table;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DHostRole;
+import simcity.DRestaurant.DHostRole.Table;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class HostGui implements Gui {
+public class DHostGui implements DGui {
 
-    private HostRole agent = null;
+    private DHostRole agent = null;
 
     public boolean hostAtFront()
     {
@@ -38,7 +38,7 @@ public class HostGui implements Gui {
     
     private void setSeatingAt(int t) { seatingAt=t; }
     
-    public HostGui(HostRole agent) {
+    public DHostGui(DHostRole agent) {
         this.agent = agent;
     }
 
@@ -71,7 +71,7 @@ public class HostGui implements Gui {
         return false;
     }
 
-    public void DoBringToTable(CustomerRole customer, int table) {
+    public void DoBringToTable(DCustomerRole customer, int table) {
         seatingAt=table;
     	xDestination = ((table -1)%TABLES_perRow*TABLESZ_xy*2) + TABLE_gap;
     	seatingAt_x= xDestination;

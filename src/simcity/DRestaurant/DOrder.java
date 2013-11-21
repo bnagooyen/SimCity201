@@ -1,14 +1,14 @@
-package simcity.restaurant;
+package simcity.DRestaurant;
 
-public class Order {
+public class DOrder {
 
 		int tablenum;
 		private String choice;
-		private WaiterRole w;
+		private DWaiterRole w;
 		public enum OrderState {needsReOrder, pending, cooking, cooked, serving, billPending, billProcessed, grillInUse, ordered, clearPlating, plated, plating};
 		OrderState state;
 
-		Order(String c, int t, WaiterRole wa) 
+		DOrder(String c, int t, DWaiterRole wa) 
 		{
 			choice=c;
 			tablenum=t;
@@ -21,10 +21,10 @@ public class Order {
 		public void setChoice(String choice) {
 			this.choice = choice;
 		}
-		public WaiterRole getWaiter() {
+		public DWaiterRole getWaiter() {
 			return w;
 		}
-		public void setWaiter(WaiterRole w) {
+		public void setWaiter(DWaiterRole w) {
 			this.w = w;
 		}
 		

@@ -1,12 +1,12 @@
-package simcity.restaurant;
+package simcity.DRestaurant;
 
-public class Food {
+public class DFood {
 
 	private String choice;
 	private int cookTime;
 	private int amount;
 	
-	Food(String ch, int cT, int amt) {
+	DFood(String ch, int cT, int amt) {
 		choice = ch;
 		cookTime = cT;
 		amount = amt;

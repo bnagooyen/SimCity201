@@ -1,9 +1,9 @@
-package simcity.restaurant;
+package simcity.DRestaurant;
 
 import simcity.restaurant.interfaces.Customer;
 import simcity.restaurant.interfaces.Waiter;
 
-public class Check {
+public class DCheck {
 	int tablenum;
 	double BillAmnt;
 	double CustomerPaid;
@@ -15,7 +15,7 @@ public class Check {
 	public enum CheckState { processing, processed, sent, paid, debt };
 	CheckState state;
 	
-	Check(String ch, int tnum, double amnt, Waiter wa) {
+	DCheck(String ch, int tnum, double amnt, Waiter wa) {
 		choice = ch;
 		tablenum = tnum;
 		waiter = wa;
@@ -24,7 +24,7 @@ public class Check {
 		debt=0;
 	}
 	
-	public Check(String ch, Customer cust, String nm, int tnum, Waiter wa) {
+	public DCheck(String ch, Customer cust, String nm, int tnum, Waiter wa) {
 		choice = ch;
 		name=nm;
 		tablenum=tnum;
@@ -34,7 +34,7 @@ public class Check {
 		state=CheckState.processing;
 	}
 	
-	public Check(Customer cust, String ch, int tnum, double d) { // constructor for the customer.. this is all the info it needs to see
+	public DCheck(Customer cust, String ch, int tnum, double d) { // constructor for the customer.. this is all the info it needs to see
 		choice = ch;
 		BillAmnt = d;
 		customer=cust;
@@ -42,7 +42,7 @@ public class Check {
 	}
 
 
-	public Check(Customer customer2, int amnt,
+	public DCheck(Customer customer2, int amnt,
 			double d) {
 		// TODO Auto-generated constructor stub
 		tablenum = amnt;

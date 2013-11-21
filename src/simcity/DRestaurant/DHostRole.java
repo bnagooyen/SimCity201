@@ -1,13 +1,14 @@
-package simcity.restaurant;
+package simcity.DRestaurant;
 
 import agent.Role;
 import agent.Agent;
-import simcity.restaurant.gui.HostGui;
+import simcity.DRestaurant.DHostRole.MyCustomer.CustState;
+import simcity.DRestaurant.DHostRole.MyWaiter.MyWaiterState;
+import simcity.DRestaurant.DWaiterRole.WaiterState;
+import simcity.DRestaurant.gui.DHostGui;
 import simcity.restaurant.interfaces.Customer;
 import simcity.restaurant.interfaces.Waiter;
-import simcity.restaurant.HostRole.MyCustomer.CustState;
-import simcity.restaurant.HostRole.MyWaiter.MyWaiterState;
-import simcity.restaurant.WaiterRole.WaiterState;
+import simcity.interfaces.Host;
 import simcity.PersonAgent;
 
 import java.util.*;
@@ -20,7 +21,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class HostRole extends Role {
+public class DHostRole extends Role implements Host{
 	
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
@@ -28,8 +29,8 @@ public class HostRole extends Role {
 	public List<MyCustomer> waitingCustomers
 	=  Collections.synchronizedList(new ArrayList<MyCustomer>());
 
-	CustomerRole custLeavingWaitlist;
-	CustomerRole sendFullMsgTo;
+	DCustomerRole custLeavingWaitlist;
+	DCustomerRole sendFullMsgTo;
 
 	public List<MyWaiter> waiters =  Collections.synchronizedList(new ArrayList<MyWaiter>());
 	
@@ -39,11 +40,11 @@ public class HostRole extends Role {
 	private String name;
 	private Semaphore atTable = new Semaphore(0,true);
 	private Semaphore customerAtFront = new Semaphore(0,true);
-	public HostGui hostGui = null;
+	public DHostGui hostGui = null;
 
 	boolean KitchenReadyForOpen;
 
-	public HostRole(PersonAgent p) {
+	public DHostRole(PersonAgent p) {
 		super(p);
 
 		name = p.getName();
@@ -84,7 +85,7 @@ public class HostRole extends Role {
 		KitchenReadyForOpen=true;
 		stateChanged();
 	}
-	public void msgIWantFood(CustomerRole cust) { //telling agent i want food (once seated)
+	public void msgIWantFood(DCustomerRole cust) { //telling agent i want food (once seated)
 		if(customersInRST<NTABLES) {
 			Do("adding "+cust+" to host customer list");
 			waitingCustomers.add(new MyCustomer(cust));
@@ -98,7 +99,7 @@ public class HostRole extends Role {
 			stateChanged();
 		}
 	}
-	public void msgIDontWantToWait(CustomerRole cust) {
+	public void msgIDontWantToWait(DCustomerRole cust) {
 		for(MyCustomer c: waitingCustomers) {
 			if(c.c==cust) {
 				custLeavingWaitlist=cust;
@@ -107,7 +108,7 @@ public class HostRole extends Role {
 		}
 	}
 
-	public void msgAddWaiter(WaiterRole w) {
+	public void msgAddWaiter(DWaiterRole w) {
 		
 		waiters.add(new MyWaiter(w));
 		
@@ -130,7 +131,7 @@ public class HostRole extends Role {
 		customerAtFront.release();
 		stateChanged();
 	}
-	public void msgTableIsClear(int t, WaiterRole wa)
+	public void msgTableIsClear(int t, DWaiterRole wa)
 	{
 		for(MyWaiter waiter: waiters) {
 			if (waiter.w==wa) {
@@ -149,7 +150,7 @@ public class HostRole extends Role {
 		}
 	}
 	
-	public void msgGoOnBreakPlease(WaiterRole w) {
+	public void msgGoOnBreakPlease(DWaiterRole w) {
 		for(MyWaiter waiter: waiters) {
 			if(waiter.w==w) {
 				waiter.state=MyWaiterState.requestedBreak;
@@ -158,7 +159,7 @@ public class HostRole extends Role {
 		}
 	}
 	
-	public void msgBackToWork(WaiterRole w) {
+	public void msgBackToWork(DWaiterRole w) {
 		for(MyWaiter waiter: waiters) {
 			if(waiter.w==w) {
 				waiter.state=MyWaiterState.working;
@@ -281,7 +282,7 @@ public class HostRole extends Role {
 		
 	}
 	private void TellWaiterToSeat(MyCustomer cust, MyWaiter w, Table t) {
-		t.occupiedBy=(CustomerRole) cust.c;
+		t.occupiedBy=(DCustomerRole) cust.c;
 		w.numCustomers++;
 		cust.w=w;
 		w.w.msgHereIsAWaitingCustomer(cust.c, t.getTableNum());
@@ -311,25 +312,25 @@ public class HostRole extends Role {
 
 	//utilities
 
-	public void setWaiter(WaiterRole r){
+	public void setWaiter(DWaiterRole r){
 		waiters.add(new MyWaiter(r));
 	}
 	
-	public void setGui(HostGui gui) {
+	public void setGui(DHostGui gui) {
 		hostGui = gui;
 	}
 
-	public HostGui getGui() {
+	public DHostGui getGui() {
 		return hostGui;
 	}
 	
 	static public class MyWaiter {
 		
-		WaiterRole w;
+		DWaiterRole w;
 		enum MyWaiterState {working, onBreak, atFront, requestedBreak};
 		MyWaiterState state;
 		int numCustomers;
-		public MyWaiter(WaiterRole w) {
+		public MyWaiter(DWaiterRole w) {
 			this.w=w;
 			state=MyWaiterState.working;
 			numCustomers=0;
@@ -349,7 +350,7 @@ public class HostRole extends Role {
 	}
 
 	public class Table {
-		CustomerRole occupiedBy;
+		DCustomerRole occupiedBy;
 		int tableNumber;
 
 		Table(int tableNumber) {
@@ -358,7 +359,7 @@ public class HostRole extends Role {
 
 		int getTableNum() { return tableNumber; }
 
-		void setOccupant(CustomerRole cust) {
+		void setOccupant(DCustomerRole cust) {
 			occupiedBy = cust;
 		}
 
@@ -366,7 +367,7 @@ public class HostRole extends Role {
 			occupiedBy = null;
 		}
 
-		CustomerRole getOccupant() {
+		DCustomerRole getOccupant() {
 			return occupiedBy;
 		}
 

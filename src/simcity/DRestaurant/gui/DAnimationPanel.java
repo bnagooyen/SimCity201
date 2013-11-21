@@ -1,4 +1,4 @@
-package simcity.restaurant.gui;
+package simcity.DRestaurant.gui;
 
 import javax.swing.*;
 
@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanel extends JPanel implements ActionListener {
+public class DAnimationPanel extends JPanel implements ActionListener {
 
     private final int WINDOWX = 680;
     private final int WINDOWY = 650;
@@ -40,11 +40,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private Image bufferImage;
     private Dimension bufferSize;
 
-    private RestaurantGui gui;
+    private DRestaurantGui gui;
     
-    private List<Gui> guis = new ArrayList<Gui>();
+    private List<DGui> guis = new ArrayList<DGui>();
 
-    public AnimationPanel(RestaurantGui gui) {
+    public DAnimationPanel(DRestaurantGui gui) {
     	this.gui=gui;
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
@@ -88,28 +88,28 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.setColor(Color.pink);
         g2.fillRect(allKitchenItems_x, plating_x, grill_xsz, plating_ysz);
         
-        for(Gui gui : guis) {
+        for(DGui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
 
-        for(Gui gui : guis) {
+        for(DGui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
             }
         }
     }
 
-    public void addGui(CustomerGui gui) {
+    public void addGui(DCustomerGui gui) {
         guis.add(gui);
     }
 
-    public void addGui(WaiterGui gui) {
+    public void addGui(DWaiterGui gui) {
         guis.add(gui);
     }
     
-    public void addGui(CookGui gui) {
+    public void addGui(DCookGui gui) {
         guis.add(gui);
     }
 }

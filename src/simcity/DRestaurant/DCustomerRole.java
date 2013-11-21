@@ -1,7 +1,7 @@
-package simcity.restaurant;
+package simcity.DRestaurant;
  
-import simcity.restaurant.gui.CustomerGui;
-import simcity.restaurant.gui.RestaurantGui;
+import simcity.DRestaurant.gui.DCustomerGui;
+import simcity.DRestaurant.gui.DRestaurantGui;
 import simcity.restaurant.interfaces.Customer;
 import simcity.PersonAgent;
 import agent.Agent;
@@ -17,33 +17,33 @@ import java.util.concurrent.Semaphore;
 /**
  * Restaurant customer agent.
  */
-public class CustomerRole extends Role implements Customer {
+public class DCustomerRole extends Role implements Customer {
 	private String name;
 	private String myText;
 	//parse through string
 	public String choice;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
-	private CustomerGui customerGui;
+	private DCustomerGui customerGui;
 	
 	private boolean stayOrLeave;
 	
-	private Menu myMenu;
+	private DMenu myMenu;
 	private double wallet;
 	
 	//semaphores
 	Semaphore atFront = new Semaphore(0, true);
 	
 	// agent correspondents
-	private HostRole host;
-	private WaiterRole waiter;
-	private CashierRole cashier;
+	private DHostRole host;
+	private DWaiterRole waiter;
+	private DCashierRole cashier;
 	
 	//table
 	private int tableNum;
 	
 	//check
-	Check myBill = null;
+	DCheck myBill = null;
 	
 	public enum AgentState
 	{DoingNothing, WaitingInRestaurant, BeingSeated, Seated, ReadyToOrder, Ordered, Eating, Paying, DoneEating, Leaving, Gone, GoingToCashier, Paid, WaitingForCheck, WaitingInHangout, AtFront};
@@ -59,9 +59,9 @@ public class CustomerRole extends Role implements Customer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerRole(PersonAgent p, Role r){
+	public DCustomerRole(PersonAgent p, Role r){
 		super(p);
-		host = (HostRole) r;
+		host = (DHostRole) r;
 		name = p.getName();
 
 		state=AgentState.DoingNothing;
@@ -75,11 +75,11 @@ public class CustomerRole extends Role implements Customer {
 	/**
 	 * hack to establish connection to Host agent.
 	 */
-	public void setHost(HostRole host) {
+	public void setHost(DHostRole host) {
 		this.host = host;
 	}
 
-	public void setCashier(CashierRole ca) {
+	public void setCashier(DCashierRole ca) {
 		cashier= ca;
 	}
 	public String getCustomerName() {
@@ -109,7 +109,7 @@ public class CustomerRole extends Role implements Customer {
 		stateChanged();
 	}
 
-	public void msgFollowMe(Menu menu, int tnum, WaiterRole w) {
+	public void msgFollowMe(DMenu menu, int tnum, DWaiterRole w) {
 		myMenu=menu;
 		waiter=w;
 		tableNum=tnum;
@@ -119,7 +119,7 @@ public class CustomerRole extends Role implements Customer {
 	
 	public void msgHereIsYourBill(int tnum, double d) {
 		System.out.println("cust received bill");
-		myBill = new Check((Customer)this, choice, tnum, d);
+		myBill = new DCheck((Customer)this, choice, tnum, d);
 		stateChanged();
 	}
 	
@@ -290,7 +290,7 @@ public class CustomerRole extends Role implements Customer {
 		
 	}
 	
-	private void DecideWhatIWantToEat(final Menu myMenu) {
+	private void DecideWhatIWantToEat(final DMenu myMenu) {
 		//Do("Deciding what to order...");
 		state = AgentState.Seated;
 		timer.schedule(new TimerTask() {
@@ -477,11 +477,11 @@ public class CustomerRole extends Role implements Customer {
 		return "customer " + getName();
 	}
 
-	public void setGui(CustomerGui g) {
+	public void setGui(DCustomerGui g) {
 //		customerGui = g;
 	}
 
-	public CustomerGui getGui() {
+	public DCustomerGui getGui() {
 		return customerGui;
 	}
 

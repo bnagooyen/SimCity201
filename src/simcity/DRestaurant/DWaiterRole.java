@@ -1,19 +1,19 @@
 
 
-package simcity.restaurant;
+package simcity.DRestaurant;
 
 import agent.Agent;
 import agent.Role;
-import simcity.restaurant.gui.WaiterGui;
+import simcity.DRestaurant.DOrder;
+import simcity.DRestaurant.DOrder.OrderState;
+import simcity.DRestaurant.DWaiterRole.MyCustomer.MyCustomerState;
+import simcity.DRestaurant.gui.DWaiterGui;
 import simcity.restaurant.interfaces.Customer;
 import simcity.restaurant.interfaces.Waiter;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import simcity.restaurant.Order;
-import simcity.restaurant.Order.OrderState;
-import simcity.restaurant.WaiterRole.MyCustomer.MyCustomerState;
 import simcity.PersonAgent;
 /**
  * Restaurant Waiter Agent
@@ -22,26 +22,26 @@ import simcity.PersonAgent;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class WaiterRole extends Role implements Waiter {
+public class DWaiterRole extends Role implements Waiter {
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
-	public List<CustomerRole> waitingCustomers
-	=  Collections.synchronizedList(new ArrayList<CustomerRole>());
+	public List<DCustomerRole> waitingCustomers
+	=  Collections.synchronizedList(new ArrayList<DCustomerRole>());
 
-	public List<Order> orders=  Collections.synchronizedList(new ArrayList<Order>());
+	public List<DOrder> orders=  Collections.synchronizedList(new ArrayList<DOrder>());
 	
 	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
-	public List<Check> myChecks=  Collections.synchronizedList(new ArrayList<Check>());
+	public List<DCheck> myChecks=  Collections.synchronizedList(new ArrayList<DCheck>());
 	//public Check myBill= null; //typically carrying only one
 	//public MyCustomer billRecipient = null; //again typically only one
 	//public List<Order> ReadyOrders = new ArrayList<Order>();
 	
 	Timer timer = new Timer();
 	
-	CookRole cook;
-	HostRole host;
-	CashierRole cashier;
+	DCookRole cook;
+	DHostRole host;
+	DCashierRole cashier;
 	
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
@@ -58,7 +58,7 @@ public class WaiterRole extends Role implements Waiter {
 	private Semaphore customerArrived = new Semaphore(0,true);
 	private Semaphore atCashier = new Semaphore(0,true);
 	private Semaphore atCook = new Semaphore(0, true);
-	public WaiterGui WaiterGui = null;
+	public DWaiterGui WaiterGui = null;
 
 	public enum WaiterState {working, takingOrder, 
 			goingToCook, servingFood, onBreak};
@@ -74,7 +74,7 @@ public class WaiterRole extends Role implements Waiter {
 	
 	public WaiterState state;
 	
-	public WaiterRole(PersonAgent p) {
+	public DWaiterRole(PersonAgent p) {
 		super(p);
 		
 		this.name = name;
@@ -106,21 +106,21 @@ public class WaiterRole extends Role implements Waiter {
 	// Messages
 
 	//hack!
-	public void msgAddCook(CookRole c) {
+	public void msgAddCook(DCookRole c) {
 		cook=c;
 	}
 	
-	public void msgAddCashier(CashierRole ca) {
+	public void msgAddCashier(DCashierRole ca) {
 		cashier= ca;
 	}
 	
-	public void msgAddHost(HostRole h) {
+	public void msgAddHost(DHostRole h) {
 		host=h;
 	}
 	
 	public void msgHereIsAWaitingCustomer(Customer c, int t) {
 		print("waiter: adding "+c+ " to my customers list");
-		customers.add(new MyCustomer(c, t, simcity.restaurant.WaiterRole.MyCustomer.MyCustomerState.waiting));
+		customers.add(new MyCustomer(c, t, simcity.DRestaurant.DWaiterRole.MyCustomer.MyCustomerState.waiting));
 		stateChanged();
 	}
 	
@@ -137,11 +137,11 @@ public class WaiterRole extends Role implements Waiter {
 //	}
 	
 	@Override
-	public void msgImReadyToOrder(CustomerRole cust) {
+	public void msgImReadyToOrder(DCustomerRole cust) {
 		System.out.println("waiter received ready message");
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
-				customer.state=simcity.restaurant.WaiterRole.MyCustomer.MyCustomerState.readyToOrder;
+				customer.state=simcity.DRestaurant.DWaiterRole.MyCustomer.MyCustomerState.readyToOrder;
 				System.out.println("found customer on list!");
 				stateChanged();
 			}
@@ -149,14 +149,14 @@ public class WaiterRole extends Role implements Waiter {
 	}
 	
 	@Override
-	public void msgHereIsMyChoice(CustomerRole cust, String choice) {
+	public void msgHereIsMyChoice(DCustomerRole cust, String choice) {
 		
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
 				System.out.println(cust + " ordered: "+ choice);
 				customer.setChoice(choice);
-				customer.state=simcity.restaurant.WaiterRole.MyCustomer.MyCustomerState.ordered;
-				Order newOrder = new Order(choice, customer.getTablenum(), this);
+				customer.state=simcity.DRestaurant.DWaiterRole.MyCustomer.MyCustomerState.ordered;
+				DOrder newOrder = new DOrder(choice, customer.getTablenum(), this);
 				orders.add(newOrder);
 				System.out.println("waiter added order of "+ choice);
 				stateChanged();
@@ -165,13 +165,13 @@ public class WaiterRole extends Role implements Waiter {
 	}
 	
 	@Override
-	public void msgOutOfFood(Order o) {
+	public void msgOutOfFood(DOrder o) {
 		for(MyCustomer customer: customers) {
 			if(customer.getTablenum()==o.getTablenum()) {
 				customer.state=MyCustomer.MyCustomerState.needsToReorder;
 			}
 		}
-		for(Order order: orders) {
+		for(DOrder order: orders) {
 			if(order == o) {
 				o.state=OrderState.needsReOrder;
 			}
@@ -182,33 +182,33 @@ public class WaiterRole extends Role implements Waiter {
 	
 	@Override
 	public void msgOrderIsReady(int tablenum) {
-		for(Order order: orders) {
+		for(DOrder order: orders) {
 			if(order.tablenum==tablenum) {
 				System.out.println("order upddated to cooked");
-				order.state=Order.OrderState.cooked; // probably redundant but watevz
+				order.state=DOrder.OrderState.cooked; // probably redundant but watevz
 				stateChanged();
 			}
 		}
 	}
 	
 	@Override
-	public void msgDoneEatingAndLeaving(CustomerRole cust) {
+	public void msgDoneEatingAndLeaving(DCustomerRole cust) {
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
-				customer.state=simcity.restaurant.WaiterRole.MyCustomer.MyCustomerState.gone;
+				customer.state=simcity.DRestaurant.DWaiterRole.MyCustomer.MyCustomerState.gone;
 				stateChanged();
 			}
 		}
 	}
 	
 	@Override
-	public void msgCantAffordNotStaying(CustomerRole cust) {
+	public void msgCantAffordNotStaying(DCustomerRole cust) {
 		//System.out.println("received done eating");
 		//state=WaiterState.working;
 		//DoGoHangAtTheFront();
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
-				customer.state=simcity.restaurant.WaiterRole.MyCustomer.MyCustomerState.couldNotAffordAndLeaving;
+				customer.state=simcity.DRestaurant.DWaiterRole.MyCustomer.MyCustomerState.couldNotAffordAndLeaving;
 				stateChanged();
 			}
 		}
@@ -259,8 +259,8 @@ public class WaiterRole extends Role implements Waiter {
 	}
 	
 	@Override
-	public void msgHereIsABill(Check bill) {
-			myChecks.add(new Check(bill.getCustomer(), bill.getTablenum(), bill.getBillAmnt()));
+	public void msgHereIsABill(DCheck bill) {
+			myChecks.add(new DCheck(bill.getCustomer(), bill.getTablenum(), bill.getBillAmnt()));
 			System.out.println("waiter added bill for " + bill.getCustomer()+ " at table "+bill.getTablenum()+ "!");	
 	
 			stateChanged();
@@ -328,7 +328,7 @@ public class WaiterRole extends Role implements Waiter {
 			
 			
 			for (MyCustomer customer : customers) {
-				if(customer.state==WaiterRole.MyCustomer.MyCustomerState.gone) {
+				if(customer.state==DWaiterRole.MyCustomer.MyCustomerState.gone) {
 					//System.out.println("customer " + customer.getCustomer() +" gone");
 					UpdateHostOnClearTable(customer);
 					return true;
@@ -344,7 +344,7 @@ public class WaiterRole extends Role implements Waiter {
 			
 			
 			for (MyCustomer customer : customers) {
-				if(customer.state==WaiterRole.MyCustomer.MyCustomerState.couldNotAffordAndLeaving) {
+				if(customer.state==DWaiterRole.MyCustomer.MyCustomerState.couldNotAffordAndLeaving) {
 					//System.out.println("customer " + customer.getCustomer() +" gone");
 					UpdateHostOnClearTableAndLeave(customer);
 					return true;
@@ -360,14 +360,14 @@ public class WaiterRole extends Role implements Waiter {
 				}
 				}
 				for (MyCustomer customer : customers) {
-					if (customer.state==WaiterRole.MyCustomer.MyCustomerState.waiting) {
+					if (customer.state==DWaiterRole.MyCustomer.MyCustomerState.waiting) {
 						//GoToFront();
 						SeatCustomer(customer);
 						return true;
 					}
 				}
 				for (MyCustomer customer : customers) {
-					if(customer.state==WaiterRole.MyCustomer.MyCustomerState.readyToOrder) {
+					if(customer.state==DWaiterRole.MyCustomer.MyCustomerState.readyToOrder) {
 						//temp comment out until fix everything else
 						
 						GoToCustomer(customer);
@@ -377,7 +377,7 @@ public class WaiterRole extends Role implements Waiter {
 				}
 			
 				for (MyCustomer customer : customers) {
-					if(customer.state==WaiterRole.MyCustomer.MyCustomerState.gone) {
+					if(customer.state==DWaiterRole.MyCustomer.MyCustomerState.gone) {
 						//System.out.println("customer " + customer.getCustomer() +" gone");
 						UpdateHostOnClearTable(customer);
 						return true;
@@ -389,8 +389,8 @@ public class WaiterRole extends Role implements Waiter {
 					return true;
 					
 				}
-				for(Order order: orders) {
-					if(order.state==Order.OrderState.cooked || order.state==OrderState.pending) {
+				for(DOrder order: orders) {
+					if(order.state==DOrder.OrderState.cooked || order.state==OrderState.pending) {
 						System.out.println("going to cook");
 						GoToCook();
 						return true;
@@ -443,7 +443,7 @@ public class WaiterRole extends Role implements Waiter {
 		wantBreakChecked=false; //so doesn't call this message again
 
 	}
-	private void TakeBreak (final WaiterRole w) {
+	private void TakeBreak (final DWaiterRole w) {
 		onBreak=true;
 		Do("Taking break...");
 		canTakeBreak=false;
@@ -502,8 +502,8 @@ public class WaiterRole extends Role implements Waiter {
 
 		cust.state=MyCustomer.MyCustomerState.seated;
 
-		cust.getCustomer().msgFollowMe(new Menu(), cust.tablenum, this);
-		DoSeatCustomer((CustomerRole) cust.getCustomer(), cust.getTablenum());
+		cust.getCustomer().msgFollowMe(new DMenu(), cust.tablenum, this);
+		DoSeatCustomer((DCustomerRole) cust.getCustomer(), cust.getTablenum());
 
 		try {
 			atTable.acquire();
@@ -554,8 +554,8 @@ public class WaiterRole extends Role implements Waiter {
 			e.printStackTrace();
 		}
 		
-		for(Order order: orders) {
-			if(order.state==Order.OrderState.pending) {
+		for(DOrder order: orders) {
+			if(order.state==DOrder.OrderState.pending) {
 				GiveCookOrder(order);
 			}
 		}
@@ -571,7 +571,7 @@ public class WaiterRole extends Role implements Waiter {
 		
 	}
 	
-	private void GiveCookOrder(Order o) { //start here!
+	private void GiveCookOrder(DOrder o) { //start here!
 		Do("giving order to cook");
 		cook.msgHereIsAnOrder(o);
 		
@@ -584,10 +584,10 @@ public class WaiterRole extends Role implements Waiter {
 //		cook.msgClearPlatingForOrder(o);
 //	}
 	
-	private void ServeCustomer(Order o) {
+	private void ServeCustomer(DOrder o) {
 		DoDisplayCookedLabel(o.getChoice(), o.tablenum);
 		Do("serving customer");
-		o.state=Order.OrderState.serving;
+		o.state=DOrder.OrderState.serving;
 		for(MyCustomer customer: customers) {
 			if(customer.getTablenum()==o.tablenum) {
 				//customer.state=MyCustomer.MyCustomerState.serveMe;
@@ -605,7 +605,7 @@ public class WaiterRole extends Role implements Waiter {
 				customer.getCustomer().msgFoodIsServed();
 				customer.state=MyCustomer.MyCustomerState.served;
 //				System.err.println((CustomerAgent)(customer.getCustomer()));
-				cashier.msgComputeBill(o.getChoice(), (CustomerRole)(customer.getCustomer()), (((CustomerRole)(customer.getCustomer())).getName()), o.tablenum, this);
+				cashier.msgComputeBill(o.getChoice(), (DCustomerRole)(customer.getCustomer()), (((DCustomerRole)(customer.getCustomer())).getName()), o.tablenum, this);
 //				System.err.println("requested bill for " + (((CustomerAgent) (customer.getCustomer())).getName()) + " at table "+  o.tablenum);
 				DoGoHangAtTheFront();
 //				o.state=OrderState.billPending;
@@ -657,7 +657,7 @@ public class WaiterRole extends Role implements Waiter {
 		DoGoHangAtTheFront();
 	}*/
 	
-	private void DistributeCheck(Check bill) {
+	private void DistributeCheck(DCheck bill) {
 	
 		DoGoToTable(bill.customer, bill.tablenum);
 		try {
@@ -690,7 +690,7 @@ public class WaiterRole extends Role implements Waiter {
 	private void DoGoToFront() {
 		WaiterGui.DoGoToFrontLine();
 	}
-	private void DoSeatCustomer(CustomerRole customer, int table) {
+	private void DoSeatCustomer(DCustomerRole customer, int table) {
 		//Notice how we print "customer" directly. It's toString method will do it.
 		//Same with "table"
 		print("Seating " + customer + " at " + table);
@@ -699,7 +699,7 @@ public class WaiterRole extends Role implements Waiter {
 	}
 	
 	private void DoGoToTable(Customer customer, int table) {
-		WaiterGui.DoGoToTable((CustomerRole)customer, table);
+		WaiterGui.DoGoToTable((DCustomerRole)customer, table);
 	}
 
 	private void DoGoToCook() {
@@ -719,11 +719,11 @@ public class WaiterRole extends Role implements Waiter {
 	}
 	//utilities
 
-	public void setGui(WaiterGui gui) {
+	public void setGui(DWaiterGui gui) {
 		WaiterGui = gui;
 	}
 
-	public WaiterGui getGui() {
+	public DWaiterGui getGui() {
 		return WaiterGui;
 	}
 
@@ -745,7 +745,7 @@ public class WaiterRole extends Role implements Waiter {
 			return c;
 		}
 		
-		public void setCustomer(CustomerRole c) {
+		public void setCustomer(DCustomerRole c) {
 			this.c = c;
 		}
 
@@ -774,7 +774,7 @@ public class WaiterRole extends Role implements Waiter {
 	}
 
 	@Override
-	public void msgSitAtTable(int t, CustomerRole cust) {
+	public void msgSitAtTable(int t, DCustomerRole cust) {
 		// TODO Auto-generated method stub
 		
 	}

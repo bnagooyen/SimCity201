@@ -1,7 +1,7 @@
-package simcity.restaurant.gui;
+package simcity.DRestaurant.gui;
 import agent.Agent;
-import simcity.restaurant.CustomerRole;
-import simcity.restaurant.WaiterRole;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DWaiterRole;
 import simcity.gui.SimCityAnimationPanel;
 
 import javax.swing.*;
@@ -12,23 +12,23 @@ import java.awt.event.*;
  * Main GUI class.
  * Contains the main frame and subsequent panels
  */
-public class RestaurantGui extends JFrame implements ActionListener {
+public class DRestaurantGui extends JFrame implements ActionListener {
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */
 	JFrame animationFrame = new JFrame("Restaurant Animation");
 	JFrame simCityFrame = new JFrame("Sim City");
 	
-	AnimationPanel animationPanel = new AnimationPanel(this);
+	DAnimationPanel animationPanel = new DAnimationPanel(this);
 	SimCityAnimationPanel simCityPanel = new SimCityAnimationPanel(this);
-	ListPanel addPersonPanel = null;
+	DListPanel addPersonPanel = null;
 	
     /* restPanel holds 2 panels
      * 1) the staff listing, menu, and lists of current customers all constructed
      *    in RestaurantPanel()
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
-    private RestaurantPanel restPanel = new RestaurantPanel(this);
+    private DRestaurantPanel restPanel = new DRestaurantPanel(this);
     //private AnimationPanel myRestaurant = new AnimationPanel(this);
     
     /* infoPanel holds information about the clicked customer, if there is one*/
@@ -56,7 +56,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * Constructor for RestaurantGui class.
      * Sets up all the gui components.
      */
-    public RestaurantGui() {
+    public DRestaurantGui() {
         int WINDOWX = 750;
         int WINDOWY = 750;
 
@@ -68,7 +68,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
          simCityFrame.setLayout(new BorderLayout());
 //     	animationFrame.add(animationPanel); 
          simCityFrame.add(simCityPanel, BorderLayout.CENTER);
-         addPersonPanel=new ListPanel(restPanel, "Person");
+         addPersonPanel=new DListPanel(restPanel, "Person");
          
          JPanel cityPanels = new JPanel();
          cityPanels.setLayout(new GridLayout(1,1));
@@ -218,8 +218,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
         stateCB.setVisible(true);
         currentPerson = person;
 
-        if (person instanceof CustomerRole) {
-            CustomerRole customer = (CustomerRole) person;
+        if (person instanceof DCustomerRole) {
+            DCustomerRole customer = (DCustomerRole) person;
             stateCB.setText("Hungry?");
           //Should checkmark be there? 
             stateCB.setSelected(customer.getGui().isHungry());
@@ -238,8 +238,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == stateCB) {
-            if (currentPerson instanceof CustomerRole) {
-                CustomerRole c = (CustomerRole) currentPerson;
+            if (currentPerson instanceof DCustomerRole) {
+                DCustomerRole c = (DCustomerRole) currentPerson;
                 System.err.println("ahh");
                 c.getGui().setHungry();
                 stateCB.setEnabled(false);
@@ -295,7 +295,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(CustomerRole c) {
+    public void setCustomerEnabled(DCustomerRole c) {
        /* if (currentPerson instanceof CustomerAgent) {
             CustomerAgent cust = (CustomerAgent) currentPerson;
             if (c.equals(cust)) {
@@ -307,22 +307,22 @@ public class RestaurantGui extends JFrame implements ActionListener {
     		
     }
     
-    public void setWaiterEnabled(WaiterRole w) {
+    public void setWaiterEnabled(DWaiterRole w) {
     	restPanel.setWaiterEnabled(w.getName());
     }
     
-    public void setWaiterDisabled(WaiterRole w) {
+    public void setWaiterDisabled(DWaiterRole w) {
     	restPanel.setWaiterDisabled(w.getName());
     }
     
-    public void setWaiterToBreak(WaiterRole w) {
+    public void setWaiterToBreak(DWaiterRole w) {
     	restPanel.setWaiterToBreak(w.getName());
     }
     /**
      * Main routine to get gui started
      */
     public static void main(String[] args) {
-        RestaurantGui gui = new RestaurantGui();
+        DRestaurantGui gui = new DRestaurantGui();
         gui.setTitle("csci201 Restaurant");
         gui.setVisible(true);
         gui.setResizable(true);

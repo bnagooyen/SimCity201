@@ -1,15 +1,15 @@
-package simcity.restaurant;
+package simcity.DRestaurant;
 
 import agent.Role;
+import simcity.DRestaurant.DWaiterRole;
+import simcity.DRestaurant.DCustomerRole.AgentEvent;
+import simcity.DRestaurant.DOrder.OrderState;
+import simcity.DRestaurant.gui.DCookGui;
+import simcity.DRestaurant.gui.DHostGui;
+import simcity.DRestaurant.gui.DWaiterGui;
 import simcity.Market.MFoodOrder;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
-import simcity.restaurant.WaiterRole;
-import simcity.restaurant.CustomerRole.AgentEvent;
-import simcity.restaurant.Order.OrderState;
-import simcity.restaurant.gui.CookGui;
-import simcity.restaurant.gui.HostGui;
-import simcity.restaurant.gui.WaiterGui;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.PersonAgent;
 
@@ -19,47 +19,47 @@ import java.util.concurrent.Semaphore;
 /**
  * Restaurant Host Agent
  */
-public class CookRole extends Role implements Cook {
+public class DCookRole extends Role implements Cook {
 	
 	Timer timer = new Timer();
 	private String name;
-	private Map<String, Food> myFood = new HashMap<String, Food>();
+	private Map<String, DFood> myFood = new HashMap<String, DFood>();
 	private Map<String, Double> prices = new HashMap<String, Double>();
 	private int initialFoodAmnt= 2;
 	private static final int MAXCAPACITY=10;
 	private int threshold = 1;
     
-    public CookGui CookGui = null;
+    public DCookGui CookGui = null;
 	
 	private Semaphore atFridge = new Semaphore(0,true);
 	private Semaphore atGrill = new Semaphore(0, true);
 	private Semaphore atPlating = new Semaphore(0, true);
 	
-	private WaiterRole waiter;
-	private HostRole host;
+	private DWaiterRole waiter;
+	private DHostRole host;
 
 	private boolean waitingForInventory; 
 	
 	Map<String, Boolean> grillOccupied = new HashMap<String, Boolean>();
 	
-	ArrayList<ArrayList<FoodOrder>> delivery= new ArrayList<ArrayList<FoodOrder>>();
-	List<Order> orders =  Collections.synchronizedList(new ArrayList<Order>());
+	ArrayList<ArrayList<DFoodOrder>> delivery= new ArrayList<ArrayList<DFoodOrder>>();
+	List<DOrder> orders =  Collections.synchronizedList(new ArrayList<DOrder>());
 	List<InventoryOrder> myOrders =  Collections.synchronizedList(new ArrayList<InventoryOrder>());
 	private int ORDER_ID;
-	ArrayList<FoodOrder> orderToMarket = new ArrayList<FoodOrder>();
+	ArrayList<DFoodOrder> orderToMarket = new ArrayList<DFoodOrder>();
 
 	Cashier myCashier;
 	boolean RestaurantIsOpen, CheckedAtFirst, valsAreSet;
 	
-	public CookRole(PersonAgent p) {
+	public DCookRole(PersonAgent p) {
 		super(p);
 		
 		this.name = name;
 		
-		myFood.put("Chicken", new Food("Chicken", 5, initialFoodAmnt));
-		myFood.put("Steak", new Food("Steak", 10, initialFoodAmnt));
-		myFood.put("Salad", new Food("Salad", 3, initialFoodAmnt));
-		myFood.put("Pizza", new Food("Pizza", 6, initialFoodAmnt));
+		myFood.put("Chicken", new DFood("Chicken", 5, initialFoodAmnt));
+		myFood.put("Steak", new DFood("Steak", 10, initialFoodAmnt));
+		myFood.put("Salad", new DFood("Salad", 3, initialFoodAmnt));
+		myFood.put("Pizza", new DFood("Pizza", 6, initialFoodAmnt));
 //		System.out.println("INITALIZE VALUES OF KITCHEN AND HIT 'SET' IN ORDER FOR COOK TO BEGIN CHECKING IF READY FOR OPEN");
 //		System.out.println("Cook Kitchen Inventory is initialized to "+ initialFoodAmnt+ " and threshold is "+ threshold);
 //		System.out.println("Maximum capacity in kitchen is 10");
@@ -127,7 +127,7 @@ public class CookRole extends Role implements Cook {
 
 	// Messages
 	
-	public void AddHost(HostRole h) {
+	public void AddHost(DHostRole h) {
 		//System.out.println("host added to cook");
 		host=h;
 	}
@@ -137,7 +137,7 @@ public class CookRole extends Role implements Cook {
 		myCashier=h;
 	}
 	
-	public void msgAddWaiter(WaiterRole w) {
+	public void msgAddWaiter(DWaiterRole w) {
 		waiter=w;
 	}
 	
@@ -158,10 +158,10 @@ public class CookRole extends Role implements Cook {
 	public void msgIncKitchenAmnt() {
 		if(initialFoodAmnt<MAXCAPACITY) {
 		initialFoodAmnt++;
-			myFood.put("Chicken", new Food("Chicken", 5, initialFoodAmnt));
-			myFood.put("Steak", new Food("Steak", 10, initialFoodAmnt));
-			myFood.put("Salad", new Food("Salad", 3, initialFoodAmnt));
-			myFood.put("Pizza", new Food("Pizza", 6, initialFoodAmnt));
+			myFood.put("Chicken", new DFood("Chicken", 5, initialFoodAmnt));
+			myFood.put("Steak", new DFood("Steak", 10, initialFoodAmnt));
+			myFood.put("Salad", new DFood("Salad", 3, initialFoodAmnt));
+			myFood.put("Pizza", new DFood("Pizza", 6, initialFoodAmnt));
 			System.out.println("Cook Kitchen Inventory is updated to "+ initialFoodAmnt);
 		}
 		else {
@@ -172,10 +172,10 @@ public class CookRole extends Role implements Cook {
 	public void msgDecKitchenAmnt() {
 		if(initialFoodAmnt>0) {
 			initialFoodAmnt--;
-			myFood.put("Chicken", new Food("Chicken", 5, initialFoodAmnt));
-			myFood.put("Steak", new Food("Steak", 10, initialFoodAmnt));
-			myFood.put("Salad", new Food("Salad", 3, initialFoodAmnt));
-			myFood.put("Pizza", new Food("Pizza", 6, initialFoodAmnt));
+			myFood.put("Chicken", new DFood("Chicken", 5, initialFoodAmnt));
+			myFood.put("Steak", new DFood("Steak", 10, initialFoodAmnt));
+			myFood.put("Salad", new DFood("Salad", 3, initialFoodAmnt));
+			myFood.put("Pizza", new DFood("Pizza", 6, initialFoodAmnt));
 
 			System.out.println("Cook Kitchen Inventory is updated to "+ initialFoodAmnt);
 		}
@@ -191,20 +191,20 @@ public class CookRole extends Role implements Cook {
 	}
 
 	
-	public void msgHereIsAnOrder(Order order) {
-		orders.add(new Order(order.getChoice(), order.getTablenum(), order.getWaiter()));
+	public void msgHereIsAnOrder(DOrder order) {
+		orders.add(new DOrder(order.getChoice(), order.getTablenum(), order.getWaiter()));
 		System.out.println("cook received order of "+ order.getChoice()+ " from table "+order.tablenum);
 		stateChanged();
 	}
 
-	public void msgHereIsYourFoodOrder(ArrayList<FoodOrder> dlv) {
+	public void msgHereIsYourFoodOrder(ArrayList<DFoodOrder> dlv) {
 		delivery.add(dlv);
 		System.out.println("received order from cook");
 		waitingForInventory=false;
 		stateChanged();
 	}
 	
-	public void msgCouldNotFulfillThese(ArrayList<FoodOrder> reorderlist, int ORDERID) {
+	public void msgCouldNotFulfillThese(ArrayList<DFoodOrder> reorderlist, int ORDERID) {
 		
 		
 		for(InventoryOrder order: myOrders) {
@@ -235,7 +235,7 @@ public class CookRole extends Role implements Cook {
 	
 	//utilities
 
-	public void setGui(CookGui gui) {
+	public void setGui(DCookGui gui) {
 		CookGui = gui;
 	}
 	
@@ -303,7 +303,7 @@ public class CookRole extends Role implements Cook {
 
 	// Actions
 	
-		private void ClearPlating(Order o) {
+		private void ClearPlating(DOrder o) {
 			DoClearPlating(o.getChoice().substring(0,2));
 			orders.remove(o);
 		}
@@ -315,8 +315,8 @@ public class CookRole extends Role implements Cook {
 			}
 		}
 		
-		private void CookOrder(final Order o) {
-			Food food=myFood.get(o.getChoice());
+		private void CookOrder(final DOrder o) {
+			DFood food=myFood.get(o.getChoice());
 			
 			if(food.getAmount()==0) {
 					System.out.println("Out of "+ food.getChoice());
@@ -377,7 +377,7 @@ public class CookRole extends Role implements Cook {
 		}
 
 
-		private void PlateOrderAndCallWaiter(Order o) {
+		private void PlateOrderAndCallWaiter(DOrder o) {
 			
 			o.state=OrderState.plated;
 			System.err.println("**");
@@ -427,22 +427,22 @@ public class CookRole extends Role implements Cook {
 			orderToMarket.clear(); 
 			
 			if(myFood.get("Chicken").getAmount()<=threshold) {
-				orderToMarket.add(new FoodOrder("Chicken", MAXCAPACITY- myFood.get("Chicken").getAmount()));
+				orderToMarket.add(new DFoodOrder("Chicken", MAXCAPACITY- myFood.get("Chicken").getAmount()));
 				billAmnt+=(MAXCAPACITY - myFood.get("Chicken").getAmount())*prices.get("Chicken");
 			}
 			
 			if(myFood.get("Steak").getAmount()<=threshold) {
-				orderToMarket.add(new FoodOrder("Steak", MAXCAPACITY-myFood.get("Steak").getAmount()));
+				orderToMarket.add(new DFoodOrder("Steak", MAXCAPACITY-myFood.get("Steak").getAmount()));
 				billAmnt+=(MAXCAPACITY - myFood.get("Steak").getAmount())*prices.get("Steak");
 			}
 			
 			if(myFood.get("Pizza").getAmount()<=threshold) {
-				orderToMarket.add(new FoodOrder("Pizza", MAXCAPACITY-myFood.get("Pizza").getAmount()));
+				orderToMarket.add(new DFoodOrder("Pizza", MAXCAPACITY-myFood.get("Pizza").getAmount()));
 				billAmnt+=(MAXCAPACITY - myFood.get("Pizza").getAmount())*prices.get("Pizza");
 			}
 			
 			if(myFood.get("Salad").getAmount()<=threshold) {
-				orderToMarket.add(new FoodOrder("Salad", MAXCAPACITY-myFood.get("Salad").getAmount()));
+				orderToMarket.add(new DFoodOrder("Salad", MAXCAPACITY-myFood.get("Salad").getAmount()));
 				billAmnt+=(MAXCAPACITY - myFood.get("Salad").getAmount())*prices.get("Salad");
 			}
 			
@@ -464,9 +464,9 @@ public class CookRole extends Role implements Cook {
 		}
 		
 	
-		private void ProcessDelivery(ArrayList<FoodOrder> groceries) {
-			for(FoodOrder foo: groceries) {
-				Food temp = myFood.get(foo.getFood());
+		private void ProcessDelivery(ArrayList<DFoodOrder> groceries) {
+			for(DFoodOrder foo: groceries) {
+				DFood temp = myFood.get(foo.getFood());
 				temp.setAmount(temp.getAmount()+foo.getVal());
 				myFood.put(foo.getFood(), temp);
 				System.out.println("update on " + temp.getChoice() + ": "+ myFood.get(temp.getChoice()).getAmount());
@@ -486,11 +486,11 @@ public class CookRole extends Role implements Cook {
 		
 		class InventoryOrder {
 			int orderID;
-			ArrayList<FoodOrder> myorder;
+			ArrayList<DFoodOrder> myorder;
 			int mktOrderingFrom;
 			boolean reorder;
 			
-			InventoryOrder(ArrayList<FoodOrder> mo, int orderid) {
+			InventoryOrder(ArrayList<DFoodOrder> mo, int orderid) {
 				myorder=mo;
 				mktOrderingFrom=1;
 				orderID=orderid;

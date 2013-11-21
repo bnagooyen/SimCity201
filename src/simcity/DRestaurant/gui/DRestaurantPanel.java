@@ -1,15 +1,13 @@
-package simcity.restaurant.gui;
+package simcity.DRestaurant.gui;
 
-import simcity.restaurant.CustomerRole;
 import simcity.PersonAgent;
+import simcity.DRestaurant.DCashierRole;
+import simcity.DRestaurant.DCookRole;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DHostRole;
+import simcity.DRestaurant.DWaiterRole;
 import simcity.gui.PersonGui;
-import simcity.restaurant.CashierRole;
-import simcity.restaurant.CookRole;
-import simcity.restaurant.HostRole;
-import simcity.restaurant.CookRole;
 //import restaurant.MarketAgent;
-import simcity.restaurant.CashierRole;
-import simcity.restaurant.WaiterRole;
 
 import javax.swing.*;
 
@@ -21,43 +19,43 @@ import java.util.Vector;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class RestaurantPanel extends JPanel {
+public class DRestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
 	private PersonAgent host = new PersonAgent("Host");
-    private HostRole h = new HostRole(host);
+    private DHostRole h = new DHostRole(host);
     //private HostGui hostGui = new HostGui(host);
     
     private PersonAgent c1 = new PersonAgent("c1");
     
     private PersonAgent waiter = new PersonAgent("Waiter");
-    private WaiterRole w = new WaiterRole(waiter);
+    private DWaiterRole w = new DWaiterRole(waiter);
     
     private PersonAgent cook = new PersonAgent("Cook");
-    private CookRole c = new CookRole(cook);   
+    private DCookRole c = new DCookRole(cook);   
     
     private PersonAgent cashier = new PersonAgent("Cashier");
-    private CashierRole cash = new CashierRole(cashier);
+    private DCashierRole cash = new DCashierRole(cashier);
     
     private Vector<PersonAgent> people = new Vector<PersonAgent>();
     //private CookGui cookGui = new CookGui(cook);
        
     private int waiterIndex = 1;
-    private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
-    private Vector<CustomerRole> customers = new Vector<CustomerRole>();
+    private Vector<DWaiterRole> waiters = new Vector<DWaiterRole>();
+    private Vector<DCustomerRole> customers = new Vector<DCustomerRole>();
     
     private final int numMarkets = 3;
 //    private Vector<MarketAgent> markets = new Vector<MarketAgent>();
     
     private JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
-    private ListPanel waiterPanel = new ListPanel(this, "Waiters");
+    private DListPanel customerPanel = new DListPanel(this, "Customers");
+    private DListPanel waiterPanel = new DListPanel(this, "Waiters");
 
-    private RestaurantGui gui;
+    private DRestaurantGui gui;
 
     
 
-    public RestaurantPanel(RestaurantGui gui) {
+    public DRestaurantPanel(DRestaurantGui gui) {
         this.gui = gui;
 //
 //        
@@ -349,7 +347,7 @@ public class RestaurantPanel extends JPanel {
     
     public void setCustomerEnabled(String name, double val) {
     	
-    	for(CustomerRole c: customers) {
+    	for(DCustomerRole c: customers) {
     		if(c.getText()==name) {
     			String s[] = name.split(", ");
     			String temp = s[0].trim()+", "+ String.valueOf(val)+ ", "+ s[2].trim()+", "+s[3].trim();

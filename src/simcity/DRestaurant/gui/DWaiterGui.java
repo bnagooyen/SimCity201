@@ -1,15 +1,14 @@
-package simcity.restaurant.gui;
+package simcity.DRestaurant.gui;
 
 
-import simcity.restaurant.CustomerRole;
-
-import simcity.restaurant.WaiterRole;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DWaiterRole;
 
 import java.awt.*;
 
-public class WaiterGui implements Gui {
+public class DWaiterGui implements DGui {
 
-    private WaiterRole agent = null;
+    private DWaiterRole agent = null;
 
     public boolean waiterAtFront()
     {
@@ -17,7 +16,7 @@ public class WaiterGui implements Gui {
     	else return false;
     }
     
-    RestaurantGui gui;
+    DRestaurantGui gui;
     private int tableGoingTo;
     public static final int x_Offset = 100;
     private int xPos = -20, yPos = -20;//default waiter position
@@ -60,7 +59,7 @@ public class WaiterGui implements Gui {
     String foodReady;
 
    // private int seatingAt;
-    private CustomerRole takingOrderFrom;//, orderFrom;
+    private DCustomerRole takingOrderFrom;//, orderFrom;
     
     private int seatingAt_x, seatingAt_y;
     
@@ -68,7 +67,7 @@ public class WaiterGui implements Gui {
     
    //f private void setSeatingAt(int t) { seatingAt=t; }
     
-    public WaiterGui(WaiterRole agent, RestaurantGui g, int startPos) {
+    public DWaiterGui(DWaiterRole agent, DRestaurantGui g, int startPos) {
     	gui=g;
         this.agent = agent;
         madeToFront=true;
@@ -162,7 +161,7 @@ public class WaiterGui implements Gui {
     	yDestination=frontline_y;
     }
 
-    public void DoBringToTable(CustomerRole customer, int table) {
+    public void DoBringToTable(DCustomerRole customer, int table) {
         //seatingAt=table;
     	command=Command.GoSeatCustomer;
     	
@@ -175,7 +174,7 @@ public class WaiterGui implements Gui {
       
     }
     
-    public void DoGoToTable(CustomerRole customer, int table) {
+    public void DoGoToTable(DCustomerRole customer, int table) {
     	//madeToFront=false; // reset
     	//System.out.println("do go to table called");
  
@@ -217,7 +216,7 @@ public class WaiterGui implements Gui {
     }
     
     public void DoShowCookedLabel(String food, int table) {
-    	CookGui.DoClearPlating(food.substring(0,2));
+    	DCookGui.DoClearPlating(food.substring(0,2));
     	tableGoingTo=table;
     	foodReady=food;
     	labelIsShowing=true;

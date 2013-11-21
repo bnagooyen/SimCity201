@@ -1,6 +1,7 @@
-package simcity.restaurant;
+package simcity.DRestaurant;
 
 import agent.Role;
+import simcity.DRestaurant.DCheck.CheckState;
 import simcity.Market.MarketCashierRole;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.restaurant.interfaces.Customer;
@@ -10,7 +11,6 @@ import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 //import simcity.test.mock.MockMarket;
 //import simcity.restaurant.CashierRole.InventoryBill.InventoryBillState;
-import simcity.restaurant.Check.CheckState;
 import simcity.PersonAgent;
 
 import java.text.DecimalFormat;
@@ -20,7 +20,7 @@ import java.util.concurrent.Semaphore;
 /**
  * Restaurant Host Agent
  */
-public class CashierRole extends Role implements Cashier {
+public class DCashierRole extends Role implements Cashier {
 	
 
 	public EventLog log = new EventLog();
@@ -37,13 +37,13 @@ public class CashierRole extends Role implements Cashier {
 	private Waiter waiterAtRegister=null;
 	private double registerAmnt;
 	
-	List<Check> myBills = Collections.synchronizedList(new ArrayList<Check>());
+	List<DCheck> myBills = Collections.synchronizedList(new ArrayList<DCheck>());
 	//List<InventoryBill> inventoryBills = Collections.synchronizedList(new ArrayList<InventoryBill>());
-	public List<Check> getBills() {
+	public List<DCheck> getBills() {
 		return myBills;
 	}
 
-	public CashierRole(PersonAgent p) {
+	public DCashierRole(PersonAgent p) {
 		super(p);
 
 		this.name = name;
@@ -95,7 +95,7 @@ public class CashierRole extends Role implements Cashier {
 	
 	public void msgComputeBill(String choice, Customer cust, String name, int tnum, Waiter wa) {
 		//System.out.println("received request for bill for table "+ (char)tnum);
-		myBills.add(new Check(choice, cust, name, tnum, wa)); // is that ok?
+		myBills.add(new DCheck(choice, cust, name, tnum, wa)); // is that ok?
 		System.out.println("bill reqest added for customer "+ cust+ " at table"+ tnum);
 		stateChanged();
 	}
@@ -123,14 +123,14 @@ public class CashierRole extends Role implements Cashier {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 	
-		for(Check b: myBills) {
+		for(DCheck b: myBills) {
 			if(b.state==CheckState.processing) {
 				ProcessBill(b);
 				return true;
 			}
 		}
 		
-		for(Check b: myBills) {
+		for(DCheck b: myBills) {
 			if(b.state==CheckState.paid) {
 				ComputeChange(b);
 				return true;
@@ -190,7 +190,7 @@ public class CashierRole extends Role implements Cashier {
 //
 //		
 //	}
-	private void ProcessBill(Check bi) {
+	private void ProcessBill(DCheck bi) {
 		bi.setBillAmnt(prices.get(bi.getChoice()));
 
 		bi.state=CheckState.processed;
@@ -204,10 +204,10 @@ public class CashierRole extends Role implements Cashier {
 		
 		DecimalFormat df = new DecimalFormat("###.##");
 		
-		for (Check bill: myBills) {
+		for (DCheck bill: myBills) {
 			if(bill.waiter==waiterAtRegister && bill.state==CheckState.processed) {
 				
-				for(Check findDebt: myBills) {
+				for(DCheck findDebt: myBills) {
 					if (findDebt.state==CheckState.debt && findDebt.getCustomer()== bill.getCustomer()) {
 						System.out.println("found debt of "+findDebt.debt+" for this customer");
 						bill.BillAmnt+=findDebt.debt;
@@ -225,7 +225,7 @@ public class CashierRole extends Role implements Cashier {
 		waiterAtRegister=null;
 	}
 	
-	private void ComputeChange(Check bi) {
+	private void ComputeChange(DCheck bi) {
 		Do("computing change");
 		
 		log.add(new LoggedEvent("Received Payment "+ bi.CustomerPaid));
@@ -235,7 +235,7 @@ public class CashierRole extends Role implements Cashier {
 		if(changeval>=0) {
 			
 			//check and see if acquired debt
-			for(Check bill: myBills) {
+			for(DCheck bill: myBills) {
 				if(bill.state==CheckState.debt && bill.customer==bi.getCustomer()) {
 					if(bill.debt<=changeval) { 
 						System.out.println("Customer's debt of "+ bill.debt+ " is added on to current bill");

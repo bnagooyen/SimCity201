@@ -1,9 +1,9 @@
-package simcity.restaurant;
+package simcity.DRestaurant;
 
-public class FoodOrder  {
+public class DFoodOrder  {
 	private String food;
 	private int val;
-	public FoodOrder(String f, int v) {
+	public DFoodOrder(String f, int v) {
 		food=f;
 		val=v;
 	}

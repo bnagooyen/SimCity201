@@ -1,21 +1,21 @@
-package simcity.restaurant.gui;
+package simcity.DRestaurant.gui;
 
-import simcity.restaurant.CustomerRole;
-import simcity.restaurant.HostRole;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DHostRole;
 
 import java.awt.*;
 import java.util.Random;
 
 
-public class CustomerGui implements Gui{
+public class DCustomerGui implements DGui{
 
-	private CustomerRole agent = null;
+	private DCustomerRole agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 	private boolean isServed = false;
 	private boolean orderDisplayed=false;
 	private String dispChoice;
-	RestaurantGui gui;
+	DRestaurantGui gui;
 
     public static final int x_Offset = 100;
     
@@ -43,7 +43,7 @@ public class CustomerGui implements Gui{
     public static final int nTABLES = 12;
     public static final int TABLES_perRow = 4;
 
-	public CustomerGui(CustomerRole c, RestaurantGui gui){ //HostAgent m) {
+	public DCustomerGui(DCustomerRole c, DRestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xPos = -40;
 		yPos = -40;
