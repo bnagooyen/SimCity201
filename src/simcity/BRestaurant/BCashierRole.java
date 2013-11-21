@@ -1,8 +1,10 @@
 package simcity.BRestaurant;
 import agent.Agent;
+import agent.Role;
 
 import java.util.*;
 
+import simcity.PersonAgent;
 import simcity.interfaces.*;
 import simcity.BRestaurant.*;
 
