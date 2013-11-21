@@ -40,9 +40,9 @@ public class BankCustomerTest extends TestCase{
         assertEquals("Account number should be null ", customer.accountNum, null);
         assertEquals("MockBankManager should have an empty event log. Instead, the MockBankManager's event log reads: "
                 + mgr.log.toString(), 0, mgr.log.size());
-        assertEquals("MockBankTeller should have an empty event log. Instead, the MockBankManager's event log reads: "
+        assertEquals("MockBankTeller should have an empty event log. Instead, the MockBankTeller's event log reads: "
                 + teller.log.toString(), 0, teller.log.size());
-        assertEquals("MockBankTeller should have an empty event log. Instead, the MockBankManager's event log reads: "
+        assertEquals("MockBankLoanOfficer should have an empty event log. Instead, the MockBankLoanOfficer's event log reads: "
                 + loanOfficer.log.toString(), 0, loanOfficer.log.size());
         
         
@@ -59,6 +59,10 @@ public class BankCustomerTest extends TestCase{
         assertEquals("AccountState should start at ", customer.state, bankCustomerState.inProgress);
         assertTrue("MockBankTeller should have logged an event for getting maker account, but instead it's: "
         + teller.log.getLastLoggedEvent().toString(), teller.log.containsString("Make Account"));
+        assertEquals("MockBankManager should have an empty event log. Instead, the MockBankManager's event log reads: "
+                + mgr.log.toString(), 0, mgr.log.size());
+        assertEquals("MockBankLoanOfficer should have an empty event log. Instead, the MockBankLoanOfficer's event log reads: "
+                + loanOfficer.log.toString(), 0, loanOfficer.log.size());
         
         //Account Made
         customer.msgAccountMade(3);
