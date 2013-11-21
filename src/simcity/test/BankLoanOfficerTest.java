@@ -1,10 +1,13 @@
 package simcity.test;
 
 
+import com.sun.org.apache.bcel.internal.generic.ASTORE;
+
 import simcity.PersonAgent;
 import simcity.interfaces.*;
 import simcity.Bank.BankLoanOfficerRole;
 import simcity.Bank.BankLoanOfficerRole.accountState;
+import simcity.Bank.BankLoanOfficerRole.bankLoanState;
 import simcity.Bank.BankRobberRole;
 import simcity.Bank.BankRobberRole.bankRobberState;
 import simcity.test.mock.MockBankCustomer;
@@ -48,8 +51,27 @@ public class BankLoanOfficerTest extends TestCase{
 		assertEquals("Bankmanager should have received account creation request", mgr.log.size(), 1);
 		assertTrue("received correct msg", mgr.log.containsString("Received a message to create a new account"));
 		
+		assertEquals("mock cus1 should have 0 logs", customer1.log.size(), 0);
+		assertEquals("mock cus2 should have 0 logs", customer2.log.size(), 0);
+		
 		//make sure PAEAA returns false;
 		assertFalse(loanOfficer.pickAndExecuteAnAction());
+		
+		loanOfficer.msgAccountCreated(1);
+		
+		assertTrue(loanOfficer.pickAndExecuteAnAction());
+		assertEquals("customer received log that account has been created", customer1.log.size(), 1);
+		assertTrue("", customer1.log.containsString("New Account made: 1"));
+		assertEquals("loanofficer should be waiting for loan request", loanOfficer.getState(), bankLoanState.waitingForLoanRequest);
+		
+		
+		assertEquals("mock cus2 should have 0 logs", customer2.log.size(), 0);
+		assertEquals("mock bank manager should have 1 logs", mgr.log.size(), 1);
+		
+		//make sure PAEAA returns false;
+		assertFalse(loanOfficer.pickAndExecuteAnAction());
+		
+		
 	}   
 	
 }
