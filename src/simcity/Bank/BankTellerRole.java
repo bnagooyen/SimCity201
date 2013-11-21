@@ -38,6 +38,7 @@ public class BankTellerRole extends Role implements BankTeller {
 		
 	public BankTellerRole(PersonAgent p) {
 		super(p);
+		startHour=8;
 		// TODO Auto-generated constructor stub
 		log=new EventLog();
 	}

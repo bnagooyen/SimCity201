@@ -41,6 +41,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 
 	public BankLoanOfficerRole(PersonAgent p) {
 		super(p);
+		startHour=8;
 		// TODO Auto-generated constructor stub
 		
 		//Populate List of jobs to which we loan

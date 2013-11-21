@@ -189,9 +189,16 @@ public class PersonAgent extends Agent {//implements Person
 				GoToBed();
 				return true;
 			}
-			
-			//enter bank stuff here
-		}		
+			if(money>depositThreshold){
+				deposit();
+			}
+			if(money<withdrawalThreshold){
+				withdraw();
+			}
+			if(moneyState==MoneyState.rich && myCar==null){
+				buyCar();
+			}
+		}
 		
 		if(locationState==LocationState.inTransit && !(energyState==EnergyState.asleep)) {
 			//enter transit stuff here
@@ -224,6 +231,21 @@ public class PersonAgent extends Agent {//implements Person
 		Do("going to bed");
 		energyState=EnergyState.asleep;
 	}
+	
+	private void deposit() {
+		Do("Going to deposit Money");
+		energyState=EnergyState.asleep;
+	}
+	
+	private void withdraw() {
+		Do("Going to Withdraw Money");
+		energyState=EnergyState.asleep;
+	}
+	
+	private void buyCar() {
+		Do("Go buy car");
+	}
+	
 	// utilities
 	
 	private void DoDie() {
