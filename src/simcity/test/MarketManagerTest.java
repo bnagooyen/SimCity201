@@ -81,11 +81,29 @@ public class MarketManagerTest extends TestCase{
         //assertTrue("MarketManager is checking to open.", m.pickAndExecuteAnAction());
         assertEquals("isClosed.", m.isClosed, true);
         assertTrue("MarketManager logged: " + m.log.getLastLoggedEvent().toString(), m.log.containsString("Received msgIAmHere."));
+        assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
+                + ib.log.toString(), 0, ib.log.size());
+        assertEquals("MockMarketCustomer should have an empty event log. The c's event log reads: "
+                + c.log.toString(), 0, c.log.size());
+        assertEquals("MockCook should have an empty event log. The cook's event log reads: "
+                + cook.log.toString(), 0, cook.log.size());
+        assertEquals("MockCashier should have an empty event log. The mc's event log reads: "
+                + mc.log.toString(), 0, mc.log.size());
+        
         //adding inventory boy
         m.msgIAmHere(ib.ib,"inventory boy");
         assertEquals("MarketManager should have one inventory boy", m.inventoryBoys.size(), 1);
         assertEquals("isClosed.", m.isClosed, false);
         assertTrue("MarketManager logged: " + m.log.getLastLoggedEvent().toString(), m.log.containsString("Received msgIAmHere."));
+        assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
+                + ib.log.toString(), 0, ib.log.size());
+        assertEquals("MockMarketCustomer should have an empty event log. The c's event log reads: "
+                + c.log.toString(), 0, c.log.size());
+        assertEquals("MockCook should have an empty event log. The cook's event log reads: "
+                + cook.log.toString(), 0, cook.log.size());
+        assertEquals("MockCashier should have an empty event log. The mc's event log reads: "
+                + mc.log.toString(), 0, mc.log.size());
+        
         //adding customer
         m.msgIAmHere(c,"customer");
         assertEquals("MarketManager should have one customer", m.customers.size(), 1);
@@ -93,20 +111,32 @@ public class MarketManagerTest extends TestCase{
         assertTrue("MarketManager is checking to open.", m.pickAndExecuteAnAction());
         assertEquals("Market Cashier can work", m.cashiers.get(0).state, workerState.occupied);
         assertTrue("MarketCustomer logged: " + c.log.getLastLoggedEvent().toString(), c.log.containsString("Received msgGoToCashier from market manager."));
-	
+        assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
+                + ib.log.toString(), 0, ib.log.size());
+        assertEquals("MockCook should have an empty event log. The cook's event log reads: "
+                + cook.log.toString(), 0, cook.log.size());
+        assertEquals("MockCashier should have an empty event log. The mc's event log reads: "
+                + mc.log.toString(), 0, mc.log.size());
       
         //time to close market
         m.msgTimeUpdate(20);
         assertEquals("isClosed.", m.isClosed, false);     
         m.pickAndExecuteAnAction();
-
-        //assertTrue("Inventory Boy logged: " + m.inventoryBoys.get(0).log.getLastLoggedEvent().toString(), m.inventoryBoys.get(0).log.containsString("Gone Home."));
         assertEquals("isClosed.", m.isClosed, true);
         assertTrue("MarketManager is closing.", m.pickAndExecuteAnAction());
         assertEquals("MarketManager should have zero cashiers", m.cashiers.size(), 0);
         assertEquals("MarketManager should have zero inventoryBoys", m.inventoryBoys.size(), 0);
         m.pickAndExecuteAnAction(); 
         assertEquals("MarketManager should have zero customers", m.customers.size(), 0);
+        assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + m.log.toString(), 3, m.log.size());
+        assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
+                + ib.log.toString(), 0, ib.log.size());
+        assertEquals("MockMarketCustomer should have an event log. The c's event log reads: "
+                + c.log.toString(), 1, c.log.size());
+        assertEquals("MockCook should have an empty event log. The cook's event log reads: "
+                + cook.log.toString(), 0, cook.log.size());
+        assertEquals("MockCashier should have an event log. The mc's event log reads: "
+                + mc.log.toString(), 1, mc.log.size());
 	}
 	
 }
