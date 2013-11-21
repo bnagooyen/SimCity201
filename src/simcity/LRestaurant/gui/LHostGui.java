@@ -1,14 +1,14 @@
 package simcity.LRestaurant.gui;
 
 
-import restaurant.CustomerRole;
-import restaurant.HostRole;
+import simcity.LRestaurant.LCustomerRole;
+import simcity.LRestaurant.LHostRole;
 
 import java.awt.*;
 
-public class HostGui implements Gui {
+public class LHostGui implements LGui {
 
-    private HostRole agent = null;
+    private LHostRole agent = null;
 
     private int xPos = -20, yPos = -20;//default waiter position
     private int xDestination = -20, yDestination = -20;//default start position
@@ -16,7 +16,7 @@ public class HostGui implements Gui {
     public static final int xTable = 200;
     public static final int yTable = 250;
 
-    public HostGui(HostRole agent) {
+    public LHostGui(LHostRole agent) {
         this.agent = agent;
     }
 
@@ -46,7 +46,7 @@ public class HostGui implements Gui {
         return true;
     }
 
-    public void DoBringToTable(CustomerRole customer) {
+    public void DoBringToTable(LCustomerRole customer) {
         xDestination = xTable + 20;
         yDestination = yTable - 20;
     }

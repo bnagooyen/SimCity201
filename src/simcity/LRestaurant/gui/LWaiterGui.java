@@ -1,8 +1,8 @@
 package simcity.LRestaurant.gui;
 
 
-import restaurant.CustomerRole;
-import restaurant.WaiterRole;
+import simcity.LRestaurant.LCustomerRole;
+import simcity.LRestaurant.LWaiterRole;
 //import restaurant.WaiterAgent.WaiterState;
 
 
@@ -10,14 +10,14 @@ import restaurant.WaiterRole;
 
 import java.awt.*;
 
-public class WaiterGui implements Gui {
+public class LWaiterGui implements LGui {
 
-    private WaiterRole agent = null;
-    private CookGui cookGui = null;
+    private LWaiterRole agent = null;
+    private LCookGui cookGui = null;
     private boolean hasFood = false;
     private String food;
     private String name;
-    RestaurantGui gui;
+    LRestaurantGui gui;
     
     public enum commandState{noCommand, moving};
     private commandState command =  commandState.noCommand;
@@ -57,13 +57,13 @@ public class WaiterGui implements Gui {
     
     private int tableNum;
 
-    public WaiterGui(WaiterRole agent, String name, RestaurantGui gui) {
+    public LWaiterGui(LWaiterRole agent, String name, LRestaurantGui gui) {
         this.agent = agent;
         this.name = name;
         this.gui = gui;
     }
     
-    public void setCookGui(CookGui c){
+    public void setCookGui(LCookGui c){
     	cookGui = c;
     }
     

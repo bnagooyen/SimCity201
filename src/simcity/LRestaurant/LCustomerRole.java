@@ -2,12 +2,15 @@ package simcity.LRestaurant;
 
 //import restaurant.gui.RestaurantGui;
 import agent.Role;
-import restaurant.gui.CustomerGui;
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Waiter;
-import restaurant.Menu;
+import simcity.LRestaurant.gui.LCustomerGui;
+import simcity.LRestaurant.interfaces.LCashier;
+import simcity.LRestaurant.interfaces.LCustomer;
+import simcity.LRestaurant.interfaces.LWaiter;
+import simcity.LRestaurant.LMenu;
 import simcity.PersonAgent;
+import simcity.LRestaurant.LMenu;
+import simcity.LRestaurant.interfaces.LCustomer;
+import simcity.LRestaurant.interfaces.LWaiter;
 
 import java.util.Random;
 import java.util.Timer;
@@ -16,7 +19,7 @@ import java.util.TimerTask;
 /**
  * Restaurant Customer Agent
  */
-public class CustomerRole extends Role implements Customer{
+public class LCustomerRole extends Role implements LCustomer{
         private String[] name;
         private int hungerLevel = 5;        // determines length of meal
         private int table;
@@ -26,16 +29,16 @@ public class CustomerRole extends Role implements Customer{
         private boolean canOrder;
         Timer timer = new Timer();
         Random rand = new Random();
-        public CustomerGui customerGui;
+        public LCustomerGui customerGui;
         private String choice; //place holder
-        private Menu m;
+        private LMenu m;
         private boolean willStay;
         private String givenName;
 
         // agent correspondents
-        private Waiter waiter;
-        private HostRole host;
-        private Cashier cashier;
+        private LWaiter waiter;
+        private LHostRole host;
+        private LCashier cashier;
         //private WaiterAgent waiter;
 
         //    private boolean isHungry = false; //hack for gui
@@ -53,14 +56,14 @@ public class CustomerRole extends Role implements Customer{
          * @param name name of the customer
          * @param gui  reference to the customergui so the customer can send it messages
          */
-        public CustomerRole(PersonAgent p, Role r){
+        public LCustomerRole(PersonAgent p, Role r){
                 super(p);
-                host = (HostRole) r;
+                host = (LHostRole) r;
                 needToPay = 0;
                 givenName = p.getName();
                 name = givenName.split("-"); //name-money-choice-behavior
 
-                m = new Menu();
+                m = new LMenu();
 
                 if(name.length != 4){ //cases just in case user fails to input everything
                         name = new String[] {"Default","20","S","wait"};
@@ -107,15 +110,15 @@ public class CustomerRole extends Role implements Customer{
          * hack to establish connection to Host agent.
          */
 
-        public void setHost(HostRole host) {
+        public void setHost(LHostRole host) {
                 this.host = host;
         }
 
-        public void setWaiter(Waiter waiter) {
+        public void setWaiter(LWaiter waiter) {
                 this.waiter = waiter;
         }
 
-        public void setCashier(Cashier cashier){
+        public void setCashier(LCashier cashier){
                 this.cashier = cashier;
         }
 
@@ -135,7 +138,7 @@ public class CustomerRole extends Role implements Customer{
                 stateChanged();
         }
 
-        public void msgFollowMe(int tableNumber, Menu m, Waiter w) {
+        public void msgFollowMe(int tableNumber, LMenu m, LWaiter w) {
                 this.waiter = w;
                 this.m = m;
                 table = tableNumber;
@@ -145,7 +148,7 @@ public class CustomerRole extends Role implements Customer{
                 stateChanged();
         }
 
-        public void msgPleaseReorder(Menu m) {
+        public void msgPleaseReorder(LMenu m) {
                 this.m = m;
                 event = AgentEvent.reordering;
                 stateChanged();
@@ -449,11 +452,13 @@ public class CustomerRole extends Role implements Customer{
                 return "customer " + getName();
         }
 
-        public void setGui(CustomerGui g) {
+        public void setGui(LCustomerGui g) {
                 customerGui = g;
         }
 
-        public CustomerGui getGui() {
+        public LCustomerGui getGui() {
                 return customerGui;
         }
+
+		
 }

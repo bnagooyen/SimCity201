@@ -9,11 +9,11 @@ import java.util.*;
  * Restaurant Menu
  */
 
-public class Menu {
+public class LMenu {
 	
 	public List<Food>menu = new ArrayList<Food>();
 	
-	public Menu(){
+	public LMenu(){
 		menu.add(new Food(15, "St"));
 		menu.add(new Food(10, "Ch"));
 		menu.add(new Food(5, "S"));

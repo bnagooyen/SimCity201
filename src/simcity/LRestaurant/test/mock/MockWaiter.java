@@ -1,17 +1,17 @@
 package simcity.LRestaurant.test.mock;
 
 
-import restaurant.CustomerRole;
-import restaurant.WaiterRole.CustomerState;
-import restaurant.WaiterRole.MyCustomers;
-import restaurant.WaiterRole.WaiterState;
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Waiter;
+import simcity.LRestaurant.LCustomerRole;
+import simcity.LRestaurant.LWaiterRole.CustomerState;
+import simcity.LRestaurant.LWaiterRole.MyCustomers;
+import simcity.LRestaurant.LWaiterRole.WaiterState;
+import simcity.LRestaurant.interfaces.LCashier;
+import simcity.LRestaurant.interfaces.LCustomer;
+import simcity.LRestaurant.interfaces.LWaiter;
 
-public class MockWaiter extends Mock implements Waiter {
+public class MockWaiter extends Mock implements LWaiter {
 
-	public Cashier cashier;
+	public LCashier cashier;
 	public EventLog log = new EventLog();
 
 	public MockWaiter(String name) {
@@ -22,15 +22,15 @@ public class MockWaiter extends Mock implements Waiter {
 		
 	}
 	
-	public void msgSeatCustomer(Customer cust, int table){
+	public void msgSeatCustomer(LCustomer cust, int table){
 		
 	}
 
-	public void msgReadyToOrder(Customer cust){
+	public void msgReadyToOrder(LCustomer cust){
 		
 	}
 
-	public void msgHereIsMyChoice(Customer cust, String choice){
+	public void msgHereIsMyChoice(LCustomer cust, String choice){
 		
 	}
 
@@ -42,15 +42,15 @@ public class MockWaiter extends Mock implements Waiter {
 		
 	}
 
-	public void msgReadyForCheck(Customer cust){
+	public void msgReadyForCheck(LCustomer cust){
 		
 	}
 
-	public void msgHereIsCheck(int check, Customer cust){
+	public void msgHereIsCheck(int check, LCustomer cust){
 		log.add(new LoggedEvent("Received msgHereIsCheck from cashier."));
 	}
 
-	public void msgDoneEatingAndLeaving(Customer cust){
+	public void msgDoneEatingAndLeaving(LCustomer cust){
 		
 	}
 

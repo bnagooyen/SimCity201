@@ -1,7 +1,7 @@
 package simcity.LRestaurant.gui;
 
-import restaurant.CustomerRole;
-import restaurant.WaiterRole;
+import simcity.LRestaurant.LCustomerRole;
+import simcity.LRestaurant.LWaiterRole;
 //import restaurant.HostAgent.MyCustomers;
 
 import java.awt.*;
@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CustomerGui implements Gui{
+public class LCustomerGui implements LGui{
 
-	public static List<CustomerRole> waitingCustomers = Collections.synchronizedList(new ArrayList<CustomerRole>());
+	public static List<LCustomerRole> waitingCustomers = Collections.synchronizedList(new ArrayList<LCustomerRole>());
 	
-	private CustomerRole agent = null;
+	private LCustomerRole agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 	private boolean hasFood = false;
@@ -21,7 +21,7 @@ public class CustomerGui implements Gui{
 	private String food;
 	private String name;
 	private boolean waiting;
-	RestaurantGui gui;
+	LRestaurantGui gui;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -43,7 +43,7 @@ public class CustomerGui implements Gui{
     private int rectSize = 20;
     private int xDpos = 10, yDpos = 20;
 
-	public CustomerGui(CustomerRole c, String name, RestaurantGui gui){ 
+	public LCustomerGui(LCustomerRole c, String name, LRestaurantGui gui){ 
 		this.name = name;
 		agent = c;
 		xPos = xDpos;
@@ -75,6 +75,7 @@ public class CustomerGui implements Gui{
     	orderFood = false;
     }
 
+	@Override
 	public void updatePosition() {
 		if(waiting){
 			yDestination = yDpos*(waitingCustomers.indexOf(agent)+1)+(waitingCustomers.indexOf(agent)*20);
@@ -102,6 +103,7 @@ public class CustomerGui implements Gui{
 		}
 	}
 
+	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(Color.GREEN);
 		g.fillRect(xPos, yPos, rectSize, rectSize);
@@ -117,6 +119,7 @@ public class CustomerGui implements Gui{
         }
 	}
 
+	@Override
 	public boolean isPresent() {
 		return isPresent;
 	}

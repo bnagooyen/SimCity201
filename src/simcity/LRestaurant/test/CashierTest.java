@@ -1,25 +1,25 @@
 package simcity.LRestaurant.test;
 
-import restaurant.CashierAgent;
-import restaurant.CashierAgent.OrderState;
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Waiter;
-import restaurant.test.mock.EventLog;
-import restaurant.test.mock.MockCustomer;
-import restaurant.test.mock.MockMarket;
-import restaurant.test.mock.MockWaiter;
+import simcity.LRestaurant.LCashierAgent;
+import simcity.LRestaurant.LCashierAgent.OrderState;
+import simcity.LRestaurant.interfaces.LCashier;
+import simcity.LRestaurant.interfaces.LCustomer;
+import simcity.LRestaurant.interfaces.LWaiter;
+import simcity.LRestaurant.test.mock.EventLog;
+import simcity.LRestaurant.test.mock.MockCustomer;
+//import simcity.LRestaurant.test.mock.MockMarket;
+import simcity.LRestaurant.test.mock.MockWaiter;
 import junit.framework.*;
 
 
 public class CashierTest extends TestCase
 {
 	//these are instantiated for each test separately via the setUp() method.
-	CashierAgent cashier;
+	LCashierAgent cashier;
 	MockWaiter waiter;
-	MockCustomer customer;
-	MockMarket market;
-	MockMarket market2;
+//	MockCustomer customer;
+//	MockMarket market;
+//	MockMarket market2;
 	
 	/**
 	 * This method is run before each test. You can use it to instantiate the class variables
@@ -27,7 +27,7 @@ public class CashierTest extends TestCase
 	 */
 	public void setUp() throws Exception{
 		super.setUp();		
-		cashier = new CashierAgent("cashier");		
+		cashier = new LCashierAgent("cashier");		
 		customer = new MockCustomer("mockcustomer");	
 		market = new MockMarket("mockmarket");
 		market2 = new MockMarket("mockmarket2");

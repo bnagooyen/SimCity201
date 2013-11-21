@@ -5,13 +5,13 @@ import java.util.Collections;
 import java.util.List;
 
 import agent.Role;
+import simcity.DRestaurant.DCashierRole;
+import simcity.DRestaurant.DCookRole;
 import simcity.Market.MFoodOrder;
 import simcity.Market.MarketCashierRole.orderState;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.RestaurantCashier;
-import simcity.restaurant.CashierRole;
-import simcity.restaurant.CookRole;
 import simcity.restaurant.interfaces.Cashier;
 
 public class MOrder {

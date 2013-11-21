@@ -1,10 +1,10 @@
 package simcity.gui;
 
-import simcity.restaurant.CookRole;
-import simcity.restaurant.CustomerRole;
-import simcity.restaurant.gui.Gui;
-import simcity.restaurant.gui.RestaurantGui;
-import simcity.restaurant.gui.CookGui.CookLabel.LabelState;
+import simcity.DRestaurant.DCookRole;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.gui.DGui;
+import simcity.DRestaurant.gui.DRestaurantGui;
+import simcity.DRestaurant.gui.DCookGui.CookLabel.LabelState;
 import simcity.PersonAgent;
 
 import java.awt.*;
@@ -15,7 +15,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
-public class PersonGui implements Gui {
+public class PersonGui implements DGui {
 
     private PersonAgent agent = null;
 
@@ -26,7 +26,7 @@ public class PersonGui implements Gui {
     }
     private boolean isPresent = false;
     private boolean isHungry = false;
-    RestaurantGui gui;
+    DRestaurantGui gui;
     private int tableGoingTo;
     public static final int x_Offset = 100;
     private int xPos = -20, yPos = -20;//default waiter position
@@ -98,7 +98,7 @@ public class PersonGui implements Gui {
     String foodReady;
 
    // private int seatingAt;
-    private CustomerRole takingOrderFrom;//, orderFrom;
+    private DCustomerRole takingOrderFrom;//, orderFrom;
     
     private int seatingAt_x, seatingAt_y;
     
@@ -106,7 +106,7 @@ public class PersonGui implements Gui {
     
    //f private void setSeatingAt(int t) { seatingAt=t; }
     
-    public PersonGui(PersonAgent agent, RestaurantGui g) {
+    public PersonGui(PersonAgent agent, DRestaurantGui g) {
     	gui=g;
         this.agent = agent;
         madeToFront=true;

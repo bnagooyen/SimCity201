@@ -6,9 +6,9 @@ import agent.Agent;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import restaurant.CustomerRole.AgentEvent;
-import restaurant.gui.CookGui;
-import restaurant.interfaces.Market;
+import simcity.LRestaurant.LCustomerRole.AgentEvent;
+import simcity.LRestaurant.gui.LCookGui;
+//import simcity.LRestaurant.interfaces.Market;
 
 /**
  * Restaurant Cook Agent
@@ -17,12 +17,12 @@ import restaurant.interfaces.Market;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class CookAgent extends Agent {
+public class LCookAgent extends Agent {
 	Timer timer = new Timer();
 	String name;
 
 	//private List<MarketAgent> markets = new ArrayList<MarketAgent>();
-	private List<MyMarket> markets = Collections.synchronizedList(new ArrayList<MyMarket>());
+//	private List<MyMarket> markets = Collections.synchronizedList(new ArrayList<MyMarket>());
 	private List<Order>orders = Collections.synchronizedList(new ArrayList<Order>());
 	private Map<String, Food> foods = Collections.synchronizedMap(new HashMap<String, Food>());
 //	private Map<String, Boolean> marketOrders = new HashMap<String, Boolean>(); //integer holds the amount reordered
@@ -30,10 +30,10 @@ public class CookAgent extends Agent {
 //	public enum MarketState{noOrder, firstOrder, reOrder};
 //	private int currMarket = 0;
 //	private boolean needMarket = false; //set true when need to order from market
-	public CookGui cookGui;
+	public LCookGui cookGui;
 	private Semaphore task = new Semaphore(0,true);
 
-	public CookAgent(String name){
+	public LCookAgent(String name){
 		super();
 		this.name = name;
 		foods.put("P", new Food("P", 700, 2, 5, 2)); //choice, cookTime, amount, capacity, threshold
@@ -42,14 +42,14 @@ public class CookAgent extends Agent {
 		foods.put("Ch", new Food("Ch", 900, 2, 5, 2));
 		}
 
-	public void addMarket(Market m){
-		markets.add(new MyMarket(m));
-	}
+//	public void addMarket(LMarket m){
+//		markets.add(new MyMarket(m));
+//	}
 
 
 	// Messages
 
-	public void msgHereIsAnOrder(int table, String choice, WaiterRole w) {//from animation
+	public void msgHereIsAnOrder(int table, String choice, LWaiterRole w) {//from animation
 		//print("Received order from " + choice);
 		orders.add(new Order(table, choice,w,OrderState.pending));
 		stateChanged();
@@ -237,7 +237,7 @@ public class CookAgent extends Agent {
 
 	//utilities
 
-	public void setGui(CookGui gui){
+	public void setGui(LCookGui gui){
 		cookGui = gui;
 	}
 	
@@ -264,29 +264,29 @@ public class CookAgent extends Agent {
 		}
 	}
 
-	public class MyMarket{
-		Map<String, Boolean> supply = Collections.synchronizedMap(new HashMap<String, Boolean>()); //true when in stock
-		Market market;
-
-		MyMarket(Market m){
-			supply.put("Ch", true);
-			supply.put("S", true);
-			supply.put("St", true);
-			supply.put("P", true);
-			market = m;
-		}
-	}
+//	public class MyMarket{
+//		Map<String, Boolean> supply = Collections.synchronizedMap(new HashMap<String, Boolean>()); //true when in stock
+//		LMarket market;
+//
+//		MyMarket(LMarket m){
+//			supply.put("Ch", true);
+//			supply.put("S", true);
+//			supply.put("St", true);
+//			supply.put("P", true);
+//			market = m;
+//		}
+//	}
 
 	public class Order{
 		int table;
 		String choice;
 		OrderState state;
-		WaiterRole w;
+		LWaiterRole w;
 
 		//Additional for V2.1
 		//int cookTime = 2;
 
-		Order(int t, String c, WaiterRole w, OrderState o){
+		Order(int t, String c, LWaiterRole w, OrderState o){
 			table = t;
 			choice = c;
 			this.w = w;

@@ -1,11 +1,11 @@
 package simcity.LRestaurant;
 
 import agent.Role;
-import simcity.LRestaurant.WaiterRole;
-import simcity.LRestaurant.WaiterRole.WaiterState;
-import simcity.LRestaurant.gui.WaiterGui;
-import restaurant.gui.HostGui;
-import restaurant.interfaces.Customer;
+import simcity.LRestaurant.LWaiterRole;
+import simcity.LRestaurant.LWaiterRole.WaiterState;
+import simcity.LRestaurant.gui.LWaiterGui;
+import simcity.LRestaurant.gui.LHostGui;
+import simcity.LRestaurant.interfaces.LCustomer;
 import simcity.PersonAgent;
 import simcity.interfaces.Host;
 
@@ -19,7 +19,7 @@ import java.util.*;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class HostRole extends Role implements Host {
+public class LHostRole extends Role implements Host {
         static final int NTABLES = 4;//a global for the number of tables.
         //Notice that we implement waitingCustomers using ArrayList, but type it
         //with List semantics.
@@ -40,9 +40,9 @@ public class HostRole extends Role implements Host {
         private String name;
         Timer timer = new Timer();
 
-        public HostGui hostGui = null;
+        public LHostGui hostGui = null;
 
-        public HostRole(PersonAgent p) {
+        public LHostRole(PersonAgent p) {
                 super(p);
 
                 this.name = p.getName();
@@ -54,7 +54,7 @@ public class HostRole extends Role implements Host {
 
         }
 
-        public void addWaiter(WaiterRole w){
+        public void addWaiter(LWaiterRole w){
                 waiters.add(new myWaiter(w,0));//newly hired waiter 
                 //int count = -1;
                 synchronized(waiters){
@@ -93,7 +93,7 @@ public class HostRole extends Role implements Host {
                 stateChanged();
         }
         
-        public void msgChoseToLeave(Customer c){
+        public void msgChoseToLeave(LCustomer c){
                 synchronized(customers){
                         for(MyCustomers cust:customers){
                                 if(cust.c == c){
@@ -105,7 +105,7 @@ public class HostRole extends Role implements Host {
                 }
         }
 
-        public void msgChoseToWait(Customer c){
+        public void msgChoseToWait(LCustomer c){
                 synchronized(customers){
                         for(MyCustomers cust:customers){
                                 if(cust.c == c){
@@ -115,7 +115,7 @@ public class HostRole extends Role implements Host {
                 }
         }
 
-        public void msgReadyToWork(WaiterRole waiterRole){
+        public void msgReadyToWork(LWaiterRole waiterRole){
                 Do("Waiter is back");
                 
                 synchronized(waiters){
@@ -128,7 +128,7 @@ public class HostRole extends Role implements Host {
                 stateChanged();
         }
 
-        public void msgWantToGoOnBreak(WaiterRole waiter){
+        public void msgWantToGoOnBreak(LWaiterRole waiter){
                 Do("Waiter ask to go on break");
                 
                 synchronized(waiters){
@@ -141,7 +141,7 @@ public class HostRole extends Role implements Host {
                 stateChanged();
         }
 
-        public void msgIWantToEat(Customer c) {
+        public void msgIWantToEat(LCustomer c) {
                 customers.add(new MyCustomers(c));
                 //waitingCustomers.add(new MyCustomers(c));
             
@@ -169,7 +169,7 @@ public class HostRole extends Role implements Host {
         }
 
 
-        public void msgEmptyTable(int tableNum, WaiterRole waiter, Customer c) {
+        public void msgEmptyTable(int tableNum, LWaiterRole waiter, LCustomer c) {
         	synchronized(customers){
                 for(MyCustomers cust:customers){
                         if(cust.c == c){
@@ -290,7 +290,7 @@ public class HostRole extends Role implements Host {
                         stateChanged();
         }
 
-        private void checkIfCan(WaiterRole w){
+        private void checkIfCan(LWaiterRole w){
                 int workingCount = 0;
                 myWaiter mW = null;
 
@@ -318,7 +318,7 @@ public class HostRole extends Role implements Host {
                 stateChanged();
         }
 
-        private void seatCustomer(MyCustomers customer, int table, WaiterRole w) {
+        private void seatCustomer(MyCustomers customer, int table, LWaiterRole w) {
                 //waitingCustomers.remove(customer);
                 customer.state = CustomerState.seated;
                 w.msgSeatCustomer(customer.c, table);        
@@ -329,11 +329,11 @@ public class HostRole extends Role implements Host {
         //utilities
 
         public class myWaiter {
-                WaiterRole w;
+                LWaiterRole w;
                 int numCust;
                 WaiterState state;
 
-                public myWaiter(WaiterRole waiter, int num) {
+                public myWaiter(LWaiterRole waiter, int num) {
                         w = waiter;
                         numCust = num;
                         state = WaiterState.working;
@@ -341,19 +341,19 @@ public class HostRole extends Role implements Host {
 
         }
 
-        public void setGui(HostGui gui) {
+        public void setGui(LHostGui gui) {
                 hostGui = gui;
         }
 
-        public HostGui getGui() {
+        public LHostGui getGui() {
                 return hostGui;
         }
 
         private class MyCustomers {
-                Customer c;
+                LCustomer c;
                 CustomerState state;
                 
-                public MyCustomers(Customer c){
+                public MyCustomers(LCustomer c){
                         this.c = c;
                         state = CustomerState.waiting;
                 }
@@ -361,14 +361,14 @@ public class HostRole extends Role implements Host {
         }
 
         private class Table {
-                Customer occupiedBy;
+                LCustomer occupiedBy;
                 int tableNumber;
 
                 public Table(int tableNumber) {
                         this.tableNumber = tableNumber;
                 }
 
-                void isOccupied(Customer c){
+                void isOccupied(LCustomer c){
                         occupiedBy = c;
                 }
 

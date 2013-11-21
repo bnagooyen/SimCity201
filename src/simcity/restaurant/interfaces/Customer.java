@@ -1,17 +1,16 @@
 package simcity.restaurant.interfaces;
 
-import simcity.restaurant.Check;
-import simcity.restaurant.CustomerRole;
-import simcity.restaurant.Menu;
-
-import simcity.restaurant.CustomerRole.AgentEvent;
-import simcity.restaurant.WaiterRole;
+import simcity.DRestaurant.DCheck;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DMenu;
+import simcity.DRestaurant.DWaiterRole;
+import simcity.DRestaurant.DCustomerRole.AgentEvent;
 
 public interface Customer {
 	public abstract void gotHungry(); 
 	public void msgNoRoomForYou();
 
-	public abstract void msgFollowMe(Menu menu, int tnum, WaiterRole w);
+	public abstract void msgFollowMe(DMenu menu, int tnum, DWaiterRole w);
 	public abstract void msgHereIsYourBill(int tnum, double d);
 	
 

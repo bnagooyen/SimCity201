@@ -1,20 +1,20 @@
 package simcity.LRestaurant.test.mock;
 
 
-import restaurant.CashierAgent;
-import restaurant.Menu;
-import restaurant.WaiterRole;
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Waiter;
+import simcity.LRestaurant.LCashierAgent;
+import simcity.LRestaurant.LMenu;
+import simcity.LRestaurant.LWaiterRole;
+import simcity.LRestaurant.interfaces.LCashier;
+import simcity.LRestaurant.interfaces.LCustomer;
+import simcity.LRestaurant.interfaces.LWaiter;
 
 
-public class MockCustomer extends Mock implements Customer {
+public class MockCustomer extends Mock implements LCustomer {
 
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.
 	 */
-	public Cashier cashier;
+	public LCashier cashier;
 	public EventLog log = new EventLog();
 	
 	public MockCustomer(String name) {
@@ -29,11 +29,11 @@ public class MockCustomer extends Mock implements Customer {
 		
 	}
 
-	public void msgFollowMe(int tableNumber, Menu m, Waiter w){
+	public void msgFollowMe(int tableNumber, LMenu m, LWaiter w){
 		
 	}
 
-	public void msgPleaseReorder(Menu m){
+	public void msgPleaseReorder(LMenu m){
 		
 	}
 

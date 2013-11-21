@@ -1,7 +1,7 @@
 package simcity.LRestaurant.gui;
 
-import restaurant.CustomerRole;
-import restaurant.WaiterRole;
+import simcity.LRestaurant.LCustomerRole;
+import simcity.LRestaurant.LWaiterRole;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Subpanel of restaurantPanel.
  * This holds the scroll panes for the customers and, later, for waiters
  */
-public class ListPanel extends JPanel implements ActionListener {
+public class LListPanel extends JPanel implements ActionListener {
 
     public JScrollPane pane =
             new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -22,7 +22,7 @@ public class ListPanel extends JPanel implements ActionListener {
     private List<JButton> list = new ArrayList<JButton>();
     private JButton addPersonB = new JButton("Customer");
 
-    private RestaurantPanel restPanel;
+    private LRestaurantPanel restPanel;
     private String type;
     
     private JTextField inputName = new JTextField(20);
@@ -51,7 +51,7 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param rp   reference to the restaurant panel
      * @param type indicates if this is for customers or waiters
      */
-    public ListPanel(RestaurantPanel rp, String type) {
+    public LListPanel(LRestaurantPanel rp, String type) {
         restPanel = rp;
         this.type = type;
         

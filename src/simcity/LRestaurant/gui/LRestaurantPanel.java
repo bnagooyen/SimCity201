@@ -12,7 +12,7 @@ import java.util.Vector;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class RestaurantPanel extends JPanel {
+public class LRestaurantPanel extends JPanel {
    
 //    private HostRole host = new HostRole("Host");
 //    private HostGui hostGui = new HostGui(host);
@@ -40,7 +40,7 @@ public class RestaurantPanel extends JPanel {
 //
 //    private RestaurantGui gui; //reference to main gui
 
-    public RestaurantPanel(RestaurantGui gui) {
+    public LRestaurantPanel(LRestaurantGui gui) {
 //        this.gui = gui;
 //
 //        gui.animationPanel.addGui(hostGui);

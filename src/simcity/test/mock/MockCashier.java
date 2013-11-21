@@ -3,11 +3,11 @@ package simcity.test.mock;
 
 import agent.Role;
 import simcity.PersonAgent;
+import simcity.DRestaurant.DCashierRole;
 import simcity.Market.MarketCashierRole;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
-import simcity.restaurant.CashierRole;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.restaurant.interfaces.Customer;
 import simcity.restaurant.interfaces.Waiter;
@@ -20,11 +20,11 @@ public class MockCashier extends Mock implements Cashier {
 	public Cashier cashier;
 	public EventLog log = new EventLog();
 	public PersonAgent p;
-	public CashierRole cr;
+	public DCashierRole cr;
 	
 	public MockCashier(String name) {
 		super(name);
-		cr = new CashierRole(p);
+		cr = new DCashierRole(p);
 	}
 	
 	@Override

@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 import simcity.PersonAgent;
-import simcity.restaurant.CashierRole;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
+import simcity.DRestaurant.DCashierRole;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.InventoryBoy;

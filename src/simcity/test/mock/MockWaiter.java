@@ -2,9 +2,9 @@ package simcity.test.mock;
 
 import java.util.List;
 
-import simcity.restaurant.Check;
-import simcity.restaurant.CustomerRole;
-import simcity.restaurant.Order;
+import simcity.DRestaurant.DCheck;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DOrder;
 import simcity.restaurant.interfaces.Waiter;
 
 public class MockWaiter extends Mock implements Waiter {
@@ -16,25 +16,25 @@ public class MockWaiter extends Mock implements Waiter {
 	}
 
 	@Override
-	public void msgSitAtTable(int t, CustomerRole cust) {
+	public void msgSitAtTable(int t, DCustomerRole cust) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgSitAtTable"));
 	}
 
 	@Override
-	public void msgImReadyToOrder(CustomerRole cust) {
+	public void msgImReadyToOrder(DCustomerRole cust) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgImReadyToOrder"));	
 	}
 
 	@Override
-	public void msgHereIsMyChoice(CustomerRole cust, String choice) {
+	public void msgHereIsMyChoice(DCustomerRole cust, String choice) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgHereIsMyChoice"));		
 	}
 
 	@Override
-	public void msgOutOfFood(Order o) {
+	public void msgOutOfFood(DOrder o) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgOutOfFood"));	
 	}
@@ -47,13 +47,13 @@ public class MockWaiter extends Mock implements Waiter {
 	}
 
 	@Override
-	public void msgDoneEatingAndLeaving(CustomerRole cust) {
+	public void msgDoneEatingAndLeaving(DCustomerRole cust) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgDoneEatingAndLeaving"));	
 	}
 
 	@Override
-	public void msgCantAffordNotStaying(CustomerRole cust) {
+	public void msgCantAffordNotStaying(DCustomerRole cust) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgCantAffordNotStaying"));	
 	}
@@ -95,7 +95,7 @@ public class MockWaiter extends Mock implements Waiter {
 	}
 
 	@Override
-	public void msgHereIsABill(Check bill) {
+	public void msgHereIsABill(DCheck bill) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgHereIsABill"));	
 

@@ -1,9 +1,9 @@
 package simcity.test.mock;
 
 
+import simcity.DRestaurant.DMenu;
+import simcity.DRestaurant.DWaiterRole;
 import simcity.interfaces.Landlord;
-import simcity.restaurant.Menu;
-import simcity.restaurant.WaiterRole;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.restaurant.interfaces.Customer;
 
@@ -77,7 +77,7 @@ public class MockCustomer extends Mock implements Customer {
 	}
 
 	@Override
-	public void msgFollowMe(Menu menu, int tnum, WaiterRole w) {
+	public void msgFollowMe(DMenu menu, int tnum, DWaiterRole w) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgFollowMe"));
 	}

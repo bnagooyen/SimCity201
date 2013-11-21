@@ -1,8 +1,8 @@
 package simcity.LRestaurant.interfaces;
 
-import restaurant.Menu;
-import restaurant.WaiterRole;
-import restaurant.CustomerRole.AgentEvent;
+import simcity.LRestaurant.LMenu;
+import simcity.LRestaurant.LWaiterRole;
+import simcity.LRestaurant.LCustomerRole.AgentEvent;
 
 /**
  * A sample Customer interface built to unit test a CashierAgent.
@@ -10,14 +10,14 @@ import restaurant.CustomerRole.AgentEvent;
  * @author Monroe Ekilah
  *
  */
-public interface Customer {
+public interface LCustomer {
 	public abstract void gotHungry();
 
 	public abstract void msgRestaurantIsFull();
 
-	public abstract void msgFollowMe(int tableNumber, Menu m, Waiter w);
+	public abstract void msgFollowMe(int tableNumber, LMenu m, LWaiter w);
 
-	public abstract void msgPleaseReorder(Menu m);
+	public abstract void msgPleaseReorder(LMenu m);
 
 	public abstract void msgWhatWouldYouLike();
 

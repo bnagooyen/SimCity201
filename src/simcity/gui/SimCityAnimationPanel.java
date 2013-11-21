@@ -2,11 +2,11 @@ package simcity.gui;
 
 import javax.swing.*;
 
-import simcity.restaurant.gui.CookGui;
-import simcity.restaurant.gui.CustomerGui;
-import simcity.restaurant.gui.Gui;
-import simcity.restaurant.gui.RestaurantGui;
-import simcity.restaurant.gui.WaiterGui;
+import simcity.DRestaurant.gui.DCookGui;
+import simcity.DRestaurant.gui.DCustomerGui;
+import simcity.DRestaurant.gui.DGui;
+import simcity.DRestaurant.gui.DRestaurantGui;
+import simcity.DRestaurant.gui.DWaiterGui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -47,11 +47,11 @@ public class SimCityAnimationPanel extends JPanel implements ActionListener {
     private Image bufferImage;
     private Dimension bufferSize;
 
-    private RestaurantGui gui;
+    private DRestaurantGui gui;
     
-    private List<Gui> guis = new ArrayList<Gui>();
+    private List<DGui> guis = new ArrayList<DGui>();
 
-    public SimCityAnimationPanel(RestaurantGui gui) {
+    public SimCityAnimationPanel(DRestaurantGui gui) {
     	this.gui=gui;
     	setSize(WINDOWX, WINDOWY);
 
@@ -96,13 +96,13 @@ public class SimCityAnimationPanel extends JPanel implements ActionListener {
 //        g2.setColor(Color.pink);
 //        g2.fillRect(allKitchenItems_x, plating_x, grill_xsz, plating_ysz);
         
-        for(Gui gui : guis) {
+        for(DGui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
 
-        for(Gui gui : guis) {
+        for(DGui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
             }
@@ -120,15 +120,15 @@ public class SimCityAnimationPanel extends JPanel implements ActionListener {
         guis.add(gui);
     }
 
-    public void addGui(CustomerGui gui) {
+    public void addGui(DCustomerGui gui) {
         guis.add(gui);
     }
 
-    public void addGui(WaiterGui gui) {
+    public void addGui(DWaiterGui gui) {
         guis.add(gui);
     }
     
-    public void addGui(CookGui gui) {
+    public void addGui(DCookGui gui) {
         guis.add(gui);
     }
 }

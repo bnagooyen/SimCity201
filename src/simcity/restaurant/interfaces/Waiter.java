@@ -2,27 +2,27 @@ package simcity.restaurant.interfaces;
 
 import java.util.List;
 
-import simcity.restaurant.Check;
-import simcity.restaurant.CustomerRole;
-import simcity.restaurant.Order;
-import simcity.restaurant.Order.OrderState;
-import simcity.restaurant.WaiterRole.MyCustomer;
-import simcity.restaurant.WaiterRole.WaiterState;
+import simcity.DRestaurant.DCheck;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DOrder;
+import simcity.DRestaurant.DOrder.OrderState;
+import simcity.DRestaurant.DWaiterRole.MyCustomer;
+import simcity.DRestaurant.DWaiterRole.WaiterState;
 
 public interface Waiter {
 
-	public abstract void msgSitAtTable(int t, CustomerRole cust);
-	public void msgImReadyToOrder(CustomerRole cust);
+	public abstract void msgSitAtTable(int t, DCustomerRole cust);
+	public void msgImReadyToOrder(DCustomerRole cust);
 	
-	public abstract void msgHereIsMyChoice(CustomerRole cust, String choice);
+	public abstract void msgHereIsMyChoice(DCustomerRole cust, String choice);
 	public abstract void msgCheckIsReady();
-	public abstract void msgOutOfFood(Order o);
+	public abstract void msgOutOfFood(DOrder o);
 	
 //	public abstract void msgOrderIsReady(Order o);
 	
-	public abstract void msgDoneEatingAndLeaving(CustomerRole cust);
+	public abstract void msgDoneEatingAndLeaving(DCustomerRole cust);
 
-	public abstract void msgCantAffordNotStaying(CustomerRole cust);
+	public abstract void msgCantAffordNotStaying(DCustomerRole cust);
 
 	public abstract void msgAtTable();
 	
@@ -33,7 +33,7 @@ public interface Waiter {
 	public abstract void msgOutOfBreak();
 	
 	public abstract void msgHereIsACheck(int tnum, double amnt);
-	void msgHereIsABill(Check bill);
+	void msgHereIsABill(DCheck bill);
 	void msgOrderIsReady(int tablenum);
 	
 }

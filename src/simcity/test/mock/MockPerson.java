@@ -1,11 +1,11 @@
 package simcity.test.mock;
 
 
+import simcity.DRestaurant.DMenu;
+import simcity.DRestaurant.DWaiterRole;
 import simcity.interfaces.Bus;
 import simcity.interfaces.Landlord;
 import simcity.interfaces.Person;
-import simcity.restaurant.Menu;
-import simcity.restaurant.WaiterRole;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.restaurant.interfaces.Customer;
 

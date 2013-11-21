@@ -3,9 +3,9 @@ package simcity.interfaces;
 import java.util.List;
 
 import agent.Role;
+import simcity.DRestaurant.DCashierRole;
 import simcity.Market.MFoodOrder;
 import simcity.Market.MOrder;
-import simcity.restaurant.CashierRole;
 import simcity.restaurant.interfaces.Cashier;
 
 public interface MarketCashier {

@@ -1,6 +1,6 @@
 package simcity.LRestaurant.interfaces;
 
-public interface Market {
+public interface LMarket {
 	
 	public abstract void msgNeedFood(int amount, String choice);
 	

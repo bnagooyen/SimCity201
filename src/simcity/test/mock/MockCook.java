@@ -3,26 +3,26 @@ package simcity.test.mock;
 import java.util.List;
 
 import simcity.PersonAgent;
+import simcity.DRestaurant.DCashierRole;
+import simcity.DRestaurant.DCookRole;
 import simcity.Market.MFoodOrder;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.RestaurantCashier;
-import simcity.restaurant.CashierRole;
-import simcity.restaurant.CookRole;
 
 public class MockCook extends Mock implements Cook{
 
 	public EventLog log;
 	public MarketCashier mc;
-	public CashierRole cash;
+	public DCashierRole cash;
 	public PersonAgent p;
-	public CookRole cr;
+	public DCookRole cr;
 	
 	public MockCook(String name) {
 		super(name);
 		p = new PersonAgent("default", cr);
 		log = new EventLog();
-		cr = new CookRole(p);
+		cr = new DCookRole(p);
 		// TODO Auto-generated constructor stub
 	}
 

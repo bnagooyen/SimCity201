@@ -2,7 +2,7 @@ package simcity.LRestaurant.gui;
 
 import java.awt.*;
 
-public interface Gui {
+public interface LGui {
 
     public void updatePosition();
     public void draw(Graphics2D g);

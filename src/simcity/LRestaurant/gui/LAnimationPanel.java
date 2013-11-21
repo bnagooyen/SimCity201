@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanel extends JPanel implements ActionListener {
+public class LAnimationPanel extends JPanel implements ActionListener {
 
     private final int WINDOWX = 450;
     private final int WINDOWY = 350;
@@ -50,9 +50,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private Image bufferImage;
     private Dimension bufferSize;
 
-    private List<Gui> guis = new ArrayList<Gui>();
+    private List<LGui> guis = new ArrayList<LGui>();
 
-    public AnimationPanel() {
+    public LAnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
         
@@ -91,31 +91,31 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.fillRect(CookCookingX+2, CookCookingY+22, CookingW-8, CookingH-25);
 
 
-        for(Gui gui : guis) {
+        for(LGui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
 
-        for(Gui gui : guis) {
+        for(LGui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
             }
         }
     }
 
-    public void addGui(CustomerGui gui) {
+    public void addGui(LCustomerGui gui) {
         guis.add(gui);
     }
     
-	public void addGui(WaiterGui gui) {
+	public void addGui(LWaiterGui gui) {
 	    guis.add(gui);
 	}
     
-    public void addGui(HostGui gui) {
+    public void addGui(LHostGui gui) {
         guis.add(gui);
     }
-    public void addGui(CookGui gui) {
+    public void addGui(LCookGui gui) {
         guis.add(gui);
     }
 

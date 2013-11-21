@@ -1,10 +1,10 @@
 package simcity.restaurant.interfaces;
 
+import simcity.DRestaurant.DCheck;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DWaiterRole;
+import simcity.DRestaurant.DCheck.CheckState;
 import simcity.Market.MarketCashierRole;
-import simcity.restaurant.Check;
-import simcity.restaurant.CustomerRole;
-import simcity.restaurant.WaiterRole;
-import simcity.restaurant.Check.CheckState;
 
 public interface Cashier {
 

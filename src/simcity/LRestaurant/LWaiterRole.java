@@ -1,13 +1,14 @@
 package simcity.LRestaurant;
 
 import agent.Role;
-import restaurant.CookAgent.OrderState;
-import restaurant.CustomerRole.AgentEvent;
-import restaurant.gui.WaiterGui;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Waiter;
-import restaurant.Menu;
+import simcity.LRestaurant.LCookAgent.OrderState;
+import simcity.LRestaurant.LCustomerRole.AgentEvent;
+import simcity.LRestaurant.gui.LWaiterGui;
+import simcity.LRestaurant.interfaces.LCustomer;
+import simcity.LRestaurant.interfaces.LWaiter;
+import simcity.LRestaurant.LMenu;
 import simcity.PersonAgent;
+import simcity.LRestaurant.interfaces.LWaiter;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -19,7 +20,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class WaiterRole extends Role implements Waiter{
+public class LWaiterRole extends Role implements LWaiter{
         static final int NTABLES = 3;//a global for the number of tables.
         //Notice that we implement waitingCustomers using ArrayList, but type it
         //with List semantics.
@@ -35,13 +36,13 @@ public class WaiterRole extends Role implements Waiter{
 
         private Semaphore task = new Semaphore(0,true);
 
-        public WaiterGui waiterGui = null;
-        private Menu m = new Menu();
+        public LWaiterGui waiterGui = null;
+        private LMenu m = new LMenu();
         private WaiterState waiterState;
 
-        CookAgent cook;
-        HostRole host;
-        CashierAgent cashier;
+        LCookAgent cook;
+        LHostRole host;
+        LCashierAgent cashier;
 
         public enum WaiterState{working, wantBreak, askingBreak, canGoOn, onBreak, checkingIn, backFromBreak};
 
@@ -49,7 +50,7 @@ public class WaiterRole extends Role implements Waiter{
 
         int numCust = 0;
 
-        public WaiterRole(PersonAgent p) {
+        public LWaiterRole(PersonAgent p) {
                 super(p);
                 this.name = p.getName();
                 onBreak = false;
@@ -60,16 +61,16 @@ public class WaiterRole extends Role implements Waiter{
 //                super();
 //        }
 
-        public void setCashier(CashierAgent cashier){
+        public void setCashier(LCashierAgent cashier){
                 this.cashier = cashier;
         }
 
-        public void setCook(CookAgent cook){
+        public void setCook(LCookAgent cook){
                 this.cook = cook;
                 waiterGui.setCookGui(cook.cookGui);
         }
 
-        public void setHost(HostRole host){
+        public void setHost(LHostRole host){
                 this.host = host;
         }
 
@@ -111,7 +112,7 @@ public class WaiterRole extends Role implements Waiter{
                 stateChanged();
         }
 
-        public void msgSeatCustomer(Customer cust, int table) {
+        public void msgSeatCustomer(LCustomer cust, int table) {
 //                waiterGui.setWorking();
 //                waiterState = WaiterState.working;
                 customers.add(new MyCustomers(cust, table, CustomerState.waiting));
@@ -119,7 +120,7 @@ public class WaiterRole extends Role implements Waiter{
                 stateChanged();
         }
 
-        public void msgReadyToOrder(Customer cust) {
+        public void msgReadyToOrder(LCustomer cust) {
                 synchronized(customers){
                         for(MyCustomers c : customers){
                                 if(c.c == cust){
@@ -131,7 +132,7 @@ public class WaiterRole extends Role implements Waiter{
                 stateChanged();
         }
 
-        public void msgHereIsMyChoice(Customer cust, String choice) {
+        public void msgHereIsMyChoice(LCustomer cust, String choice) {
                 synchronized(customers){
                         for(MyCustomers c : customers){
                                 if(c.c == cust){
@@ -167,7 +168,7 @@ public class WaiterRole extends Role implements Waiter{
                 stateChanged();
         }
 
-        public void msgReadyForCheck(Customer cust){
+        public void msgReadyForCheck(LCustomer cust){
                 synchronized(customers){
                         for(MyCustomers c : customers){
                                 if(c.c == cust){
@@ -178,7 +179,7 @@ public class WaiterRole extends Role implements Waiter{
                 stateChanged();
         }
 
-        public void msgHereIsCheck(int check, Customer cust){
+        public void msgHereIsCheck(int check, LCustomer cust){
                 synchronized(customers){
                         for(MyCustomers c : customers){
                                 if(c.c == cust){
@@ -190,7 +191,7 @@ public class WaiterRole extends Role implements Waiter{
                 stateChanged();
         }
 
-        public void msgDoneEatingAndLeaving(Customer cust) {
+        public void msgDoneEatingAndLeaving(LCustomer cust) {
                 synchronized(customers){        
                         for(MyCustomers c : customers){
                                 if(c.c == cust){
@@ -492,22 +493,22 @@ public class WaiterRole extends Role implements Waiter{
 
         //utilities
 
-        public void setGui(WaiterGui gui) {
+        public void setGui(LWaiterGui gui) {
                 waiterGui = gui;
         }
 
-        public WaiterGui getGui() {
+        public LWaiterGui getGui() {
                 return waiterGui;
         }
 
         public class MyCustomers{
-                Customer c;
+                LCustomer c;
                 int table;
                 String choice;
                 CustomerState state;
                 int check;
 
-                MyCustomers(Customer cust,int t, CustomerState s){
+                MyCustomers(LCustomer cust,int t, CustomerState s){
                         c = cust;
                         table = t;
                         state = s;

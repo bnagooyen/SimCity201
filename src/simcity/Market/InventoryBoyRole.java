@@ -9,7 +9,7 @@ import java.util.Map;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import simcity.PersonAgent;
-import simcity.restaurant.FoodOrder;
+import simcity.DRestaurant.DFoodOrder;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
