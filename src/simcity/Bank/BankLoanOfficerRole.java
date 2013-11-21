@@ -16,7 +16,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	//data
 	public BankManager manager;
 	MyCustomer customer;
-	public enum bankLoanState { working, atManager, recieved, finished};
+	public enum bankLoanState { working, atManager, waitingForLoanRequest, recieved, finished};
 	public enum accountState {none,requested,created, exists, loanRequested, loanApproved, loanRequestSent};
 	bankLoanState state=bankLoanState.working;
 	private static List<String> acceptableJobs = Collections.synchronizedList(new ArrayList<String>());
@@ -59,6 +59,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		stateChanged();
 	}
 	public void msgAccountCreated(int num){
+		customer.accountNumber=num;
 		customer.state=accountState.created;
 		stateChanged();
 	}
@@ -105,11 +106,11 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 			createNewAccount();
 			return true;
 		}
-		if(customer!=null && customer.state==accountState.created && state==bankLoanState.atManager){
+		if(customer!=null && customer.state==accountState.created){
 			hereIsYourAccount();
 			return true;
 		}
-		if(customer!=null && customer.state==accountState.loanRequested && state==bankLoanState.working){
+		if(customer!=null && customer.state==accountState.loanRequested && state==bankLoanState.waitingForLoanRequest){
 			analyzeLoan();
 			return true;
 		}
@@ -131,7 +132,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	private void hereIsYourAccount(){
 		customer.BC.msgAccountMade(customer.accountNumber);
 		customer.state=accountState.exists;
-		state=bankLoanState.working;
+		state=bankLoanState.waitingForLoanRequest;
 	}
 	private void analyzeLoan(){
 		for (String job : acceptableJobs) {
@@ -166,5 +167,8 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	//utilites
 	public MyCustomer GetCustomer() {
 		return customer;
+	}
+	public bankLoanState getState() {
+		return state;
 	}
 }
