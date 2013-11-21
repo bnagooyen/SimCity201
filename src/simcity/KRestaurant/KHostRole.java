@@ -5,7 +5,7 @@ import agent.Role;
 import simcity.PersonAgent;
 import simcity.KRestaurant.gui.KWaiterGui;
 import simcity.interfaces.KCustomer;
-import simcity.interfaces.KHost;
+import simcity.interfaces.Host;
 import simcity.KRestaurant.gui.KRestaurantGui;
 
 import java.util.*;
@@ -15,7 +15,7 @@ import java.util.concurrent.Semaphore;
  * Restaurant Host Agent
  */
 
-public class KHostRole extends Role implements KHost{
+public class KHostRole extends Role implements Host{
 	
 	// monitor for cook and waiters to share
 	private ProducerConsumerMonitor theMonitor;
