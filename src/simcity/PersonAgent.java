@@ -11,10 +11,12 @@ import simcity.restaurant.gui.HostGui;
 import simcity.restaurant.gui.WaiterGui;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.Transportation.BusAgent;
+import simcity.Transportation.CarAgent;
 import simcity.gui.PersonGui;
 //import simcity.interfaces.Bus;
 
 //import simcity.interfaces.Person;
+
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -32,26 +34,27 @@ public class PersonAgent extends Agent {//implements Person
 	private String name;
 	Role host = null;
 	BusAgent bus;
+	CarAgent myCar;
 	
 	List<Role> roles = new ArrayList<Role>();
-	public enum PersonState { doingNothing, gotHungry, atRestaurant, dead, gettingOnBus };
-	private PersonState state;
+	public enum personState { doingNothing, gotHungry, atRestaurant, dead, gettingOnBus, awake, sleep, arrived, sleeping };
+	private personState state;
+	boolean flake;
+	boolean broke;
     
     public PersonGui PersonGui = null;
     
+    private int hour;
     public double money=0.00;
     public double depositThreshold=100.00;
     public double withdrawalThreshold=20.00;
-	
-
-	
 	
 	public PersonAgent(String name) {
 		super();
 		
 		this.name = name;
 	
-		state=PersonState.doingNothing;
+		state=personState.doingNothing;
 	}
 
 
@@ -66,15 +69,22 @@ public class PersonAgent extends Agent {//implements Person
 	}
 
 	// Messages
+	public void msgTimeUpdate(int hr) {
+		hour = hr;
+		if(hr == 7) state= personState.awake;
+		if(hr ==23) state= personState.sleep;
 
+	}
+	
 	public void gotHungry() {//from animation
 		print("I'm hungry");
-		state = PersonState.gotHungry; 
+		state = personState.gotHungry; 
 		stateChanged();
 	}
 	
 	public void msgAtDestination(){
-		
+		state = personState.arrived;
+		stateChanged();
 	}
 	
 //	public void msgBusIsHere(Bus b){
@@ -83,30 +93,13 @@ public class PersonAgent extends Agent {//implements Person
 //	}
 	
 	
-	//utilities
-
-	public void setGui(PersonGui gui) {
-		PersonGui = gui;
-	}
 	
-	public PersonGui getGui() {
-		return PersonGui;
-	}
-	
-	public void setBus(BusAgent b){
-		bus=b;
-	}
 	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	protected boolean pickAndExecuteAnAction() {
-		/* Think of this next rule as:
-            Does there exist a table and customer,
-            so that table is unoccupied and customer is waiting.
-            If so seat him at the table.
-		 */
-		if(state==PersonState.gotHungry) {
+		if(state==personState.gotHungry) {
 			GoToRestaurant();
 			return true;
 		}
@@ -119,15 +112,13 @@ public class PersonAgent extends Agent {//implements Person
 		}
 		
 		return anyTrue;
-		//we have tried all our rules and found
-		//nothing to do. So return false to main loop of abstract agent
-		//and wait.
+	
 	}
 
 
 	// Actions
 	private void GoToRestaurant() {
-		state=PersonState.atRestaurant;
+		state=personState.atRestaurant;
 		roles.add(new CustomerRole(this, host));
 		roles.get(0).isActive = true;
 		print("I'm going to the restaurant");
@@ -137,21 +128,32 @@ public class PersonAgent extends Agent {//implements Person
 		bus.msgGettingOn(this, "destination");
 	}
 		
-		
+	private void GoToSleep() {
+		state=personState.sleeping;
+	    DoGoToSleep();
+	}	
 	// utilities
-	public Role getHostRole() {
-		return roles.get(0);
+
+	private void DoGoToSleep() {
+		
 	}
-	
-	public Role getWaiterRole() {
-		return roles.get(0);
-	}
-	
+
+
 	public void addRole(Role r) {
 		roles.add(r);
 	}
 	
-	
+	public void setGui(PersonGui gui) {
+		PersonGui = gui;
+	}
+		
+	public PersonGui getGui() {
+		return PersonGui;
+	}
+		
+	public void setBus(BusAgent b){
+		bus=b;
+	}
 }
 
 

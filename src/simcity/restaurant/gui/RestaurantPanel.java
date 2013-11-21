@@ -59,30 +59,30 @@ public class RestaurantPanel extends JPanel {
 
     public RestaurantPanel(RestaurantGui gui) {
         this.gui = gui;
-
-        
-        c1.startThread();
-        
-        host.addRole(h);
-        h.isActive = true;
-        host.startThread();
-        c1.setHost(host.getHostRole());
-
-        waiter.addRole(w);
-        w.isActive = true;
-        waiter.startThread();
-        
-        h.setWaiter(w);
-        
-        cook.addRole(c);
-        c.isActive = true;
-        cook.startThread();
-        
-        cashier.addRole(cash);
-        cash.isActive = true;
-        cashier.startThread();
-        
-        c1.gotHungry();
+//
+//        
+//        c1.startThread();
+//        
+//        host.addRole(h);
+//        h.isActive = true;
+//        host.startThread();
+//        c1.setHost(host.getHostRole());
+//
+//        waiter.addRole(w);
+//        w.isActive = true;
+//        waiter.startThread();
+//        
+//        h.setWaiter(w);
+//        
+//        cook.addRole(c);
+//        c.isActive = true;
+//        cook.startThread();
+//        
+//        cashier.addRole(cash);
+//        cash.isActive = true;
+//        cashier.startThread();
+//        
+//        c1.gotHungry();
 
     }
         //host.setGui(hostGui);

@@ -1,6 +1,6 @@
 package simcity.interfaces;
 
-import simcity.PersonAgent.PersonState;
+import simcity.PersonAgent.personState;
 
 
 
