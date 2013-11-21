@@ -16,15 +16,15 @@ import java.util.*;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class HostRole extends Role implements Host{
+public class HostRole extends Role implements Drew_Host{
 	public static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
 	
 	public int count=0;		//Keeps track of total # seated
 	
-	public List<Customer> waitingCustomers
-	= new ArrayList<Customer>();
+	public List<Drew_Customer> waitingCustomers
+	= new ArrayList<Drew_Customer>();
 	
 	public List<MyWaiter> waiters
 	= new ArrayList<MyWaiter>();
@@ -49,7 +49,7 @@ public class HostRole extends Role implements Host{
 		}
 	}
 	
-	public void addWaiter(Waiter w){
+	public void addWaiter(Drew_Waiter w){
 		waiters.add(new MyWaiter(w));
 		stateChanged();
 	}
@@ -62,7 +62,7 @@ public class HostRole extends Role implements Host{
 		return name;
 	}
 
-	public List<Customer> getWaitingCustomers() {
+	public List<Drew_Customer> getWaitingCustomers() {
 		return waitingCustomers;
 	}
 
@@ -71,12 +71,12 @@ public class HostRole extends Role implements Host{
 	}
 	// Messages
 	
-	public void whatIsWait(Customer cust) {
+	public void whatIsWait(Drew_Customer cust) {
 		cust.wait(waitingCustomers.size());
 		stateChanged();
 	}
 	
-	public void msgIWantFood(Customer cust) {
+	public void msgIWantFood(Drew_Customer cust) {
 		waitingCustomers.add(cust);
 		count++;
 		cust.wait(waitingCustomers.size()-1);
@@ -90,7 +90,7 @@ public class HostRole extends Role implements Host{
 		stateChanged();
 	}
 	
-	public void iWantToGoOnBreak(Waiter wait){
+	public void iWantToGoOnBreak(Drew_Waiter wait){
 		MyWaiter mw=null;
 		for(MyWaiter w : waiters){
 			if(w.waiter.equals(wait)) mw=w;
@@ -98,7 +98,7 @@ public class HostRole extends Role implements Host{
 		checkForBreak(mw);
 	}
 	
-	public void backFromBreak(Waiter wait){
+	public void backFromBreak(Drew_Waiter wait){
 		MyWaiter mw=null;
 		for(MyWaiter w : waiters){
 			if(w.waiter.equals(wait)) mw=w;
@@ -106,7 +106,7 @@ public class HostRole extends Role implements Host{
 		mw.onBreak=false;
 	}
 	
-	public void leaving(Customer cust){
+	public void leaving(Drew_Customer cust){
 		waitingCustomers.remove(cust);
 	}
 
@@ -137,7 +137,7 @@ public class HostRole extends Role implements Host{
 
 	// Actions
 
-	private void seatCustomer(Customer customer, Table table) {
+	private void seatCustomer(Drew_Customer customer, Table table) {
 		MyWaiter MW=waiters.get(count%waiters.size());
 		while(MW.onBreak){
 			count++;
@@ -148,7 +148,7 @@ public class HostRole extends Role implements Host{
 		waitingCustomers.remove(customer);
 	}
 
-	private void DoSeatCustomer(Customer customer, Table table, MyWaiter MW) {
+	private void DoSeatCustomer(Drew_Customer customer, Table table, MyWaiter MW) {
 		print("Telling waiter " + MW.waiter.getName() + " to seat " + customer + " at " + table);   //ADD WHICH WAITER YOUR TELLING		
 		customer.setWaiter(MW.waiter);
 		MW.waiter.sitAtTable(customer, table.tableNumber); 
@@ -173,24 +173,24 @@ public class HostRole extends Role implements Host{
 	//utilities
 
 	private class MyWaiter{
-		Waiter waiter;
+		Drew_Waiter waiter;
 		boolean onBreak;
 		
-		MyWaiter(Waiter w){
+		MyWaiter(Drew_Waiter w){
 			waiter=w;
 			onBreak=false;
 		}
 	}
 	
 	public class Table {
-		Customer occupiedBy;
+		Drew_Customer occupiedBy;
 		int tableNumber;
 
 		Table(int tableNumber) {
 			this.tableNumber = tableNumber;
 		}
 
-		void setOccupant(Customer cust) {
+		void setOccupant(Drew_Customer cust) {
 			occupiedBy = cust;
 		}
 
@@ -198,7 +198,7 @@ public class HostRole extends Role implements Host{
 			occupiedBy = null;
 		}
 
-		Customer getOccupant() {
+		Drew_Customer getOccupant() {
 			return occupiedBy;
 		}
 		

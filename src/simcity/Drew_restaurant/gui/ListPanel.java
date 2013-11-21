@@ -67,15 +67,15 @@ public class ListPanel extends JPanel implements ActionListener {
         	if(!nameCheck.equals(""))  addPerson(nameCheck);	//Does not add empty string
         	addPersonC.setText("");
         }
-        else {
+       /* else {
         	// Isn't the second for loop more beautiful?
             /*for (int i = 0; i < list.size(); i++) {
                 JButton temp = list.get(i);*/
-        	for (JButton temp:list){
+        	/*for (JButton temp:list){
                 if (e.getSource() == temp)
                     restPanel.showInfo(type, temp.getText());
             }
-        }
+        }*/
     }
 
     /**
@@ -100,8 +100,8 @@ public class ListPanel extends JPanel implements ActionListener {
             //if(type.equals("Waiters"))button.setEnabled(false);
             list.add(button);
             view.add(button);
-            restPanel.addPerson(type, name);//puts customer on list
-            restPanel.showInfo(type, name);//puts hungry button on panel
+            //restPanel.addPerson(type, name);//puts customer on list
+            //restPanel.showInfo(type, name);//puts hungry button on panel
             validate();
         }
     }

@@ -3,10 +3,10 @@ package simcity.Drew_restaurant.test.mock;
 
 import simcity.Drew_restaurant.gui.CustomerGui;
 import simcity.Drew_restaurant.gui.Menu;
-import simcity.Drew_restaurant.interfaces.Cashier;
-import simcity.Drew_restaurant.interfaces.Customer;
-import simcity.Drew_restaurant.interfaces.Waiter;
-import simcity.Drew_restaurant.interfaces.Host;
+import simcity.Drew_restaurant.interfaces.Drew_Cashier;
+import simcity.Drew_restaurant.interfaces.Drew_Customer;
+import simcity.Drew_restaurant.interfaces.Drew_Waiter;
+import simcity.Drew_restaurant.interfaces.Drew_Host;
 
 /**
  * A sample MockCustomer built to unit test a CashierAgent.
@@ -14,14 +14,14 @@ import simcity.Drew_restaurant.interfaces.Host;
  * @author Monroe Ekilah
  *
  */
-public class MockCustomer extends Mock implements Customer {
+public class MockCustomer extends Mock implements Drew_Customer {
 	
 
 
 	//Data
-	public Cashier cashier;
-	public Host host;
-	public Waiter waiter;
+	public Drew_Cashier cashier;
+	public Drew_Host host;
+	public Drew_Waiter waiter;
 	public EventLog log;
 	public String name;
 	public double debt;
@@ -65,7 +65,7 @@ public class MockCustomer extends Mock implements Customer {
 	public void msgAnimationFinishedLeaveRestaurant(){
 	}
 	
-	public void giveCheck(Double b, Cashier c){
+	public void giveCheck(Double b, Drew_Cashier c){
 		System.out.println("Got check from cashier for $"+b);
 	}
 	
@@ -86,7 +86,7 @@ public class MockCustomer extends Mock implements Customer {
 	
 	
 	//accessors
-	public void setWaiter(Waiter w){
+	public void setWaiter(Drew_Waiter w){
 	}
 
 	public String getName(){

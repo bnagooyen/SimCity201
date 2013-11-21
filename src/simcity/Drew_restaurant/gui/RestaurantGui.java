@@ -25,7 +25,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *    in RestaurantPanel()
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
-    private RestaurantPanel restPanel = new RestaurantPanel(this);
+    //private RestaurantPanel restPanel = new RestaurantPanel(this);
     
     /* infoPanel holds information about the clicked customer, if there is one*/
     private JPanel infoPanel;
@@ -78,10 +78,10 @@ public class RestaurantGui extends JFrame implements ActionListener {
         		BoxLayout.Y_AXIS));
         
         Dimension restDim = new Dimension(GUIWINDOWX, (int) (GUIWINDOWY * restSizeMod));
-        restPanel.setPreferredSize(restDim);
-        restPanel.setMinimumSize(restDim);
+      /*  restPanel.setPreferredSize(restDim);
+        restPanel.setMinimumSize(restDim);					Restaurant Panel Setup!!!!!!!!!!!!!!!!!!!!!!
         restPanel.setMaximumSize(restDim);
-        add(restPanel);
+        add(restPanel);*/
         
         // Now, setup the info panel
         Dimension infoDim = new Dimension(GUIWINDOWX, (int) (GUIWINDOWY * infoSizeMod));
@@ -133,8 +133,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
                "<html><pre>     Name: " + customer.getName() + " </pre></html>");
         }
         
-        if (person instanceof Waiter) {
-            Waiter waiter = (Waiter) person;
+        if (person instanceof Drew_Waiter) {
+            Drew_Waiter waiter = (Drew_Waiter) person;
             if(waiter.getGui().wantsBreak()){
             	stateCB.setEnabled(false);
             	stateCB.setText("Waiting on Host");
@@ -164,8 +164,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
                 c.getGui().setHungry();
                 stateCB.setEnabled(false);
             }
-            else if (currentPerson instanceof Waiter) {
-                Waiter w = (Waiter) currentPerson;
+            else if (currentPerson instanceof Drew_Waiter) {
+                Drew_Waiter w = (Drew_Waiter) currentPerson;
                 if(!w.getGui().onBreak() && !w.getGui().wantsBreak()){
                 	w.getGui().setWantsBreak(true);
                     //stateCB.setText("Done with break?");

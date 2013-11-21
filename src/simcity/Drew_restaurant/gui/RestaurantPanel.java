@@ -33,7 +33,7 @@ public class RestaurantPanel extends JPanel {
     //private CashierRole cashier = new CashierRole("CASHIER");
     
     private Vector<CustomerRole> customers = new Vector<CustomerRole>();
-    private Vector<Waiter> waiters = new Vector<Waiter>();
+    private Vector<Drew_Waiter> waiters = new Vector<Drew_Waiter>();
 
     private JPanel restLabel = new JPanel();
     private ListPanel customerPanel = new ListPanel(this, "Customers");

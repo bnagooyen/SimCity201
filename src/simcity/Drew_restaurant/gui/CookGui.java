@@ -1,6 +1,6 @@
 package simcity.Drew_restaurant.gui;
 
-import simcity.Drew_restaurant.interfaces.Cook;
+import simcity.Drew_restaurant.interfaces.Drew_Cook;
 import simcity.Drew_restaurant.HostRole;
 import simcity.Drew_restaurant.HostRole.Table;
 
@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class CookGui implements Gui{
 
-	private Cook agent = null;
+	private Drew_Cook agent = null;
 	
 	public RestaurantGui gui;
 	boolean ispresent=true;
@@ -29,7 +29,7 @@ public class CookGui implements Gui{
 	
 	public static final int cookSize = 20;
 
-	public CookGui(Cook c, RestaurantGui gui) {
+	public CookGui(Drew_Cook c, RestaurantGui gui) {
 		agent = c;
 		xPos = xGrill;
 		yPos = yGrill-40;

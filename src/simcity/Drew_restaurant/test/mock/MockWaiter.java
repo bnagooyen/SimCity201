@@ -6,11 +6,11 @@ import java.util.List;
 
 import simcity.Drew_restaurant.WaiterRole.MyCustomer;
 import simcity.Drew_restaurant.gui.WaiterGui;
-import simcity.Drew_restaurant.interfaces.Cashier;
-import simcity.Drew_restaurant.interfaces.Cook;
-import simcity.Drew_restaurant.interfaces.Customer;
-import simcity.Drew_restaurant.interfaces.Waiter;
-import simcity.Drew_restaurant.interfaces.Host;
+import simcity.Drew_restaurant.interfaces.Drew_Cashier;
+import simcity.Drew_restaurant.interfaces.Drew_Cook;
+import simcity.Drew_restaurant.interfaces.Drew_Customer;
+import simcity.Drew_restaurant.interfaces.Drew_Waiter;
+import simcity.Drew_restaurant.interfaces.Drew_Host;
 
 /**
  * A sample MockCustomer built to unit test a CashierAgent.
@@ -18,14 +18,14 @@ import simcity.Drew_restaurant.interfaces.Host;
  * @author Monroe Ekilah
  *
  */
-public class MockWaiter extends Mock implements Waiter {
+public class MockWaiter extends Mock implements Drew_Waiter {
 	
 
 
 	//Data
-	public Cashier cashier;
-	public Host host;
-	public Customer customer;
+	public Drew_Cashier cashier;
+	public Drew_Host host;
+	public Drew_Customer customer;
 	public EventLog log;
 	public String name;
 	public double debt;
@@ -40,15 +40,15 @@ public class MockWaiter extends Mock implements Waiter {
 		//name=n;
 	}
 	
-	public void sitAtTable(Customer c, int table){
+	public void sitAtTable(Drew_Customer c, int table){
 		
 	}
 	
-	public void readyToOrder(Customer c){
+	public void readyToOrder(Drew_Customer c){
 		
 	}
 	
-	public void heresMyChoice(Customer c, String ch){
+	public void heresMyChoice(Drew_Customer c, String ch){
 		
 	}
 	
@@ -56,7 +56,7 @@ public class MockWaiter extends Mock implements Waiter {
 		
 	}
 	
-	public void DoneEating(Customer c){
+	public void DoneEating(Drew_Customer c){
 		
 	}
 	
@@ -78,15 +78,15 @@ public class MockWaiter extends Mock implements Waiter {
 	
 	//Get & Set
 	
-	public void addCashier(Cashier c){
+	public void addCashier(Drew_Cashier c){
 		
 	}
 	
-	public void setHost(Host host){
+	public void setHost(Drew_Host host){
 		
 	}
 	
-	public void setCook(Cook cook){
+	public void setCook(Drew_Cook cook){
 		
 	}
 

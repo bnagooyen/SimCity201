@@ -14,7 +14,7 @@ import simcity.Drew_restaurant.interfaces.*;
  * Restaurant Waiter Agent
  */
 
-public class WaiterRole extends Role implements Waiter{
+public class WaiterRole extends Role implements Drew_Waiter{
 	
 	
 	//Data
@@ -23,24 +23,24 @@ public class WaiterRole extends Role implements Waiter{
 	
 	private String name;
 	private Semaphore atDest = new Semaphore(-1,true);
-	private Host host;
-	private Cook cook;
-	private Cashier cashier; 
+	private Drew_Host host;
+	private Drew_Cook cook;
+	private Drew_Cashier cashier; 
 	
 	public enum CustomerState 
 	{waiting, seated,readyToOrder,askedToOrder, ordered, waitingForFood, foodReady, eating, billReady,paying, done};
 
 	public WaiterGui waitergui=null;
 	
-	public void addCashier(Cashier c){
+	public void addCashier(Drew_Cashier c){
 		cashier=c;
 	}
 	
-	public void setHost(Host host) {
+	public void setHost(Drew_Host host) {
 		this.host = host;
 	}
 	
-	public void setCook(Cook cook) {
+	public void setCook(Drew_Cook cook) {
 		this.cook = cook;
 	}
 	
@@ -60,7 +60,7 @@ public class WaiterRole extends Role implements Waiter{
 	// Messages
 	
 	//Host to waiter to seat customer
-	public void sitAtTable(Customer c, int table){
+	public void sitAtTable(Drew_Customer c, int table){
 		MyCustomer mc = new MyCustomer(c,table);
 		customers.add(mc);
 		print("Calling sitAtTable");
@@ -68,7 +68,7 @@ public class WaiterRole extends Role implements Waiter{
 	}
 	
 	//From customer when customer is ready to order
-	public void readyToOrder(Customer c){
+	public void readyToOrder(Drew_Customer c){
 		MyCustomer mc = null;
 		for (MyCustomer customer : customers) {
 			if (customer.getCustomer() == c) {
@@ -80,7 +80,7 @@ public class WaiterRole extends Role implements Waiter{
 		stateChanged();
 	}
 	
-	public void heresMyChoice(Customer c, String ch){
+	public void heresMyChoice(Drew_Customer c, String ch){
 		MyCustomer mc = null;
 		for (MyCustomer customer : customers) {
 			if (customer.getCustomer() == c) {
@@ -109,7 +109,7 @@ public class WaiterRole extends Role implements Waiter{
 		stateChanged();
 	}
 	
-	public void DoneEating(Customer c){
+	public void DoneEating(Drew_Customer c){
 		MyCustomer mc = null;
 		for (MyCustomer customer : customers) {
 			if (customer.getCustomer() == c) {
@@ -344,21 +344,21 @@ public class WaiterRole extends Role implements Waiter{
 	}
 	
 	public class MyCustomer {
-		Customer c;
+		Drew_Customer c;
 		int t;
 		String choice;
 		CustomerState s;
 		Double b;
 		boolean hasCheck=false;
 		
-		MyCustomer(Customer customer, int table){
+		MyCustomer(Drew_Customer customer, int table){
 			c=customer;
 			t=table;
 			s=CustomerState.waiting;
 		}
 		
 		
-		Customer getCustomer(){
+		Drew_Customer getCustomer(){
 			return c;
 		}
 		CustomerState getState(){
