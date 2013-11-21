@@ -101,10 +101,11 @@ public class BusAgent extends Agent implements Bus {
 	private void arriveAtStop(){
 		state=busState.atStop;
 		synchronized(passengers){
-		for (int i=0; i<=passengers.size(); i++){
+		for (int i=0; i<passengers.size(); i++){
 			if(passengers.get(i).destination==currentStop){
 				passengers.get(i).p.msgAtDestination();
 				passengers.remove(i);
+				i-=1;
 				BusStop current = busStops.get(currentStop);
 				current.msgAnyPassengers(this);
 			}
@@ -117,7 +118,7 @@ public class BusAgent extends Agent implements Bus {
 		synchronized(passengers){
 		for(MyPassenger currentPassenger: passengers){
 			if (currentPassenger.onBus==false){
-				currentPassenger.p.msgBusIsHere(this);
+				//currentPassenger.p.msgBusIsHere(this);
 			}
 		}
 		}

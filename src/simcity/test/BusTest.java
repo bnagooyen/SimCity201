@@ -106,11 +106,58 @@ public class BusTest extends TestCase{
 		assertTrue("Bus's state should now be travelling now that it is travelling",bus.state==busState.travelling);
 		
 		bus.msgAtStop("destination");
+	
 		bus.busStops.put("destination", busStop);
 		assertTrue("Bus's state should now be at arrived now that it is no longer travelling",bus.state==busState.arrived);
 		assertTrue("Bus's pickAndExecuteAnAction should be active because it is at a stop", bus.pickAndExecuteAnAction());
 		assertTrue("Bus's state should now be atStop because it is checking for passengers at the stop",bus.state==busState.atStop );
+		
+		assertEquals("Bus Stop should have received a message from bus and have a log size of 3", busStop.log.size(), 3);
+		assertTrue("BusStop Logged: " + busStop.log.getLastLoggedEvent().toString(), busStop.log.containsString("Received message from bus with passengers"));
+		System.out.println(bus.passengers.size());
+		assertEquals("Because passenger has gotten off the bus, there should be no passengers in the waiting list", bus.passengers.size(),0);
+		
+	}
 	
+	public void BusTestMultiplePassengersDiffDestinations(){
+		
+		waitingPassengers.add(person);
+		waitingPassengers.add(person2);
+		waitingPassengers.add(person3);
+		
+		//Pre-conditions need more.  
+		assertEquals("Bus should have no passengers in the bus, but it does.", bus.passengers.size(),0);
+		assertEquals("Bus should initially have no bus stops but it does", bus.busStops.size(), 0 );
+		
+		//Bus receives message of passengers
+		bus.msgHereArePassengers(waitingPassengers);
+		assertEquals("Bus should have three in his passenger list, but it does not", bus.passengers.size(),3);
+		
+		
+		bus.msgGettingOn(person, "destination");
+		bus.msgGettingOn(person2, "destination");
+		bus.msgGettingOn(person3, "destination2");
+		
+		assertTrue("Bus's passenger onBus should be true, but it is not", bus.passengers.get(0).onBus);
+		assertTrue("Bus's passenger onBus should be true, but it is not", bus.passengers.get(1).onBus);
+		assertTrue("Bus's passenger onBus should be true, but it is not", bus.passengers.get(2).onBus);
+		assertTrue("Bus's state should be ready to leave because everyone is on Bus", bus.state==busState.readyToGo);
+		assertTrue("Bus's pickAndExecuteAnAction should be active because it is ready to go", bus.pickAndExecuteAnAction());
+		assertTrue("Bus's state should now be travelling now that it is travelling",bus.state==busState.travelling);
+		
+		bus.msgAtStop("destination");
+	
+		bus.busStops.put("destination", busStop);
+		assertTrue("Bus's state should now be at arrived now that it is no longer travelling",bus.state==busState.arrived);
+		assertTrue("Bus's pickAndExecuteAnAction should be active because it is at a stop", bus.pickAndExecuteAnAction());
+		assertTrue("Bus's state should now be atStop because it is checking for passengers at the stop",bus.state==busState.atStop );
+		
+		assertEquals("Bus Stop should have received a message from bus and have a log size of 2, because one person doesnt share destination", busStop.log.size(), 2);
+		assertTrue("BusStop Logged: " + busStop.log.getLastLoggedEvent().toString(), busStop.log.containsString("Received message from bus with passengers"));
+		System.out.println(bus.passengers.size());
+		assertEquals("Because 2 passenger has gotten off the bus, there should be 1 passengers still in the bus", bus.passengers.size(),1);
+		
+		
 		
 	}
 	
