@@ -1,4 +1,7 @@
 package simcity.BRestaurant;
+import simcity.BRestaurant.*;
+import simcity.interfaces.*;
+import simcity.BRestaurant.gui.*;
 
 
 

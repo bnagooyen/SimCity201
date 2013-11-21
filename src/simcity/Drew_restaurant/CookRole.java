@@ -8,15 +8,15 @@ import java.util.concurrent.Semaphore;
 
 
 //import restaurant.HostAgent.MyWaiter;
-import simcity.Drew_restaurant.interfaces.Cook;
-import simcity.Drew_restaurant.interfaces.Waiter;
+import simcity.Drew_restaurant.interfaces.Drew_Cook;
+import simcity.Drew_restaurant.interfaces.Drew_Waiter;
 import simcity.Drew_restaurant.gui.CookGui;
 
 /**
  * Restaurant Cook Agent
  */
 
-public class CookRole extends Role implements Cook {
+public class CookRole extends Role implements Drew_Cook {
 	
 	//Data
 	public List<Order> orders
@@ -97,7 +97,7 @@ public class CookRole extends Role implements Cook {
 
 	// Messages
 	
-	public void hereIsOrder(Waiter w, String choice, int table){
+	public void hereIsOrder(Drew_Waiter w, String choice, int table){
 		orders.add(new Order(w, choice,table));
 		print("Got Order");
 		stateChanged();
@@ -265,20 +265,20 @@ public class CookRole extends Role implements Cook {
 	}*/
 	
 	public class Order {
-		Waiter w;
+		Drew_Waiter w;
 		int t;
 		String choice;
 		State s;
 		Timer timer = new Timer();
 		
-		Order(Waiter waiter, String ch, int table){
+		Order(Drew_Waiter waiter, String ch, int table){
 			w=waiter;
 			t=table;
 			choice=ch;
 			s=State.pending;
 		}	
 		
-		Waiter getCustomer(){
+		Drew_Waiter getCustomer(){
 			return w;
 		}
 		State getState(){

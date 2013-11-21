@@ -18,7 +18,7 @@ import simcity.Drew_restaurant.interfaces.*;
 /**
  * Restaurant customer agent.
  */
-public class CustomerRole extends Role implements Customer{
+public class CustomerRole extends Role implements Drew_Customer{
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
@@ -35,9 +35,9 @@ public class CustomerRole extends Role implements Customer{
 	private Menu menu = null;
 
 	// agent correspondents
-	private Waiter waiter;
-	private Host host;
-	private Cashier cashier;
+	private Drew_Waiter waiter;
+	private Drew_Host host;
+	private Drew_Cashier cashier;
 
 	public enum AgentState
 	{DoingNothing, WaitingInRestaurant, BeingSeated, Deciding, ReadyToOrder, Ordered, Eating,Paying, Leaving};
@@ -63,7 +63,7 @@ public class CustomerRole extends Role implements Customer{
 	/**
 	 * hack to establish connection to Host agent.
 	 */
-	public void setHost(Host host) {
+	public void setHost(Drew_Host host) {
 		this.host = host;
 	}
 
@@ -125,7 +125,7 @@ public class CustomerRole extends Role implements Customer{
 		stateChanged();
 	}
 	
-	public void giveCheck(Double b, Cashier c){
+	public void giveCheck(Double b, Drew_Cashier c){
 		cashier=c;
 		bill=b;
 		print(""+b);
@@ -372,11 +372,11 @@ public class CustomerRole extends Role implements Customer{
 		customerGui = g;
 	}
 	
-	public void setWaiter(Waiter w) {
+	public void setWaiter(Drew_Waiter w) {
 		waiter = w;
 	}
 	
-	public Waiter getWaiter(){
+	public Drew_Waiter getWaiter(){
 		return waiter;
 	}
 

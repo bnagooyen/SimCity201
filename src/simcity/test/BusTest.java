@@ -114,12 +114,12 @@ public class BusTest extends TestCase{
 		
 		assertEquals("Bus Stop should have received a message from bus and have a log size of 3", busStop.log.size(), 3);
 		assertTrue("BusStop Logged: " + busStop.log.getLastLoggedEvent().toString(), busStop.log.containsString("Received message from bus with passengers"));
-		System.out.println(bus.passengers.size());
+		
 		assertEquals("Because passenger has gotten off the bus, there should be no passengers in the waiting list", bus.passengers.size(),0);
 		
 	}
 	
-	public void BusTestMultiplePassengersDiffDestinations(){
+	public void testMultiplePassengersDiffDestinations(){
 		
 		waitingPassengers.add(person);
 		waitingPassengers.add(person2);
@@ -154,7 +154,7 @@ public class BusTest extends TestCase{
 		
 		assertEquals("Bus Stop should have received a message from bus and have a log size of 2, because one person doesnt share destination", busStop.log.size(), 2);
 		assertTrue("BusStop Logged: " + busStop.log.getLastLoggedEvent().toString(), busStop.log.containsString("Received message from bus with passengers"));
-		System.out.println(bus.passengers.size());
+		
 		assertEquals("Because 2 passenger has gotten off the bus, there should be 1 passengers still in the bus", bus.passengers.size(),1);
 		
 		

@@ -1,17 +1,15 @@
 package simcity.BRestaurant;
 
-import restaurant.gui.BCustomerGui;
-import restaurant.gui.BRestaurantGui;
-import agent.Agent;
-import agent.Role;
-import restaurant.interfaces.BCashier;
-import restaurant.interfaces.BCustomer;
-import restaurant.interfaces.BWaiter;
 import simcity.PersonAgent;
+import simcity.BRestaurant.*;
+import simcity.interfaces.*;
+import simcity.BRestaurant.gui.*;
 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
+
+import agent.Role;
 
 /**
  * Restaurant customer agent.
@@ -132,7 +130,7 @@ public class BCustomerRole extends Role implements BCustomer {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 
 		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry ){

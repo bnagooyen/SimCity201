@@ -1,12 +1,10 @@
 package simcity.BRestaurant;
 
 import agent.Agent;
-import restaurant.BCustomerRole.AgentEvent;
-import restaurant.BWaiterRole.Table;
-import restaurant.gui.BHostGui;
-import restaurant.interfaces.BCook;
-import restaurant.interfaces.BWaiter;
-import restaurant.BWaiterRole;
+
+import simcity.BRestaurant.*;
+import simcity.interfaces.*;
+import simcity.BRestaurant.gui.*;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -69,11 +67,7 @@ public class BCookRole extends Agent implements BCook {
 
 	
 
-	public void setToPause(){
-		pauseChange();
-		stateChanged();
-	}
-
+	
 	
 	
 

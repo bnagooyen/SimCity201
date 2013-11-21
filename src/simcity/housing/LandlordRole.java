@@ -70,13 +70,13 @@ public class LandlordRole extends Role implements Landlord{
 	//messages
 	public void TimeUpdate(int hour) {
 		this.hour = hour;
+		if (hour == 0) {
+			state = AgentState.askingForRent;
+		}
 		if (hour == 10) {
 			state = AgentState.callMaintanence; 
 		}
-		if (hour == 12) {
-			state = AgentState.askingForRent;
-		}
-		if (hour == 18) {
+		if (hour == 20) {
 			state = AgentState.collectedRent;
 		}
 		stateChanged(); 

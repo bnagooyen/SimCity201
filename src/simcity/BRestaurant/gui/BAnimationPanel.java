@@ -1,4 +1,9 @@
-package simcity.BRestaurant;
+package simcity.BRestaurant.gui;
+
+
+import simcity.PersonAgent;
+import simcity.interfaces.*;
+import simcity.BRestaurant.*;
 
 import javax.swing.*;
 

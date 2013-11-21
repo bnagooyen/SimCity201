@@ -1,5 +1,5 @@
 package simcity.interfaces;
 
-public interface KHost {
+public interface Host {
 
 }

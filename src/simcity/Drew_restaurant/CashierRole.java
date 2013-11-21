@@ -19,7 +19,7 @@ import simcity.PersonAgent;
  */
 
 
-public class CashierRole extends Role implements Cashier {
+public class CashierRole extends Role implements Drew_Cashier {
 	
 	//Data	
 	
@@ -60,12 +60,12 @@ public class CashierRole extends Role implements Cashier {
 
 	// Messages
 	
-	public void calculateBill(Waiter w, String choice, int table, Double debt){
+	public void calculateBill(Drew_Waiter w, String choice, int table, Double debt){
 		bills.add(new MyBill(w,table, prices.get(choice.toLowerCase()),debt));
 		stateChanged();
 	}
 	
-	public void payBill(Double b, Double Money, Customer cust){
+	public void payBill(Double b, Double Money, Drew_Customer cust){
 		MyBill mb = null;
 		for(MyBill bill : bills){
 			if(bill.b.equals(b)){
@@ -154,14 +154,14 @@ public class CashierRole extends Role implements Cashier {
 		
 	public class MyBill {
 		
-		public Customer c;
-		Waiter w;
+		public Drew_Customer c;
+		Drew_Waiter w;
 		public Double b;
 		Double payment;
 		public int t;
 		BillState s;
 		
-		MyBill(Waiter waiter, int table, Double bill, Double debt){
+		MyBill(Drew_Waiter waiter, int table, Double bill, Double debt){
 			w=waiter;
 			t=table;
 			b=bill+debt;
