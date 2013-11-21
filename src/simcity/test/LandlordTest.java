@@ -45,7 +45,7 @@ public class LandlordTest extends TestCase{
 		assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
 		assertEquals("MockBankManager should have no logs right now. It doesn't", bankmanager.log.size(), 0); 
 
-		landlord.TimeUpdate(12);
+		landlord.TimeUpdate(0);
 		
 		assertTrue("Landlord's scheduler should have returned true now, since it has to do something. It didn't.", landlord.pickAndExecuteAnAction());
 		assertTrue("MockBankManager should have logged an event for receiving a request but instead it's: " + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("Received from landlord for account 12"));
@@ -53,7 +53,7 @@ public class LandlordTest extends TestCase{
 		assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
 	
 		landlord.HereIsARentPayment(12, 25);
-		landlord.TimeUpdate(18);
+		landlord.TimeUpdate(20);
 		
 		assertEquals("MockBankManager should still have one log right now. It doesn't", bankmanager.log.size(), 1); 
 		assertEquals("Landlord should have more money now, but it doesn't.", landlord.revenue, 25.0);

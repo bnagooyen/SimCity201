@@ -1,7 +1,7 @@
 package simcity.TTRestaurant;
 
 import agent.Role;
-import simcity.interfaces.THost;
+import simcity.interfaces.Host;
 import simcity.interfaces.TCustomer; 
 import simcity.interfaces.TWaiter;
 import simcity.PersonAgent;
@@ -17,7 +17,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class THostRole extends Role implements THost {
+public class THostRole extends Role implements Host {
 	static final int NTABLES = 3;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
