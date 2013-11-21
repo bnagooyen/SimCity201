@@ -8,16 +8,16 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanelTT extends JPanel implements ActionListener {
+public class TAnimationPanel extends JPanel implements ActionListener {
 
     private final int WINDOWX = 450;
     private final int WINDOWY = 350;
     private Image bufferImage;
     private Dimension bufferSize;
 
-    private List<GuiTT> guis = new ArrayList<GuiTT>();
+    private List<TGui> guis = new ArrayList<TGui>();
 
-    public AnimationPanelTT() {
+    public TAnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
         
@@ -65,32 +65,32 @@ public class AnimationPanelTT extends JPanel implements ActionListener {
         g2.setColor(Color.BLACK);
         g2.fillRect(370, 30, plateW, plateH);
 
-        for(GuiTT gui : guis) {
+        for(TGui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
 
-        for(GuiTT gui : guis) {
+        for(TGui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
             }
         }
     }
 
-    public void addGui(CustomerGuiTT gui) {
+    public void addGui(TCustomerGui gui) {
         guis.add(gui);
     }
 
-    public void addGui(HostGuiTT gui) {
+    public void addGui(THostGui gui) {
         guis.add(gui);
     }
     
-    public void addGui(WaiterGuiTT gui) {
+    public void addGui(TWaiterGui gui) {
         guis.add(gui);
     }
     
-    public void addGui(CookGuiTT gui) {
+    public void addGui(TCookGui gui) {
         guis.add(gui);
     }
 }

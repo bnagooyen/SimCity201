@@ -18,7 +18,7 @@ import java.util.Vector;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class RestaurantPanelTT extends JPanel implements ActionListener {
+public class TRestaurantPanel extends JPanel implements ActionListener {
 
     //Host, cook, waiters and customers
     //private HostRoleTT host;
@@ -37,17 +37,17 @@ public class RestaurantPanelTT extends JPanel implements ActionListener {
     
     //buttons
     private JButton pauseButton = new JButton("Pause");
-    private ListPanelTT customerPanel = new ListPanelTT(this, "Customers");
-    private WaiterPanelTT waiterPanel = new WaiterPanelTT(this, "Waiters"); 
+    private TListPanel customerPanel = new TListPanel(this, "Customers");
+    private TWaiterPanel waiterPanel = new TWaiterPanel(this, "Waiters"); 
     private JPanel group = new JPanel();
     private JLabel label = new JLabel();
     private boolean IsPaused = false; 
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	
 	private int numCust = -2; 
-    private RestaurantGuiTT gui; //reference to main gui
+    private TRestaurantGui gui; //reference to main gui
 
-    public RestaurantPanelTT(RestaurantGuiTT gui) {
+    public TRestaurantPanel(TRestaurantGui gui) {
         this.gui = gui;
         //starting threads for agents
         //host.startThread();

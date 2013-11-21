@@ -5,7 +5,7 @@ import simcity.TTRestaurant.TWaiterRole;
 
 import java.awt.*;
 
-public class WaiterGuiTT implements GuiTT {
+public class TWaiterGui implements TGui {
 
     private TWaiterRole agent = null;
     
@@ -17,9 +17,9 @@ public class WaiterGuiTT implements GuiTT {
     private boolean onBreak = false; 
 
     public static final int yTable = 250;
-    RestaurantGuiTT gui;
+    TRestaurantGui gui;
     
-    public WaiterGuiTT(TWaiterRole agent, RestaurantGuiTT gui) {
+    public TWaiterGui(TWaiterRole agent, TRestaurantGui gui) {
         this.agent = agent;
         this.gui = gui; 
     }

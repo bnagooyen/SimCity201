@@ -3,7 +3,7 @@ package simcity.TTRestaurant;
 import simcity.interfaces.TCustomer;
 import simcity.interfaces.TWaiter;
 import simcity.PersonAgent;
-import simcity.TTRestaurant.gui.CustomerGuiTT;
+import simcity.TTRestaurant.gui.TCustomerGui;
 import agent.Role;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class TCustomerRole extends Role implements TCustomer {
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
-	private CustomerGuiTT customerGui;
+	private TCustomerGui customerGui;
 	private int freeTable;
 	public double myMoney;
 	private double check = 0;
@@ -436,11 +436,11 @@ public class TCustomerRole extends Role implements TCustomer {
 		return "customer " + getName();
 	}
 
-	public void setGui(CustomerGuiTT g) {
+	public void setGui(TCustomerGui g) {
 		customerGui = g;
 	}
 
-	public CustomerGuiTT getGui() {
+	public TCustomerGui getGui() {
 		return customerGui;
 	}
 }

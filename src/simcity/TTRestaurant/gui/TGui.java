@@ -2,7 +2,7 @@ package simcity.TTRestaurant.gui;
 
 import java.awt.*;
 
-public interface GuiTT {
+public interface TGui {
 
     public void updatePosition();
     public void draw(Graphics2D g);

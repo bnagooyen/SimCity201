@@ -4,7 +4,7 @@ import simcity.TTRestaurant.THostRole;
 
 import java.awt.*;
 
-public class HostGuiTT implements GuiTT {
+public class THostGui implements TGui {
 
     private THostRole agent = null;
     
@@ -15,7 +15,7 @@ public class HostGuiTT implements GuiTT {
 
     public static final int yTable = 250;
 
-    public HostGuiTT(THostRole agent) {
+    public THostGui(THostRole agent) {
         this.agent = agent;
     }
 

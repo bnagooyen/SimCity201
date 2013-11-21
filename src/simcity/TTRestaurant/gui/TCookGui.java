@@ -6,7 +6,7 @@ import simcity.TTRestaurant.TWaiterRole;
 
 import java.awt.*;
 
-public class CookGuiTT implements GuiTT {
+public class TCookGui implements TGui {
 
     private TCookRole agent = null;
     
@@ -15,7 +15,7 @@ public class CookGuiTT implements GuiTT {
 
     public static final int yTable = 250;
 
-    public CookGuiTT(TCookRole agent) {
+    public TCookGui(TCookRole agent) {
         this.agent = agent;
     }
 

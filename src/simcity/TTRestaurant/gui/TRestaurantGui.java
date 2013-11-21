@@ -11,19 +11,19 @@ import java.awt.event.*;
  * Main GUI class.
  * Contains the main frame and subsequent panels
  */
-public class RestaurantGuiTT extends JFrame implements ActionListener {
+public class TRestaurantGui extends JFrame implements ActionListener {
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */
 	//JFrame animationFrame = new JFrame("Restaurant Animation");
-	AnimationPanelTT animationPanel = new AnimationPanelTT();
+	TAnimationPanel animationPanel = new TAnimationPanel();
 	
     /* restPanel holds 2 panels
      * 1) the staff listing, menu, and lists of current customers all constructed
      *    in RestaurantPanel()
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
-    private RestaurantPanelTT restPanel = new RestaurantPanelTT(this);
+    private TRestaurantPanel restPanel = new TRestaurantPanel(this);
     
     /* infoPanel holds information about the clicked customer, if there is one*/
     private JPanel infoPanel;
@@ -38,7 +38,7 @@ public class RestaurantGuiTT extends JFrame implements ActionListener {
      * Constructor for RestaurantGui class.
      * Sets up all the gui components.
      */
-    public RestaurantGuiTT() {
+    public TRestaurantGui() {
         int WINDOWX = 1000;
         int WINDOWY = 600;
     	
@@ -161,7 +161,7 @@ public class RestaurantGuiTT extends JFrame implements ActionListener {
      * Main routine to get gui started
      */
     public static void main(String[] args) {
-        RestaurantGuiTT gui = new RestaurantGuiTT();
+        TRestaurantGui gui = new TRestaurantGui();
         gui.setTitle("csci201 Restaurant");
         gui.setVisible(true);
         gui.setResizable(false);

@@ -5,7 +5,7 @@ import simcity.interfaces.THost;
 import simcity.interfaces.TCustomer; 
 import simcity.interfaces.TWaiter;
 import simcity.PersonAgent;
-import simcity.TTRestaurant.gui.HostGuiTT;
+import simcity.TTRestaurant.gui.THostGui;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -39,7 +39,7 @@ public class THostRole extends Role implements THost {
 	private int waitersOnBreak = 0;
 	private int occupiedTable = 0; 
 
-	public HostGuiTT hostGui = null;
+	public THostGui hostGui = null;
 
 	public THostRole(PersonAgent p) {
 		super(p);
@@ -233,11 +233,11 @@ public class THostRole extends Role implements THost {
 		stateChanged(); 
 	}
 
-	public void setGui(HostGuiTT gui) {
+	public void setGui(THostGui gui) {
 		hostGui = gui;
 	}
 
-	public HostGuiTT getGui() {
+	public THostGui getGui() {
 		return hostGui;
 	}
 	

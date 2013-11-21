@@ -15,7 +15,7 @@ import java.util.Vector;
  * Subpanel of restaurantPanel.
  * This holds the scroll panes for the waiters
  */
-public class WaiterPanelTT extends JPanel implements ActionListener {
+public class TWaiterPanel extends JPanel implements ActionListener {
 
     public JScrollPane pane =
             new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -24,11 +24,11 @@ public class WaiterPanelTT extends JPanel implements ActionListener {
     private List<JButton> list = new ArrayList<JButton>();
     private JTextField addMessage = new JTextField (10); 
     private JButton addWaiter = new JButton("Add");
-    private RestaurantPanelTT restPanel;
+    private TRestaurantPanel restPanel;
     private String type;
 
     
-    public WaiterPanelTT(RestaurantPanelTT rp, String type) {
+    public TWaiterPanel(TRestaurantPanel rp, String type) {
         restPanel = rp;
         this.type = type;
         setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));

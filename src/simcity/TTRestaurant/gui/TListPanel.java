@@ -15,7 +15,7 @@ import java.util.Vector;
  * Subpanel of restaurantPanel.
  * This holds the scroll panes for the customers and, later, for waiters
  */
-public class ListPanelTT extends JPanel implements ActionListener {
+public class TListPanel extends JPanel implements ActionListener {
 
     public JScrollPane pane =
             new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -25,7 +25,7 @@ public class ListPanelTT extends JPanel implements ActionListener {
     public JCheckBox CB = new JCheckBox("Hungry", false); 
     private JTextField addMessage = new JTextField (10); 
     private JButton addPersonB = new JButton("Add");
-    private RestaurantPanelTT restPanel;
+    private TRestaurantPanel restPanel;
     private String type;
 
     /**
@@ -34,7 +34,7 @@ public class ListPanelTT extends JPanel implements ActionListener {
      * @param rp   reference to the restaurant panel
      * @param type indicates if this is for customers or waiters
      */
-    public ListPanelTT(RestaurantPanelTT rp, String type) {
+    public TListPanel(TRestaurantPanel rp, String type) {
         restPanel = rp;
         this.type = type;
         setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));

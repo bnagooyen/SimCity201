@@ -11,7 +11,7 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.TTRestaurant.THostRole.Table;
 import simcity.TTRestaurant.THostRole.myWaiters;
-import simcity.TTRestaurant.gui.CookGuiTT;
+import simcity.TTRestaurant.gui.TCookGui;
 
 /**
  * Restaurant Cook Agent
@@ -22,7 +22,7 @@ public class TCookRole extends Role implements TCook {
 	private String name; 
 	public boolean buyingFood = false;
 	private boolean unFullfilled = false; 
-	public CookGuiTT cookGui = null;  
+	public TCookGui cookGui = null;  
 	public List<Orders> orders
 	= Collections.synchronizedList(new ArrayList<Orders>());
 
@@ -279,11 +279,11 @@ public class TCookRole extends Role implements TCook {
 		Supply.put("Chicken", randomQuan.nextInt(4));
 	}
 
-	public void setGui(CookGuiTT gui) {
+	public void setGui(TCookGui gui) {
         cookGui = gui;
 	}
 	
-	public CookGuiTT getGui() {
+	public TCookGui getGui() {
 	        return cookGui;
 	}
 

@@ -4,15 +4,15 @@ import simcity.TTRestaurant.TCustomerRole;
 
 import java.awt.*;
 
-public class CustomerGuiTT implements GuiTT{
+public class TCustomerGui implements TGui{
 
 	private TCustomerRole agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
-	WaiterGuiTT waiter1; 
+	TWaiterGui waiter1; 
 
 	//private HostAgent host;
-	RestaurantGuiTT gui;
+	TRestaurantGui gui;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -22,7 +22,7 @@ public class CustomerGuiTT implements GuiTT{
 
 	public static final int yTable = 250;
 
-	public CustomerGuiTT(TCustomerRole c, RestaurantGuiTT gui){ //HostAgent m) {
+	public TCustomerGui(TCustomerRole c, TRestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xPos = -20;
 		yPos = -20;

@@ -4,7 +4,7 @@ import agent.Role;
 import simcity.interfaces.TCustomer;
 import simcity.interfaces.TWaiter;
 import simcity.PersonAgent;
-import simcity.TTRestaurant.gui.WaiterGuiTT;
+import simcity.TTRestaurant.gui.TWaiterGui;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -33,7 +33,7 @@ public class THeadWaiterRole extends Role implements TWaiter{
 	private Menu menu = new Menu();
 
 
-	public WaiterGuiTT waiterGui = null;
+	public TWaiterGui waiterGui = null;
 
 
 	public THeadWaiterRole(PersonAgent p) {
@@ -419,7 +419,7 @@ public class THeadWaiterRole extends Role implements TWaiter{
 
 	//utilities
 
-	public void setGui(WaiterGuiTT gui) {
+	public void setGui(TWaiterGui gui) {
 		waiterGui = gui;
 	}
 	
@@ -427,7 +427,7 @@ public class THeadWaiterRole extends Role implements TWaiter{
 		waiterGui.setHome(l); 
 	}
 
-	public WaiterGuiTT getGui() {
+	public TWaiterGui getGui() {
 		return waiterGui;
 	}
 
