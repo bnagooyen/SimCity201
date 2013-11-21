@@ -4,9 +4,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import agent.Role;
+import simcity.PersonAgent;
+import simcity.BRestaurant.BCustomerRole;
+import simcity.Bank.BankCustomerRole;
+import simcity.Drew_restaurant.CustomerRole;
+import simcity.KRestaurant.KCustomerRole;
+import simcity.Market.MarketCustomerRole;
+import simcity.TTRestaurant.TCustomerRole;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.Host;
 import simcity.interfaces.MarketManager;
+import simcity.interfaces.Person;
 
 public class SimCityPanel {
 
@@ -20,20 +29,42 @@ public class SimCityPanel {
 		
 	}
 	
+	// customer factory
+	public Role customerFactory(String place, PersonAgent p) {
+		Role c = null;
+		if (place.equals("Bank")) {
+			c = new BankCustomerRole(p);
+		}
+		else if (place.equals("Market")) {
+			c = new MarketCustomerRole(p);
+		}
+		else if (place.equals("KRestaurant")) {
+			c = new KCustomerRole(p);
+		}
+		else if (place.equals("BCustomerRole")) {
+			c = new BCustomerRole(p);
+		}
+		else if (place.equals("DrewCustomerRole")) {
+			c = new CustomerRole(p);
+		}
+		else if (place.equals("TCustomerRole")) {
+			c = new TCustomerRole(p);
+		}
+		return c;
+	}
+	
 	// Location classes
 	public abstract class Location {
 		// Location l
 		String name;
-		String customerRole;
 	}
 	
 	public class Restaurant extends Location{
 		Host host;
 		String foodType;
 		
-		public Restaurant(String n, String c, Host h, String type) {
+		public Restaurant(String n, Host h, String type) {
 			name = n;
-			customerRole = c;
 			host = h;
 			foodType = type;
 		}
@@ -42,9 +73,8 @@ public class SimCityPanel {
 	public class Bank extends Location{
 		BankManager manager;
 		
-		public Bank(String n, String c, BankManager m){
+		public Bank(String n, BankManager m){
 			name = n;
-			customerRole = c;
 			manager = m;
 		}
 	}
@@ -52,9 +82,8 @@ public class SimCityPanel {
 	public class Market extends Location {
 		MarketManager manager;
 		
-		public Market(String n, String c, MarketManager m) {
+		public Market(String n, MarketManager m) {
 			name = n;
-			customerRole = c;
 			manager = m;
 		}
 	}

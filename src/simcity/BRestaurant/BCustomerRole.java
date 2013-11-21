@@ -51,7 +51,7 @@ public class BCustomerRole extends Role implements BCustomer {
 	 */
 	
 
-	public BCustomerRole(PersonAgent p, Role r){
+	public BCustomerRole(PersonAgent p){
 		super(p);
 		host = (BHostRole) r;
 		name = p.getName();
