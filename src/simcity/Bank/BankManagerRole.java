@@ -91,7 +91,10 @@ public class BankManagerRole extends Role implements BankManager {
 			tellers.get(0).needsAccount=true;
 			stateChanged();	
 		}
-	
+		if(type.equals("BankLoanOfficer")) {
+			officers.get(0).needsAccount=true;
+			stateChanged();	
+		}
 	}
 	public void msgProcessTransaction(int AN, double amount) {
 		tellers.get(0).requested=amount;
@@ -157,7 +160,7 @@ public class BankManagerRole extends Role implements BankManager {
 	
 		
 		if(!tellers.isEmpty() && tellers.get(0).needsAccount) {
-			NewAccount();
+			NewAccountForTeller();
 			return true;
 		}
 		
@@ -166,6 +169,10 @@ public class BankManagerRole extends Role implements BankManager {
 			return true;
 		}
 		
+		if(!officers.isEmpty() && tellers.get(0).needsAccount) {
+			NewAccountForOfficer();
+			return true;
+		}
 		
 		if(!officers.isEmpty() && officers.get(0).requested!=0) {
 			CompleteLoan();
@@ -278,10 +285,16 @@ public class BankManagerRole extends Role implements BankManager {
 		isActive = false;
 	}
 	
-	private void NewAccount() {
+	private void NewAccountForTeller() {
 		accounts.put(accounts.size()+1, new MyAccount(0,0));
 		tellers.get(0).needsAccount=false;
 		tellers.get(0).emp.msgAccountCreated(accounts.size());
+	}
+	
+	private void NewAccountForOfficer() {
+		accounts.put(accounts.size()+1, new MyAccount(0,0));
+		officers.get(0).needsAccount=false;
+		officers.get(0).emp.msgAccountCreated(accounts.size());
 	}
 	
 	private void CompleteTransaction() {

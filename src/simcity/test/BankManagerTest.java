@@ -61,9 +61,7 @@ public class BankManagerTest extends TestCase{
 		System.out.println("this test ensures that an account is created");
 		 // preconditions
 		assertEquals("Teller should have 0 logs, ", teller.log.size(), 0);
-		assertEquals("Manager should have 0 accounts", manager.getAccounts().size(), 0);
-		assertEquals("BankManager should have 0 logs", manager.log.size(), 0);
-		
+	
 		//reset state to newDay
 		manager.msgTimeUpdate(1);
 		assertEquals("bank should be open", manager.getBankStatus(), BankManagerRole.BankState.newDay);
@@ -107,7 +105,6 @@ public class BankManagerTest extends TestCase{
 		//preconditions
 		assertEquals("Teller should have 0 logs, ", teller.log.size(), 0);
 		assertEquals("Manager should have 0 accounts", manager.getAccounts().size(), 0);
-		assertEquals("BankManager should have 0 logs", manager.log.size(), 0);
 		
 		manager.getOfficer().add(new MyLoanOfficer(loanOfficer));
 		manager.getTeller().add(new MyTeller(teller));
@@ -165,7 +162,7 @@ public class BankManagerTest extends TestCase{
 		//preconditions
 		assertEquals("Teller should have 0 logs, ", teller.log.size(), 0);
 		assertEquals("Manager should have 0 accounts", manager.getAccounts().size(), 0);
-		assertEquals("BankManager should have 0 logs", manager.log.size(), 0);
+		
 		
 		manager.getOfficer().add(new MyLoanOfficer(loanOfficer));
 		manager.getTeller().add(new MyTeller(teller));
@@ -261,7 +258,6 @@ public class BankManagerTest extends TestCase{
 		//preconditions
 		assertEquals("Teller should have 0 logs, ", teller.log.size(), 0);
 		assertEquals("Manager should have 0 accounts", manager.getAccounts().size(), 0);
-		assertEquals("BankManager should have 0 logs", manager.log.size(), 0);
 		assertEquals("BankCustomer should have 0 logs", customer1t.log.size(), 0);
 		
 		//say a customer shows up before bank is open
@@ -348,7 +344,6 @@ public void testLoanOfficerrHandlesCustomer() {
 		//preconditions
 		assertEquals("Teller should have 0 logs, ", teller.log.size(), 0);
 		assertEquals("Manager should have 0 accounts", manager.getAccounts().size(), 0);
-		assertEquals("BankManager should have 0 logs", manager.log.size(), 0);
 		assertEquals("BankCustomer should have 0 logs", customer1t.log.size(), 0);
 		
 		//say a customer shows up before bank is open
@@ -430,7 +425,6 @@ public void testLoanOfficerrHandlesCustomer() {
 		assertEquals("BankManager should have no clients right now. It doesn't.", manager.clients.size(), 0);
 		assertEquals("Teller shouldn't have any logs right now. It doesn't. ", teller.log.size(), 0);
 		assertEquals("Manager should have no accounts. It doesn't.", manager.getAccounts().size(), 0);
-		assertEquals("BankManager should no logs right now. It doesn't.", manager.log.size(), 0);
 		assertEquals("BankCustomer should have no logs right now. It doesn't.", customer1t.log.size(), 0);
 		assertFalse("BankManager's scheduler should have returned false now, since it has nothing to do. It didn't.", manager.pickAndExecuteAnAction());
 

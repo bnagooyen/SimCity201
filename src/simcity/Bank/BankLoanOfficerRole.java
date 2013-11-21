@@ -14,21 +14,21 @@ import agent.Role;
 public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	
 	//data
-	BankManager manager;
+	public BankManager manager;
 	MyCustomer customer;
-	enum bankLoanState { working, atManager, recieved, finished};
-	enum accountState {none,requested,justMade,existing};
+	public enum bankLoanState { working, atManager, recieved, finished};
+	public enum accountState {none,requested,created, exists, loanRequested, loanApproved};
 	bankLoanState state=bankLoanState.working;
 	private static List<String> acceptableJobs = Collections.synchronizedList(new ArrayList<String>());
 
 
-	class MyCustomer{
+	public class MyCustomer{
 		BankCustomer BC;
 		Integer accountNumber;
 		String job;
 		double amount;
 		boolean accepted;
-		accountState state=accountState.existing;
+		public accountState state=accountState.none;
 		
 		MyCustomer(BankCustomer BankCust){
 			BC=BankCust;
@@ -39,7 +39,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		}
 	}
 
-	protected BankLoanOfficerRole(PersonAgent p) {
+	public BankLoanOfficerRole(PersonAgent p) {
 		super(p);
 		// TODO Auto-generated constructor stub
 		
@@ -59,7 +59,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		stateChanged();
 	}
 	public void msgAccountCreated(int num){
-		customer.state=accountState.justMade;
+		customer.state=accountState.created;
 		stateChanged();
 	}
 	public void msgINeedALoan(BankCustomer BC, Integer AN, double amt, String J){
@@ -67,6 +67,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		customer.accountNumber=AN;
 		customer.job=J;
 		customer.amount=amt;
+		customer.state=accountState.loanRequested;
 		stateChanged();
 	}
 	public void msgLoanDenied(){
@@ -100,15 +101,15 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub	
-		if(customer!=null && customer.state==accountState.none){
+		if(customer!=null && customer.state==accountState.none && state==bankLoanState.working){
 			createNewAccount();
 			return true;
 		}
-		if(customer!=null && customer.state==accountState.justMade){
+		if(customer!=null && customer.state==accountState.created && state==bankLoanState.atManager){
 			hereIsYourAccount();
 			return true;
 		}
-		if(customer!=null && state==bankLoanState.working){
+		if(customer!=null && customer.state==accountState.loanRequested && state==bankLoanState.working){
 			analyzeLoan();
 			return true;
 		}
@@ -121,13 +122,16 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 
 	
 	//ACTIONS
+	
 	private void createNewAccount(){
 		manager.msgCreateAccount("BankLoanOfficer");
 		customer.state=accountState.requested;
-	}
+		state=bankLoanState.atManager;
+    }
 	private void hereIsYourAccount(){
 		customer.BC.msgAccountMade(customer.accountNumber);
-		customer.state=accountState.existing;
+		customer.state=accountState.exists;
+		state=bankLoanState.working;
 	}
 	private void analyzeLoan(){
 		for (String job : acceptableJobs) {
@@ -158,5 +162,8 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		state=bankLoanState.working;
 	}
 
-		
+	//utilites
+	public MyCustomer GetCustomer() {
+		return customer;
+	}
 }
