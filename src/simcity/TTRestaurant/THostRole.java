@@ -13,10 +13,7 @@ import java.util.concurrent.Semaphore;
 /**
  * Restaurant Host Agent
  */
-//We only have 2 types of agents in this prototype. A customer and an agent that
-//does all the rest. Rather than calling the other agent a waiter, we called him
-//the HostAgent. A Host is the manager of a restaurant who sees that all
-//is proceeded as he wishes.
+
 public class THostRole extends Role implements Host {
 	static final int NTABLES = 3;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
@@ -26,8 +23,6 @@ public class THostRole extends Role implements Host {
 	public Collection<Table> tables;
 	public List<myWaiters> waiters
 	= Collections.synchronizedList(new ArrayList<myWaiters>());
-	//note that tables is typed with Collection semantics.
-	//Later we will see how it is implemented
 
 
 	enum WaiterState 

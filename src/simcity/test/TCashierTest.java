@@ -2,6 +2,8 @@ package simcity.test;
 
 import simcity.test.mock.MockCustomer;
 import simcity.test.mock.MockWaiter;
+import simcity.test.mock.TMockCustomer;
+import simcity.test.mock.TMockWaiter;
 import simcity.TTRestaurant.TCashierRole;
 import junit.framework.*;
 
@@ -17,10 +19,10 @@ public class TCashierTest extends TestCase
 {
 	//these are instantiated for each test separately via the setUp() method.
 	TCashierRole cashier;
-	MockWaiter waiter;
-	MockWaiter secondWaiter; 
-	MockCustomer customer;
-	MockCustomer secondCustomer;
+	TMockWaiter waiter;
+	TMockWaiter secondWaiter; 
+	TMockCustomer customer;
+	TMockCustomer secondCustomer;
 	//MockMarket market;
 	//MockMarket secondMarket; 
 	
@@ -33,10 +35,10 @@ public class TCashierTest extends TestCase
 	public void setUp() throws Exception{
 		super.setUp();		
 		//cashier = new CashierRoleTT("cashier");		
-		customer = new MockCustomer("mockcustomer");
-		secondCustomer = new MockCustomer("secondCustomer"); 
-		waiter = new MockWaiter("mockwaiter");
-		secondWaiter = new MockWaiter("secondWaiter");
+		customer = new TMockCustomer("mockcustomer");
+		secondCustomer = new TMockCustomer("secondCustomer"); 
+		waiter = new TMockWaiter("mockwaiter");
+		secondWaiter = new TMockWaiter("secondWaiter");
 		//market = new MockMarket("market"); 
 		//secondMarket = new MockMarket("secondMarket"); 
 	}	
@@ -112,7 +114,7 @@ public class TCashierTest extends TestCase
 		assertEquals("Cashier should only have two waiter right now, but it doesn't.", cashier.waiters.size(), 2);
 		//assertEquals("Cashier should should only have one bill right now, but it doesnt.", cashier.markets.size(), 1); 
 		assertEquals("MockWaiter doesn't have an empty log. Instead, it has " + waiter.log.toString(), 0, waiter.log.size());
-		assertEquals("MockMarket doesn't have an empty log. Instead, it has " + market.log.toString(), 0, market.log.size()); 
+		//assertEquals("MockMarket doesn't have an empty log. Instead, it has " + market.log.toString(), 0, market.log.size()); 
 		
 		//calling the scheduler to calculate bill for the waiter
 		assertTrue("Cashier's scheduler should have returned true, but didn't.", cashier.pickAndExecuteAnAction());
@@ -128,7 +130,7 @@ public class TCashierTest extends TestCase
 		
 		//calling the scheduler to pay for supplies
 		assertTrue("Cashier's scheduler should have returned true, but didn't.", cashier.pickAndExecuteAnAction());
-		assertTrue("MockMarket should have logged an event for receiving msgPaidForStock but instead it's: " + market.log.getLastLoggedEvent().toString(), market.log.containsString("Received payment of 75.0 for supplies"));
+		//assertTrue("MockMarket should have logged an event for receiving msgPaidForStock but instead it's: " + market.log.getLastLoggedEvent().toString(), market.log.containsString("Received payment of 75.0 for supplies"));
 		assertFalse("Cashier's scheduler should have returned false now, since it has nothing to do now. It didn't.", cashier.pickAndExecuteAnAction());
 		assertEquals("Cashier should now have less money in its budget, but it doesn't.", cashier.budget, 25.0); 
 		
@@ -242,7 +244,7 @@ public class TCashierTest extends TestCase
 		//adding bill from the market
 		//cashier.msgPayForSupply(market, 110);
 		assertTrue("Cashier's scheduler should have returned true, but didn't.", cashier.pickAndExecuteAnAction());
-		assertTrue("MockMarket should have logged an event for receiving msgPaidForStock but instead it's: " + market.log.getLastLoggedEvent().toString(), market.log.containsString("Received payment of 110.0 for supplies"));
+		//assertTrue("MockMarket should have logged an event for receiving msgPaidForStock but instead it's: " + market.log.getLastLoggedEvent().toString(), market.log.containsString("Received payment of 110.0 for supplies"));
 		assertFalse("Cashier's scheduler should have returned false now, since it has nothing to do now. It didn't.", cashier.pickAndExecuteAnAction());
 		assertEquals("Cashier should now have less money in its budget, but it doesn't.", cashier.budget, 0.0); 
 		assertEquals("Cashier should also now have a debt. It doesn't.", cashier.debt, 10.0); 
@@ -277,7 +279,7 @@ public class TCashierTest extends TestCase
 		
 		//checking postconditions and preconditions 
 		//assertEquals("Cashier should only have one bill he needs to pay, but he doesn't.", cashier.markets.size(), 1);
-		assertEquals("MockMarket doesn't have an empty log. Instead, it has " + market.log.toString(), 0, market.log.size());
+		//assertEquals("MockMarket doesn't have an empty log. Instead, it has " + market.log.toString(), 0, market.log.size());
 		
 		//calling the scheduler to calculate bill for the waiter
 		assertTrue("Cashier's scheduler should have returned true, but didn't.", cashier.pickAndExecuteAnAction());
@@ -296,7 +298,7 @@ public class TCashierTest extends TestCase
 		//assertEquals("Cashier should have no bills right now. It doesn't.", cashier.markets.size(), 0); 
 		
 		//market.cashier = cashier;
-		secondMarket.cashier = cashier; 
+		//secondMarket.cashier = cashier; 
 		
 		//adding a bill for the waiter to compute
 		//cashier.msgPayForSupply(market, 30);
