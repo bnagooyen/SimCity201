@@ -38,12 +38,22 @@ public class PersonTest extends TestCase{
 	public void setUp() throws Exception{
 		role=new MockRole("mockrole", person);
 		person=new PersonAgent("person", role);
+		bus=new MockBus("bus");
+		busStop=new MockBusStop("mock busStop");
+		person.myCar=null;
+		
 
 	}
 	
 	
 
-	public void testCarTestOne(){
+	public void testPersonBusTransit(){
+		
+		//preconditions
+		assertTrue("In order to use bus, person must have no car, but they do. ", person.myCar==null);
+		assertEquals("Bus Stop should not have received message from person yet that it is at the station, but it had", busStop.log.size(),0);
+		assertEquals("Bus should not have received any messages from Bus, but it has", bus.log.size(),0);
+		
 		
 		
 
