@@ -21,19 +21,23 @@ public class BankRobberRole extends Role implements BankRobber {
 	
 	//messages
 	public void msgGoToTeller(BankTeller t){
+		Do("I feel like robbing a bank today");
 		teller=t;
 	}
 	
 	public void msgHereIsMoney(double amount){
+		Do("Got the money");
 		myPerson.money+=amount;
 		state=bankRobberState.done;
 	}
 	
 	public void msgIRefuseToPay(){
+		Do("Failed to get money");
 		state=bankRobberState.unsucessful;
 	}
 	
 	public void msgIShotYou(){
+		Do("Shots fired");
 		state=bankRobberState.done;
 		//tell Person He was shot				*******************************
 	}
@@ -61,22 +65,26 @@ public class BankRobberRole extends Role implements BankRobber {
 	
 	//actions
 	private void tellManagerArrived(){
+		Do("Robber has arrived");
 		manager.msgIAmHere(this, "transaction");
 		state=bankRobberState.waiting;
 	}
 	
 	private void robBank(){
+		Do("About bank #YOLO");
 		//doRobBank     GUI
 		teller.msgIAmRobbingYou(this);
 		state=bankRobberState.inProgress;
 	}
 	
 	private void shootTeller(){
+		Do("I'm angry. Shots fired");
 		teller.msgIShotYou();
 		state=bankRobberState.done;
 	}
 	
 	private void leaveBank(){
+		Do("I'm out!");
 		this.isActive=false;
 		state=bankRobberState.arrived;
 		//doLeaveBank       GUI
