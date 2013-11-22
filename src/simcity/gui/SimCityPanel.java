@@ -88,16 +88,16 @@ public class SimCityPanel extends JPanel{
 		buildings.put("Market", markets);
 		buildings.put("Restaurant", restaurants);
 		
-		DWaiterRole w = null;
-		PersonAgent waiter = new PersonAgent("waiter", w);
-		w = new DWaiterRole(waiter);
+//		DWaiterRole w = null;
+//		PersonAgent waiter = new PersonAgent("waiter", w);
+//		w = new DWaiterRole(waiter);
 		
-		PersonAgent cust = new PersonAgent("cust", null);
-		cust.setPanel(this);
-		
-		p6.startThread();
-		waiter.startThread();
-		cust.startThread();
+//		PersonAgent cust = new PersonAgent("cust", null);
+//		cust.setPanel(this);
+//		
+//		p6.startThread();
+//		waiter.startThread();
+//		cust.startThread();
 	}
 	
 	// customer factory

@@ -77,7 +77,6 @@ public class PersonAgent extends Agent {//implements Person
 		
 		this.name = name;
 		myJob = job;
-		myJob.isActive = true;
 		
 		personState=PersonState.none;
 		energyState=EnergyState.asleep;
