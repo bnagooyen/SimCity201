@@ -157,7 +157,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		else{
 			for(Role role:roles){
 				if(role==neededRole) role.isActive=true;
-				haveR
+				
 			}
 		}
 	}
@@ -167,7 +167,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//		if(state==personState.gotHungry) {
 		//			GoToRestaurant();
 		//			return true;
