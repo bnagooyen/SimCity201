@@ -7,8 +7,7 @@ import simcity.Drew_restaurant.Drew_CashierRole.*;
 import simcity.Drew_restaurant.interfaces.*;
 import simcity.Drew_restaurant.Drew_CashierRole;
 import simcity.Drew_restaurant.test.mock.EventLog;
-import simcity.Drew_restaurant.test.mock.Drew_MockCustomer;
-import simcity.Drew_restaurant.test.mock.Drew_MockWaiter;
+import simcity.Drew_restaurant.test.mock.*;
 //import simcity.Drew_restaurant.test.mock.MockMarket;
 import junit.framework.*;
 
@@ -30,7 +29,7 @@ public class Drew_CashierTest extends TestCase
 	 */
 	public void setUp() throws Exception{
 		super.setUp();		
-		cashier = new Drew_CashierRole(new PersonAgent("cashier"));		
+		cashier = new Drew_CashierRole(new PersonAgent("cashier", null));		
 		customer = new Drew_MockCustomer("mockcustomer");		
 		waiter = new Drew_MockWaiter("mockwaiter");
 		//market = new MockMarket("mockmarket");

@@ -1,8 +1,8 @@
 package simcity.Drew_restaurant.interfaces;
 
-import simcity.Drew_restaurant.Drew_CashierRole;
-import simcity.Drew_restaurant.Drew_CustomerRole.AgentEvent;
-import simcity.Drew_restaurant.Drew_CustomerRole.AgentState;
+//import simcity.Drew_restaurant.Drew_CashierRole;
+//import simcity.Drew_restaurant.Drew_CustomerRole.AgentEvent;
+//import simcity.Drew_restaurant.Drew_CustomerRole.AgentState;
 import simcity.Drew_restaurant.gui.CustomerGui;
 import simcity.Drew_restaurant.gui.Menu;
 

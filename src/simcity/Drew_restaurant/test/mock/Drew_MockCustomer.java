@@ -14,7 +14,7 @@ import simcity.Drew_restaurant.interfaces.Drew_Host;
  * @author Monroe Ekilah
  *
  */
-public class MockCustomer extends Mock implements Drew_Customer {
+public class Drew_MockCustomer extends Mock implements Drew_Customer {
 	
 
 
@@ -31,7 +31,7 @@ public class MockCustomer extends Mock implements Drew_Customer {
 	
 	
 	//functions
-	public MockCustomer(String n) {
+	public Drew_MockCustomer(String n) {
 		super(n);
 		//name=n;
 	}

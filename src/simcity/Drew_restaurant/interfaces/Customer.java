@@ -5,6 +5,7 @@ import simcity.Drew_restaurant.Drew_CustomerRole.AgentEvent;
 import simcity.Drew_restaurant.Drew_CustomerRole.AgentState;
 import simcity.Drew_restaurant.gui.CustomerGui;
 import simcity.Drew_restaurant.gui.Menu;
+import simcity.Drew_restaurant.interfaces.*;
 
 /**
  * A sample Customer interface built to unit test a CashierAgent.
@@ -31,7 +32,7 @@ public interface Customer {
 	
 	public abstract void msgAnimationFinishedLeaveRestaurant();
 	
-	public abstract void giveCheck(Double b, Cashier c);
+	public abstract void giveCheck(Double b, Drew_Cashier c);
 	
 	public abstract void giveChange(Double change);
 	

@@ -18,7 +18,7 @@ import simcity.Drew_restaurant.interfaces.Drew_Host;
  * @author Monroe Ekilah
  *
  */
-public class MockWaiter extends Mock implements Drew_Waiter {
+public class Drew_MockWaiter extends Mock implements Drew_Waiter {
 	
 
 
@@ -35,7 +35,7 @@ public class MockWaiter extends Mock implements Drew_Waiter {
 	= new ArrayList<MyCustomer>();
 	
 	//functions
-	public MockWaiter(String n) {
+	public Drew_MockWaiter(String n) {
 		super(n);
 		//name=n;
 	}

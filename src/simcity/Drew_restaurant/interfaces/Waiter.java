@@ -40,11 +40,11 @@ public interface Waiter {
 	
 	//Get & Set
 	
-	public void addCashier(Cashier c);
+	public void addCashier(Drew_Cashier c);
 	
-	public void setHost(Host host);
+	public void setHost(Drew_Host host);
 	
-	public void setCook(Cook cook);
+	public void setCook(Drew_Cook cook);
 
 	public String getName();
 	
