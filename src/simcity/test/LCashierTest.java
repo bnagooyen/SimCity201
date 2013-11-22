@@ -1,5 +1,6 @@
 package simcity.test;
 
+import simcity.PersonAgent;
 import simcity.LRestaurant.LCashierAgent;
 import simcity.LRestaurant.LCashierAgent.OrderState;
 import simcity.test.mock.EventLog;
@@ -15,6 +16,7 @@ import junit.framework.*;
 public class LCashierTest extends TestCase
 {
 	//these are instantiated for each test separately via the setUp() method.
+	PersonAgent p;
 	LCashierAgent cashier;
 	MockLWaiter waiter;
 	MockLCustomer customer;
@@ -26,8 +28,9 @@ public class LCashierTest extends TestCase
 	 * for your agent and mocks, etc.
 	 */
 	public void setUp() throws Exception{
-		super.setUp();		
-		cashier = new LCashierAgent("cashier");		
+		super.setUp();	
+		p = new PersonAgent("person", cashier);
+		cashier = new LCashierAgent(p);		
 		customer = new MockLCustomer("mockcustomer");	
 //		market = new MockMarket("mockmarket");
 //		market2 = new MockMarket("mockmarket2");
