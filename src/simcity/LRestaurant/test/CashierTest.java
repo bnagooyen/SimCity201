@@ -17,7 +17,7 @@ public class CashierTest extends TestCase
 	//these are instantiated for each test separately via the setUp() method.
 	LCashierAgent cashier;
 	MockWaiter waiter;
-//	MockCustomer customer;
+	MockCustomer customer;
 //	MockMarket market;
 //	MockMarket market2;
 	
@@ -29,15 +29,15 @@ public class CashierTest extends TestCase
 		super.setUp();		
 		cashier = new LCashierAgent("cashier");		
 		customer = new MockCustomer("mockcustomer");	
-		market = new MockMarket("mockmarket");
-		market2 = new MockMarket("mockmarket2");
+//		market = new MockMarket("mockmarket");
+//		market2 = new MockMarket("mockmarket2");
 		waiter = new MockWaiter("mockwaiter");
 		
 	}	
 	/**
 	 * This tests the cashier under very simple terms: one customer is ready to pay the exact bill.
 	 */
-	public void testCashierMarket1()
+	/**public void testCashierMarket1()
 	{
 		//Cashier needs to pay one market bill
 		
@@ -65,9 +65,9 @@ public class CashierTest extends TestCase
 		assertEquals("Cashier fulfilled payement.", cashier.bills.size(), 0); 
 	
 	
-	}
+	}*/
 	
-	public void testCashierMarket2()
+	/**public void testCashierMarket2()
 	{
 		//Cashier has two market bills to pay
 		
@@ -104,7 +104,7 @@ public class CashierTest extends TestCase
 		assertEquals("Cashier fulfilled payement.", cashier.bills.size(), 0); 
 	
 	
-	}
+	}*/
 	
 	public void testCashierCustomer1()
 	{
@@ -203,12 +203,12 @@ public class CashierTest extends TestCase
 		//Normal situation with all mock agents
 		
 		customer.cashier = cashier;
-		market.cashier = cashier;
+//		market.cashier = cashier;
 		waiter.cashier = cashier;
 		
 		//Check preconditions
 		assertEquals("There are no existing reactions.", cashier.transactions.size(), 0); 
-		assertEquals("There are no existing bill.", cashier.bills.size(), 0); //Market
+//		assertEquals("There are no existing bill.", cashier.bills.size(), 0); //Market
 		assertEquals("There are no existing checks.", cashier.orders.size(), 0); //Waiter
 		
 		//Communication between Waiter and Cashier
@@ -249,20 +249,20 @@ public class CashierTest extends TestCase
 		
 		//Communication between Market and Cashier
 		
-		cashier.msgHereIsSupplyCheck(10, market);
+//		cashier.msgHereIsSupplyCheck(10, market);
 		
-		assertEquals("There is one bill.", cashier.bills.size(), 1);
+//		assertEquals("There is one bill.", cashier.bills.size(), 1);
 		
-		assertTrue("CashierSupplyBill should contain a bill with the right market in it.", 
-				cashier.bills.get(0).m == market);
+//		assertTrue("CashierSupplyBill should contain a bill with the right market in it.", 
+//				cashier.bills.get(0).m == market);
 		
 		assertTrue("Cashier is giving change to customer.", cashier.pickAndExecuteAnAction());
 		
-		assertTrue("Market logged: " + market.log.getLastLoggedEvent().toString(), market.log.containsString("Received msgHereIsMoney from cashier."));
+//		assertTrue("Market logged: " + market.log.getLastLoggedEvent().toString(), market.log.containsString("Received msgHereIsMoney from cashier."));
 
 		assertFalse("Cashier finished paying supply bill.", cashier.pickAndExecuteAnAction());
 		
-		assertEquals("Cashier fulfilled payement.", cashier.bills.size(), 0); 
+//		assertEquals("Cashier fulfilled payement.", cashier.bills.size(), 0); 
 	
 	
 	}

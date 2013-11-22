@@ -20,7 +20,7 @@ public interface LCook {
 
 //	public void msgSupplyUnfulfilled(String choice, int stillNeed, LMarketAgent market);
 
-	public void msgHereIsFoodSupply(String choice, int a, LMarket mark);
+//	public void msgHereIsFoodSupply(String choice, int a, LMarket mark);
 
 	public void msgDone(Order o);
 	
