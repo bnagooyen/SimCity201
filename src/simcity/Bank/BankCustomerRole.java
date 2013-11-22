@@ -74,6 +74,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		
 		purpose="transaction";						//NEED A GOOD WAY FOR PERSON TO DECIDE
 	}
+	
+
 
 	@Override
 	public boolean pickAndExecuteAnAction() {

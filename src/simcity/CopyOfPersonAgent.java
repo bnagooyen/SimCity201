@@ -34,20 +34,19 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class PersonAgent extends Agent implements Person {//implements Person 
+public class CopyOfPersonAgent extends Agent implements Person {//implements Person 
 
 	Timer timer = new Timer();
 	private String name;
-	Bus bus;
+	BusAgent bus;
 	BusStop busStop;
-	public CarAgent myCar;
+	CarAgent myCar;
 	List<Role> roles = new ArrayList<Role>();
 	Map<String,Role> possibleRoles = new HashMap<String,Role>();
+	
 	//List<Role> customerRoles = new ArrayList<Role>();
 	private Role myJob;
 	private Role neededRole;
-	private String mydestination;
-	
 	public enum PersonState { none };
 	public enum EnergyState {tired, asleep, awake, none };
 	public enum LocationState { atHome, inTransit, atWork };
@@ -56,7 +55,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private PersonState personState;
 	private EnergyState energyState;
 	private LocationState locationState;
-	public TransitState transitState;
+	private TransitState transitState;
 	private MoneyState moneyState;
 
 	boolean flake;
@@ -76,7 +75,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private SimCityPanel panel;
 	private Map<String, List<Location>> buildings = null;
 
-	public PersonAgent(String name, Role job) {
+	public CopyOfPersonAgent(String name, Role job) {
 		super();
 
 
@@ -88,16 +87,10 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		locationState=LocationState.atHome;
 		moneyState=MoneyState.adequate;
 		roles.add(myJob);
-
-		possibleRoles.put("bank", new BankCustomerRole(this));
-		possibleRoles.put("market", new MarketCustomerRole(this));
-		possibleRoles.put("drestaurant", new DCustomerRole(this));
-		possibleRoles.put("drew_restaurant", new Drew_CustomerRole(this));
-		possibleRoles.put("brestaurant", new BCustomerRole(this));
-		possibleRoles.put("krestaurant", new KCustomerRole(this));
-		possibleRoles.put("trestaurant", new TCustomerRole(this));
-		possibleRoles.put("lrestaurant", new LCustomerRole(this));
 		
+		possibleRoles.put("", new BankCustomerRole(this));
+		
+
 	}
 
 
@@ -133,8 +126,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	//		stateChanged();
 	//	}
 	//	
-	public void msgAtStop(String destination){
-		mydestination=destination;
+	public void msgAtStop(){
 		transitState = TransitState.getOffBus;
 		stateChanged();
 	}
@@ -144,30 +136,33 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		stateChanged();
 	}
 
-	public void msgAtDestination(String destination){
-		mydestination=destination;
-		boolean haveRole=false;
+	public void msgAtDestination(){
 		transitState=TransitState.getOutCar;
 		stateChanged();
-		neededRole=possibleRoles.get(destination);
-		
+	}
+
+	public void arrivedAtDestination(){
 		if(needToGoToWork){
 			myJob.isActive=true;
 		}
 		else{
-			for(Role role:roles){
-				if(role==neededRole) role.isActive=true;
-				
+			if(mydestination=="Bank"){
+				for(Role role:roles){
+					if(role instanceof BankCustomerRole) role.isActive=true;
+				}
+			}
+				if(mydestination=="Bank"){
+					if(role instanceof MarketCustomerRole) role.isActive=true;
+				}
 			}
 		}
 	}
 
 
-
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	public boolean pickAndExecuteAnAction() {
+	protected boolean pickAndExecuteAnAction() {
 		//		if(state==personState.gotHungry) {
 		//			GoToRestaurant();
 		//			return true;
@@ -351,7 +346,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		return PersonGui;
 	}
 
-	public void setBus(Bus b){
+	public void setBus(BusAgent b){
 		bus=b;
 	}
 

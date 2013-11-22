@@ -27,7 +27,7 @@ public class MockBusStop extends Mock implements BusStop {
 	}
 	
 	public void msgWaitingForBus(PersonAgent p){
-		
+		log.add(new LoggedEvent("Received message from person waiting for bus"));
 	}
 	
 	public void msgAnyPassengers(Bus b){
