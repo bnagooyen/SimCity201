@@ -20,6 +20,8 @@ import simcity.TTRestaurant.TCustomerRole;
 import simcity.Transportation.BusAgent;
 import simcity.Transportation.CarAgent;
 import simcity.gui.PersonGui;
+import simcity.gui.SimCityPanel;
+import simcity.gui.SimCityPanel.Location;
 import simcity.interfaces.*;
 
 import java.util.*;
@@ -66,28 +68,22 @@ public class PersonAgent extends Agent {//implements Person
     public int kitchenAmnt = 5;
     private int hungerLevel = 0; // out of 100.. anything over 50 means hungry
 	
+    private SimCityPanel panel;
+    private Map<String, List<Location>> buildings = null;
+    
 	public PersonAgent(String name, Role job) {
 		super();
 		
 		
 		this.name = name;
 		myJob = job;
+		myJob.isActive = true;
 		
 		personState=PersonState.none;
 		energyState=EnergyState.asleep;
 		locationState=LocationState.atHome;
 		moneyState=MoneyState.adequate;
 		roles.add(myJob);
-		roles.add(new MarketCustomerRole(this));
-		roles.add(new BankCustomerRole(this));
-		roles.add(new KCustomerRole(this));
-		roles.add(new Drew_CustomerRole(this));
-		roles.add(new BCustomerRole(this));
-		roles.add(new KCustomerRole(this));
-		roles.add(new TCustomerRole(this));
-		roles.add(new LCustomerRole(this));
-
-
 
 	}
 
@@ -269,6 +265,12 @@ public class PersonAgent extends Agent {//implements Person
 		
 	public void setBus(BusAgent b){
 		bus=b;
+	}
+	
+	public void setPanel(SimCityPanel p) {
+		panel = p;
+		this.buildings = p.buildings;
+		
 	}
 }
 

@@ -15,10 +15,12 @@ import simcity.Bank.BankCustomerRole;
 import simcity.Bank.BankManagerRole;
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DHostRole;
+import simcity.DRestaurant.DWaiterRole;
 import simcity.Drew_restaurant.Drew_CustomerRole;
 import simcity.Drew_restaurant.Drew_HostRole;
 import simcity.KRestaurant.KCustomerRole;
 import simcity.KRestaurant.KHostRole;
+import simcity.KRestaurant.KWaiterNormalRole;
 import simcity.LRestaurant.LCustomerRole;
 import simcity.LRestaurant.LHostRole;
 import simcity.Market.MarketCustomerRole;
@@ -33,7 +35,7 @@ import simcity.interfaces.Person;
 public class SimCityPanel extends JPanel{
 
 	private SimCityGui gui;
-	private Map<String, List<Location>> buildings = new HashMap<String, List<Location>>();
+	public Map<String, List<Location>> buildings = new HashMap<String, List<Location>>();
 	private List<Location> restaurants = new ArrayList<Location>();
 	private List<Location> banks = new ArrayList<Location>();
 	private List<Location> markets = new ArrayList<Location>();
@@ -46,59 +48,67 @@ public class SimCityPanel extends JPanel{
 		PersonAgent p1 = new PersonAgent("bankmanager", bm);
 		bm = new BankManagerRole(p1);
 		banks.add(new Bank("Bank1", bm));
-		System.out.println("added bank");
 		
 		MarketManagerRole mm = null;
 		PersonAgent p2 = new PersonAgent("marketmanager", mm);
 		mm = new MarketManagerRole(p2);
 		markets.add(new Market("Market1", mm));
-		System.out.println("added market");
 
 		KHostRole kh = null;
 		PersonAgent p3 = new PersonAgent("khost", kh);
 		kh = new KHostRole(p3);
 		restaurants.add(new Restaurant("KRestaurant", kh, "normal"));
-		System.out.println("added krestaurant");
 
 		BHostRole bh = null;
 		PersonAgent p4 = new PersonAgent("bhost", bh);
 		bh = new BHostRole(p4);
 		restaurants.add(new Restaurant("BRestaurant", bh, "narmal"));
-		System.out.println("added brestaurant");
 
 		Drew_HostRole drewh = null;
 		PersonAgent p5 = new PersonAgent("drew_host", drewh);
 		drewh = new Drew_HostRole(p5);
 		restaurants.add(new Restaurant("DrewRestaurant", drewh, "normal"));
-		System.out.println("added drew_restaurant");
 
 		DHostRole dh = null;
 		PersonAgent p6 = new PersonAgent("dhost", dh);
 		dh = new DHostRole(p6);
 		restaurants.add(new Restaurant("DRestaurant", dh, "normal"));
-		System.out.println("added drestaurant");
 
 		LHostRole lh = null;
 		PersonAgent p7 = new PersonAgent("lhost", lh);
 		lh = new LHostRole(p7);
 		restaurants.add(new Restaurant("LRestaurant", lh, "normal"));
-		System.out.println("added lrestaurant");
 
 		THostRole th = null;
 		PersonAgent p8 = new PersonAgent("thost", th);
 		th = new THostRole(p8);
 		restaurants.add(new Restaurant("TRestaurant", th, "normal"));
-		System.out.println("added trestaurant");
 
 		buildings.put("Bank", banks);
 		buildings.put("Market", markets);
 		buildings.put("Restaurant", restaurants);
+		
+		DWaiterRole w = null;
+		PersonAgent waiter = new PersonAgent("waiter", w);
+		w = new DWaiterRole(waiter);
+		
+		PersonAgent cust = new PersonAgent("cust", null);
+		cust.setPanel(this);
+		
+		p6.startThread();
+		waiter.startThread();
+		cust.startThread();
 	}
 	
 	// customer factory
+	// how to use factory in person
+	//		Role r = p.customerFactory("DRestaurant", this);
+	//		r.isActive = true;
+	//r		oles.add(r);
 	public Role customerFactory(String place, PersonAgent p) {
 		Role c = null;
 		if (place.equals("Bank")) {
+			System.out.println("making bank customer");
 			c = new BankCustomerRole(p);
 		}
 		else if (place.equals("Market")) {
@@ -115,6 +125,7 @@ public class SimCityPanel extends JPanel{
 		}
 		else if (place.equals("DRestaurant")) {
 			c = new DCustomerRole(p);
+			System.out.println("made drestaurantcust");
 		}
 		else if (place.equals("LRestaurant")) {
 			c = new LCustomerRole(p);
