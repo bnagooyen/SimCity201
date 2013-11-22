@@ -65,6 +65,13 @@ public class MarketManagerRole extends Role implements MarketManager{
 		stateChanged();
 	}
 	
+	public void msgIAmHere(Role r, List<MFoodOrder>need, String building, String type){
+		if(type.equals("cook")) {
+			customers.add(new MyCustomer(r, need, building, "cook"));
+		}
+		stateChanged();
+	}
+	
 	public void msgCustomerDone(MarketCashier mc, Role r){
 		MyMarketCashier current = find(mc, cashiers);
 		current.state = workerState.available;
@@ -163,7 +170,8 @@ public class MarketManagerRole extends Role implements MarketManager{
 			((MarketCustomer) c.c).msgGoToCashier((MarketCashier) mc.c);
 		}
 		else { // type must be cook
-			((Cook) c.c).msgGoToCashier((MarketCashier) mc.c);
+			mc.c.msgOrder((Cook)c.c, c.need, c.building);;
+//			((Cook) c.c).msgGoToCashier((MarketCashier) mc.c);
 
 		}
 	}
@@ -202,26 +210,31 @@ public class MarketManagerRole extends Role implements MarketManager{
 			state = w;
 		}
 
-		public MyMarketCashier find(MarketCashier mc) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+//		public MyMarketCashier find(MarketCashier mc) {
+//			// TODO Auto-generated method stub
+//			return null;
+//		}
 	}
 	
 	public class MyCustomer{
 		Role c;
 		boolean waiting;
 		String type;
+		List<MFoodOrder>need;
+		String building;
 		
 		MyCustomer(Role r, String s){
 			c = r;
 			type = s;
 			waiting = true;
 		}
-
-		public MyCustomer find(Role c) {
-			// TODO Auto-generated method stub
-			return null;
+		
+		MyCustomer(Role r, List<MFoodOrder>n, String b, String s){
+			c = r;
+			type = s;
+			waiting = true;
+			need = n;
+			building = b;
 		}
 
 	}

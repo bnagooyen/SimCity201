@@ -181,7 +181,7 @@ public class MarketCashierTest extends TestCase{
         
         
         //give mc adding an order
-        mc.msgOrder(cook, foods, "b1",cook.cash);
+        mc.msgOrder(cook, foods, "b1");
         assertEquals("MarketCashier should have one order", mc.orders.size(), 1);
         assertTrue("MarketCashier is giving order to ib.", mc.pickAndExecuteAnAction());
         assertEquals("Order state is inquiring.", mc.orders.get(0).state, orderState.inquiring);
@@ -218,21 +218,21 @@ public class MarketCashierTest extends TestCase{
         
                 
       //give mc adding an order
-        mc.msgOrder(cook, foods, "b1",cook.cash);
-        mc.orders.get(0).cashier = restaurantC; 
+        mc.msgOrder(cook, foods, "b1");
+//        mc.orders.get(0).cashier = restaurantC; 
         assertEquals("MarketCashier should have one order", mc.orders.size(), 1);
         mc.msgCanGive(mc.orders.get(0));
         assertEquals("Order state is ready.", mc.orders.get(0).state, orderState.ready);  
-        assertTrue("MarketCashier is giving order to ib.", mc.pickAndExecuteAnAction());
+        assertTrue("MarketCashier is giving order.", mc.pickAndExecuteAnAction());
         
         //give mc an order to fulfill
-        assertTrue("Restaurant Cook logged: " + restaurantC.log.getLastLoggedEvent().toString(), restaurantC.log.containsString("Received msgBillFromMarket from market manager"));
+        //assertTrue("Restaurant Cook logged: " + restaurantC.log.getLastLoggedEvent().toString(), restaurantC.log.containsString("Received msgBillFromMarket from market manager"));
         assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + mc.log.toString(), 0, mc.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
                 + ib.log.toString(), 0, ib.log.size());
         assertEquals("MarketCustomer empty event log: " + c.log.toString(), 0, c.log.size());
         assertEquals("MarketManager empty event log: " + man.log.toString(), 0, man.log.size());
-        assertEquals("Restaurant Cook event log: " + restaurantC.log.toString(), 1, restaurantC.log.size());
+        //assertEquals("Restaurant Cook event log: " + restaurantC.log.toString(), 1, restaurantC.log.size());
         }
         
         public void testMsgHereIsPaymentCook(){
@@ -255,7 +255,7 @@ public class MarketCashierTest extends TestCase{
         
                 
       //give mc adding an order
-        mc.msgOrder(cook, foods, "b1",cook.cash);
+        mc.msgOrder(cook, foods, "b1");
         mc.orders.get(0).cook = cook.cr; 
         assertEquals("MarketCashier should have one order", mc.orders.size(), 1);
         mc.msgHereIsPayment((Role)mc.orders.get(0).cook, 10.0);
