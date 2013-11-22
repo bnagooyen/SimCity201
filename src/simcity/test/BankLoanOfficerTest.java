@@ -5,6 +5,7 @@ import com.sun.org.apache.bcel.internal.generic.ASTORE;
 
 import simcity.PersonAgent;
 import simcity.interfaces.*;
+import simcity.mockrole.MockRole;
 import simcity.Bank.BankLoanOfficerRole;
 import simcity.Bank.BankLoanOfficerRole.accountState;
 import simcity.Bank.BankLoanOfficerRole.bankLoanState;
@@ -23,10 +24,12 @@ public class BankLoanOfficerTest extends TestCase{
 	MockBankManager mgr;
 	MockBankCustomer customer1;
 	MockBankCustomer customer2;
+	MockRole mockrole;
 	
 	public void setUp() throws Exception{
 		super.setUp();
-		p = new PersonAgent("loanOfficer");
+		p = new PersonAgent("loanOfficer", mockrole);
+		mockrole=new MockRole("mockrole", p);
 		loanOfficer = new BankLoanOfficerRole(p);
 		p.addRole(loanOfficer);
 		mgr = new MockBankManager("MockBankManager");

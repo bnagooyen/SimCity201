@@ -10,6 +10,7 @@ import simcity.Market.MOrder;
 import simcity.housing.LandlordRole;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.Person;
+import simcity.mockrole.MockRole;
 import simcity.test.mock.MockBus;
 import simcity.test.mock.MockBusStop;
 import simcity.test.mock.MockMarketCashier;
@@ -28,7 +29,8 @@ public class BusStopTest extends TestCase{
 	MockBus bus;
 	MockBus bus2;
 	BusStopAgent busStop;
-	
+	MockRole mockrole;
+	MockRole mockrole2;
 
 	List<PersonAgent> waitingPassengers=new ArrayList<PersonAgent>();
 
@@ -36,8 +38,10 @@ public class BusStopTest extends TestCase{
 
 
 	public void setUp() throws Exception{
-		person=new PersonAgent("person");
-		person2=new PersonAgent("person2");
+		person=new PersonAgent("person", mockrole);
+		person2=new PersonAgent("person2", mockrole);
+		mockrole=new MockRole("mockrole", person);
+		mockrole2=new MockRole("mockrole", person2);
 		
 		bus=new MockBus("mockBus");
 		bus2=new MockBus("mockBus2");

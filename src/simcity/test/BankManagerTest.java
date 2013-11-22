@@ -8,6 +8,7 @@ import simcity.Bank.BankManagerRole.MyCustomer;
 import simcity.Bank.BankManagerRole.MyLoanOfficer;
 import simcity.Bank.BankManagerRole.MyTeller;
 import simcity.housing.LandlordRole;
+import simcity.mockrole.MockRole;
 import simcity.test.mock.MockBankCustomer;
 import simcity.test.mock.MockBankManager;
 import simcity.test.mock.MockBankLoanOfficer;
@@ -29,11 +30,13 @@ public class BankManagerTest extends TestCase{
 	MockBankCustomer customer1l;
 	MockBankCustomer customer2l;
 	MockLandlord landlord; 
+	MockRole mockrole;
 	
 	@Override
 	public void setUp() throws Exception{
 		super.setUp();
-		p = new PersonAgent("BankManager");
+		p = new PersonAgent("BankManager", mockrole);
+		mockrole=new MockRole("mockrole", p);
 		manager = new BankManagerRole(p);
 		p.addRole(manager);
 		teller = new MockBankTeller("mockTeller");
