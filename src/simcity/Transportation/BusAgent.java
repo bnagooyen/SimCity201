@@ -16,6 +16,7 @@ public class BusAgent extends Agent implements Bus {
 	public busState state;
 	public List<MyPassenger> passengers=new ArrayList<MyPassenger>();
 	
+	
 	public class MyPassenger{
 		public PersonAgent p;
 		public String destination;
@@ -103,7 +104,7 @@ public class BusAgent extends Agent implements Bus {
 		synchronized(passengers){
 		for (int i=0; i<passengers.size(); i++){
 			if(passengers.get(i).destination==currentStop){
-				passengers.get(i).p.msgAtStop();
+				passengers.get(i).p.msgAtStop(passengers.get(i).destination);
 				passengers.remove(i);
 				i-=1;
 				BusStop current = busStops.get(currentStop);

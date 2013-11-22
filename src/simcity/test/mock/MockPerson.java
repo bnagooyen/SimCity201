@@ -23,7 +23,7 @@ public EventLog log;
 		
 	}
 	
-	public  void msgAtDestination(){
+	public  void msgAtDestination(String destination){
 		log.add(new LoggedEvent("Received message from car that we have arrived."));
 	}
 	

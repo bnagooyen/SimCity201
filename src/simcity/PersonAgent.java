@@ -44,6 +44,8 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	List<Role> roles = new ArrayList<Role>();
 	//List<Role> customerRoles = new ArrayList<Role>();
 	private Role myJob;
+	private String mydestination;
+	
 	public enum PersonState { none };
 	public enum EnergyState {tired, asleep, awake, none };
 	public enum LocationState { atHome, inTransit, atWork };
@@ -120,7 +122,8 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	//		stateChanged();
 	//	}
 	//	
-	public void msgAtStop(){
+	public void msgAtStop(String destination){
+		mydestination=destination;
 		transitState = TransitState.getOffBus;
 		stateChanged();
 	}
@@ -130,7 +133,8 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		stateChanged();
 	}
 
-	public void msgAtDestination(){
+	public void msgAtDestination(String destination){
+		mydestination=destination;
 		transitState=TransitState.getOutCar;
 		stateChanged();
 	}
