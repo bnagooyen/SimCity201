@@ -2,13 +2,13 @@ package simcity.test;
 
 import simcity.LRestaurant.LCashierAgent;
 import simcity.LRestaurant.LCashierAgent.OrderState;
-import simcity.LRestaurant.interfaces.LCashier;
-import simcity.LRestaurant.interfaces.LCustomer;
-import simcity.LRestaurant.interfaces.LWaiter;
 import simcity.LRestaurant.test.mock.EventLog;
-import simcity.LRestaurant.test.mock.MockCustomer;
 //import simcity.LRestaurant.test.mock.MockMarket;
-import simcity.LRestaurant.test.mock.MockWaiter;
+import simcity.interfaces.LCashier;
+import simcity.interfaces.LCustomer;
+import simcity.interfaces.LWaiter;
+import simcity.test.mock.MockLCustomer;
+import simcity.test.mock.MockLWaiter;
 import junit.framework.*;
 
 
@@ -16,8 +16,8 @@ public class LCashierTest extends TestCase
 {
 	//these are instantiated for each test separately via the setUp() method.
 	LCashierAgent cashier;
-	MockWaiter waiter;
-	MockCustomer customer;
+	MockLWaiter waiter;
+	MockLCustomer customer;
 //	MockMarket market;
 //	MockMarket market2;
 	
@@ -28,10 +28,10 @@ public class LCashierTest extends TestCase
 	public void setUp() throws Exception{
 		super.setUp();		
 		cashier = new LCashierAgent("cashier");		
-		customer = new MockCustomer("mockcustomer");	
+		customer = new MockLCustomer("mockcustomer");	
 //		market = new MockMarket("mockmarket");
 //		market2 = new MockMarket("mockmarket2");
-		waiter = new MockWaiter("mockwaiter");
+		waiter = new MockLWaiter("mockwaiter");
 		
 	}	
 	/**

@@ -4,11 +4,10 @@ import agent.Role;
 import simcity.LRestaurant.LCookAgent.OrderState;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
 import simcity.LRestaurant.gui.LWaiterGui;
-import simcity.LRestaurant.interfaces.LCustomer;
-import simcity.LRestaurant.interfaces.LWaiter;
 import simcity.LRestaurant.LMenu;
 import simcity.PersonAgent;
-import simcity.LRestaurant.interfaces.LWaiter;
+import simcity.interfaces.LCustomer;
+import simcity.interfaces.LWaiter;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;

@@ -3,14 +3,12 @@ package simcity.LRestaurant;
 //import restaurant.gui.RestaurantGui;
 import agent.Role;
 import simcity.LRestaurant.gui.LCustomerGui;
-import simcity.LRestaurant.interfaces.LCashier;
-import simcity.LRestaurant.interfaces.LCustomer;
-import simcity.LRestaurant.interfaces.LWaiter;
 import simcity.LRestaurant.LMenu;
 import simcity.PersonAgent;
 import simcity.LRestaurant.LMenu;
-import simcity.LRestaurant.interfaces.LCustomer;
-import simcity.LRestaurant.interfaces.LWaiter;
+import simcity.interfaces.LCashier;
+import simcity.interfaces.LCustomer;
+import simcity.interfaces.LWaiter;
 
 import java.util.Random;
 import java.util.Timer;

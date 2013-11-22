@@ -1,4 +1,4 @@
-package simcity.LRestaurant.interfaces;
+package simcity.interfaces;
 
 import simcity.LRestaurant.LMenu;
 import simcity.LRestaurant.LWaiterRole;
