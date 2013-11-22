@@ -33,10 +33,10 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 		log = new EventLog();
 		
 		// populate inventory
-        inventory.put("Steak", 5);
-        inventory.put("Chicken", 5);
-        inventory.put("Salad", 5);
-        inventory.put("Pizza", 5);
+        inventory.put("Steak", 20);
+        inventory.put("Chicken", 20);
+        inventory.put("Salad", 20);
+        inventory.put("Pizza", 20);
 
 	}
 
