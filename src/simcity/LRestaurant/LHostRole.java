@@ -5,9 +5,9 @@ import simcity.LRestaurant.LWaiterRole;
 import simcity.LRestaurant.LWaiterRole.WaiterState;
 import simcity.LRestaurant.gui.LWaiterGui;
 import simcity.LRestaurant.gui.LHostGui;
-import simcity.LRestaurant.interfaces.LCustomer;
 import simcity.PersonAgent;
 import simcity.interfaces.Host;
+import simcity.interfaces.LCustomer;
 
 import java.util.*;
 //import java.util.concurrent.Semaphore;

@@ -3,15 +3,15 @@ package simcity.LRestaurant;
 import agent.Agent;
 //import restaurant.gui.HostGui;
 
+
 import java.util.*;
 
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
-import simcity.LRestaurant.interfaces.LCashier;
-import simcity.LRestaurant.interfaces.LCustomer;
 //import simcity.LRestaurant.interfaces.Market;
-import simcity.LRestaurant.interfaces.LWaiter;
-import simcity.LRestaurant.test.mock.EventLog;
-import simcity.LRestaurant.interfaces.LCashier;
+import simcity.test.mock.EventLog;
+import simcity.interfaces.LCashier;
+import simcity.interfaces.LCustomer;
+import simcity.interfaces.LWaiter;
 
 /**
  * Restaurant Cashier Agent

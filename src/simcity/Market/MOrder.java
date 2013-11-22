@@ -21,7 +21,7 @@ public class MOrder {
 	public MarketCustomer c;
 	public Cook cook;
 	String building;
-	public Cashier cashier;
+//	public Cashier cashier;
 	
 	public MOrder(List<MFoodOrder> foods, String building, MarketCustomer c, orderState state){
 		foodsNeeded = foods;
@@ -29,16 +29,16 @@ public class MOrder {
 		this.c = c;
 		this.state = state;
 		cook = null;
-		cashier = null;
+//		cashier = null;
 	}
 	
-	public MOrder(List<MFoodOrder> foods, String building, Cook cook, Cashier c, orderState state){
+	public MOrder(List<MFoodOrder> foods, String building, Cook cook, orderState state){
 		foodsNeeded = foods;
 		this.building = building;
 		this.cook = cook;
 		c = null;
 		this.state = state;
-		cashier = c;
+//		cashier = c;
 	}
 
 	public MOrder find(Role r) {

@@ -44,8 +44,7 @@ public class MockMarketCashier extends Mock implements MarketCashier {
 		c.msgHereIsOrderAndCheck(foods, check);
 	}
 
-	public void msgOrder(Cook cook, List<MFoodOrder> foods, String building,
-			Cashier c) {
+	public void msgOrder(Cook cook, List<MFoodOrder> foods, String building) {
 		// TODO Auto-generated method stub
 		
 	}

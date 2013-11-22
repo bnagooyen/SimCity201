@@ -1,4 +1,4 @@
-package simcity.LRestaurant.interfaces;
+package simcity.interfaces;
 
 import simcity.LRestaurant.LCustomerRole;
 //import simcity.LRestaurant.LMarketAgent;

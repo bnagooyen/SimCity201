@@ -1,15 +1,18 @@
-package simcity.LRestaurant.test.mock;
+package simcity.test.mock;
 
 
 import simcity.LRestaurant.LCashierAgent;
 import simcity.LRestaurant.LMenu;
 import simcity.LRestaurant.LWaiterRole;
-import simcity.LRestaurant.interfaces.LCashier;
-import simcity.LRestaurant.interfaces.LCustomer;
-import simcity.LRestaurant.interfaces.LWaiter;
+import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
+import simcity.test.mock.Mock;
+import simcity.interfaces.LCashier;
+import simcity.interfaces.LCustomer;
+import simcity.interfaces.LWaiter;
 
 
-public class MockCustomer extends Mock implements LCustomer {
+public class MockLCustomer extends Mock implements LCustomer {
 
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.
@@ -17,7 +20,7 @@ public class MockCustomer extends Mock implements LCustomer {
 	public LCashier cashier;
 	public EventLog log = new EventLog();
 	
-	public MockCustomer(String name) {
+	public MockLCustomer(String name) {
 		super(name);
 	}
 

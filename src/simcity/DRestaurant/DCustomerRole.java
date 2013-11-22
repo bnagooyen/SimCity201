@@ -63,9 +63,9 @@ public class DCustomerRole extends Role implements Customer {
 		super(p);
 		//host = (DHostRole) r;
 		name = p.getName();
-
+		
 		state=AgentState.DoingNothing;
-		event = AgentEvent.gotHungry; //event is the state change		
+		event = AgentEvent.gotHungry; //event is the state change	
 	}
 	
 	public double getWallet() {
@@ -176,7 +176,7 @@ public class DCustomerRole extends Role implements Customer {
 	 */
 	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
-
+		Do("in sched");
 		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry ){
 			goToRestaurant();
 			return true;

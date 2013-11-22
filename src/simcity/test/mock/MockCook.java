@@ -27,7 +27,7 @@ public class MockCook extends Mock implements Cook{
 	}
 
 	@Override
-	public void msgHereIsDelivery(List<MFoodOrder> canGive) {
+	public void msgHereIsDelivery(List<MFoodOrder> canGive, double check, MarketCashier mc) {
 		LoggedEvent e = new LoggedEvent("Received msgHereIsDelivery from market manager.");
 		log.add(e);
 		

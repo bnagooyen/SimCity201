@@ -1,20 +1,23 @@
-package simcity.LRestaurant.test.mock;
+package simcity.test.mock;
 
 
 import simcity.LRestaurant.LCustomerRole;
 import simcity.LRestaurant.LWaiterRole.CustomerState;
 import simcity.LRestaurant.LWaiterRole.MyCustomers;
 import simcity.LRestaurant.LWaiterRole.WaiterState;
-import simcity.LRestaurant.interfaces.LCashier;
-import simcity.LRestaurant.interfaces.LCustomer;
-import simcity.LRestaurant.interfaces.LWaiter;
+import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
+import simcity.test.mock.Mock;
+import simcity.interfaces.LCashier;
+import simcity.interfaces.LCustomer;
+import simcity.interfaces.LWaiter;
 
-public class MockWaiter extends Mock implements LWaiter {
+public class MockLWaiter extends Mock implements LWaiter {
 
 	public LCashier cashier;
 	public EventLog log = new EventLog();
 
-	public MockWaiter(String name) {
+	public MockLWaiter(String name) {
 		super(name);
 
 	}
