@@ -26,7 +26,7 @@ public class MockBankManager extends Mock implements BankManager{
         }
         
         public void msgAvailable(BankLoanOfficer t){
-                
+                log.add(new LoggedEvent("Officer now available"));
         }
         
         public void msgCreateAccount(String type){
@@ -40,7 +40,7 @@ public class MockBankManager extends Mock implements BankManager{
         }
         
         public void msgNewLoan(int AN, double amount){
-                
+                log.add(new LoggedEvent("Received loan request"));
         }
         
         public void msgGaveALoan(double cash){

@@ -23,11 +23,11 @@ public class MockBankCustomer extends Mock implements BankCustomer{
 	}
 	
 	public void msgHeresLoan(double amount){
-		
+		log.add(new LoggedEvent("Received loan"));
 	}
 	
 	public void msgLoanDenied(){
-		
+		log.add(new LoggedEvent("Loan denied"));
 	}
 	
 	public void msgAccountMade(int AN){

@@ -150,6 +150,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 			customer.BC.msgLoanDenied();
 			customer=null;
 			manager.msgAvailable(this);
+			state=bankLoanState.working;
 		}
 	}
 	
