@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import simcity.Drew_restaurant.CustomerRole;
-import simcity.Drew_restaurant.WaiterRole;
+import simcity.Drew_restaurant.Drew_CustomerRole;
+import simcity.Drew_restaurant.Drew_WaiterRole;
 
 public class Bill {
 	

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import simcity.Drew_restaurant.CustomerRole;
+import simcity.Drew_restaurant.Drew_CustomerRole;
 import simcity.Drew_restaurant.CookRole.Food;
 
 public class Menu {

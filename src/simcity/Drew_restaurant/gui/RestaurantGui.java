@@ -1,6 +1,6 @@
 package simcity.Drew_restaurant.gui;
 
-import simcity.Drew_restaurant.CustomerRole;
+import simcity.Drew_restaurant.Drew_CustomerRole;
 import simcity.Drew_restaurant.interfaces.*;
 import agent.Agent;
 
@@ -120,8 +120,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
         stateCB.setVisible(true);
         currentPerson = person;
 
-        if (person instanceof CustomerRole) {
-            CustomerRole customer = (CustomerRole) person;
+        if (person instanceof Drew_CustomerRole) {
+            Drew_CustomerRole customer = (Drew_CustomerRole) person;
             stateCB.setText("Hungry?");
           //Should checkmark be there? 
             stateCB.setSelected(customer.getGui().isHungry());
@@ -159,8 +159,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == stateCB) {
-            if (currentPerson instanceof CustomerRole) {
-                CustomerRole c = (CustomerRole) currentPerson;
+            if (currentPerson instanceof Drew_CustomerRole) {
+                Drew_CustomerRole c = (Drew_CustomerRole) currentPerson;
                 c.getGui().setHungry();
                 stateCB.setEnabled(false);
             }
@@ -191,9 +191,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(CustomerRole c) {
-        if (currentPerson instanceof CustomerRole) {
-            CustomerRole cust = (CustomerRole) currentPerson;
+    public void setCustomerEnabled(Drew_CustomerRole c) {
+        if (currentPerson instanceof Drew_CustomerRole) {
+            Drew_CustomerRole cust = (Drew_CustomerRole) currentPerson;
             if (c.equals(cust)) {
                 stateCB.setEnabled(true);
                 stateCB.setSelected(false);

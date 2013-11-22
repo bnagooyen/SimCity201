@@ -2,13 +2,13 @@ package simcity.Drew_restaurant.interfaces;
 
 import java.util.List;
 
-import simcity.Drew_restaurant.CashierRole;
+import simcity.Drew_restaurant.Drew_CashierRole;
 import simcity.Drew_restaurant.CookRole;
 import simcity.Drew_restaurant.Drew_HostRole;
-import simcity.Drew_restaurant.CustomerRole.AgentEvent;
-import simcity.Drew_restaurant.CustomerRole.AgentState;
+import simcity.Drew_restaurant.Drew_CustomerRole.AgentEvent;
+import simcity.Drew_restaurant.Drew_CustomerRole.AgentState;
 //import restaurant.WaiterAgent.CustomerState;
-import simcity.Drew_restaurant.WaiterRole.MyCustomer;
+import simcity.Drew_restaurant.Drew_WaiterRole.MyCustomer;
 import simcity.Drew_restaurant.gui.Menu;
 import simcity.Drew_restaurant.gui.WaiterGui;
 

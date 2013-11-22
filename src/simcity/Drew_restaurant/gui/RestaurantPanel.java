@@ -2,11 +2,11 @@ package simcity.Drew_restaurant.gui;
 
 import simcity.PersonAgent;
 import simcity.Drew_restaurant.CookRole;
-import simcity.Drew_restaurant.CustomerRole;
+import simcity.Drew_restaurant.Drew_CustomerRole;
 import simcity.Drew_restaurant.Drew_HostRole;
 //import simcity.Drew_restaurant.MarketRole;
-import simcity.Drew_restaurant.CashierRole;
-import simcity.Drew_restaurant.WaiterRole;
+import simcity.Drew_restaurant.Drew_CashierRole;
+import simcity.Drew_restaurant.Drew_WaiterRole;
 import simcity.Drew_restaurant.interfaces.*;
 
 import javax.swing.*;
@@ -32,7 +32,7 @@ public class RestaurantPanel extends JPanel {
     
     //private CashierRole cashier = new CashierRole("CASHIER");
     
-    private Vector<CustomerRole> customers = new Vector<CustomerRole>();
+    private Vector<Drew_CustomerRole> customers = new Vector<Drew_CustomerRole>();
     private Vector<Drew_Waiter> waiters = new Vector<Drew_Waiter>();
 
     private JPanel restLabel = new JPanel();

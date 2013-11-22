@@ -19,7 +19,7 @@ import simcity.PersonAgent;
  */
 
 
-public class CashierRole extends Role implements Drew_Cashier {
+public class Drew_CashierRole extends Role implements Drew_Cashier {
 	
 	//Data	
 	
@@ -39,7 +39,7 @@ public class CashierRole extends Role implements Drew_Cashier {
 	private  Map<String,Double> prices = new HashMap<String, Double>();
 
 	public EventLog log;
-	public CashierRole(PersonAgent p) {
+	public Drew_CashierRole(PersonAgent p) {
 		super(p);
 		this.name = name;
 		

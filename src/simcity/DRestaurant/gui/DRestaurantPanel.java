@@ -22,21 +22,24 @@ import java.util.Vector;
 public class DRestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
-	private PersonAgent host = new PersonAgent("Host");
-    private DHostRole h = new DHostRole(host);
-    //private HostGui hostGui = new HostGui(host);
-    
-    private PersonAgent c1 = new PersonAgent("c1");
-    
-    private PersonAgent waiter = new PersonAgent("Waiter");
-    private DWaiterRole w = new DWaiterRole(waiter);
-    
-    private PersonAgent cook = new PersonAgent("Cook");
-    private DCookRole c = new DCookRole(cook);   
-    
-    private PersonAgent cashier = new PersonAgent("Cashier");
-    private DCashierRole cash = new DCashierRole(cashier);
-    
+//	private DHostRole h = null;
+//	private PersonAgent host = new PersonAgent("Host", h);
+//	private PersonAgent hey = new PersonAgent("doreen", h);
+//    h = new DHostRole(host);
+//    //private HostGui hostGui = new HostGui(host);
+//  
+//    private DWaiterRole w = null;
+//    private PersonAgent waiter = new PersonAgent("Waiter", w);
+//    w = new DWaiterRole(waiter);
+//    
+//    private DCookRole c = null;
+//    private PersonAgent cook = new PersonAgent("Cook", c);
+//    c = new DCookRole(cook);   
+//    
+//    private DCashierRole cash = null;
+//    private PersonAgent cashier = new PersonAgent("Cashier", cash);
+//    cash = new DCashierRole(cashier);
+//    
     private Vector<PersonAgent> people = new Vector<PersonAgent>();
     //private CookGui cookGui = new CookGui(cook);
        
@@ -52,9 +55,7 @@ public class DRestaurantPanel extends JPanel {
     private DListPanel waiterPanel = new DListPanel(this, "Waiters");
 
     private DRestaurantGui gui;
-
     
-
     public DRestaurantPanel(DRestaurantGui gui) {
         this.gui = gui;
 //
@@ -138,13 +139,13 @@ public class DRestaurantPanel extends JPanel {
      * and host and cook information
      */
     private void initRestLabel() {
-        JLabel label = new JLabel();
-     
-        label.setText(
-                "<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
-        
-        restLabel.add(label, BorderLayout.CENTER);
-   
+//        JLabel label = new JLabel();
+//     
+//        label.setText(
+//                "<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
+//        
+//        restLabel.add(label, BorderLayout.CENTER);
+//   
     }
 
     /**
@@ -334,15 +335,15 @@ public class DRestaurantPanel extends JPanel {
 //    		
 //    	}
 //    	
-    	if(type.equals("Person")) {
-    		PersonAgent p = new PersonAgent(name);
-    		PersonGui g = new PersonGui(p, gui);
-    		p.setGui(g);
-    		gui.simCityPanel.addGui(g);
-    		p.startThread();
-    		people.add(p);
-    		System.err.println("added person in restpanel");
-    	}
+//    	if(type.equals("Person")) {
+//    		PersonAgent p = new PersonAgent(name);
+//    		PersonGui g = new PersonGui(p, gui);
+//    		p.setGui(g);
+//    		gui.simCityPanel.addGui(g);
+//    		p.startThread();
+//    		people.add(p);
+//    		System.err.println("added person in restpanel");
+//    	}
     }
     
     public void setCustomerEnabled(String name, double val) {

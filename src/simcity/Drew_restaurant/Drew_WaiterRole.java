@@ -14,7 +14,7 @@ import simcity.Drew_restaurant.interfaces.*;
  * Restaurant Waiter Agent
  */
 
-public class WaiterRole extends Role implements Drew_Waiter{
+public class Drew_WaiterRole extends Role implements Drew_Waiter{
 	
 	
 	//Data
@@ -44,7 +44,7 @@ public class WaiterRole extends Role implements Drew_Waiter{
 		this.cook = cook;
 	}
 	
-	public WaiterRole(PersonAgent p) {
+	public Drew_WaiterRole(PersonAgent p) {
 		super(p);
 		this.name = name;
 	}

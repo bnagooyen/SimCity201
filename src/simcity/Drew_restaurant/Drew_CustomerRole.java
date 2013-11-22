@@ -18,7 +18,7 @@ import simcity.Drew_restaurant.interfaces.*;
 /**
  * Restaurant customer agent.
  */
-public class CustomerRole extends Role implements Drew_Customer{
+public class Drew_CustomerRole extends Role implements Drew_Customer{
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
@@ -55,7 +55,7 @@ public class CustomerRole extends Role implements Drew_Customer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerRole(PersonAgent p){
+	public Drew_CustomerRole(PersonAgent p){
 		super(p);
 		this.name = name;
 	}

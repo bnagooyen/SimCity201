@@ -4,7 +4,7 @@ package simcity.Drew_restaurant.test.mock;
 import java.util.ArrayList;
 import java.util.List;
 
-import simcity.Drew_restaurant.WaiterRole.MyCustomer;
+import simcity.Drew_restaurant.Drew_WaiterRole.MyCustomer;
 import simcity.Drew_restaurant.gui.WaiterGui;
 import simcity.Drew_restaurant.interfaces.Drew_Cashier;
 import simcity.Drew_restaurant.interfaces.Drew_Cook;

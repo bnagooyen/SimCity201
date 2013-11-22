@@ -1,7 +1,7 @@
 package simcity.Drew_restaurant.gui;
 
 
-import simcity.Drew_restaurant.WaiterRole;
+import simcity.Drew_restaurant.Drew_WaiterRole;
 import simcity.Drew_restaurant.Drew_HostRole.Table;
 
 
@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class WaiterGui implements Gui {
 
-    private WaiterRole agent = null;
+    private Drew_WaiterRole agent = null;
 	public CustomerGui customerGui=null;
 	public RestaurantGui restGui=null;
 
@@ -61,7 +61,7 @@ public class WaiterGui implements Gui {
     private int xDestination;//default start position
 	private int yDestination;
 	
-    public WaiterGui(WaiterRole agent, RestaurantGui RG, int waiterCount) {
+    public WaiterGui(Drew_WaiterRole agent, RestaurantGui RG, int waiterCount) {
         this.agent = agent;
         restGui= RG;
         count=waiterCount;
