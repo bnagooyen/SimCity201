@@ -3,20 +3,6 @@ package simcity.LRestaurant;
 import agent.Agent;
 //import restaurant.gui.HostGui;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import java.util.*;
 
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
