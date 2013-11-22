@@ -239,7 +239,7 @@ public class PersonAgent extends Agent {//implements Person
 	private void GoToWork() {
 		Do("going to work");
 		needToGoToWork=false;
-		//locationState=LocationState.inTransit;
+		locationState=LocationState.inTransit;
 	}
 	
 	private void GoToBed() {
@@ -278,7 +278,7 @@ public class PersonAgent extends Agent {//implements Person
 	private void getOffBusAndWalk(){
 		//gui to get off 
 		transitState=TransitState.walkingtoDestination;
-		Do("Walk to Work");
+		Do("Walk to Destination");
 	}
 	
 	// utilities
