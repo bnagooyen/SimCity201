@@ -59,9 +59,9 @@ public class DCustomerRole extends Role implements Customer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public DCustomerRole(PersonAgent p, Role r){
+	public DCustomerRole(PersonAgent p){
 		super(p);
-		host = (DHostRole) r;
+		//host = (DHostRole) r;
 		name = p.getName();
 
 		state=AgentState.DoingNothing;

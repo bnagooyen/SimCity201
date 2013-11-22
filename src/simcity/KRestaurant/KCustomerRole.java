@@ -69,48 +69,48 @@ public class KCustomerRole extends Role implements KCustomer{
 		willWait = true;
 		flake = false;
 		
-		String [] result = name.split("-");
-		int count = 0;
-		for(String s: result) {
-			if(count == 0){
-				if(s.equals("Steak")){
-					choice = "Steak";
-				}
-				else if (s.equals("Chicken")){
-					choice = "Chicken";
-				}
-				else if (s.equals("Salad")) {
-					choice = "Salad";
-				}
-				else if (s.equals("Pizza")) {
-					choice = "Pizza";
-				}
-				System.out.println("my choice is " + choice);
-			}
-			
-			if (count ==1){
-				try {
-					double money = Double.parseDouble(s);
-					if(money>=0 && money<=20) {
-						myCash = money;
-						Do("I've got $" +myCash);
-					}
-				}
-				catch(NumberFormatException e) {}
-			}
-			
-			if (count == 2) {
-				if(s.equals("flake")) {
-					System.out.println("I'm a flake");
-					flake = true;
-				}
-				else if(s.equals("impatient")) {
-					Do("I'm impatient and don't wanna wait");
-					willWait = false;
-				}
-			}
-			count++;
-		}
+//		String [] result = name.split("-");
+//		int count = 0;
+//		for(String s: result) {
+//			if(count == 0){
+//				if(s.equals("Steak")){
+//					choice = "Steak";
+//				}
+//				else if (s.equals("Chicken")){
+//					choice = "Chicken";
+//				}
+//				else if (s.equals("Salad")) {
+//					choice = "Salad";
+//				}
+//				else if (s.equals("Pizza")) {
+//					choice = "Pizza";
+//				}
+//				System.out.println("my choice is " + choice);
+//			}
+//			
+//			if (count ==1){
+//				try {
+//					double money = Double.parseDouble(s);
+//					if(money>=0 && money<=20) {
+//						myCash = money;
+//						Do("I've got $" +myCash);
+//					}
+//				}
+//				catch(NumberFormatException e) {}
+//			}
+//			
+//			if (count == 2) {
+//				if(s.equals("flake")) {
+//					System.out.println("I'm a flake");
+//					flake = true;
+//				}
+//				else if(s.equals("impatient")) {
+//					Do("I'm impatient and don't wanna wait");
+//					willWait = false;
+//				}
+//			}
+//			count++;
+//		}
 		
 		
 		if(hungry) {

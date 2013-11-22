@@ -11,7 +11,7 @@ public class SimCityGui extends JFrame implements ActionListener{
 	
 	/**
 	 * Constructor for SimCityGui
-	 * Sets up all the gui componentss
+	 * Sets up all the gui components
 	 */
 	public SimCityGui() {
 		
