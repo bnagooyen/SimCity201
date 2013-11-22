@@ -1,12 +1,5 @@
 package simcity.interfaces;
 
-import simcity.PersonAgent.personState;
-
-
-
-import java.util.List;
-
-import simcity.PersonAgent;
 
 
 
