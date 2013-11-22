@@ -103,7 +103,7 @@ public class BusAgent extends Agent implements Bus {
 		synchronized(passengers){
 		for (int i=0; i<passengers.size(); i++){
 			if(passengers.get(i).destination==currentStop){
-				passengers.get(i).p.msgAtDestination();
+				//passengers.get(i).p.msgAtDestination();
 				passengers.remove(i);
 				i-=1;
 				BusStop current = busStops.get(currentStop);

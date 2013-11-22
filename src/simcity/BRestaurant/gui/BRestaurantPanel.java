@@ -66,11 +66,11 @@ public class BRestaurantPanel extends JPanel {
 		
 		
 
-		waiter.startThread();
+		//waiter.startThread();
 		
 
-		cook.startThread();
-		host.startThread();
+		//cook.startThread();
+		//host.startThread();
 
 		setLayout(new GridLayout(1, 2, 20, 20));
 		group.setLayout(new GridLayout(1, 2, 10, 10));
