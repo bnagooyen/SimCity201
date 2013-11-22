@@ -3,12 +3,17 @@ package simcity.LRestaurant;
 import agent.Agent;
 //import restaurant.gui.HostGui;
 
+
+import agent.Role;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import simcity.PersonAgent;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
 import simcity.LRestaurant.gui.LCookGui;
 //import simcity.LRestaurant.interfaces.Market;
+import simcity.interfaces.LCook;
 
 /**
  * Restaurant Cook Agent
@@ -17,7 +22,7 @@ import simcity.LRestaurant.gui.LCookGui;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class LCookAgent extends Agent {
+public class LCookAgent extends Role implements LCook {
 	Timer timer = new Timer();
 	String name;
 
@@ -33,9 +38,9 @@ public class LCookAgent extends Agent {
 	public LCookGui cookGui;
 	private Semaphore task = new Semaphore(0,true);
 
-	public LCookAgent(String name){
-		super();
-		this.name = name;
+	public LCookAgent(PersonAgent p){
+		super(p);
+		this.name = p.getName();
 		foods.put("P", new Food("P", 700, 2, 5, 2)); //choice, cookTime, amount, capacity, threshold
 		foods.put("St", new Food("St", 1000, 2, 5, 2));
 		foods.put("S", new Food("S", 500, 1, 5, 2));
@@ -95,7 +100,7 @@ public class LCookAgent extends Agent {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 	
 //		synchronized(foods){
 //			for(Food choice : foods.values()){

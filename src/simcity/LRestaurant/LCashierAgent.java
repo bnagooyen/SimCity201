@@ -4,8 +4,11 @@ import agent.Agent;
 //import restaurant.gui.HostGui;
 
 
+import agent.Role;
+
 import java.util.*;
 
+import simcity.PersonAgent;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
 //import simcity.LRestaurant.interfaces.Market;
 import simcity.test.mock.EventLog;
@@ -20,7 +23,7 @@ import simcity.interfaces.LWaiter;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class LCashierAgent extends Agent implements LCashier {
+public class LCashierAgent extends Role implements LCashier {
 	Timer timer = new Timer();
 	String name;
 	int restMoney;
@@ -34,9 +37,9 @@ public class LCashierAgent extends Agent implements LCashier {
 	public enum TransState {pending, computing, done};
 	//private CookGui cookGui;
 	
-	public LCashierAgent(String name){
-		super();
-		this.name = name;
+	public LCashierAgent(PersonAgent p){
+		super(p);
+		this.name = p.getName();
 		restMoney = 100;
 		foods.put("P", new Food("P", 8)); //choice, cookTime, amount, capacity, threshold
 		foods.put("St", new Food("St", 15));
@@ -204,7 +207,7 @@ public class LCashierAgent extends Agent implements LCashier {
 		
 		}
 	}
-//	
+
 //	public class Bill{
 //		int amount;
 //		public LMarket m;
