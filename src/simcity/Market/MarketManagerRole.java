@@ -129,7 +129,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	
 	//Actions
 	private void closeMarket(){
-		Do("Closing market");
+		Do("Closing market. It is "+hour);
 		synchronized(cashiers){
 			for(MyMarketCashier c: cashiers){
 				c.c.msgGoHome();

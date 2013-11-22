@@ -238,7 +238,7 @@ public class TWaiterRole extends Role implements TWaiter{
 				for (int index = 0; index < myCustomers.size(); index++) {
 					if (myCustomers.get(index).state == CustomerState.orderDone) {
 						goToCook();
-						giveOrder(myCustomers.get(index).c, myCustomers.get(index).table);
+						giveOrder(myCustomers.get(index).c, myCustomers.get(index).table, myCustomers.get(index).choice);
 						myCustomers.get(index).state = CustomerState.Eating; 
 						return true; 
 					}
@@ -321,7 +321,7 @@ public class TWaiterRole extends Role implements TWaiter{
 		waiterGui.DoLeaveCustomer(); 
 	}
 
-	private void giveOrder(TCustomer c, int t) {
+	private void giveOrder(TCustomer c, int t, String f) {
 		goToCook();
 		try {
 			atCook.acquire();
@@ -329,6 +329,8 @@ public class TWaiterRole extends Role implements TWaiter{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		waiterGui.holdingFood = true; 
+		waiterGui.setFood(f);
 		DoGoToTable(t);
 		try {
 			atTable.acquire();
@@ -338,6 +340,7 @@ public class TWaiterRole extends Role implements TWaiter{
 		}
 		print("Giving customer their order.");
 		c.msgHeresYourOrder(); 
+		waiterGui.holdingFood = false; 
 		waiterGui.DoLeaveCustomer();
 	}
 	

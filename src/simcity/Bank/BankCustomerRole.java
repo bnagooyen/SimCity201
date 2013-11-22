@@ -27,30 +27,36 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	//messages
 	public void msgGoToLoanOfficer(BankLoanOfficer BL){
+		Do("Told to go to load officer");
 		loanOfficer=BL;
 	}
 	
 	public void msgGoToTeller(BankTeller BT){
+		Do("Told to go to teller");
 		teller=BT;
 	}
 	
 	public void msgTransactionComplete(double amount){
+		Do("Finished transaction");
 		myPerson.money-=amount;
 		state=bankCustomerState.done;
 		stateChanged();
 	}
 	
 	public void msgHeresLoan(double amount){
+		Do("Received loan");
 		myPerson.money+=amount;
 		stateChanged();
 	}
 	
 	public void msgLoanDenied(){
+		Do("Denied loan");
 		state=bankCustomerState.done;
 		stateChanged();
 	}
 	
 	public void msgAccountMade(int AN){
+		Do("Got an account");
 		accountNum=AN;
 		state=bankCustomerState.waiting;
 		stateChanged();
@@ -58,14 +64,13 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	@Override
 	public void msgLeaveBank() {
-		// TODO Auto-generated method stub
+		Do("Going to leave");
 		state=bankCustomerState.done;
 		stateChanged();
 	}
 	
 	public BankCustomerRole(PersonAgent p) {
 		super(p);
-		// TODO Auto-generated constructor stub
 		
 		purpose="transaction";						//NEED A GOOD WAY FOR PERSON TO DECIDE
 	}
@@ -99,11 +104,13 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	//actions
 	private void tellManagerArrived(){
+		Do("Arriving at bank");
 		manager.msgIAmHere(this,purpose);
 		state=bankCustomerState.waiting;
 	}
 	
 	private void makeAccount(){
+		Do("Making account");
 		if(loanOfficer!=null){
 			loanOfficer.msgMakeAccount(this);
 		}
@@ -114,12 +121,14 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	private void requestLoan(){
+		Do("Requesting for loan");
 		//doGoToLoanOfficer
 		loanOfficer.msgINeedALoan(this, accountNum, 1000, "waiter"/*myPerson.job*/);		//Need a way to decide how much $$ to request  
 		state=bankCustomerState.inProgress;
 	}
 	
 	private void makeTransaction(){
+		Do("Making a transaction");
 		//doGoToTeller
 		if(myPerson.money>myPerson.depositThreshold){
 			teller.msgDeposit(this, accountNum, myPerson.money-myPerson.depositThreshold);
@@ -131,6 +140,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	private void leaveBank(){
+		Do("Leaving bank");
 		this.isActive=false;
 		state=bankCustomerState.arrived;
 		//doLeaveBank

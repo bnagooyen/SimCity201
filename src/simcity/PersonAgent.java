@@ -38,9 +38,9 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	Timer timer = new Timer();
 	private String name;
-	BusAgent bus;
+	Bus bus;
 	BusStop busStop;
-	CarAgent myCar;
+	public CarAgent myCar;
 	List<Role> roles = new ArrayList<Role>();
 	Map<String,Role> possibleRoles = new HashMap<String,Role>();
 	//List<Role> customerRoles = new ArrayList<Role>();
@@ -56,7 +56,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private PersonState personState;
 	private EnergyState energyState;
 	private LocationState locationState;
-	private TransitState transitState;
+	public TransitState transitState;
 	private MoneyState moneyState;
 
 	boolean flake;
@@ -339,7 +339,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		return PersonGui;
 	}
 
-	public void setBus(BusAgent b){
+	public void setBus(Bus b){
 		bus=b;
 	}
 

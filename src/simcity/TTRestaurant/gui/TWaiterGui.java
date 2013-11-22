@@ -14,7 +14,9 @@ public class TWaiterGui implements TGui {
     private int xHome, yHome; 
     private int xCust, yCust; 
     private int currentTable;
-    private boolean onBreak = false; 
+    private boolean onBreak = false;
+    public boolean holdingFood = false;
+    private String food; 
 
     public static final int yTable = 250;
     TRestaurantGui gui;
@@ -57,6 +59,9 @@ public class TWaiterGui implements TGui {
     public void draw(Graphics2D g) {
         g.setColor(Color.CYAN);
         g.fillRect(xPos, yPos, 20, 20);
+        if (holdingFood) {
+        	g.drawString(food, xPos, yPos);
+        }
     }
 
     public boolean isPresent() {
@@ -114,5 +119,9 @@ public class TWaiterGui implements TGui {
     
 	public boolean onBreak() {
 		return onBreak;
+	}
+	
+	public void setFood(String f) {
+		food = f; 
 	}
 }

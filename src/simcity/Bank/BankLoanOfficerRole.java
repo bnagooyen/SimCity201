@@ -55,16 +55,19 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	
 	//Messages
 	public void msgMakeAccount(BankCustomer BC){
+		Do("Request to make an account");
 		customer=new MyCustomer(BC);
 		customer.state=accountState.none;
 		stateChanged();
 	}
 	public void msgAccountCreated(int num){
+		Do("Received created account");
 		customer.accountNumber=num;
 		customer.state=accountState.created;
 		stateChanged();
 	}
 	public void msgINeedALoan(BankCustomer BC, Integer AN, double amt, String J){
+		Do("Request for a loan");
 		if(customer==null) customer=new MyCustomer(BC);
 		customer.accountNumber=AN;
 		customer.job=J;
@@ -73,11 +76,13 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		stateChanged();
 	}
 	public void msgLoanDenied(){
+		Do("Request for loan was denied");
 		state=bankLoanState.recieved;
 		customer.accepted=false;
 		stateChanged();
 	}
 	public void msgLoanComplete(){
+		Do("Request for loan was completed");
 		state=bankLoanState.recieved;
 		customer.accepted=true;
 		stateChanged();
@@ -85,7 +90,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	
 	@Override
 	public void msgGoHome(double pay) {
-		// TODO Auto-generated method stub
+		Do("Going home");
 		myPerson.money+=pay;
 		state=bankLoanState.finished;
 		stateChanged();
@@ -126,11 +131,13 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	//ACTIONS
 	
 	private void createNewAccount(){
+		Do("Creating a new account");
 		manager.msgCreateAccount("BankLoanOfficer");
 		customer.state=accountState.requested;
 		state=bankLoanState.atManager;
     }
 	private void hereIsYourAccount(){
+		Do("Giving customer account");
 		customer.BC.msgAccountMade(customer.accountNumber);
 		customer.state=accountState.exists;
 		state=bankLoanState.waitingForLoanRequest;
@@ -142,11 +149,13 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 			}
 		}
 		if(customer.accepted){
+			Do("Analyzed loan. Accepted");
 			manager.msgNewLoan(customer.accountNumber,customer.amount);
 			state=bankLoanState.atManager;
 			customer.state=accountState.loanRequestSent;
 		}
 		else{
+			Do("Analzyed loan. Denied");
 			customer.BC.msgLoanDenied();
 			customer=null;
 			manager.msgAvailable(this);
@@ -156,9 +165,11 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	
 	private void completeLoan(){
 		if(customer.accepted){
+			Do("Giving completed loan");
 			customer.BC.msgHeresLoan(customer.amount);
 		}
 		else{
+			Do("Loan was denied");
 			customer.BC.msgLoanDenied();
 		}
 		customer=null;
