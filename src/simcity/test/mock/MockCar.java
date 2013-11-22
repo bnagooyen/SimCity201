@@ -28,7 +28,7 @@ public class MockCar extends Mock implements Car {
 		
 	}
 	
-	public void msgGoToDestination(String location, Person person){
+	public void msgGoToDestination(String location, PersonAgent person){
 		
 	}
 	

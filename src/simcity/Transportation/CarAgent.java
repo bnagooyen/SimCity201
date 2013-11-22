@@ -10,7 +10,7 @@ import java.util.*;
 
 public class CarAgent extends Agent implements Car {
 	
-	public PersonAgent driver=null;
+	public Person driver=null;
 	public String destination;
 	
 	public enum carState
@@ -20,7 +20,7 @@ public class CarAgent extends Agent implements Car {
 	
 	//MESSAGES
 	
-	public void msgGoToDestination(String location, PersonAgent person){
+	public void msgGoToDestination(String location, Person person){
 		driver=person;
 		destination=location;
 		state=carState.receivedLocation;
