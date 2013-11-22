@@ -1,4 +1,4 @@
-package simcity.LRestaurant.test;
+package simcity.test;
 
 import simcity.LRestaurant.LCashierAgent;
 import simcity.LRestaurant.LCashierAgent.OrderState;
@@ -12,7 +12,7 @@ import simcity.LRestaurant.test.mock.MockWaiter;
 import junit.framework.*;
 
 
-public class CashierTest extends TestCase
+public class LCashierTest extends TestCase
 {
 	//these are instantiated for each test separately via the setUp() method.
 	LCashierAgent cashier;
