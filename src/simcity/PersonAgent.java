@@ -146,8 +146,20 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	public void msgAtDestination(String destination){
 		mydestination=destination;
+		boolean haveRole=false;
 		transitState=TransitState.getOutCar;
 		stateChanged();
+		neededRole=possibleRoles.get(destination);
+		
+		if(needToGoToWork){
+			myJob.isActive=true;
+		}
+		else{
+			for(Role role:roles){
+				if(role==neededRole) role.isActive=true;
+				haveR
+			}
+		}
 	}
 
 
