@@ -19,6 +19,7 @@ import simcity.KRestaurant.KHostRole;
 import simcity.Market.MarketCustomerRole;
 import simcity.Market.MarketManagerRole;
 import simcity.TTRestaurant.TCustomerRole;
+import simcity.TTRestaurant.THostRole;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.Host;
 import simcity.interfaces.MarketManager;
@@ -56,10 +57,24 @@ public class SimCityPanel {
 		bh = new BHostRole(p4);
 		restaurants.add(new Restaurant("BRestaurant", bh, "narmal"));
 		
-		Drew_HostRole dh = null;
-		PersonAgent p5 = new PersonAgent("drew_host", dh);
+		Drew_HostRole drewh = null;
+		PersonAgent p5 = new PersonAgent("drew_host", drewh);
+		drewh = new Drew_HostRole(p5);
+		restaurants.add(new Restaurant("DrewRestaurant", drewh, "normal"));
 		
+		DHostRole dh = null;
+		PersonAgent p6 = new PersonAgent("dhost", dh);
+		dh = new DHostRole(p6);
+		restaurants.add(new Restaurant("DRestaurant", dh, "normal"));
 		
+		THostRole th = null;
+		PersonAgent p7 = new PersonAgent("thost", th);
+		th = new THostRole(p7);
+		restaurants.add(new Restaurant("TRestaurant", th, "normal"));
+		
+		buildings.put("Bank", banks);
+		buildings.put("Market", markets);
+		buildings.put("Restaurant", restaurants);
 	}
 	
 	// customer factory
