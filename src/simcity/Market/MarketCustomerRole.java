@@ -34,6 +34,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         // messages
         
         public void msgGoToCashier(MarketCashier c) {
+        		Do("Told to go to cashier");
                 LoggedEvent e = new LoggedEvent("told to go to cashier");
                 log.add(e);
                 mc = c;
@@ -42,6 +43,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         }
         
         public void msgHereIsOrderAndCheck(List<MFoodOrder> canGive, double check) {
+        		Do("Got food and check");
                 LoggedEvent e = new LoggedEvent("got food and check");
                 log.add(e);
                 
@@ -52,6 +54,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         }
 
         public void msgMarketClosed() {
+        		Do("Told market is closed");
                 LoggedEvent e = new LoggedEvent("told market is closed");
                 log.add(e);
                 state = customerState.storeClosed;
@@ -83,12 +86,14 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
 
         // actions
         private void goToManager() {
+        		Do("Telling manager I'm here");
                 LoggedEvent e = new LoggedEvent("telling manager I'm here");
                 log.add(e);
                 manager.msgIAmHere(this, "customer");
         }
         
         private void orderFood() {
+        		Do("Telling cashier my order");
                 state = customerState.waiting;
                 LoggedEvent e = new LoggedEvent("telling cashier my order");
                 log.add(e);
@@ -98,6 +103,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         }
 
         private void payCheck() {
+        		Do("Paying check");
                 LoggedEvent e = new LoggedEvent("paying check");
                 log.add(e);
                 state = customerState.done;
@@ -106,6 +112,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         }
         
         private void leaveStore() {
+        		Do("Leaving market");
                 LoggedEvent e = new LoggedEvent("leaving market");
                 log.add(e);
                 state = customerState.done;

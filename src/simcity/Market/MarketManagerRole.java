@@ -43,15 +43,19 @@ public class MarketManagerRole extends Role implements MarketManager{
 		log.add(e);
 		
 		if(type.equals("cashier")){
+			Do("Cashier is here");
 			cashiers.add(new MyMarketCashier(r, workerState.available));
 		}
 		else if(type.equals("inventory boy")){
+			Do("Inventory boy is here");
 			inventoryBoys.add((InventoryBoy) r);
 		}
 		else if(type.equals("customer")){
+			Do("Customer is here");
 			customers.add(new MyCustomer(r, "customer"));
 		}
 		else if(type.equals("cook")) {
+			Do("Cook is here");
 			customers.add(new MyCustomer(r, "cook"));
 		}
 		
@@ -66,6 +70,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	public void msgIAmHere(Role r, List<MFoodOrder>need, String building, String type){
+		Do("Cook is here");
 		if(type.equals("cook")) {
 			customers.add(new MyCustomer(r, need, building, "cook"));
 		}
@@ -73,6 +78,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	public void msgCustomerDone(MarketCashier mc, Role r){
+		Do("Cashier finished order");
 		MyMarketCashier current = find(mc, cashiers);
 		current.state = workerState.available;
 		MyCustomer cust = find(r, customers);
@@ -123,6 +129,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	
 	//Actions
 	private void closeMarket(){
+		Do("Closing market");
 		synchronized(cashiers){
 			for(MyMarketCashier c: cashiers){
 				c.c.msgGoHome();
@@ -139,6 +146,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	private void marketClosed(){
+		Do("Telling market is closed");
 		synchronized(customers){
 			for(MyCustomer c: customers){
 				if(c.type.equals("customer")) {
@@ -153,17 +161,20 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	private void swapCashiers(){
+		Do("Switching out cashiers");
 		cashiers.get(0).c.msgGoHome();
 		cashiers.get(1).state = workerState.available;
 		cashiers.remove(0);
 	}
 	
 	private void swapInventoryBoys(){
+		Do("Switching out inventory boys");
 		inventoryBoys.get(0).msgGoHome();
 		inventoryBoys.remove(0);
 	}
 	
 	private void handleCustomer(MyCustomer c, MyMarketCashier mc){
+		Do("Assigning order to cashier");
 		c.waiting = false;
 		mc.state = workerState.occupied;
 		if( c.type.equals("customer")) {

@@ -42,6 +42,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 
 	// messages
 	public void msgCheckInventory(MOrder o) {
+		Do("Got an order to fulfill");
 		orders.add(o);
 		LoggedEvent e = new LoggedEvent("got an order to fulfill");
 		log.add(e);
@@ -49,6 +50,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	}
 	
 	public void msgGoHome() {
+		Do("Told to go home");
 		LoggedEvent e = new LoggedEvent("told to go home");
 		log.add(e);
 		s = state.leave;
@@ -79,11 +81,13 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	}
 
 	private void tellManager() {
+		Do("Telling manager that I can work");
 		s = state.working;
 		manager.msgIAmHere(this, "inventory boy");
 	}
 	
 	private void getOrder(MOrder o) {
+		Do("Going to the back. Fulfilling an order.");
 		LoggedEvent e = new LoggedEvent("fulfilling an order");
 		log.add(e);
 		
@@ -103,6 +107,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	}
 	
 	private void goHome() {
+		Do("Going home");
 		LoggedEvent e = new LoggedEvent("going home");
 		log.add(e);
 		isActive = false;
