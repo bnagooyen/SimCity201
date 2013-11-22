@@ -4,6 +4,7 @@ import simcity.PersonAgent;
 import simcity.BRestaurant.*;
 import simcity.interfaces.*;
 import simcity.BRestaurant.gui.*;
+import simcity.BRestaurant.gui.*;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -53,7 +54,7 @@ public class BCustomerRole extends Role implements BCustomer {
 
 	public BCustomerRole(PersonAgent p){
 		super(p);
-		host = (BHostRole) r;
+//		host = (BHostRole) r;
 		name = p.getName();
 
 		state=AgentState.DoingNothing;
@@ -343,11 +344,14 @@ public class BCustomerRole extends Role implements BCustomer {
 		return "customer " + getName();
 	}
 
-	public void setGui(BCustomerGui g) {
-		customerGui = g;
-	}
 
 	public BCustomerGui getGui() {
 		return customerGui;
 	}
+	@Override
+	public void setGui(BCustomerGui g) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

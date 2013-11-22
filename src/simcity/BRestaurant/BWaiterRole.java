@@ -5,7 +5,7 @@ import agent.Role;
 import simcity.PersonAgent;
 import simcity.interfaces.*;
 import simcity.BRestaurant.*;
-
+import simcity.BRestaurant.gui.BHostGui;
 import simcity.PersonAgent;
 
 import java.util.*;

@@ -3,6 +3,7 @@ package simcity.interfaces;
 import simcity.PersonAgent;
 import simcity.interfaces.*;
 import simcity.BRestaurant.*;
+import simcity.BRestaurant.gui.BCustomerGui;
 
 
 /**
