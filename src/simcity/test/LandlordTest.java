@@ -5,6 +5,7 @@ import java.util.List;
 
 import simcity.PersonAgent;
 import simcity.housing.LandlordRole;
+import simcity.Market.MarketCashierRole;
 import simcity.test.mock.MockBankManager;
 import simcity.test.mock.MockRepairMan;
 import junit.framework.TestCase;
@@ -17,15 +18,16 @@ public class LandlordTest extends TestCase{
 	MockRepairMan repairman;
 	MockRepairMan repairman2;
 	MockBankManager bankmanager;
+	MarketCashierRole mc; 
 	
 	public void setUp() throws Exception{
 		super.setUp();
-		person = new PersonAgent("Landlord");
+		person = new PersonAgent("Landlord", landlord);
 		landlord = new LandlordRole(person);
 		person.addRole(landlord);
 		
-		resident = new PersonAgent("Resident"); 
-		resident2 = new PersonAgent("Resident2"); 
+		resident = new PersonAgent("Resident", mc); 
+		resident2 = new PersonAgent("Resident2", mc); 
 		
 		repairman = new MockRepairMan("MockRepairman");
 		repairman2 = new MockRepairMan("MockRepairman2");
@@ -38,7 +40,7 @@ public class LandlordTest extends TestCase{
 		assertEquals("Landlord should have no tenants right now. It doesn't.", landlord.myTenants.size(), 0);
 		assertEquals("MockBankManager should have no logs right now. It doesn't", bankmanager.log.size(), 0); 
 
-		landlord.addTenant(resident, 12);
+		landlord.addTenant(resident, 12, "B1");
 		landlord.addBankManager(bankmanager); 
 				
 		assertEquals("Landlord should have one tenants right now. It doesn't.", landlord.myTenants.size(), 1);
@@ -72,7 +74,7 @@ public class LandlordTest extends TestCase{
 		assertEquals("MockRepairMan should have no logs right now. It doesn't", repairman.log.size(), 0); 
 		
 		landlord.addRepairMan(repairman);
-		landlord.addTenant(resident, 12); 
+		landlord.addTenant(resident, 12, "B2"); 
 		
 		//checking postconditions
 		assertEquals("Landlord should have one repairmen right now. It doesn't.", landlord.repairmen.size(), 1);
@@ -117,8 +119,8 @@ public class LandlordTest extends TestCase{
 				
 		landlord.addRepairMan(repairman);
 		landlord.addRepairMan(repairman2); 
-		landlord.addTenant(resident, 12);
-		landlord.addTenant(resident2, 3); 
+		landlord.addTenant(resident, 12, "B2");
+		landlord.addTenant(resident2, 3, "C3"); 
 				
 		//checking postconditions
 		assertEquals("Landlord should have two repairmen right now. It doesn't.", landlord.repairmen.size(), 2);
@@ -136,7 +138,7 @@ public class LandlordTest extends TestCase{
 			assertEquals("MockRepairMan should have two logs right now. It doesn't", repairman.log.size(), 2); 
 		}
 		else {
-			assertTrue("MockRepairMan2 should have logged an event for receiving a job but instead it's: " + repairman2.log.getLastLoggedEvent().toString(), repairman2.log.containsString("Received a job for building B2"));
+			assertTrue("MockRepairMan2 should have logged an event for receiving a job but instead it's: " + repairman2.log.getLastLoggedEvent().toString(), repairman2.log.containsString("Received a job for building C3"));
 			assertEquals("MockRepairMan2 should have two logs right now. It doesn't", repairman2.log.size(), 2); 
 		}
 		assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
