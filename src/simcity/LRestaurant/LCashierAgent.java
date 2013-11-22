@@ -8,7 +8,7 @@ import java.util.*;
 
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
 //import simcity.LRestaurant.interfaces.Market;
-import simcity.LRestaurant.test.mock.EventLog;
+import simcity.test.mock.EventLog;
 import simcity.interfaces.LCashier;
 import simcity.interfaces.LCustomer;
 import simcity.interfaces.LWaiter;

@@ -2,7 +2,7 @@ package simcity.test;
 
 import simcity.LRestaurant.LCashierAgent;
 import simcity.LRestaurant.LCashierAgent.OrderState;
-import simcity.LRestaurant.test.mock.EventLog;
+import simcity.test.mock.EventLog;
 //import simcity.LRestaurant.test.mock.MockMarket;
 import simcity.interfaces.LCashier;
 import simcity.interfaces.LCustomer;
