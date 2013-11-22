@@ -3,7 +3,7 @@ package simcity.Drew_restaurant.gui;
 import simcity.PersonAgent;
 import simcity.Drew_restaurant.CookRole;
 import simcity.Drew_restaurant.CustomerRole;
-import simcity.Drew_restaurant.HostRole;
+import simcity.Drew_restaurant.Drew_HostRole;
 //import simcity.Drew_restaurant.MarketRole;
 import simcity.Drew_restaurant.CashierRole;
 import simcity.Drew_restaurant.WaiterRole;

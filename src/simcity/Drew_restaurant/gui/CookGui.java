@@ -1,8 +1,8 @@
 package simcity.Drew_restaurant.gui;
 
 import simcity.Drew_restaurant.interfaces.Drew_Cook;
-import simcity.Drew_restaurant.HostRole;
-import simcity.Drew_restaurant.HostRole.Table;
+import simcity.Drew_restaurant.Drew_HostRole;
+import simcity.Drew_restaurant.Drew_HostRole.Table;
 
 import java.awt.*;
 

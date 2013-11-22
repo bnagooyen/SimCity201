@@ -45,9 +45,8 @@ public class KHostRole extends Role implements Host{
 	
 	private KCookRole myCook;
 
-	public KHostRole(PersonAgent p, KRestaurantGui g) {
+	public KHostRole(PersonAgent p) {
 		super(p);
-		gui = g;
 		this.name = name;
 		// make some tables
 		tables = new ArrayList<Table>(NTABLES);

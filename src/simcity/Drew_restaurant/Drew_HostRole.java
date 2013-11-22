@@ -6,7 +6,7 @@ import simcity.PersonAgent;
 //import restaurant.Customer.AgentState;
 //import restaurant.gui.WaiterGui;
 import simcity.Drew_restaurant.interfaces.*;
-
+import simcity.interfaces.Host;
 import java.util.*;
 
 /**
@@ -16,7 +16,7 @@ import java.util.*;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class HostRole extends Role implements Drew_Host{
+public class Drew_HostRole extends Role implements Host {//Drew_Host{
 	public static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -36,7 +36,7 @@ public class HostRole extends Role implements Drew_Host{
 	private String name;
 	//private Semaphore atTable = new Semaphore(0,true);
 
-	public HostRole(PersonAgent p) {
+	public Drew_HostRole(PersonAgent p) {
 		super(p);
 
 		this.name = name;

@@ -142,7 +142,7 @@ public class KRestaurantPanel extends JPanel {
     
     /**
      * When a customer or waiter is clicked, this function calls
-     * updatedInfoPanel() from the main gui so that person's information
+     * updatedInfoPanel() from the  gui so that person's information
      * will be shown
      *
      * @param type indicates whether the person is a customer or waiter

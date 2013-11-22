@@ -2,7 +2,7 @@ package simcity.Drew_restaurant.gui;
 
 
 import simcity.Drew_restaurant.WaiterRole;
-import simcity.Drew_restaurant.HostRole.Table;
+import simcity.Drew_restaurant.Drew_HostRole.Table;
 
 
 import java.util.HashMap;

@@ -8,11 +8,16 @@ import java.util.Map;
 import agent.Role;
 import simcity.PersonAgent;
 import simcity.BRestaurant.BCustomerRole;
+import simcity.BRestaurant.BHostRole;
 import simcity.Bank.BankCustomerRole;
 import simcity.Bank.BankManagerRole;
+import simcity.DRestaurant.DHostRole;
 import simcity.Drew_restaurant.CustomerRole;
+import simcity.Drew_restaurant.Drew_HostRole;
 import simcity.KRestaurant.KCustomerRole;
+import simcity.KRestaurant.KHostRole;
 import simcity.Market.MarketCustomerRole;
+import simcity.Market.MarketManagerRole;
 import simcity.TTRestaurant.TCustomerRole;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.Host;
@@ -22,19 +27,37 @@ import simcity.interfaces.Person;
 public class SimCityPanel {
 
 	private SimCityGui gui;
-	public Map<String, List<Location>> buildings = new HashMap<String, List<Location>>();
-	public List<Location> restaurants = new ArrayList<Location>();
-	public List<Location> banks = new ArrayList<Location>();
-	public List<Location> markets = new ArrayList<Location>();
+	private Map<String, List<Location>> buildings = new HashMap<String, List<Location>>();
+	private List<Location> restaurants = new ArrayList<Location>();
+	private List<Location> banks = new ArrayList<Location>();
+	private List<Location> markets = new ArrayList<Location>();
 	
 	public SimCityPanel(SimCityGui gui) {
 		this.gui = gui;
 		
 		// populate buildings map 
-		BankManagerRole m = null;
-		PersonAgent p1 = new PersonAgent("bankmanager", m);
-		m = new BankManagerRole(p1);
-		banks.add(new Bank("Bank", m));
+		BankManagerRole bm = null;
+		PersonAgent p1 = new PersonAgent("bankmanager", bm);
+		bm = new BankManagerRole(p1);
+		banks.add(new Bank("Bank1", bm));
+		
+		MarketManagerRole mm = null;
+		PersonAgent p2 = new PersonAgent("marketmanager", mm);
+		mm = new MarketManagerRole(p2);
+		markets.add(new Market("Market1", mm));
+		
+		KHostRole kh = null;
+		PersonAgent p3 = new PersonAgent("khost", kh);
+		kh = new KHostRole(p3);
+		restaurants.add(new Restaurant("KRestaurant", kh, "normal"));
+		
+		BHostRole bh = null;
+		PersonAgent p4 = new PersonAgent("bhost", bh);
+		bh = new BHostRole(p4);
+		restaurants.add(new Restaurant("BRestaurant", bh, "narmal"));
+		
+		Drew_HostRole dh = null;
+		PersonAgent p5 = new PersonAgent("drew_host", dh);
 		
 		
 	}
@@ -51,13 +74,13 @@ public class SimCityPanel {
 		else if (place.equals("KRestaurant")) {
 			c = new KCustomerRole(p);
 		}
-		else if (place.equals("BCustomerRole")) {
+		else if (place.equals("BRestaurant")) {
 			c = new BCustomerRole(p);
 		}
-		else if (place.equals("DrewCustomerRole")) {
+		else if (place.equals("Drew_restaurant")) {
 			c = new CustomerRole(p);
 		}
-		else if (place.equals("TCustomerRole")) {
+		else if (place.equals("TRestaurant")) {
 			c = new TCustomerRole(p);
 		}
 		return c;

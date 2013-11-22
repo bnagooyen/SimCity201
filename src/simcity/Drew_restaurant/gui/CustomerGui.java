@@ -1,8 +1,8 @@
 package simcity.Drew_restaurant.gui;
 
 import simcity.Drew_restaurant.CustomerRole;
-import simcity.Drew_restaurant.HostRole;
-import simcity.Drew_restaurant.HostRole.Table;
+import simcity.Drew_restaurant.Drew_HostRole;
+import simcity.Drew_restaurant.Drew_HostRole.Table;
 
 import java.awt.*;
 
@@ -12,7 +12,7 @@ public class CustomerGui implements Gui{
 	private boolean isPresent = false;
 	public boolean isHungry = false;
 
-	private HostRole host;
+	private Drew_HostRole host;
 	public RestaurantGui gui;
 
 	private int xPos, yPos;
@@ -30,7 +30,7 @@ public class CustomerGui implements Gui{
 	public static final int customerSize = 20;
 	public static final int offScreen = -40;
 
-	public CustomerGui(CustomerRole c, RestaurantGui gui, HostRole m) {
+	public CustomerGui(CustomerRole c, RestaurantGui gui, Drew_HostRole m) {
 		agent = c;
 		xPos = 400;
 		yPos = -40;

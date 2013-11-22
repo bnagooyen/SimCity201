@@ -1,7 +1,7 @@
 package simcity.Drew_restaurant.gui;
 
 import simcity.Drew_restaurant.CustomerRole;
-import simcity.Drew_restaurant.HostRole;
+import simcity.Drew_restaurant.Drew_HostRole;
 
 import javax.swing.*;
 
