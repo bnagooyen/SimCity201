@@ -24,6 +24,8 @@ public class LandlordRole extends Role implements Landlord{
 	
 	public List<RepairMan>repairmen		//list of repairmen that the landlord can contact
 	= Collections.synchronizedList(new ArrayList<RepairMan>()); 
+	List<Unit>unit
+	= Collections.synchronizedList(new ArrayList<Unit>()); 
 	
 	
 	public List<Tenant>myTenants
@@ -53,6 +55,14 @@ public class LandlordRole extends Role implements Landlord{
 		Integer account; 
 		String location; 
 		TenantState ts; 
+	}
+	
+	class Unit {
+		public Unit(String l) {
+			unit = l;
+		}
+		String unit; 
+		boolean isOccupied; 
 	}
 	
 	enum WorkerState 
@@ -201,6 +211,10 @@ public class LandlordRole extends Role implements Landlord{
 	}
 	
 	public void addTenant(PersonAgent p, Integer account, String l) {
-		myTenants.add(new Tenant(p, account, l));
+		myTenants.add(new Tenant(p, account, l)); 
+	}
+	
+	public void addUnit (String l) {
+		unit.add(new Unit(l));
 	}
 }
