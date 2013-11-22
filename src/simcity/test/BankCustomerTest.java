@@ -3,6 +3,7 @@ package simcity.test;
 
 import simcity.PersonAgent;
 import simcity.interfaces.*;
+import simcity.mockrole.MockRole;
 import simcity.Bank.BankCustomerRole;
 import simcity.Bank.BankCustomerRole.bankCustomerState;
 import simcity.test.mock.MockBankManager;
@@ -15,12 +16,15 @@ public class BankCustomerTest extends TestCase{
 	PersonAgent p;
 	BankCustomerRole customer;
 	MockBankTeller teller;
+	MockRole mockrole;
 	MockBankManager mgr;
 	MockBankLoanOfficer loanOfficer;
 	
 	public void setUp() throws Exception{
 		super.setUp();
-		p = new PersonAgent("BankCustomer");
+		
+		p = new PersonAgent("BankCustomer", mockrole);
+		mockrole=new MockRole("mockrole", p);
 		customer = new BankCustomerRole(p);
 		p.addRole(customer);
 		mgr = new MockBankManager("MockBankManager");

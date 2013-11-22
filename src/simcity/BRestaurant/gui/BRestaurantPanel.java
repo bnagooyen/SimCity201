@@ -26,7 +26,7 @@ public class BRestaurantPanel extends JPanel {
 	private BHostRole host = new BHostRole("Cool Guy");
 	private BCookRole cook= new BCookRole("Cook guy", markets);
 	
-	private BCashierRole cashier = new BCashierRole();
+    private BCashierRole cashier = new BCashierRole();
 	
 
 
@@ -46,7 +46,7 @@ public class BRestaurantPanel extends JPanel {
 		
 		
 	
-		cashier.startThread();
+		//cashier.startThread();
 		
 		BMarketRole market1 = new BMarketRole("market1");
 		market1.startThread();

@@ -28,6 +28,7 @@ public class BusStopTest extends TestCase{
 	MockBus bus;
 	MockBus bus2;
 	BusStopAgent busStop;
+	
 
 	List<PersonAgent> waitingPassengers=new ArrayList<PersonAgent>();
 
