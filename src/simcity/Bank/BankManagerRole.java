@@ -60,34 +60,41 @@ public class BankManagerRole extends Role implements BankManager {
 	public void msgIAmHere(Role person, String type) {
 		//if(person.instanceof(BankTeller))
 		if(type.equals("BankTeller")) {
+			Do("BankTeller is here");
 			tellers.add(new MyTeller((BankTeller)person));
 			stateChanged();
 		}
 		else if (type.equals("BankLoanOfficer")) {
+			Do("BankLoanOfficer is here");
 			officers.add(new MyLoanOfficer((BankLoanOfficer)person));
 			stateChanged();
 		}
 		else if(type.equals("loan")) {
+			Do("Customer with a loan is here");
 			customers.add(new MyCustomer((BankCustomer)person, MyCustomer.MyCustomerState.loan));
 			stateChanged();
 		}
 		else if(type.equals("transaction")) {
+			Do("Customer with a transaction is here");
 			customers.add(new MyCustomer((BankCustomer)person, MyCustomer.MyCustomerState.transaction));
 			stateChanged();
 		}
 	}
 	
 	public void msgAvailable(BankTeller t) {
+		Do("BankTeller available");
 		tellers.get(0).state=MyTeller.MyTellerState.available;
 		stateChanged();	
 	}
 
 	public void msgAvailable(BankLoanOfficer t) {
+		Do("BankLoanOfficer available");
 		officers.get(0).state=MyLoanOfficer.MyOfficerState.available;
 		stateChanged();		
 	}
 	
 	public void msgCreateAccount(String type) {
+		Do("Going to create account");
 		if(type.equals("BankTeller")) {
 			tellers.get(0).needsAccount=true;
 			stateChanged();	
@@ -98,12 +105,14 @@ public class BankManagerRole extends Role implements BankManager {
 		}
 	}
 	public void msgProcessTransaction(int AN, double amount) {
+		Do("Processing transaction");
 		tellers.get(0).requested=amount;
 		tellers.get(0).accountNum=AN;
 		stateChanged();
 	}
 	
 	public void msgNewLoan(int AN, double amount) {
+		Do("New loan request");
 		officers.get(0).requested=amount;
 		officers.get(0).accountNum=AN;
 //		System.err.println(officers.get(0).accountNum + " "+ officers.get(0).requested);
@@ -111,11 +120,13 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	public void msgGaveALoan(double cash) {
+		Do("Gave loan");
 		vault -= cash;
 		stateChanged();
 	}
 	
 	public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill) {
+		Do("Receiving rent bill");
 		clients.add(new MyClient((Landlord) l, account, rentBill));
 		stateChanged(); 
 	}
@@ -215,9 +226,11 @@ public class BankManagerRole extends Role implements BankManager {
 	//actions
 	
 	private void OpenBank() {
+		Do("Opening bank");
 		bankState=BankState.open;
 	}
 	private void SwapTellers() {
+		Do("Switching out tellers");
 		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
 		tellers.get(1).emp.msgGoToTellerPosition();
 		tellers.get(1).startHr=hour;
@@ -226,6 +239,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void SwapLoanOfficers() {
+		Do("Switching out loan officers");
 		officers.get(0).emp.msgGoHome((hour-officers.get(0).startHr)*employeePayPerHour);
 		officers.get(1).emp.msgGoToLoanOfficerPosition();
 		officers.get(1).startHr=hour;
@@ -234,30 +248,35 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void AddTeller() {
+		Do("Adding teller");
 		tellers.get(0).emp.msgGoToTellerPosition();
 		tellers.get(0).state=MyTellerState.available;
 		tellers.get(0).startHr=hour;
 	}
 	
 	private void AddLoanOfficer() {
+		Do("Adding loan officer");
 		officers.get(0).emp.msgGoToLoanOfficerPosition();
 		officers.get(0).state=MyOfficerState.available;
 		officers.get(0).startHr=hour;
 	}
 	
 	private void SendCustomerToTeller(MyCustomer c) {
+		Do("Telling customer to go to teller");
 		tellers.get(0).state=MyTellerState.occupied;
 		c.customer.msgGoToTeller(tellers.get(0).emp);
 		customers.remove(c);
 	}
 	
 	private void SendCustomerToLoanOfficer(MyCustomer c) {
+		Do("Telling customer to go to loan officer");
 		officers.get(0).state=MyOfficerState.occupied;
 		c.customer.msgGoToLoanOfficer(officers.get(0).emp);
 		customers.remove(c);
 	}
 	
 	private void TransferMoneyToLandlord() {
+		Do("Transferring money");
 		if (accounts.get(clients.get(0).AN).balance >= clients.get(0).bill) {
 			accounts.get(clients.get(0).AN).balance -= clients.get(0).bill;
 			clients.get(0).client.HereIsARentPayment(clients.get(0).AN, clients.get(0).bill);
@@ -269,6 +288,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void BankIsClosed() {
+		Do("Telling customer bank is closed");
 //		System.out.println("bankisclosed");
 		for(MyCustomer c: customers) {
 			c.customer.msgLeaveBank();
@@ -277,6 +297,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void CloseBank() {
+		Do("Closing bank");
 		officers.get(0).emp.msgGoHome((hour-officers.get(0).startHr)*employeePayPerHour);
 		officers.clear();
 		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
@@ -287,18 +308,21 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void NewAccountForTeller() {
+		Do("Making new account");
 		accounts.put(accounts.size()+1, new MyAccount(0,0));
 		tellers.get(0).needsAccount=false;
 		tellers.get(0).emp.msgAccountCreated(accounts.size());
 	}
 	
 	private void NewAccountForOfficer() {
+		Do("Making new account");
 		accounts.put(accounts.size()+1, new MyAccount(0,0));
 		officers.get(0).needsAccount=false;
 		officers.get(0).emp.msgAccountCreated(accounts.size());
 	}
 	
 	private void CompleteTransaction() {
+		Do("Doing and completing transaction");
 		if(accounts.get(tellers.get(0).accountNum)==null) { // customer doesn't exist
 //			tellers.get(0).msgAccountInexistant();
 			return;
@@ -316,6 +340,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void CompleteLoan() {
+		Do("Doing and completing loan");
 //		System.err.println(accounts.get(officers.get(0).accountNum));
 		if(accounts.get(officers.get(0).accountNum)==null) { //means account doesn't exist
 			officers.get(0).emp.msgLoanDenied();
