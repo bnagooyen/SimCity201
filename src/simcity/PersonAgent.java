@@ -39,6 +39,7 @@ public class PersonAgent extends Agent {//implements Person
 	Timer timer = new Timer();
 	private String name;
 	BusAgent bus;
+	BusStop busStop;
 	CarAgent myCar;
 	List<Role> roles = new ArrayList<Role>();
 	//List<Role> customerRoles = new ArrayList<Role>();
@@ -46,7 +47,7 @@ public class PersonAgent extends Agent {//implements Person
 	public enum PersonState { none };
 	public enum EnergyState {tired, asleep, awake, none };
 	public enum LocationState { atHome, inTransit, atWork };
-	public enum TransitState { };
+	public enum TransitState {walkingToBus, onBus, walkingtoDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
 	public enum MoneyState { poor, adequate, rich};
 	private PersonState personState;
 	private EnergyState energyState;
@@ -119,15 +120,15 @@ public class PersonAgent extends Agent {//implements Person
 //		stateChanged();
 //	}
 //	
-//	public void msgAtDestination(){
-//		state = personState.arrived;
-//		stateChanged();
-//	}
-//	
-//	public void msgBusIsHere(Bus b){
-//		state=PersonState.gettingOnBus;
-//		stateChanged();
-//	}
+	public void msgAtDestination(){
+		transitState = TransitState.getOffBus;
+		stateChanged();
+	}
+
+	public void msgBusIsHere(Bus b){
+		transitState=TransitState.getOnBus;
+		stateChanged();
+	}
 	
 	
 	
@@ -199,7 +200,23 @@ public class PersonAgent extends Agent {//implements Person
 		}
 		
 		if(locationState==LocationState.inTransit && !(energyState==EnergyState.asleep)) {
-			//enter transit stuff here
+			if(transitState==TransitState.walkingToBus){
+				walkToBus();
+			}
+			
+			if (transitState==TransitState.atBusStop){
+				tellBusStop();
+			}
+			
+			if(transitState==TransitState.getOnBus){
+				getOnBus();
+			}
+			
+			if(transitState==TransitState.getOffBus){
+				getOffBusAndWalk();
+			}
+			
+			
 		}
 		
 		return false;
@@ -242,6 +259,26 @@ public class PersonAgent extends Agent {//implements Person
 	
 	private void buyCar() {
 		Do("Go buy car");
+	}
+	
+	private void walkToBus(){
+		Do("Walk To Bus");
+	}
+	
+	private void tellBusStop(){
+		busStop.msgWaitingForBus(this);
+		transitState=TransitState.waitingAtStop;
+	}
+	
+	private void getOnBus(){
+		bus.msgGettingOn(this, "destination");
+		transitState=TransitState.onBus;
+	}
+	
+	private void getOffBusAndWalk(){
+		//gui to get off 
+		transitState=TransitState.walkingtoDestination;
+		Do("Walk to Work");
 	}
 	
 	// utilities
