@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JPanel;
+
 import agent.Role;
 import simcity.PersonAgent;
 import simcity.BRestaurant.BCustomerRole;
@@ -25,7 +27,7 @@ import simcity.interfaces.Host;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.Person;
 
-public class SimCityPanel {
+public class SimCityPanel extends JPanel{
 
 	private SimCityGui gui;
 	private Map<String, List<Location>> buildings = new HashMap<String, List<Location>>();
