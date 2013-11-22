@@ -47,7 +47,7 @@ public class PersonAgent extends Agent {//implements Person
 	public enum PersonState { none };
 	public enum EnergyState {tired, asleep, awake, none };
 	public enum LocationState { atHome, inTransit, atWork };
-	public enum TransitState {walkingToBus, onBus, walkingtoDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
+	public enum TransitState {walkingToBus, onBus, goToCar, getOutCar, walkingtoDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
 	public enum MoneyState { poor, adequate, rich};
 	private PersonState personState;
 	private EnergyState energyState;
@@ -120,7 +120,7 @@ public class PersonAgent extends Agent {//implements Person
 //		stateChanged();
 //	}
 //	
-	public void msgAtDestination(){
+	public void msgAtStop(){
 		transitState = TransitState.getOffBus;
 		stateChanged();
 	}
@@ -130,6 +130,10 @@ public class PersonAgent extends Agent {//implements Person
 		stateChanged();
 	}
 	
+	public void msgAtDestination(){
+		transitState=TransitState.getOutCar;
+		stateChanged();
+	}
 	
 	
 	
@@ -200,6 +204,8 @@ public class PersonAgent extends Agent {//implements Person
 		}
 		
 		if(locationState==LocationState.inTransit && !(energyState==EnergyState.asleep)) {
+			
+			if (myCar==null){
 			if(transitState==TransitState.walkingToBus){
 				walkToBus();
 			}
@@ -215,7 +221,17 @@ public class PersonAgent extends Agent {//implements Person
 			if(transitState==TransitState.getOffBus){
 				getOffBusAndWalk();
 			}
+			}
+			else if (myCar!=null){
+			if (transitState==TransitState.goToCar){
+				goToCar();
+			}
 			
+			if(transitState==TransitState.getOutCar){
+				getOutCarAndWalk();
+			}
+				
+			}
 			
 		}
 		
@@ -281,6 +297,15 @@ public class PersonAgent extends Agent {//implements Person
 		Do("Walk to Destination");
 	}
 	
+	private void goToCar(){
+		Do("Do go To car"); //gui?
+		myCar.msgGoToDestination("location", this);
+	}
+	
+	private void getOutCarAndWalk(){
+		Do("Get out car");
+		transitState=TransitState.walkingtoDestination;
+	}
 	// utilities
 	
 	private void DoDie() {
