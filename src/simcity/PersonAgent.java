@@ -12,10 +12,12 @@ import simcity.DRestaurant.gui.DCookGui;
 import simcity.DRestaurant.gui.DCustomerGui;
 import simcity.DRestaurant.gui.DHostGui;
 import simcity.DRestaurant.gui.DWaiterGui;
+import simcity.restaurant.interfaces.*;
 import simcity.KRestaurant.KCustomerRole;
 import simcity.LRestaurant.LCustomerRole;
 import simcity.Market.MarketCustomerRole;
 import simcity.Drew_restaurant.*;
+import simcity.Drew_restaurant.interfaces.*;
 import simcity.TTRestaurant.TCustomerRole;
 import simcity.Transportation.BusAgent;
 import simcity.Transportation.CarAgent;
@@ -47,6 +49,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private Role myJob;
 	private Role neededRole;
 	private String mydestination;
+	private String jobLocation;
 
 	public enum PersonState { none };
 	public enum EnergyState {tired, asleep, awake, none };
@@ -82,6 +85,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 		this.name = name;
 
+
 		personState=PersonState.none;
 		energyState=EnergyState.asleep;
 		locationState=LocationState.atHome;
@@ -99,9 +103,36 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	}
 
-	public void SetJob(Role r) {
-		myJob =r;
+	public void SetJob(Role job) {
+		myJob =job;
 		roles.add(myJob);
+		
+		//Set location for go to work
+		if(job instanceof BankTeller || job instanceof BankLoanOfficer || job instanceof BankManager){
+			jobLocation="bank";
+		}
+		else if(job instanceof InventoryBoy || job instanceof MarketCashier || job instanceof MarketManager){
+			jobLocation="market";
+		}
+		else if(job instanceof BCashier || job instanceof BCook || job instanceof BWaiter){
+			jobLocation="brestaurant";
+		}
+		else if(job instanceof Cashier || job instanceof Cook || job instanceof Waiter){
+			jobLocation="drestaurant";
+		}
+		else if(job instanceof Drew_Cashier || job instanceof Drew_Cook || job instanceof BWaiter){
+			jobLocation="drew";
+		}
+		else if(job instanceof KCashier || job instanceof KCook || job instanceof KWaiter){
+			jobLocation="krestaurant";
+		}
+		else if(job instanceof LCashier || job instanceof LCook || job instanceof LWaiter){
+			jobLocation="lrestaurant";
+		}
+		else if(job instanceof TCashier || job instanceof TCook || job instanceof TWaiter){
+			jobLocation="trestaurant";
+		}
+		else jobLocation="home";
 		
 	}
 	// The animation DoXYZ() routines
@@ -296,7 +327,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	private void GoToWork() {
 		Do("going to work");
-		mydestination= work;
+		mydestination= jobLocation;
 		locationState=LocationState.inTransit;
 	}
 
