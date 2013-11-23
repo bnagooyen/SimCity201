@@ -47,7 +47,7 @@ public class DHostRole extends Role implements Host{
 	public DHostRole(PersonAgent p) {
 		super(p);
 
-		name = p.getName();
+		//name = p.getName();
 		
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		for (int ix = 1; ix <= NTABLES; ix++) {

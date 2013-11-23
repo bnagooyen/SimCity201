@@ -45,7 +45,7 @@ public class LHostRole extends Role implements Host {
         public LHostRole(PersonAgent p) {
                 super(p);
 
-                this.name = p.getName();
+                //this.name = p.getName();
                 // make some tables
                 tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
                 for (int ix = 1; ix <= NTABLES; ix++) {
