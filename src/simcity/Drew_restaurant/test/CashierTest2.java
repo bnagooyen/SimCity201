@@ -30,7 +30,7 @@ public class CashierTest2 extends TestCase
 	 */
 	public void setUp() throws Exception{
 		super.setUp();		
-		cashier = new Drew_CashierRole(new PersonAgent("cashier"));		
+		cashier = new Drew_CashierRole(new PersonAgent("cashier",null));		
 		customer = new Drew_MockCustomer("mockcustomer");		
 		waiter = new Drew_MockWaiter("mockwaiter");
 		//market = new MockMarket("mockmarket");

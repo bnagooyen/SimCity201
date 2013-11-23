@@ -153,6 +153,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 		if(needToGoToWork){
 			myJob.isActive=true;
+			needToGoToWork=false;
 		}
 		else{
 			for(Role role:roles){
@@ -292,7 +293,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	private void GoToWork() {
 		Do("going to work");
-		needToGoToWork=false;
+		mydestination= work;
 		locationState=LocationState.inTransit;
 	}
 
@@ -303,21 +304,23 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	private void deposit() {
 		Do("Going to deposit Money");
-		energyState=EnergyState.asleep;
+
 	}
 
 	private void withdraw() {
 		Do("Going to Withdraw Money");
-		energyState=EnergyState.asleep;
+
 	}
 
 	private void buyCar() {
 		Do("Go buy car");
 	}
 
+	
+//Transit
 	private void walkToBus(){
 		Do("Walk To Bus");
-
+		transitState=TransitState.atBusStop;
 	}
 
 	private void tellBusStop(){
@@ -326,7 +329,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	}
 
 	private void getOnBus(){
-		bus.msgGettingOn(this, "destination");
+		bus.msgGettingOn(this, mydestination);
 		transitState=TransitState.onBus;
 	}
 
