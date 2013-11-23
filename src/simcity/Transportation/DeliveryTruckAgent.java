@@ -14,10 +14,12 @@ public class DeliveryTruckAgent extends Agent implements Car{
 	public String destination;
 	public List<MFoodOrder> supply;
 	
-	public enum carState
+	public enum truckState
 	{parked, receivedLocation, travelling, arrived};
 	
-	public carState state;
+	public truckState state;
+	
+	
 	
 	@Override
 	public void msgGoToDestination(String location, Person person) {

@@ -9,6 +9,7 @@ import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import simcity.test.mock.MockMarketCustomer;
 import simcity.DRestaurant.DCashierRole;
+import simcity.Transportation.DeliveryTruckAgent;
 import simcity.interfaces.Cook;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
@@ -22,7 +23,8 @@ public class MarketManagerRole extends Role implements MarketManager{
 	public List<MyMarketCashier> cashiers = Collections.synchronizedList(new ArrayList<MyMarketCashier>());
 	public List<InventoryBoy> inventoryBoys = Collections.synchronizedList(new ArrayList<InventoryBoy>());
 	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
-
+	public DeliveryTruckAgent truck = new DeliveryTruckAgent();
+	
 	public int hour;
 	public boolean isClosed;
 	public enum workerState{justArrived, available, occupied};
