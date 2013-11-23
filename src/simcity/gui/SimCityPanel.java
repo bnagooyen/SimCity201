@@ -51,44 +51,44 @@ public class SimCityPanel extends JPanel{
 		this.gui = gui;
 		
 		// populate buildings map 
-		BankManagerRole bm = null;
-		PersonAgent p1 = new PersonAgent("bankmanager", bm);
-		bm = new BankManagerRole(p1);
+		PersonAgent p1 = null;
+		BankManagerRole bm = new BankManagerRole(p1);
+		p1 = new PersonAgent("bankmanager", bm);
 		banks.add(new Bank("Bank1", bm));
 		
-		MarketManagerRole mm = null;
-		PersonAgent p2 = new PersonAgent("marketmanager", mm);
-		mm = new MarketManagerRole(p2);
+		PersonAgent p2 = null;
+		MarketManagerRole mm =  new MarketManagerRole(p2);
+		p2 = new PersonAgent("marketmanager", mm);
 		markets.add(new Market("Market1", mm));
 
-		KHostRole kh = null;
-		PersonAgent p3 = new PersonAgent("khost", kh);
-		kh = new KHostRole(p3);
+		PersonAgent p3 = null;
+		KHostRole kh = new KHostRole(p3);
+		p3 = new PersonAgent("khost", kh);
 		restaurants.add(new Restaurant("KRestaurant", kh, "normal"));
 
-		BHostRole bh = null;
-		PersonAgent p4 = new PersonAgent("bhost", bh);
-		bh = new BHostRole(p4);
+		PersonAgent p4 = null;
+		BHostRole bh = new BHostRole(p4);
+		p4 = new PersonAgent("bhost", bh);
 		restaurants.add(new Restaurant("BRestaurant", bh, "narmal"));
 
-		Drew_HostRole drewh = null;
-		PersonAgent p5 = new PersonAgent("drew_host", drewh);
-		drewh = new Drew_HostRole(p5);
+		PersonAgent p5 = null;
+		Drew_HostRole drewh =  new Drew_HostRole(p5);
+		p5 = new PersonAgent("drew_host", drewh);
 		restaurants.add(new Restaurant("DrewRestaurant", drewh, "normal"));
 
-		DHostRole dh = null;
-		PersonAgent p6 = new PersonAgent("dhost", dh);
-		dh = new DHostRole(p6);
+		PersonAgent p6 = null;
+		DHostRole dh = new DHostRole(p6);
+		p6 = new PersonAgent("dhost", dh);
 		restaurants.add(new Restaurant("DRestaurant", dh, "normal"));
 
-		LHostRole lh = null;
-		PersonAgent p7 = new PersonAgent("lhost", lh);
-		lh = new LHostRole(p7);
+		PersonAgent p7 = null;
+		LHostRole lh =  new LHostRole(p7);
+		p7 = new PersonAgent("lhost", lh);
 		restaurants.add(new Restaurant("LRestaurant", lh, "normal"));
 
-		THostRole th = null;
-		PersonAgent p8 = new PersonAgent("thost", th);
-		th = new THostRole(p8);
+		PersonAgent p8 = null;
+		THostRole th = new THostRole(p8);
+		p8 = new PersonAgent("thost", th);
 		restaurants.add(new Restaurant("TRestaurant", th, "normal"));
 
 		buildings.put("Bank", banks);
@@ -153,9 +153,9 @@ public class SimCityPanel extends JPanel{
 	
 	  public void addPerson(String job, String name) {
 
-		  	Role personRole = null;
-    		PersonAgent p = new PersonAgent(name, personRole);
-    		personRole= new DWaiterRole(p);
+    		PersonAgent p = null;
+    		Role personRole= new DWaiterRole(p);
+    		p = new PersonAgent(name, personRole);
     		System.out.println(p.getJob());
     		PersonGui g = new PersonGui(p, gui);
     		p.setGui(g);
