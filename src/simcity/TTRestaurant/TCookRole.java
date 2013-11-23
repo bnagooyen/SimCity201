@@ -32,7 +32,7 @@ public class TCookRole extends Role implements TCook {
 	//public List<Market> markets
 	//= Collections.synchronizedList(new ArrayList<Market>());
 	enum MarketState  
-	{checked, notChecked}; 
+	{none, waiting, paying}; 
 	
 	public TCookRole(PersonAgent p) {
 		super(p);
@@ -66,8 +66,6 @@ public class TCookRole extends Role implements TCook {
 
 	TWaiterRole waiter;
 	
-	
-
 	public void msgHereIsAnOrder(int t, String choice, TWaiter headWaiterRoleTT) {
 		Orders o = new Orders(); 
 		o.setWaiter(headWaiterRoleTT); 
@@ -78,8 +76,14 @@ public class TCookRole extends Role implements TCook {
 		stateChanged(); 
 	}
 	
-
-	public void msgOrderFulfilled(Map<String, Integer> nS) {
+/**
+	public void msgCanGive(Map<String, Integer> nS, double check, Market mart) {
+		for (Market m:markets) {
+			if (m.m == mart) {
+				m.state = MarketState.receivedCheck;
+				m.bill = check; 
+			} 
+		}
 		Map<String, Integer> newSupply= nS;
 		Supply.put("Steak", newSupply.get("Steak") + Supply.get("Steak"));
 		Supply.put("Chicken", newSupply.get("Chicken") + Supply.get("Chicken"));
@@ -90,6 +94,7 @@ public class TCookRole extends Role implements TCook {
 		newSupply.clear();
 		
 	}
+*/
 	
 	public void msgUnfulfilledStock() {
 		buyingFood = false;
@@ -166,6 +171,13 @@ public class TCookRole extends Role implements TCook {
 				}
 			}
 		}
+		/**
+		for (Markets m:markets) {
+			if m.state == MarketState.paying {
+				sendCheck(m); 
+			}
+		}
+		*/
 		if (unFullfilled == true) {
 			//BuyFood(); 
 		}
@@ -217,6 +229,10 @@ public class TCookRole extends Role implements TCook {
 		print("Out of food");
 		orders.get(orderNumber).thisWaiter.msgOutOfFood(orders.get(orderNumber).table); 
 	}
+	
+	private void checkOrders() {
+		
+	}
 	/**
 	private void BuyFood() {
 		
@@ -225,22 +241,29 @@ public class TCookRole extends Role implements TCook {
 			buyingFood = true;
 			int index = 0;
 			int checkedMarkets = 0; 
-			while (markets.get(index).state != MarketState.notChecked && index < markets.size()) {
+			while (markets.get(index).checked != true && index < markets.size()) {
 				index++;
 				checkedMarkets++; 
 			}
 			if (checkedMarkets == markets.size()) {
 				print("Checked all markets for supply"); 
 				for (index = 0; index < markets.size(); index++) {
-					markets.get(index).state = MarketState.notChecked; 
+					markets.get(index).checked = false;
 				}
 			}
 			else {
 				markets.get(index).m.msgBuyFood(Supply, this);
-				markets.get(index).state = MarketState.checked;
+				markets.get(index).checked = true
+				markets.get(index).state = MarketState.waiting;;
 			}
 		}	
 	}
+	
+	private void sendCheck(Market m) {
+		cashier.msgPayForSupply(m.m, m.bill); 
+		markets.remove(m); 
+	}
+	
 	*/
 	
 	//animations
@@ -287,18 +310,46 @@ public class TCookRole extends Role implements TCook {
 	        return cookGui;
 	}
 
+	
+	public class OrderStand extends Object {
+		private Vector <Orders> rotatingTable;
+		
+		OrderStand() {
+			
+		}
+		
+		synchronized public void insert() {
+			
+		}
+		
+		synchronized public void remove() {
+			
+		}
+		
+		private void insertOrder() {
+			
+		}
+		
+		private void removeOrder() {
+			
+		}
+		
+	}
 
 
 /**	
 	public class Market {
 		MarketAgent m;
-		MarketState state; 
+		MarketState state;
+		boolean checked;
+		double bill; 
 		
 		public List<String> foodChoices = new ArrayList<String>();
 
 		public void setMarket (MarketAgent mar) {
 			m = mar; 
-			state = MarketState.notChecked; 
+			checked = false;
+			state = MarketState.none;
 		}
 
 	}
