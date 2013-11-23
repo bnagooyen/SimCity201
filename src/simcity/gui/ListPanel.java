@@ -103,6 +103,8 @@ public class ListPanel extends JPanel implements ActionListener {
        add(addPerson, BorderLayout.CENTER);
        
         add(pane, BorderLayout.SOUTH);
+        
+        UpdateToScenario("Scenario1");
     }
 
     /**
@@ -111,11 +113,22 @@ public class ListPanel extends JPanel implements ActionListener {
      */
     @Override
 	public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == addPersonB) {
+        if(e.getSource() == scenarioSelection){
+//        	System.err.println("changed to "+ scenarioSelection.getSelectedItem());
+//        	UpdateToScenario(scenarioSelection.getSelectedItem());
+        }
+    	if(e.getSource()==setScenario) {
+    		scenarioSelection.setEnabled(false);
+    		setScenario.setEnabled(false);
+    		//start execution
+    	}
+    	if (e.getSource() == addPersonB) {
         	// Chapter 2.19 describes showInputDialog()
             //addPerson(JOptionPane.showInputDialog("Please enter a name:"));
-        	String userInput=(myPerson.getText()).trim();
-        	if(!userInput.isEmpty())
+        	String userInput1=(myPerson.getText()).trim();
+        	String userInput2 = (myPersonMoneyVal).getText().trim();
+        	
+        	if(!userInput1.isEmpty() && !userInput2.isEmpty())
         		addPerson(myPerson.getText(), false);
         	else return;
         }
@@ -178,8 +191,9 @@ public class ListPanel extends JPanel implements ActionListener {
      *
      * @param name name of new person
      */
+    
     public void addPerson(String name, boolean isHungry) {
-       
+    		JPanel myPersonControls = new JPanel();
         	JPanel myPerson = new JPanel();
         	myPerson.setLayout(new BorderLayout());
             JLabel button = new JLabel(name, SwingConstants.CENTER);
@@ -210,6 +224,9 @@ public class ListPanel extends JPanel implements ActionListener {
             //restPanel.showInfo(type, name);//puts hungry button on panel
             validate();
         
+    }
+    public void UpdateToScenario(String type) {
+    		//add load scenario method here
     }
 //    
 //    public void setCustomerEnabled(String old, String n) {

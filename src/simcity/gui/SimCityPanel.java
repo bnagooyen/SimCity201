@@ -1,5 +1,9 @@
 package simcity.gui;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +43,7 @@ public class SimCityPanel extends JPanel{
 	private List<Location> restaurants = new ArrayList<Location>();
 	private List<Location> banks = new ArrayList<Location>();
 	private List<Location> markets = new ArrayList<Location>();
+	private InputStream scenario;
 	
 	private List<Person> people = new ArrayList<Person>();
 	
@@ -89,6 +94,14 @@ public class SimCityPanel extends JPanel{
 		buildings.put("Bank", banks);
 		buildings.put("Market", markets);
 		buildings.put("Restaurant", restaurants);
+		
+		
+		try {
+			scenario = new FileInputStream("config"+File.separator+"config1.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		
 //		DWaiterRole w = null;
 //		PersonAgent waiter = new PersonAgent("waiter", w);
