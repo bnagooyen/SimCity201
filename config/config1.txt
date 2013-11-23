@@ -1,14 +1,53 @@
-Name			$		Role			Car?
+Name
+	Money
+	Role
+	Car? (T/F)
 
-Andreen			600		BankManager		true
-Applekimi		600		BankManager		true
-Kimda			500		MarketManager		true
-Chartiago		500		MarketManger		true
-Santiar			500		MarketManger		true
-Limberly		500		MarketManger		true
-Doreen			400		HostRestaurant1		true
-Drew			400		HostRestaurant2		true
-Kim			400		HostRestaurant3		true
-Linda			400		HostRestaurant4		true
-Brian			400		HostRestaurant5		true
-Tiffany			400		HostRestaurant6		true
+Andreen
+	600
+	BankManager
+	true
+Applekimi
+	600
+	BankManager
+	true
+Kimda
+	500
+	MarketManager
+	true
+Chartiago
+	500
+	MarketManger
+	true
+Santiar
+	500
+	MarketManger
+	true
+Limberly
+	500
+	MarketManger
+	true
+Doreen
+	400
+	HostRestaurant1
+	true
+Drew
+	400
+	HostRestaurant2
+	true
+Kim
+	400
+	HostRestaurant3
+	true
+Linda
+	400
+	HostRestaurant4
+	true
+Brian
+	400
+	HostRestaurant5
+	true
+Tiffany
+	400
+	HostRestaurant6
+	true
