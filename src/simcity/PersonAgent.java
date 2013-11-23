@@ -157,7 +157,11 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		else{
 			for(Role role:roles){
 				if(role==neededRole) role.isActive=true;
-				
+				haveRole=true;
+			}
+			if(!haveRole){
+				roles.add(neededRole);
+				neededRole.isActive=true;
 			}
 		}
 	}
