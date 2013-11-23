@@ -2,7 +2,6 @@ Name
 	Money
 	Role
 	Car? (T/F)
-
 Andreen
 	600
 	BankManager
