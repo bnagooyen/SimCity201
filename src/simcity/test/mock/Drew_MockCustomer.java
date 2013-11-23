@@ -1,4 +1,4 @@
-package simcity.Drew_restaurant.test.mock;
+package simcity.test.mock;
 
 
 import simcity.Drew_restaurant.gui.CustomerGui;

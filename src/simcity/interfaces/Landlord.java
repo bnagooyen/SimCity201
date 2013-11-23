@@ -11,11 +11,11 @@ import simcity.PersonAgent;
  */
 public interface Landlord {
 	
-	public abstract void TimeUpdate(int hour);
+	public abstract void msgTimeUpdate(int hour);
 	
-	public abstract void HereIsARentPayment(Integer AN, double cost);
+	public abstract void msgHereIsARentPayment(Integer AN, double cost);
 	
-	public abstract void CannotPayForRent(Integer AN); 
+	public abstract void msgCannotPayForRent(Integer AN); 
 	
-	public abstract void jobDone(String l, double cost);
+	public abstract void msgJobDone(String l, double cost);
 }

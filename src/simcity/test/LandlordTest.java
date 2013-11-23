@@ -39,8 +39,9 @@ public class LandlordTest extends TestCase{
 	public void testAskForRent() {
 		assertEquals("Landlord should have no tenants right now. It doesn't.", landlord.myTenants.size(), 0);
 		assertEquals("MockBankManager should have no logs right now. It doesn't", bankmanager.log.size(), 0); 
-
-		landlord.addTenant(resident, 12, "B1");
+		
+		landlord.addUnit("B1"); 
+		landlord.addTenant(resident, 12);
 		landlord.addBankManager(bankmanager); 
 				
 		assertEquals("Landlord should have one tenants right now. It doesn't.", landlord.myTenants.size(), 1);
@@ -74,7 +75,8 @@ public class LandlordTest extends TestCase{
 		assertEquals("MockRepairMan should have no logs right now. It doesn't", repairman.log.size(), 0); 
 		
 		landlord.addRepairMan(repairman);
-		landlord.addTenant(resident, 12, "B2"); 
+		landlord.addUnit("B2"); 
+		landlord.addTenant(resident, 12); 
 		
 		//checking postconditions
 		assertEquals("Landlord should have one repairmen right now. It doesn't.", landlord.repairmen.size(), 1);
@@ -119,8 +121,10 @@ public class LandlordTest extends TestCase{
 				
 		landlord.addRepairMan(repairman);
 		landlord.addRepairMan(repairman2); 
-		landlord.addTenant(resident, 12, "B2");
-		landlord.addTenant(resident2, 3, "C3"); 
+		landlord.addUnit("B2"); 
+		landlord.addUnit("C3"); 
+		landlord.addTenant(resident, 12);
+		landlord.addTenant(resident2, 3); 
 				
 		//checking postconditions
 		assertEquals("Landlord should have two repairmen right now. It doesn't.", landlord.repairmen.size(), 2);
@@ -163,7 +167,8 @@ public class LandlordTest extends TestCase{
 		}
 	
 		assertEquals("Landlord should have less money now, but it doesn't.", landlord.revenue, 70.0);
-		assertEquals("Landlord should have no workers right now. It doesn't.", landlord.myWorkers.size(), 1);
+		assertEquals("Landlord should have one worker right now. It doesn't.", landlord.myWorkers.size(), 1);
+		landlord.jobDone("C3", 30);
 		
 		//calling scheduler for second job
 

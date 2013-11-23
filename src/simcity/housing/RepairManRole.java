@@ -41,15 +41,17 @@ public class RepairManRole extends Role implements RepairMan {
 	}
 	
 	//messages
-	public void NeedRepair(String building, Landlord l) {
+	public void msgNeedRepair(String building, Landlord l) {
+		Do("Called for repairs");
 		jobs.add(new MyJobs(building, l)); 
 	}
 	
-	public void NeedRepair(String building, PersonAgent p) {
+	public void msgNeedRepair(String building, PersonAgent p) {
+		Do("Called for repairs");
 		jobs.add(new MyJobs(building, p)); 
 	}
 	
-	public void HereIsPayment(double m) {
+	public void msgHereIsPayment(double m) {
 		
 	}
 	
@@ -62,6 +64,7 @@ public class RepairManRole extends Role implements RepairMan {
 	}
 	
 	public void CleanBuilding() {
+		Do("Cleaning the building");
 		//DoGoToBuilding(jobs.get(0).building); 
 		timer.schedule(new TimerTask() {
 			public void run() {
@@ -70,7 +73,7 @@ public class RepairManRole extends Role implements RepairMan {
 		}, 5000);
 		
 		if (jobs.get(0).employer != null) {
-			jobs.get(0).employer.jobDone(jobs.get(0).building, bill);
+			jobs.get(0).employer.msgJobDone(jobs.get(0).building, bill);
 		}
 		/*
 		else {

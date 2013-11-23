@@ -24,8 +24,6 @@ public class LandlordRole extends Role implements Landlord{
 	
 	public List<RepairMan>repairmen		//list of repairmen that the landlord can contact
 	= Collections.synchronizedList(new ArrayList<RepairMan>()); 
-	List<Unit>unit
-	= Collections.synchronizedList(new ArrayList<Unit>()); 
 	
 	
 	public List<Tenant>myTenants
@@ -36,7 +34,7 @@ public class LandlordRole extends Role implements Landlord{
 	public class Worker {
 		Worker (RepairMan r, String l) {
 			myWorker = r; 
-			location = l; 
+			location = l;
 			ws = WorkerState.working;
 		}
 		public String location; 
@@ -46,20 +44,27 @@ public class LandlordRole extends Role implements Landlord{
 	}
 	
 	class Tenant {
-		Tenant (PersonAgent p, Integer a, String l) {
-			person = p;
-			account = a;
-			location = l; 
+		Tenant (String l) {
+			location = l;
+			isOccupied = false; 
 		}
+		
+		public void addTenant(PersonAgent p, Integer a) {
+			person = p; 
+			account = a;
+		}
+		
 		PersonAgent person;
 		Integer account; 
 		String location; 
 		TenantState ts; 
+		boolean isOccupied; 
 	}
 	
 	class Unit {
 		public Unit(String l) {
 			unit = l;
+			isOccupied = false; 
 		}
 		String unit; 
 		boolean isOccupied; 
@@ -78,7 +83,7 @@ public class LandlordRole extends Role implements Landlord{
 	}
 	
 	//messages
-	public void TimeUpdate(int hour) {
+	public void msgTimeUpdate(int hour) {
 		this.hour = hour;
 		if (hour == 0) {
 			state = AgentState.askingForRent;
@@ -93,7 +98,8 @@ public class LandlordRole extends Role implements Landlord{
 	}
 	
 	
-	public void HereIsARentPayment(Integer AN, double amount) {
+	public void msgHereIsARentPayment(Integer AN, double amount) {
+		Do("Receiving rent");
 		for (Tenant t:myTenants) {
 			if (t.account == AN) {
 					t.ts = TenantState.paid;
@@ -102,7 +108,8 @@ public class LandlordRole extends Role implements Landlord{
 		}
 	}
 	
-	public void CannotPayForRent(Integer AN) {
+	public void msgCannotPayForRent(Integer AN) {
+		Do("What do you mean the tenant can't pay?");
 		for (Tenant t:myTenants) {
 			if (t.account == AN) {
 					t.ts = TenantState.ShortOnMoney;
@@ -110,7 +117,8 @@ public class LandlordRole extends Role implements Landlord{
 		}
 	}		
 	
-	public void jobDone(String l, double cost) {
+	public void msgJobDone(String l, double cost) {
+		Do("Told job was finished");
 		for (Worker current:myWorkers) {
 			if (current.location == l) {
 				current.bill = cost;
@@ -149,26 +157,32 @@ public class LandlordRole extends Role implements Landlord{
 	//actions
 	
 	private void CollectRent() {
+		Do("Collecting rent");
 		for(Tenant t:myTenants) {
-			/**
-			if (t.account == 0) {
-				t.person.msgHereIsYourRentBill(rentBill); 
+			if (t.isOccupied == true) {
+				/**
+				if (t.account == 0) {
+					t.person.msgHereIsYourRentBill(rentBill); 
+				}
+				else {
+				*/
+					bankmanager.msgHereIsYourRentBill(this, t.account, rentBill);
+				//}
 			}
-			else {
-			*/
-				bankmanager.msgHereIsYourRentBill(this, t.account, rentBill);
-			//}
 		}
 		state = AgentState.nothing; 
 	}
 	
 	
 	private void DistributePayments() {
+		Do("Distributing pay");
 		for (Tenant t:myTenants) {
 			/**
 			if (t.ts == TenantState.ShortOnMoney) {
 				t.person.msgEvicted(); 
-				myTenants.remove(t); 
+				t.isOccupied = false; 
+				t.account = 0; 
+				t.person = null; 
 			}
 			else {
 			*/
@@ -180,6 +194,7 @@ public class LandlordRole extends Role implements Landlord{
 	}
 	
 	private void CallMaintenance() {
+		Do("Calling maintenance over");
 		int workerNumber; 
 		if (repairmen.size() <= 1) {
 			workerNumber = 0; 
@@ -189,15 +204,16 @@ public class LandlordRole extends Role implements Landlord{
 		}
 		for (Tenant t:myTenants) {
 			myWorkers.add(new Worker(repairmen.get(workerNumber), t.location));
-			repairmen.get(workerNumber).NeedRepair(t.location, this);
+			repairmen.get(workerNumber).msgNeedRepair(t.location, this);
 			
 		}
 		state = AgentState.nothing; 
 	}
 	
 	private void PayMaintenance(Worker w) {
+		Do("Paying for maintenance");
 		revenue -= w.bill; 
-		w.myWorker.HereIsPayment(w.bill);
+		w.myWorker.msgHereIsPayment(w.bill);
 		myWorkers.remove(w); 
 	}
 
@@ -210,11 +226,23 @@ public class LandlordRole extends Role implements Landlord{
 		bankmanager = b;
 	}
 	
-	public void addTenant(PersonAgent p, Integer account, String l) {
-		myTenants.add(new Tenant(p, account, l)); 
+	public void addTenant(PersonAgent p, Integer account) {
+		boolean found = false; 
+		for (Tenant t: myTenants) {
+			if (!found) {
+				if (!t.isOccupied) {
+				t.addTenant(p, account);
+				t.isOccupied = true; 
+				found = true; 
+				}
+			}
+		}
+		if (!found) {
+			//should you send a message to the person? Or should you get a new building? 
+		}
 	}
 	
 	public void addUnit (String l) {
-		unit.add(new Unit(l));
+		myTenants.add(new Tenant(l));
 	}
 }
