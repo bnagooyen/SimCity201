@@ -75,24 +75,25 @@ public class CopyOfPersonAgent extends Agent implements Person {//implements Per
 	private SimCityPanel panel;
 	private Map<String, List<Location>> buildings = null;
 
-	public CopyOfPersonAgent(String name, Role job) {
+	public CopyOfPersonAgent(String name) {
 		super();
 
 
 		this.name = name;
-		myJob = job;
-
 		personState=PersonState.none;
 		energyState=EnergyState.asleep;
 		locationState=LocationState.atHome;
 		moneyState=MoneyState.adequate;
-		roles.add(myJob);
-		
+
 		possibleRoles.put("", new BankCustomerRole(this));
 		
 
 	}
-
+	public void SetJob(Role r) {
+		myJob =r;
+		roles.add(myJob);
+		
+	}
 
 	// The animation DoXYZ() routines
 

@@ -76,18 +76,17 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private SimCityPanel panel;
 	private Map<String, List<Location>> buildings = null;
 
-	public PersonAgent(String name, Role job) {
+	public PersonAgent(String name) {
 		super();
 
 
 		this.name = name;
-		myJob = job;
 
 		personState=PersonState.none;
 		energyState=EnergyState.asleep;
 		locationState=LocationState.atHome;
 		moneyState=MoneyState.adequate;
-		roles.add(myJob);
+		
 
 		possibleRoles.put("bank", new BankCustomerRole(this));
 		possibleRoles.put("market", new MarketCustomerRole(this));
@@ -100,7 +99,11 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	}
 
-
+	public void SetJob(Role r) {
+		myJob =r;
+		roles.add(myJob);
+		
+	}
 	// The animation DoXYZ() routines
 
 	//	public void setHost(Role r){
