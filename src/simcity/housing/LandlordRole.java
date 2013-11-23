@@ -83,7 +83,7 @@ public class LandlordRole extends Role implements Landlord{
 	}
 	
 	//messages
-	public void TimeUpdate(int hour) {
+	public void msgTimeUpdate(int hour) {
 		this.hour = hour;
 		if (hour == 0) {
 			state = AgentState.askingForRent;
@@ -98,7 +98,8 @@ public class LandlordRole extends Role implements Landlord{
 	}
 	
 	
-	public void HereIsARentPayment(Integer AN, double amount) {
+	public void msgHereIsARentPayment(Integer AN, double amount) {
+		Do("Receiving rent");
 		for (Tenant t:myTenants) {
 			if (t.account == AN) {
 					t.ts = TenantState.paid;
@@ -107,7 +108,8 @@ public class LandlordRole extends Role implements Landlord{
 		}
 	}
 	
-	public void CannotPayForRent(Integer AN) {
+	public void msgCannotPayForRent(Integer AN) {
+		Do("What do you mean the tenant can't pay?");
 		for (Tenant t:myTenants) {
 			if (t.account == AN) {
 					t.ts = TenantState.ShortOnMoney;
@@ -115,7 +117,8 @@ public class LandlordRole extends Role implements Landlord{
 		}
 	}		
 	
-	public void jobDone(String l, double cost) {
+	public void msgJobDone(String l, double cost) {
+		Do("Told job was finished");
 		for (Worker current:myWorkers) {
 			if (current.location == l) {
 				current.bill = cost;
@@ -154,6 +157,7 @@ public class LandlordRole extends Role implements Landlord{
 	//actions
 	
 	private void CollectRent() {
+		Do("Collecting rent");
 		for(Tenant t:myTenants) {
 			if (t.isOccupied == true) {
 				/**
@@ -171,6 +175,7 @@ public class LandlordRole extends Role implements Landlord{
 	
 	
 	private void DistributePayments() {
+		Do("Distributing pay");
 		for (Tenant t:myTenants) {
 			/**
 			if (t.ts == TenantState.ShortOnMoney) {
@@ -189,6 +194,7 @@ public class LandlordRole extends Role implements Landlord{
 	}
 	
 	private void CallMaintenance() {
+		Do("Calling maintenance over");
 		int workerNumber; 
 		if (repairmen.size() <= 1) {
 			workerNumber = 0; 
@@ -198,15 +204,16 @@ public class LandlordRole extends Role implements Landlord{
 		}
 		for (Tenant t:myTenants) {
 			myWorkers.add(new Worker(repairmen.get(workerNumber), t.location));
-			repairmen.get(workerNumber).NeedRepair(t.location, this);
+			repairmen.get(workerNumber).msgNeedRepair(t.location, this);
 			
 		}
 		state = AgentState.nothing; 
 	}
 	
 	private void PayMaintenance(Worker w) {
+		Do("Paying for maintenance");
 		revenue -= w.bill; 
-		w.myWorker.HereIsPayment(w.bill);
+		w.myWorker.msgHereIsPayment(w.bill);
 		myWorkers.remove(w); 
 	}
 
