@@ -40,22 +40,22 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private String name;
 	Bus bus;
 	BusStop busStop;
-	public CarAgent myCar;
+	public CarAgent myCar=null;
 	List<Role> roles = new ArrayList<Role>();
 	Map<String,Role> possibleRoles = new HashMap<String,Role>();
 	//List<Role> customerRoles = new ArrayList<Role>();
 	private Role myJob;
 	private Role neededRole;
 	private String mydestination;
-	
+
 	public enum PersonState { none };
 	public enum EnergyState {tired, asleep, awake, none };
 	public enum LocationState { atHome, inTransit, atWork };
 	public enum TransitState {walkingToBus, onBus, goToCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
 	public enum MoneyState { poor, adequate, rich};
 	private PersonState personState;
-	private EnergyState energyState;
-	private LocationState locationState;
+	public EnergyState energyState;
+	public LocationState locationState;
 	public TransitState transitState;
 	private MoneyState moneyState;
 
@@ -97,7 +97,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		possibleRoles.put("krestaurant", new KCustomerRole(this));
 		possibleRoles.put("trestaurant", new TCustomerRole(this));
 		possibleRoles.put("lrestaurant", new LCustomerRole(this));
-		
+
 	}
 
 
@@ -150,7 +150,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		transitState=TransitState.getOutCar;
 		stateChanged();
 		neededRole=possibleRoles.get(destination);
-		
+
 		if(needToGoToWork){
 			myJob.isActive=true;
 		}
@@ -239,27 +239,34 @@ public class PersonAgent extends Agent implements Person {//implements Person
 			if (myCar==null){
 				if(transitState==TransitState.walkingToBus){
 					walkToBus();
+					
+					return true;
 				}
 
 				if (transitState==TransitState.atBusStop){
 					tellBusStop();
+					return true;
 				}
 
 				if(transitState==TransitState.getOnBus){
 					getOnBus();
+					return true;
 				}
 
 				if(transitState==TransitState.getOffBus){
 					getOffBusAndWalk();
+					return true;
 				}
 			}
 			else if (myCar!=null){
 				if (transitState==TransitState.goToCar){
 					goToCar();
+					return true;
 				}
 
 				if(transitState==TransitState.getOutCar){
 					getOutCarAndWalk();
+					return true;
 				}
 
 			}
@@ -310,6 +317,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	private void walkToBus(){
 		Do("Walk To Bus");
+
 	}
 
 	private void tellBusStop(){
@@ -369,7 +377,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	@Override
 	public void gotHungry() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
 
