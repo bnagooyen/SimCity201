@@ -334,6 +334,10 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	}
 
+	//utilities
+	public Role getJob() {
+		return myJob;
+	}
 
 	@Override
 	public void gotHungry() {

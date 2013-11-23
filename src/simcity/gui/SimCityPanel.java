@@ -40,6 +40,8 @@ public class SimCityPanel extends JPanel{
 	private List<Location> banks = new ArrayList<Location>();
 	private List<Location> markets = new ArrayList<Location>();
 	
+	private List<Person> people = new ArrayList<Person>();
+	
 	public SimCityPanel(SimCityGui gui) {
 		this.gui = gui;
 		
@@ -135,6 +137,21 @@ public class SimCityPanel extends JPanel{
 		}
 		return c;
 	}
+	
+	  public void addPerson(String job, String name) {
+
+		  	Role personRole = null;
+    		PersonAgent p = new PersonAgent(name, personRole);
+    		personRole= new DWaiterRole(p);
+    		System.out.println(p.getJob());
+    		PersonGui g = new PersonGui(p, gui);
+    		p.setGui(g);
+    		gui.simCityAnimationPanel.addGui(g);
+    		p.startThread();
+    		people.add(p);
+//    		System.err.println("added person in restpanel");
+	    	
+	    }
 	
 	// Location classes
 	public abstract class Location {

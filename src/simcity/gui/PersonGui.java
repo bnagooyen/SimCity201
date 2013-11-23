@@ -15,7 +15,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
-public class PersonGui implements DGui {
+public class PersonGui implements Gui {
 
     private PersonAgent agent = null;
 
@@ -26,7 +26,7 @@ public class PersonGui implements DGui {
     }
     private boolean isPresent = false;
     private boolean isHungry = false;
-    DRestaurantGui gui;
+    SimCityGui gui;
     private int tableGoingTo;
     public static final int x_Offset = 100;
     private int xPos = -20, yPos = -20;//default waiter position
@@ -106,7 +106,7 @@ public class PersonGui implements DGui {
     
    //f private void setSeatingAt(int t) { seatingAt=t; }
     
-    public PersonGui(PersonAgent agent, DRestaurantGui g) {
+    public PersonGui(PersonAgent agent, SimCityGui g) {
     	gui=g;
         this.agent = agent;
         madeToFront=true;
