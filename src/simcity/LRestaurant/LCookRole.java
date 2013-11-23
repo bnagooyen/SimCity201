@@ -22,7 +22,7 @@ import simcity.interfaces.LCook;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class LCookAgent extends Role implements LCook {
+public class LCookRole extends Role implements LCook {
 	Timer timer = new Timer();
 	String name;
 
@@ -38,7 +38,7 @@ public class LCookAgent extends Role implements LCook {
 	public LCookGui cookGui;
 	private Semaphore task = new Semaphore(0,true);
 
-	public LCookAgent(PersonAgent p){
+	public LCookRole(PersonAgent p){
 		super(p);
 		this.name = p.getName();
 		foods.put("P", new Food("P", 700, 2, 5, 2)); //choice, cookTime, amount, capacity, threshold

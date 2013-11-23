@@ -2,7 +2,7 @@ package simcity.Drew_restaurant.interfaces;
 
 
 //import restaurant.WaiterAgent;
-import simcity.Drew_restaurant.CookRole.Order;
+import simcity.Drew_restaurant.Drew_CookRole.Order;
 import simcity.Drew_restaurant.gui.*;
 
 /**

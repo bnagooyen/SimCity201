@@ -23,7 +23,7 @@ import simcity.interfaces.LWaiter;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class LCashierAgent extends Role implements LCashier {
+public class LCashierRole extends Role implements LCashier {
 	Timer timer = new Timer();
 	String name;
 	int restMoney;
@@ -37,7 +37,7 @@ public class LCashierAgent extends Role implements LCashier {
 	public enum TransState {pending, computing, done};
 	//private CookGui cookGui;
 	
-	public LCashierAgent(PersonAgent p){
+	public LCashierRole(PersonAgent p){
 		super(p);
 		this.name = p.getName();
 		restMoney = 100;

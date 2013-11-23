@@ -9,24 +9,47 @@ import javax.swing.JPanel;
 
 import agent.Role;
 import simcity.PersonAgent;
+import simcity.BRestaurant.BCashierRole;
+import simcity.BRestaurant.BCookRole;
 import simcity.BRestaurant.BCustomerRole;
 import simcity.BRestaurant.BHostRole;
+import simcity.BRestaurant.BWaiterRole;
 import simcity.Bank.BankCustomerRole;
+import simcity.Bank.BankLoanOfficerRole;
 import simcity.Bank.BankManagerRole;
+import simcity.Bank.BankRobberRole;
+import simcity.Bank.BankTellerRole;
+import simcity.DRestaurant.DCashierRole;
+import simcity.DRestaurant.DCookRole;
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DHostRole;
 import simcity.DRestaurant.DWaiterRole;
+import simcity.Drew_restaurant.Drew_CashierRole;
+import simcity.Drew_restaurant.Drew_CookRole;
 import simcity.Drew_restaurant.Drew_CustomerRole;
 import simcity.Drew_restaurant.Drew_HostRole;
+import simcity.Drew_restaurant.Drew_WaiterRole;
+import simcity.KRestaurant.KCashierRole;
+import simcity.KRestaurant.KCookRole;
 import simcity.KRestaurant.KCustomerRole;
 import simcity.KRestaurant.KHostRole;
 import simcity.KRestaurant.KWaiterNormalRole;
+import simcity.KRestaurant.KWaiterRole;
+import simcity.KRestaurant.KWaiterSharedDataRole;
+import simcity.LRestaurant.LCashierRole;
+import simcity.LRestaurant.LCookRole;
 import simcity.LRestaurant.LCustomerRole;
 import simcity.LRestaurant.LHostRole;
+import simcity.LRestaurant.LWaiterRole;
+import simcity.Market.InventoryBoyRole;
+import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCustomerRole;
 import simcity.Market.MarketManagerRole;
+import simcity.TTRestaurant.TCashierRole;
+import simcity.TTRestaurant.TCookRole;
 import simcity.TTRestaurant.TCustomerRole;
 import simcity.TTRestaurant.THostRole;
+import simcity.TTRestaurant.TWaiterRole;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.Host;
 import simcity.interfaces.MarketManager;
@@ -107,6 +130,123 @@ public class SimCityPanel extends JPanel{
 	//		Role r = p.customerFactory("DRestaurant", this);
 	//		r.isActive = true;
 	//r		oles.add(r);
+	
+	public Role jobFactory(String job, PersonAgent p) {
+		Role j = null;
+		// bank 
+		if (job.equals("Bank Loan Officer")) {
+			j = new BankLoanOfficerRole(p);
+		}
+		else if (job.equals("Bank Manager")) {
+			j = new BankManagerRole(p);
+		}
+		else if (job.equals("Bank Robber")) {
+			j = new BankRobberRole(p);
+		}
+		else if (job.equals("Bank Teller")) {
+			j = new BankTellerRole(p);
+		}
+		
+		// market
+		else if (job.equals("Inventory Boy")) {
+			j = new InventoryBoyRole(p);
+		}
+		else if (job.equals("Market Cashier")) {
+			j = new MarketCashierRole(p);
+		}
+		else if (job.equals("Market Manager")) {
+			j = new MarketManagerRole(p);
+		}
+	
+		// BRestaurant
+		else if (job.equals("BCashier")) {
+			j = new BCashierRole(p);
+		}
+		else if (job.equals("BCook")) {
+			j = new BCookRole(p);
+		}
+		else if (job.equals("BHost")) {
+			j = new BHostRole(p);
+		}
+		else if (job.equals("BWaiter")) {
+			j = new BWaiterRole(p);
+		}
+		
+		// DRestaurant
+		else if (job.equals("DCashier")) {
+			j = new DCashierRole(p);
+		}
+		else if (job.equals("DCook")) {
+			j = new DCookRole(p);
+		}
+		else if (job.equals("DHost")) {
+			j = new DHostRole(p);
+		}
+		else if (job.equals("DWaiter")) {
+			j = new DWaiterRole(p);
+		}
+		
+		// Drew_Restaurant
+		else if (job.equals("DrewCashier")) {
+			j = new Drew_CashierRole(p);
+		}
+		else if (job.equals("DrewCook")) {
+			j = new Drew_CookRole(p);
+		}
+		else if (job.equals("DrewHost")) {
+			j = new Drew_HostRole(p);
+		}
+		else if (job.equals("DrewWaiter")) {
+			j = new Drew_WaiterRole(p);
+		}
+		
+		// KRestaurant
+		else if (job.equals("KCashier")) {
+			j = new KCashierRole(p);
+		}
+		else if (job.equals("KCook")) {
+			j = new KCookRole(p);
+		}
+		else if (job.equals("KHost")) {
+			j = new KHostRole(p);
+		}
+		else if (job.equals("KWaiter Normal")) {
+			j = new KWaiterNormalRole(p);
+		}
+		else if (job.equals("KWaiter SharedData")) {
+			j = new KWaiterSharedDataRole(p);
+		}
+		
+		// LRestaurant
+		else if (job.equals("LCashier")) {
+			j = new LCashierRole(p);
+		}
+		else if (job.equals("LCook")) {
+			j = new LCookRole(p);
+		}
+		else if (job.equals("LHost")) {
+			j = new LHostRole(p);
+		}
+		else if (job.equals("LWaiter")) {
+			j = new LWaiterRole(p);
+		}
+		
+		// TTRestaurant
+		else if (job.equals("TCashier")) {
+			j = new TCashierRole(p);
+		}
+		else if (job.equals("TCook")) {
+			j = new TCookRole(p);
+		}
+		else if (job.equals("THost")) {
+			j = new THostRole(p);
+		}
+		else if (job.equals("TWaiter")) {
+			j = new TWaiterRole(p);
+		}
+		return j;
+	}
+	
 	public Role customerFactory(String place, PersonAgent p) {
 		Role c = null;
 		if (place.equals("Bank")) {

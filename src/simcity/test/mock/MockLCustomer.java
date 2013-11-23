@@ -1,7 +1,7 @@
 package simcity.test.mock;
 
 
-import simcity.LRestaurant.LCashierAgent;
+import simcity.LRestaurant.LCashierRole;
 import simcity.LRestaurant.LMenu;
 import simcity.LRestaurant.LWaiterRole;
 import simcity.test.mock.EventLog;

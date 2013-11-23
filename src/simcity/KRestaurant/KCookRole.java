@@ -47,11 +47,9 @@ public class KCookRole extends Role implements KCook{
 	public enum marketOrderState 
 	{ waiting, arrived, done}
 	
-	public KCookRole(PersonAgent p, KRestaurantGui g) {
+	public KCookRole(PersonAgent p) {
 		super(p);
 		
-		gui = g;
-		this.name = name;
 		foods.put("Steak", new Food("Steak", 5000, 3, 3, 1,10));
 		foods.put("Chicken", new Food("Chicken", 4500, 2, 3,1,7));
 		foods.put("Salad", new Food("Salad", 2000, 3, 3, 1, 3));
@@ -308,6 +306,10 @@ public class KCookRole extends Role implements KCook{
 	
 	
 	//utilities
+	
+	public void setInitial(KRestaurantGui gui) {
+		this.gui = gui;
+	}
 	public void setCashier(KCashier c) {
 		cashier = c;
 	}

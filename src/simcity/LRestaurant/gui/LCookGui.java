@@ -1,7 +1,7 @@
 package simcity.LRestaurant.gui;
 
 
-import simcity.LRestaurant.LCookAgent;
+import simcity.LRestaurant.LCookRole;
 import simcity.LRestaurant.LCustomerRole;
 import simcity.LRestaurant.LWaiterRole;
 //import restaurant.WaiterAgent.WaiterState;
@@ -10,13 +10,13 @@ import simcity.LRestaurant.LWaiterRole;
 
 
 
-import simcity.LRestaurant.LCookAgent;
+import simcity.LRestaurant.LCookRole;
 
 import java.awt.*;
 
 public class LCookGui implements LGui {
 
-    private LCookAgent agent = null;
+    private LCookRole agent = null;
     private boolean hasFood = false;
     private boolean plateFood = false;
     private String food;
@@ -49,7 +49,7 @@ public class LCookGui implements LGui {
     
     private int tableNum;
 
-    public LCookGui(LCookAgent agent, String name, LRestaurantGui gui) {
+    public LCookGui(LCookRole agent, String name, LRestaurantGui gui) {
         this.agent = agent;
         this.name = name;
         this.gui = gui;

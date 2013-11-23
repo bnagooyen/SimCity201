@@ -6,9 +6,8 @@ import simcity.interfaces.KWaiter;
 
 public class KWaiterNormalRole extends KWaiterRole implements KWaiter{
 
-	public KWaiterNormalRole(PersonAgent p, KCookRole c, KRestaurantGui g,
-			KHostRole h, KCashierRole cashier, int homepos) {
-		super(p, c, g, h, cashier, homepos);
+	public KWaiterNormalRole(PersonAgent p) {
+		super(p);
 	}
 
 	@Override

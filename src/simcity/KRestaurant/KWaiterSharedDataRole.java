@@ -11,9 +11,8 @@ public class KWaiterSharedDataRole extends KWaiterRole implements KWaiter{
     private ProducerConsumerMonitor theMonitor;
 
 	
-	public KWaiterSharedDataRole(PersonAgent p, KCookRole c, KRestaurantGui g,
-			KHostRole h, KCashierRole cashier, int homepos) {
-		super(p, c, g, h, cashier, homepos);
+	public KWaiterSharedDataRole(PersonAgent p) {
+		super(p);
 	}
 
 	protected void giveCookOrder(MyCustomer c) {

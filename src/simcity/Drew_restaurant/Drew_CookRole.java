@@ -16,7 +16,7 @@ import simcity.Drew_restaurant.gui.CookGui;
  * Restaurant Cook Agent
  */
 
-public class CookRole extends Role implements Drew_Cook {
+public class Drew_CookRole extends Role implements Drew_Cook {
 	
 	//Data
 	public List<Order> orders
@@ -57,7 +57,7 @@ public class CookRole extends Role implements Drew_Cook {
 	public enum State 
 	{pending, cooking, done, finished};
 
-	public CookRole(PersonAgent p) {
+	public Drew_CookRole(PersonAgent p) {
 		super(p);
 		this.name = name;
 		

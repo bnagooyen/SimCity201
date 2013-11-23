@@ -1,8 +1,8 @@
 package simcity.test;
 
 import simcity.PersonAgent;
-import simcity.LRestaurant.LCashierAgent;
-import simcity.LRestaurant.LCashierAgent.OrderState;
+import simcity.LRestaurant.LCashierRole;
+import simcity.LRestaurant.LCashierRole.OrderState;
 import simcity.test.mock.EventLog;
 //import simcity.LRestaurant.test.mock.MockMarket;
 import simcity.interfaces.LCashier;
@@ -17,7 +17,7 @@ public class LCashierTest extends TestCase
 {
 	//these are instantiated for each test separately via the setUp() method.
 	PersonAgent p;
-	LCashierAgent cashier;
+	LCashierRole cashier;
 	MockLWaiter waiter;
 	MockLCustomer customer;
 //	MockMarket market;
@@ -30,7 +30,7 @@ public class LCashierTest extends TestCase
 	public void setUp() throws Exception{
 		super.setUp();	
 		p = new PersonAgent("person", cashier);
-		cashier = new LCashierAgent(p);		
+		cashier = new LCashierRole(p);		
 		customer = new MockLCustomer("mockcustomer");	
 //		market = new MockMarket("mockmarket");
 //		market2 = new MockMarket("mockmarket2");

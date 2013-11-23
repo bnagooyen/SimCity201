@@ -52,16 +52,11 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	{ waiting, seated, readyToOrder, askedToOrder, ordered, needToOrderAgain, waitingForFood,
 		orderIsReady, eating, leaving, gone , checkReady, givenCheck, cantPay}
 	
-	public KWaiterRole(PersonAgent p, KCookRole c, KRestaurantGui g, KHostRole h, KCashierRole cashier, int homepos) {
+	public KWaiterRole(PersonAgent p) {
 		super(p);
-		this.cook = c;
-		this.name = name;
+		
 		mystate = WaiterState.working;
-		gui = g;
-		host = h;
-		this.cashier = cashier;
 		menu = new KMenu();
-		this.homepos = homepos;
 
 	}
 
@@ -462,6 +457,13 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 
 	//utilities
 
+	public void setInitial( KCookRole c, KRestaurantGui g, KHostRole h, KCashierRole cashier, int homepos) {
+		cook = c;
+		gui = g;
+		host = h;
+		this.cashier = cashier;
+		this.homepos = homepos;
+	}
 	
 	public boolean onBreak() {
 		return (mystate == WaiterState.onBreak);

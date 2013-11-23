@@ -1,7 +1,7 @@
 package simcity.LRestaurant;
 
 import agent.Role;
-import simcity.LRestaurant.LCookAgent.OrderState;
+import simcity.LRestaurant.LCookRole.OrderState;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
 import simcity.LRestaurant.gui.LWaiterGui;
 import simcity.LRestaurant.LMenu;
@@ -39,9 +39,9 @@ public class LWaiterRole extends Role implements LWaiter{
         private LMenu m = new LMenu();
         private WaiterState waiterState;
 
-        LCookAgent cook;
+        LCookRole cook;
         LHostRole host;
-        LCashierAgent cashier;
+        LCashierRole cashier;
 
         public enum WaiterState{working, wantBreak, askingBreak, canGoOn, onBreak, checkingIn, backFromBreak};
 
@@ -60,11 +60,11 @@ public class LWaiterRole extends Role implements LWaiter{
 //                super();
 //        }
 
-        public void setCashier(LCashierAgent cashier){
+        public void setCashier(LCashierRole cashier){
                 this.cashier = cashier;
         }
 
-        public void setCook(LCookAgent cook){
+        public void setCook(LCookRole cook){
                 this.cook = cook;
                 waiterGui.setCookGui(cook.cookGui);
         }

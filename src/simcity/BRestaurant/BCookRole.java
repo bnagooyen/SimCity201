@@ -1,7 +1,8 @@
 package simcity.BRestaurant;
 
 import agent.Agent;
-
+import agent.Role;
+import simcity.PersonAgent;
 import simcity.BRestaurant.*;
 import simcity.interfaces.*;
 import simcity.BRestaurant.gui.*;
@@ -16,15 +17,15 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class BCookRole extends Agent implements BCook {
+public class BCookRole extends Role implements BCook {
 
 	private int nextMarket=0;
 	int amountNeeded;
 	private boolean needtoOrder=false;
 	private boolean alreadyOrdered=false;
 	
-	public BCookRole(String name, List<BMarketRole> markets) {
-			super();
+	public BCookRole(PersonAgent p) {// , List<BMarketRole> markets) {
+			super(p);
 			
 			this.name=name;
 			this.markets=markets;
@@ -115,7 +116,7 @@ public class BCookRole extends Agent implements BCook {
 
 
 
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 
 		for (Order order : pendingOrders){
 			if(order.status==Status.done)
