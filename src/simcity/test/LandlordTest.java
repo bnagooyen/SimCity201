@@ -48,15 +48,15 @@ public class LandlordTest extends TestCase{
 		assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
 		assertEquals("MockBankManager should have no logs right now. It doesn't", bankmanager.log.size(), 0); 
 
-		landlord.TimeUpdate(0);
+		landlord.msgTimeUpdate(0);
 		
 		assertTrue("Landlord's scheduler should have returned true now, since it has to do something. It didn't.", landlord.pickAndExecuteAnAction());
 		assertTrue("MockBankManager should have logged an event for receiving a request but instead it's: " + bankmanager.log.getLastLoggedEvent().toString(), bankmanager.log.containsString("Received from landlord for account 12"));
 		assertEquals("MockBankManager should have one log right now. It doesn't", bankmanager.log.size(), 1); 
 		assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
 	
-		landlord.HereIsARentPayment(12, 25);
-		landlord.TimeUpdate(20);
+		landlord.msgHereIsARentPayment(12, 25);
+		landlord.msgTimeUpdate(20);
 		
 		assertEquals("MockBankManager should still have one log right now. It doesn't", bankmanager.log.size(), 1); 
 		assertEquals("Landlord should have more money now, but it doesn't.", landlord.revenue, 25.0);
@@ -85,7 +85,7 @@ public class LandlordTest extends TestCase{
 		assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
 		
 		//changing hour to 10 so landlord calls repairman 
-		landlord.TimeUpdate(10);
+		landlord.msgTimeUpdate(10);
 		
 		//calling the scheduler and checking postconditions
 		assertTrue("Landlord's scheduler should have returned true now, since it has to do something. It didn't.", landlord.pickAndExecuteAnAction());
@@ -97,7 +97,7 @@ public class LandlordTest extends TestCase{
 		
 		//giving landlord money and sending message to pay repairman
 		landlord.revenue = 100;
-		landlord.jobDone("B2", 30);
+		landlord.msgJobDone("B2", 30);
 		
 		//calling the scheduler and checking postconditions
 		assertTrue("Landlord's scheduler should have returned true now, since it has to do something. It didn't.", landlord.pickAndExecuteAnAction());
@@ -133,7 +133,7 @@ public class LandlordTest extends TestCase{
 		assertEquals("MockRepairMan should have no logs right now. It doesn't", repairman.log.size(), 0); 
 		
 		//changing hour to 10 so landlord calls repairman 
-		landlord.TimeUpdate(10);
+		landlord.msgTimeUpdate(10);
 		
 		//calling the scheduler and checking postconditions
 		assertTrue("Landlord's scheduler should have returned true now, since it has to do something. It didn't.", landlord.pickAndExecuteAnAction());
@@ -152,7 +152,7 @@ public class LandlordTest extends TestCase{
 		
 		//giving landlord money and sending message to pay repairman
 		landlord.revenue = 100;
-		landlord.jobDone("B2", 30);
+		landlord.msgJobDone("B2", 30);
 
 		//calling the scheduler and checking postconditions
 		assertTrue("Landlord's scheduler should have returned true now, since it has to do something. It didn't.", landlord.pickAndExecuteAnAction());
@@ -168,7 +168,7 @@ public class LandlordTest extends TestCase{
 	
 		assertEquals("Landlord should have less money now, but it doesn't.", landlord.revenue, 70.0);
 		assertEquals("Landlord should have one worker right now. It doesn't.", landlord.myWorkers.size(), 1);
-		landlord.jobDone("C3", 30);
+		landlord.msgJobDone("C3", 30);
 		
 		//calling scheduler for second job
 

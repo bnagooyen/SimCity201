@@ -31,7 +31,7 @@ public class RepairManTest extends TestCase{
 		assertEquals("MockLandlord should have no logs right now. It doesn't", landlord.log.size(), 0); 
 		
 		//messaging repairman to perform a job
-		repairman.NeedRepair("B2", landlord);
+		repairman.msgNeedRepair("B2", landlord);
 		
 		//checking postconditions
 		assertEquals("Repairman should have one job right now. It doesn't.", repairman.jobs.size(), 1);
@@ -52,8 +52,8 @@ public class RepairManTest extends TestCase{
 		assertEquals("MockLandlord should have no logs right now. It doesn't", landlord.log.size(), 0); 
 		
 		//messaging repairman to perform a job
-		repairman.NeedRepair("B2", landlord);
-		repairman.NeedRepair("C1", landlord);
+		repairman.msgNeedRepair("B2", landlord);
+		repairman.msgNeedRepair("C1", landlord);
 		
 		//checking postconditions
 		assertEquals("Repairman should have one job right now. It doesn't.", repairman.jobs.size(), 2);

@@ -18,25 +18,25 @@ public class MockLandlord extends Mock implements Landlord{
 
 
 	@Override
-	public void TimeUpdate(int hour) {
+	public void msgTimeUpdate(int hour) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void HereIsARentPayment(Integer AN, double bill) {
+	public void msgHereIsARentPayment(Integer AN, double bill) {
 		LoggedEvent m = new LoggedEvent ("Received money for tenant"); 
 		log.add(m);		
 	}
 	
 	@Override
-	public void CannotPayForRent(Integer AN) {
+	public void msgCannotPayForRent(Integer AN) {
 		// TODO Auto-generated method stub
 	}
 		
 
 	@Override
-	public void jobDone(String l, double cost) {
+	public void msgJobDone(String l, double cost) {
 		LoggedEvent m = new LoggedEvent ("Received a bill from the repairman. Bill = " + cost); 
 		log.add(m);		
 	}

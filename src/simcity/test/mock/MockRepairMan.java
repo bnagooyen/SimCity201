@@ -17,19 +17,19 @@ public class MockRepairMan extends Mock implements RepairMan{
 	public LoggedEvent event; 
 	
 	@Override
-	public void NeedRepair(String building, Landlord l) {
+	public void msgNeedRepair(String building, Landlord l) {
 		LoggedEvent m = new LoggedEvent ("Received a job for building " + building); 
 		log.add(m);			
 	}
 
 	@Override
-	public void NeedRepair(String building, PersonAgent p) {
+	public void msgNeedRepair(String building, PersonAgent p) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void HereIsPayment(double money) {
+	public void msgHereIsPayment(double money) {
 		LoggedEvent m = new LoggedEvent ("Received a payment for job for " + money); 
 		log.add(m);			
 	}

@@ -61,14 +61,7 @@ public class LandlordRole extends Role implements Landlord{
 		boolean isOccupied; 
 	}
 	
-	class Unit {
-		public Unit(String l) {
-			unit = l;
-			isOccupied = false; 
-		}
-		String unit; 
-		boolean isOccupied; 
-	}
+
 	
 	enum WorkerState 
 	{working, paying};
@@ -108,10 +101,30 @@ public class LandlordRole extends Role implements Landlord{
 		}
 	}
 	
+	
+	public void msgHereIsARentPayment(PersonAgent p, double amount) {
+		Do("Receiving rent");
+		for (Tenant t:myTenants) {
+			if (t.person == p) {
+					t.ts = TenantState.paid;
+					revenue += amount; 
+			}
+		}
+	}
+	
 	public void msgCannotPayForRent(Integer AN) {
 		Do("What do you mean the tenant can't pay?");
 		for (Tenant t:myTenants) {
 			if (t.account == AN) {
+					t.ts = TenantState.ShortOnMoney;
+			}
+		}
+	}
+	
+	public void msgCannotPayForRent(PersonAgent p) {
+		Do("What do you mean the tenant can't pay?");
+		for (Tenant t:myTenants) {
+			if (t.person == p) {
 					t.ts = TenantState.ShortOnMoney;
 			}
 		}
@@ -123,9 +136,9 @@ public class LandlordRole extends Role implements Landlord{
 			if (current.location == l) {
 				current.bill = cost;
 				current.ws = WorkerState.paying; 
-				stateChanged();
 			}
 		}
+		stateChanged();
 	}
 	
 	public boolean pickAndExecuteAnAction() {
@@ -140,7 +153,7 @@ public class LandlordRole extends Role implements Landlord{
 			return true; 
 		}
 		
-		if (state == AgentState.callMaintanence) {
+		if (state == AgentState.callMaintanence && !repairmen.isEmpty()) {
 			CallMaintenance();
 			return true; 
 		}
@@ -177,16 +190,18 @@ public class LandlordRole extends Role implements Landlord{
 	private void DistributePayments() {
 		Do("Distributing pay");
 		for (Tenant t:myTenants) {
-			/**
-			if (t.ts == TenantState.ShortOnMoney) {
-				t.person.msgEvicted(); 
-				t.isOccupied = false; 
-				t.account = 0; 
-				t.person = null; 
+			if (t.isOccupied == true) {
+				/**
+				if (t.ts == TenantState.ShortOnMoney) {
+					t.person.msgEvicted(); 
+					t.isOccupied = false; 
+					t.account = 0; 
+					t.person = null; 
+				}
+				else {
+				*/
+				t.ts = TenantState.nothing; 
 			}
-			else {
-			*/
-			t.ts = TenantState.nothing; 
 		}
 		revenue = revenue *.70;
 		//add money to the personAgent
@@ -203,8 +218,10 @@ public class LandlordRole extends Role implements Landlord{
 			workerNumber = WorkerToday.nextInt(repairmen.size()); 
 		}
 		for (Tenant t:myTenants) {
-			myWorkers.add(new Worker(repairmen.get(workerNumber), t.location));
-			repairmen.get(workerNumber).msgNeedRepair(t.location, this);
+			if (t.isOccupied) {
+				myWorkers.add(new Worker(repairmen.get(workerNumber), t.location));
+				repairmen.get(workerNumber).msgNeedRepair(t.location, this);
+			}
 			
 		}
 		state = AgentState.nothing; 
