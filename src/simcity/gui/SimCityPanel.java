@@ -183,7 +183,7 @@ public class SimCityPanel extends JPanel{
 
 		 class RemindTask extends TimerTask {
 		        public void run() {
-		           System.out.println("timer beeping");
+		           System.out.println("timer going off");
 		            }
 		 }
 	        timer = new Timer();
