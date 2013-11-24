@@ -7,10 +7,16 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 
+
+
+
 //import restaurant.HostAgent.MyWaiter;
 import simcity.Drew_restaurant.interfaces.Drew_Cook;
 import simcity.Drew_restaurant.interfaces.Drew_Waiter;
 import simcity.Drew_restaurant.gui.CookGui;
+import simcity.Market.MFoodOrder;
+import simcity.interfaces.MarketCashier;
+import simcity.interfaces.MarketManager;
 
 /**
  * Restaurant Cook Agent
@@ -28,6 +34,8 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	public List<Delivery> deliveries
 	= new ArrayList<Delivery>();
 	
+	Drew_CashierRole cashier;
+	
 	//Foods
 	Food chicken;
 	Food steak;
@@ -43,12 +51,14 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 
 	private String name;
 	
-	/*public List<Market> markets
-	= new ArrayList<Market>();
+	public List<MarketManager> markets
+	= new ArrayList<MarketManager>();
 	
-	public void addMarket(Market m){
+	public List<MarketBill> marketBills = new ArrayList<MarketBill>();
+	
+	public void addMarket(MarketManager m){
 		markets.add(m);
-	}*/
+	}
 	
 	public CookGui getGui(){
 		return gui;
@@ -118,6 +128,16 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		stateChanged();
 	}
 
+	public void msgHereIsDelivery(List<MFoodOrder> canGiveMe, double bill, MarketManager manager, MarketCashier cashier) {
+		for(MFoodOrder o: canGiveMe) {
+		/********************************** just put true for now for bool fullOrder ***************/
+			Delivery d = new Delivery(o.type, o.amount, true);
+			deliveries.add(d);
+		}
+		marketBills.add(new MarketBill(bill, cashier));
+		stateChanged();
+		
+	}
 	public void msgAtDest() {
 		atDest.release();
 		stateChanged();
@@ -154,10 +174,18 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 				return true;
 			}
 		}
+		for(MarketBill b: marketBills) {
+			giveCashierBill(b);
+		}
 		return false;
 	}
 
 	// Actions
+
+	private void giveCashierBill(MarketBill b) {
+		cashier.marketBill(b.bill, b.cashier);
+		marketBills.remove(b);
+	}
 
 	private void plateIt(Order O){
 		gui.goToGrill();
@@ -201,30 +229,32 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		f.cookingTime);//how long to wait before running task
 	}
 	
-	/*private void orderFood(marketOrder MO){;
-		Market market=markets.get(0);
+	private void orderFood(marketOrder MO){;
+		MarketManager market=markets.get(0);
 		
-		//RUN WHEN FIRST MARKET DID NOT HAVE EVERYTHING NEEDED
-		if(!MO.firstOrder){
-			for(int i=markets.size()-2;i>=0;i--){
-				if(markets.get(i).getName().equals(MO.market)){
-					market=markets.get(i+1);
-				}
-			}
-			if(market==markets.get(0)) print("All markets out of "+ MO.type);
-			else{
-				print("Ordering "+ MO.quantity+ " "+ MO.type + "s From "+ market.getName());
-				market.orderFood(this, MO.type, MO.quantity);
-			}
-		}
+//		//RUN WHEN FIRST MARKET DID NOT HAVE EVERYTHING NEEDED
+//		if(!MO.firstOrder){
+//			for(int i=markets.size()-2;i>=0;i--){
+//				if(markets.get(i).getName().equals(MO.market)){
+//					market=markets.get(i+1);
+//				}
+//			}
+//			if(market==markets.get(0)) print("All markets out of "+ MO.type);
+//			else{
+//				print("Ordering "+ MO.quantity+ " "+ MO.type + "s From "+ market.getName());
+//				market.orderFood(this, MO.type, MO.quantity);
+//			}
+//		}
 		
 		//CALLED WHEN TRYING THE FIRST MARKET
-		else{				
-			print("Ordering "+ MO.quantity+ " "+ MO.type + "s From "+ market.getName());
-			market.orderFood(this, MO.type, MO.quantity);
-		}
+		//else{				
+			List<MFoodOrder> toOrder = new ArrayList<MFoodOrder>();
+			toOrder.add(new MFoodOrder(MO.type, MO.quantity));
+			//print("Ordering "+ MO.quantity+ " "+ MO.type + "s From "+ market.getName());
+			market.msgIAmHere(this, toOrder, "Drew_restaurant", "cook");
+		//}
 		MO.s=State.done;
-	}*/
+	}
 	
 	private void checkInventory(){
 		for(Food f : foods.values()){
@@ -242,6 +272,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		D.stored=true;
 		print("Delivery Stocked");
 		print("Current "+ food.type+ " inventory: "+food.amount);
+		
 	}
 	
 	private void finishTask(){			//Semaphore to make waiter finish task before running scheduler
@@ -263,6 +294,10 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	public WaiterGui getGui() {
 		return waiterGui;
 	}*/
+	
+	public void setCashier(Drew_CashierRole c) {
+		cashier = c;
+	}
 	
 	public class Order {
 		Drew_Waiter w;
@@ -345,6 +380,15 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		}
 	}
 
+	public class MarketBill {
+		double bill;
+		MarketCashier cashier;
+		
+		public MarketBill (double bill, MarketCashier c){
+			this.bill = bill;
+			cashier = c;
+		}
+	}
 }
 
 
