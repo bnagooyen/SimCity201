@@ -116,9 +116,12 @@ public class PersonTest extends TestCase{
 		person.msgAtDestination("destination");
 		
 		assertTrue("Person's state should be to get out the car, but it is not", person.transitState==TransitState.getOutCar);
-		
-		person.pickAndExecuteAnAction();
-		
+		assertTrue("Person's locationState should be inTransit", person.locationState==LocationState.inTransit);
+		assertTrue("Person's locationState should be inTransit", person.energyState!=EnergyState.asleep);
+
+		//person.pickAndExecuteAnAction();
+		assertTrue("Person's scheduler should have returned true, but didn't.", person.pickAndExecuteAnAction());
+
 		assertTrue("Person's state should be at destination", person.transitState==TransitState.atDestination);
 		
 		
