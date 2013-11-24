@@ -6,10 +6,14 @@ import simcity.KRestaurant.gui.KCookGui;
 import simcity.KRestaurant.gui.KMovingFoodGui;
 import simcity.KRestaurant.gui.KRestaurantGui;
 import simcity.KRestaurant.gui.KWaiterGui;
+import simcity.Market.MFoodOrder;
 import simcity.interfaces.KCashier;
 import simcity.interfaces.KCook;
 //import simcity.interfaces.Market;
 
+
+import simcity.interfaces.MarketCashier;
+import simcity.interfaces.MarketManager;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -23,9 +27,9 @@ public class KCookRole extends Role implements KCook{
 	
 	public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	public Map<String, Food > foods = Collections.synchronizedMap( new HashMap<String, Food>()); 
-//	public List<MarketAgent> markets =Collections.synchronizedList( new ArrayList<MarketAgent>());
+	public List<MarketManager> markets =Collections.synchronizedList( new ArrayList<MarketManager>());
 	public List<Integer> grills = Collections.synchronizedList( new ArrayList<Integer>());
-//	public List<MarketOrder> marketOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());
+	public List<MarketOrder> marketOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());
 //	public MarketAgent currentMarket;
 	public KCashier cashier;
 	
@@ -79,8 +83,8 @@ public class KCookRole extends Role implements KCook{
 	}
 
 	// from normal waiter
-	public void msgCanGive(List<KFoodOrder> canGiveMe) {
-		for(KFoodOrder f : canGiveMe) {
+	public void msgCanGive(List<MFoodOrder> canGiveMe) {
+		for(MFoodOrder f : canGiveMe) {
 			Do("Told they can give me " + f.amount + " of " + f.type);
 			Food currentFood = foods.get(f.type);
 			currentFood.stillNeed -= f.amount;
@@ -93,20 +97,21 @@ public class KCookRole extends Role implements KCook{
 		stateChanged();
 	}
 	
-//	public void msgHereIsDelivery(List<KFoodOrder> canGiveMe, double bill, Market mkt) {
-//		for(MarketOrder m : marketOrders) {
-//			if( m.m == mkt) {
-//				m.state = marketOrderState.arrived;
-//			}
-//		}
-//		
-//		for(KFoodOrder f : canGiveMe) {
-//			Do("got " + f.amount + " of " + f.type);
-//			Food currentFood = foods.get(f.type);
-//			currentFood.amount += f.amount;
-//		}
-//		stateChanged();
-//	}
+	public void msgHereIsDelivery(List<MFoodOrder> canGiveMe, double bill, MarketManager manager, MarketCashier cashier) {
+		for(MarketOrder m : marketOrders) {
+			if( m.m == manager) {
+				m.state = marketOrderState.arrived;
+				m.cashier = cashier;
+			}
+		}
+		
+		for(MFoodOrder f : canGiveMe) {
+			Do("got " + f.amount + " of " + f.type);
+			Food currentFood = foods.get(f.type);
+			currentFood.amount += f.amount;
+		}
+		stateChanged();
+	}
 	private void msgTimeToCheckStand() {
 		stateChanged();
 	}
@@ -126,13 +131,13 @@ public class KCookRole extends Role implements KCook{
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-//		synchronized(marketOrders) {
-//			for(MarketOrder m : marketOrders) {
-//				if(m.state == marketOrderState.arrived) {
-//					giveCashierCheck(m);
-//				}
-//			}
-//		}
+		synchronized(marketOrders) {
+			for(MarketOrder m : marketOrders) {
+				if(m.state == marketOrderState.arrived) {
+					giveCashierCheck(m);
+				}
+			}
+		}
 		
 		synchronized(orders) {
 			for( Order o : orders ) {
@@ -171,12 +176,12 @@ public class KCookRole extends Role implements KCook{
 	
 	// Actions
 
-//	private void giveCashierCheck(MarketOrder m) {
-//		Do("giving check to cashier");
-//		cashier.msgBillFromMarket(m.check, m.m);
-//		m.state = marketOrderState.done;
-//	}
-//	
+	private void giveCashierCheck(MarketOrder m) {
+		Do("giving check to cashier");
+		cashier.msgBillFromMarket(m.check, m.cashier);
+		m.state = marketOrderState.done;
+	}
+	
 	private void checkRotatingStand() {
 		KRestaurantOrder newOrder = theMonitor.remove();
 		if(newOrder != null) {
@@ -225,30 +230,30 @@ public class KCookRole extends Role implements KCook{
 	public void orderFoodThatIsLow() {
 		needToOrder = false;
 		
-		List<KFoodOrder> lowFoods = new ArrayList<KFoodOrder>();
+		List<MFoodOrder> lowFoods = new ArrayList<MFoodOrder>();
 		
 		synchronized(foods) {
 			for (Map.Entry<String, Food> food : foods.entrySet()) {
 				Food f = food.getValue();
 				if(f.stillNeed > 0) {
-					lowFoods.add(new KFoodOrder(f.type, f.stillNeed));
+					lowFoods.add(new MFoodOrder(f.type, f.stillNeed));
 					
 				}
 			}
 		}
 		Do("ordering from a market");
-//		MarketAgent m = pickAMarket();
-//		marketOrders.add(new MarketOrder(m));
-//		m.msgOrder(lowFoods);
+		MarketManager m = pickAMarket();
+		marketOrders.add(new MarketOrder(m));
+		m.msgIAmHere((Role) this, lowFoods, "KRestaurant", "cook");
 	}
 	
-//	public MarketAgent pickAMarket() {
-//		Do("picking a market to order from");
-//		Random rand = new Random();
-//		int choice = rand.nextInt(markets.size());
-//		return markets.get(choice);
-//	}
-//	
+	public MarketManager pickAMarket() {
+		Do("picking a market to order from");
+		Random rand = new Random();
+		int choice = rand.nextInt(markets.size());
+		return markets.get(choice);
+	}
+	
 	public void DoCooking(Order o) {
 		for(int i = 0; i<4;i++) {
 			if(grills.get(i) == 0) {
@@ -363,17 +368,18 @@ public class KCookRole extends Role implements KCook{
 			}
 		}
 	}
-//	private class MarketOrder {
-//		Market m;
-//		double check;
-//		marketOrderState state;
-//		
-//		public MarketOrder(Market m) {
-//			this.m = m;
-//			check = 0;
-//			state = marketOrderState.waiting;
-//		}
-//	}
-//	
+	private class MarketOrder {
+		MarketManager m;
+		MarketCashier cashier;
+		double check;
+		marketOrderState state;
+		
+		public MarketOrder(MarketManager m) {
+			this.m = m;
+			check = 0;
+			state = marketOrderState.waiting;
+		}
+	}
+	
 }
 

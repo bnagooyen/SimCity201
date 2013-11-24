@@ -5,6 +5,7 @@ import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DWaiterRole;
 import simcity.DRestaurant.DCheck.CheckState;
 import simcity.Market.MarketCashierRole;
+import simcity.interfaces.MarketCashier;
 
 public interface Cashier {
 
@@ -15,7 +16,7 @@ public interface Cashier {
 	public abstract double getRegisterAmnt();
 	public abstract void msgMadeInventoryOrder(int orderid, double billAmt);
 	public abstract void msgBillFromMarket(double check,
-			MarketCashierRole marketCashierRole);
+			MarketCashier cashier);
 		
 	
 }

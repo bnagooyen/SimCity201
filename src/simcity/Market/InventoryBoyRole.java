@@ -125,4 +125,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 		mc = c;
 	}
 	
+	public void setMarketManager(MarketManager m) {
+		this.manager = m;
+	}
 }
