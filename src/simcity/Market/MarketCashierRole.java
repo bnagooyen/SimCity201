@@ -177,29 +177,31 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	private MOrder find(Role r, List<MOrder> orders){
 		MOrder order = null;
-		for(MOrder o: orders){
-			if(o.c == r){
-				order = o;
-			}
-			else if(o.cook == r){
-				order = o;
+		synchronized(orders) {
+			for(MOrder o: orders){
+				if(o.c == r){
+					order = o;
+				}
+				else if(o.cook == r){
+					order = o;
+				}
 			}
 		}
-		
 		return order;
 	}
 	
 	private MOrder find(MOrder m, List<MOrder> orders){
 		MOrder order = null;
-		for(MOrder o: orders){
-			if(o.c == m.c){
-				order = o;
-			}
-			else if(o.cook == m.cook){
-				order = o;
+		synchronized(orders) {
+			for(MOrder o: orders){
+				if(o.c == m.c){
+					order = o;
+				}
+				else if(o.cook == m.cook){
+					order = o;
+				}
 			}
 		}
-		
 		return order;
 	}
 	private double calculateCheck(MOrder o) {

@@ -18,7 +18,7 @@ public class DeliveryTruckAgent extends Agent implements Car{
 	public String destination;
 	public List<MFoodOrder> supply;
 	public Cook cook;
-	public int check;
+	public double check;
 	public MarketManager manager;
 	public MarketCashier mc;
 	
@@ -41,7 +41,7 @@ public class DeliveryTruckAgent extends Agent implements Car{
 	//Messages
 	
 	
-	public void msgGoToDestination(MarketCashier cashier, List<MFoodOrder>deliver, String location, int bill, Cook c) {
+	public void msgGoToDestination(MarketCashier cashier, List<MFoodOrder>deliver, String location, double bill, Cook c) {
 		mc = cashier;
 		supply = deliver;
 		destination = location;
