@@ -1,3 +1,6 @@
+Population(numPeopleInFile):
+12
+EntryTemplate:
 Name
 	Money
 	Role
