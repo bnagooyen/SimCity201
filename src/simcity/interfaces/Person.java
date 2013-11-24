@@ -21,6 +21,8 @@ public interface Person {
 	
 	public abstract void setCar(CarAgent c);
 	public abstract Role GetJob();
+
+	public abstract String getName();
 }
 
 

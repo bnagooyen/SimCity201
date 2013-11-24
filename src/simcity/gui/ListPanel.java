@@ -1,7 +1,7 @@
 package simcity.gui;
 
 
-import simcity.PersonAgent;
+import simcity.interfaces.Person;
 
 import javax.swing.*;
 
@@ -129,7 +129,7 @@ public class ListPanel extends JPanel implements ActionListener {
         	String userInput2 = (myPersonMoneyVal).getText().trim();
         	
         	if(!userInput1.isEmpty() && !userInput2.isEmpty())
-        		addPerson(myPerson.getText(), false);
+        		addPerson(myPerson.getText());
         	else return;
         }
 //        else if(e.getSource() == addPersonAndSetHungryB) {
@@ -192,10 +192,10 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param name name of new person
      */
     
-    public void addPerson(String name, boolean isHungry) {
+    public void addPerson(String name) {
     		JPanel myPersonControls = new JPanel();
-        	JPanel myPerson = new JPanel();
-        	myPerson.setLayout(new BorderLayout());
+        	JPanel adding = new JPanel();
+//        	myPerson.setLayout(new BorderLayout());
             JLabel button = new JLabel(name, SwingConstants.CENTER);
 //            System.err.println("addPerson");
             button.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -208,7 +208,7 @@ public class ListPanel extends JPanel implements ActionListener {
             button.setBackground(Color.white);
 
             Dimension paneSize = pane.getSize();
-            Dimension buttonSize = new Dimension(paneSize.width - 110,
+            Dimension buttonSize = new Dimension(paneSize.width - 50,
                     30);
             button.setPreferredSize(buttonSize);
             button.setMinimumSize(buttonSize);
@@ -218,13 +218,47 @@ public class ListPanel extends JPanel implements ActionListener {
             //list.add(stateCB);
             pplList.add(button);
             
-            myPerson.add(button, BorderLayout.CENTER);
-            view.add(myPerson);
+            adding.add(button, BorderLayout.CENTER);
+            view.add(adding);
             simcityPanel.addPerson(type, name);//puts customer on list
             //restPanel.showInfo(type, name);//puts hungry button on panel
             validate();
         
     }
+    
+    public void AddPeople(ArrayList<Person> people) {
+    	pplList.clear();
+    	view.repaint();
+    	for(Person p: people) {
+    		  JLabel button = new JLabel(p.getName(), SwingConstants.CENTER);
+    		  JPanel adding = new JPanel();
+//            System.err.println("addPerson");
+            button.setBorder(BorderFactory.createLineBorder(Color.black));
+
+
+	        pplList.add(button);
+	           
+//	       	 	System.err.println("added button");
+	            
+            button.setBackground(Color.white);
+
+            Dimension paneSize = pane.getSize();
+            Dimension buttonSize = new Dimension(paneSize.width-50,
+                    40);
+            button.setPreferredSize(buttonSize);
+            button.setMinimumSize(buttonSize);
+            button.setMaximumSize(buttonSize);
+            //button.addActionListener(this);
+            //stateCB.addActionListener(this);
+            //list.add(stateCB);
+            pplList.add(button);
+            
+            adding.add(button, BorderLayout.CENTER);
+            view.add(adding);
+    	}
+    	validate();
+    }
+    
     public void UpdateToScenario(String type) {
     		//add load scenario method here
     }

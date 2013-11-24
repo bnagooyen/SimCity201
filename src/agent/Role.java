@@ -79,40 +79,5 @@ public abstract class Role {
         System.out.print(sb.toString());
     }
 
-
-    /**
-     * Agent scheduler thread, calls respondToStateChange() whenever a state
-     * change has been signalled.
-     */
-    private class AgentThread extends Thread {
-        private volatile boolean goOn = false;
-
-        private AgentThread(String name) {
-            super(name);
-        }
-
-        public void run() {
-            goOn = true;
-
-            while (goOn) {
-	            	try {
-	                    // The agent sleeps here until someone calls, stateChanged(),
-	                    // which causes a call to stateChange.give(), which wakes up agent.
-	                    stateChange.acquire();
-	                    //The next while clause is the key to the control flow.
-	                    //When the agent wakes up it will call respondToStateChange()
-	                    //repeatedly until it returns FALSE.
-	                    //You will see that pickAndExecuteAnAction() is the agent scheduler.
-	                    while (pickAndExecuteAnAction()) ;
-	                } catch (InterruptedException e) {
-	                    // no action - expected when stopping or when deadline changed
-	                } catch (Exception e) {
-	                    print("Unexpected exception caught in Agent thread:", e);
-	                }
-
-            }
-        }
-
-    }
 }
 

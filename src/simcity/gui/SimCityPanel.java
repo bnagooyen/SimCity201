@@ -73,7 +73,7 @@ public class SimCityPanel extends JPanel{
 	private List<Location> banks = new ArrayList<Location>();
 	private List<Location> markets = new ArrayList<Location>();
 	
-	private List<Person> people = new ArrayList<Person>();
+	private ArrayList<Person> people = new ArrayList<Person>();
 	
 	static Scanner in;
 	
@@ -126,48 +126,7 @@ public class SimCityPanel extends JPanel{
 //		buildings.put("Restaurant", restaurants);
 //		
 		
-		try {
-			in  = new Scanner(new FileReader("config"+File.separator+"config1.txt"));
-//			System.out.println(in.next());
-			in.next();
-			int numItems = in.nextInt();
-			//clear input template;
-			in.next();
-			in.next();
-			in.next();
-			in.next();
-			in.next();
-			in.next();
-			
-			for(int i=0; i<numItems; i++) {
-//				System.out.println(in.next());
-//				System.out.println(in.nextDouble());
-//				System.out.println(in.next());
-//				System.out.println(in.nextBoolean());
-				PersonAgent p = new PersonAgent(in.next());
-				p.setMoney(in.nextDouble());
-				p.SetJob(jobFactory(in.next().trim(),p));
-				boolean hasACar = in.nextBoolean();
-				if(hasACar) {
-					p.setCar(new CarAgent());
-				}
-				people.add(p);
-			}
-//			System.out.println(people.size());
-//			for(Person person: people) {
-//				System.out.println(person.GetJob());
-//			}
-//			int i=1;
-//			for(Person person: people) {
-//				System.out.print(i);
-//				i++;
-//				System.out.println(person.GetJob().isActive);
-//			}
-			in.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		
 //		DWaiterRole w = null;
 //		PersonAgent waiter = new PersonAgent("waiter", w);
@@ -353,6 +312,52 @@ public class SimCityPanel extends JPanel{
 			c = new TCustomerRole(p);
 		}
 		return c;
+	}
+	
+	public void LoadScenario(String type) {
+		try {
+			in  = new Scanner(new FileReader("config"+File.separator+"config1.txt"));
+//			System.out.println(in.next());
+			in.next();
+			int numItems = in.nextInt();
+			//clear input template;
+			in.next();
+			in.next();
+			in.next();
+			in.next();
+			in.next();
+			in.next();
+			
+			for(int i=0; i<numItems; i++) {
+//				System.out.println(in.next());
+//				System.out.println(in.nextDouble());
+//				System.out.println(in.next());
+//				System.out.println(in.nextBoolean());
+				PersonAgent p = new PersonAgent(in.next());
+				p.setMoney(in.nextDouble());
+				p.SetJob(jobFactory(in.next().trim(),p));
+				boolean hasACar = in.nextBoolean();
+				if(hasACar) {
+					p.setCar(new CarAgent());
+				}
+				people.add(p);
+			}
+//			System.out.println(people.size());
+//			for(Person person: people) {
+//				System.out.println(person.GetJob());
+//			}
+//			int i=1;
+//			for(Person person: people) {
+//				System.out.print(i);
+//				i++;
+//				System.out.println(person.GetJob().isActive);
+//			}
+			in.close();
+			gui.addPeople(people);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	  public void addPerson(String job, String name) {

@@ -7,21 +7,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import simcity.gui.ListPanel;
 import simcity.gui.SimCityAnimationPanel;
+import simcity.interfaces.Person;
 
 public class SimCityGui extends JFrame implements ActionListener, MouseListener {
 
 	public static final int SIMCITYX=985;
 	public static final int SIMCITYY=462;
 	SimCityAnimationPanel simCityAnimationPanel = new SimCityAnimationPanel(this);
-	ListPanel addPersonPanel = null;
 	
 	private SimCityPanel simcityPanel = new SimCityPanel(this);
+	private ListPanel addPersonPanel=new ListPanel(simcityPanel, "Person");
 	
 	/**
 	 * Constructor for SimCityGui
@@ -32,8 +34,7 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 		
 		setLayout(new BorderLayout()); 
 	    add(simCityAnimationPanel, BorderLayout.CENTER);
-		
-		addPersonPanel=new ListPanel(simcityPanel, "Person");
+	
 	         
 	         JPanel cityPanels = new JPanel();
 	         cityPanels.setLayout(new GridLayout(1,1));
@@ -62,9 +63,13 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 		
 	}
 	
+	public void addPeople(ArrayList<Person> people) {
+		addPersonPanel.AddPeople(people);
+	}
 	
 	public static void main(String[] args) {
 		SimCityGui gui = new SimCityGui();
+		gui.simcityPanel.LoadScenario("Scenario1");
 		gui.setTitle("SimCity");
 		gui.setVisible(true);
 		gui.setResizable(false);
