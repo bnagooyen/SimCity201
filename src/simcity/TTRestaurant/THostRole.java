@@ -41,7 +41,7 @@ public class THostRole extends Role implements Host {
 
 		this.name = name;
 		// make some tables
-		tables = new ArrayList<Table>(NTABLES);
+		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		for (int ix = 1; ix <= NTABLES; ix++) {
 			tables.add(new Table(ix));//how you add to a collections
 		}
@@ -62,6 +62,7 @@ public class THostRole extends Role implements Host {
 	}
 
 	public void msgCustomerLeft(TCustomer cust) {
+		synchronized(tables) {
 		for (Table table : tables) {
 			if (table.getOccupant() == cust) {
 				print(cust + " leaving " + table);
@@ -69,6 +70,7 @@ public class THostRole extends Role implements Host {
 				occupiedTable--; 
 				stateChanged();
 			}
+		}
 		}
 	}
 	
@@ -135,6 +137,7 @@ public class THostRole extends Role implements Host {
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
+		synchronized(waiters) {
 		for (int index = 0; index < waiters.size(); index++) {
 			if (waiters.get(index).state == WaiterState.wantsBreak) {
 				if (waitersOnBreak < waiters.size() - 1) {
@@ -148,7 +151,8 @@ public class THostRole extends Role implements Host {
 				}
 			}
 		}
-		
+		}
+		synchronized(tables) {
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
 				if (!waitingCustomers.isEmpty() && !waiters.isEmpty()) {
@@ -171,7 +175,7 @@ public class THostRole extends Role implements Host {
 			}
 
 		}
-		
+		}
 		if (occupiedTable >= 3) {
 			if (!waitingCustomers.isEmpty()) {
 				AskCustWait();
@@ -204,8 +208,10 @@ public class THostRole extends Role implements Host {
 	}
 	
 	private void AskCustWait() {
+		synchronized(waitingCustomers) {
 		for (int i = 0; i < waitingCustomers.size(); i++) { 
 			waitingCustomers.get(i).msgPleaseWait(); 
+		}
 		}
 	}
 

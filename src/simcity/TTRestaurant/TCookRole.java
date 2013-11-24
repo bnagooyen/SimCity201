@@ -103,13 +103,14 @@ public class TCookRole extends Role implements TCook {
 	
 /******************************** delivery from market *****************************************/	
 	public void msgHereIsDelivery(List<MFoodOrder> canGiveMe, double bill, MarketManager manager, MarketCashier cashier) {
+		synchronized(markets) {
 		for (Market m:markets) {
 			if (m.m == manager) {
 				m.state = MarketState.paying;
 				m.bill = bill; 
 			} 
 		}
-		
+		}
 		for (MFoodOrder f: canGiveMe) {
 			Supply.put(f.type, Supply.get(f.type) + f.amount); 
 		}
@@ -138,6 +139,7 @@ public class TCookRole extends Role implements TCook {
 	 */
 	public boolean pickAndExecuteAnAction() {
 		if (!orders.isEmpty()){
+			synchronized(orders) {
 			for (int index = 0; index < orders.size(); index++) {
 				if (orders.get(index).status == OrderStatus.pending) {
 					if (orders.get(index).order == "Steak") {
@@ -194,14 +196,15 @@ public class TCookRole extends Role implements TCook {
 					}
 				}
 			}
+			}
 		}
-		
+		synchronized(markets) {
 		for (Market m:markets) {
 			if( m.state == MarketState.paying ){
 				sendCheck(m); 
 			}
 		}
-		
+		}
 		if (unFullfilled == true) {
 			//BuyFood(); 
 		}
