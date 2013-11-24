@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JPanel;
 
@@ -171,13 +173,22 @@ public class SimCityPanel extends JPanel{
 //		p6.startThread();
 //		waiter.startThread();
 //		cust.startThread();
+		Timer timer;
+
+		 class RemindTask extends TimerTask {
+		        public void run() {
+		           System.out.println("timer beeping");
+		            }
+		 }
+	        timer = new Timer();
+	        timer.schedule(new RemindTask(),
+	                       0,        //initial delay
+	                       1*1000);  //subsequent rate
+	    
 	}
+	   
 	
-	// customer factory
-	// how to use factory in person
-	//		Role r = p.customerFactory("DRestaurant", this);
-	//		r.isActive = true;
-	//r		oles.add(r);
+	
 	
 	public Role jobFactory(String job, PersonAgent p) {
 		Role j = null;
