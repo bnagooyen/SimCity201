@@ -11,7 +11,6 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
-import simcity.KRestaurant.KCookRole.Food;
 import simcity.KRestaurant.KCookRole.marketOrderState;
 import simcity.Market.MFoodOrder;
 import simcity.TTRestaurant.THostRole.Table;
@@ -280,8 +279,21 @@ public class TCookRole extends Role implements TCook {
 				
 /********************************* have cook send a list of MFoodOrder (type and amount) to Market)**************/
 			List<MFoodOrder> neededSupply = new ArrayList<MFoodOrder>();
+			
+			if (Supply.get("Steak") < 5) {
+				neededSupply.add(new MFoodOrder("Steak", 5 - Supply.get("Steak"))); 
+			}
+			if (Supply.get("Chicken") < 5) {
+				neededSupply.add(new MFoodOrder("Chicken", 5 - Supply.get("Chicken"))); 
+			}
+			if (Supply.get("Pizza") < 5) {
+				neededSupply.add(new MFoodOrder("Pizza", 5 - Supply.get("Pizza"))); 
+			}
+			if (Supply.get("Salad") < 5) {
+				neededSupply.add(new MFoodOrder("Salad", 5 - Supply.get("Salad"))); 
+			}
 
-			markets.get(index).m.msgIAmHere((Role)this, Supply, "TRestaurant", "cook");
+			markets.get(index).m.msgIAmHere((Role)this, neededSupply, "TRestaurant", "cook");
 			markets.get(index).checked = true;
 			markets.get(index).state = MarketState.waiting;
 				
