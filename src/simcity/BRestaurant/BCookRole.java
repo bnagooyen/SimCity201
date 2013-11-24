@@ -6,6 +6,8 @@ import simcity.PersonAgent;
 import simcity.BRestaurant.*;
 import simcity.interfaces.*;
 import simcity.BRestaurant.gui.*;
+import simcity.KRestaurant.KCookRole.marketOrderState;
+import simcity.Market.MFoodOrder;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -24,11 +26,12 @@ public class BCookRole extends Role implements BCook {
 	private boolean needtoOrder=false;
 	private boolean alreadyOrdered=false;
 	
+	private BCashierRole cashier;
+	
 	public BCookRole(PersonAgent p) {// , List<BMarketRole> markets) {
 			super(p);
 			
 			this.name=name;
-			this.markets=markets;
 			
 			foodStock.put("steak",new BFood("steak", 10, 5,4,5,16,0));
 			foodStock.put("chicken",new BFood("chicken", 5,10,5,5,11,0));
@@ -39,11 +42,12 @@ public class BCookRole extends Role implements BCook {
 	 
 	 
 
-	private Map<String,BFood> foodStock = new HashMap<String,BFood>();
-	public List<Order> pendingOrders = new ArrayList<Order>();
-	private List<BFood> OrdertoMarket = new ArrayList<BFood>();
-	List<BMarketRole> markets = new ArrayList<BMarketRole>();
-
+	private Map<String,BFood> foodStock = Collections.synchronizedMap(new HashMap<String,BFood>());
+	public List<Order> pendingOrders = Collections.synchronizedList(new ArrayList<Order>());
+	private List<MFoodOrder> OrdertoMarket = Collections.synchronizedList(new ArrayList<MFoodOrder>());
+	List<MarketManager> markets = Collections.synchronizedList(new ArrayList<MarketManager>());
+	List<MarketOrder> marketOrders = Collections.synchronizedList(new ArrayList<MarketOrder>());
+	
 	public enum Status
 	{done, cooking, pending};
 
@@ -106,6 +110,15 @@ public class BCookRole extends Role implements BCook {
 		stateChanged();
 	}
 	
+	public void msgHereIsDelivery(List<MFoodOrder> canGiveMe, double bill, MarketManager manager, MarketCashier cashier) {
+		marketOrders.add(new MarketOrder(bill, cashier));
+		for(MFoodOrder f : canGiveMe) {
+			Do("got " + f.amount + " of " + f.type);
+			BFood currentFood = foodStock.get(f.type);
+			currentFood.amount += f.amount;
+		}
+		stateChanged();
+	}
 	
 	public void foodFinished(Order order){//called by timer
 		order.status = Status.done;
@@ -117,28 +130,37 @@ public class BCookRole extends Role implements BCook {
 
 
 	public boolean pickAndExecuteAnAction() {
-
-		for (Order order : pendingOrders){
-			if(order.status==Status.done)
-				placeOrderDown(order);
-
-		}
-
-		for (Order order : pendingOrders){
-			if(order.status==Status.pending){
-				CookFood(order);
-				foodFinished(order);
+		synchronized(marketOrders) {
+			for(MarketOrder o : marketOrders) {
+				giveCashierCheck(o);
 			}
 		}
-
+		
+		synchronized(pendingOrders) {
+			for (Order order : pendingOrders){
+				if(order.status==Status.done)
+					placeOrderDown(order);
+	
+			}
+		}
+		synchronized(pendingOrders) {
+			for (Order order : pendingOrders){
+				if(order.status==Status.pending){
+					CookFood(order);
+					foodFinished(order);
+				}
+			}
+		}
 		if(alreadyOrdered==false){
-		for(Map.Entry<String, BFood> food : foodStock.entrySet()) {
-			if(food.getValue().quantity < food.getValue().threshold){
-				
-				makeMarketOrder();
-				
+			synchronized(foodStock) {
+				for(Map.Entry<String, BFood> food : foodStock.entrySet()) {
+					if(food.getValue().quantity < food.getValue().threshold){
+						
+						makeMarketOrder();
+						
+					}
+				}
 			}
-		}
 		}
 
 		return false;
@@ -146,6 +168,12 @@ public class BCookRole extends Role implements BCook {
 
 
 //Actions	
+	
+	private void giveCashierCheck(MarketOrder o) {
+		cashier.msgHereisCheckfromMarket(o.check, o.cashier);
+		marketOrders.remove(o);
+	}
+	
 	private void CookFood(Order order){
 		if(foodStock.get(order.choice).quantity >= 1){
 			
@@ -177,16 +205,33 @@ public class BCookRole extends Role implements BCook {
 		needtoOrder=false;
 		alreadyOrdered=true;
 		
-		for(Map.Entry<String, BFood> food : foodStock.entrySet()) {
-			if(food.getValue().quantity < food.getValue().threshold){
-				
-				amountNeeded=food.getValue().capacity-food.getValue().quantity;
-				BFood thisOrder=new BFood(food.getValue().typeOfFood, 0, 0, 0, 0, 0, amountNeeded);
-				OrdertoMarket.add(thisOrder);
-				markets.get(nextMarket).msgHereisCookOrder(this, OrdertoMarket);
-				
+		synchronized(foodStock) {
+			for(Map.Entry<String, BFood> food : foodStock.entrySet()) {
+				if(food.getValue().quantity < food.getValue().threshold){
+					
+					amountNeeded=food.getValue().capacity-food.getValue().quantity;
+					MFoodOrder thisOrder=new MFoodOrder(food.getValue().typeOfFood,amountNeeded);
+					OrdertoMarket.add(thisOrder);
+					markets.get(nextMarket).msgIAmHere((Role)this, OrdertoMarket, "BRestaurant", "cook");
+					
+				}
 			}
 		}
 	}
+	
+	//utilities
 
+	class MarketOrder {
+		double check;
+		MarketCashier cashier;
+		
+		public MarketOrder(double check, MarketCashier cashier) {
+			this.check = check;
+			this.cashier = cashier;
+		}
+	}
+	
+	public void setCashier(BCashierRole c) {
+		this.cashier = c;
+	}
 }

@@ -18,12 +18,11 @@ public class BCashierRole extends Role implements BCashier {
 
     
 
-   
+	BCookRole cook;
     public int totalMoney=500;
     public List<BCheck> myChecks = Collections.synchronizedList(new ArrayList<BCheck>());
     public List<BCustomer> myCustomers = Collections.synchronizedList(new ArrayList<BCustomer>());
     public List<marketCheck> marketChecks=new ArrayList<marketCheck>();
-    private BMarket market;
     
     public BCashierRole(PersonAgent p) {
 		super(p);
@@ -39,6 +38,7 @@ public class BCashierRole extends Role implements BCashier {
 	public class marketCheck{
     	public BCheck check;
     	public paidState state;
+    	MarketCashier cashier;
     }
     
     
@@ -76,7 +76,7 @@ public class BCashierRole extends Role implements BCashier {
     	
     	check.state=paidState.PaidByCashier;
     	check.check.paidbyCashier=true;
-    	market.msgPaytoMarket(check.check);
+    	check.cashier.msgHereIsPayment(cook, check.check.price);
     }
     
     //messages
@@ -90,12 +90,17 @@ public class BCashierRole extends Role implements BCashier {
     	}
     	stateChanged();
     }
-    
-    public void msgHereisCheckfromMarket(BCheck check, BMarket market){
-    	this.market=market;
+/*********************************************************************************************/    
+    public void msgHereisCheckfromMarket(double check, MarketCashier cashier) {
+		// TODO Auto-generated method stub
+		
+	}
+/********************************************************************************************/    
+    public void msgHereisCheckfromMarket(BCheck check, MarketCashier market){
     	marketCheck thisMarketCheck=new marketCheck();
     	thisMarketCheck.check=check;
     	thisMarketCheck.state=paidState.ReceivedByMarket;
+    	thisMarketCheck.cashier = market;
     	marketChecks.add(thisMarketCheck);
     	
     	
@@ -132,6 +137,11 @@ public class BCashierRole extends Role implements BCashier {
     	stateChanged();
     }
     
-  
+  // utilities
+    public void setCook(BCookRole c) {
+    	cook = c;
+    }
+
+	
 }
     

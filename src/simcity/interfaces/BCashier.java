@@ -10,8 +10,8 @@ import simcity.BRestaurant.*;
  */
 public interface BCashier {
        
-	public abstract void msgPayCheck(BCheck check);
-	public abstract void msgCashierCheck(BCheck check, BCustomer customer);
-	public abstract void msgHereisCheckfromMarket(BCheck check, BMarket market);
+//	public abstract void msgPayCheck(BCheck check);
+//	public abstract void msgCashierCheck(BCheck check, BCustomer customer);
+//	public abstract void msgHereisCheckfromMarket(BCheck check, BMarket market);
 	
 }
