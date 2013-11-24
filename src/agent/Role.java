@@ -17,6 +17,7 @@ public abstract class Role {
     public boolean isActive;
     public PersonAgent myPerson;
     public int startHour=11;
+    public String purpose;
     
 
     public Role(PersonAgent p) {

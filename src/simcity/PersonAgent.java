@@ -75,9 +75,11 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public double withdrawalThreshold=20.00;
 	public int kitchenAmnt = 5;
 	private int hungerLevel = 0; // out of 100.. anything over 50 means hungry
+	private int meals=0; //Don't need to keep track of what type of food customer buys?
 
 	private SimCityPanel panel;
 	private Map<String, List<Location>> buildings = null;
+	
 
 	public PersonAgent(String name) {
 		super();
@@ -246,23 +248,24 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 
 		if(locationState==LocationState.atHome && !(energyState==EnergyState.asleep)) {
-			if(hungerLevel>=50) {
-				EatFood();
+			if(energyState==EnergyState.tired) {
+				GoToBed();
 				return true;
 			}
 			if(needToGoToWork) {
 				GoToWork();
 				return true;
 			}
-			if(energyState==EnergyState.tired) {
-				GoToBed();
-				return true;
-			}
+
 			if(money>depositThreshold){
 				deposit();
 			}
 			if(money<withdrawalThreshold){
 				withdraw();
+			}
+			if(hungerLevel>=50) {
+				EatFood();
+				return true;
 			}
 			if(moneyState==MoneyState.rich && myCar==null){
 				buyCar();
@@ -321,8 +324,31 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	}
 
 	private void EatFood() {
-		Do("eating food");
+		if(energyState!=EnergyState.asleep){
+			if(moneyState==MoneyState.rich && hour>7 && hour<23){
+				String choice=chooseRestaurant();
+				mydestination=choice;
+				locationState=LocationState.inTransit;
+			}
+			else if(meals>0){
+				Do("Eat at home");
+				mydestination="home";
+				meals--;
+			}
+			else if(moneyState==MoneyState.adequate && hour>7 && hour<23){
+				String choice=chooseRestaurant();
+				mydestination=choice;
+				locationState=LocationState.inTransit;
+			}
+			else if(moneyState==MoneyState.poor && hour>7 && hour<23){
+				mydestination="market";
+				locationState=LocationState.inTransit;
+			}
+			else{
+				energyState=EnergyState.tired;
+			}
 		hungerLevel=0;
+		}
 	}
 
 	private void GoToWork() {
@@ -338,7 +364,8 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	private void deposit() {
 		Do("Going to deposit Money");
-
+		mydestination="bank";
+		locationState=LocationState.inTransit;
 	}
 
 	private void withdraw() {
@@ -384,6 +411,20 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	}
 	// utilities
 
+	private String chooseRestaurant(){
+		Random generator=new Random();
+		int choice = generator.nextInt(5);
+		switch (choice){
+			case 0: return "drew_restaurant";
+			case 1: return "drestaurant";
+			case 2: return "brestaurant";
+			case 3: return "krestaurant";
+			case 4: return "trestaurant";
+			case 5: return "lrestaurant";
+		}
+		return "";
+	}
+	
 	private void DoDie() {
 		System.out.println("Dieing");
 	}

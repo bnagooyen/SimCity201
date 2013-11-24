@@ -21,7 +21,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public BankLoanOfficer loanOfficer; 
 	public enum bankCustomerState { arrived, waiting, inProgress, done};
 	public bankCustomerState state=bankCustomerState.arrived;
-	public String purpose;
+	//public String purpose;
 	public Integer accountNum=null;
 	
 	
@@ -72,7 +72,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public BankCustomerRole(PersonAgent p) {
 		super(p);
 		
-		purpose="transaction";						//NEED A GOOD WAY FOR PERSON TO DECIDE
+		//purpose="transaction";						//NEED A GOOD WAY FOR PERSON TO DECIDE
 	}
 	
 
@@ -105,7 +105,12 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	//actions
 	private void tellManagerArrived(){
 		Do("Arriving at bank");
-		manager.msgIAmHere(this,purpose);
+		if(purpose.equals("withdraw")||purpose.equals("deposit")||purpose.equals("rob")){
+			manager.msgIAmHere(this,"transaction");
+		}
+		else if(purpose.equals("loan")){
+			manager.msgIAmHere(this,"loan");
+		}
 		state=bankCustomerState.waiting;
 	}
 	
