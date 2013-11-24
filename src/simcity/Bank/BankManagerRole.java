@@ -283,10 +283,10 @@ public class BankManagerRole extends Role implements BankManager {
 		Do("Transferring money");
 		if (accounts.get(clients.get(0).AN).balance >= clients.get(0).bill) {
 			accounts.get(clients.get(0).AN).balance -= clients.get(0).bill;
-			clients.get(0).client.HereIsARentPayment(clients.get(0).AN, clients.get(0).bill);
+			clients.get(0).client.msgHereIsARentPayment(clients.get(0).AN, clients.get(0).bill);
 		}
 		else {
-			clients.get(0).client.CannotPayForRent(clients.get(0).AN);
+			clients.get(0).client.msgCannotPayForRent(clients.get(0).AN);
 		}		
 		clients.remove(0); 
 	}
