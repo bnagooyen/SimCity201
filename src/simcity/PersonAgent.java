@@ -82,11 +82,12 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private Map<String, List<Location>> buildings = null;
 	
 
-	public PersonAgent(String name) {
+	public PersonAgent(String name, Role job) {
 		super();
 
 
 		this.name = name;
+		this.SetJob(job);
 
 
 		personState=PersonState.none;
@@ -473,6 +474,10 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public void gotHungry() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void setMoney(double amount){
+		money=amount;
 	}
 }
 
