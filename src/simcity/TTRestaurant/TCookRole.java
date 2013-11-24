@@ -103,7 +103,16 @@ public class TCookRole extends Role implements TCook {
 	
 /******************************** delivery from market *****************************************/	
 	public void msgHereIsDelivery(List<MFoodOrder> canGiveMe, double bill, MarketManager manager, MarketCashier cashier) {
+		for (Market m:markets) {
+			if (m.m == manager) {
+				m.state = MarketState.paying;
+				m.bill = bill; 
+			} 
+		}
 		
+		for (MFoodOrder f: canGiveMe) {
+			Supply.put(f.type, Supply.get(f.type) + f.amount); 
+		}
 		
 		// set restaurant cashier so that restaurant cashier knows who to pay
 		//Market m.cashier = cashier;
@@ -268,10 +277,25 @@ public class TCookRole extends Role implements TCook {
 			}
 			else {
 				
-/********************************* have cook send a list of MFoodOrder (type and amount) to Market)**************/				
-				markets.get(index).m.msgIAmHere((Role)this, Supply, "TRestaurant", "cook");
-				markets.get(index).checked = true;
-				markets.get(index).state = MarketState.waiting;
+/********************************* have cook send a list of MFoodOrder (type and amount) to Market)**************/
+			List<MFoodOrder> neededSupply = new ArrayList<MFoodOrder>();
+			
+			if (Supply.get("Steak") < 5) {
+				neededSupply.add(new MFoodOrder("Steak", 5 - Supply.get("Steak"))); 
+			}
+			if (Supply.get("Chicken") < 5) {
+				neededSupply.add(new MFoodOrder("Chicken", 5 - Supply.get("Chicken"))); 
+			}
+			if (Supply.get("Pizza") < 5) {
+				neededSupply.add(new MFoodOrder("Pizza", 5 - Supply.get("Pizza"))); 
+			}
+			if (Supply.get("Salad") < 5) {
+				neededSupply.add(new MFoodOrder("Salad", 5 - Supply.get("Salad"))); 
+			}
+
+			markets.get(index).m.msgIAmHere((Role)this, neededSupply, "TRestaurant", "cook");
+			markets.get(index).checked = true;
+			markets.get(index).state = MarketState.waiting;
 				
 /************************************************************************************************/	
 				
@@ -305,7 +329,6 @@ public class TCookRole extends Role implements TCook {
 		Market m = new Market();
 		m.setMarket(mart);
 		markets.add(m);
-		stateChanged(); 
 	}
 	*/
 

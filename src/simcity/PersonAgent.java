@@ -42,7 +42,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private String name;
 	Bus bus;
 	BusStop busStop;
-	public CarAgent myCar=null;
+	public Car myCar=null;
 	List<Role> roles = new ArrayList<Role>();
 	Map<String,Role> possibleRoles = new HashMap<String,Role>();
 	//List<Role> customerRoles = new ArrayList<Role>();
@@ -183,9 +183,10 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public void msgAtDestination(String destination){
 		mydestination=destination;
 		mylocation=mydestination;
-		boolean haveRole=false;
+		//boolean haveRole=false;
 		transitState=TransitState.getOutCar;
 		stateChanged();
+		/**
 		neededRole=possibleRoles.get(destination);
 
 		if(needToGoToWork){
@@ -202,6 +203,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				neededRole.isActive=true;
 			}
 		}
+		*/
 	}
 
 
@@ -428,6 +430,24 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private void getOutCarAndWalk(){
 		Do("Get out car");
 		transitState=TransitState.atDestination;
+		
+		boolean haveRole=false;
+		neededRole=possibleRoles.get(mydestination);
+
+		if(needToGoToWork){
+			myJob.isActive=true;
+			needToGoToWork=false;
+		}
+		else{
+			for(Role role:roles){
+				if(role==neededRole) role.isActive=true;
+				haveRole=true;
+			}
+			if(!haveRole){
+				roles.add(neededRole);
+				neededRole.isActive=true;
+			}
+		}
 	}
 	// utilities
 
