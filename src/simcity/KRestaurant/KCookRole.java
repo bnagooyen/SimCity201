@@ -346,7 +346,7 @@ public class KCookRole extends Role implements KCook{
 			grill = -1;
 		}
 	}
-	private class Food {
+	public class Food {
 		String type;
 		int cookingTime;
 		int amount;
@@ -368,7 +368,7 @@ public class KCookRole extends Role implements KCook{
 			}
 		}
 	}
-	private class MarketOrder {
+	public class MarketOrder {
 		MarketManager m;
 		MarketCashier cashier;
 		double check;

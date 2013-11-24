@@ -1,5 +1,5 @@
 Population(numPeopleInFile):
-31
+38
 EntryTemplate:
 Name
 	Money
@@ -10,7 +10,7 @@ Applekimi
 	600
 	BankManager
 	true
-	House
+	Apartment
 Kimda
 	500
 	MarketManager
@@ -161,3 +161,38 @@ Landlord1
 	Landlord
 	true
 	House
+BankRobber1
+	0
+	BankRobber
+	false
+	House
+Betty
+	200
+	Waiter1
+	false
+	Apartment
+Betty
+	200
+	Waiter2
+	false
+	Apartment
+Betty
+	200
+	Waiter3
+	false
+	Apartment
+Betty
+	200
+	Waiter4
+	false
+	Apartment
+Betty
+	200
+	Waiter5
+	false
+	Apartment
+Betty
+	200
+	Waiter6
+	false
+	Apartment

@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 
 import agent.Role;
 import simcity.PersonAgent;
+import simcity.PersonAgent.HomeType;
 import simcity.BRestaurant.BCashierRole;
 import simcity.BRestaurant.BCookRole;
 import simcity.BRestaurant.BCustomerRole;
@@ -59,6 +60,8 @@ import simcity.TTRestaurant.TCustomerRole;
 import simcity.TTRestaurant.THostRole;
 import simcity.TTRestaurant.TWaiterRole;
 import simcity.Transportation.CarAgent;
+import simcity.housing.LandlordRole;
+import simcity.housing.RepairManRole;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.Host;
 import simcity.interfaces.MarketManager;
@@ -66,6 +69,12 @@ import simcity.interfaces.Person;
 
 public class SimCityPanel extends JPanel{
 
+	public static final int NUMAPTS = 12;
+	public static final int NUMHOUSES = 15;
+	public int houseNumCounter=1;
+	public int ApartmentsPerLandlord;
+	public int aptNumCounter=1;
+	public char aptLetCounter='A';
 	private SimCityGui gui;
 	public Map<String, List<Location>> buildings = new HashMap<String, List<Location>>();
 	public Map<String, List<Location>> busStops=new HashMap<String, List<Location>>();
@@ -74,7 +83,7 @@ public class SimCityPanel extends JPanel{
 	private List<Location> markets = new ArrayList<Location>();
 	
 	private ArrayList<Person> people = new ArrayList<Person>();
-	
+	private ArrayList<MyLandlord> landlords = new ArrayList<MyLandlord>();
 	static Scanner in;
 	
 	public SimCityPanel(SimCityGui gui) {
@@ -181,7 +190,15 @@ public class SimCityPanel extends JPanel{
 		else if (job.equals("MarketManager")) {
 			j = new MarketManagerRole(p);
 		}
-	
+
+		// house
+		else if (job.equals("Landlord")) {
+			j = new LandlordRole(p);
+		}
+		else if (job.equals("RepairMan")) {
+			j = new RepairManRole(p);
+		}
+		
 		// BRestaurant
 		else if (job.equals("RestCashier2")) {
 			j = new BCashierRole(p);
@@ -303,8 +320,9 @@ public class SimCityPanel extends JPanel{
 	}
 	
 	public void LoadScenario(String type) {
+		people.clear();
 		try {
-			in  = new Scanner(new FileReader("config"+File.separator+"config1.txt"));
+			in  = new Scanner(new FileReader("config"+File.separator+type+".txt"));
 //			System.out.println(in.next());
 			in.next();
 			int numItems = in.nextInt();
@@ -315,31 +333,79 @@ public class SimCityPanel extends JPanel{
 			in.next();
 			in.next();
 			in.next();
-			
+			in.next();
 			for(int i=0; i<numItems; i++) {
-//				System.out.println(in.next());
-//				System.out.println(in.nextDouble());
-//				System.out.println(in.next());
-//				System.out.println(in.nextBoolean());
 				PersonAgent p = new PersonAgent(in.next());
 				p.setMoney(in.nextDouble());
-				p.SetJob(jobFactory(in.next().trim(),p));
+				String job = in.next().trim();
+				p.SetJob(jobFactory(job,p));
+				if(job.equals("Landlord")) {
+					landlords.add(new MyLandlord(p));
+//					System.out.println("landlord added");
+				}
 				boolean hasACar = in.nextBoolean();
 				if(hasACar) {
 					p.setCar(new CarAgent());
 				}
+				String home = in.next();
+				
+				if(home.equals("House") && houseNumCounter<=NUMHOUSES) {
+					p.SetHome(HomeType.house);
+					p.SetHouseLocation(houseNumCounter);
+					houseNumCounter++;
+					
+				}
+				else if(aptNumCounter<=aptNumCounter) {
+					p.SetHome(HomeType.apartment);
+					p.SetApatmentLocation(aptNumCounter, aptLetCounter);
+					if(aptLetCounter=='C') {
+						aptLetCounter='A';
+						aptNumCounter++;
+					}
+					else {
+						aptLetCounter++;
+					}
+				}
+				else {
+					p.SetHome(HomeType.homeless);
+				}
 				people.add(p);
 			}
+			
+			ApartmentsPerLandlord = NUMAPTS/landlords.size();
+			for(Person p: people) {
+				if(p.GetHomeState()==HomeType.apartment) {
+					landlords.get((p.getAptNum()-1)/ApartmentsPerLandlord).tenants.add(p);
+				}
+			}
+//			
+			for(MyLandlord l: landlords) {
+//				System.out.println(l.tenants.size());
+//				l.p.SetTenants(l.tenants);
+			}
+//			
+			//TEST CODE
 //			System.out.println(people.size());
-//			for(Person person: people) {
-//				System.out.println(person.GetJob());
-//			}
+			for(Person person: people) {
+				HomeType h= person.GetHomeState();
+				if(h==HomeType.house) {
+					System.out.println("house");
+					System.out.println(person.getHouseNum());
+				}
+				if(h==HomeType.apartment) {
+					System.out.println("apartment");
+					System.out.print(person.getAptNum());
+					System.out.println(person.getAptLet());
+				}
+			}
 //			int i=1;
 //			for(Person person: people) {
 //				System.out.print(i);
 //				i++;
 //				System.out.println(person.GetJob().isActive);
 //			}
+//			System.out.println(landlords.size());
+			
 			in.close();
 			gui.addPeople(people);
 		} catch (FileNotFoundException e) {
@@ -395,6 +461,14 @@ public class SimCityPanel extends JPanel{
 		public Market(String n, MarketManager m) {
 			name = n;
 			manager = m;
+		}
+	}
+	
+	public class MyLandlord {
+		Person p;
+		List<Person> tenants= new ArrayList<Person>();
+		public MyLandlord(Person per) {
+			p=per;
 		}
 	}
 }

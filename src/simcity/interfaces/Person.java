@@ -1,5 +1,6 @@
 package simcity.interfaces;
 
+import simcity.PersonAgent.HomeType;
 import simcity.Transportation.CarAgent;
 import agent.Role;
 
@@ -22,6 +23,15 @@ public interface Person {
 	public abstract Role GetJob();
 
 	public abstract String getName();
+
+	public abstract HomeType GetHomeState();
+
+	public abstract int getHouseNum();
+
+	public abstract int getAptNum();
+
+	public abstract char getAptLet();
+
 }
 
 

@@ -51,7 +51,11 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private String mydestination;
 	private String mylocation="home";
 	private String jobLocation;
-
+	public enum HomeType{apartment, house, homeless};
+	HomeType homeType;
+	int houseNum;
+	int aptNum;
+	char aptLet;
 	public enum PersonState { none };
 	public enum EnergyState {tired, asleep, awake, none };
 	public enum LocationState { atHome, inTransit, atWork };
@@ -516,6 +520,43 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public Role GetJob() {
 		// TODO Auto-generated method stub
 		return myJob;
+	}
+
+	public void SetHome(HomeType homeorapt) {
+		homeType = homeorapt;
+	}
+
+	public void SetApatmentLocation(int num, char let) {
+		// TODO Auto-generated method stub
+		aptNum = num;
+		aptLet = let;
+	}
+	public void SetHouseLocation(int num) {
+		houseNum = num;
+	}
+
+	@Override
+	public HomeType GetHomeState() {
+		// TODO Auto-generated method stub
+		return homeType;
+	}
+
+	@Override
+	public int getHouseNum() {
+		// TODO Auto-generated method stub
+		return houseNum;
+	}
+
+	@Override
+	public int getAptNum() {
+		// TODO Auto-generated method stub
+		return aptNum;
+	}
+
+	@Override
+	public char getAptLet() {
+		// TODO Auto-generated method stub
+		return aptLet;
 	}
 }
 

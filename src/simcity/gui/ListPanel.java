@@ -115,7 +115,8 @@ public class ListPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
         if(e.getSource() == scenarioSelection){
 //        	System.err.println("changed to "+ scenarioSelection.getSelectedItem());
-//        	UpdateToScenario(scenarioSelection.getSelectedItem());
+//        	System.out.println((String)scenarioSelection.getSelectedItem());
+        	UpdateToScenario((String)scenarioSelection.getSelectedItem());
         }
     	if(e.getSource()==setScenario) {
     		scenarioSelection.setEnabled(false);
@@ -228,7 +229,11 @@ public class ListPanel extends JPanel implements ActionListener {
     
     public void AddPeople(ArrayList<Person> people) {
     	pplList.clear();
-    	view.repaint();
+    	for(Component c: view.getComponents())
+    	{
+    		view.remove(c);
+    	}
+    	view.validate();
     	for(Person p: people) {
     		  JLabel button = new JLabel(p.getName(), SwingConstants.CENTER);
     		  JPanel adding = new JPanel();
@@ -261,6 +266,12 @@ public class ListPanel extends JPanel implements ActionListener {
     
     public void UpdateToScenario(String type) {
     		//add load scenario method here
+    	if(type.equals("Scenario 1"))
+    		simcityPanel.LoadScenario("config1");
+    	else if(type.equals("Scenario 2"))
+    		simcityPanel.LoadScenario("config2");
+    	else if(type.equals("Scenario 3"))
+    		simcityPanel.LoadScenario("config3");
     }
 //    
 //    public void setCustomerEnabled(String old, String n) {

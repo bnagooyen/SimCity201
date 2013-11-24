@@ -69,7 +69,7 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 	
 	public static void main(String[] args) {
 		SimCityGui gui = new SimCityGui();
-		gui.simcityPanel.LoadScenario("Scenario1");
+		gui.simcityPanel.LoadScenario("config1");
 		gui.setTitle("SimCity");
 		gui.setVisible(true);
 		gui.setResizable(false);
