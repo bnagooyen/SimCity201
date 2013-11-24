@@ -19,7 +19,6 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 	public static final int SIMCITYX=985;
 	public static final int SIMCITYY=462;
 	SimCityAnimationPanel simCityAnimationPanel = new SimCityAnimationPanel(this);
-	SimCityPanel simCityPanel = new SimCityPanel(this);
 	ListPanel addPersonPanel = null;
 	
 	private SimCityPanel simcityPanel = new SimCityPanel(this);
@@ -34,7 +33,7 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 		setLayout(new BorderLayout()); 
 	    add(simCityAnimationPanel, BorderLayout.CENTER);
 		
-		addPersonPanel=new ListPanel(simCityPanel, "Person");
+		addPersonPanel=new ListPanel(simcityPanel, "Person");
 	         
 	         JPanel cityPanels = new JPanel();
 	         cityPanels.setLayout(new GridLayout(1,1));

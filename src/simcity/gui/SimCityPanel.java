@@ -135,10 +135,12 @@ public class SimCityPanel extends JPanel{
 			in.next();
 			
 			for(int i=0; i<numItems; i++) {
-				System.out.println(in.next());
-				System.out.println(in.nextDouble());
-				System.out.println(in.next());
-				System.out.println(in.nextBoolean());
+//				System.out.println(in.next());
+//				System.out.println(in.nextDouble());
+//				System.out.println(in.next());
+//				System.out.println(in.nextBoolean());
+				Person p = new PersonAgent(in.next());
+				p.SetMoney(in.nextDouble());
 			}
 			in.close();
 		} catch (FileNotFoundException e) {
