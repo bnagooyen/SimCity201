@@ -273,11 +273,11 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				return true;
 			}
 			if(moneyState==MoneyState.rich && myCar==null){
-				//getCarLoan();
+				getCarLoan();
 			}
 		}
 		
-		if(mydestination==mylocation) locationState=LocationState.atHome;	//Don't travel if your already in the right place
+			//Don't travel if your already in the right place
 		if(locationState==LocationState.inTransit && !(energyState==EnergyState.asleep)) {
 
 			if (myCar==null){
@@ -385,6 +385,12 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	}
 
+	private void getCarLoan(){
+		mydestination="bank";
+		locationState=LocationState.inTransit;
+		possibleRoles.get("bank").purpose="loan";
+	}
+	
 	private void buyCar() {
 		Do("Go buy car");
 		mydestination="market";

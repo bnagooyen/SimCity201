@@ -40,10 +40,10 @@ public class PersonTest extends TestCase{
 	
 	public void setUp() throws Exception{
 		role=new MockRole("mockrole", person);
-		person=new PersonAgent("person", role);
+		person=new PersonAgent("person");
 		bus=new MockBus("bus");
 		busStop=new MockBusStop("mock busStop");
-		
+		person.SetJob(role);
 		
 
 	}
@@ -68,6 +68,27 @@ public class PersonTest extends TestCase{
 		assertTrue("Person's energy state should be awake", person.energyState==EnergyState.awake);
 		assertTrue("Person's transitState should be walking to bus", person.transitState==TransitState.walkingToBus);
 		assertTrue("Person's locationState should be inTransit", person.locationState==LocationState.inTransit);
+		
+		person.pickAndExecuteAnAction();
+		assertTrue("Person's transit State should be set to tell the bus", person.transitState==TransitState.atBusStop);
+		
+		person.setBus(bus);
+		person.msgBusIsHere(bus);
+		
+		
+		assertTrue("Person's transitState should be get on bus, but it isnt", person.transitState==TransitState.getOnBus);
+		person.pickAndExecuteAnAction();
+		assertEquals("Bus should have a message in its log after person gets on, but it does not", bus.log.size(), 1);
+		
+		person.msgAtStop("destination");
+		
+		assertTrue("Person's transitState should be get off bus but it is not", person.transitState==TransitState.getOffBus);
+		person.pickAndExecuteAnAction();
+		assertTrue("Person's transitState should be walkingToDestination", person.transitState==TransitState.walkingtoDestination);
+		
+		
+		
+		
 		
 		
 
