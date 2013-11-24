@@ -47,8 +47,9 @@ public class DCookRole extends Role implements Cook {
 	List<DOrder> orders =  Collections.synchronizedList(new ArrayList<DOrder>());
 	List<InventoryOrder> myOrders =  Collections.synchronizedList(new ArrayList<InventoryOrder>());
 	private int ORDER_ID;
-	ArrayList<DFoodOrder> orderToMarket = new ArrayList<DFoodOrder>();
+	ArrayList<MFoodOrder> orderToMarket = new ArrayList<MFoodOrder>();
 	List<MarketBill> marketBills = Collections.synchronizedList(new ArrayList<MarketBill>());
+	List<MarketManager> markets = Collections.synchronizedList(new ArrayList<MarketManager>());
 	
 	Cashier myCashier;
 	boolean RestaurantIsOpen, CheckedAtFirst, valsAreSet;
@@ -213,7 +214,7 @@ public class DCookRole extends Role implements Cook {
 		marketBills.add(new MarketBill(bill, cashier));
 		stateChanged();		
 	}
-	public void msgCouldNotFulfillThese(ArrayList<DFoodOrder> reorderlist, int ORDERID) {
+	public void msgCouldNotFulfillThese(ArrayList<MFoodOrder> reorderlist, int ORDERID) {
 		
 		
 		for(InventoryOrder order: myOrders) {
@@ -443,22 +444,22 @@ public class DCookRole extends Role implements Cook {
 			orderToMarket.clear(); 
 			
 			if(myFood.get("Chicken").getAmount()<=threshold) {
-				orderToMarket.add(new DFoodOrder("Chicken", MAXCAPACITY- myFood.get("Chicken").getAmount()));
+				orderToMarket.add(new MFoodOrder("Chicken", MAXCAPACITY- myFood.get("Chicken").getAmount()));
 				billAmnt+=(MAXCAPACITY - myFood.get("Chicken").getAmount())*prices.get("Chicken");
 			}
 			
 			if(myFood.get("Steak").getAmount()<=threshold) {
-				orderToMarket.add(new DFoodOrder("Steak", MAXCAPACITY-myFood.get("Steak").getAmount()));
+				orderToMarket.add(new MFoodOrder("Steak", MAXCAPACITY-myFood.get("Steak").getAmount()));
 				billAmnt+=(MAXCAPACITY - myFood.get("Steak").getAmount())*prices.get("Steak");
 			}
 			
 			if(myFood.get("Pizza").getAmount()<=threshold) {
-				orderToMarket.add(new DFoodOrder("Pizza", MAXCAPACITY-myFood.get("Pizza").getAmount()));
+				orderToMarket.add(new MFoodOrder("Pizza", MAXCAPACITY-myFood.get("Pizza").getAmount()));
 				billAmnt+=(MAXCAPACITY - myFood.get("Pizza").getAmount())*prices.get("Pizza");
 			}
 			
 			if(myFood.get("Salad").getAmount()<=threshold) {
-				orderToMarket.add(new DFoodOrder("Salad", MAXCAPACITY-myFood.get("Salad").getAmount()));
+				orderToMarket.add(new MFoodOrder("Salad", MAXCAPACITY-myFood.get("Salad").getAmount()));
 				billAmnt+=(MAXCAPACITY - myFood.get("Salad").getAmount())*prices.get("Salad");
 			}
 			
@@ -467,12 +468,19 @@ public class DCookRole extends Role implements Cook {
 			waitingForInventory=true;
 			
 			//msg to market to call in and ask for order
+			MarketManager m = chooseMarket();
+			m.msgIAmHere((Role)this, orderToMarket, "DRestaurant", "cook");
 			
-			myCashier.msgMadeInventoryOrder(ORDER_ID, billAmnt);
+			//myCashier.msgMadeInventoryOrder(ORDER_ID, billAmnt);
 			
 			
 		}
 		
+		private MarketManager chooseMarket() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 		private void ReorderFood(InventoryOrder reord) {
 			System.out.println("sent reorder");
 			reord.reorder=false;
@@ -502,12 +510,12 @@ public class DCookRole extends Role implements Cook {
 		
 		class InventoryOrder {
 			int orderID;
-			ArrayList<DFoodOrder> myorder;
+			ArrayList<MFoodOrder> myorder;
 			int mktOrderingFrom;
 			boolean reorder;
 			
-			InventoryOrder(ArrayList<DFoodOrder> mo, int orderid) {
-				myorder=mo;
+			InventoryOrder(ArrayList<MFoodOrder> orderToMarket, int orderid) {
+				myorder=orderToMarket;
 				mktOrderingFrom=1;
 				orderID=orderid;
 				reorder=false;
