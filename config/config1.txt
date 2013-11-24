@@ -1,5 +1,5 @@
 Population(numPeopleInFile):
-12
+18
 EntryTemplate:
 Name
 	Money
@@ -29,23 +29,23 @@ Limberly
 	500
 	MarketManger
 	true
-Doreen
+Andrew
 	400
 	HostRestaurant1
 	true
-Drew
+Brian
 	400
 	HostRestaurant2
 	true
-Kim
+Doreen
 	400
 	HostRestaurant3
 	true
-Linda
+Kim
 	400
 	HostRestaurant4
 	true
-Brian
+Linda
 	400
 	HostRestaurant5
 	true
@@ -53,3 +53,75 @@ Tiffany
 	400
 	HostRestaurant6
 	true
+Waiter1
+	200
+	Waiter
+	false
+Waiter2
+	200
+	Waiter
+	false
+Waiter3
+	200
+	Waiter
+	false
+Waiter4
+	200
+	Waiter
+	false
+Waiter5
+	200
+	Waiter
+	false
+Waiter6
+	200
+	Waiter
+	false
+Cook1
+	200
+	Cook
+	false
+Cook2
+	200
+	Cook
+	false
+Cook3
+	200
+	Cook
+	false
+Cook4
+	200
+	Cook
+	false
+Cook5
+	200
+	Cook
+	false
+Cook6
+	200
+	Cook
+	false
+RCashier1
+	200
+	RestCashier
+	false
+RCashier2
+	200
+	RestCashier
+	false
+RCashier3
+	200
+	RestCashier
+	false
+RCashier4
+	200
+	RestCashier
+	false
+RCashier5
+	200
+	RestCashier
+	false
+RCashier6
+	200
+	RestCashier
+	false
