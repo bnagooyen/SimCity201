@@ -98,13 +98,14 @@ public class KCookRole extends Role implements KCook{
 	}
 	
 	public void msgHereIsDelivery(List<MFoodOrder> canGiveMe, double bill, MarketManager manager, MarketCashier cashier) {
+		synchronized(marketOrders) {
 		for(MarketOrder m : marketOrders) {
 			if( m.m == manager) {
 				m.state = marketOrderState.arrived;
 				m.cashier = cashier;
 			}
 		}
-		
+		}
 		for(MFoodOrder f : canGiveMe) {
 			Do("got " + f.amount + " of " + f.type);
 			Food currentFood = foods.get(f.type);

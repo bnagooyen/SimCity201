@@ -81,11 +81,13 @@ public class KCashierRole extends Role implements KCashier{
 	public void msgPayment( double payment, KCustomer c, double check) {
 		Do("got money from customer $" + payment);
 		Order current = null;
+		synchronized(bills) {
         for(Order o : bills) {
                 if (o.c == c) {
                         current = o;
                 }
         }
+		}
         current.s = orderState.givenPayment;
         current.price = check;
         current.payment = payment;
