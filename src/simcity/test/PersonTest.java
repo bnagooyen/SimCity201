@@ -16,7 +16,7 @@ import simcity.test.mock.MockBusStop;
 import simcity.test.mock.MockCar;
 import simcity.test.mock.MockMarketCashier;
 import simcity.test.mock.MockMarketCustomer;
-import simcity.test.mock.MockPerson;
+import simcity.test.mock.*;
 import simcity.test.mock.MockRepairMan;
 import simcity.Market.MarketCashierRole.orderState;
 import simcity.PersonAgent.EnergyState;
@@ -127,7 +127,15 @@ public class PersonTest extends TestCase{
 		
 		
 		
+	}
+	
+	public void normativePersonTest(){
+		MockBankTeller bankTeller=new MockBankTeller("teller",person);
+		person.SetJob(bankTeller);
 		
+		assertTrue("In order to use bus, person must have no car, but they do. ", person.myCar==null);
+		assertEquals("Bus Stop should not have received message from person yet that it is at the station, but it had", person,0);
+		assertEquals("Bus should not have received any messages from Bus, but it has", bus.log.size(),0);
 		
 	}
 

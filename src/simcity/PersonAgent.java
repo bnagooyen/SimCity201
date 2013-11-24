@@ -46,11 +46,11 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	Map<String,Role> possibleRoles = new HashMap<String,Role>();
 	//List<Role> customerRoles = new ArrayList<Role>();
-	private Role myJob;
-	private Role neededRole;
-	private String mydestination;
-	private String mylocation="home";
-	private String jobLocation;
+	public Role myJob;
+	public Role neededRole;
+	public String mydestination;
+	public String mylocation="home";
+	public String jobLocation;
 	public enum HomeType{apartment, house, homeless};
 	HomeType homeType;
 	int houseNum;
