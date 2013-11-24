@@ -10,8 +10,6 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
-import simcity.KRestaurant.KCookRole.Food;
-import simcity.KRestaurant.KCookRole.MarketOrder;
 import simcity.KRestaurant.KCookRole.marketOrderState;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
 import simcity.LRestaurant.gui.LCookGui;
@@ -39,8 +37,6 @@ public class LCookRole extends Role implements LCook {
 //	private Map<String, Boolean> marketOrders = new HashMap<String, Boolean>(); //integer holds the amount reordered
 	public enum OrderState {pending, cooking, cooked};
 	public enum MarketState{noOrder, order, firstOrder, reOrder};
-//	private int currMarket = 0;
-//	private boolean needMarket = false; //set true when need to order from market
 	public LCookGui cookGui;
 	public List<MarketManager> markets =Collections.synchronizedList( new ArrayList<MarketManager>()); 
 	public List<MarketOrder> marketOrders =Collections.synchronizedList( new ArrayList<MarketOrder>()); 
@@ -185,10 +181,10 @@ public class LCookRole extends Role implements LCook {
 
 	private void orderFromMarket(String choice, int orderAmount){
 //		int orderAmount = foods.get(o.choice).capacity - foods.get(o.choice).amount;
-		List<MFoodOrder> needed = new ArrayList<MFoodOrder>();
-		needed.add(new MFoodOrder(choice, orderAmount));
 //		foods.get(o.choice).state = MarketState.noOrder;
 
+		List<MFoodOrder> needed = new ArrayList<MFoodOrder>();
+		needed.add(new MFoodOrder(choice, orderAmount));
 		Random rand = new Random();
 		int select = rand.nextInt(markets.size());
 		MarketManager m = markets.get(select);
@@ -308,7 +304,6 @@ public class LCookRole extends Role implements LCook {
 		int cookingTime;
 		int capacity; //how much the cook can hold
 		int threshold; //signals to order from market
-		//private boolean needMarket; //set true when need to order from market
 		int need; //food supply still needed
 		MarketState state;
 

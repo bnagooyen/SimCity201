@@ -59,6 +59,7 @@ public class CarAgent extends Agent implements Car {
 	}
 	
 	private void HaveArrived(){
+		Do("Arrived at destination");
 		driver.msgAtDestination(destination);
 	}
 	
