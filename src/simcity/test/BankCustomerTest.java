@@ -23,7 +23,7 @@ public class BankCustomerTest extends TestCase{
 	public void setUp() throws Exception{
 		super.setUp();
 		
-		p = new PersonAgent("BankCustomer", mockrole);
+		p = new PersonAgent("BankCustomer");
 		mockrole=new MockRole("mockrole", p);
 		customer = new BankCustomerRole(p);
 		p.addRole(customer);

@@ -21,7 +21,7 @@ public class BankRobberTest extends TestCase{
 	
 	public void setUp() throws Exception{
 		super.setUp();
-		p = new PersonAgent("BankRobber", mockrole);
+		p = new PersonAgent("BankRobber");
 		mockrole=new MockRole("mockrole", p);
 		robber = new BankRobberRole(p);
 		p.addRole(robber);

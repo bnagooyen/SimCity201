@@ -39,9 +39,9 @@ public class BusTest extends TestCase{
 	
 	
 	public void setUp() throws Exception{
-		person=new PersonAgent("person", mockrole);
-		person2=new PersonAgent("person2", mockrole2);
-		person3=new PersonAgent("person3", mockrole3);
+		person=new PersonAgent("person");
+		person2=new PersonAgent("person2");
+		person3=new PersonAgent("person3");
 		mockrole=new MockRole("mockrole",person);
 		mockrole2=new MockRole("mockrole2",person2);
 		mockrole3=new MockRole("mockrole2",person3);

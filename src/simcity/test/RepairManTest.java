@@ -18,7 +18,7 @@ public class RepairManTest extends TestCase{
 	
 	public void setUp() throws Exception{
 		super.setUp();
-		person = new PersonAgent("RepairMan", repairman);
+		person = new PersonAgent("RepairMan");
 		repairman = new RepairManRole(person);
 		person.addRole(repairman);
 		

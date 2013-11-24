@@ -40,7 +40,7 @@ public class MarketManagerTest extends TestCase{
 	
 	public void setUp() throws Exception{
 		super.setUp();
-		p = new PersonAgent("MarketCashier", m);
+		p = new PersonAgent("MarketCashier");
 		mc = new MockRoleMarketCashier("mockMarketCashier", p);
 		p.addRole(m);
 		ib = new MockInventoryBoy("mockInventoryBoy");

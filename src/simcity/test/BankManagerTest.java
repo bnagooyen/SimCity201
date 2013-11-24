@@ -35,7 +35,7 @@ public class BankManagerTest extends TestCase{
 	@Override
 	public void setUp() throws Exception{
 		super.setUp();
-		p = new PersonAgent("BankManager", mockrole);
+		p = new PersonAgent("BankManager");
 		mockrole=new MockRole("mockrole", p);
 		manager = new BankManagerRole(p);
 		p.addRole(manager);
