@@ -11,6 +11,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
+import simcity.KRestaurant.KCookRole.Food;
 import simcity.KRestaurant.KCookRole.marketOrderState;
 import simcity.Market.MFoodOrder;
 import simcity.TTRestaurant.THostRole.Table;
@@ -103,7 +104,16 @@ public class TCookRole extends Role implements TCook {
 	
 /******************************** delivery from market *****************************************/	
 	public void msgHereIsDelivery(List<MFoodOrder> canGiveMe, double bill, MarketManager manager, MarketCashier cashier) {
+		for (Market m:markets) {
+			if (m.m == manager) {
+				m.state = MarketState.paying;
+				m.bill = bill; 
+			} 
+		}
 		
+		for (MFoodOrder f: canGiveMe) {
+			Supply.put(f.type, Supply.get(f.type) + f.amount); 
+		}
 		
 		// set restaurant cashier so that restaurant cashier knows who to pay
 		//Market m.cashier = cashier;
@@ -268,10 +278,12 @@ public class TCookRole extends Role implements TCook {
 			}
 			else {
 				
-/********************************* have cook send a list of MFoodOrder (type and amount) to Market)**************/				
-				markets.get(index).m.msgIAmHere((Role)this, Supply, "TRestaurant", "cook");
-				markets.get(index).checked = true;
-				markets.get(index).state = MarketState.waiting;
+/********************************* have cook send a list of MFoodOrder (type and amount) to Market)**************/
+			List<MFoodOrder> neededSupply = new ArrayList<MFoodOrder>();
+
+			markets.get(index).m.msgIAmHere((Role)this, Supply, "TRestaurant", "cook");
+			markets.get(index).checked = true;
+			markets.get(index).state = MarketState.waiting;
 				
 /************************************************************************************************/	
 				
@@ -305,7 +317,6 @@ public class TCookRole extends Role implements TCook {
 		Market m = new Market();
 		m.setMarket(mart);
 		markets.add(m);
-		stateChanged(); 
 	}
 	*/
 
