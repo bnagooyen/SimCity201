@@ -1,13 +1,15 @@
 package simcity.gui;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import javax.swing.JPanel;
 
@@ -66,65 +68,83 @@ public class SimCityPanel extends JPanel{
 	private List<Location> restaurants = new ArrayList<Location>();
 	private List<Location> banks = new ArrayList<Location>();
 	private List<Location> markets = new ArrayList<Location>();
-	private InputStream scenario;
 	
 	private List<Person> people = new ArrayList<Person>();
+	
+	static Scanner in;
 	
 	public SimCityPanel(SimCityGui gui) {
 		this.gui = gui;
 		
-		// populate buildings map 
-		PersonAgent p1 = new PersonAgent("bankmanager");
-		BankManagerRole bm = new BankManagerRole(p1);
-		p1.SetJob(bm);
-		banks.add(new Bank("Bank1", bm));
-		
-		PersonAgent p2 = new PersonAgent("marketmanager");
-		MarketManagerRole mm =  new MarketManagerRole(p2);
-		p2.SetJob(mm);
-		markets.add(new Market("Market1", mm));
-
-		PersonAgent p3 = null;
-		KHostRole kh = new KHostRole(p3);
-		p3 = new PersonAgent("khost");
-		restaurants.add(new Restaurant("KRestaurant", kh, "normal"));
-
-		PersonAgent p4 = null;
-		BHostRole bh = new BHostRole(p4);
-		p4 = new PersonAgent("bhost");
-		restaurants.add(new Restaurant("BRestaurant", bh, "narmal"));
-
-		PersonAgent p5 = null;
-		Drew_HostRole drewh =  new Drew_HostRole(p5);
-		p5 = new PersonAgent("drew_host");
-		restaurants.add(new Restaurant("DrewRestaurant", drewh, "normal"));
-
-		PersonAgent p6 = null;
-		DHostRole dh = new DHostRole(p6);
-		p6 = new PersonAgent("dhost");
-		restaurants.add(new Restaurant("DRestaurant", dh, "normal"));
-
-		PersonAgent p7 = null;
-		LHostRole lh =  new LHostRole(p7);
-		p7 = new PersonAgent("lhost", lh);
-		restaurants.add(new Restaurant("LRestaurant", lh, "normal"));
-
-		PersonAgent p8 = null;
-		THostRole th = new THostRole(p8);
-		p8 = new PersonAgent("thost", th);
-		restaurants.add(new Restaurant("TRestaurant", th, "normal"));
-
-		buildings.put("Bank", banks);
-		buildings.put("Market", markets);
-		buildings.put("Restaurant", restaurants);
-		
+//		// populate buildings map 
+//		PersonAgent p1 = new PersonAgent("bankmanager");
+//		BankManagerRole bm = new BankManagerRole(p1);
+//		p1.SetJob(bm);
+//		banks.add(new Bank("Bank1", bm));
+//		
+//		PersonAgent p2 = new PersonAgent("marketmanager");
+//		MarketManagerRole mm =  new MarketManagerRole(p2);
+//		p2.SetJob(mm);
+//		markets.add(new Market("Market1", mm));
+//
+//		PersonAgent p3 = null;
+//		KHostRole kh = new KHostRole(p3);
+//		p3 = new PersonAgent("khost");
+//		restaurants.add(new Restaurant("KRestaurant", kh, "normal"));
+//
+//		PersonAgent p4 = null;
+//		BHostRole bh = new BHostRole(p4);
+//		p4 = new PersonAgent("bhost");
+//		restaurants.add(new Restaurant("BRestaurant", bh, "narmal"));
+//
+//		PersonAgent p5 = null;
+//		Drew_HostRole drewh =  new Drew_HostRole(p5);
+//		p5 = new PersonAgent("drew_host");
+//		restaurants.add(new Restaurant("DrewRestaurant", drewh, "normal"));
+//
+//		PersonAgent p6 = null;
+//		DHostRole dh = new DHostRole(p6);
+//		p6 = new PersonAgent("dhost");
+//		restaurants.add(new Restaurant("DRestaurant", dh, "normal"));
+//
+//		PersonAgent p7 = null;
+//		LHostRole lh =  new LHostRole(p7);
+//		p7 = new PersonAgent("lhost", lh);
+//		restaurants.add(new Restaurant("LRestaurant", lh, "normal"));
+//
+//		PersonAgent p8 = null;
+//		THostRole th = new THostRole(p8);
+//		p8 = new PersonAgent("thost", th);
+//		restaurants.add(new Restaurant("TRestaurant", th, "normal"));
+//
+//		buildings.put("Bank", banks);
+//		buildings.put("Market", markets);
+//		buildings.put("Restaurant", restaurants);
+//		
 		
 		try {
-			scenario = new FileInputStream("config"+File.separator+"config1.txt");
+			in  = new Scanner(new FileReader("config"+File.separator+"config1.txt"));
+			System.out.println(in.next());
+			int numItems = in.nextInt();
+			//clear input template
+			in.next();
+			in.next();
+			in.next();
+			in.next();
+			in.next();
+			in.next();
+			
+			for(int i=0; i<numItems; i++) {
+				System.out.println(in.next());
+				System.out.println(in.nextDouble());
+				System.out.println(in.next());
+				System.out.println(in.nextBoolean());
+			}
+			in.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 		
 //		DWaiterRole w = null;
 //		PersonAgent waiter = new PersonAgent("waiter", w);
@@ -293,9 +313,9 @@ public class SimCityPanel extends JPanel{
 	
 	  public void addPerson(String job, String name) {
 
-    		PersonAgent p = null;
+    		PersonAgent p = new PersonAgent(name);
     		Role personRole= new DWaiterRole(p);
-    		p = new PersonAgent(name, personRole);
+    		p.SetJob(personRole);
     		System.out.println(p.getJob());
     		PersonGui g = new PersonGui(p, gui);
     		p.setGui(g);
