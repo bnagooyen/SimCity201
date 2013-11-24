@@ -49,9 +49,11 @@ public class KHostRole extends Role implements Host{
 		super(p);
 		this.name = name;
 		// make some tables
-		tables = new ArrayList<Table>(NTABLES);
+		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
+		synchronized(tables) {
 		for (int ix = 1; ix <= NTABLES; ix++) {
 			tables.add(new Table(ix));
+		}
 		}
 		synchronized(waitingCustomers) {
 			for(int i = 0; i<10; i++) {
@@ -104,6 +106,7 @@ public class KHostRole extends Role implements Host{
 		}
 	}
 	public void msgLeavingTable(KCustomer cust) {
+		synchronized(tables) {
 		for (Table table : tables) {
 			if (table.getOccupant() == cust) {
 				print(cust + " leaving " + table);
@@ -116,6 +119,7 @@ public class KHostRole extends Role implements Host{
 					}
 				}
 			}
+		}
 		}
 		stateChanged();
 		System.out.println("table is free");
@@ -159,6 +163,7 @@ public class KHostRole extends Role implements Host{
 				}
 			}
 		}
+		synchronized(tables) {
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
 				synchronized(customers) {
@@ -170,6 +175,7 @@ public class KHostRole extends Role implements Host{
 					}
 				}
 			}
+		}
 		}
 		synchronized(customers) {
 			for(MyCustomer c : customers) {

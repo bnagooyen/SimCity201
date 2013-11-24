@@ -1,12 +1,14 @@
 package simcity.test.mock;
 
+import simcity.PersonAgent;
 import simcity.interfaces.*;
+import simcity.mockrole.MockRole;
 
-public class MockBankTeller extends Mock implements BankTeller{
+public class MockBankTeller extends MockRole implements BankTeller{
 
 	public EventLog log;
-	public MockBankTeller(String name) {
-		super(name);
+	public MockBankTeller(String Name, PersonAgent p) {
+		super(Name,p);
 		// TODO Auto-generated constructor stub
 		log = new EventLog();
 	}

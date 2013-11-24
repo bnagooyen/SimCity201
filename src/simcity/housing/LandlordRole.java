@@ -27,9 +27,9 @@ public class LandlordRole extends Role implements Landlord{
 	
 	
 	public List<Tenant>myTenants
-	= new ArrayList<Tenant>(); 
+	= Collections.synchronizedList(new ArrayList<Tenant>()); 
 	public List<Worker>myWorkers
-	= new ArrayList<Worker>(); 
+	= Collections.synchronizedList(new ArrayList<Worker>()); 
 	
 	public class Worker {
 		Worker (RepairMan r, String l) {
@@ -93,50 +93,60 @@ public class LandlordRole extends Role implements Landlord{
 	
 	public void msgHereIsARentPayment(Integer AN, double amount) {
 		Do("Receiving rent");
+		synchronized(myTenants) {
 		for (Tenant t:myTenants) {
 			if (t.account == AN) {
 					t.ts = TenantState.paid;
 					revenue += amount; 
 			}
+		}
 		}
 	}
 	
 	
 	public void msgHereIsARentPayment(PersonAgent p, double amount) {
 		Do("Receiving rent");
+		synchronized(myTenants) {
 		for (Tenant t:myTenants) {
 			if (t.person == p) {
 					t.ts = TenantState.paid;
 					revenue += amount; 
 			}
 		}
+		}
 	}
 	
 	public void msgCannotPayForRent(Integer AN) {
 		Do("What do you mean the tenant can't pay?");
+		synchronized(myTenants) {
 		for (Tenant t:myTenants) {
 			if (t.account == AN) {
 					t.ts = TenantState.ShortOnMoney;
 			}
 		}
+		}
 	}
 	
 	public void msgCannotPayForRent(PersonAgent p) {
 		Do("What do you mean the tenant can't pay?");
+		synchronized(myTenants) {
 		for (Tenant t:myTenants) {
 			if (t.person == p) {
 					t.ts = TenantState.ShortOnMoney;
 			}
 		}
+		}
 	}		
 	
 	public void msgJobDone(String l, double cost) {
 		Do("Told job was finished");
+		synchronized(myWorkers) {
 		for (Worker current:myWorkers) {
 			if (current.location == l) {
 				current.bill = cost;
 				current.ws = WorkerState.paying; 
 			}
+		}
 		}
 		stateChanged();
 	}
@@ -157,12 +167,13 @@ public class LandlordRole extends Role implements Landlord{
 			CallMaintenance();
 			return true; 
 		}
-		
+		synchronized(myWorkers){
 		for (Worker w:myWorkers) {
 			if (w.ws == WorkerState.paying) {
 				PayMaintenance(w); 
 				return true; 
 			}
+		}
 		}
 		return false;
 	}
@@ -171,6 +182,7 @@ public class LandlordRole extends Role implements Landlord{
 	
 	private void CollectRent() {
 		Do("Collecting rent");
+		synchronized(myTenants) {
 		for(Tenant t:myTenants) {
 			if (t.isOccupied == true) {
 				/**
@@ -183,12 +195,14 @@ public class LandlordRole extends Role implements Landlord{
 				//}
 			}
 		}
+		}
 		state = AgentState.nothing; 
 	}
 	
 	
 	private void DistributePayments() {
 		Do("Distributing pay");
+		synchronized(myTenants) {
 		for (Tenant t:myTenants) {
 			if (t.isOccupied == true) {
 				/**
@@ -202,6 +216,7 @@ public class LandlordRole extends Role implements Landlord{
 				*/
 				t.ts = TenantState.nothing; 
 			}
+		}
 		}
 		revenue = revenue *.70;
 		//add money to the personAgent
@@ -217,12 +232,14 @@ public class LandlordRole extends Role implements Landlord{
 		else {
 			workerNumber = WorkerToday.nextInt(repairmen.size()); 
 		}
+		synchronized(myTenants) {
 		for (Tenant t:myTenants) {
 			if (t.isOccupied) {
 				myWorkers.add(new Worker(repairmen.get(workerNumber), t.location));
 				repairmen.get(workerNumber).msgNeedRepair(t.location, this);
 			}
 			
+		}
 		}
 		state = AgentState.nothing; 
 	}
@@ -245,6 +262,7 @@ public class LandlordRole extends Role implements Landlord{
 	
 	public void addTenant(PersonAgent p, Integer account) {
 		boolean found = false; 
+		synchronized(myTenants) {
 		for (Tenant t: myTenants) {
 			if (!found) {
 				if (!t.isOccupied) {
@@ -253,6 +271,7 @@ public class LandlordRole extends Role implements Landlord{
 				found = true; 
 				}
 			}
+		}
 		}
 		if (!found) {
 			//should you send a message to the person? Or should you get a new building? 

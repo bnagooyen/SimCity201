@@ -50,10 +50,11 @@ public class DHostRole extends Role implements Host{
 		//name = p.getName();
 		
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
+		synchronized(tables) {
 		for (int ix = 1; ix <= NTABLES; ix++) {
 			tables.add(new Table(ix));
 		}
-		
+		}
 		KitchenReadyForOpen=false;
 
 		customersInRST=0;
@@ -100,11 +101,13 @@ public class DHostRole extends Role implements Host{
 		}
 	}
 	public void msgIDontWantToWait(DCustomerRole cust) {
+		synchronized(waitingCustomers) {
 		for(MyCustomer c: waitingCustomers) {
 			if(c.c==cust) {
 				custLeavingWaitlist=cust;
 				stateChanged();
 			}
+		}
 		}
 	}
 
@@ -117,13 +120,14 @@ public class DHostRole extends Role implements Host{
 	}
 	
 	public void msgHereToTakeMyCustomer(Waiter w) {
+		synchronized(waiters) {
 		for(MyWaiter waiter: waiters) {
 			if(waiter.w==w) {
 				waiter.state=MyWaiterState.atFront;
 				stateChanged();
 			}
 		}
-		
+		}
 	}
 
 	public void msgHereToGetSeated(Customer c) {
@@ -133,12 +137,15 @@ public class DHostRole extends Role implements Host{
 	}
 	public void msgTableIsClear(int t, DWaiterRole wa)
 	{
+		synchronized(waiters) {
 		for(MyWaiter waiter: waiters) {
 			if (waiter.w==wa) {
 				waiter.numCustomers--;
 				break;
 			}
 		}
+		}
+		synchronized(tables) {
 		for(Table table: tables)
 		{
 			if (table.getTableNum()==t)
@@ -148,23 +155,28 @@ public class DHostRole extends Role implements Host{
 				stateChanged();
 			}
 		}
+		}
 	}
 	
 	public void msgGoOnBreakPlease(DWaiterRole w) {
+		synchronized(waiters) {
 		for(MyWaiter waiter: waiters) {
 			if(waiter.w==w) {
 				waiter.state=MyWaiterState.requestedBreak;
 				stateChanged();
 			}
 		}
+		}
 	}
 	
 	public void msgBackToWork(DWaiterRole w) {
+		synchronized(waiters) {
 		for(MyWaiter waiter: waiters) {
 			if(waiter.w==w) {
 				waiter.state=MyWaiterState.working;
 				stateChanged();
 			}
+		}
 		}
 	}
 
@@ -187,26 +199,28 @@ public class DHostRole extends Role implements Host{
 			RestaurantIsFull();
 			return true;
 		}
-		
+		synchronized(waitingCustomers) {
 		for(MyCustomer cust: waitingCustomers) {
 			if(cust.state==CustState.justArrived) {
 				TellCustomerToHangout(cust);
 				return true;
 			}
 		}
-		
+		}
+		synchronized(waitingCustomers) {
 		for(MyCustomer cust: waitingCustomers) {
 			if(cust.state==CustState.assignedWaiter && cust.w.state==MyWaiterState.atFront) {
 				CallCustomerToFront(cust);
 				return true;
 			}
 		}
-		
+		}
 		if(!waiters.isEmpty() && KitchenReadyForOpen)
 		{
 		
 			MyWaiter w=waiters.get(0); 
 			int minCustomers=waiters.get(0).numCustomers; //dummy value for initialization.. theoretically if only 1 waiter will be the one at the top
+			synchronized(waiters) {
 			for(MyWaiter waiter: waiters)
 			{
 				if(waiter.state==MyWaiterState.working)
@@ -216,7 +230,8 @@ public class DHostRole extends Role implements Host{
 							minCustomers=waiter.numCustomers; 
 						}
 			}
-
+			}
+			synchronized(tables) {
 			for (Table table : tables) {
 				for(MyCustomer cust: waitingCustomers) {
 					if (!(table.isOccupied()) && cust.state==CustState.waiting) {
@@ -226,14 +241,15 @@ public class DHostRole extends Role implements Host{
 					}
 				}
 			}
-			
+			}
+			synchronized(waiters) {
 			for(MyWaiter waiter: waiters) {
 				if(waiter.state==MyWaiterState.requestedBreak) {
 					AnswerWaiterBreakRequest(waiter);
 					return true;
 				}
 			}
-				
+			}	
 			
 		}
 
@@ -293,10 +309,12 @@ public class DHostRole extends Role implements Host{
 
 	private void AnswerWaiterBreakRequest(MyWaiter w) {
 		int waitersOnDuty=0;
+		synchronized(waiters) {
 		for(MyWaiter waiter: waiters) {
 			if(waiter.state==MyWaiterState.working) {
 				waitersOnDuty++;
 			}
+		}
 		}
 		if(waitersOnDuty>=1) {
 			Do("yes "+ w.w.getName()+", you can take a break!");

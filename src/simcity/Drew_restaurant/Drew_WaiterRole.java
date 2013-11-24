@@ -161,7 +161,8 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 	 */
 	public boolean pickAndExecuteAnAction() {
 		waitergui.idle=false;
-		synchronized(customers){
+		try{
+		//synchronized(customers){
 			for (MyCustomer customer : customers) {
 				if(customer.getState()==CustomerState.done){
 					closeOutTable(customer.getTable(), customer);
@@ -169,14 +170,22 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 				}
 			}
 		}
-		synchronized(customers){
+		catch(ConcurrentModificationException e) {
+			return false;
+		}
+		try{
+		//synchronized(customers){
 			for (MyCustomer customer : customers) {
 				if(customer.getState()==CustomerState.askedToOrder) {
 					return true;
 				}
 			}
 		}
-		synchronized(customers){
+		catch(ConcurrentModificationException e) {
+			return false;
+		}
+		try{
+		//synchronized(customers){
 			for (MyCustomer customer : customers) {
 				if(customer.getState()==CustomerState.foodReady) {
 					deliverFood(customer);
@@ -184,7 +193,11 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 				}
 			}
 		}
-		synchronized(customers){
+		catch(ConcurrentModificationException e) {
+			return false;
+		}
+		try{
+		//synchronized(customers){
 			for (MyCustomer customer : customers) {
 				if(customer.getState()==CustomerState.billReady) {
 					giveCheck(customer);
@@ -192,7 +205,11 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 				}
 			}
 		}
-		synchronized(customers){
+		catch(ConcurrentModificationException e) {
+			return false;
+		}
+		try{
+		//synchronized(customers){
 			for (MyCustomer customer : customers) {
 				if(customer.getState()==CustomerState.eating && !customer.hasCheck) {
 					getCheck(customer);
@@ -200,7 +217,11 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 				}
 			}
 		}
-		synchronized(customers){
+		catch(ConcurrentModificationException e) {
+			return false;
+		}
+		try{
+		//synchronized(customers){
 			for (MyCustomer customer : customers) {
 				if(customer.getState()==CustomerState.waiting) {
 					seatCustomer(customer);
@@ -208,7 +229,11 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 				}
 			}
 		}
-		synchronized(customers){
+		catch(ConcurrentModificationException e) {
+			return false;
+		}
+		try{
+		//synchronized(customers){
 			for (MyCustomer customer : customers) {
 				if(customer.getState()==CustomerState.readyToOrder) {
 					takeOrder(customer);
@@ -216,13 +241,20 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 				}
 			}
 		}
-		synchronized(customers){
+		catch(ConcurrentModificationException e) {
+			return false;
+		}
+		try{
+		//synchronized(customers){
 			for (MyCustomer customer : customers) {
 				if(customer.getState()==CustomerState.ordered) {
 					putInOrder(customer);
 					return true;
 				}
 			}
+		}
+		catch(ConcurrentModificationException e) {
+			return false;
 		}
 		return false;
 		//we have tried all our rules and found

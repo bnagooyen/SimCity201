@@ -24,10 +24,10 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 	public int count=0;		//Keeps track of total # seated
 	
 	public List<Drew_Customer> waitingCustomers
-	= new ArrayList<Drew_Customer>();
+	=Collections.synchronizedList( new ArrayList<Drew_Customer>());
 	
 	public List<MyWaiter> waiters
-	= new ArrayList<MyWaiter>();
+	= Collections.synchronizedList(new ArrayList<MyWaiter>());
 	
 	public Collection<Table> tables;
 	//note that tables is typed with Collection semantics.
@@ -42,7 +42,7 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 		this.name = name;
 		
 		// make some tables
-		tables = new ArrayList<Table>(NTABLES);
+		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		for (int ix = 1; ix <= NTABLES; ix++) {
 			Table t = new Table(ix);			
 			tables.add(t);//how you add to a collections
@@ -84,24 +84,30 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 	}
 
 	public void tableIsFree(int table){
+		synchronized(tables) {
 		for(Table t : tables){
 			if(t.tableNumber==table) t.setUnoccupied();
+		}
 		}
 		stateChanged();
 	}
 	
 	public void iWantToGoOnBreak(Drew_Waiter wait){
 		MyWaiter mw=null;
+		synchronized(waiters) {
 		for(MyWaiter w : waiters){
 			if(w.waiter.equals(wait)) mw=w;
+		}
 		}
 		checkForBreak(mw);
 	}
 	
 	public void backFromBreak(Drew_Waiter wait){
 		MyWaiter mw=null;
+		synchronized(waiters) {
 		for(MyWaiter w : waiters){
 			if(w.waiter.equals(wait)) mw=w;
+		}
 		}
 		mw.onBreak=false;
 	}
@@ -119,7 +125,7 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-		
+		synchronized(tables) {
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
 				if (!waitingCustomers.isEmpty() & !waiters.isEmpty()) {
@@ -128,7 +134,7 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 				}
 			}
 		}
-
+		}
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
@@ -156,8 +162,10 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 	
 	private void checkForBreak(MyWaiter mw){
 		int workingWaiters=0;
+		synchronized(waiters) {
 		for(MyWaiter waiter : waiters){
 			if(!waiter.onBreak) workingWaiters++;
+		}
 		}
 		if (workingWaiters<=1){
 			mw.waiter.breakResponse(false);

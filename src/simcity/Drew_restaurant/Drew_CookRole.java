@@ -26,13 +26,13 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	
 	//Data
 	public List<Order> orders
-	= new ArrayList<Order>();
+	= Collections.synchronizedList(new ArrayList<Order>());
 	
 	public List<marketOrder> marketorders
-	= new ArrayList<marketOrder>();
+	= Collections.synchronizedList(new ArrayList<marketOrder>());
 	
 	public List<Delivery> deliveries
-	= new ArrayList<Delivery>();
+	= Collections.synchronizedList( new ArrayList<Delivery>());
 	
 	Drew_CashierRole cashier;
 	
@@ -42,7 +42,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	Food salad;
 	Food pizza;
 	 
-	private  Map<String,Food> foods = new HashMap<String, Food>();
+	private  Map<String,Food> foods = Collections.synchronizedMap(new HashMap<String, Food>());
 	private  Map<String,Integer> startingFoodAmount = new HashMap<String, Integer>();
 	
 	private Semaphore atDest = new Semaphore(0,true);
@@ -152,30 +152,40 @@ public class Drew_CookRole extends Role implements Drew_Cook {
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
+		synchronized(orders) {
 		for (Order order : orders) {
 			if(order.getState()==State.done){
 				plateIt(order);
 				return true;
 			}
 		}
+		}
+		synchronized(deliveries) {
 		for(Delivery delivery : deliveries){
 			if(!delivery.stored){
 				storeDelivery(delivery);
 			}
 		}
+		}
+		synchronized(marketorders) {
 		for(marketOrder marketOrder : marketorders){
 			if(marketOrder.s==State.pending){
 				//orderFood(marketOrder);					ORDER FOOD!!!!!!!!!!!!!
 			}
 		}
+		}
+		synchronized(orders) {
 		for (Order order : orders) {
 			if(order.getState()==State.pending){
 				cookIt(order);
 				return true;
 			}
 		}
+		}
+		synchronized(marketBills) {
 		for(MarketBill b: marketBills) {
 			giveCashierBill(b);
+		}
 		}
 		return false;
 	}
@@ -234,6 +244,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		
 //		//RUN WHEN FIRST MARKET DID NOT HAVE EVERYTHING NEEDED
 //		if(!MO.firstOrder){
+//		synchronized(markets) {
 //			for(int i=markets.size()-2;i>=0;i--){
 //				if(markets.get(i).getName().equals(MO.market)){
 //					market=markets.get(i+1);
@@ -245,7 +256,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 //				market.orderFood(this, MO.type, MO.quantity);
 //			}
 //		}
-		
+//		}
 		//CALLED WHEN TRYING THE FIRST MARKET
 		//else{				
 			List<MFoodOrder> toOrder = new ArrayList<MFoodOrder>();
@@ -257,11 +268,13 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	}
 	
 	private void checkInventory(){
+		synchronized(foods) {
 		for(Food f : foods.values()){
 			if(f.amount< 3 && !f.ordered){					//Cook constantly keeps track of inventory
 				marketorders.add(new marketOrder(f.type, startingFoodAmount.get(f.type)-f.amount,true));
 				f.ordered=true;
 			}
+		}
 		}
 	}
 	

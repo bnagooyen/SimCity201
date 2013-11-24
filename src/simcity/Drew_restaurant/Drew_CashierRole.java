@@ -71,10 +71,12 @@ public class Drew_CashierRole extends Role implements Drew_Cashier {
 	
 	public void payBill(Double b, Double Money, Drew_Customer cust){
 		MyBill mb = null;
+		synchronized(bills) {
 		for(MyBill bill : bills){
 			if(bill.b.equals(b)){
 				mb= bill;
 			}
+		}
 		}
 		mb.c=cust;
 		mb.payment=Money;
@@ -97,27 +99,30 @@ public class Drew_CashierRole extends Role implements Drew_Cashier {
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
+		synchronized(owedBills) {
 		for (owedBill bill : owedBills) {
 			if(bill.getState()==BillState.calculated){
 				payMarket(bill);
 				return true;
 			}
 		}
-		
+		}
+		synchronized(bills) {
 		for (MyBill bill : bills) {
 			if(bill.getState()==BillState.calculated){
 				giveToWaiter(bill);
 				return true;
 			}
 		}
-		
+		}
+		synchronized(bills) {
 		for (MyBill bill : bills) {
 			if(bill.getState()==BillState.recievedFromCustomer){
 				getChange(bill);
 				return true;
 			}
 		}
-		
+		}
 		return false;
 	}
 

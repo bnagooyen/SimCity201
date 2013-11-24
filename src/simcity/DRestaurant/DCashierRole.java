@@ -117,6 +117,7 @@ public class DCashierRole extends Role implements Cashier {
 	
 	@Override
 	public void msgHereIsAPayment(Customer cust, int tnum, double valCustPaid) {
+		synchronized(myBills){
 		for (int i=0; i<myBills.size(); i++) {
 			if (cust==myBills.get(i).getCustomer() && !(myBills.get(i).state==CheckState.debt)) {
 				myBills.get(i).setCustomerPaid(valCustPaid);
@@ -125,6 +126,7 @@ public class DCashierRole extends Role implements Cashier {
 				stateChanged();
 			}
 		}
+		}
 	}
 
 	/**
@@ -132,26 +134,27 @@ public class DCashierRole extends Role implements Cashier {
 	 */
 	@Override
 	public boolean pickAndExecuteAnAction() {
-	
+		synchronized(myBills){
 		for(DCheck b: myBills) {
 			if(b.state==CheckState.processing) {
 				ProcessBill(b);
 				return true;
 			}
 		}
-		
+		}
+		synchronized(myBills) {
 		for(DCheck b: myBills) {
 			if(b.state==CheckState.paid) {
 				ComputeChange(b);
 				return true;
 			}
 		}
-		
+		}
 		if(waiterAtRegister!=null) {
 			GiveCheckToWaiter();
 			return true;
 		}
-		
+		synchronized(inventoryBills){
 		for(InventoryBill bill: inventoryBills) {
 			if(bill.state==InventoryBillState.couldNotAfford && bill.amnt<=registerAmnt) {
 				//System.out.println("called proccess");
@@ -159,15 +162,15 @@ public class DCashierRole extends Role implements Cashier {
 				return true;	
 			}
 		}
-		
-		
+		}
+		synchronized(inventoryBills) {
 		for(InventoryBill bill: inventoryBills) {
 			if(bill.state==InventoryBillState.processing) {
 				ProcessInventoryBill(bill);
 				return true;	
 			}
 		}
-
+		}
 	
 		
 		return false;
@@ -213,7 +216,7 @@ public class DCashierRole extends Role implements Cashier {
 	private void GiveCheckToWaiter() {
 		
 		DecimalFormat df = new DecimalFormat("###.##");
-		
+		synchronized(myBills) {
 		for (DCheck bill: myBills) {
 			if(bill.waiter==waiterAtRegister && bill.state==CheckState.processed) {
 				
@@ -231,6 +234,7 @@ public class DCashierRole extends Role implements Cashier {
 				break;
 			}
 		}
+		}
 				
 		waiterAtRegister=null;
 	}
@@ -245,6 +249,7 @@ public class DCashierRole extends Role implements Cashier {
 		if(changeval>=0) {
 			
 			//check and see if acquired debt
+			synchronized(myBills) {
 			for(DCheck bill: myBills) {
 				if(bill.state==CheckState.debt && bill.customer==bi.getCustomer()) {
 					if(bill.debt<=changeval) { 
@@ -253,6 +258,7 @@ public class DCashierRole extends Role implements Cashier {
 						myBills.remove(bill);
 					}
 				}
+			}
 			}
 			bi.getCustomer().msgHereIsYourReceiptAndChange(changeval);
 			registerAmnt+=bi.getCustomerPaid()-changeval;

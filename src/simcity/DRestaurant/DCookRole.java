@@ -24,7 +24,7 @@ public class DCookRole extends Role implements Cook {
 	
 	Timer timer = new Timer();
 	private String name;
-	private Map<String, DFood> myFood = new HashMap<String, DFood>();
+	private Map<String, DFood> myFood = Collections.synchronizedMap(new HashMap<String, DFood>());
 	private Map<String, Double> prices = new HashMap<String, Double>();
 	private int initialFoodAmnt= 2;
 	private static final int MAXCAPACITY=10;
@@ -41,7 +41,7 @@ public class DCookRole extends Role implements Cook {
 
 	private boolean waitingForInventory; 
 	
-	Map<String, Boolean> grillOccupied = new HashMap<String, Boolean>();
+	Map<String, Boolean> grillOccupied = Collections.synchronizedMap(new HashMap<String, Boolean>());
 	
 	ArrayList<ArrayList<DFoodOrder>> delivery= new ArrayList<ArrayList<DFoodOrder>>();
 	List<DOrder> orders =  Collections.synchronizedList(new ArrayList<DOrder>());
@@ -216,7 +216,7 @@ public class DCookRole extends Role implements Cook {
 	}
 	public void msgCouldNotFulfillThese(ArrayList<MFoodOrder> reorderlist, int ORDERID) {
 		
-		
+		synchronized(myOrders) {
 		for(InventoryOrder order: myOrders) {
 			if(order.getID()==ORDERID) {
 				System.out.println("got inventory orderback from "+order.getMarketOrderingFrom());
@@ -225,6 +225,7 @@ public class DCookRole extends Role implements Cook {
 				order.myorder=reorderlist;
 				stateChanged();
 			}
+		}
 		}
 	}
 	
@@ -253,46 +254,50 @@ public class DCookRole extends Role implements Cook {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-	
+		synchronized(orders) {
 		for(int i=0; i<orders.size(); i++) {
 			if(orders.get(i).state==OrderState.clearPlating) {
 				ClearPlating(orders.get(i));
 				return true;
 			}
 		}
-	
+		}
+		synchronized(orders) {
 		for(int i=0; i<orders.size(); i++) {
 			if(orders.get(i).state==OrderState.grillInUse && !grillOccupied.get(orders.get(i).getChoice())) {
 				CookOrder(orders.get(i));
 				return true;
 			}
 		}
-		
+		}
+		synchronized(orders) {
 		for(int i=0; i<orders.size(); i++) {
 			if(orders.get(i).state==OrderState.pending) {
 				CookOrder(orders.get(i));
 				return true;
 			}
 		}
-		
+		}
+		synchronized(orders) {
 		for(int i=0; i<orders.size(); i++) {
 			if(orders.get(i).state==OrderState.cooked) {
 				PlateOrderAndCallWaiter(orders.get(i));
 				return true;
 			}
 		}
+		}
 		if(!delivery.isEmpty()) {
 			ProcessDelivery(delivery.get(0));
 			return true;
 		}
-		
+		synchronized(myOrders) {
 		for(InventoryOrder i: myOrders) {
 			if(i.reorder) {
 				ReorderFood(i);
 				return true;
 			}
 		}
-		
+		}
 		if(!waitingForInventory) {
 			if((myFood.get("Chicken").getAmount()<=threshold || myFood.get("Pizza").getAmount()<=threshold ||
 					myFood.get("Steak").getAmount()<=threshold || myFood.get("Salad").getAmount()<=threshold)) {
@@ -489,6 +494,7 @@ public class DCookRole extends Role implements Cook {
 		
 	
 		private void ProcessDelivery(ArrayList<DFoodOrder> groceries) {
+			
 			for(DFoodOrder foo: groceries) {
 				DFood temp = myFood.get(foo.getFood());
 				temp.setAmount(temp.getAmount()+foo.getVal());
