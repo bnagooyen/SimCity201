@@ -1,6 +1,10 @@
 package simcity.test.mock;
 
+import java.util.List;
+
 import agent.Role;
+import simcity.Market.MFoodOrder;
+import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
@@ -33,6 +37,26 @@ public class MockMarketManager extends Mock implements MarketManager{
 	public void msgCustomerDone(MarketCashier mc, Role r) {
 		LoggedEvent e = new LoggedEvent("Received msgCustomerDone from market cashier.");
 		log.add(e);
+	}
+
+	@Override
+	public void msgIAmHere(Role r, List<MFoodOrder> need, String building,
+			String type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgLoadDeliveryTruck(MarketCashier cashier,
+			List<MFoodOrder> deliver, String location, double bill, Cook r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgBackFromDelivery() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

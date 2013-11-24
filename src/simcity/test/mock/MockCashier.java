@@ -53,11 +53,16 @@ public class MockCashier extends Mock implements Cashier {
 		// TODO Auto-generated method stub
 		
 	}
-	@Override
 	public void msgBillFromMarket(double check,
 			MarketCashierRole marketCashierRole) {
 		LoggedEvent e = new LoggedEvent("Received msgBillFromMarket from market manager");
 		log.add(e);
+		
+	}
+
+	@Override
+	public void msgBillFromMarket(double check, MarketCashier cashier) {
+		// TODO Auto-generated method stub
 		
 	}
 
