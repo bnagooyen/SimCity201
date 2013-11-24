@@ -154,9 +154,15 @@ public class SimCityPanel extends JPanel{
 				people.add(p);
 			}
 //			System.out.println(people.size());
-			for(Person person: people) {
-				System.out.println(person.GetJob());
-			}
+//			for(Person person: people) {
+//				System.out.println(person.GetJob());
+//			}
+//			int i=1;
+//			for(Person person: people) {
+//				System.out.print(i);
+//				i++;
+//				System.out.println(person.GetJob().isActive);
+//			}
 			in.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
