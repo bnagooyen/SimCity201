@@ -51,7 +51,37 @@ public class PersonTest extends TestCase{
 
 	}
 	
-	
+	public void testnormativePersonTest(){
+		MockBankTeller bankTeller=new MockBankTeller("teller",person);
+		person.SetJob(bankTeller);
+		person.myCar=car;
+		person.msgTimeUpdate(7);
+		
+		assertEquals("Persons Job should have been BankTeller", person.myJob,bankTeller);
+		assertEquals("Persons Job location should be the bank", person.jobLocation,"bank");
+		assertEquals("Should not have a destination", person.mydestination,null);
+		assertEquals("Starts with $200", person.money,200.0);
+		assertEquals("Person's locationState should be atHome", LocationState.atHome,person.locationState);
+		assertTrue("Person's energy state should be awake", person.energyState==EnergyState.awake);
+		
+		assertTrue("Deposit should be called by scheduler", person.pickAndExecuteAnAction());
+		assertFalse("There shouldnt be any activated roles", person.activatedRole);
+		
+		assertEquals("Person's locationState should be atHome", LocationState.inTransit,person.locationState);
+
+		
+		assertEquals("Destination should be bank", person.mydestination,"bank");
+		assertTrue("Person's locationState should be inTransit", person.locationState==LocationState.inTransit);
+		assertTrue("Person's locationState should be inTransit", person.locationState==LocationState.inTransit);
+		
+		assertTrue("Person's scheduler should run transit stuff", person.pickAndExecuteAnAction());
+		
+		assertEquals("Car should have received message from person, but it did not", car.log.size(),1);
+		
+		
+		
+		
+	}
 
 	public void testPersonBusTransit(){
 		
@@ -63,13 +93,13 @@ public class PersonTest extends TestCase{
 		
 		person.msgTimeUpdate(7);
 		person.msgTimeUpdate(10);
-		person.transitState=TransitState.walkingToBus;
+		//person.transitState=TransitState.walkingToBus;
 		
 		
 		assertTrue("Person's pickAndExecuteAnAction should be active because he is awake and in transit", person.pickAndExecuteAnAction());
 		assertTrue("Person should have no car and thus their myCar should be null", person.myCar==null);
 		assertTrue("Person's energy state should be awake", person.energyState==EnergyState.awake);
-		assertTrue("Person's transitState should be walking to bus", person.transitState==TransitState.walkingToBus);
+		assertTrue("Person's transitState should be walking to bus", person.transitState==TransitState.justLeaving);
 		assertTrue("Person's locationState should be inTransit", person.locationState==LocationState.inTransit);
 		
 		person.pickAndExecuteAnAction();
@@ -108,7 +138,7 @@ public class PersonTest extends TestCase{
 		assertTrue("Person's locationState should be inTransit", person.locationState==LocationState.inTransit);
 		assertTrue("Person's energy state should be awake", person.energyState==EnergyState.awake);
 		
-		person.transitState=TransitState.goToCar;
+		//person.transitState=TransitState.goToCar;
 		person.pickAndExecuteAnAction();
 		
 		assertEquals("Car should have received message from person, but it did not", car.log.size(),1);
@@ -128,17 +158,6 @@ public class PersonTest extends TestCase{
 		
 		
 	}
-	
-	public void normativePersonTest(){
-		MockBankTeller bankTeller=new MockBankTeller("teller",person);
-		person.SetJob(bankTeller);
-		
-		assertTrue("In order to use bus, person must have no car, but they do. ", person.myCar==null);
-		assertEquals("Bus Stop should not have received message from person yet that it is at the station, but it had", person,0);
-		assertEquals("Bus should not have received any messages from Bus, but it has", bus.log.size(),0);
-		
-	}
-
 
 }
 

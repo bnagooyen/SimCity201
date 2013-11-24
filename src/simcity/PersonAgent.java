@@ -59,7 +59,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public enum PersonState { none };
 	public enum EnergyState {tired, asleep, awake, none };
 	public enum LocationState { atHome, inTransit, atWork };
-	public enum TransitState {walkingToBus, onBus, goToCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
+	public enum TransitState {justLeaving, walkingToBus, onBus, goToCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
 	public enum MoneyState { poor, adequate, rich, haveLoan};
 	private PersonState personState;
 	public EnergyState energyState;
@@ -70,6 +70,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	boolean flake;
 	//boolean broke;
 	boolean needToGoToWork = false;
+	public boolean activatedRole;
 
 	public PersonGui PersonGui = null;
 
@@ -97,6 +98,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		energyState=EnergyState.asleep;
 		locationState=LocationState.atHome;
 		moneyState=MoneyState.adequate;
+		transitState=TransitState.justLeaving;
 		
 
 		possibleRoles.put("bank", new BankCustomerRole(this));
@@ -245,7 +247,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		}
 
 		boolean anyTrue=false;
-		boolean activatedRole = false;
+		/*boolean*/ activatedRole = false;
 		synchronized(roles) {
 			for(Role r: roles) {
 				if(r.isActive) {
@@ -273,9 +275,11 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 			if(money>depositThreshold){
 				deposit();
+				return true;
 			}
 			if(money<withdrawalThreshold){
 				withdraw();
+				return true;
 			}
 			if(hungerLevel>=50) {
 				EatFood();
@@ -283,6 +287,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 			}
 			if(moneyState==MoneyState.rich && myCar==null){
 				getCarLoan();
+				return true;
 			}
 		}
 		
@@ -290,7 +295,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		if(locationState==LocationState.inTransit && !(energyState==EnergyState.asleep)) {
 
 			if (myCar==null){
-				if(transitState==TransitState.walkingToBus){
+				if(transitState==TransitState.justLeaving){
 					walkToBus();
 					
 					return true;
@@ -312,7 +317,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				}
 			}
 			else if (myCar!=null){
-				if (transitState==TransitState.goToCar){
+				if (transitState==TransitState.justLeaving){
 					goToCar();
 					return true;
 				}
