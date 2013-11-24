@@ -2,10 +2,12 @@ package simcity.Drew_restaurant;
 
 import agent.Role;
 import simcity.PersonAgent;
+import simcity.Drew_restaurant.Drew_CashierRole.BillState;
 //import restaurant.WaiterAgent.CustomerState;
 import simcity.Drew_restaurant.gui.Bill;
 import simcity.Drew_restaurant.interfaces.*;
 import simcity.Drew_restaurant.test.mock.*;
+import simcity.interfaces.MarketCashier;
 
 import java.util.*;
 
@@ -30,14 +32,16 @@ public class Drew_CashierRole extends Role implements Drew_Cashier {
 	public List<MyBill> bills
 	= new ArrayList<MyBill>();
 	
-	//public List<owedBill> owedBills
-	//= new ArrayList<owedBill>();
+	public List<owedBill> owedBills
+	= new ArrayList<owedBill>();
 	
 	public enum BillState
 	{calculated, givenToWaiter, recievedFromCustomer, done};
 	 
 	private  Map<String,Double> prices = new HashMap<String, Double>();
 
+	private Drew_CookRole cook;
+	
 	public EventLog log;
 	public Drew_CashierRole(PersonAgent p) {
 		super(p);
@@ -78,10 +82,10 @@ public class Drew_CashierRole extends Role implements Drew_Cashier {
 		stateChanged();
 	}
 	
-	/*public void marketBill(Double cost, Market m){
+	public void marketBill(Double cost, MarketCashier m){
 		owedBill OB= new owedBill(cost,m);
 		owedBills.add(OB);
-	}*/
+	}
 
 
 	/**
@@ -93,12 +97,12 @@ public class Drew_CashierRole extends Role implements Drew_Cashier {
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-		/*for (owedBill bill : owedBills) {
+		for (owedBill bill : owedBills) {
 			if(bill.getState()==BillState.calculated){
 				payMarket(bill);
 				return true;
 			}
-		}*/
+		}
 		
 		for (MyBill bill : bills) {
 			if(bill.getState()==BillState.calculated){
@@ -133,12 +137,12 @@ public class Drew_CashierRole extends Role implements Drew_Cashier {
 		bill.s=BillState.done;
 	}
 	
-	/*private void payMarket(owedBill bill){
+	private void payMarket(owedBill bill){
 		Cash-=bill.b;
-		bill.market.pay(bill.b);
+		bill.market.msgHereIsPayment(cook, bill.b);
 		bill.s=BillState.done;
 		print("Paid market $"+bill.b+". Cash remaining $"+Cash);
-	}*/
+	}
 
 
 	//utilities
@@ -151,7 +155,9 @@ public class Drew_CashierRole extends Role implements Drew_Cashier {
 		return waiterGui;
 	}*/
 	
-		
+	public void setCook(Drew_CookRole c) {
+		cook = c;
+	}
 	public class MyBill {
 		
 		public Drew_Customer c;
@@ -174,12 +180,12 @@ public class Drew_CashierRole extends Role implements Drew_Cashier {
 	}
 }
 	
-	/*public class owedBill {
+	 class owedBill {
 		public Double b;
 		BillState s;
-		public Market market;
+		public MarketCashier market;
 		
-		owedBill(Double cost, Market m){
+		owedBill(Double cost, MarketCashier m){
 			b=cost;
 			market=m;
 			s=BillState.calculated;
@@ -189,7 +195,7 @@ public class Drew_CashierRole extends Role implements Drew_Cashier {
 		}
 	}
 	
-}*/
+
 
 
 

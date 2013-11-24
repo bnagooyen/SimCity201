@@ -45,7 +45,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 
 	public enum AgentEvent 
 	{none, gotHungry, toldToWait, followHost, seated,Decided, WaiterArrived, Served, doneEating, donePaying, doneLeaving};
-	AgentEvent event = AgentEvent.none;
+	AgentEvent event = AgentEvent.gotHungry;
 
 	public boolean gotBill=false;
 	
