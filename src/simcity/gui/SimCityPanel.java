@@ -74,34 +74,34 @@ public class SimCityPanel extends JPanel{
 		this.gui = gui;
 		
 		// populate buildings map 
-		PersonAgent p1 = null;
+		PersonAgent p1 = new PersonAgent("bankmanager");
 		BankManagerRole bm = new BankManagerRole(p1);
-		p1 = new PersonAgent("bankmanager", bm);
+		p1.SetJob(bm);
 		banks.add(new Bank("Bank1", bm));
 		
-		PersonAgent p2 = null;
+		PersonAgent p2 = new PersonAgent("marketmanager");
 		MarketManagerRole mm =  new MarketManagerRole(p2);
-		p2 = new PersonAgent("marketmanager", mm);
+		p2.SetJob(mm);
 		markets.add(new Market("Market1", mm));
 
 		PersonAgent p3 = null;
 		KHostRole kh = new KHostRole(p3);
-		p3 = new PersonAgent("khost", kh);
+		p3 = new PersonAgent("khost");
 		restaurants.add(new Restaurant("KRestaurant", kh, "normal"));
 
 		PersonAgent p4 = null;
 		BHostRole bh = new BHostRole(p4);
-		p4 = new PersonAgent("bhost", bh);
+		p4 = new PersonAgent("bhost");
 		restaurants.add(new Restaurant("BRestaurant", bh, "narmal"));
 
 		PersonAgent p5 = null;
 		Drew_HostRole drewh =  new Drew_HostRole(p5);
-		p5 = new PersonAgent("drew_host", drewh);
+		p5 = new PersonAgent("drew_host");
 		restaurants.add(new Restaurant("DrewRestaurant", drewh, "normal"));
 
 		PersonAgent p6 = null;
 		DHostRole dh = new DHostRole(p6);
-		p6 = new PersonAgent("dhost", dh);
+		p6 = new PersonAgent("dhost");
 		restaurants.add(new Restaurant("DRestaurant", dh, "normal"));
 
 		PersonAgent p7 = null;
@@ -147,27 +147,27 @@ public class SimCityPanel extends JPanel{
 	public Role jobFactory(String job, PersonAgent p) {
 		Role j = null;
 		// bank 
-		if (job.equals("Bank Loan Officer")) {
+		if (job.equals("BankLoanOfficer")) {
 			j = new BankLoanOfficerRole(p);
 		}
-		else if (job.equals("Bank Manager")) {
+		else if (job.equals("BankManager")) {
 			j = new BankManagerRole(p);
 		}
-		else if (job.equals("Bank Robber")) {
+		else if (job.equals("BankRobber")) {
 			j = new BankRobberRole(p);
 		}
-		else if (job.equals("Bank Teller")) {
+		else if (job.equals("BankTeller")) {
 			j = new BankTellerRole(p);
 		}
 		
 		// market
-		else if (job.equals("Inventory Boy")) {
+		else if (job.equals("InventoryBoy")) {
 			j = new InventoryBoyRole(p);
 		}
-		else if (job.equals("Market Cashier")) {
+		else if (job.equals("MarketCashier")) {
 			j = new MarketCashierRole(p);
 		}
-		else if (job.equals("Market Manager")) {
+		else if (job.equals("MarketManager")) {
 			j = new MarketManagerRole(p);
 		}
 	
@@ -223,10 +223,10 @@ public class SimCityPanel extends JPanel{
 		else if (job.equals("KHost")) {
 			j = new KHostRole(p);
 		}
-		else if (job.equals("KWaiter Normal")) {
+		else if (job.equals("KWaiterNormal")) {
 			j = new KWaiterNormalRole(p);
 		}
-		else if (job.equals("KWaiter SharedData")) {
+		else if (job.equals("KWaiterSharedData")) {
 			j = new KWaiterSharedDataRole(p);
 		}
 		
