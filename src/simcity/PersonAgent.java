@@ -149,6 +149,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	// Messages
 	public void msgTimeUpdate(int hr) {
+		Do("got time update. Time is " + hr);
 		hour = hr;
 		if(hr == 7) { 
 			energyState= energyState.awake;

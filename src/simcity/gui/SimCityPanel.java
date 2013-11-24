@@ -179,19 +179,31 @@ public class SimCityPanel extends JPanel{
 //		p6.startThread();
 //		waiter.startThread();
 //		cust.startThread();
+		
+		System.out.println(people.size());
 		Timer timer;
 
 		 class RemindTask extends TimerTask {
+			 int counter= 0;
 		        public void run() {
-		           System.out.println("timer going off");
-		            }
+		        	if(counter <25) {
+		                 System.out.println("hour is " + counter);
+		                 for(Person p: people) {
+		                	 p.msgTimeUpdate(counter);
+		                 }
+		                 counter++;
+		                 if (counter == 25) {
+		                	 counter = 1;
+		                 }
+		        	}
+		        }
 		 }
-	        timer = new Timer();
-	        timer.schedule(new RemindTask(),
+	     timer = new Timer();
+	     timer.schedule(new RemindTask(),
 	                       0,        //initial delay
-	                       1*1000);  //subsequent rate
+	                       1*12000);  //subsequent rate
 	    
-	}
+}
 	   
 	
 	

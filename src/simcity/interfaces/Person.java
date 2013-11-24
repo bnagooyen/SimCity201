@@ -7,7 +7,8 @@ import agent.Role;
 
 
 public interface Person {
-
+	public abstract void msgTimeUpdate(int hr);
+	
 	public abstract void gotHungry();//from animation
 		
 	public abstract  void msgAtDestination(String destination);
