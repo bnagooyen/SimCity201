@@ -1,9 +1,12 @@
 package simcity.TTRestaurant;
 
 import agent.Role;
+import simcity.interfaces.MarketCashier;
 import simcity.interfaces.TCustomer;
 import simcity.interfaces.TWaiter;
 import simcity.interfaces.TCashier;
+
+
 
 
 
@@ -13,6 +16,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 import simcity.PersonAgent;
+import simcity.TTRestaurant.TCookRole.Market;
 import simcity.TTRestaurant.TCookRole.OrderStatus;
 import simcity.TTRestaurant.THostRole.myWaiters;
 import simcity.TTRestaurant.TWaiterRole.customers;
@@ -29,10 +33,10 @@ public class TCashierRole extends Role implements TCashier{
 	= Collections.synchronizedList(new ArrayList<Customers>());
 	public List<Waiters> waiters
 	= Collections.synchronizedList(new ArrayList<Waiters>());
-	//public List<Markets> markets 
-	//= new ArrayList<Markets>(); 
+	public List<Markets> markets 
+	= new ArrayList<Markets>(); 
 
-
+	private TCookRole cook;
 	Map<String, Double> Menu = new HashMap<String, Double>(4);
 	
 	class Waiters {
@@ -71,19 +75,19 @@ public class TCashierRole extends Role implements TCashier{
 			
 	}
 	
-	/**
+	
 	class Markets {
-		Market mart; 
+		MarketCashier mart; 
 		double bill; 
 		
-		public void setMarket(Market m) {
+		public void setMarket(MarketCashier m) {
 			mart = m;
 		}
 		public void setBill(double b) {
 			bill = b; 
 		}
 	}
-	*/
+	
 	
 	public TCashierRole(PersonAgent p){
 		super(p);
@@ -109,15 +113,15 @@ public class TCashierRole extends Role implements TCashier{
 		stateChanged(); 
 	}
 	
-	/**
-	public void msgPayForSupply(Market m, double b) {
+	
+	public void msgPayForSupply(MarketCashier m, double b) {
 		Markets market = new Markets(); 
 		market.mart = m;
 		market.bill = b; 
 		markets.add(market); 
 		stateChanged(); 
 	}
-	*/
+
 	
 
 	/**
@@ -134,12 +138,12 @@ public class TCashierRole extends Role implements TCashier{
 			return true; 
 		}
 		
-		/**
+		
 		if (!markets.isEmpty()) {
 			payForStock(); 
 			return true; 
 		}
-		*/
+		
 
      return false; 
 		
@@ -179,7 +183,7 @@ public class TCashierRole extends Role implements TCashier{
 		payingCustomers.remove(index); 
 	}
 	
-	/**
+	
 	private void payForStock() {
 		print("The bill is " + markets.get(0).bill);
 		if (budget < markets.get(0).bill) {
@@ -195,12 +199,12 @@ public class TCashierRole extends Role implements TCashier{
 			debt = 0; 
 			print("We don't owe money anymore!"); 
 		}
-		markets.get(0).mart.msgPaidForStock(markets.get(0).bill); 
+		markets.get(0).mart.msgHereIsPayment(cook, markets.get(0).bill); 
 		markets.remove(0); 
 		print("Paying for food from the market. Our budget is now $" + budget); 
 		
 	}
-	*/
+	
 	
 
 	public void addFood() {
@@ -210,6 +214,10 @@ public class TCashierRole extends Role implements TCashier{
 		Menu.put("Chicken", 8.99);
 	}
 
+	public void setCook(TCookRole cook) {
+		this.cook = cook;
+	}
+	
 }
 
 
