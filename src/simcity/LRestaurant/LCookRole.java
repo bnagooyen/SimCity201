@@ -10,10 +10,16 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
+import simcity.KRestaurant.KCookRole.Food;
+import simcity.KRestaurant.KCookRole.MarketOrder;
+import simcity.KRestaurant.KCookRole.marketOrderState;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
 import simcity.LRestaurant.gui.LCookGui;
+import simcity.Market.MFoodOrder;
 //import simcity.LRestaurant.interfaces.Market;
 import simcity.interfaces.LCook;
+import simcity.interfaces.MarketCashier;
+import simcity.interfaces.MarketManager;
 
 /**
  * Restaurant Cook Agent
@@ -32,10 +38,12 @@ public class LCookRole extends Role implements LCook {
 	private Map<String, Food> foods = Collections.synchronizedMap(new HashMap<String, Food>());
 //	private Map<String, Boolean> marketOrders = new HashMap<String, Boolean>(); //integer holds the amount reordered
 	public enum OrderState {pending, cooking, cooked};
-//	public enum MarketState{noOrder, firstOrder, reOrder};
+	public enum MarketState{noOrder, order, firstOrder, reOrder};
 //	private int currMarket = 0;
 //	private boolean needMarket = false; //set true when need to order from market
 	public LCookGui cookGui;
+	public List<MarketManager> markets =Collections.synchronizedList( new ArrayList<MarketManager>()); 
+	public List<MarketOrder> marketOrders =Collections.synchronizedList( new ArrayList<MarketOrder>()); 
 	private Semaphore task = new Semaphore(0,true);
 
 	public LCookRole(PersonAgent p){
@@ -86,6 +94,34 @@ public class LCookRole extends Role implements LCook {
 //
 //		stateChanged();
 //	}
+	
+	public void msgHereIsDelivery(List<MFoodOrder> canGiveMe, double bill, MarketManager manager, MarketCashier cashier) {
+		print("Got food from "+ manager);
+		
+		for(MarketOrder m : marketOrders) {
+			if( m.m == manager) {
+				m.state = marketOrderState.arrived;
+				m.cashier = cashier;
+			}
+		}
+		
+		for(MFoodOrder f : canGiveMe) {
+			Do("got " + f.amount + " of " + f.type);
+			Food currentFood = foods.get(f.type);
+			foods.get(f.type).state = MarketState.noOrder;
+			currentFood.amount += f.amount;
+		}
+		
+		
+//		foods.get(choice).amount += a;
+//
+//		if(foods.get(choice).amount == foods.get(choice).capacity){
+//			foods.get(choice).state = MarketState.noOrder;
+//		}
+
+		stateChanged();
+	}
+	
 
 	public void msgDone(Order o) {
 		o.state = OrderState.cooked;
@@ -129,6 +165,15 @@ public class LCookRole extends Role implements LCook {
 			}
 		}
 		
+		synchronized(foods){
+			for(Food choice : foods.values()){
+				if(choice.state.equals(MarketState.order)){
+					orderFromMarket(choice.choice, choice.need);
+					return true;
+				}
+			}
+		}
+		
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
@@ -138,10 +183,18 @@ public class LCookRole extends Role implements LCook {
 
 	// Actions
 
-//	private void orderFromMarket(Order o){
+	private void orderFromMarket(String choice, int orderAmount){
 //		int orderAmount = foods.get(o.choice).capacity - foods.get(o.choice).amount;
+		List<MFoodOrder> needed = new ArrayList<MFoodOrder>();
+		needed.add(new MFoodOrder(choice, orderAmount));
 //		foods.get(o.choice).state = MarketState.noOrder;
-//
+
+		Random rand = new Random();
+		int select = rand.nextInt(markets.size());
+		MarketManager m = markets.get(select);
+		marketOrders.add(new MarketOrder(m));
+		m.msgIAmHere((Role) this, needed, "LRestaurant", "cook");
+		
 //		synchronized(markets){
 //			for(MyMarket m : markets){
 //				if(m.supply.get(o.choice)){
@@ -151,9 +204,9 @@ public class LCookRole extends Role implements LCook {
 //				}
 //			}
 //		}
-//		
-//		stateChanged();
-//	}
+		
+		stateChanged();
+	}
 //
 //	private void reorderFromMarket(String choice, int need){
 //		int orderAmount = need;
@@ -171,11 +224,11 @@ public class LCookRole extends Role implements LCook {
 //		
 //		stateChanged();
 //	}
+	
 
 
 	private void cookOrder(final Order o) {
 
-//		print("!!!! "+foods.get(o.choice).amount);
 		if(foods.get(o.choice).amount == 0){
 			print("Ran out of " + o.choice);
 			//msg waiter that food is out
@@ -188,14 +241,17 @@ public class LCookRole extends Role implements LCook {
 		foods.get(o.choice).amount--;
 
 		//at a certain amount want to order from market
-//		if(foods.get(o.choice).amount <= foods.get(o.choice).threshold && foods.get(o.choice).state.equals(MarketState.noOrder)){
-//
-//			//call an individual action to implement all below
-//			//foods.get(o.choice).needMarket = true;
+		if(foods.get(o.choice).amount <= foods.get(o.choice).threshold && foods.get(o.choice).state.equals(MarketState.noOrder)){
+
+			//call an individual action to implement all below
+			//foods.get(o.choice).needMarket = true;
 //			foods.get(o.choice).state = MarketState.firstOrder;
-//			orderFromMarket(o);
-//
-//		}
+			foods.get(o.choice).state = MarketState.order;
+			int orderAmount = foods.get(o.choice).capacity - foods.get(o.choice).amount;
+			foods.get(o.choice).need = orderAmount;
+			orderFromMarket(o.choice,orderAmount);
+
+		}
 		print("Cooking order");
 		cookGui.setFood(o.choice);
 		cookGui.DoGetFood();
@@ -254,7 +310,7 @@ public class LCookRole extends Role implements LCook {
 		int threshold; //signals to order from market
 		//private boolean needMarket; //set true when need to order from market
 		int need; //food supply still needed
-//		MarketState state;
+		MarketState state;
 
 		Food(String c, int ct, int a, int cap, int thres){
 			choice = c;
@@ -281,6 +337,19 @@ public class LCookRole extends Role implements LCook {
 //			market = m;
 //		}
 //	}
+	
+	private class MarketOrder {
+		MarketManager m;
+		MarketCashier cashier;
+		double check;
+		marketOrderState state;
+		
+		public MarketOrder(MarketManager m) {
+			this.m = m;
+			check = 0;
+			state = marketOrderState.waiting;
+		}
+	}
 
 	public class Order{
 		int table;
