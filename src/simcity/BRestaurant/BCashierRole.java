@@ -1,6 +1,6 @@
 package simcity.BRestaurant;
-import agent.Agent;
-import agent.Role;
+import agent.*;
+import simcity.BRestaurant.*;
 
 import java.util.*;
 
@@ -19,10 +19,13 @@ public class BCashierRole extends Role implements BCashier {
     
 
 	BCookRole cook;
-    public int totalMoney=500;
+    public double totalMoney=500;
     public List<BCheck> myChecks = Collections.synchronizedList(new ArrayList<BCheck>());
     public List<BCustomer> myCustomers = Collections.synchronizedList(new ArrayList<BCustomer>());
     public List<marketCheck> marketChecks=new ArrayList<marketCheck>();
+    
+    public enum MarketPaidState{notPaid, Paid};
+    MarketPaidState checkState;
     
     public BCashierRole(PersonAgent p) {
 		super(p);
@@ -30,13 +33,15 @@ public class BCashierRole extends Role implements BCashier {
 		
     }
     
+    
+    
     public enum paidState {
 		ReceivedByMarket, PaidByCashier};
 		
 	public paidState state=null;
     
 	public class marketCheck{
-    	public BCheck check;
+    	public double check;
     	public paidState state;
     	MarketCashier cashier;
     }
@@ -72,11 +77,11 @@ public class BCashierRole extends Role implements BCashier {
     }  
     
     private void payMarket(marketCheck check){
-    	totalMoney=totalMoney-check.check.price;
+    	totalMoney=totalMoney-check.check;
     	
     	check.state=paidState.PaidByCashier;
-    	check.check.paidbyCashier=true;
-    	check.cashier.msgHereIsPayment(cook, check.check.price);
+    	
+    	check.cashier.msgHereIsPayment(cook, check.check);
     }
     
     //messages
@@ -90,17 +95,8 @@ public class BCashierRole extends Role implements BCashier {
     	}
     	stateChanged();
     }
-    
-    
-/*************************implement this******************************************/    
-    public void msgHereisCheckfromMarket(double check, MarketCashier cashier) {
-		// TODO Auto-generated method stub
-		
-	}
-/********************************************************************************************/    
-    
-    
-    public void msgHereisCheckfromMarket(BCheck check, MarketCashier market){
+
+    public void msgHereisCheckfromMarket(double check, MarketCashier market){
     	marketCheck thisMarketCheck=new marketCheck();
     	thisMarketCheck.check=check;
     	thisMarketCheck.state=paidState.ReceivedByMarket;
@@ -147,5 +143,4 @@ public class BCashierRole extends Role implements BCashier {
     }
 
 	
-}
-    
+}    

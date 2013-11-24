@@ -82,12 +82,11 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private Map<String, List<Location>> buildings = null;
 	
 
-	public PersonAgent(String name, Role job) {
+	public PersonAgent(String name) {
 		super();
 
 
 		this.name = name;
-		this.SetJob(job);
 
 
 		personState=PersonState.none;
@@ -251,6 +250,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 		if(locationState==LocationState.atHome && !(energyState==EnergyState.asleep)) {
 			if(moneyState==MoneyState.haveLoan){
+				buyCar();
 				return true;
 			}
 			if(energyState==EnergyState.tired) {
@@ -273,7 +273,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				return true;
 			}
 			if(moneyState==MoneyState.rich && myCar==null){
-				buyCar();
+				//getCarLoan();
 			}
 		}
 		

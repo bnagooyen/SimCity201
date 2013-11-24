@@ -2,6 +2,8 @@ package simcity.TTRestaurant;
 
 import agent.Role
 ;
+import simcity.interfaces.MarketCashier;
+import simcity.interfaces.MarketManager;
 import simcity.interfaces.TCook;
 import simcity.interfaces.TWaiter;
 
@@ -9,6 +11,8 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
+import simcity.KRestaurant.KCookRole.marketOrderState;
+import simcity.Market.MFoodOrder;
 import simcity.TTRestaurant.THostRole.Table;
 import simcity.TTRestaurant.THostRole.myWaiters;
 import simcity.TTRestaurant.gui.TCookGui;
@@ -29,8 +33,8 @@ public class TCookRole extends Role implements TCook {
 	Random randomQuan = new Random();
 	private Semaphore atCounter = new Semaphore(0,true);
 	Map<String, Integer> Supply = new HashMap<String, Integer>(4);
-	//public List<Market> markets
-	//= Collections.synchronizedList(new ArrayList<Market>());
+	public List<Market> markets
+	= Collections.synchronizedList(new ArrayList<Market>());
 	enum MarketState  
 	{none, waiting, paying}; 
 	
@@ -65,6 +69,7 @@ public class TCookRole extends Role implements TCook {
 	{pending, cooking, cooked, removed};
 
 	TWaiterRole waiter;
+	TCashierRole cashier; 
 	
 	public void msgHereIsAnOrder(int t, String choice, TWaiter headWaiterRoleTT) {
 		Orders o = new Orders(); 
@@ -95,6 +100,16 @@ public class TCookRole extends Role implements TCook {
 		
 	}
 */
+	
+/******************************** delivery from market *****************************************/	
+	public void msgHereIsDelivery(List<MFoodOrder> canGiveMe, double bill, MarketManager manager, MarketCashier cashier) {
+		
+		
+		// set restaurant cashier so that restaurant cashier knows who to pay
+		//Market m.cashier = cashier;
+		stateChanged();
+	}	
+/************************************************************************************************/	
 	
 	public void msgUnfulfilledStock() {
 		buyingFood = false;
@@ -171,13 +186,13 @@ public class TCookRole extends Role implements TCook {
 				}
 			}
 		}
-		/**
-		for (Markets m:markets) {
-			if m.state == MarketState.paying {
+		
+		for (Market m:markets) {
+			if( m.state == MarketState.paying ){
 				sendCheck(m); 
 			}
 		}
-		*/
+		
 		if (unFullfilled == true) {
 			//BuyFood(); 
 		}
@@ -233,7 +248,7 @@ public class TCookRole extends Role implements TCook {
 	private void checkOrders() {
 		
 	}
-	/**
+	
 	private void BuyFood() {
 		
 		if (buyingFood == false) {
@@ -252,19 +267,24 @@ public class TCookRole extends Role implements TCook {
 				}
 			}
 			else {
-				markets.get(index).m.msgBuyFood(Supply, this);
-				markets.get(index).checked = true
-				markets.get(index).state = MarketState.waiting;;
+				
+/********************************* have cook send a list of MFoodOrder (type and amount) to Market)**************/				
+				markets.get(index).m.msgIAmHere((Role)this, Supply, "TRestaurant", "cook");
+				markets.get(index).checked = true;
+				markets.get(index).state = MarketState.waiting;
+				
+/************************************************************************************************/	
+				
 			}
 		}	
 	}
 	
 	private void sendCheck(Market m) {
-		cashier.msgPayForSupply(m.m, m.bill); 
+		cashier.msgPayForSupply(m.c, m.bill); 
 		markets.remove(m); 
 	}
 	
-	*/
+	
 	
 	//animations
 	private void goToFridge() {
@@ -337,23 +357,34 @@ public class TCookRole extends Role implements TCook {
 	}
 
 
-/**	
+	@Override
+	public void msgOrderFulfilled(Map<String, Integer> nS) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	
 	public class Market {
-		MarketAgent m;
+		MarketManager m;
+		MarketCashier c;
 		MarketState state;
 		boolean checked;
 		double bill; 
 		
 		public List<String> foodChoices = new ArrayList<String>();
 
-		public void setMarket (MarketAgent mar) {
+		public void setMarket (MarketManager mar) {
 			m = mar; 
 			checked = false;
 			state = MarketState.none;
 		}
 
 	}
-*/
+
+	public void setCashier(TCashierRole c){
+		this.cashier = c;
+	}
 
 }
 
