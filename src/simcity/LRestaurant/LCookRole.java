@@ -10,10 +10,12 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
+import simcity.KRestaurant.KCookRole.MarketOrder;
 import simcity.KRestaurant.KCookRole.marketOrderState;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
 import simcity.LRestaurant.gui.LCookGui;
 import simcity.Market.MFoodOrder;
+import simcity.interfaces.LCashier;
 //import simcity.LRestaurant.interfaces.Market;
 import simcity.interfaces.LCook;
 import simcity.interfaces.MarketCashier;
@@ -29,14 +31,14 @@ import simcity.interfaces.MarketManager;
 public class LCookRole extends Role implements LCook {
 	Timer timer = new Timer();
 	String name;
-
+	LCashier cashier;
 	//private List<MarketAgent> markets = new ArrayList<MarketAgent>();
 //	private List<MyMarket> markets = Collections.synchronizedList(new ArrayList<MyMarket>());
 	private List<Order>orders = Collections.synchronizedList(new ArrayList<Order>());
 	private Map<String, Food> foods = Collections.synchronizedMap(new HashMap<String, Food>());
 //	private Map<String, Boolean> marketOrders = new HashMap<String, Boolean>(); //integer holds the amount reordered
 	public enum OrderState {pending, cooking, cooked};
-	public enum MarketState{noOrder, order, firstOrder, reOrder};
+	public enum MarketState{noOrder, order, firstOrder, reOrder, waiting, arrived, done};
 	public LCookGui cookGui;
 	public List<MarketManager> markets =Collections.synchronizedList( new ArrayList<MarketManager>()); 
 	public List<MarketOrder> marketOrders =Collections.synchronizedList( new ArrayList<MarketOrder>()); 
@@ -96,7 +98,7 @@ public class LCookRole extends Role implements LCook {
 		
 		for(MarketOrder m : marketOrders) {
 			if( m.m == manager) {
-				m.state = marketOrderState.arrived;
+				m.state = MarketState.arrived;
 				m.cashier = cashier;
 			}
 		}
@@ -142,6 +144,14 @@ public class LCookRole extends Role implements LCook {
 //				}
 //			}
 //		}
+		
+		synchronized(marketOrders) {
+			for(MarketOrder m : marketOrders) {
+				if(m.state == MarketState.arrived) {
+					giveCashierCheck(m);
+				}
+			}
+		}
 	
 		synchronized(orders){
 			for (Order order : orders) {
@@ -178,6 +188,12 @@ public class LCookRole extends Role implements LCook {
 
 
 	// Actions
+
+	private void giveCashierCheck(MarketOrder m) {
+		Do("Handing market check over to cashier");
+		cashier.msgHereIsSupplyCheck(m.check, m.cashier);
+		m.state = MarketState.done;	
+	}
 
 	private void orderFromMarket(String choice, int orderAmount){
 //		int orderAmount = foods.get(o.choice).capacity - foods.get(o.choice).amount;
@@ -337,12 +353,12 @@ public class LCookRole extends Role implements LCook {
 		MarketManager m;
 		MarketCashier cashier;
 		double check;
-		marketOrderState state;
+		MarketState state;
 		
 		public MarketOrder(MarketManager m) {
 			this.m = m;
 			check = 0;
-			state = marketOrderState.waiting;
+			state = MarketState.waiting;
 		}
 	}
 

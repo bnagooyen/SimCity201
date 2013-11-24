@@ -16,6 +16,8 @@ public interface LCashier {
 	
 	public abstract void msgHereIsPayment(LCustomer c, int money, int check);
 	
+	public abstract void msgHereIsSupplyCheck(double check, MarketCashier mc);
+	
 //	public abstract void msgHereIsSupplyCheck(int bill, LMarket market);
 
 }

@@ -9,12 +9,14 @@ import agent.Role;
 import java.util.*;
 
 import simcity.PersonAgent;
+import simcity.Drew_restaurant.gui.Bill;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
 //import simcity.LRestaurant.interfaces.Market;
 import simcity.test.mock.EventLog;
 import simcity.interfaces.LCashier;
 import simcity.interfaces.LCustomer;
 import simcity.interfaces.LWaiter;
+import simcity.interfaces.MarketCashier;
 
 /**
  * Restaurant Cashier Agent
@@ -31,7 +33,7 @@ public class LCashierRole extends Role implements LCashier {
 	
 	public List<Order>orders = Collections.synchronizedList(new ArrayList<Order>());
 	public List<Transaction>transactions = Collections.synchronizedList(new ArrayList<Transaction>());
-//	public List<Bill>bills = Collections.synchronizedList(new ArrayList<Bill>());
+	public List<Bill>bills = Collections.synchronizedList(new ArrayList<Bill>());
 	private Map<String, Food> foods = Collections.synchronizedMap(new HashMap<String, Food>());
 	public enum OrderState {pending, computing, done};
 	public enum TransState {pending, computing, done};
@@ -63,6 +65,10 @@ public class LCashierRole extends Role implements LCashier {
 		stateChanged();
 	}
 	
+	public void msgHereIsSupplyCheck(double check, MarketCashier mc){
+		bills.add(new Bill(check, mc, false));
+	}
+	
 //	public void msgHereIsSupplyCheck(int bill, LMarket market) {
 //		bills.add(new Bill(bill, market, false));
 //	}
@@ -92,14 +98,14 @@ public class LCashierRole extends Role implements LCashier {
 			}
 		}
 		
-//		synchronized(bills){
-//			for(Bill b : bills){
-//				if(!b.didPay){
-//					PayMarket(b);
-//					return true;
-//				}
-//			}
-//		}
+		synchronized(bills){
+			for(Bill b : bills){
+				if(!b.didPay){
+					PayMarket(b);
+					return true;
+				}
+			}
+		}
 
 		return false;
 		//we have tried all our rules and found
@@ -109,29 +115,29 @@ public class LCashierRole extends Role implements LCashier {
 	
 	// Actions
 
-//	private void PayMarket(final Bill b) {
-//		if(restMoney >= b.amount){
-//			Do("Paying Market "+b.amount);
-//			restMoney -= b.amount;
-//			b.didPay = true;
-//			b.m.msgHereIsMoney(b.amount);
-//			bills.remove(b);
-//		}
-//		else{
-//			Do("Need to run to the bank to pay market bill");
-//			goToBank();
-//			 timer.schedule(new TimerTask() {
-//                 public void run() {
-//                     b.didPay = true;
-//                 }
-//	         },
-//	         5000);
-//			Do("Paying Market "+b.amount);
-//			restMoney -= b.amount;
-//			b.m.msgHereIsMoney(b.amount);
-//			bills.remove(b);
-//		}
-//	}
+	private void PayMarket(final Bill b) {
+		if(restMoney >= b.amount){
+			Do("Paying Market "+b.amount);
+			restMoney -= b.amount;
+			b.didPay = true;
+			b.mc.msgHereIsPayment(this,b.amount);
+			bills.remove(b);
+		}
+		else{
+			Do("Need to run to the bank to pay market bill");
+			goToBank();
+			 timer.schedule(new TimerTask() {
+                 public void run() {
+                     b.didPay = true;
+                 }
+	         },
+	         5000);
+			Do("Paying Market "+b.amount);
+			restMoney -= b.amount;
+			b.mc.msgHereIsPayment(this,b.amount);
+			bills.remove(b);
+		}
+	}
 
 	private void CreateCheck(Order o){
 		Do("Creating Check");
@@ -208,17 +214,17 @@ public class LCashierRole extends Role implements LCashier {
 		}
 	}
 
-//	public class Bill{
-//		int amount;
-//		public LMarket m;
-//		boolean didPay;
-//		
-//		Bill(int a, LMarket mark, boolean p){
-//			amount = a;
-//			m = mark;
-//			didPay = p;
-//		}
-//	}
+	public class Bill{
+		double amount;
+		public MarketCashier mc;
+		boolean didPay;
+		
+		Bill(double a, MarketCashier mark, boolean p){
+			amount = a;
+			mc = mark;
+			didPay = p;
+		}
+	}
 
 }
 

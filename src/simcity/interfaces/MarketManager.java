@@ -10,13 +10,13 @@ import agent.Role;
 
 public interface MarketManager {
 
-	public void msgTimeUpdate(int hour);
+	public abstract void msgTimeUpdate(int hour);
 	
-	public void msgIAmHere(Role r, String type);
-	public void msgIAmHere(Role r, List<MFoodOrder>need, String building, String type);
+	public abstract void msgIAmHere(Role r, String type);
+	public abstract void msgIAmHere(Role r, List<MFoodOrder>need, String building, String type);
 	
-	public void msgCustomerDone(MarketCashier mc, Role r);
+	public abstract void msgCustomerDone(MarketCashier mc, Role r);
 
-	public void msgLoadDeliveryTruck(MarketCashier cashier, List<MFoodOrder>deliver, String location, double bill, Cook r);
-	public void msgBackFromDelivery();
+	public abstract void msgLoadDeliveryTruck(MarketCashier cashier, List<MFoodOrder>deliver, String location, double bill, Cook r);
+	public abstract void msgBackFromDelivery();
 }
