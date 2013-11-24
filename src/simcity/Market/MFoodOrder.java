@@ -1,7 +1,7 @@
 package simcity.Market;
 
 public class MFoodOrder {
-	String type;
+	public String type;
 	public int amount;
 	public double price;
 	

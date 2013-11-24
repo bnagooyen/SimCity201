@@ -38,6 +38,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		super(p);
 		marketMoney = 0.0;
 		log = new EventLog();
+		state = myState.arrived;
 	}
 	
 	//Messages
@@ -139,7 +140,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		else{
 //			o.cashier.msgBillFromMarket(check, this);
 			DoDeliverFood();
-			o.cook.msgHereIsDelivery(o.canGive, check, this);
+			o.cook.msgHereIsDelivery(o.canGive, check, manager, this);
 		}
 	}
 	
@@ -215,6 +216,14 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	private void DoGoHome() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	// utilities
+	public void setInventoryBoy(InventoryBoy ib) {
+		this.ib = ib;
+	}
+	public void setMarketManager(MarketManager m) {
+		this.manager = m;
 	}
 }
 
