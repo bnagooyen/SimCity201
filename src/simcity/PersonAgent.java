@@ -49,6 +49,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private Role myJob;
 	private Role neededRole;
 	private String mydestination;
+	private String mylocation="home";
 	private String jobLocation;
 
 	public enum PersonState { none };
@@ -181,6 +182,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	public void msgAtDestination(String destination){
 		mydestination=destination;
+		mylocation=mydestination;
 		boolean haveRole=false;
 		transitState=TransitState.getOutCar;
 		stateChanged();
@@ -273,7 +275,8 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				buyCar();
 			}
 		}
-
+		
+		if(mydestination==mylocation) locationState=LocationState.atHome;	//Don't travel if your already in the right place
 		if(locationState==LocationState.inTransit && !(energyState==EnergyState.asleep)) {
 
 			if (myCar==null){
@@ -361,7 +364,8 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	private void GoToBed() {
 		Do("going to bed");
-		//mydestination="home";
+		mydestination="home";
+		locationState=LocationState.inTransit;
 		energyState=EnergyState.asleep;
 	}
 
