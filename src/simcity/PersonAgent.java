@@ -43,7 +43,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	Bus bus;
 	BusStop busStop;
 	public Car myCar=null;
-	List<Role> roles = new ArrayList<Role>();
+	List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	Map<String,Role> possibleRoles = new HashMap<String,Role>();
 	//List<Role> customerRoles = new ArrayList<Role>();
 	private Role myJob;
@@ -246,10 +246,12 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 		boolean anyTrue=false;
 		boolean activatedRole = false;
-		for(Role r: roles) {
-			if(r.isActive) {
-				anyTrue=r.pickAndExecuteAnAction();
-				activatedRole=true;
+		synchronized(roles) {
+			for(Role r: roles) {
+				if(r.isActive) {
+					anyTrue=r.pickAndExecuteAnAction();
+					activatedRole=true;
+				}
 			}
 		}
 		if(activatedRole) return anyTrue;

@@ -203,19 +203,23 @@ public class BankManagerRole extends Role implements BankManager {
 		}
 		
 		if(!tellers.isEmpty() && tellers.get(0).state==MyTellerState.available) {
-			for(MyCustomer cust: customers) {
-				if (cust.state==MyCustomerState.transaction) {
-					SendCustomerToTeller(cust);
-					return true;
+			synchronized(customers) {
+				for(MyCustomer cust: customers) {
+					if (cust.state==MyCustomerState.transaction) {
+						SendCustomerToTeller(cust);
+						return true;
+					}
 				}
 			}
 		}
 		
 		if( !officers.isEmpty() && officers.get(0).state==MyOfficerState.available) {
-			for(MyCustomer cust: customers) {
-				if (cust.state==MyCustomerState.loan) {
-					SendCustomerToLoanOfficer(cust);
-					return true;
+			synchronized(customers) {
+				for(MyCustomer cust: customers) {
+					if (cust.state==MyCustomerState.loan) {
+						SendCustomerToLoanOfficer(cust);
+						return true;
+					}
 				}
 			}
 		}
@@ -290,8 +294,10 @@ public class BankManagerRole extends Role implements BankManager {
 	private void BankIsClosed() {
 		Do("Telling customer bank is closed");
 //		System.out.println("bankisclosed");
-		for(MyCustomer c: customers) {
-			c.customer.msgLeaveBank();
+		synchronized(customers) {
+			for(MyCustomer c: customers) {
+				c.customer.msgLeaveBank();
+			}
 		}
 		customers.clear();
 	}

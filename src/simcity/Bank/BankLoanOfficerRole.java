@@ -143,9 +143,11 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		state=bankLoanState.waitingForLoanRequest;
 	}
 	private void analyzeLoan(){
-		for (String job : acceptableJobs) {
-			if (customer.job.toLowerCase().equals(job)) {
-				customer.accepted=true;
+		synchronized(acceptableJobs) {
+			for (String job : acceptableJobs) {
+				if (customer.job.toLowerCase().equals(job)) {
+					customer.accepted=true;
+				}
 			}
 		}
 		if(customer.accepted){
