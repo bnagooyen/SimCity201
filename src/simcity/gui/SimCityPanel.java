@@ -65,6 +65,7 @@ public class SimCityPanel extends JPanel{
 
 	private SimCityGui gui;
 	public Map<String, List<Location>> buildings = new HashMap<String, List<Location>>();
+	public Map<String, List<Location>> busStops=new HashMap<String, List<Location>>();
 	private List<Location> restaurants = new ArrayList<Location>();
 	private List<Location> banks = new ArrayList<Location>();
 	private List<Location> markets = new ArrayList<Location>();
