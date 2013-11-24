@@ -56,6 +56,7 @@ import simcity.TTRestaurant.TCookRole;
 import simcity.TTRestaurant.TCustomerRole;
 import simcity.TTRestaurant.THostRole;
 import simcity.TTRestaurant.TWaiterRole;
+import simcity.Transportation.CarAgent;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.Host;
 import simcity.interfaces.MarketManager;
@@ -127,7 +128,7 @@ public class SimCityPanel extends JPanel{
 			in  = new Scanner(new FileReader("config"+File.separator+"config1.txt"));
 			System.out.println(in.next());
 			int numItems = in.nextInt();
-			//clear input template
+			//clear input template;
 			in.next();
 			in.next();
 			in.next();
@@ -140,8 +141,14 @@ public class SimCityPanel extends JPanel{
 //				System.out.println(in.nextDouble());
 //				System.out.println(in.next());
 //				System.out.println(in.nextBoolean());
-				Person p = new PersonAgent(in.next());
-				p.SetMoney(in.nextDouble());
+				PersonAgent p = new PersonAgent(in.next());
+				p.setMoney(in.nextDouble());
+				p.SetJob(jobFactory(in.next(),p));
+				boolean hasACar = in.nextBoolean();
+				if(hasACar) {
+					p.setCar(new CarAgent());
+				}
+				people.add(p);
 			}
 			in.close();
 		} catch (FileNotFoundException e) {
@@ -195,89 +202,89 @@ public class SimCityPanel extends JPanel{
 		}
 	
 		// BRestaurant
-		else if (job.equals("BCashier")) {
+		else if (job.equals("Cashier2")) {
 			j = new BCashierRole(p);
 		}
-		else if (job.equals("BCook")) {
+		else if (job.equals("Cook2")) {
 			j = new BCookRole(p);
 		}
-		else if (job.equals("BHost")) {
+		else if (job.equals("Host2")) {
 			j = new BHostRole(p);
 		}
-		else if (job.equals("BWaiter")) {
+		else if (job.equals("Waiter2")) {
 			j = new BWaiterRole(p);
 		}
 		
 		// DRestaurant
-		else if (job.equals("DCashier")) {
+		else if (job.equals("Cashier3")) {
 			j = new DCashierRole(p);
 		}
-		else if (job.equals("DCook")) {
+		else if (job.equals("Cook3")) {
 			j = new DCookRole(p);
 		}
-		else if (job.equals("DHost")) {
+		else if (job.equals("Host3")) {
 			j = new DHostRole(p);
 		}
-		else if (job.equals("DWaiter")) {
+		else if (job.equals("Waiter3")) {
 			j = new DWaiterRole(p);
 		}
 		
 		// Drew_Restaurant
-		else if (job.equals("DrewCashier")) {
+		else if (job.equals("Cashier1")) {
 			j = new Drew_CashierRole(p);
 		}
-		else if (job.equals("DrewCook")) {
+		else if (job.equals("Cook1")) {
 			j = new Drew_CookRole(p);
 		}
-		else if (job.equals("DrewHost")) {
+		else if (job.equals("Host1")) {
 			j = new Drew_HostRole(p);
 		}
-		else if (job.equals("DrewWaiter")) {
+		else if (job.equals("Waiter1")) {
 			j = new Drew_WaiterRole(p);
 		}
 		
 		// KRestaurant
-		else if (job.equals("KCashier")) {
+		else if (job.equals("Cashier4")) {
 			j = new KCashierRole(p);
 		}
-		else if (job.equals("KCook")) {
+		else if (job.equals("Cook4")) {
 			j = new KCookRole(p);
 		}
-		else if (job.equals("KHost")) {
+		else if (job.equals("Host4")) {
 			j = new KHostRole(p);
 		}
-		else if (job.equals("KWaiterNormal")) {
+		else if (job.equals("WaiterNormal4")) {
 			j = new KWaiterNormalRole(p);
 		}
-		else if (job.equals("KWaiterSharedData")) {
+		else if (job.equals("WaiterSharedData4")) {
 			j = new KWaiterSharedDataRole(p);
 		}
 		
 		// LRestaurant
-		else if (job.equals("LCashier")) {
+		else if (job.equals("Cashier5")) {
 			j = new LCashierRole(p);
 		}
-		else if (job.equals("LCook")) {
+		else if (job.equals("Cook5")) {
 			j = new LCookRole(p);
 		}
-		else if (job.equals("LHost")) {
+		else if (job.equals("Host5")) {
 			j = new LHostRole(p);
 		}
-		else if (job.equals("LWaiter")) {
+		else if (job.equals("Waiter5")) {
 			j = new LWaiterRole(p);
 		}
 		
 		// TTRestaurant
-		else if (job.equals("TCashier")) {
+		else if (job.equals("Cashier6")) {
 			j = new TCashierRole(p);
 		}
-		else if (job.equals("TCook")) {
+		else if (job.equals("Cook6")) {
 			j = new TCookRole(p);
 		}
-		else if (job.equals("THost")) {
+		else if (job.equals("Host6")) {
 			j = new THostRole(p);
 		}
-		else if (job.equals("TWaiter")) {
+		else if (job.equals("Waiter6")) {
 			j = new TWaiterRole(p);
 		}
 		return j;

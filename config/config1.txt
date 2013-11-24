@@ -1,5 +1,5 @@
 Population(numPeopleInFile):
-18
+30
 EntryTemplate:
 Name
 	Money
@@ -31,97 +31,113 @@ Limberly
 	true
 Andrew
 	400
-	HostRestaurant1
+	Host1
 	true
 Brian
 	400
-	HostRestaurant2
+	Host2
 	true
 Doreen
 	400
-	HostRestaurant3
+	Host3
 	true
 Kim
 	400
-	HostRestaurant4
+	Host4
 	true
 Linda
 	400
-	HostRestaurant5
+	Host5
 	true
 Tiffany
 	400
-	HostRestaurant6
+	Host6
 	true
 Waiter1
 	200
-	Waiter
+	Waiter1
 	false
 Waiter2
 	200
-	Waiter
+	Waiter2
 	false
 Waiter3
 	200
-	Waiter
+	Waiter3
 	false
 Waiter4
 	200
-	Waiter
+	Waiter4
 	false
 Waiter5
 	200
-	Waiter
+	Waiter5
 	false
 Waiter6
 	200
-	Waiter
+	Waiter6
 	false
 Cook1
 	200
-	Cook
+	Cook1
 	false
 Cook2
 	200
-	Cook
+	Cook2
 	false
 Cook3
 	200
-	Cook
+	Cook3
 	false
 Cook4
 	200
-	Cook
+	Cook4
 	false
 Cook5
 	200
-	Cook
+	Cook5
 	false
 Cook6
 	200
-	Cook
+	Cook6
 	false
 RCashier1
 	200
-	RestCashier
+	RestCashier1
 	false
 RCashier2
 	200
-	RestCashier
+	RestCashier2
 	false
 RCashier3
 	200
-	RestCashier
+	RestCashier3
 	false
 RCashier4
 	200
-	RestCashier
+	RestCashier4
 	false
 RCashier5
 	200
-	RestCashier
+	RestCashier5
 	false
 RCashier6
 	200
-	RestCashier
+	RestCashier6
+	false
+InventoryBoy1
+	100
+	InventoryBoy
+	false
+InventoryBoy2
+	100
+	InventoryBoy
+	false
+InventoryBoy1
+	100
+	InventoryBoy
+	false
+InventoryBoy1
+	100
+	InventoryBoy
 	false

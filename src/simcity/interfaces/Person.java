@@ -1,5 +1,7 @@
 package simcity.interfaces;
 
+import agent.Role;
+
 
 
 
@@ -11,7 +13,9 @@ public interface Person {
 	
 	public abstract void msgBusIsHere(Bus b);
 		
-
+	public abstract void setMoney(double amt);
+	
+	public abstract void SetJob(Role j);
 }
 
 
