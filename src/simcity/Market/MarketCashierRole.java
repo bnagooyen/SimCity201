@@ -130,17 +130,21 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		double check = calculateCheck(o);
 		
 		if(o.building.equals("")){
+			//Customer is at the market
 			DoGiveFood();
 			o.c.msgHereIsOrderAndCheck(o.canGive, check);
 		}
 		else if(o.cook == null){
+			//phone order from customer
 			DoDeliverFood();
 			o.c.msgHereIsOrderAndCheck(o.canGive, check);
 		}
 		else{
+			//phone order from cook
 //			o.cashier.msgBillFromMarket(check, this);
 			DoDeliverFood();
-			o.cook.msgHereIsDelivery(o.canGive, check, manager, this);
+			manager.msgLoadDeliveryTruck(this, o.canGive, o.building, check, o.cook);
+			//o.cook.msgHereIsDelivery(o.canGive, check, manager, this);
 		}
 	}
 	

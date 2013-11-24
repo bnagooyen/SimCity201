@@ -23,7 +23,8 @@ public class MarketManagerRole extends Role implements MarketManager{
 	public List<MyMarketCashier> cashiers = Collections.synchronizedList(new ArrayList<MyMarketCashier>());
 	public List<InventoryBoy> inventoryBoys = Collections.synchronizedList(new ArrayList<InventoryBoy>());
 	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
-	public DeliveryTruckAgent truck = new DeliveryTruckAgent();
+	public DeliveryTruckAgent dTruck = new DeliveryTruckAgent(this);
+	public MyDeliveryTruck truck = new MyDeliveryTruck(dTruck);
 	
 	public int hour;
 	public boolean isClosed;
@@ -79,12 +80,27 @@ public class MarketManagerRole extends Role implements MarketManager{
 		stateChanged();
 	}
 	
+	public void msgBackFromDelivery(){
+		truck.state = workerState.available;
+	}
+	
 	public void msgCustomerDone(MarketCashier mc, Role r){
 		Do("Cashier finished order");
 		MyMarketCashier current = find(mc, cashiers);
 		current.state = workerState.available;
 		MyCustomer cust = find(r, customers);
 		customers.remove(cust);
+		stateChanged();
+	}
+	
+	public void msgLoadDeliveryTruck(MarketCashier cashier, List<MFoodOrder>deliver, String location, double bill, Cook c){
+		Do("Loading delivery truck");
+		truck.mc = cashier;
+		truck.supply = deliver;
+		truck.destination = location;
+		truck.check = bill;
+		truck.cook = c;
+		truck.state = workerState.occupied;
 		stateChanged();
 	}
 
@@ -126,10 +142,21 @@ public class MarketManagerRole extends Role implements MarketManager{
 			}
 		}
 		
+		if(truck.state.equals(workerState.occupied)){
+			sendOverTruck();
+			return true;
+		}
+		
 		return false;
 	}
 	
 	//Actions
+	
+	private void sendOverTruck(){
+		Do("Sending delivery truck over");
+		truck.d.msgGoToDestination(truck.mc, truck.supply, truck.destination, truck.check, truck.cook);
+	}
+	
 	private void closeMarket(){
 		Do("Closing market. It is "+hour);
 		synchronized(cashiers){
@@ -227,6 +254,21 @@ public class MarketManagerRole extends Role implements MarketManager{
 //			// TODO Auto-generated method stub
 //			return null;
 //		}
+	}
+	
+	public class MyDeliveryTruck{
+		DeliveryTruckAgent d;
+		public workerState state;
+		MarketCashier mc;
+		List<MFoodOrder>supply;
+		String destination;
+		double check;
+		Cook cook;//restaurant's cook
+		
+		public MyDeliveryTruck(DeliveryTruckAgent d){
+			this.d = d;
+			state = workerState.available;
+		}
 	}
 	
 	public class MyCustomer{

@@ -27,9 +27,9 @@ public class DeliveryTruckAgent extends Agent implements Car{
 	
 	public truckState state;
 	
-	public DeliveryTruckAgent(MarketManager m, MarketCashier cashier){
+	public DeliveryTruckAgent(MarketManager m){
 		manager = m;
-		mc = cashier;
+		mc = null;
 		cook = null;
 		supply = null;
 		destination = null;
@@ -41,11 +41,12 @@ public class DeliveryTruckAgent extends Agent implements Car{
 	//Messages
 	
 	
-	public void msgGoToDestination(List<MFoodOrder>deliver, String location, int bill, Role r) {
+	public void msgGoToDestination(MarketCashier cashier, List<MFoodOrder>deliver, String location, int bill, Cook c) {
+		mc = cashier;
 		supply = deliver;
 		destination = location;
 		state = truckState.receivedLocation;
-		cook = (Cook) r;
+		cook = c;
 		check = bill;
 		stateChanged();
 		
@@ -95,6 +96,7 @@ public class DeliveryTruckAgent extends Agent implements Car{
 		Do("Arrived at destination");
 		cook.msgHereIsDelivery(supply, check, manager, mc);
 		//animation to go home
+		manager.msgBackFromDelivery();
 		state = truckState.available;
 	}
 	

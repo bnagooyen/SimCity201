@@ -16,4 +16,7 @@ public interface MarketManager {
 	public void msgIAmHere(Role r, List<MFoodOrder>need, String building, String type);
 	
 	public void msgCustomerDone(MarketCashier mc, Role r);
+
+	public void msgLoadDeliveryTruck(MarketCashier cashier, List<MFoodOrder>deliver, String location, double bill, Cook r);
+	public void msgBackFromDelivery();
 }
