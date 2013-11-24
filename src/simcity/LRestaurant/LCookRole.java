@@ -10,6 +10,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
+import simcity.KRestaurant.ProducerConsumerMonitor;
 import simcity.KRestaurant.KCookRole.MarketOrder;
 import simcity.KRestaurant.KCookRole.marketOrderState;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
@@ -32,6 +33,7 @@ public class LCookRole extends Role implements LCook {
 	Timer timer = new Timer();
 	String name;
 	LCashier cashier;
+	private ProducerConsumerMonitor theMonitor;
 	//private List<MarketAgent> markets = new ArrayList<MarketAgent>();
 //	private List<MyMarket> markets = Collections.synchronizedList(new ArrayList<MyMarket>());
 	private List<Order>orders = Collections.synchronizedList(new ArrayList<Order>());
@@ -312,6 +314,10 @@ public class LCookRole extends Role implements LCook {
 
 	public void setGui(LCookGui gui){
 		cookGui = gui;
+	}
+	
+	public void setMonitor(ProducerConsumerMonitor m) {
+		theMonitor = m;
 	}
 	
 	private class Food{

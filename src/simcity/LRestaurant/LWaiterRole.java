@@ -19,7 +19,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class LWaiterRole extends Role implements LWaiter{
+public abstract class LWaiterRole extends Role implements LWaiter{
         static final int NTABLES = 3;//a global for the number of tables.
         //Notice that we implement waitingCustomers using ArrayList, but type it
         //with List semantics.
@@ -33,7 +33,7 @@ public class LWaiterRole extends Role implements LWaiter{
         private boolean onBreak;
 
 
-        private Semaphore task = new Semaphore(0,true);
+        protected Semaphore task = new Semaphore(0,true);
 
         public LWaiterGui waiterGui = null;
         private LMenu m = new LMenu();
@@ -389,20 +389,20 @@ public class LWaiterRole extends Role implements LWaiter{
         }
 
 
-        private void giveCookOrder(MyCustomers c){
-                waiterGui.DoGoToCook();
-                Do("Giving cook order");
-                c.state = CustomerState.waitForFood;
-                //print("Asking for a semaphore. CookOrder1");
-                try {
-                        task.acquire();
-                } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                }
-                //print("Got a semaphore");
-                cook.msgHereIsAnOrder(c.table, c.choice, this);
-        }
+        protected abstract void giveCookOrder(MyCustomers c);//{
+//                waiterGui.DoGoToCook();
+//                Do("Giving cook order");
+//                c.state = CustomerState.waitForFood;
+//                //print("Asking for a semaphore. CookOrder1");
+//                try {
+//                        task.acquire();
+//                } catch (InterruptedException e) {
+//                        // TODO Auto-generated catch block
+//                        e.printStackTrace();
+//                }
+//                //print("Got a semaphore");
+//                cook.msgHereIsAnOrder(c.table, c.choice, this);
+//        }
 
         private void serveOrder(final MyCustomers c){
                 waiterGui.DoGoToPlating();
