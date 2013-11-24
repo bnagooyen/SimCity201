@@ -35,7 +35,7 @@ public class MockBus extends Mock implements Bus {
 	}
 	
 	public  void msgGettingOn(PersonAgent p, String destination){
-		
+		log.add(new LoggedEvent("Should have received message from person"));
 	}
 
 	

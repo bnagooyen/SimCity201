@@ -277,7 +277,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 			}
 		}
 		
-		if(mydestination==mylocation) locationState=LocationState.atHome;	//Don't travel if your already in the right place
+			//Don't travel if your already in the right place
 		if(locationState==LocationState.inTransit && !(energyState==EnergyState.asleep)) {
 
 			if (myCar==null){
