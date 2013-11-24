@@ -10,7 +10,7 @@ import simcity.test.mock.EventLog;
  * Base class for simple agents
  */
 public abstract class Agent {
-    Semaphore stateChange = new Semaphore(1, true);//binary semaphore, fair
+    public Semaphore stateChange = new Semaphore(1, true);//binary semaphore, fair
     Semaphore paused = new Semaphore(0, true);//binary semaphore, fair
     public boolean isPaused = false;
     private AgentThread agentThread;

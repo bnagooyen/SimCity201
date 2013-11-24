@@ -333,6 +333,11 @@ public class SimCityPanel extends JPanel{
 	
 	public void LoadScenario(String type) {
 		people.clear();
+		landlords.clear();
+		houseNumCounter=1;
+		aptNumCounter=1;
+		aptLetCounter='A';
+		
 		try {
 			in  = new Scanner(new FileReader("config"+File.separator+type+".txt"));
 //			System.out.println(in.next());
@@ -398,18 +403,18 @@ public class SimCityPanel extends JPanel{
 //			
 			//TEST CODE
 //			System.out.println(people.size());
-			for(Person person: people) {
-				HomeType h= person.GetHomeState();
-				if(h==HomeType.house) {
-					System.out.println("house");
-					System.out.println(person.getHouseNum());
-				}
-				if(h==HomeType.apartment) {
-					System.out.println("apartment");
-					System.out.print(person.getAptNum());
-					System.out.println(person.getAptLet());
-				}
-			}
+//			for(Person person: people) {
+//				HomeType h= person.GetHomeState();
+//				if(h==HomeType.house) {
+//					System.out.println("house");
+//					System.out.println(person.getHouseNum());
+//				}
+//				if(h==HomeType.apartment) {
+//					System.out.println("apartment");
+//					System.out.print(person.getAptNum());
+//					System.out.println(person.getAptLet());
+//				}
+//			}
 //			int i=1;
 //			for(Person person: people) {
 //				System.out.print(i);
