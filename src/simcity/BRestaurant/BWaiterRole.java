@@ -207,43 +207,61 @@ public class BWaiterRole extends Role implements BWaiter{
 		for (Table table : tables) {
 		
 			
-
+			try{
 			for (myCustomer customer : myCustomers) {
 				if (customer.cusState==customerState.readytoOrder) {
 					takecustomerOrder(customer);
 					return true;
 				}
 			}
-
+			}
+			catch(ConcurrentModificationException e) {
+				return false;
+			}
+			try{
 			for (myCustomer customer : myCustomers) {
 				if (customer.cusState==customerState.orderPending) {
 					giveCookOrder(customer);
 					return true;
 				}
 			}
-
-
+			}
+			catch(ConcurrentModificationException e) {
+				return false;
+			}
+			try{
 			for (myCustomer customer : myCustomers) {
 				if (customer.cusState==customerState.orderisReady) {
 					giveFood(customer);
 					return true;
 				}
 			}
-			
+			}
+			catch(ConcurrentModificationException e) {
+				return false;
+			}
+			try{
 			for (myCustomer customer : myCustomers) {
 				if (customer.cusState==customerState.reorder) {
 					needToReorder(customer);
 					return true;
 				}
 			}
-			
+			}
+			catch(ConcurrentModificationException e) {
+				return false;
+			}
+			try{
 			for (myCustomer customer : myCustomers) {
 				if (customer.cusState==customerState.needCheck) {
 					giveCheck(customer);
 					return true;
 				}
 			}
-
+			}
+			catch(ConcurrentModificationException e) {
+				return false;
+			}
 			if(onBreak==true){
 				takeBreak();
 				timer.schedule(new TimerTask() {

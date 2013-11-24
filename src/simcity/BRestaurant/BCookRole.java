@@ -93,12 +93,13 @@ public class BCookRole extends Role implements BCook {
 	
 	
 	public void msgHereisCompletedOrder(List<BFood> foodOrder){
+		synchronized(foodOrder){
 		for(int i = 0; i< foodOrder.size(); i++)
     	{
     		foodStock.get(foodOrder.get(i).typeOfFood).quantity = foodStock.get(foodOrder.get(i).typeOfFood).quantity+ foodOrder.get(i).amount;
     		
     	}
-		
+		}
 		
 		alreadyOrdered=false;
 		stateChanged();

@@ -32,7 +32,7 @@ public class BHostRole extends Role implements Host{
 	= Collections.synchronizedList(new ArrayList<myWaiter>());
 	
 	public List<myWaiter> breakWaiterList
-	= new ArrayList<myWaiter>();
+	= Collections.synchronizedList(new ArrayList<myWaiter>());
 	
 	public boolean needBreak;
 	public boolean returnToWork;
@@ -69,11 +69,13 @@ public class BHostRole extends Role implements Host{
 
 		this.name = name;
 		// make some tables
-		tables = new ArrayList<Table>(NTABLES);
+		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
+		synchronized(tables){
 		for (int ix = 1; ix <= NTABLES; ix++) {
 			tables.add(new Table(ix));//how you add to a collections
 			
 
+		}
 		}
 	}
 
@@ -101,19 +103,23 @@ public class BHostRole extends Role implements Host{
 	}
 	
 	public void msgDonewithBreak(BWaiterRole waiter){
+		synchronized(waiterList) {
 		for (myWaiter thisWaiter : waiterList){
 			if(thisWaiter.w==waiter){
 				thisWaiter.onBreak=false;
 				thisWaiter.returnToWork=true;
 			}
 		}
+		}
 	}
 
 	public void msgPutMeOnBreak(BWaiterRole waiter){
+		synchronized(waiterList){
 		for (myWaiter thisWaiter : waiterList){
 			if(thisWaiter.w==waiter){
 				thisWaiter.onBreak=true;
 			}
+		}
 		}
 	}
 	
@@ -123,12 +129,14 @@ public class BHostRole extends Role implements Host{
 
 
 	public void msgLeavingTable(BCustomerRole cust) {
+		synchronized(tables){
 		for (Table table : tables) {
 			if (table.getOccupant() == cust) {
 				print(cust + " leaving " + table);
 				table.setUnoccupied();
 				stateChanged();
 			}
+		}
 		}
 	}
 
@@ -139,6 +147,7 @@ public class BHostRole extends Role implements Host{
 	}
 	
 	public void msgWaiterRequestBreak(BWaiterRole waiter){
+		synchronized(waiterList) {
 		for (myWaiter thisWaiter : waiterList ){
 			if(thisWaiter.w==waiter){
 				thisWaiter.needBreak=true;
@@ -146,14 +155,14 @@ public class BHostRole extends Role implements Host{
 				stateChanged();
 			}
 		}
-		
+		}
 	}
 
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-		
+		synchronized(waiterList) {
 		for (myWaiter thisWaiter : waiterList ){
 			if(thisWaiter.needBreak==true){
 				makeBreakDecision(thisWaiter);
@@ -161,7 +170,8 @@ public class BHostRole extends Role implements Host{
 				return true;
 			}
 		}
-		
+		}
+		synchronized(waiterList) {
 		for (myWaiter thisWaiter : waiterList ){
 			if(thisWaiter.onBreak==true){
 				putOnBreak(thisWaiter);
@@ -169,7 +179,8 @@ public class BHostRole extends Role implements Host{
 				return true;
 			}
 		}
-		
+		}
+		synchronized(waiterList) {
 		for (myWaiter thisWaiter : waiterList ){
 			if(thisWaiter.returnToWork==true){
 				takeOffBreak(thisWaiter);
@@ -177,7 +188,8 @@ public class BHostRole extends Role implements Host{
 				return true;
 			}
 		}
-		
+		}
+		synchronized(tables) {
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
 				int thistable=table.tableNumber;
@@ -195,7 +207,7 @@ public class BHostRole extends Role implements Host{
 				return true;
 			}
 		}
-		
+		}
 		
 
 		return false;
@@ -222,11 +234,12 @@ public class BHostRole extends Role implements Host{
 	
 	private void makeBreakDecision(myWaiter waiter){
 		int breakers=0;
+		synchronized(waiterList) {
 		for (myWaiter thiswaiter : waiterList){
 			if(thiswaiter.onBreak==true)
 				breakers++;
 		}
-		
+		}
 		if(waiterList.size()>1 && breakers<waiterList.size()-1){
 			waiter.w.msgBreakAllowed();
 			waiter.needBreak=false;
@@ -242,6 +255,7 @@ public class BHostRole extends Role implements Host{
 	}
 	
 	private void putOnBreak(myWaiter waiter){
+		synchronized(waiterList) {
 		for(myWaiter w: waiterList){
 			if(w==waiter){
 				waiterList.remove(waiter);
@@ -250,9 +264,11 @@ public class BHostRole extends Role implements Host{
 				nextAvailableWaiter = (nextAvailableWaiter+1)%waiterList.size();
 			}
 		}
+		}
 	}
 	
 	private void takeOffBreak(myWaiter waiter){
+		synchronized(waiterList) {
 		for(myWaiter w: waiterList){
 			if(w==waiter){
 				breakWaiterList.remove(waiter);
@@ -260,6 +276,7 @@ public class BHostRole extends Role implements Host{
 				returnToWork=false;
 				nextAvailableWaiter = (nextAvailableWaiter+1)%waiterList.size();
 			}
+		}
 		}
 	}
 	

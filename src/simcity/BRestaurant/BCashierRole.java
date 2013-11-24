@@ -22,7 +22,7 @@ public class BCashierRole extends Role implements BCashier {
     public double totalMoney=500;
     public List<BCheck> myChecks = Collections.synchronizedList(new ArrayList<BCheck>());
     public List<BCustomer> myCustomers = Collections.synchronizedList(new ArrayList<BCustomer>());
-    public List<marketCheck> marketChecks=new ArrayList<marketCheck>();
+    public List<marketCheck> marketChecks=Collections.synchronizedList(new ArrayList<marketCheck>());
     
     public enum MarketPaidState{notPaid, Paid};
     MarketPaidState checkState;
@@ -87,11 +87,13 @@ public class BCashierRole extends Role implements BCashier {
     //messages
     
     public void msgPayCheck(BCheck check){
+    	synchronized(myChecks) {
     	for (BCheck thisCheck: myChecks){
     		if(thisCheck==check){
     			check.paidbyCustomer=true;
     			
     		}
+    	}
     	}
     	stateChanged();
     }
@@ -112,12 +114,13 @@ public class BCashierRole extends Role implements BCashier {
     	
     	myChecks.add(check);
     	myCustomers.add(customer);
+    	synchronized(myCustomers) {
     	for (BCustomer thiscustomer: myCustomers){
     		if (thiscustomer==customer){
     			thiscustomer.msgHereisYourCheck(check);
     		}
     	}
-    	
+    	}
     	
     	stateChanged();
     }
@@ -126,13 +129,13 @@ public class BCashierRole extends Role implements BCashier {
     {
     	
     	myChecks.add(check);
-    	
+    	synchronized(myCustomers) {
     	for (BCustomer thiscustomer: myCustomers){
     		if (thiscustomer==customer){
     			thiscustomer.msgHereisYourCheck(check);
     		}
     	}
-    	
+    	}
     	
     	stateChanged();
     }
