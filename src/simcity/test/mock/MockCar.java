@@ -29,11 +29,11 @@ public class MockCar extends Mock implements Car {
 	}
 	
 	public void msgGoToDestination(String location, Person person){
-		
+		log.add(new LoggedEvent("received message"));
 	}
 	
 	public void msgAtDestination(){
-		
+		log.add(new LoggedEvent("received message"));
 	}
 	
 	

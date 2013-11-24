@@ -13,6 +13,7 @@ import simcity.interfaces.Person;
 import simcity.mockrole.MockRole;
 import simcity.test.mock.MockBus;
 import simcity.test.mock.MockBusStop;
+import simcity.test.mock.MockCar;
 import simcity.test.mock.MockMarketCashier;
 import simcity.test.mock.MockMarketCustomer;
 import simcity.test.mock.MockPerson;
@@ -33,6 +34,7 @@ public class PersonTest extends TestCase{
 	MockRole role;
 	MockBus bus;
 	MockBusStop busStop;
+	MockCar car;
 	
 	
 	
@@ -44,6 +46,7 @@ public class PersonTest extends TestCase{
 		bus=new MockBus("bus");
 		busStop=new MockBusStop("mock busStop");
 		person.SetJob(role);
+		car=new MockCar("car");
 		
 
 	}
@@ -94,7 +97,37 @@ public class PersonTest extends TestCase{
 
 	}
 
-
+	public void testCarInteraction(){
+		person.myCar=car;
+		assertEquals("Car should have no messages sent to it, but it has messages in log", car.log.size(), 0);
+		
+		person.msgTimeUpdate(7);
+		person.msgTimeUpdate(10);
+		person.pickAndExecuteAnAction();
+		
+		assertTrue("Person's locationState should be inTransit", person.locationState==LocationState.inTransit);
+		assertTrue("Person's energy state should be awake", person.energyState==EnergyState.awake);
+		
+		person.transitState=TransitState.goToCar;
+		person.pickAndExecuteAnAction();
+		
+		assertEquals("Car should have received message from person, but it did not", car.log.size(),1);
+		
+		person.msgAtDestination("destination");
+		
+		assertTrue("Person's state should be to get out the car, but it is not", person.transitState==TransitState.getOutCar);
+		
+		person.pickAndExecuteAnAction();
+		
+		assertTrue("Person's state should be at destination", person.transitState==TransitState.atDestination);
+		
+		
+		
+		
+		
+		
+	}
 
 
 }
+

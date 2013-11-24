@@ -42,7 +42,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private String name;
 	Bus bus;
 	BusStop busStop;
-	public CarAgent myCar=null;
+	public Car myCar=null;
 	List<Role> roles = new ArrayList<Role>();
 	Map<String,Role> possibleRoles = new HashMap<String,Role>();
 	//List<Role> customerRoles = new ArrayList<Role>();
