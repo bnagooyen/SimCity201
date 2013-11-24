@@ -326,13 +326,17 @@ public class DWaiterRole extends Role implements Waiter {
 				return true;
 			}
 			
-			
+			try {
 			for (MyCustomer customer : customers) {
 				if(customer.state==DWaiterRole.MyCustomer.MyCustomerState.gone) {
 					//System.out.println("customer " + customer.getCustomer() +" gone");
 					UpdateHostOnClearTable(customer);
 					return true;
 				}
+			}
+			}
+			catch(ConcurrentModificationException e) {
+				return false;
 			}
 		
 			
@@ -342,7 +346,7 @@ public class DWaiterRole extends Role implements Waiter {
 			}
 			
 			
-			
+			try{
 			for (MyCustomer customer : customers) {
 				if(customer.state==DWaiterRole.MyCustomer.MyCustomerState.couldNotAffordAndLeaving) {
 					//System.out.println("customer " + customer.getCustomer() +" gone");
@@ -350,7 +354,11 @@ public class DWaiterRole extends Role implements Waiter {
 					return true;
 				}
 			}
-				synchronized(customers) {
+			}
+			catch(ConcurrentModificationException e) {
+				return false;
+			}
+				try{
 				for(MyCustomer customer: customers) {
 					if(customer.state== MyCustomer.MyCustomerState.needsToReorder) {
 						GoToCustomer(customer);
@@ -359,6 +367,10 @@ public class DWaiterRole extends Role implements Waiter {
 					}
 				}
 				}
+				catch(ConcurrentModificationException e) {
+					return false;
+				}
+				try{
 				for (MyCustomer customer : customers) {
 					if (customer.state==DWaiterRole.MyCustomer.MyCustomerState.waiting) {
 						//GoToFront();
@@ -366,6 +378,11 @@ public class DWaiterRole extends Role implements Waiter {
 						return true;
 					}
 				}
+				}
+				catch(ConcurrentModificationException e) {
+					return false;
+				}
+				try{
 				for (MyCustomer customer : customers) {
 					if(customer.state==DWaiterRole.MyCustomer.MyCustomerState.readyToOrder) {
 						//temp comment out until fix everything else
@@ -375,7 +392,11 @@ public class DWaiterRole extends Role implements Waiter {
 						//return false;
 					}
 				}
-			
+				}
+				catch(ConcurrentModificationException e) {
+					return false;
+				}
+				try{
 				for (MyCustomer customer : customers) {
 					if(customer.state==DWaiterRole.MyCustomer.MyCustomerState.gone) {
 						//System.out.println("customer " + customer.getCustomer() +" gone");
@@ -383,12 +404,16 @@ public class DWaiterRole extends Role implements Waiter {
 						return true;
 					}
 				}
-					
+				}
+				catch(ConcurrentModificationException e) {
+					return false;
+				}
 				if(checksWaiting) {
 					GoToCashier();
 					return true;
 					
 				}
+				try{
 				for(DOrder order: orders) {
 					if(order.state==DOrder.OrderState.cooked || order.state==OrderState.pending) {
 						System.out.println("going to cook");
@@ -396,7 +421,10 @@ public class DWaiterRole extends Role implements Waiter {
 						return true;
 					}
 				}
-				
+				}
+				catch(ConcurrentModificationException e) {
+					return false;
+				}
 				
 				if(checkBoxReset) {
 					CouldNotTakeBreak();
