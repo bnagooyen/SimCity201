@@ -5,6 +5,7 @@ import agent.Role;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.BRestaurant.BCustomerRole;
 import simcity.Bank.BankCustomerRole;
+import simcity.Bank.BankManagerRole.MyClient;
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DCustomerRole.AgentEvent;
 import simcity.DRestaurant.DOrder.OrderState;
@@ -85,6 +86,9 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	private SimCityPanel panel;
 	private Map<String, List<Location>> buildings = null;
+	private Landlord myLandlord; 
+	private boolean needToPayRent = false; 
+	private double rentBill; 
 	
 
 	public PersonAgent(String name) {
@@ -212,6 +216,14 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		}
 		*/
 	}
+	
+	public void msgHereIsYourRentBill(Landlord l, double rentBill) {
+		Do("Receiving rent bill");
+		myLandlord = l;
+		this.rentBill = rentBill; 
+		needToPayRent = true; 
+		stateChanged(); 
+	}
 
 
 
@@ -260,6 +272,10 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 
 		if(locationState==LocationState.atHome && !(energyState==EnergyState.asleep)) {
+			if (needToPayRent) {
+				payRent(); 
+				return true; 
+			}
 			if(moneyState==MoneyState.haveLoan){
 				buyCar();
 				return true;
@@ -368,6 +384,16 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				energyState=EnergyState.tired;
 			}
 		hungerLevel=0;
+		}
+	}
+	
+	private void payRent() {
+		needToPayRent = false;
+		if (money >= rentBill) {
+			myLandlord.msgHereIsARentPayment(this, rentBill);
+		}
+		else {
+			myLandlord.msgCannotPayForRent(this); 
 		}
 	}
 

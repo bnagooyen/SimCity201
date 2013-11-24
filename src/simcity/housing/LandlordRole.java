@@ -185,14 +185,12 @@ public class LandlordRole extends Role implements Landlord{
 		synchronized(myTenants) {
 		for(Tenant t:myTenants) {
 			if (t.isOccupied == true) {
-				/**
 				if (t.account == 0) {
-					t.person.msgHereIsYourRentBill(rentBill); 
+					t.person.msgHereIsYourRentBill(this, rentBill); 
 				}
 				else {
-				*/
 					bankmanager.msgHereIsYourRentBill(this, t.account, rentBill);
-				//}
+				}
 			}
 		}
 		}
