@@ -126,7 +126,8 @@ public class SimCityPanel extends JPanel{
 		
 		try {
 			in  = new Scanner(new FileReader("config"+File.separator+"config1.txt"));
-			System.out.println(in.next());
+//			System.out.println(in.next());
+			in.next();
 			int numItems = in.nextInt();
 			//clear input template;
 			in.next();
@@ -143,12 +144,16 @@ public class SimCityPanel extends JPanel{
 //				System.out.println(in.nextBoolean());
 				PersonAgent p = new PersonAgent(in.next());
 				p.setMoney(in.nextDouble());
-				p.SetJob(jobFactory(in.next(),p));
+				p.SetJob(jobFactory(in.next().trim(),p));
 				boolean hasACar = in.nextBoolean();
 				if(hasACar) {
 					p.setCar(new CarAgent());
 				}
 				people.add(p);
+			}
+//			System.out.println(people.size());
+			for(Person person: people) {
+				System.out.println(person.GetJob());
 			}
 			in.close();
 		} catch (FileNotFoundException e) {
@@ -202,7 +207,7 @@ public class SimCityPanel extends JPanel{
 		}
 	
 		// BRestaurant
-		else if (job.equals("Cashier2")) {
+		else if (job.equals("RestCashier2")) {
 			j = new BCashierRole(p);
 		}
 		else if (job.equals("Cook2")) {
@@ -216,7 +221,7 @@ public class SimCityPanel extends JPanel{
 		}
 		
 		// DRestaurant
-		else if (job.equals("Cashier3")) {
+		else if (job.equals("RestCashier3")) {
 			j = new DCashierRole(p);
 		}
 		else if (job.equals("Cook3")) {
@@ -230,7 +235,7 @@ public class SimCityPanel extends JPanel{
 		}
 		
 		// Drew_Restaurant
-		else if (job.equals("Cashier1")) {
+		else if (job.equals("RestCashier1")) {
 			j = new Drew_CashierRole(p);
 		}
 		else if (job.equals("Cook1")) {
@@ -244,7 +249,7 @@ public class SimCityPanel extends JPanel{
 		}
 		
 		// KRestaurant
-		else if (job.equals("Cashier4")) {
+		else if (job.equals("RestCashier4")) {
 			j = new KCashierRole(p);
 		}
 		else if (job.equals("Cook4")) {
@@ -253,7 +258,7 @@ public class SimCityPanel extends JPanel{
 		else if (job.equals("Host4")) {
 			j = new KHostRole(p);
 		}
-		else if (job.equals("WaiterNormal4")) {
+		else if (job.equals("Waiter4")) {
 			j = new KWaiterNormalRole(p);
 		}
 		else if (job.equals("WaiterSharedData4")) {
@@ -261,7 +266,7 @@ public class SimCityPanel extends JPanel{
 		}
 		
 		// LRestaurant
-		else if (job.equals("Cashier5")) {
+		else if (job.equals("RestCashier5")) {
 			j = new LCashierRole(p);
 		}
 		else if (job.equals("Cook5")) {
@@ -275,7 +280,7 @@ public class SimCityPanel extends JPanel{
 		}
 		
 		// TTRestaurant
-		else if (job.equals("Cashier6")) {
+		else if (job.equals("RestCashier6")) {
 			j = new TCashierRole(p);
 		}
 		else if (job.equals("Cook6")) {

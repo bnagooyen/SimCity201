@@ -5,10 +5,6 @@ Name
 	Money
 	Role
 	Car? (T/F)
-Andreen
-	600
-	BankManager
-	true
 Applekimi
 	600
 	BankManager
@@ -16,18 +12,6 @@ Applekimi
 Kimda
 	500
 	MarketManager
-	true
-Chartiago
-	500
-	MarketManger
-	true
-Santiar
-	500
-	MarketManger
-	true
-Limberly
-	500
-	MarketManger
 	true
 Andrew
 	400
@@ -129,15 +113,15 @@ InventoryBoy1
 	100
 	InventoryBoy
 	false
-InventoryBoy2
-	100
-	InventoryBoy
+MarketCashier1
+	300
+	MarketCashier
 	false
-InventoryBoy1
-	100
-	InventoryBoy
-	false
-InventoryBoy1
-	100
-	InventoryBoy
-	false
+BankTeller1
+	500
+	BankTeller
+	true
+BankLoanOfficer1
+	500
+	BankTeller
+	true

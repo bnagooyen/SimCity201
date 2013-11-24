@@ -485,6 +485,18 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public void setMoney(double amount){
 		money=amount;
 	}
+
+	@Override
+	public void setCar(CarAgent c) {
+		// TODO Auto-generated method stub
+		myCar= c;
+	}
+
+	@Override
+	public Role GetJob() {
+		// TODO Auto-generated method stub
+		return myJob;
+	}
 }
 
 
