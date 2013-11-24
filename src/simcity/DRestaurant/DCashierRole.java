@@ -1,8 +1,10 @@
 package simcity.DRestaurant;
 
 import agent.Role;
+import simcity.DRestaurant.DCashierRole.InventoryBill.InventoryBillState;
 import simcity.DRestaurant.DCheck.CheckState;
 import simcity.Market.MarketCashierRole;
+import simcity.interfaces.MarketCashier;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.restaurant.interfaces.Customer;
 //import simcity.restaurant.interfaces.Market;
@@ -37,8 +39,10 @@ public class DCashierRole extends Role implements Cashier {
 	private Waiter waiterAtRegister=null;
 	private double registerAmnt;
 	
+	private DCookRole cook;
+	
 	List<DCheck> myBills = Collections.synchronizedList(new ArrayList<DCheck>());
-	//List<InventoryBill> inventoryBills = Collections.synchronizedList(new ArrayList<InventoryBill>());
+	List<InventoryBill> inventoryBills = Collections.synchronizedList(new ArrayList<InventoryBill>());
 	public List<DCheck> getBills() {
 		return myBills;
 	}
@@ -92,6 +96,12 @@ public class DCashierRole extends Role implements Cashier {
 //		//log.add(new LoggedEvent("Received msgHereIsAnInventoryBill"));
 //		stateChanged();
 //	}
+	@Override
+	public void msgBillFromMarket(double check,
+			MarketCashier marketCashier) {
+		inventoryBills.add(new InventoryBill(check, marketCashier));
+		stateChanged();
+	}
 	
 	public void msgComputeBill(String choice, Customer cust, String name, int tnum, Waiter wa) {
 		//System.out.println("received request for bill for table "+ (char)tnum);
@@ -142,21 +152,21 @@ public class DCashierRole extends Role implements Cashier {
 			return true;
 		}
 		
-//		for(InventoryBill bill: inventoryBills) {
-//			if(bill.state==InventoryBillState.couldNotAfford && bill.amnt<=registerAmnt) {
-//				//System.out.println("called proccess");
-//				ProcessInventoryBill(bill);
-//				return true;	
-//			}
-//		}
-//		
-//		
-//		for(InventoryBill bill: inventoryBills) {
-//			if(bill.state==InventoryBillState.processing) {
-//				ProcessInventoryBill(bill);
-//				return true;	
-//			}
-//		}
+		for(InventoryBill bill: inventoryBills) {
+			if(bill.state==InventoryBillState.couldNotAfford && bill.amnt<=registerAmnt) {
+				//System.out.println("called proccess");
+				ProcessInventoryBill(bill);
+				return true;	
+			}
+		}
+		
+		
+		for(InventoryBill bill: inventoryBills) {
+			if(bill.state==InventoryBillState.processing) {
+				ProcessInventoryBill(bill);
+				return true;	
+			}
+		}
 
 	
 		
@@ -165,31 +175,31 @@ public class DCashierRole extends Role implements Cashier {
 
 	// Actions
 	
-//	private void ProcessInventoryBill(InventoryBill bi) {
-//		System.out.println("processing... "+ bi.amnt+ "  "+ registerAmnt);
-//		DecimalFormat df = new DecimalFormat("###.##");
-//
-//		if(bi.amnt>registerAmnt) {
-//			log.add(new LoggedEvent("Could not afford"));
-//			bi.state=InventoryBillState.couldNotAfford;
-//			bi.amnt=Double.parseDouble(df.format((1+ MKT_interestRate)*bi.amnt));
-////			System.err.println(bi.amnt);
-//			Do("Could not afford this inventory bill, bill value updated to "+ bi.amnt);
-//			log.add(new LoggedEvent("Bill = "+ bi.amnt));
-//			return;
-//		}
-//
-//		registerAmnt-=bi.amnt;
-//		bi.state=InventoryBillState.processed;
-//		final Market ma=bi.ma;
-//		final double amt=bi.amnt;
-//		log.add(new LoggedEvent("Could afford. Paid "+ df.format(bi.amnt)));
-//		log.add(new LoggedEvent("Register = "+ registerAmnt));
-//		inventoryBills.remove(bi);
-//		ma.msgHereIsAPayment(amt, this);
-//
-//		
-//	}
+	private void ProcessInventoryBill(InventoryBill bi) {
+		System.out.println("processing... "+ bi.amnt+ "  "+ registerAmnt);
+		DecimalFormat df = new DecimalFormat("###.##");
+
+		if(bi.amnt>registerAmnt) {
+			log.add(new LoggedEvent("Could not afford"));
+			bi.state=InventoryBillState.couldNotAfford;
+			bi.amnt=Double.parseDouble(df.format((1+ MKT_interestRate)*bi.amnt));
+//			System.err.println(bi.amnt);
+			Do("Could not afford this inventory bill, bill value updated to "+ bi.amnt);
+			log.add(new LoggedEvent("Bill = "+ bi.amnt));
+			return;
+		}
+
+		registerAmnt-=bi.amnt;
+		bi.state=InventoryBillState.processed;
+		final MarketCashier ma=bi.ma;
+		final double amt=bi.amnt;
+		log.add(new LoggedEvent("Could afford. Paid "+ df.format(bi.amnt)));
+		log.add(new LoggedEvent("Register = "+ registerAmnt));
+		inventoryBills.remove(bi);
+		ma.msgHereIsPayment(cook, amt);
+
+		
+	}
 	private void ProcessBill(DCheck bi) {
 		bi.setBillAmnt(prices.get(bi.getChoice()));
 
@@ -261,35 +271,32 @@ public class DCashierRole extends Role implements Cashier {
 				
 	}
 
-	@Override
-	public void msgBillFromMarket(double check,
-			MarketCashierRole marketCashierRole) {
-		// TODO Auto-generated method stub
+
+
+	public static class InventoryBill {
+		MarketCashier ma;
+		double amnt;
+		enum InventoryBillState {processing, couldNotAfford, processed, sent};
+		InventoryBillState state;
 		
+		InventoryBill(double a, MarketCashier market1) {
+			ma = market1;
+			amnt = a;
+			state=InventoryBillState.processing;
+			
+		}
+		
+		public MarketCashier getMarket() {
+			return ma;
+		}
+		public double getAmnt() {
+			return amnt;
+		}
 	}
-	
 
-//	public static class InventoryBill {
-//		Market ma;
-//		double amnt;
-//		enum InventoryBillState {processing, couldNotAfford, processed, sent};
-//		InventoryBillState state;
-//		
-//		InventoryBill(double a, Market market1) {
-//			ma = market1;
-//			amnt = a;
-//			state=InventoryBillState.processing;
-//			
-//		}
-//		
-//		public Market getMarket() {
-//			return ma;
-//		}
-//		public double getAmnt() {
-//			return amnt;
-//		}
-//	}
-
+	public void setCook(DCookRole cook) {
+		this.cook = cook;
+	}
 }
 
 

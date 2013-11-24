@@ -10,6 +10,7 @@ import simcity.DRestaurant.gui.DWaiterGui;
 import simcity.Market.MFoodOrder;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
+import simcity.interfaces.MarketManager;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.PersonAgent;
 
@@ -47,7 +48,8 @@ public class DCookRole extends Role implements Cook {
 	List<InventoryOrder> myOrders =  Collections.synchronizedList(new ArrayList<InventoryOrder>());
 	private int ORDER_ID;
 	ArrayList<DFoodOrder> orderToMarket = new ArrayList<DFoodOrder>();
-
+	List<MarketBill> marketBills = Collections.synchronizedList(new ArrayList<MarketBill>());
+	
 	Cashier myCashier;
 	boolean RestaurantIsOpen, CheckedAtFirst, valsAreSet;
 	
@@ -203,7 +205,14 @@ public class DCookRole extends Role implements Cook {
 		waitingForInventory=false;
 		stateChanged();
 	}
-	
+
+	public void msgHereIsDelivery(List<MFoodOrder> canGive,double bill, MarketManager manager, MarketCashier cashier) {
+		delivery.add((ArrayList) canGive);
+		System.out.println("received order from cook");
+		waitingForInventory=false;
+		marketBills.add(new MarketBill(bill, cashier));
+		stateChanged();		
+	}
 	public void msgCouldNotFulfillThese(ArrayList<DFoodOrder> reorderlist, int ORDERID) {
 		
 		
@@ -295,14 +304,21 @@ public class DCookRole extends Role implements Cook {
 			CheckIfFullyStocked(); 
 			return true;
 		}
-		
-		
+		synchronized(marketBills) {
+		for(MarketBill b : marketBills) {
+			giveCashierBill(b);
+		}
+		}
 		return false;
 	}
 
 
 	// Actions
 	
+		private void giveCashierBill(MarketBill b) {
+			myCashier.msgBillFromMarket(b.bill, b.cashier);
+			marketBills.remove(b);
+		}
 		private void ClearPlating(DOrder o) {
 			DoClearPlating(o.getChoice().substring(0,2));
 			orders.remove(o);
@@ -517,11 +533,13 @@ public class DCookRole extends Role implements Cook {
 			
 		}
 
-
-		@Override
-		public void msgHereIsDelivery(List<MFoodOrder> canGive) {
-			// TODO Auto-generated method stub
-			
+		class MarketBill {
+			double bill;
+			MarketCashier cashier;
+			public MarketBill (double b, MarketCashier c){
+				bill = b;
+				cashier = c;
+			}
 		}
 
 		@Override

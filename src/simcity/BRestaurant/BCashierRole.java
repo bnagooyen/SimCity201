@@ -90,12 +90,16 @@ public class BCashierRole extends Role implements BCashier {
     	}
     	stateChanged();
     }
-/*********************************************************************************************/    
+    
+    
+/*************************implement this******************************************/    
     public void msgHereisCheckfromMarket(double check, MarketCashier cashier) {
 		// TODO Auto-generated method stub
 		
 	}
 /********************************************************************************************/    
+    
+    
     public void msgHereisCheckfromMarket(BCheck check, MarketCashier market){
     	marketCheck thisMarketCheck=new marketCheck();
     	thisMarketCheck.check=check;
