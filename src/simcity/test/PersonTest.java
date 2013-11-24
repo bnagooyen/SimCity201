@@ -40,7 +40,8 @@ public class PersonTest extends TestCase{
 	
 	public void setUp() throws Exception{
 		role=new MockRole("mockrole", person);
-		person=new PersonAgent("person", role);
+		person=new PersonAgent("person");
+		person.SetJob(role);
 		bus=new MockBus("bus");
 		busStop=new MockBusStop("mock busStop");
 		
