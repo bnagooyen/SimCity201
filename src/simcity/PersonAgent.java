@@ -55,7 +55,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public enum EnergyState {tired, asleep, awake, none };
 	public enum LocationState { atHome, inTransit, atWork };
 	public enum TransitState {walkingToBus, onBus, goToCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
-	public enum MoneyState { poor, adequate, rich};
+	public enum MoneyState { poor, adequate, rich, haveLoan};
 	private PersonState personState;
 	public EnergyState energyState;
 	public LocationState locationState;
@@ -102,7 +102,6 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		possibleRoles.put("krestaurant", new KCustomerRole(this));
 		possibleRoles.put("trestaurant", new TCustomerRole(this));
 		possibleRoles.put("lrestaurant", new LCustomerRole(this));
-
 	}
 
 	public void SetJob(Role job) {
@@ -248,6 +247,9 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 
 		if(locationState==LocationState.atHome && !(energyState==EnergyState.asleep)) {
+			if(moneyState==MoneyState.haveLoan){
+				return true;
+			}
 			if(energyState==EnergyState.tired) {
 				GoToBed();
 				return true;
@@ -359,6 +361,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	private void GoToBed() {
 		Do("going to bed");
+		//mydestination="home";
 		energyState=EnergyState.asleep;
 	}
 
@@ -366,15 +369,21 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		Do("Going to deposit Money");
 		mydestination="bank";
 		locationState=LocationState.inTransit;
+		possibleRoles.get("bank").purpose="deposit";
 	}
 
 	private void withdraw() {
 		Do("Going to Withdraw Money");
+		mydestination="bank";
+		locationState=LocationState.inTransit;
+		possibleRoles.get("bank").purpose="withdraw";
 
 	}
 
 	private void buyCar() {
 		Do("Go buy car");
+		mydestination="market";
+		locationState=LocationState.inTransit;
 	}
 
 	
