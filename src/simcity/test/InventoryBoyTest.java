@@ -192,7 +192,6 @@ public class InventoryBoyTest extends TestCase{
 
         // check post conditions
         assertEquals("inventory of cars should have gone down 1", ib.cars.size(), 19);
-//        assertEquals("ib's scheduler should return false but doesn't", ib.pickAndExecuteAnAction(), false);
 //        assertEquals("MockMarketCashier shouldn't have gotten any extra loggedevents. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 1);
         assertEquals("MockMarketCustomer should have an empty event log. Instead, the MockMarketCustomer's event log reads: " + c.log.toString(), c.log.size(), 0);
 

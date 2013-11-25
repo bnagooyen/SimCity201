@@ -42,8 +42,12 @@ public class LCookRole extends Role implements LCook {
 	public enum OrderState {pending, cooking, cooked};
 	public enum MarketState{noOrder, order, firstOrder, reOrder, waiting, arrived, done};
 	public LCookGui cookGui;
+	
+	
 	public List<MarketManager> markets =Collections.synchronizedList( new ArrayList<MarketManager>()); 
 	public List<MarketOrder> marketOrders =Collections.synchronizedList( new ArrayList<MarketOrder>()); 
+	
+	
 	private Semaphore task = new Semaphore(0,true);
 
 	public LCookRole(PersonAgent p){

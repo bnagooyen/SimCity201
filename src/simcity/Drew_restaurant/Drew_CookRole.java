@@ -123,7 +123,8 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	}
 	
 	public void deliver(String type, int quantity, boolean fullOrder){
-		Delivery d = new Delivery(type, quantity, fullOrder);
+//		Delivery d = new Delivery(type, quantity, fullOrder);
+		Delivery d = new Delivery(type, quantity, true);
 		deliveries.add(d);
 		stateChanged();
 	}
