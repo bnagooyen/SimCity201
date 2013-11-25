@@ -1,21 +1,19 @@
 package simcity.housing.gui;
 
-
-import simcity.TTRestaurant.TCookRole;
-import simcity.TTRestaurant.TWaiterRole;
+import simcity.interfaces.Person;
 
 import java.awt.*;
 
 public class PersonGui implements Gui {
 
-    private TCookRole agent = null;
+    private Person agent = null;
     
-    private int xPos = 420, yPos = 5;//default cook position
+    private int xPos = 420, yPos = 5;
     private int xDestination = 420, yDestination = 5;//default start position
 
     public static final int yTable = 250;
 
-    public PersonGui(TCookRole agent) {
+    public PersonGui(Person agent) {
         this.agent = agent;
     }
 
@@ -30,10 +28,6 @@ public class PersonGui implements Gui {
         else if (yPos > yDestination)
             yPos--;
         
-        if (xPos == 400 && yPos == 50)  {
-        	agent.msgAtCounter(); 
-        }
-        
     }
     
     public void makeFood() {
@@ -41,18 +35,19 @@ public class PersonGui implements Gui {
     	yDestination = 150; 
     }
     
-    public void giveFoodToWaiter() {
-    	xDestination = 400; 
-    	yDestination = 50; 
+    public void goToBed() {
+    	xDestination = 15; 
+    	yDestination = 15; 
     }
     
-    public void goHome() {
-    	xDestination = 420; 
-    	yDestination = 5; 
+    public void eatFood() {
+    	xDestination = 200; 
+    	yDestination = 250; 
     }
+    
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.WHITE);
+        g.setColor(Color.pink);
         g.fillRect(xPos, yPos, 20, 20);
     }
 

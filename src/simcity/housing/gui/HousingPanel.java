@@ -5,6 +5,7 @@ import simcity.TTRestaurant.TCookRole;
 import simcity.TTRestaurant.TCustomerRole;
 import simcity.TTRestaurant.THostRole;
 import simcity.TTRestaurant.TWaiterRole;
+import simcity.interfaces.Person;
 
 import javax.swing.*;
 
@@ -32,8 +33,8 @@ public class HousingPanel extends JPanel implements ActionListener {
     //private MarketAgent mart2 = new MarketAgent(); 
     //private MarketAgent mart3 = new MarketAgent(); 
 
-    private Vector<TCustomerRole> customers = new Vector<TCustomerRole>();
-    private Vector <TWaiterRole> waiters = new Vector<TWaiterRole>();
+    //private Vector<TCustomerRole> customers = new Vector<TCustomerRole>();
+    private Vector <Person> people = new Vector<Person>();
     
     //buttons
     private ListPanel personPanel = new ListPanel(this, "People");
@@ -103,20 +104,13 @@ public class HousingPanel extends JPanel implements ActionListener {
      */
     public void showInfo(String type, String name) {
 
-        if (type.equals("Customers")) {
+        if (type.equals("People")) {
 
-            for (int i = 0; i < customers.size(); i++) {
-                TCustomerRole temp = customers.get(i);
+            for (int i = 0; i < people.size(); i++) {
+                Person temp = people.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
-        }
-        if (type.equals("Waiters")) {
-        	for (int i = 0; i < waiters.size(); i++) {
-                TWaiterRole temp = waiters.get(i);
-                if (temp.getName() == name)
-                    gui.updateInfoPanel(temp);
-        	}
         }
     }
     

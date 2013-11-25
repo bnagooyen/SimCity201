@@ -25,6 +25,7 @@ import simcity.Transportation.CarAgent;
 import simcity.gui.PersonGui;
 import simcity.gui.SimCityPanel;
 import simcity.gui.SimCityPanel.Location;
+import simcity.housing.LandlordRole;
 import simcity.interfaces.*;
 
 import java.util.*;
@@ -606,6 +607,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		// TODO Auto-generated method stub
 		return aptLet;
 	}
+
 }
 
 
