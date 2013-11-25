@@ -16,6 +16,7 @@ import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
+import simcity.Market.gui.MManagerGui;
 import agent.Role;
 
 
@@ -33,6 +34,8 @@ public class MarketManagerRole extends Role implements MarketManager{
 	public enum workerState{justArrived, available, occupied};
 	public EventLog log;
 	
+	MManagerGui managerGui;
+
 	public MarketManagerRole(PersonAgent p) {
 		super(p);
 		marketMoney = 50000.0; //***********threshold all the rest deposit to the bank
@@ -184,6 +187,8 @@ public class MarketManagerRole extends Role implements MarketManager{
 		cashiers.clear();
 		inventoryBoys.clear();
 		isClosed = true;
+		managerGui.DoGoHome();
+
 	}
 	
 	private void marketClosed(){
@@ -311,6 +316,9 @@ public class MarketManagerRole extends Role implements MarketManager{
 			building = b;
 		}
 
+	}
+	public void setGui(MManagerGui g) {
+		managerGui = g;
 	}
 
 }
