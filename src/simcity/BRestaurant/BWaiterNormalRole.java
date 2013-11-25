@@ -14,7 +14,7 @@ public class BWaiterNormalRole extends BWaiterRole implements BWaiter{
 	
 	public void giveCookOrder(myCustomer c) {
 		Do(": sending cook order of " + c.choice);
-		c.cusState = customerState.orderPending;
+		c.cusState = customerState.noAction;
 		cook.msgHereisanOrder(this, c.choice, c.tablenumber);
 		//waiterGui.DoLeaveCustomer();
 	}

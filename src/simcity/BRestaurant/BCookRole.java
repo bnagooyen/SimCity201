@@ -6,7 +6,11 @@ import simcity.PersonAgent;
 import simcity.BRestaurant.*;
 import simcity.interfaces.*;
 import simcity.BRestaurant.gui.*;
+import simcity.KRestaurant.KRestaurantOrder;
+import simcity.KRestaurant.ProducerConsumerMonitor;
+
 import simcity.KRestaurant.KCookRole.marketOrderState;
+import simcity.KRestaurant.KCookRole.orderState;
 import simcity.Market.MFoodOrder;
 
 import java.util.*;
@@ -27,6 +31,7 @@ public class BCookRole extends Role implements BCook {
 	private boolean alreadyOrdered=false;
 	
 	private BCashierRole cashier;
+	private BOrderStand theMonitor;
 	
 	public BCookRole(PersonAgent p) {// , List<BMarketRole> markets) {
 			super(p);
@@ -134,6 +139,7 @@ public class BCookRole extends Role implements BCook {
 		synchronized(marketOrders) {
 			for(MarketOrder o : marketOrders) {
 				giveCashierCheck(o);
+				return true;
 			}
 		}
 		
@@ -141,7 +147,7 @@ public class BCookRole extends Role implements BCook {
 			for (Order order : pendingOrders){
 				if(order.status==Status.done)
 					placeOrderDown(order);
-	
+				return true;
 			}
 		}
 		synchronized(pendingOrders) {
@@ -149,6 +155,7 @@ public class BCookRole extends Role implements BCook {
 				if(order.status==Status.pending){
 					CookFood(order);
 					foodFinished(order);
+					return true;
 				}
 			}
 		}
@@ -158,12 +165,15 @@ public class BCookRole extends Role implements BCook {
 					if(food.getValue().quantity < food.getValue().threshold){
 						
 						makeMarketOrder();
-						
+						return true;
 					}
 				}
 			}
 		}
-
+		
+		else{
+			checkRotatingStand();
+		}
 		return false;
 	}	
 
@@ -202,6 +212,19 @@ public class BCookRole extends Role implements BCook {
 		pendingOrders.remove(order);
 	}
 	
+	private void checkRotatingStand() {
+		BRotatingOrders newOrder = theMonitor.remove();
+		if(newOrder != null) {
+			Order o = new Order();
+			o.waiter=newOrder.w;
+			o.tablenumber=newOrder.table;
+			o.choice=newOrder.choice;
+			o.status=Status.pending;
+			pendingOrders.add(o);
+			}
+		
+	}
+	
 	private void makeMarketOrder(){
 		needtoOrder=false;
 		alreadyOrdered=true;
@@ -234,5 +257,9 @@ public class BCookRole extends Role implements BCook {
 	
 	public void setCashier(BCashierRole c) {
 		this.cashier = c;
+	}
+	
+	public void setMonitor(BOrderStand m) {
+		theMonitor = m;
 	}
 }
