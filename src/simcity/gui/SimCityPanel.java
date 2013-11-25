@@ -153,29 +153,7 @@ public class SimCityPanel extends JPanel{
 //		waiter.startThread();
 //		cust.startThread();
 		
-		System.out.println(people.size());
-		Timer timer;
-
-		 class RemindTask extends TimerTask {
-			 int counter= 0;
-		        @Override
-				public void run() {
-		        	if(counter <25) {
-		                 System.out.println("hour is " + counter);
-		                 for(Person p: people) {
-		                	 p.msgTimeUpdate(counter);
-		                 }
-		                 counter++;
-		                 if (counter == 25) {
-		                	 counter = 1;
-		                 }
-		        	}
-		        }
-		 }
-	     timer = new Timer();
-	     timer.schedule(new RemindTask(),
-	                       0,        //initial delay
-	                       1*12000);  //subsequent rate
+		
 	    
 }
 	   
@@ -630,5 +608,30 @@ public class SimCityPanel extends JPanel{
 		public MyLandlord(Person per) {
 			p=per;
 		}
+	}
+
+	public void startTimer() {
+		Timer timer;
+
+		 class RemindTask extends TimerTask {
+			 int counter= 0;
+		        @Override
+				public void run() {
+		        	if(counter <25) {
+		                 System.out.println("hour is " + counter);
+		                 for(Person p: people) {
+		                	 p.msgTimeUpdate(counter);
+		                 }
+		                 counter++;
+		                 if (counter == 25) {
+		                	 counter = 1;
+		                 }
+		        	}
+		        }
+		 }
+	     timer = new Timer();
+	     timer.schedule(new RemindTask(),
+	                       0,        //initial delay
+	                       1*12000);  //subsequent rate		
 	}
 }

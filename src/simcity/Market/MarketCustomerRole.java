@@ -103,6 +103,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
                 LoggedEvent e = new LoggedEvent("telling manager I'm here");
                 log.add(e);
                 manager.msgIAmHere(this, "customer");
+                state = customerState.waiting;
+
         }
         
         private void orderFood() {
