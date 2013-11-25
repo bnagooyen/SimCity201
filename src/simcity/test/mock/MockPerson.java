@@ -1,11 +1,16 @@
 package simcity.test.mock;
 
 
+import java.util.List;
+import java.util.Map;
+
 import agent.Role;
 import simcity.PersonAgent.HomeType;
 import simcity.DRestaurant.DMenu;
 import simcity.DRestaurant.DWaiterRole;
 import simcity.Transportation.CarAgent;
+import simcity.gui.SimCityPanel.Location;
+import simcity.housing.LandlordRole;
 import simcity.interfaces.Bus;
 import simcity.interfaces.Landlord;
 import simcity.interfaces.Person;
@@ -87,6 +92,26 @@ public EventLog log;
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	public void msgHereIsYourRentBill(Landlord l, double rentBill){
 		
+	}
+
+	@Override
+	public void msgSetBuildingDirectory(Map<String, List<Location>> buildings) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgSetBusDirectory(Map<String, List<Location>> busStops) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgHereIsYourRentBill(LandlordRole landlordRole, double rentBill) {
+		log.add(new LoggedEvent("Received message from Landlord"));
+		
+	}
 
 }
