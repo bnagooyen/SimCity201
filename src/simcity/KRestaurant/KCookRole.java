@@ -264,7 +264,7 @@ public class KCookRole extends Role implements KCook{
 			}
 		}
 		Do("going to fridge to acquire materials");
-		cookGui.DoGoToFridge();
+		//cookGui.DoGoToFridge();
 		try{
 			atFridge.acquire();
 		}
@@ -274,34 +274,34 @@ public class KCookRole extends Role implements KCook{
 		Do("going to grill " +o.grill);
 		o.gui = new KMovingFoodGui(this, o.w, gui, (o.grill *20) + 5, o.choice);
 		gui.animationPanel.addGui(o.gui);
-		cookGui.DoCookFood(o.grill);
+		//cookGui.DoCookFood(o.grill);
 		try{
 			atGrill.acquire();
 		}
 		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		cookGui.DoGoHome();
+		//cookGui.DoGoHome();
 	}
 	
 	public void plateIt( Order o ) {
 		DoPlating(o);
 		o.w.msgOrderIsReady(o.choice, o.table, o.gui, o.grill);
-		cookGui.DoGoHome();
+		//cookGui.DoGoHome();
 		o.s = orderState.finished;
 	}
 
 	public void DoPlating( Order o ) {
 		Do("plating order "+o.choice);
-		cookGui.DoCookFood(o.grill);
+		//cookGui.DoCookFood(o.grill);
 		try{
 			atGrill.acquire();
 		}
 		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		cookGui.DoPLateFood(o.grill);
-		o.gui.GoToPlating(o.grill);
+		//cookGui.DoPLateFood(o.grill);
+		//o.gui.GoToPlating(o.grill);
 		try{
 			atPlating.acquire();
 		}
