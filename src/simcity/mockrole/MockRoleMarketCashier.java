@@ -66,7 +66,8 @@ public class MockRoleMarketCashier extends MockRole implements MarketCashier{
 
 	@Override
 	public void msgCanGive(Car currCar, MOrder o) {
-		// TODO Auto-generated method stub
+		LoggedEvent e = new LoggedEvent("got order back of what we can give customer");
+		log.add(e);
 		
 	}
 
