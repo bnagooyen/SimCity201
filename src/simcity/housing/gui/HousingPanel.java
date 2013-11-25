@@ -1,13 +1,10 @@
 package simcity.housing.gui;
 
-import simcity.TTRestaurant.TCashierRole;
-import simcity.TTRestaurant.TCookRole;
-import simcity.TTRestaurant.TCustomerRole;
-import simcity.TTRestaurant.THostRole;
-import simcity.TTRestaurant.TWaiterRole;
-import simcity.interfaces.Person;
 
 import javax.swing.*;
+
+import simcity.PersonAgent;
+import simcity.interfaces.Person;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -32,44 +29,24 @@ public class HousingPanel extends JPanel implements ActionListener {
     //private MarketAgent mart1 = new MarketAgent();
     //private MarketAgent mart2 = new MarketAgent(); 
     //private MarketAgent mart3 = new MarketAgent(); 
-
-    //private Vector<TCustomerRole> customers = new Vector<TCustomerRole>();
-    private Vector <Person> people = new Vector<Person>();
+	private PersonAgent p = new PersonAgent("Person"); 
+	
+    private Vector<Person> people = new Vector<Person>();
     
     //buttons
-    private ListPanel personPanel = new ListPanel(this, "People");
-    private JPanel group = new JPanel();
-    private JLabel label = new JLabel();
-	private JTabbedPane tabbedPane = new JTabbedPane();
+    //private JPanel group = new JPanel();
+    //private JLabel label = new JLabel();
 	
     private HouseGui gui; //reference to main gui
 
+	HomePersonGui pg = new HomePersonGui(p);
+
     public HousingPanel(HouseGui gui) {
         this.gui = gui;
-        //starting threads for agents
-        //host.startThread();
-        //cook.startThread();
-        //cook.addFood();
-        //cashier.addFood();
-        //cashier.startThread();
-        //mart1.startThread(); 
-        //mart2.startThread(); 
-        //mart3.startThread(); 
-        
-        //setting guis
-        //cook.setGui(cookGui); 
-        //gui.animationPanel.addGui(cookGui);
-        
-        //setting initial variables for markets and references to the markets for cook
-        //mart1.addFood(); 
-        //mart2.addFood();
-        //mart3.addFood();
-        //cook.addMarket(mart1);
-        //cook.addMarket(mart2);
-        //cook.addMarket(mart3);
-        //mart1.setCashier(cashier);
-        //mart2.setCashier(cashier); 
-        //mart3.setCashier(cashier); 
+
+        gui.animationPanel.addGui(pg);
+        p.setGui(pg);
+        p.startThread();
         
         //layouts
         int row = 1; 
@@ -77,10 +54,8 @@ public class HousingPanel extends JPanel implements ActionListener {
         int horizontalWidth= 20; 
         int verticalWidth = 20;
         setLayout(new GridLayout(row, column, horizontalWidth, verticalWidth));
-        group.setLayout(new GridLayout(1, 2, 10, 10));
-        tabbedPane.add("Resident", personPanel);
-        group.add(tabbedPane);
-        add(group);
+        //group.setLayout(new GridLayout(1, 2, 10, 10));
+        //add(group);
     }
 
     /**

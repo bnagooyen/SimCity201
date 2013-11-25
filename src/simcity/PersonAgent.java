@@ -26,6 +26,7 @@ import simcity.gui.PersonGui;
 import simcity.gui.SimCityPanel;
 import simcity.gui.SimCityPanel.Location;
 import simcity.housing.LandlordRole;
+import simcity.housing.gui.HomePersonGui;
 import simcity.interfaces.*;
 
 import java.util.*;
@@ -75,6 +76,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public boolean activatedRole;
 
 	public PersonGui PersonGui = null;
+	public HomePersonGui homePersonGui = null; 
 
 	private int hour=0;
 
@@ -534,6 +536,10 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	public void setGui(PersonGui gui) {
 		PersonGui = gui;
+	}
+	
+	public void setGui(HomePersonGui gui) {
+		homePersonGui = gui; 
 	}
 
 	public PersonGui getGui() {

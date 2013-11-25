@@ -69,7 +69,7 @@ public class HouseAnimationPanel extends JPanel implements ActionListener {
         }
     }
 
-    public void addGui(PersonGui gui) {
+    public void addGui(HomePersonGui gui) {
         guis.add(gui);
     }
 
