@@ -62,7 +62,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	char aptLet;
 	public enum PersonState { none };
 	public enum EnergyState {tired, asleep, awake, none };
-	public enum LocationState { atHome, inTransit, atWork };
+	public enum LocationState { atHome, inTransit, atWork, Out };
 	public enum TransitState {justLeaving, walkingToBus, onBus, goToCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
 	public enum MoneyState { poor, adequate, rich, haveLoan};
 	private PersonState personState;
@@ -290,17 +290,13 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		if(activatedRole) return anyTrue;
 
 
-		if(locationState==LocationState.atHome && !(energyState==EnergyState.asleep)) {
-			if (needToPayRent) {
-				payRent(); 
-				return true; 
-			}
+		if(locationState==LocationState.Out && !(energyState==EnergyState.asleep)) {
 			if(moneyState==MoneyState.haveLoan){
 				buyCar();
 				return true;
 			}
 			if(energyState==EnergyState.tired) {
-				GoToBed();
+				GoHome();
 				return true;
 			}
 			if(needToGoToWork) {
@@ -322,6 +318,17 @@ public class PersonAgent extends Agent implements Person {//implements Person
 			}
 			if(moneyState==MoneyState.rich && myCar==null){
 				getCarLoan();
+				return true;
+			}
+		}
+		
+		if(locationState==LocationState.atHome && !(energyState==EnergyState.asleep)) {
+			if (needToPayRent) {
+				payRent(); 
+				return true; 
+			}
+			if(energyState==EnergyState.tired) {
+				GoToBed();
 				return true;
 			}
 		}
@@ -370,7 +377,6 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	}
 
-
 	// Actions
 
 	private void Die() {
@@ -389,7 +395,6 @@ public class PersonAgent extends Agent implements Person {//implements Person
 			else if(meals>0){
 				Do("Eat at home");
 				mydestination="home";
-				meals--;
 				homePersonGui.makeFood();
 				try {
 					inKitchen.acquire();
@@ -397,6 +402,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				meals--;
 				homePersonGui.goToTable(); 
 				
 				
@@ -416,7 +422,6 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				((MarketCustomerRole) r).populateOrderList("P", 1);
 				homePersonGui.LeaveHouse(); 
 
-
 			}
 			else{
 				energyState=EnergyState.tired;
@@ -435,6 +440,13 @@ public class PersonAgent extends Agent implements Person {//implements Person
 			myLandlord.msgCannotPayForRent(this); 
 		}
 	}
+	
+	private void GoHome() {
+		Do("going home");
+		mydestination="home";
+		locationState=LocationState.inTransit;
+		
+	}
 
 	private void GoToWork() {
 		Do("going to work");
@@ -444,9 +456,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	}
 
 	private void GoToBed() {
-		Do("going to bed");
-		mydestination="home";
-		locationState=LocationState.inTransit;
+		Do("going to bed"); 
 		energyState=EnergyState.asleep;
 		homePersonGui.goToBed();
 
