@@ -384,16 +384,28 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				String choice=chooseRestaurant();
 				mydestination=choice;
 				locationState=LocationState.inTransit;
+				homePersonGui.LeaveHouse(); 
 			}
 			else if(meals>0){
 				Do("Eat at home");
 				mydestination="home";
 				meals--;
+				homePersonGui.makeFood();
+				try {
+					inKitchen.acquire();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				homePersonGui.goToTable(); 
+				
+				
 			}
 			else if(moneyState==MoneyState.adequate && hour>7 && hour<23){
 				String choice=chooseRestaurant();
 				mydestination=choice;
 				locationState=LocationState.inTransit;
+				homePersonGui.LeaveHouse(); 
 			}
 			else if(moneyState==MoneyState.poor && hour>7 && hour<23){
 				mydestination="market";
@@ -402,6 +414,8 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				Role r = possibleRoles.get("market");
 				((MarketCustomerRole) r).populateOrderList("Chicken", 1);
 				((MarketCustomerRole) r).populateOrderList("P", 1);
+				homePersonGui.LeaveHouse(); 
+
 
 			}
 			else{
@@ -426,6 +440,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		Do("going to work");
 		mydestination= jobLocation;
 		locationState=LocationState.inTransit;
+		homePersonGui.LeaveHouse(); 
 	}
 
 	private void GoToBed() {
@@ -433,30 +448,37 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		mydestination="home";
 		locationState=LocationState.inTransit;
 		energyState=EnergyState.asleep;
+		homePersonGui.goToBed();
+
 	}
 
 	private void deposit() {
 		Do("Going to deposit Money");
 		mydestination="bank";
+		homePersonGui.LeaveHouse(); 
 		locationState=LocationState.inTransit;
 		possibleRoles.get("bank").purpose="deposit";
+		
 	}
 
 	private void withdraw() {
 		Do("Going to Withdraw Money");
 		mydestination="bank";
+		homePersonGui.LeaveHouse(); 
 		locationState=LocationState.inTransit;
 		possibleRoles.get("bank").purpose="withdraw";
 
 	}
 
 	private void getCarLoan(){
+		homePersonGui.LeaveHouse(); 
 		mydestination="bank";
 		locationState=LocationState.inTransit;
 		possibleRoles.get("bank").purpose="loan";
 	}
 	
 	private void buyCar() {
+		homePersonGui.LeaveHouse(); 
 		Do("Go buy car");
 		mydestination="market";
 		locationState=LocationState.inTransit;
@@ -481,9 +503,31 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	}
 
 	private void getOffBusAndWalk(){
-		//gui to get off 
-		transitState=TransitState.walkingtoDestination;
+		//gui to get off
 		Do("Walk to Destination");
+		transitState=TransitState.atDestination;
+		
+		if (mydestination != "home") {
+			boolean haveRole=false;
+			neededRole=possibleRoles.get(mydestination);
+	
+			if(needToGoToWork){
+				myJob.isActive=true;
+				needToGoToWork=false;
+			}
+			else{
+				for(Role role:roles){
+					if(role==neededRole){
+						role.isActive=true;		
+						haveRole=true;
+					}
+				}
+				if(!haveRole){
+					roles.add(neededRole);
+					neededRole.isActive=true;
+				}
+			}
+		}
 	}
 
 	private void goToCar(){
@@ -495,23 +539,25 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		Do("Get out car");
 		transitState=TransitState.atDestination;
 		
-		boolean haveRole=false;
-		neededRole=possibleRoles.get(mydestination);
-
-		if(needToGoToWork){
-			myJob.isActive=true;
-			needToGoToWork=false;
-		}
-		else{
-			for(Role role:roles){
-				if(role==neededRole){
-					role.isActive=true;		
-					haveRole=true;
-				}
+		if (mydestination != "home") {
+			boolean haveRole=false;
+			neededRole=possibleRoles.get(mydestination);
+	
+			if(needToGoToWork){
+				myJob.isActive=true;
+				needToGoToWork=false;
 			}
-			if(!haveRole){
-				roles.add(neededRole);
-				neededRole.isActive=true;
+			else{
+				for(Role role:roles){
+					if(role==neededRole){
+						role.isActive=true;		
+						haveRole=true;
+					}
+				}
+				if(!haveRole){
+					roles.add(neededRole);
+					neededRole.isActive=true;
+				}
 			}
 		}
 	}
