@@ -28,7 +28,7 @@ public class BCashierTest extends TestCase
 //	/**
 //	 * This method is run before each test. You can use it to instantiate the class variables
 //	 * for your agent and mocks, etc.
-//	 */
+//	 
 //	public void setUp() throws Exception{
 //		super.setUp();                
 //		cashier = new BCashierRole(null);
@@ -52,7 +52,7 @@ public class BCashierTest extends TestCase
 //	}        
 //	/**
 //	 * This tests the cashier under very simple terms: one customer is ready to pay the exact bill.
-//	 */
+//	 
 //	public void testOneNormalMarketScenario()
 //	{
 //		//tests one market one order 

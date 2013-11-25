@@ -368,15 +368,15 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 	}
 
 	
-	private void giveCookOrder(myCustomer customer){
+	protected abstract void giveCookOrder(myCustomer customer);
 
-			print("Giving order to cook");
+			/*print("Giving order to cook");
 			hostGui.DoLeaveCustomer();
 			customer.cusState = customerState.noAction;
-			cook.msgHereisanOrder(this, customer.choice, customer.tablenumber);
+			cook.msgHereisanOrder(this, customer.choice, customer.tablenumber);*/
 
 
-	}
+	
 
 	private void giveFood(myCustomer customer){
 		//hostGui.DoGoToPlating();
