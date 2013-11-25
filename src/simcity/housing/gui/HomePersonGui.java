@@ -33,6 +33,10 @@ public class HomePersonGui implements Gui {
             yPos++;
         else if (yPos > yDestination)
             yPos--;
+        
+        if (xPos == 175 && yPos == 100)  {
+        	agent.msgInKitchen(); 
+        }
     }
 
     public void draw(Graphics2D g) {
