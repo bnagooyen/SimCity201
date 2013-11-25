@@ -199,14 +199,16 @@ public class MarketManagerRole extends Role implements MarketManager{
 	
 	private void swapCashiers(){
 		Do("Switching out cashiers");
-		cashiers.get(0).c.msgGoHome();
+		marketMoney -= 50;
+		cashiers.get(0).c.msgGoHome(50);
 		cashiers.get(1).state = workerState.available;
 		cashiers.remove(0);
 	}
 	
 	private void swapInventoryBoys(){
 		Do("Switching out inventory boys");
-		inventoryBoys.get(0).msgGoHome();
+		marketMoney -= 50;
+		inventoryBoys.get(0).msgGoHome(50);
 		inventoryBoys.remove(0);
 	}
 	
