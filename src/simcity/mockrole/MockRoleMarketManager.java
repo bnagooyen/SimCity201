@@ -1,22 +1,25 @@
-package simcity.test.mock;
+package simcity.mockrole;
 
 import java.util.List;
 
 import agent.Role;
+import simcity.PersonAgent;
 import simcity.Market.MFoodOrder;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
+import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
 
-public class MockMarketManager extends Mock implements MarketManager{
+public class MockRoleMarketManager extends MockRole implements MarketManager{
 
 	public EventLog log;
 	public MarketCashier mc;
 	public boolean open;
 	
-	public MockMarketManager(String name) {
-		super(name);
+	public MockRoleMarketManager(String name, PersonAgent p) {
+		super(name, p);
 		log = new EventLog();
 	}
 
@@ -55,7 +58,8 @@ public class MockMarketManager extends Mock implements MarketManager{
 
 	@Override
 	public void msgBackFromDelivery() {
-		// TODO Auto-generated method stub
+		LoggedEvent e = new LoggedEvent("Received msgBackFromDelivery");
+		log.add(e);
 		
 	}
 

@@ -31,5 +31,11 @@ public class MockInventoryBoy extends Mock implements InventoryBoy{
 		LoggedEvent e = new LoggedEvent("Gone Home.");
 		log.add(e);
 	}
+
+	@Override
+	public void msgGoHome(double paycheck) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

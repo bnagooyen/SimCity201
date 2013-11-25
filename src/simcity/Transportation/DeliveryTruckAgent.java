@@ -10,6 +10,8 @@ import simcity.interfaces.DeliveryTruck;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.Person;
+import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
 import agent.Agent;
 import agent.Role;
 
@@ -22,6 +24,7 @@ public class DeliveryTruckAgent extends Agent implements DeliveryTruck{
 	public double check;
 	public MarketManager manager;
 	public MarketCashier mc;
+	public EventLog log;
 	
 	public enum truckState
 	{available, parked, receivedLocation, travelling, arrived};
@@ -29,6 +32,7 @@ public class DeliveryTruckAgent extends Agent implements DeliveryTruck{
 	public truckState state;
 	
 	public DeliveryTruckAgent(MarketManager m){
+		log = new EventLog();
 		manager = m;
 		mc = null;
 		cook = null;
@@ -84,11 +88,15 @@ public class DeliveryTruckAgent extends Agent implements DeliveryTruck{
 	//Actions
 		
 	private void goToLocation(){
+		LoggedEvent e = new LoggedEvent("Going to destination");
+		log.add(e);
 		Do("Go To Location");
 		//animation using destination
 	}
 	
 	private void HaveArrived(){
+		LoggedEvent e = new LoggedEvent("Arrived at destination");
+		log.add(e);
 		Do("Arrived at destination");
 		cook.msgHereIsDelivery(supply, check, manager, mc);
 		//animation to go home
