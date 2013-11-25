@@ -72,8 +72,8 @@ public class ListPanel extends JPanel implements ActionListener {
         
       	roleSelection.addItem("Role..");
     	roleSelection.addItem("Restaurant Waiter");
-    	roleSelection.addItem("Market Inventory");
-    	roleSelection.addItem("Bank Robber");
+//    	roleSelection.addItem("Market Inventory");
+//    	roleSelection.addItem("Bank Robber");
     	
     	roleSelection.addActionListener(this);
     	

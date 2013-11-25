@@ -1,7 +1,11 @@
 package simcity.interfaces;
 
+import java.util.List;
+import java.util.Map;
+
 import simcity.PersonAgent.HomeType;
 import simcity.Transportation.CarAgent;
+import simcity.gui.SimCityPanel.Location;
 import agent.Role;
 
 
@@ -32,6 +36,11 @@ public interface Person {
 	public abstract int getAptNum();
 
 	public abstract char getAptLet();
+
+	public abstract void msgSetBuildingDirectory(
+			Map<String, List<Location>> buildings);
+
+	public abstract void msgSetBusDirectory(Map<String, List<Location>> busStops);
 
 }
 

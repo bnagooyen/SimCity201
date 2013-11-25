@@ -85,10 +85,13 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private int meals=0; //Don't need to keep track of what type of food customer buys?
 
 	private SimCityPanel panel;
-	private Map<String, List<Location>> buildings = null;
 	private Landlord myLandlord; 
 	private boolean needToPayRent = false; 
 	private double rentBill; 
+	
+	//directories
+	public Map<String, List<Location>> buildings = null;
+	public Map<String, List<Location>> busStops = null; //STILL BLANK
 	
 
 	public PersonAgent(String name) {
@@ -152,7 +155,15 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	//	public void setHost(Role r){
 	//		host = r;
 	//	}
+	//utilities
 
+	public void msgSetBuildingDirectory(Map<String, List<Location>> bu) {
+		buildings = bu;
+	}
+	
+	public  void msgSetBusDirectory(Map<String, List<Location>> bs) {
+		busStops=bs;
+	}
 	public String getName() {
 		return name;
 	}
