@@ -57,7 +57,6 @@ public class MarketCashierTest extends TestCase{
                 
         // preconditions
         assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
-        assertEquals("MarketCashier should have collected zero money", mc.marketMoney, 0.0);
         assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + mc.log.toString(), 0, mc.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
                 + ib.log.toString(), 0, ib.log.size());
@@ -95,7 +94,6 @@ public class MarketCashierTest extends TestCase{
                 
                 // preconditions
         assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
-        assertEquals("MarketCashier should have collected zero money", mc.marketMoney, 0.0);
         assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + mc.log.toString(), 0, mc.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
                 + ib.log.toString(), 0, ib.log.size());
@@ -130,9 +128,8 @@ public class MarketCashierTest extends TestCase{
                 f1 = new MFoodOrder("Ch", 2);
                 foods.add(f1);
                 
-                // preconditions
+        // preconditions
         assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
-        assertEquals("MarketCashier should have collected zero money", mc.marketMoney, 0.0);
         assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + mc.log.toString(), 0, mc.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
                 + ib.log.toString(), 0, ib.log.size());
@@ -150,8 +147,7 @@ public class MarketCashierTest extends TestCase{
         assertTrue("MarketCashier is getting payment.", mc.pickAndExecuteAnAction());
         
        //interaction with customer 
-        assertTrue("MarketManager logged: " + man.log.getLastLoggedEvent().toString(), man.log.containsString("Received msgCustomerDone from market cashier."));
-        assertEquals("MarketCashier stored money.", mc.marketMoney, 10.0);  
+        assertTrue("MarketManager logged: " + man.log.getLastLoggedEvent().toString(), man.log.containsString("Received msgCustomerDone from market cashier."));  
         assertEquals("Order state is done.", mc.orders.get(0).state, orderState.done);
         assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + mc.log.toString(), 0, mc.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
@@ -171,7 +167,6 @@ public class MarketCashierTest extends TestCase{
                 
                 // preconditions
         assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
-        assertEquals("MarketCashier should have collected zero money", mc.marketMoney, 0.0);
         assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + mc.log.toString(), 0, mc.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
                 + ib.log.toString(), 0, ib.log.size());
@@ -208,7 +203,6 @@ public class MarketCashierTest extends TestCase{
                 
                 // preconditions
         assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
-        assertEquals("MarketCashier should have collected zero money", mc.marketMoney, 0.0);
         assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + mc.log.toString(), 0, mc.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
                 + ib.log.toString(), 0, ib.log.size());
@@ -245,7 +239,6 @@ public class MarketCashierTest extends TestCase{
                 
                 // preconditions
         assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
-        assertEquals("MarketCashier should have collected zero money", mc.marketMoney, 0.0);
         assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + mc.log.toString(), 0, mc.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
                 + ib.log.toString(), 0, ib.log.size());
@@ -264,7 +257,6 @@ public class MarketCashierTest extends TestCase{
         
        //interaction with customer 
         assertTrue("MarketManager logged: " + man.log.getLastLoggedEvent().toString(), man.log.containsString("Received msgCustomerDone from market cashier."));
-        assertEquals("MarketCashier stored money.", mc.marketMoney, 10.0);  
         assertEquals("Order state is done.", mc.orders.get(0).state, orderState.done); 
         assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + mc.log.toString(), 0, mc.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
@@ -279,7 +271,6 @@ public class MarketCashierTest extends TestCase{
                 
                 // preconditions
         assertEquals("MarketCashier should have zero orders but doesn't", mc.orders.size(), 0);
-        assertEquals("MarketCashier should have collected zero money", mc.marketMoney, 0.0);
         assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + mc.log.toString(), 0, mc.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
                 + ib.log.toString(), 0, ib.log.size());
@@ -289,7 +280,7 @@ public class MarketCashierTest extends TestCase{
         
         
         //message to go home from work
-        mc.msgGoHome();
+        mc.msgGoHome(50);
         assertEquals("MarketCashier's state is goHome.", mc.state, myState.goHome);
         assertTrue("MarketCashier going home.", mc.pickAndExecuteAnAction());
         
