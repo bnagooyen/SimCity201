@@ -26,7 +26,8 @@ public class BankRobberTest extends TestCase{
 		robber = new BankRobberRole(p);
 		p.addRole(robber);
 		mgr = new MockBankManager("MockBankManager");
-		teller = new MockBankTeller("mockTeller");
+		PersonAgent p2 = new PersonAgent("MockTeller");
+		teller = new MockBankTeller("mockTeller", p2);
 		robber.manager=mgr;
 	}
 	
