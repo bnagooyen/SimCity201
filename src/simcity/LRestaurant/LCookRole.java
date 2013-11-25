@@ -200,7 +200,7 @@ public class LCookRole extends Role implements LCook {
 	private void checkRotatingStand() {
 		LRestaurantOrder newOrder = theMonitor.remove();
 		if(newOrder != null) {
-			Order o = new Order(newOrder.w, newOrder.choice, newOrder.table, OrderState.pending);
+			Order o = new Order(newOrder.table, newOrder.choice,newOrder.w, OrderState.pending);
 			orders.add(o);
 			}
 		else{

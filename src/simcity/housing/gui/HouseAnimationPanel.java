@@ -32,36 +32,40 @@ public class HouseAnimationPanel extends JPanel implements ActionListener {
 	}
 
     public void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D)g;
-
+    	Graphics2D g2 = (Graphics2D)g;
+           
         //Clear the screen by painting a rectangle the size of the frame
         int beginX = 0; 
         int beginY = 0; 
         g2.setColor(getBackground());
         g2.fillRect(beginX, beginY, WINDOWX, WINDOWY );
 
-        //Here is the bed
+        //Here is the table
         int w = 50; 
-        int h = 80; 
+        int h = 50; 
+        g2.setColor(Color.black);
+        g2.fillRect(200, 250, w, h);
+           
+        //Here is the table
         g2.setColor(Color.blue);
-        g2.fillRect(0, 0, w, h);
-        
-        int grillW = 40; 
-        int grillH = 50; 
-        g2.setColor(Color.RED);
-        g2.fillRect(440, 140, grillW, grillH);
-        
+        g2.fillRect(0, 0, 50, 80);
+           
+        int kitchenW = 150; 
+        int kitchenH = 200; 
+        g2.setColor(Color.lightGray); 
+        g2.fillRect(370, 0, kitchenW, kitchenH);
+           
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
-                gui.updatePosition();
+               gui.updatePosition();
             }
         }
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
-            }
+             }
         }
     }
 

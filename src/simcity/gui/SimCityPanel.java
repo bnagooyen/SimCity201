@@ -94,6 +94,8 @@ public class SimCityPanel extends JPanel{
 	public SimCityPanel(SimCityGui gui) {
 		this.gui = gui;
 		
+		//*********Remember to add in delivery truck**********
+		
 //		// populate buildings map 
 //		PersonAgent p1 = new PersonAgent("bankmanager");
 //		BankManagerRole bm = new BankManagerRole(p1);

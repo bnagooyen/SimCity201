@@ -130,7 +130,7 @@ public class InventoryBoyTest extends TestCase{
         assertEquals("MockMarketCustomer should have an empty event log. Instead, the MockMarketCustomer's event log reads: " + c.log.toString(), c.log.size(), 0);
 
         // tell ib to go home
-        ib.msgGoHome();
+        ib.msgGoHome(50);
         assertTrue("ib's log should have this but doesn't", ib.log.containsString("told to go home"));
         assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
         assertEquals("MockMarketCustomer should have an empty event log. Instead, the MockMarketCustomer's event log reads: " + c.log.toString(), c.log.size(), 0);

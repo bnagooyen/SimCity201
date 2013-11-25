@@ -6,13 +6,14 @@ import simcity.Market.MFoodOrder;
 import simcity.Transportation.CarAgent.carState;
 import simcity.interfaces.Car;
 import simcity.interfaces.Cook;
+import simcity.interfaces.DeliveryTruck;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.Person;
 import agent.Agent;
 import agent.Role;
 
-public class DeliveryTruckAgent extends Agent implements Car{
+public class DeliveryTruckAgent extends Agent implements DeliveryTruck{
 	
 //	public Person driver;
 	public String destination;
@@ -52,11 +53,6 @@ public class DeliveryTruckAgent extends Agent implements Car{
 		
 	}
 	
-	@Override
-	public void msgGoToDestination(String location, Person person) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void msgAtDestination() {

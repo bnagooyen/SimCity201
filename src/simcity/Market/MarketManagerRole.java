@@ -11,6 +11,7 @@ import simcity.test.mock.MockMarketCustomer;
 import simcity.DRestaurant.DCashierRole;
 import simcity.Transportation.DeliveryTruckAgent;
 import simcity.interfaces.Cook;
+import simcity.interfaces.DeliveryTruck;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
@@ -23,8 +24,8 @@ public class MarketManagerRole extends Role implements MarketManager{
 	public List<MyMarketCashier> cashiers = Collections.synchronizedList(new ArrayList<MyMarketCashier>());
 	public List<InventoryBoy> inventoryBoys = Collections.synchronizedList(new ArrayList<InventoryBoy>());
 	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
-	public DeliveryTruckAgent dTruck = new DeliveryTruckAgent(this);
-	public MyDeliveryTruck truck = new MyDeliveryTruck(dTruck);
+	public DeliveryTruck dTruck;
+	public MyDeliveryTruck truck;
 	
 	public double marketMoney;
 	public int hour;
@@ -34,7 +35,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	
 	public MarketManagerRole(PersonAgent p) {
 		super(p);
-		marketMoney = 50000; //***********threshold all the rest deposit to the bank
+		marketMoney = 50000.0; //***********threshold all the rest deposit to the bank
 		log = new EventLog();
 	}
 
@@ -79,6 +80,9 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	public void msgIAmHere(Role r, List<MFoodOrder>need, String building, String type){
+		LoggedEvent e = new LoggedEvent("Received msgIAmHere.");
+		log.add(e);
+		
 		Do("Cook is here");
 		if(type.equals("cook")) {
 			customers.add(new MyCustomer(r, need, building, "cook"));
@@ -135,6 +139,11 @@ public class MarketManagerRole extends Role implements MarketManager{
 			return true;
 		}
 		
+		if(truck.state.equals(workerState.occupied)){
+			sendOverTruck();
+			return true;
+		}
+		
 		synchronized(customers){
 			for(MyCustomer c: customers){
 				if(c.waiting == true){
@@ -146,11 +155,6 @@ public class MarketManagerRole extends Role implements MarketManager{
 				}
 				return true;
 			}
-		}
-		
-		if(truck.state.equals(workerState.occupied)){
-			sendOverTruck();
-			return true;
 		}
 		
 		return false;
@@ -220,7 +224,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 			((MarketCustomer) c.c).msgGoToCashier((MarketCashier) mc.c);
 		}
 		else { // type must be cook
-			mc.c.msgOrder((Cook)c.c, c.need, c.building);;
+			mc.c.msgOrder((Cook)c.c, c.need, c.building);
 //			((Cook) c.c).msgGoToCashier((MarketCashier) mc.c);
 
 		}
@@ -266,16 +270,21 @@ public class MarketManagerRole extends Role implements MarketManager{
 //		}
 	}
 	
+	public void setDeliveryTruck(DeliveryTruck d){
+		dTruck = d;
+		truck = new MyDeliveryTruck(dTruck);
+	}
+	
 	public class MyDeliveryTruck{
-		DeliveryTruckAgent d;
+		public DeliveryTruck d;
 		public workerState state;
-		MarketCashier mc;
-		List<MFoodOrder>supply;
-		String destination;
-		double check;
-		Cook cook;//restaurant's cook
+		public MarketCashier mc;
+		public List<MFoodOrder>supply;
+		public String destination;
+		public double check;
+		public Cook cook;//restaurant's cook
 		
-		public MyDeliveryTruck(DeliveryTruckAgent d){
+		public MyDeliveryTruck(DeliveryTruck d){
 			this.d = d;
 			state = workerState.available;
 		}

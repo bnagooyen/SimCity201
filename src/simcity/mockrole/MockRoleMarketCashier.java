@@ -9,6 +9,7 @@ import simcity.Market.MOrder;
 import simcity.Market.MarketCashierRole.myState;
 import simcity.Market.MarketCashierRole.orderState;
 import simcity.Market.MarketManagerRole;
+import simcity.interfaces.Car;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
@@ -32,8 +33,7 @@ public class MockRoleMarketCashier extends MockRole implements MarketCashier{
 		log = new EventLog();
 	}
 	
-	public void msgOrder(MarketCustomer c, List<MFoodOrder> foods,
-			String building) {
+	public void msgOrder(MarketCustomer c, List<MFoodOrder> foods,String building) {
 		LoggedEvent e = new LoggedEvent("got customer's order");
 		log.add(e);
 		
@@ -46,7 +46,8 @@ public class MockRoleMarketCashier extends MockRole implements MarketCashier{
 	}
 
 	public void msgOrder(Cook cook, List<MFoodOrder> foods, String building) {
-		// TODO Auto-generated method stub
+		LoggedEvent e = new LoggedEvent("Recieved cook's order");
+		log.add(e);
 		
 	}
 
@@ -99,6 +100,18 @@ public class MockRoleMarketCashier extends MockRole implements MarketCashier{
 //		}
 		
 		return false;
+	}
+
+	@Override
+	public void msgGoHome(double paycheck) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCanGive(Car currCar, MOrder o) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
