@@ -49,6 +49,7 @@ import simcity.LRestaurant.LCashierRole;
 import simcity.LRestaurant.LCookRole;
 import simcity.LRestaurant.LCustomerRole;
 import simcity.LRestaurant.LHostRole;
+import simcity.LRestaurant.LWaiterNormalRole;
 import simcity.LRestaurant.LWaiterRole;
 import simcity.Market.InventoryBoyRole;
 import simcity.Market.MarketCashierRole;
@@ -71,6 +72,10 @@ public class SimCityPanel extends JPanel{
 
 	public static final int NUMAPTS = 12;
 	public static final int NUMHOUSES = 15;
+	public static final int NUMBANKS = 2;
+	public static final int NUMMARKETS = 4;
+	public int mktCounter=1;
+	public int bankCounter = 1;
 	public int houseNumCounter=1;
 	public int ApartmentsPerLandlord;
 	public int aptNumCounter=1;
@@ -153,7 +158,8 @@ public class SimCityPanel extends JPanel{
 
 		 class RemindTask extends TimerTask {
 			 int counter= 0;
-		        public void run() {
+		        @Override
+				public void run() {
 		        	if(counter <25) {
 		                 System.out.println("hour is " + counter);
 		                 for(Person p: people) {
@@ -281,7 +287,7 @@ public class SimCityPanel extends JPanel{
 			j = new LHostRole(p);
 		}
 		else if (job.equals("Waiter5")) {
-			j = new LWaiterRole(p);
+			j = new LWaiterNormalRole(p);
 		}
 		
 		// TTRestaurant
@@ -355,11 +361,78 @@ public class SimCityPanel extends JPanel{
 				PersonAgent p = new PersonAgent(in.next());
 				p.setMoney(in.nextDouble());
 				String job = in.next().trim();
-				p.SetJob(jobFactory(job,p));
+				Role myJob = jobFactory(job,p);
+				p.SetJob(myJob);
 				if(job.equals("Landlord")) {
 					landlords.add(new MyLandlord(p));
 //					System.out.println("landlord added");
 				}
+				
+				//add to map
+				if(job.equals("BankManager") && bankCounter<=NUMBANKS) {
+					banks.add(new Bank("Bank1"+Integer.toString(bankCounter), myJob));
+					bankCounter++;
+				}
+				else if(job.equals("MarketManager") && mktCounter<=NUMMARKETS) {
+					markets.add(new Market("Market"+Integer.toString(mktCounter), myJob));	
+					mktCounter++;
+				}
+				else if(job.equals("Host1")) {
+					restaurants.add(new Restaurant("Drew_Restaurant", myJob, "normal"));
+				}
+				else if(job.equals("Host2")) {
+					restaurants.add(new Restaurant("BRestaurant", myJob, "normal"));
+				}
+				else if(job.equals("Host3")) {
+					restaurants.add(new Restaurant("DRestaurant", myJob, "normal"));
+				}
+				else if(job.equals("Host4")) {
+					restaurants.add(new Restaurant("KRestaurant", myJob, "normal"));
+				}
+				else if(job.equals("Host5")) {
+					restaurants.add(new Restaurant("LRestaurant", myJob, "normal"));
+				}
+				else if(job.equals("Host6")) {
+					restaurants.add(new Restaurant("TRestaurant", myJob, "normal"));
+				}
+				//for load balancing waiters when they are added on through gui
+				else if(job.equals("Waiter1")) {
+					for(Location r: restaurants) {
+						if(r.name.equals("Drew_Restaurant"))
+							r.numEmployees++;		
+					}
+				}
+				else if(job.equals("Waiter2")) {
+					for(Location r: restaurants) {
+						if(r.name.equals("BRestaurant"))
+							r.numEmployees++;		
+					}
+				}
+				else if(job.equals("Waiter3")) {
+					for(Location r: restaurants) {
+						if(r.name.equals("DRestaurant"))
+							r.numEmployees++;		
+					}
+				}
+				else if(job.equals("Waiter4")) {
+					for(Location r: restaurants) {
+						if(r.name.equals("KRestaurant"))
+							r.numEmployees++;		
+					}
+				}
+				else if(job.equals("Waiter5")) {
+					for(Location r: restaurants) {
+						if(r.name.equals("LRestaurant"))
+							r.numEmployees++;		
+					}
+				}
+				else if(job.equals("Waiter6")) {
+					for(Location r: restaurants) {
+						if(r.name.equals("TRestaurant"))
+							r.numEmployees++;		
+					}
+				}
+				
 				boolean hasACar = in.nextBoolean();
 				if(hasACar) {
 					p.setCar(new CarAgent());
@@ -431,9 +504,11 @@ public class SimCityPanel extends JPanel{
 		}
 	}
 	
-	  public void addPerson(String job, String name) {
+	  public void addPerson(String name, String role, double moneyVal, String houseOrApt) {
 
     		PersonAgent p = new PersonAgent(name);
+    		
+    		
     		Role personRole= new DWaiterRole(p);
     		p.SetJob(personRole);
     		System.out.println(p.getJob());
@@ -449,14 +524,15 @@ public class SimCityPanel extends JPanel{
 	// Location classes
 	public abstract class Location {
 		// Location l
-		String name;
+		public String name;
+		public int numEmployees=0;
 	}
 	
 	public class Restaurant extends Location{
-		Host host;
+		Role host;
 		String foodType;
 		
-		public Restaurant(String n, Host h, String type) {
+		public Restaurant(String n, Role h, String type) {
 			name = n;
 			host = h;
 			foodType = type;
@@ -464,18 +540,18 @@ public class SimCityPanel extends JPanel{
 	}
 	
 	public class Bank extends Location{
-		BankManager manager;
+		Role manager;
 		
-		public Bank(String n, BankManager m){
+		public Bank(String n, Role myJob){
 			name = n;
-			manager = m;
+			manager = myJob;
 		}
 	}
 	
 	public class Market extends Location {
-		MarketManager manager;
+		Role manager;
 		
-		public Market(String n, MarketManager m) {
+		public Market(String n, Role m) {
 			name = n;
 			manager = m;
 		}
