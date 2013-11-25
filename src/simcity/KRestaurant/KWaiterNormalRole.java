@@ -15,7 +15,7 @@ public class KWaiterNormalRole extends KWaiterRole implements KWaiter{
 		Do(": sending cook order of " + c.choice);
 		c.s = customerstate.waitingForFood;
 		cook.msgHereIsAnOrder(this, c.choice, c.table);
-		waiterGui.DoLeaveCustomer();
+		//waiterGui.DoLeaveCustomer();
 	}
 
 }

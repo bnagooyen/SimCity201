@@ -12,16 +12,18 @@ public class LWaiterNormalRole extends LWaiterRole implements LWaiter{
 
 	@Override
 	protected void giveCookOrder(MyCustomers c) {
-		waiterGui.DoGoToCook();
+		//waiterGui.DoGoToCook();
        Do("Giving cook order");
        c.state = CustomerState.waitForFood;
        //print("Asking for a semaphore. CookOrder1");
+       /**
        try {
                task.acquire();
        } catch (InterruptedException e) {
                // TODO Auto-generated catch block
                e.printStackTrace();
        }
+       */
        //print("Got a semaphore");
        cook.msgHereIsAnOrder(c.table, c.choice, this);
        

@@ -17,19 +17,20 @@ public class LWaiterSharedDataRole extends LWaiterRole implements LWaiter{
 
 	@Override
 	protected void giveCookOrder(MyCustomers c) {
-		waiterGui.DoGoToCook();
+		//waiterGui.DoGoToCook();
 		Do("Sending cook order");
 		c.state = CustomerState.waitForFood;
 		
-		
+		/**
 		try {
 			task.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		*/
 		LRestaurantOrder o = new LRestaurantOrder(this, c.choice, c.table);
 		theMonitor.insert(o);
-		waiterGui.DoLeaveCustomer();
+		//waiterGui.DoLeaveCustomer();
 		
 	}
 	

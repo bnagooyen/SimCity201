@@ -86,6 +86,7 @@ public class DCookRole extends Role implements Cook {
 		
 	}
 	
+	/**
 	private void DoClearPlating(String foo) {
 		CookGui.DoClearPlating(foo);
 	}
@@ -123,6 +124,7 @@ public class DCookRole extends Role implements Cook {
 		CookGui.DoGoToSaladGrill2();	
 	}
 	
+	*/
 
 	public String getName() {
 		return name;
@@ -326,7 +328,7 @@ public class DCookRole extends Role implements Cook {
 			marketBills.remove(b);
 		}
 		private void ClearPlating(DOrder o) {
-			DoClearPlating(o.getChoice().substring(0,2));
+			//DoClearPlating(o.getChoice().substring(0,2));
 			orders.remove(o);
 		}
 		private void CheckIfFullyStocked() {
@@ -353,6 +355,7 @@ public class DCookRole extends Role implements Cook {
 			}
 			
 			grillOccupied.put(o.getChoice(), true);
+			/**
 			DoGoToRefrigerator();
 			
 			try {
@@ -361,6 +364,7 @@ public class DCookRole extends Role implements Cook {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 			
 			System.err.println("made to fridge... "+ o.getChoice());
 			
@@ -384,6 +388,7 @@ public class DCookRole extends Role implements Cook {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
 						
 			o.state=OrderState.cooking;
 			
@@ -405,7 +410,7 @@ public class DCookRole extends Role implements Cook {
 			System.err.println("**");
 			if(o.state==OrderState.plated) System.err.println("changed!");
 			
-			
+			/**
 			if(o.getChoice().equals("Pizza"))
 				DoGoToPizzaGrill2();
 			else if(o.getChoice().equals("Steak"))
@@ -421,10 +426,11 @@ public class DCookRole extends Role implements Cook {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
 			
 			grillOccupied.put(o.getChoice(), false);
 			
-			
+			/**
 			DoGoToPlating();
 			
 			try {
@@ -433,6 +439,7 @@ public class DCookRole extends Role implements Cook {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
 			
 			System.out.println("order plated");
 			o.getWaiter().msgOrderIsReady(o.getTablenum());

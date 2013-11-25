@@ -299,25 +299,25 @@ public class KCustomerRole extends Role implements KCustomer{
 	
 	private void goToRestaurant() {
 		Do("Going to restaurant");
-		customerGui.DoGoToRestaurant();
+		//customerGui.DoGoToRestaurant();
 		host.msgIWantFood(this);
 	}
 	
 	private void GoToWaiter() {
-		customerGui.DoGoToRestaurant();
+		//customerGui.DoGoToRestaurant();
 	}
 
 	private void tellHostIfWaiting() {
 		Do("telling host if i'll wait");
 		host.msgDecideToWait(this, willWait);
 		if(willWait) {
-			customerGui.DoGoToWaiting(waitingPos);
+			//customerGui.DoGoToWaiting(waitingPos);
 		}
 	}
 	
 	private void SitDown(int tableNum) {
 		Do("Being seated. Going to table");
-		customerGui.DoGoToSeat(tableNum);
+		//customerGui.DoGoToSeat(tableNum);
 		if(choice == null) {
 			Random rand = new Random();
 			int choicenum = rand.nextInt(menu.foods.size());
@@ -388,7 +388,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	}
 	
 	private void EatFood() {
-		orderGui.gotFood();
+		//orderGui.gotFood();
 		Do("Eating Food");
 		timer.schedule(new TimerTask() {
 			public void run() {
@@ -402,7 +402,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	private void leaveTable() {
 		Do("Leaving.");
 		waiter.msgLeavingTable(this);
-		customerGui.DoExitRestaurant();
+		//customerGui.DoExitRestaurant();
 		if(!choice.equals("TooExpensive")) {
 			cashier.msgPayment(myCash, this, check);
 			myCash = 0;

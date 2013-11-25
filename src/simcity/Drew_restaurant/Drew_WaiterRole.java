@@ -117,7 +117,7 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 			}
 		}
 		mc.s=CustomerState.done;
-		waitergui.clearTable(mc.t);
+		//waitergui.clearTable(mc.t);
 		stateChanged();
 	}  
 	
@@ -271,10 +271,10 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 		}
 		
 		print("Seating " + customer.c + " at " + customer.getTable());
-		waitergui.getCustomer();
+		//waitergui.getCustomer();
 		finishTask();
 		waitergui.setGui(customer.c.getGui());	//Tells WaiterGui which customerGui it needs
-		waitergui.DoBringToTable(customer.getTable());	//WaiterGui sends Location to CustomerGui
+		//waitergui.DoBringToTable(customer.getTable());	//WaiterGui sends Location to CustomerGui
 		customer.getCustomer().followMeToTable(new Menu()); 
 		finishTask();		//Utilizes AtDest semaphore to allow waiter to complete task
 		//customer.getCustomer().followMeToTable(new Menu()); 
@@ -282,7 +282,7 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 	} 
 	
 	private void tellCustomerOutOfFood(MyCustomer mc, String choice){
-		waitergui.goToTable(mc.t);
+		//waitergui.goToTable(mc.t);
 		finishTask();
 		mc.s=CustomerState.seated;
 		mc.c.outOfChoice(choice);
@@ -291,28 +291,28 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 	}
 	
 	private void takeOrder(MyCustomer customer){
-		waitergui.goToTable(customer.getTable());
+		//waitergui.goToTable(customer.getTable());
 		finishTask();
 		customer.c.whatWouldYouLike();
 		customer.s=CustomerState.askedToOrder;
 	}
 	
 	private void putInOrder(MyCustomer c){
-		waitergui.pickUpOrder();
-		waitergui.goToKitchen();
+		//waitergui.pickUpOrder();
+		//waitergui.goToKitchen();
 		finishTask();
-		waitergui.dropOff();
+		//waitergui.dropOff();
 		cook.hereIsOrder(this, c.choice, c.t);
 		c.s=CustomerState.waitingForFood;
 		stateChanged();
 	}
 	
 	private void deliverFood(MyCustomer c){
-		waitergui.goToKitchen();
+		//waitergui.goToKitchen();
 		finishTask();
 		cook.getGui().onWindow--;
-		waitergui.pickUpFood(c.choice);
-		waitergui.goToTable(c.t);
+		//waitergui.pickUpFood(c.choice);
+		//waitergui.goToTable(c.t);
 		finishTask();
 		waitergui.dropOffFood(c.t, c.choice);
 		c.c.hereIsYourFood();
@@ -323,7 +323,7 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 		host.tableIsFree(tablenumber);
 		customers.remove(customer);
 		if(customers.isEmpty()){
-			waitergui.goHome();
+			//waitergui.goHome();
 			finishTask();
 		}
 	}

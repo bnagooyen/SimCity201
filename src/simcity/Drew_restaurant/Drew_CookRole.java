@@ -198,11 +198,11 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	}
 
 	private void plateIt(Order O){
-		gui.goToGrill();
+		//gui.goToGrill();
 		finishTask();
 		gui.onGrill--;
 		gui.windowCount++;
-		gui.goToWindow();
+		//gui.goToWindow();
 		finishTask();
 		gui.onWindow++;
 		O.w.orderDone(O.t, O.choice.toLowerCase());
@@ -218,7 +218,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 			print("OUT OF "+ O.choice);
 			return;
 		}
-		gui.goToGrill();
+		//gui.goToGrill();
 		finishTask();
 		gui.onGrill++;
 		O.s=State.cooking;
