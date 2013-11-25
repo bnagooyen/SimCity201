@@ -39,12 +39,13 @@ public class BankManagerTest extends TestCase{
 		mockrole=new MockRole("mockrole", p);
 		manager = new BankManagerRole(p);
 		p.addRole(manager);
-		teller = new MockBankTeller("mockTeller");
+		PersonAgent p2 = new PersonAgent("MockTeller");
+		teller = new MockBankTeller("mockTeller", p2);
 		
 		loanOfficer = new MockBankLoanOfficer("mockOfficer");
 		manager.isActive=true;
-		
-		teller2 = new MockBankTeller("mockTeller2");
+		PersonAgent p3 = new PersonAgent("MockTeller");
+		teller2 = new MockBankTeller("mockTeller2", p3);
 		loanOfficer2 = new MockBankLoanOfficer("mockOfficer2");
 		
 		customer1t = new MockBankCustomer("transaction");
