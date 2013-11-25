@@ -1,7 +1,5 @@
 package simcity.housing.gui;
 
-import simcity.TTRestaurant.TCustomerRole;
-
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicTabbedPaneUI.TabbedPaneLayout;
 

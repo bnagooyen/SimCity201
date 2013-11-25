@@ -43,7 +43,7 @@ public class HouseAnimationPanel extends JPanel implements ActionListener {
         //Here is the bed
         int w = 50; 
         int h = 80; 
-        g2.setColor(Color.cyan);
+        g2.setColor(Color.blue);
         g2.fillRect(0, 0, w, h);
         
         int grillW = 40; 

@@ -36,14 +36,11 @@ public class HousingPanel extends JPanel implements ActionListener {
     private Vector <TWaiterRole> waiters = new Vector<TWaiterRole>();
     
     //buttons
-    private JButton pauseButton = new JButton("Pause");
     private ListPanel personPanel = new ListPanel(this, "People");
     private JPanel group = new JPanel();
     private JLabel label = new JLabel();
-    private boolean IsPaused = false; 
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	
-	private int numCust = -2; 
     private HouseGui gui; //reference to main gui
 
     public HousingPanel(HouseGui gui) {
@@ -80,10 +77,7 @@ public class HousingPanel extends JPanel implements ActionListener {
         int verticalWidth = 20;
         setLayout(new GridLayout(row, column, horizontalWidth, verticalWidth));
         group.setLayout(new GridLayout(1, 2, 10, 10));
-        initRestLabel();
-        tabbedPane.add("Customers", personPanel);
-        pauseButton.addActionListener(this);
-        add(pauseButton);
+        tabbedPane.add("Resident", personPanel);
         group.add(tabbedPane);
         add(group);
     }
@@ -92,6 +86,7 @@ public class HousingPanel extends JPanel implements ActionListener {
      * Sets up the restaurant label that includes the menu,
      * and host and cook information
      */
+    /**
     private void initRestLabel() {
         //label.setText(
                 //"<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
@@ -132,6 +127,7 @@ public class HousingPanel extends JPanel implements ActionListener {
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
      */
+    /**
     public void addPerson(String type, String name) {
 
     	if (type.equals("Customers")) {
@@ -156,9 +152,9 @@ public class HousingPanel extends JPanel implements ActionListener {
     		}
     		//c.startThread(); 
     		*/
-    	}
+    	//}
     	
-    	else if (type.equals("Waiters")) {
+    	//else if (type.equals("Waiters")) {
     		/**
     		WaiterRoleTT w = new WaiterRoleTT(name);	
     		WaiterGuiTT g = new WaiterGuiTT(w, gui);
@@ -171,8 +167,8 @@ public class HousingPanel extends JPanel implements ActionListener {
     		host.setWaiter(w); 
     		//w.startThread();
     		 */
-    	}
-    }
+    	//}
+    //}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
