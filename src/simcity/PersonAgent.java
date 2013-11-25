@@ -392,6 +392,10 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				mydestination="market";
 				locationState=LocationState.inTransit;
 				possibleRoles.get("market").purpose="food";
+				Role r = possibleRoles.get("market");
+				((MarketCustomerRole) r).populateOrderList("Chicken", 1);
+				((MarketCustomerRole) r).populateOrderList("Pizza", 1);
+
 			}
 			else{
 				energyState=EnergyState.tired;

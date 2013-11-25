@@ -14,6 +14,7 @@ import simcity.interfaces.MarketManager;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import simcity.Market.gui.MCustomerGui;
+import simcity.Market.MFoodOrder;
 import agent.Role;
 
 public class MarketCustomerRole extends Role implements MarketCustomer{
@@ -185,6 +186,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         }
         public void setGui(MCustomerGui g) {
         	customerGui = g;
+        }
+        public void populateOrderList(String type, int amount) {
+        	order.add(new MFoodOrder(type, amount));
         }
         
 }
