@@ -72,13 +72,17 @@ public class SimCityPanel extends JPanel{
 
 	public static final int NUMAPTS = 12;
 	public static final int NUMHOUSES = 15;
+	public static final int NUMBANKS = 2;
+	public static final int NUMMARKETS = 4;
+	public int mktCounter=1;
+	public int bankCounter = 1;
 	public int houseNumCounter=1;
 	public int ApartmentsPerLandlord;
 	public int aptNumCounter=1;
 	public char aptLetCounter='A';
 	private SimCityGui gui;
 	public Map<String, List<Location>> buildings = new HashMap<String, List<Location>>();
-	public Map<String, List<Location>> busStops=new HashMap<String, List<Location>>();
+	public Map<String, List<Location>> busStops=new HashMap<String, List<Location>>(); //STILL BLANK
 	private List<Location> restaurants = new ArrayList<Location>();
 	private List<Location> banks = new ArrayList<Location>();
 	private List<Location> markets = new ArrayList<Location>();
@@ -151,28 +155,7 @@ public class SimCityPanel extends JPanel{
 //		waiter.startThread();
 //		cust.startThread();
 		
-		System.out.println(people.size());
-		Timer timer;
-
-		 class RemindTask extends TimerTask {
-			 int counter= 0;
-		        public void run() {
-		        	if(counter <25) {
-		                 System.out.println("hour is " + counter);
-		                 for(Person p: people) {
-		                	 p.msgTimeUpdate(counter);
-		                 }
-		                 counter++;
-		                 if (counter == 25) {
-		                	 counter = 1;
-		                 }
-		        	}
-		        }
-		 }
-	     timer = new Timer();
-	     timer.schedule(new RemindTask(),
-	                       0,        //initial delay
-	                       1*12000);  //subsequent rate
+		
 	    
 }
 	   
@@ -358,11 +341,91 @@ public class SimCityPanel extends JPanel{
 				PersonAgent p = new PersonAgent(in.next());
 				p.setMoney(in.nextDouble());
 				String job = in.next().trim();
-				p.SetJob(jobFactory(job,p));
+				Role myJob = jobFactory(job,p);
+				p.SetJob(myJob);
 				if(job.equals("Landlord")) {
 					landlords.add(new MyLandlord(p));
 //					System.out.println("landlord added");
 				}
+				
+				//add to map
+				if(job.equals("BankManager") && bankCounter<=NUMBANKS) {
+					banks.add(new Bank("Bank"+Integer.toString(bankCounter), myJob));
+					bankCounter++;
+				}
+				else if(job.equals("MarketManager") && mktCounter<=NUMMARKETS) {
+					markets.add(new Market("Market"+Integer.toString(mktCounter), myJob));	
+					mktCounter++;
+				}
+				else if(job.equals("Host1")) {
+					restaurants.add(new Restaurant("Restaurant1", myJob, "normal"));
+				}
+				else if(job.equals("Host2")) {
+					restaurants.add(new Restaurant("Restaurant2", myJob, "normal"));
+				}
+				else if(job.equals("Host3")) {
+					restaurants.add(new Restaurant("Restaurant3", myJob, "normal"));
+				}
+				else if(job.equals("Host4")) {
+					restaurants.add(new Restaurant("Restaurant4", myJob, "normal"));
+				}
+				else if(job.equals("Host5")) {
+					restaurants.add(new Restaurant("Restaurant5", myJob, "normal"));
+				}
+				else if(job.equals("Host6")) {
+					restaurants.add(new Restaurant("Restaurant6", myJob, "normal"));
+				}
+				//for load balancing waiters when they are added on through gui
+				else if(job.equals("Waiter1")) {
+					for(Location r: restaurants) {
+						if(r.name.equals("Restaurant1")) {
+							//System.out.println(r.numEmployees);
+							r.numEmployees++;
+							break;
+						}
+					}
+				}
+				else if(job.equals("Waiter2")) {
+					for(Location r: restaurants) {
+						if(r.name.equals("Restaurant2")){
+							r.numEmployees++;
+							break;
+						}	
+					}
+				}
+				else if(job.equals("Waiter3")) {
+					for(Location r: restaurants) {
+						if(r.name.equals("Restaurant3")){
+							r.numEmployees++;
+							break;
+						}		
+					}
+				}
+				else if(job.equals("Waiter4")) {
+					for(Location r: restaurants) {
+						if(r.name.equals("Restaurant4")){
+							r.numEmployees++;
+							break;
+						}		
+					}
+				}
+				else if(job.equals("Waiter5")) {
+					for(Location r: restaurants) {
+						if(r.name.equals("Restaurant5")) {
+							r.numEmployees++;
+							break;
+						}		
+					}
+				}
+				else if(job.equals("Waiter6")) {
+					for(Location r: restaurants) {
+						if(r.name.equals("Restaurant6")) {
+							r.numEmployees++;
+							break;
+						}
+					}
+				}
+				
 				boolean hasACar = in.nextBoolean();
 				if(hasACar) {
 					p.setCar(new CarAgent());
@@ -397,6 +460,15 @@ public class SimCityPanel extends JPanel{
 				if(p.GetHomeState()==HomeType.apartment) {
 					landlords.get((p.getAptNum()-1)/ApartmentsPerLandlord).tenants.add(p);
 				}
+			}
+			
+			buildings.put("Bank", banks);
+			buildings.put("Market", markets);
+			buildings.put("Restaurant", restaurants);
+			
+			for (Person p: people) {
+				p.msgSetBuildingDirectory(buildings);
+				p.msgSetBusDirectory(busStops);
 			}
 //			
 			for(MyLandlord l: landlords) {
@@ -434,12 +506,59 @@ public class SimCityPanel extends JPanel{
 		}
 	}
 	
-	  public void addPerson(String job, String name) {
+	  public void addPerson(String name, String role, double moneyVal, String houseOrApt) {
 
     		PersonAgent p = new PersonAgent(name);
-    		Role personRole= new DWaiterRole(p);
-    		p.SetJob(personRole);
-    		System.out.println(p.getJob());
+    		int minWaiterIndex=0;
+//    		for(Location r: restaurants) {
+//    			System.err.println(r.numEmployees);
+//    		}
+    		if(role.equals("Restaurant Waiter")) {
+    			for (int i=0; i<restaurants.size(); i++) {
+    				if(restaurants.get(i).numEmployees<restaurants.get(minWaiterIndex).numEmployees)
+    					minWaiterIndex=i;		
+    			}	
+    		}
+    		//System.out.println(Integer.parseInt(restaurants.get(minWaiterIndex).name.substring(restaurants.get(minWaiterIndex).name.length()-1)));
+    		int restAssignedTo = Integer.parseInt(restaurants.get(minWaiterIndex).name.substring(restaurants.get(minWaiterIndex).name.length()-1));
+    		Role myJob=jobFactory("Waiter"+Integer.toString(restAssignedTo), p);
+    		//System.out.println(myJob);
+    		for(Location r: restaurants) {
+    			if(r.name.equals("Restaurant"+Integer.toString(restAssignedTo))) {
+    				r.numEmployees++;
+    				break;
+    			}
+    		}
+    		//System.out.println(restAssignedTo);
+    		p.SetJob(myJob);
+//    		System.out.println(p.getJob());
+    		if(houseOrApt.equals("House") && houseNumCounter<=NUMHOUSES) {
+				p.SetHome(HomeType.house);
+				//System.err.println(houseNumCounter);
+				p.SetHouseLocation(houseNumCounter);
+				houseNumCounter++;
+				
+			}
+			else if(aptNumCounter<=aptNumCounter) {
+				p.SetHome(HomeType.apartment);
+				p.SetApatmentLocation(aptNumCounter, aptLetCounter);
+				//System.err.println(aptNumCounter + "  "+ aptLetCounter);
+				if(aptLetCounter=='C') {
+					aptLetCounter='A';
+					aptNumCounter++;
+				}
+				else {
+					aptLetCounter++;
+				}
+			}
+			else {
+				p.SetHome(HomeType.homeless);
+			}
+ 
+    		//give person directory
+    		p.msgSetBuildingDirectory(buildings);
+			p.msgSetBusDirectory(busStops);
+			
     		PersonGui g = new PersonGui(p, gui);
     		p.setGui(g);
     		gui.simCityAnimationPanel.addGui(g);
@@ -452,14 +571,15 @@ public class SimCityPanel extends JPanel{
 	// Location classes
 	public abstract class Location {
 		// Location l
-		String name;
+		public String name;
+		public int numEmployees=0;
 	}
 	
 	public class Restaurant extends Location{
-		Host host;
+		Role host;
 		String foodType;
 		
-		public Restaurant(String n, Host h, String type) {
+		public Restaurant(String n, Role h, String type) {
 			name = n;
 			host = h;
 			foodType = type;
@@ -467,18 +587,18 @@ public class SimCityPanel extends JPanel{
 	}
 	
 	public class Bank extends Location{
-		BankManager manager;
+		Role manager;
 		
-		public Bank(String n, BankManager m){
+		public Bank(String n, Role myJob){
 			name = n;
-			manager = m;
+			manager = myJob;
 		}
 	}
 	
 	public class Market extends Location {
-		MarketManager manager;
+		Role manager;
 		
-		public Market(String n, MarketManager m) {
+		public Market(String n, Role m) {
 			name = n;
 			manager = m;
 		}
@@ -490,5 +610,30 @@ public class SimCityPanel extends JPanel{
 		public MyLandlord(Person per) {
 			p=per;
 		}
+	}
+
+	public void startTimer() {
+		Timer timer;
+
+		 class RemindTask extends TimerTask {
+			 int counter= 0;
+		        @Override
+				public void run() {
+		        	if(counter <25) {
+		                 System.out.println("hour is " + counter);
+		                 for(Person p: people) {
+		                	 p.msgTimeUpdate(counter);
+		                 }
+		                 counter++;
+		                 if (counter == 25) {
+		                	 counter = 1;
+		                 }
+		        	}
+		        }
+		 }
+	     timer = new Timer();
+	     timer.schedule(new RemindTask(),
+	                       0,        //initial delay
+	                       1*12000);  //subsequent rate		
 	}
 }

@@ -8,6 +8,7 @@ import java.util.Random;
 import simcity.PersonAgent;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.Landlord;
+import simcity.interfaces.Person;
 import simcity.interfaces.RepairMan;
 import agent.Role;
 
@@ -49,12 +50,12 @@ public class LandlordRole extends Role implements Landlord{
 			isOccupied = false; 
 		}
 		
-		public void addTenant(PersonAgent p, Integer a) {
+		public void addTenant(Person p, Integer a) {
 			person = p; 
 			account = a;
 		}
 		
-		PersonAgent person;
+		Person person;
 		Integer account; 
 		String location; 
 		TenantState ts; 
@@ -258,7 +259,7 @@ public class LandlordRole extends Role implements Landlord{
 		bankmanager = b;
 	}
 	
-	public void addTenant(PersonAgent p, Integer account) {
+	public void addTenant(Person p, Integer account) {
 		boolean found = false; 
 		synchronized(myTenants) {
 		for (Tenant t: myTenants) {
@@ -274,6 +275,19 @@ public class LandlordRole extends Role implements Landlord{
 		if (!found) {
 			//should you send a message to the person? Or should you get a new building? 
 		}
+	}
+	
+	public void setTenants(List<PersonAgent> newTenants) {
+		int x = 0; 
+		for (Tenant t: myTenants) {
+			x++; 
+			while(!newTenants.isEmpty() && x <= myTenants.size())
+				if (!t.isOccupied) {
+					t.addTenant(newTenants.get(0), 0);
+					t.isOccupied = true;
+					newTenants.remove(0); 
+				}
+			}
 	}
 	
 	public void addUnit (String l) {

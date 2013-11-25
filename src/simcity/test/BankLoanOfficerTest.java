@@ -33,7 +33,8 @@ public class BankLoanOfficerTest extends TestCase{
 		loanOfficer = new BankLoanOfficerRole(p);
 		p.addRole(loanOfficer);
 		mgr = new MockBankManager("MockBankManager");
-		teller = new MockBankTeller("mockTeller");
+		PersonAgent p2 = new PersonAgent("mockteller");
+		teller = new MockBankTeller("mockTeller", p2);
 		loanOfficer.manager=mgr;
 		customer1= new MockBankCustomer("customer1");
 		customer2= new MockBankCustomer("customer2");

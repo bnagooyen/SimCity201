@@ -7,6 +7,7 @@ import simcity.PersonAgent;
 import simcity.housing.LandlordRole;
 import simcity.Market.MarketCashierRole;
 import simcity.test.mock.MockBankManager;
+import simcity.test.mock.MockPerson;
 import simcity.test.mock.MockRepairMan;
 import junit.framework.TestCase;
 
@@ -14,6 +15,7 @@ public class LandlordTest extends TestCase{
 	PersonAgent person;
 	PersonAgent resident; 
 	PersonAgent resident2;
+	MockPerson resident3;
 	LandlordRole landlord;
 	MockRepairMan repairman;
 	MockRepairMan repairman2;
@@ -26,9 +28,10 @@ public class LandlordTest extends TestCase{
 		landlord = new LandlordRole(person);
 		person.addRole(landlord);
 		
+		
 		resident = new PersonAgent("Resident"); 
 		resident2 = new PersonAgent("Resident2"); 
-		
+		resident3= new MockPerson("Resident3");
 		repairman = new MockRepairMan("MockRepairman");
 		repairman2 = new MockRepairMan("MockRepairman2");
 		
@@ -37,7 +40,7 @@ public class LandlordTest extends TestCase{
 	}
 	
 	public void testAskForRent() {
-		assertEquals("Landlord should have no tenants right now. It doesn't.", landlord.myTenants.size(), 0);
+		assertEquals("Landlord s8hould have no tenants right now. It doesn't.", landlord.myTenants.size(), 0);
 		assertEquals("MockBankManager should have no logs right now. It doesn't", bankmanager.log.size(), 0); 
 		
 		landlord.addUnit("B1"); 
@@ -59,12 +62,41 @@ public class LandlordTest extends TestCase{
 		landlord.msgTimeUpdate(20);
 		
 		assertEquals("MockBankManager should still have one log right now. It doesn't", bankmanager.log.size(), 1); 
-		assertEquals("Landlord should have more money now, but it doesn't.", landlord.revenue, 25.0);
+		assertEquals("Landlord should have more money now, but it doesn't.", landlord.revenue, 1025.0);
 		assertTrue("Landlord's scheduler should have returned true now, since it has to do something. It didn't.", landlord.pickAndExecuteAnAction());
 		assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
 	
-		assertEquals("Landlord should have more money now, but it doesn't.", landlord.revenue, 17.5);
+		assertEquals("Landlord should have more money now, but it doesn't.", landlord.revenue, 717.5);
 
+	}
+	
+	public void testAskRentFromTenant(){
+		assertEquals("Landlord should have no tenants right now. It doesn't.", landlord.myTenants.size(), 0);
+		assertEquals("MockPerson should have no logs right now. It doesn't", resident3.log.size(), 0); 
+		
+		landlord.addUnit("B1"); 
+		landlord.addTenant(resident3, 0);
+		
+		assertEquals("Landlord should have one tenants right now. It doesn't.", landlord.myTenants.size(), 1);
+		assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
+		assertEquals("MockBankManager should have no logs right now. It doesn't", resident3.log.size(), 0); 
+		
+		landlord.msgTimeUpdate(0);
+		
+		assertTrue("Landlord's scheduler should have returned true now, since it has to do something. It didn't.", landlord.pickAndExecuteAnAction());
+		assertTrue("MockPerson should have logged an event for receiving a request but instead it's: " + resident3.log.getLastLoggedEvent().toString(), resident3.log.containsString("Received message from Landlord"));
+		assertEquals("MockPerson should have one log right now. It doesn't", resident3.log.size(), 1); 
+		assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
+		
+		landlord.msgHereIsARentPayment(0, 25);
+		landlord.msgTimeUpdate(20);
+		
+		assertEquals("MockPerson should still have one log right now. It doesn't", resident3.log.size(), 1); 
+		assertEquals("Landlord should have more money now, but it doesn't.", landlord.revenue, 1025.0);
+		assertTrue("Landlord's scheduler should have returned true now, since it has to do something. It didn't.", landlord.pickAndExecuteAnAction());
+		assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
+		
+		assertEquals("Landlord should have more money now, but it doesn't.", landlord.revenue, 717.5);
 	}
 	
 	public void testCallForRepair() {
@@ -189,5 +221,7 @@ public class LandlordTest extends TestCase{
 		assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
 		
 	}
+	
+	
 
 }
