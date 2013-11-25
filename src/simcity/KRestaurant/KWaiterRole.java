@@ -2,6 +2,8 @@ package simcity.KRestaurant;
 
 import agent.Agent;
 import agent.Role;
+import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
 import simcity.PersonAgent;
 import simcity.KRestaurant.gui.KMovingFoodGui;
 import simcity.KRestaurant.gui.KRestaurantGui;
@@ -39,10 +41,11 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	private KRestaurantGui gui;
 
 	private Timer timer;
-	
+    public EventLog log;
+
 	int homepos;
 	
-	private WaiterState mystate;
+	public WaiterState mystate;
 	
 	public enum WaiterState 
 	{
@@ -57,6 +60,8 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 		
 		mystate = WaiterState.working;
 		menu = new KMenu();
+		log = new EventLog();
+
 
 	}
 
@@ -84,6 +89,8 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 			c.s = customerstate.waiting;
 		}
 		Do(": got msg from host to seat customer");
+		LoggedEvent e = new LoggedEvent("got msg to seat customer");
+		log.add(e);
 		stateChanged();
 	}
 
@@ -135,7 +142,9 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 		stateChanged();
 	}
 	
-	public void msgHereIsChoice(KCustomerRole cust, String choice) {
+	public void msgHereIsChoice(KCustomer cust, String choice) {
+		LoggedEvent e = new LoggedEvent("customer is ready to order");
+		log.add(e);
 		for(MyCustomer c : customers) {
 			if(c.c == cust) {
 				c.s = customerstate.ordered;
@@ -313,40 +322,40 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	
 	private void serveFood(MyCustomer c) {
 		Do("going to cook to get order");
-		DoGetFood(c.foodPickup);
-		try {
-			pickUpFood.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		DoGetFood(c.foodPickup);
+//		try {
+//			pickUpFood.acquire();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		c.f.DoGoToSeat(c.table);
 		
 		Do("got food, going to table");
 		DoGoToTable(c.table);
-		try {
-			atTable.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			atTable.acquire();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		c.c.msgHereIsYourFood();
 		c.s = customerstate.eating;
 		Do(": gave food to customer");
-		waiterGui.DoLeaveCustomer();
+//		waiterGui.DoLeaveCustomer();
 		cashier.msgBill(c.c, this, c.choice);
 	}
 	
-	private void DoGetFood(int place){
-		waiterGui.DoGetFood(place);
-	}
+//	private void DoGetFood(int place){
+//		waiterGui.DoGetFood(place);
+//	}
 	
 	private void giveNewMenu(MyCustomer c) {
 		c.s = customerstate.seated;
-		DoGoToTable(c.table);
-		try {
-			atTable.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		DoGoToTable(c.table);
+//		try {
+//			atTable.acquire();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		KMenu newm = new KMenu();
 		for(int i = 0; i< newm.foods.size(); i++) {
 			if(newm.foods.get(i).type.equals(c.choice)) {
@@ -354,26 +363,28 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 			}
 		}
 		c.c.msgOutOfChoice(newm);
-		waiterGui.DoLeaveCustomer();
+//		waiterGui.DoLeaveCustomer();
 	}
 	
 	private void seatCustomer(MyCustomer customer, int table) {
-		Do(": seating customer");
-		DoPickUpCustomer();
-		try {
-			canGetCustomer.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Do("seating customer");
+		LoggedEvent ee = new LoggedEvent("seating customer");
+		log.add(ee);
+//		DoPickUpCustomer();
+//		try {
+//			canGetCustomer.acquire();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		customer.c.msgSitAtTable(table, this, menu);
-		DoSeatCustomer(customer.c, table);
-		try {
-			atTable.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		DoSeatCustomer(customer.c, table);
+//		try {
+//			atTable.acquire();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		customer.s = customerstate.seated;
-		waiterGui.DoLeaveCustomer();
+//		waiterGui.DoLeaveCustomer();
 	}
 
 	private void DoPickUpCustomer() {
@@ -388,19 +399,20 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	
 	private void takeOrder(MyCustomer c) {
 		Do(": going to table to ask for his order");
-		DoGoToTable(c.table);
-		try {
-			atTable.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		;
+//		DoGoToTable(c.table);
+//		try {
+//			atTable.acquire();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		c.c.msgWhatWouldYouLike();
 		c.s = customerstate.askedToOrder;
-		try {
-			takeOrder.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			takeOrder.acquire();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		if(!c.choice.equals("TooExpensive")) {
 			waiterGui.DoLeaveCustomer();
 		}
@@ -424,31 +436,31 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	
 	public void giveCheck(MyCustomer c) {
 		DoGoToTable(c.table);
-		try {
-			atTable.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			atTable.acquire();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		Do("Gave customer check");
 		c.c.msgHereIsCheck(c.check);
 		c.s = customerstate.givenCheck;
-		waiterGui.DoLeaveCustomer();
+//		waiterGui.DoLeaveCustomer();
 	}
 	
 	private void cleanTable(MyCustomer c, int table) {
 		Do(": customer told me he's leaving. telling host");
 		c.s = customerstate.gone;
 		host.msgLeavingTable(c.c);
-		DoGoToTable(table);
-		try {
-			atTable.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		DoGoToTable(table);
+//		try {
+//			atTable.acquire();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		if(!c.choice.equals("TooExpensive")) {
 			c.f.setPresent(false);
 		}
-		waiterGui.DoLeaveCustomer();
+//		waiterGui.DoLeaveCustomer();
 	}
 	
 	public void tellCustomerToLeave(MyCustomer c) {
@@ -487,11 +499,11 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 		return waiterGui;
 	}
 
-	class MyCustomer {
+	public class MyCustomer {
 		KCustomer c;
 		int table;
 		String choice;
-		customerstate s;	
+		public customerstate s;	
 		KMovingFoodGui f;
 		double check;
 		int foodPickup;

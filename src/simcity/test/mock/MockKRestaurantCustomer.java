@@ -39,8 +39,8 @@ public class MockKRestaurantCustomer extends Mock implements KCustomer {
 
 	@Override
 	public void msgSitAtTable(int table, KWaiterRole w, KMenu m) {
-		// TODO Auto-generated method stub
-		
+		LoggedEvent e = new LoggedEvent("told to sit at table");
+		log.add(e);
 	}
 
 	@Override
