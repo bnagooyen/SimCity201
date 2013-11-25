@@ -289,6 +289,7 @@ public class LCookRole extends Role implements LCook {
 
 		}
 		print("Cooking order");
+		/**
 		cookGui.setFood(o.choice);
 		cookGui.DoGetFood();
 		try {
@@ -304,6 +305,7 @@ public class LCookRole extends Role implements LCook {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 		timer.schedule(new TimerTask() {
 			public void run() {
 				o.state = OrderState.cooked;
@@ -319,6 +321,7 @@ public class LCookRole extends Role implements LCook {
 	private void FinishAndTellWaiter(Order o) {
 		print("Plating food");
 		print("Finished order.");
+		/*
 		cookGui.setPlateFood();
 		cookGui.DoPlating();
 		try {
@@ -328,6 +331,7 @@ public class LCookRole extends Role implements LCook {
 			e.printStackTrace();
 		}
 		cookGui.DoHome();
+		*/
 		o.w.msgOrderIsReady(o.table, o.choice);
 		orders.remove(o);
 	}

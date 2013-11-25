@@ -298,7 +298,8 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         private void goOnBreak() {
                 Do("Going on Break");
                 waiterState = WaiterState.onBreak;
-                //waiterGui.DoLeaveCustomer();
+                /**
+                waiterGui.DoLeaveCustomer();
                 waiterGui.DoGoOnBreak();
                 try {
                     task.acquire();
@@ -306,6 +307,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+                */
                 timer.schedule(new TimerTask() {
                         public void run() {
                                 waiterState = WaiterState.backFromBreak;
@@ -324,6 +326,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         }
 
         private void seatCustomer(MyCustomers c) {
+        		/**
                 waiterGui.DoGetCustomer();
                 c.state = CustomerState.seated;
 
@@ -334,9 +337,11 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                 }
+                */
                 //print("Got a semaphore");
                 print("Seating " + c.c.getCustomerName() + " at table " + c.table);
                 c.c.msgFollowMe(c.table,m, this);
+                /**
                 waiterGui.DoGoToTable(c.table); 
                 //print("Asking for a semaphore. seatCustomer 2");
                 try {
@@ -345,9 +350,10 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                 }
+                */
                 host.msgLeftLine();
                 //print("Got a semaphore");
-                waiterGui.DoLeaveCustomer();
+                //waiterGui.DoLeaveCustomer();
                 numCust++;
                 //print("Waiter " + this.name + " seats " + c.c.getCustomerName() + ". NumCust is " + numCust);
                 print("Waiter " + this.name + " seats " + c.c.getCustomerName() + ".");
@@ -355,7 +361,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
 
         private void giveNewMenu(MyCustomers c) {
                 Do("Giving customer new menu.");
-
+                /**
                 waiterGui.DoGoToTable(c.table); 
                 //print("Asking for a semaphore. seatCustomer 2");
                 try {
@@ -364,14 +370,15 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                 }
+                */
                 //print("Got a semaphore");
                 c.c.msgPleaseReorder(m);
-                waiterGui.DoLeaveCustomer();
+                //waiterGui.DoLeaveCustomer();
                 c.state = CustomerState.newChoice;
         }
 
         private void takeOrder(MyCustomers c){
-
+        	/**
                 waiterGui.DoGoToTable(c.table);
 
                 //print("Asking for a semaphore. takeOrder1");
@@ -382,7 +389,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                         e.printStackTrace();
                 }
                 //print("Got a semaphore");
-
+		*/
                 c.c.msgWhatWouldYouLike();
                 //print("Asking " + c.c + " for their order.");
                 c.state = CustomerState.askOrder;
@@ -405,6 +412,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
 //        }
 
         private void serveOrder(final MyCustomers c){
+            	/**
                 waiterGui.DoGoToPlating();
                 try {
                         task.acquire();
@@ -425,13 +433,15 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                         e.printStackTrace();
                 }
                 //print("Got a semaphore");
-                waiterGui.gaveFood();
-                waiterGui.DoLeaveCustomer();
+                //waiterGui.gaveFood();
+                //waiterGui.DoLeaveCustomer();
+                 */
                 c.c.msgHereIsFood();
                 c.state = CustomerState.served;
         }
 
         private void tellCashier(final MyCustomers c){
+        		/**
                 waiterGui.DoGoToTable(c.table);
                 try {
                         task.acquire();
@@ -439,10 +449,12 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                 }
+                */
                 Do("Asking cashier for check");
+                /**
                 waiterGui.DoLeaveCustomer();
-                //waiterGui.DoGoToCashier();
-                //print("Asking for a semaphore. takeOrder1");
+                waiterGui.DoGoToCashier();
+                print("Asking for a semaphore. takeOrder1");
                                 try {
                                         task.acquire();
                                 } catch (InterruptedException e) {
@@ -450,12 +462,15 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                                         e.printStackTrace();
                                 }
                                 //print("Got a semaphore");
+                                 * 
+                                 */
                 cashier.msgComputeCheck(c.choice, c.c, this);
                 c.state = CustomerState.waitingOnCashier;
         }
 
         private void giveCustCheck(final MyCustomers c){
                 Do("Giving Cust Check");
+                /**
                 waiterGui.DoGoToTable(c.table);
 
                 //print("Asking for a semaphore. takeOrder1");
@@ -466,14 +481,16 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                         e.printStackTrace();
                 }
                 //print("Got a semaphore");
+                 */
                 c.c.msgHereIsCheck(c.check); //Create msgHereIsCheck
                 c.state = CustomerState.gotCheck;
-                waiterGui.DoLeaveCustomer();
+                //waiterGui.DoLeaveCustomer();
         }
 
         private void cleanTable(final MyCustomers c){
                 Do("Cleaning the table");
-                waiterGui.DoGoToTable(c.table);
+                /**
+                //waiterGui.DoGoToTable(c.table);
                 //print("Asking for a semaphore. cleanTable1");
                 try {
                         task.acquire();
@@ -484,6 +501,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                 //print("Got a semaphore");
 
                 waiterGui.DoLeaveCustomer();
+                */
                 host.msgEmptyTable(c.table, this, c.c);
                 customers.remove(c);
                 numCust--;

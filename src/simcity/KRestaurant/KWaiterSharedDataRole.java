@@ -18,7 +18,7 @@ public class KWaiterSharedDataRole extends KWaiterRole implements KWaiter{
 	protected void giveCookOrder(MyCustomer c) {
 		Do(": sending cook order of " + c.choice);
 		c.s = customerstate.waitingForFood;
-		waiterGui.DoGoToCook();
+		//waiterGui.DoGoToCook();
 		try {
 			atCook.acquire();
 		} catch (InterruptedException e) {
@@ -26,7 +26,7 @@ public class KWaiterSharedDataRole extends KWaiterRole implements KWaiter{
 		}
 		KRestaurantOrder o = new KRestaurantOrder(this, c.choice, c.table);
 		theMonitor.insert(o);
-		waiterGui.DoLeaveCustomer();
+		//waiterGui.DoLeaveCustomer();
 	}
 	
 	public void setMonitor(ProducerConsumerMonitor m) {

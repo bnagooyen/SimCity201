@@ -276,7 +276,7 @@ public class LCustomerRole extends Role implements LCustomer{
 
         private void goToRestaurant() {
                 Do("Going to restaurant");
-                customerGui.DoWait();
+                //customerGui.DoWait();
                 host.msgIWantToEat(this);//send our instance, so he can respond to us
         }
 
@@ -286,7 +286,7 @@ public class LCustomerRole extends Role implements LCustomer{
                 if(!willStay){
                         Do("Too full, deciding to leave.");
                         host.msgChoseToLeave(this);
-                        customerGui.DoExitRestaurant();
+                        //customerGui.DoExitRestaurant();
                         state = AgentState.DoingNothing;
                 }
                 else{
@@ -301,12 +301,12 @@ public class LCustomerRole extends Role implements LCustomer{
 
         private void SitDownTable(int tableNum) {
                 Do("Being seated. Going to table");
-                customerGui.DoGoToSeat(tableNum);
+                //customerGui.DoGoToSeat(tableNum);
 //                host.msgLeftLine();
         }
 
         private void DecidingOrder() {
-                customerGui.deciding();
+                //customerGui.deciding();
 
                 boolean stillOrdering = true;
                 canOrder = m.affordable(money);
@@ -329,7 +329,7 @@ public class LCustomerRole extends Role implements LCustomer{
                         },
                         1000);
 
-                        customerGui.setFood(choice);
+                        //customerGui.setFood(choice);
                         Do("Deciding order " + choice);
                 }
                 else{
@@ -351,7 +351,7 @@ public class LCustomerRole extends Role implements LCustomer{
         }
 
         private void TellingOrder() {
-                customerGui.doneDeciding();
+                //customerGui.doneDeciding();
                 Do("Telling order");
 
                 timer.schedule(new TimerTask() {
@@ -372,7 +372,7 @@ public class LCustomerRole extends Role implements LCustomer{
 
 
         private void EatFood() {
-                customerGui.gotFood();
+                //customerGui.gotFood();
 
                 Do("Eating Food");
                 //This next complicated line creates and starts a timer thread.
@@ -415,8 +415,8 @@ public class LCustomerRole extends Role implements LCustomer{
         }
 
         private void leaveTable() {
-                customerGui.ateFood();
-                customerGui.DoExitRestaurant();
+                //customerGui.ateFood();
+                //customerGui.DoExitRestaurant();
 
                 Do("Left the restaurant");
                 waiter.msgDoneEatingAndLeaving(this);

@@ -21,7 +21,7 @@ import simcity.test.mock.LoggedEvent;
 import agent.Agent;
 import agent.Role;
 
-public class BankManagerRole extends Agent implements BankManager {
+public class BankManagerRole extends Role implements BankManager {
 	
 	//data
 	public EventLog log = new EventLog();
@@ -37,8 +37,8 @@ public class BankManagerRole extends Agent implements BankManager {
 	private double employeePayPerHour=10;
 	private double vault = 1000000000;
 	
-	public BankManagerRole() {
-		super();
+	public BankManagerRole(PersonAgent p) {
+		super(p);
 		// TODO Auto-generated constructor stub
 		//startHour=7;
 		bankState=BankState.newDay;
