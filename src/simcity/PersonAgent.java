@@ -295,10 +295,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				buyCar();
 				return true;
 			}
-			if(energyState==EnergyState.tired) {
-				GoHome();
-				return true;
-			}
+
 			if(needToGoToWork) {
 				GoToWork();
 				return true;
@@ -318,6 +315,10 @@ public class PersonAgent extends Agent implements Person {//implements Person
 			}
 			if(moneyState==MoneyState.rich && myCar==null){
 				getCarLoan();
+				return true;
+			}
+			if(energyState==EnergyState.tired) {
+				GoHome();
 				return true;
 			}
 		}
