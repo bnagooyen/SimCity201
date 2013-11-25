@@ -49,6 +49,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	Map<String,Role> possibleRoles = new HashMap<String,Role>();
 	//List<Role> customerRoles = new ArrayList<Role>();
+	private Semaphore inKitchen = new Semaphore(0, true);
 	public Role myJob;
 	public Role neededRole;
 	public String mydestination;
@@ -169,6 +170,10 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	}
 	public String getName() {
 		return name;
+	}
+
+	public void msgInKitchen() {
+		inKitchen.release();
 	}
 
 	// Messages
