@@ -1,5 +1,7 @@
 package simcity.gui;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -68,7 +70,7 @@ import simcity.interfaces.Host;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.Person;
 
-public class SimCityPanel extends JPanel{
+public class SimCityPanel extends JPanel implements MouseListener{
 
 	public static final int NUMAPTS = 12;
 	public static final int NUMHOUSES = 15;
@@ -573,6 +575,8 @@ public class SimCityPanel extends JPanel{
 		// Location l
 		public String name;
 		public int numEmployees=0;
+		public int x;
+		public int y;
 	}
 	
 	public class Restaurant extends Location{
@@ -635,5 +639,67 @@ public class SimCityPanel extends JPanel{
 	     timer.schedule(new RemindTask(),
 	                       0,        //initial delay
 	                       1*12000);  //subsequent rate		
+	}
+
+
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		for (int i=0; i<restaurants.size();i++) {
+			if (e.getX()==restaurants.get(i).x && e.getY()==restaurants.get(i).y)
+             //location.get(i).showbuilding();
+            
+    }
+		for (int j=0; j<markets.size();j++) {
+			if (e.getX()==markets.get(i).x && e.getY()==markets.get(i).y)
+             //location.get(i).showbuilding();
+            
+    }
+		
+		for (int k=0; k<banks.size();k++) {
+			if (e.getX()==banks.get(i).x && e.getY()==banks.get(i).y)
+             //location.get(i).showbuilding();
+            
+    }
+		
+    
+		
+	}
+
+
+
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
