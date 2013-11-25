@@ -1,18 +1,20 @@
 package simcity.test.mock;
 
 
+import simcity.PersonAgent;
 import simcity.BRestaurant.*;
 import simcity.BRestaurant.gui.BCustomerGui;
 import simcity.interfaces.BCashier;
 import simcity.interfaces.BCustomer;
 import simcity.interfaces.BWaiter;
+import simcity.mockrole.MockRole;
 /**
  * A sample MockCustomer built to unit test a CashierAgent.
  *
  * @author Monroe Ekilah
  *
  */
-public class BMockCustomer extends Mock implements BCustomer{
+public class BMockCustomer extends MockRole implements BCustomer{
 
 	BCheck mycheck;
        
@@ -20,8 +22,8 @@ public class BMockCustomer extends Mock implements BCustomer{
         public BCashierRole cashier;
         public EventLog log=new EventLog();
 
-        public BMockCustomer(String name) {
-                super(name);
+        public BMockCustomer(String name, PersonAgent p) {
+                super(name,p);
 
         }
 

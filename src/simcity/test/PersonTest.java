@@ -78,9 +78,23 @@ public class PersonTest extends TestCase{
 		
 		assertEquals("Car should have received message from person, but it did not", car.log.size(),1);
 		
+		person.msgAtDestination("bank");
+		
+		assertEquals("My destination should be updated", "bank", person.mydestination);
+		assertEquals("My location should be updated", "bank", person.mylocation);
+		assertTrue("Person should have 1 role, job", person.roles.size()==2);
+		assertTrue("Person's transit should be getOutCar", person.transitState==TransitState.getOutCar);
+		
+		assertTrue("Person's scheduler should run transit stuff", person.pickAndExecuteAnAction());
+		
+		assertTrue("Person's transit should be getOutCar", person.transitState==TransitState.atDestination);
+		assertTrue("A second role (BankCustomer) should be added to roles", person.roles.size()==3);
+		assertTrue("BankCustomer should be active", person.roles.get(2).isActive);
+		assertEquals("BankCustomer purpose should be deposit", person.roles.get(2).purpose,"deposit");
 		
 		
 		
+		//assertTrue("Person's scheduler should run transit stuff", person.pickAndExecuteAnAction());
 	}
 
 	public void testPersonBusTransit(){
@@ -153,7 +167,6 @@ public class PersonTest extends TestCase{
 		assertTrue("Person's scheduler should have returned true, but didn't.", person.pickAndExecuteAnAction());
 
 		assertTrue("Person's state should be at destination", person.transitState==TransitState.atDestination);
-		
 		
 		
 		
