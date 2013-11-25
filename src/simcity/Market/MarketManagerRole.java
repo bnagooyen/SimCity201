@@ -26,6 +26,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	public DeliveryTruckAgent dTruck = new DeliveryTruckAgent(this);
 	public MyDeliveryTruck truck = new MyDeliveryTruck(dTruck);
 	
+	public double marketMoney;
 	public int hour;
 	public boolean isClosed;
 	public enum workerState{justArrived, available, occupied};
@@ -33,10 +34,15 @@ public class MarketManagerRole extends Role implements MarketManager{
 	
 	public MarketManagerRole(PersonAgent p) {
 		super(p);
+		marketMoney = 50000; //***********threshold all the rest deposit to the bank
 		log = new EventLog();
 	}
 
 	//Messages
+	public void msgHereIsMoney(double money){
+		marketMoney += money;
+	}
+	
 	public void msgTimeUpdate(int hour){
 		this.hour = hour;
 	}
@@ -157,16 +163,18 @@ public class MarketManagerRole extends Role implements MarketManager{
 		truck.d.msgGoToDestination(truck.mc, truck.supply, truck.destination, truck.check, truck.cook);
 	}
 	
-	private void closeMarket(){
+	private void closeMarket(){ //pay employees 50
 		Do("Closing market. It is "+hour);
 		synchronized(cashiers){
 			for(MyMarketCashier c: cashiers){
-				c.c.msgGoHome();
+				marketMoney -= 50;
+				c.c.msgGoHome(50);
 			}
 		}
 		synchronized(inventoryBoys){
 			for(InventoryBoy b: inventoryBoys){
-				b.msgGoHome();
+				marketMoney -= 50;
+				b.msgGoHome(50);
 			}
 		}   
 		cashiers.clear();
@@ -191,14 +199,16 @@ public class MarketManagerRole extends Role implements MarketManager{
 	
 	private void swapCashiers(){
 		Do("Switching out cashiers");
-		cashiers.get(0).c.msgGoHome();
+		marketMoney -= 50;
+		cashiers.get(0).c.msgGoHome(50);
 		cashiers.get(1).state = workerState.available;
 		cashiers.remove(0);
 	}
 	
 	private void swapInventoryBoys(){
 		Do("Switching out inventory boys");
-		inventoryBoys.get(0).msgGoHome();
+		marketMoney -= 50;
+		inventoryBoys.get(0).msgGoHome(50);
 		inventoryBoys.remove(0);
 	}
 	

@@ -15,7 +15,12 @@ public interface Landlord {
 	
 	public abstract void msgHereIsARentPayment(Integer AN, double cost);
 	
-	public abstract void msgCannotPayForRent(Integer AN); 
+	public abstract void msgHereIsARentPayment(PersonAgent p, double amount); 
+	
+	public abstract void msgCannotPayForRent(Integer AN);
+
+	public abstract void msgCannotPayForRent(PersonAgent p); 
 	
 	public abstract void msgJobDone(String l, double cost);
+	
 }

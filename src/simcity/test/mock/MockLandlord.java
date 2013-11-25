@@ -40,4 +40,18 @@ public class MockLandlord extends Mock implements Landlord{
 		LoggedEvent m = new LoggedEvent ("Received a bill from the repairman. Bill = " + cost); 
 		log.add(m);		
 	}
+
+
+	@Override
+	public void msgHereIsARentPayment(PersonAgent p, double amount) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void msgCannotPayForRent(PersonAgent p) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -13,9 +13,26 @@ import java.util.ArrayList;
 public class CityCard extends SimCityPanel implements MouseListener {
 
         public static final int CARD_WIDTH = 500, CARD_HEIGHT = 500;
-
+        
+        JFrame frame= new JFrame("Cardlayout");
+        JPanel panelContainer= new JPanel();
+        JPanel firstPanel=new JPanel();
+        JPanel secondPanel= new JPanel();
+        JButton firstButton=new JButton("enter restaurant");
+        JButton secondButton=new JButton("enter city");
+        CardLayout cardLayout= new CardLayout();
+        
+        
         public CityCard(SimCityGui city) {
+        		
                 super(city);
+                
+                panelContainer.setLayout(cardLayout);
+                firstPanel.add(firstButton);
+                firstPanel.add(secondButton);
+                secondPanel.add(firstButton);
+                secondPanel.add(secondButton);
+                
                 this.setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
                 this.setVisible(true);
                 addMouseListener(this);

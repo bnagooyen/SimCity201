@@ -9,6 +9,8 @@ import simcity.DRestaurant.DCashierRole;
 import simcity.DRestaurant.DCookRole;
 import simcity.Market.MFoodOrder;
 import simcity.Market.MarketCashierRole.orderState;
+import simcity.Transportation.CarAgent;
+import simcity.interfaces.Car;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.RestaurantCashier;
@@ -20,7 +22,8 @@ public class MOrder {
 	public orderState state;
 	public MarketCustomer c;
 	public Cook cook;
-	String building;
+	public String building;
+	public Car car;
 //	public Cashier cashier;
 	
 	public MOrder(List<MFoodOrder> foods, String building, MarketCustomer c, orderState state){
@@ -29,6 +32,7 @@ public class MOrder {
 		this.c = c;
 		this.state = state;
 		cook = null;
+		car = null;
 //		cashier = null;
 	}
 	
@@ -38,7 +42,17 @@ public class MOrder {
 		this.cook = cook;
 		c = null;
 		this.state = state;
+		car = null;
 //		cashier = c;
+	}
+	
+	public MOrder(String building, MarketCustomer c, orderState state){
+		this.c = c;
+		this.building = building;
+		this.state = state;
+		cook = null;
+		foodsNeeded = null;
+		car = null;
 	}
 
 	public MOrder find(Role r) {

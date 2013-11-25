@@ -9,6 +9,8 @@ import simcity.restaurant.interfaces.Cashier;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import simcity.DRestaurant.DCashierRole;
+import simcity.Transportation.CarAgent;
+import simcity.interfaces.Car;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.InventoryBoy;
@@ -23,11 +25,12 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public List<MOrder> orders =Collections.synchronizedList(new ArrayList<MOrder>());
 	
 	public boolean active;
-	public double marketMoney;
 	public EventLog log;
 	
 	public InventoryBoy ib;
 	public MarketManager manager; 
+	
+	public PersonAgent p;
 	
 	public enum orderState{pending, inquiring, ready, given, paid, done};
 	public enum myState{arrived, working, goHome, unavailable};
@@ -36,7 +39,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	public MarketCashierRole(PersonAgent p) {
 		super(p);
-		marketMoney = 0.0;
+		this.p = p;
 		log = new EventLog();
 		state = myState.arrived;
 	}
@@ -45,6 +48,12 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public void msgOrder(MarketCustomer c, List<MFoodOrder> foods, String building){
 		Do("Received an order");
 		orders.add(new MOrder(foods, building, c, orderState.pending));
+		stateChanged();
+	}
+	
+	public void msgOrder(MarketCustomer c, String building){
+		Do("Received an order");
+		orders.add(new MOrder(building, c, orderState.pending));
 		stateChanged();
 	}
 	
@@ -61,17 +70,26 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		stateChanged();
 	}
 	
+	public void msgCanGive(Car car, MOrder o){
+		Do("Received fulfilled order");
+		MOrder current = find(o, orders);
+		current.car = car;
+		current.state = orderState.ready;
+		stateChanged();
+	}
+	
 	public void msgHereIsPayment(Role r, double payment){
 		Do("Receiving payment");
 		MOrder current = find(r,orders);
 		System.out.println("Current: "+current);
 		current.state = orderState.paid;
-		marketMoney += payment;
+		manager.msgHereIsMoney(payment);
 		stateChanged();
 	}
 	
-	public void msgGoHome(){
+	public void msgGoHome(double paycheck){
 		Do("Told to go home");
+		p.money += paycheck;
 		state = myState.goHome;
 		stateChanged();
 	}
@@ -139,6 +157,9 @@ public class MarketCashierRole extends Role implements MarketCashier{
 			DoDeliverFood();
 			o.c.msgHereIsOrderAndCheck(o.canGive, check);
 		}
+		else if(o.foodsNeeded == null){
+			o.c.msgHereIsCarAndCheck(o.car, check);
+		}
 		else{
 			//phone order from cook
 //			o.cashier.msgBillFromMarket(check, this);
@@ -174,6 +195,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 
 	//Utilities
+
 	
 	private MOrder find(Role r, List<MOrder> orders){
 		MOrder order = null;
@@ -204,9 +226,31 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		}
 		return order;
 	}
+	
+//	public class MCarOrder extends MOrder{
+//		String building;
+//		orderState state;
+//		MarketCustomer c;
+//		
+//		MCarOrder(String b, MarketCustomer cust, orderState s){
+//			super(b,cust,s);
+//		}
+//	}
+	
 	private double calculateCheck(MOrder o) {
-		// TODO Auto-generated method stub
-		return 0;
+		double cost = 0;
+		
+		if(o.foodsNeeded == null){
+			return 1000;
+		}
+		
+		else{
+			for(int i =0; i < o.foodsNeeded.size(); i++){
+				cost += (o.foodsNeeded.get(i).price * o.foodsNeeded.get(i).amount);
+			}
+		}
+		
+		return cost;
 	}
 	
 	private void DoGiveFood() {

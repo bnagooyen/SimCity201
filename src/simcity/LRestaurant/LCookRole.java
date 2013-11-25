@@ -10,9 +10,9 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
-import simcity.KRestaurant.ProducerConsumerMonitor;
-import simcity.KRestaurant.KCookRole.MarketOrder;
-import simcity.KRestaurant.KCookRole.marketOrderState;
+import simcity.LRestaurant.LRestaurantOrder;
+import simcity.LRestaurant.ProducerConsumerMonitor;
+import simcity.LRestaurant.LCookRole.Order;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
 import simcity.LRestaurant.gui.LCookGui;
 import simcity.Market.MFoodOrder;
@@ -65,6 +65,10 @@ public class LCookRole extends Role implements LCook {
 	public void msgHereIsAnOrder(int table, String choice, LWaiterRole w) {//from animation
 		//print("Received order from " + choice);
 		orders.add(new Order(table, choice,w,OrderState.pending));
+		stateChanged();
+	}
+	
+	private void msgTimeToCheckStand() {
 		stateChanged();
 	}
 
@@ -182,6 +186,8 @@ public class LCookRole extends Role implements LCook {
 			}
 		}
 		
+			checkRotatingStand();
+		
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
@@ -191,6 +197,22 @@ public class LCookRole extends Role implements LCook {
 
 	// Actions
 
+	private void checkRotatingStand() {
+		LRestaurantOrder newOrder = theMonitor.remove();
+		if(newOrder != null) {
+			Order o = new Order(newOrder.w, newOrder.choice, newOrder.table, OrderState.pending);
+			orders.add(o);
+			}
+		else{
+			timer.schedule(new TimerTask() {
+				public void run() {
+						msgTimeToCheckStand();
+					}
+				},
+				2000);
+		}
+	}
+	
 	private void giveCashierCheck(MarketOrder m) {
 		Do("Handing market check over to cashier");
 		cashier.msgHereIsSupplyCheck(m.check, m.cashier);

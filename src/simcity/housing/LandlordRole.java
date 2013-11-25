@@ -14,7 +14,7 @@ import agent.Role;
 public class LandlordRole extends Role implements Landlord{
 	//data
 	int hour;  
-	public double revenue = 0;					//money landlord keeps to pay utilities
+	public double revenue = 1000;				//money landlord keeps to pay utilities
 	final double rentBill = 25; 				//cost of rent each day
 	Random WorkerToday = new Random();			//the worker landlord decides to call that day
 	BankManager bankmanager; 
@@ -185,14 +185,12 @@ public class LandlordRole extends Role implements Landlord{
 		synchronized(myTenants) {
 		for(Tenant t:myTenants) {
 			if (t.isOccupied == true) {
-				/**
 				if (t.account == 0) {
-					t.person.msgHereIsYourRentBill(rentBill); 
+					t.person.msgHereIsYourRentBill(this, rentBill); 
 				}
 				else {
-				*/
 					bankmanager.msgHereIsYourRentBill(this, t.account, rentBill);
-				//}
+				}
 			}
 		}
 		}

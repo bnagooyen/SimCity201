@@ -31,6 +31,7 @@ public class TWaiterRole extends Role implements TWaiter{
 	public boolean askingForBreak = false; 
 	Timer timer = new Timer();
 	private Menu menu = new Menu();
+	private OrderStand orders; 
 
 
 	public TWaiterGui waiterGui = null;
@@ -317,7 +318,8 @@ public class TWaiterRole extends Role implements TWaiter{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//edit table here instead. 
+		RotatingOrders o = new RotatingOrders(this, c.choice, c.table); 
+		orders.insert(o);
 		waiterGui.DoLeaveCustomer(); 
 	}
 

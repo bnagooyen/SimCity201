@@ -11,6 +11,8 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
+import simcity.KRestaurant.KRestaurantOrder;
+import simcity.KRestaurant.ProducerConsumerMonitor;
 import simcity.KRestaurant.KCookRole.marketOrderState;
 import simcity.Market.MFoodOrder;
 import simcity.TTRestaurant.THostRole.Table;
@@ -22,6 +24,9 @@ import simcity.TTRestaurant.gui.TCookGui;
  */
 
 public class TCookRole extends Role implements TCook {
+	
+	private OrderStand myStand;
+
 	Timer timer = new Timer();
 	private String name; 
 	public boolean buyingFood = false;
@@ -78,6 +83,10 @@ public class TCookRole extends Role implements TCook {
 		o.setOrder(choice);
 		orders.add(o); 
 		print("Cook has received customer orders.");
+		stateChanged(); 
+	}
+	
+	private void msgCheckStand() {
 		stateChanged(); 
 	}
 	
@@ -138,6 +147,17 @@ public class TCookRole extends Role implements TCook {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		synchronized(markets) {
+			for (Market m:markets) {
+				if( m.state == MarketState.paying ){
+					sendCheck(m); 
+					return true; 
+				}
+			}
+		}
+		if (unFullfilled == true) {
+			//BuyFood(); 
+		}
 		if (!orders.isEmpty()){
 			synchronized(orders) {
 			for (int index = 0; index < orders.size(); index++) {
@@ -198,16 +218,11 @@ public class TCookRole extends Role implements TCook {
 			}
 			}
 		}
-		synchronized(markets) {
-		for (Market m:markets) {
-			if( m.state == MarketState.paying ){
-				sendCheck(m); 
-			}
+		else {
+			checkOrders(); 
+			return true; 
 		}
-		}
-		if (unFullfilled == true) {
-			//BuyFood(); 
-		}
+
      return false; 
 		
 	}
@@ -258,7 +273,17 @@ public class TCookRole extends Role implements TCook {
 	}
 	
 	private void checkOrders() {
-		
+		RotatingOrders newOrder = myStand.remove();
+		if (newOrder != null) {
+			
+		}
+		else {
+			timer.schedule(new TimerTask() {
+				public void run() {
+					msgCheckStand(); 
+				}
+			}, 2000); 
+		}
 	}
 	
 	private void BuyFood() {
@@ -356,31 +381,6 @@ public class TCookRole extends Role implements TCook {
 	        return cookGui;
 	}
 
-	
-	public class OrderStand extends Object {
-		private Vector <Orders> rotatingTable;
-		
-		OrderStand() {
-			
-		}
-		
-		synchronized public void insert() {
-			
-		}
-		
-		synchronized public void remove() {
-			
-		}
-		
-		private void insertOrder() {
-			
-		}
-		
-		private void removeOrder() {
-			
-		}
-		
-	}
 
 
 	@Override
