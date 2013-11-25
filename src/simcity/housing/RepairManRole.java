@@ -32,7 +32,7 @@ public class RepairManRole extends Role implements RepairMan {
 		String building; 
 	}
 	
-	final double bill = 30; //constant for the cost of utilities each day
+	final double bill = 15; 	//constant for the cost of utilities each day
 	Timer timer = new Timer();
 	
 	public RepairManRole(PersonAgent p) {
