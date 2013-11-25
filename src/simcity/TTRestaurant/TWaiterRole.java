@@ -238,7 +238,7 @@ public class TWaiterRole extends Role implements TWaiter{
 				}
 				for (int index = 0; index < myCustomers.size(); index++) {
 					if (myCustomers.get(index).state == CustomerState.orderDone) {
-						goToCook();
+						//goToCook();
 						giveOrder(myCustomers.get(index).c, myCustomers.get(index).table, myCustomers.get(index).choice);
 						myCustomers.get(index).state = CustomerState.Eating; 
 						return true; 
@@ -246,7 +246,7 @@ public class TWaiterRole extends Role implements TWaiter{
 				}
 				for (int index = 0; index < myCustomers.size(); index++) {
 					if (myCustomers.get(index).state == CustomerState.waiting) {
-						waiterGui.getCustomer();
+						//waiterGui.getCustomer();
 						try {
 							withCustomer.acquire();
 						} catch (InterruptedException e1) {
@@ -274,27 +274,27 @@ public class TWaiterRole extends Role implements TWaiter{
 	// Actions
 
 	private void seatCustomer(customers customer) {
-		DoGetCustomer(); 
+		//DoGetCustomer(); 
 		menu.setMenu(); 
 		customer.c.msgSitAtTable(customer.table, menu.foodChoices);
 		customer.state = CustomerState.seated;
 		customer.c.setWaiter(this);
-		DoSeatCustomer(customer.c, customer.table);
+		//DoSeatCustomer(customer.c, customer.table);
 		try {
 			atTable.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		waiterGui.DoLeaveCustomer();
+		//waiterGui.DoLeaveCustomer();
 	}
 
 	private void goToTable (TCustomer c, int table) throws InterruptedException {
 		print("Going to table " + table + " to take order");
-		DoGoToTable(table);
+		//DoGoToTable(table);
 		atTable.acquire(); 
 		c.msgWhatWouldYouLike();
-		waiterGui.DoLeaveCustomer();
+		//waiterGui.DoLeaveCustomer();
 	}
 
 	private void setOrder(TCustomer c, String o) {
@@ -311,6 +311,7 @@ public class TWaiterRole extends Role implements TWaiter{
 
 	private void callCook(customers c) {
 		print("in callCook");
+		/**
 		goToCook(); 
 		try {
 			atCook.acquire();
@@ -318,12 +319,14 @@ public class TWaiterRole extends Role implements TWaiter{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 		RotatingOrders o = new RotatingOrders(this, c.choice, c.table); 
 		orders.insert(o);
-		waiterGui.DoLeaveCustomer(); 
+		//waiterGui.DoLeaveCustomer(); 
 	}
 
 	private void giveOrder(TCustomer c, int t, String f) {
+		/**
 		goToCook();
 		try {
 			atCook.acquire();
@@ -331,19 +334,20 @@ public class TWaiterRole extends Role implements TWaiter{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		waiterGui.holdingFood = true; 
-		waiterGui.setFood(f);
-		DoGoToTable(t);
+		//waiterGui.holdingFood = true; 
+		//waiterGui.setFood(f);
+		//DoGoToTable(t);
 		try {
 			atTable.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 		print("Giving customer their order.");
 		c.msgHeresYourOrder(); 
-		waiterGui.holdingFood = false; 
-		waiterGui.DoLeaveCustomer();
+		//waiterGui.holdingFood = false; 
+		//waiterGui.DoLeaveCustomer();
 	}
 	
 	private void callCashier(TCustomer c) {
@@ -355,6 +359,7 @@ public class TWaiterRole extends Role implements TWaiter{
 	}
 	
 	private void giveCheck(TCustomer c, int tab, double check) {
+		/**
 		DoGoToTable(tab);
 		try {
 			atTable.acquire();
@@ -362,9 +367,10 @@ public class TWaiterRole extends Role implements TWaiter{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 		print("Gave check to customer"); 
 		c.msgHereIsYourCheck(check); 
-		waiterGui.DoLeaveCustomer();
+		//waiterGui.DoLeaveCustomer();
 	}
 	
 
@@ -386,8 +392,8 @@ public class TWaiterRole extends Role implements TWaiter{
 
 	private void takeBreak() {
 		print("Taking my break"); 
-		waiterGui.DoGoOnBreak();
-		waiterGui.setBreak();
+		//waiterGui.DoGoOnBreak();
+		//waiterGui.setBreak();
 		timer.schedule(new TimerTask() {
 			public void run() {
 				DoneWithBreak(); 
@@ -398,11 +404,12 @@ public class TWaiterRole extends Role implements TWaiter{
 
 	public void DoneWithBreak() {
 		print("Done with my break");
-		waiterGui.DoLeaveCustomer();
-		waiterGui.offBreak(); 
+		//waiterGui.DoLeaveCustomer();
+		//waiterGui.offBreak(); 
 		host.msgOffBreak(this); 
 	}
-
+	
+	/**
 	// The animation DoXYZ() routines
 	private void DoGetCustomer() {
 		waiterGui.getCustomer();  
@@ -422,6 +429,7 @@ public class TWaiterRole extends Role implements TWaiter{
 		waiterGui.DoGoToCook();
 	}
 
+	*/
 	//utilities
 
 	public void setGui(TWaiterGui gui) {
