@@ -18,7 +18,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class BWaiterRole extends Role implements BWaiter{
+public abstract class BWaiterRole extends Role implements BWaiter{
 	static final int NTABLES = 3;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -28,6 +28,7 @@ public class BWaiterRole extends Role implements BWaiter{
 	public int customerTable;
 	public String customerOrder;
 	private BHostRole host;
+	protected Semaphore atCook = new Semaphore(0, true);
 	private boolean requestBreak;
 	private boolean onBreak=false;
 	Timer timer= new Timer();
