@@ -14,7 +14,7 @@ public interface MarketCashier {
 	public abstract void msgOrder(Cook cook, List<MFoodOrder> foods, String building);
 	public abstract void msgCanGive(MOrder o);
 	public abstract void msgHereIsPayment(Role r, double payment);
-	public abstract void msgGoHome();
+	public abstract void msgGoHome(double paycheck);
 	public abstract void msgCanGive(Car currCar, MOrder o);
 
 }

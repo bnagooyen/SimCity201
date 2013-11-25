@@ -25,6 +25,8 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	MarketCashier mc;
 	MarketManager manager;
 	
+	PersonAgent p;
+	
 	enum state {arrived, working, leave, unavailable }
 	state s;
 	
@@ -33,6 +35,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	
 	public InventoryBoyRole(PersonAgent p) {
 		super(p);
+		this.p = p;
 		log = new EventLog();
 		
 		// populate inventory
@@ -56,10 +59,11 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 		stateChanged();
 	}
 	
-	public void msgGoHome() {
+	public void msgGoHome(double paycheck) {
 		Do("Told to go home");
 		LoggedEvent e = new LoggedEvent("told to go home");
 		log.add(e);
+		p.money += paycheck;
 		s = state.leave;
 		stateChanged();
 	}
@@ -141,4 +145,5 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	public void setMarketManager(MarketManager m) {
 		this.manager = m;
 	}
+
 }

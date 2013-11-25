@@ -25,11 +25,12 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public List<MOrder> orders =Collections.synchronizedList(new ArrayList<MOrder>());
 	
 	public boolean active;
-	public double marketMoney;
 	public EventLog log;
 	
 	public InventoryBoy ib;
 	public MarketManager manager; 
+	
+	public PersonAgent p;
 	
 	public enum orderState{pending, inquiring, ready, given, paid, done};
 	public enum myState{arrived, working, goHome, unavailable};
@@ -38,7 +39,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	public MarketCashierRole(PersonAgent p) {
 		super(p);
-		marketMoney = 0.0;
+		this.p = p;
 		log = new EventLog();
 		state = myState.arrived;
 	}
@@ -82,12 +83,13 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		MOrder current = find(r,orders);
 		System.out.println("Current: "+current);
 		current.state = orderState.paid;
-		marketMoney += payment;
+		manager.msgHereIsMoney(payment);
 		stateChanged();
 	}
 	
-	public void msgGoHome(){
+	public void msgGoHome(double paycheck){
 		Do("Told to go home");
+		p.money += paycheck;
 		state = myState.goHome;
 		stateChanged();
 	}

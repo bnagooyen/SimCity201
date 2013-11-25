@@ -276,6 +276,19 @@ public class LandlordRole extends Role implements Landlord{
 		}
 	}
 	
+	public void setTenants(List<PersonAgent> newTenants) {
+		int x = 0; 
+		for (Tenant t: myTenants) {
+			x++; 
+			while(!newTenants.isEmpty() && x <= myTenants.size())
+				if (!t.isOccupied) {
+					t.addTenant(newTenants.get(0), 0);
+					t.isOccupied = true;
+					newTenants.remove(0); 
+				}
+			}
+	}
+	
 	public void addUnit (String l) {
 		myTenants.add(new Tenant(l));
 	}

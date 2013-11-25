@@ -28,6 +28,7 @@ public class ListPanel extends JPanel implements ActionListener {
     private JTextField myPersonMoneyVal = new JTextField(); 
     private JComboBox roleSelection = new JComboBox();
     private JComboBox scenarioSelection = new JComboBox();
+    private JComboBox houseOrApt = new JComboBox();
     private SimCityPanel simcityPanel;
     private String type;
     private Object currentPerson;/* Holds the agent that the info is about.
@@ -71,25 +72,29 @@ public class ListPanel extends JPanel implements ActionListener {
         
       	roleSelection.addItem("Role..");
     	roleSelection.addItem("Restaurant Waiter");
-    	roleSelection.addItem("Restaurant Host");
-    	roleSelection.addItem("Restaurant Cashier");
-    	roleSelection.addItem("Restaurant Cook");
-    	roleSelection.addItem("Bank Teller");
-    	roleSelection.addItem("Bank Loan Officer");
-    	roleSelection.addItem("Market Teller");
     	roleSelection.addItem("Market Inventory");
-        
+    	roleSelection.addItem("Bank Robber");
+    	
     	roleSelection.addActionListener(this);
     	
     	addPerson.add(new JLabel("<html><u>" + type + "</u></html>"));
-    	addPerson.add(new JLabel());
+    	addPersonB.addActionListener(this);
+    	addPerson.add(addPersonB);
     	addPerson.add(new JLabel("Name"));
     	addPerson.add(new JLabel("MoneyValue"));
     	addPerson.add(myPerson);
     	addPerson.add(myPersonMoneyVal);
     	addPerson.add(roleSelection);
-    	  addPersonB.addActionListener(this);
-    	addPerson.add(addPersonB);
+//    	JPanel housingAndStart = new JPanel();
+//    	housingAndStart.setLayout(new GridLayout(1,2));
+//    	houseOrApt.setPreferredSize(new Dimension(70, 10));
+    	houseOrApt.addItem("Apartment");
+    	houseOrApt.addItem("House");
+    	addPerson.add(houseOrApt);
+    	
+//    	addPersonB.setPreferredSize(new Dimension(50,10));
+    	  
+    	
         
         Dimension dim = new Dimension(250, 250);
         pane.setSize(dim);
@@ -128,9 +133,11 @@ public class ListPanel extends JPanel implements ActionListener {
             //addPerson(JOptionPane.showInputDialog("Please enter a name:"));
         	String userInput1=(myPerson.getText()).trim();
         	String userInput2 = (myPersonMoneyVal).getText().trim();
-        	
-        	if(!userInput1.isEmpty() && !userInput2.isEmpty())
-        		addPerson(myPerson.getText());
+        	double moneyVal=Double.parseDouble(userInput2);
+        	System.out.println((String)roleSelection.getSelectedItem());
+        	System.out.println(userInput1);
+        	if(!userInput1.isEmpty() && !userInput2.isEmpty() && !((String)roleSelection.getSelectedItem()).equals("Role.."))
+        		addPerson(userInput1, moneyVal, (String)roleSelection.getSelectedItem(), (String)houseOrApt.getSelectedItem());
         	else return;
         }
 //        else if(e.getSource() == addPersonAndSetHungryB) {
@@ -193,10 +200,9 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param name name of new person
      */
     
-    public void addPerson(String name) {
+    public void addPerson(String name, double moneyVal, String role, String houseOrApt) {
     		JPanel myPersonControls = new JPanel();
         	JPanel adding = new JPanel();
-//        	myPerson.setLayout(new BorderLayout());
             JLabel button = new JLabel(name, SwingConstants.CENTER);
 //            System.err.println("addPerson");
             button.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -210,7 +216,7 @@ public class ListPanel extends JPanel implements ActionListener {
 
             Dimension paneSize = pane.getSize();
             Dimension buttonSize = new Dimension(paneSize.width - 50,
-                    30);
+                    40);
             button.setPreferredSize(buttonSize);
             button.setMinimumSize(buttonSize);
             button.setMaximumSize(buttonSize);
@@ -221,7 +227,7 @@ public class ListPanel extends JPanel implements ActionListener {
             
             adding.add(button, BorderLayout.CENTER);
             view.add(adding);
-            simcityPanel.addPerson(type, name);//puts customer on list
+            simcityPanel.addPerson(name, role, moneyVal, houseOrApt);//puts customer on list
             //restPanel.showInfo(type, name);//puts hungry button on panel
             validate();
         
