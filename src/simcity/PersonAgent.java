@@ -5,7 +5,7 @@ import agent.Role;
 import simcity.restaurant.interfaces.Cashier;
 import simcity.BRestaurant.BCustomerRole;
 import simcity.Bank.BankCustomerRole;
-import simcity.Bank.BankManagerRole.MyClient;
+//import simcity.Bank.BankManagerRole.MyClient;
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DCustomerRole.AgentEvent;
 import simcity.DRestaurant.DOrder.OrderState;
@@ -44,7 +44,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	Bus bus;
 	BusStop busStop;
 	public Car myCar=null;
-	List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
+	public List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	Map<String,Role> possibleRoles = new HashMap<String,Role>();
 	//List<Role> customerRoles = new ArrayList<Role>();
 	public Role myJob;
@@ -478,8 +478,10 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		}
 		else{
 			for(Role role:roles){
-				if(role==neededRole) role.isActive=true;
-				haveRole=true;
+				if(role==neededRole){
+					role.isActive=true;		
+					haveRole=true;
+				}
 			}
 			if(!haveRole){
 				roles.add(neededRole);

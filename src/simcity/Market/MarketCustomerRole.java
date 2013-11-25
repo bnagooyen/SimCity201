@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import simcity.PersonAgent;
+import simcity.Transportation.CarAgent;
+import simcity.interfaces.Car;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
@@ -23,9 +25,11 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         private MarketCashier mc;
         private MarketManager manager;
         public EventLog log;
+        private PersonAgent p;
         
         public MarketCustomerRole(PersonAgent p) {
                 super(p); 
+                this.p = p;
                 log = new EventLog();
                 state = customerState.talkToManager;
         }
@@ -51,6 +55,15 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
                 updateMyFood(canGive);
                 state = customerState.paying;
                 stateChanged();
+        }
+        
+        public void msgHereIsCarAndCheck(Car car, double check){
+        	Do("Got car and check");
+        	
+        	myCheck = check;
+        	p.myCar = car;
+        	state = customerState.paying;
+            stateChanged();
         }
 
         public void msgMarketClosed() {
@@ -107,7 +120,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
                 LoggedEvent e = new LoggedEvent("paying check");
                 log.add(e);
                 state = customerState.done;
+                p.money -= myCheck;
                 mc.msgHereIsPayment(this, myCheck);
+                myCheck = 0;
                 isActive = false;
         }
         

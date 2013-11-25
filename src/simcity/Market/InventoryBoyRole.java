@@ -10,6 +10,8 @@ import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import simcity.PersonAgent;
 import simcity.DRestaurant.DFoodOrder;
+import simcity.Transportation.CarAgent;
+import simcity.interfaces.Car;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
@@ -18,6 +20,7 @@ import agent.Role;
 public class InventoryBoyRole extends Role implements InventoryBoy{
 	public List<MOrder> orders = Collections.synchronizedList(new ArrayList<MOrder>());
 	public Map<String, Integer> inventory =Collections.synchronizedMap( new HashMap<String, Integer>());
+	public List<Car> cars = Collections.synchronizedList(new ArrayList<Car>());
 
 	MarketCashier mc;
 	MarketManager manager;
@@ -37,6 +40,10 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
         inventory.put("Chicken", 20);
         inventory.put("Salad", 20);
         inventory.put("Pizza", 20);
+        
+        for(int i = 0; i<20; i++){
+        	cars.add(new CarAgent());
+        }
 
 	}
 
@@ -91,9 +98,15 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 		LoggedEvent e = new LoggedEvent("fulfilling an order");
 		log.add(e);
 		
+		if(o.foodsNeeded == null){ //customer ordered a car
+			Car currCar = cars.get(0);
+			mc.msgCanGive(currCar, o);
+			cars.remove(currCar);
+		}
+		
 		for(MFoodOrder f : o.foodsNeeded) {
 			int currFood = inventory.get(f.type);
-			if ( currFood > f.amount) {
+			if (currFood > f.amount) {
 				o.canGive.add(new MFoodOrder(f.type, f.amount));
 				inventory.put(f.type, inventory.get(f.type) -f.amount);
 			}
@@ -101,8 +114,8 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 				o.canGive.add(new MFoodOrder(f.type, currFood));
 				inventory.put(f.type, 0);
 			}
+			mc.msgCanGive(o);
 		}
-		mc.msgCanGive(o);
 		orders.remove(o);
 	}
 	

@@ -6,6 +6,7 @@ import agent.Role;
 import simcity.DRestaurant.DCashierRole;
 import simcity.Market.MFoodOrder;
 import simcity.Market.MOrder;
+import simcity.Transportation.CarAgent;
 import simcity.restaurant.interfaces.Cashier;
 
 public interface MarketCashier {
@@ -14,5 +15,6 @@ public interface MarketCashier {
 	public abstract void msgCanGive(MOrder o);
 	public abstract void msgHereIsPayment(Role r, double payment);
 	public abstract void msgGoHome();
+	public abstract void msgCanGive(Car currCar, MOrder o);
 
 }
