@@ -394,7 +394,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				possibleRoles.get("market").purpose="food";
 				Role r = possibleRoles.get("market");
 				((MarketCustomerRole) r).populateOrderList("Chicken", 1);
-				((MarketCustomerRole) r).populateOrderList("Pizza", 1);
+				((MarketCustomerRole) r).populateOrderList("P", 1);
 
 			}
 			else{
