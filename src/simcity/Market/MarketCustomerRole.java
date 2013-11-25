@@ -80,9 +80,13 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
                         goToManager();
                         return true; 
                 }
-                if ( state == customerState.timeToOrder ) {
+                if ( state == customerState.timeToOrder && !purpose.equals("car")) {
                         orderFood();
                         return true;
+                }
+                if( state == customerState.timeToOrder && purpose.equals("car")) {
+                    orderCar();
+                    return true;
                 }
                 if ( state == customerState.paying ) {
                         payCheck();
@@ -115,6 +119,16 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
                 
 /************fix this message when figure out where person lives******************************************/
                 mc.msgOrder(this, order, "");
+        }
+        
+        private void orderCar(){
+        	Do("Telling cashier my car order");
+        	state = customerState.waiting;
+            LoggedEvent e = new LoggedEvent("telling cashier my car order");
+            log.add(e);
+            
+           // **********fix this message when figure out where person lives******************************************/
+            mc.msgCarOrder(this, "");
         }
 
         private void payCheck() {

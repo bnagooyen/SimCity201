@@ -51,7 +51,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		stateChanged();
 	}
 	
-	public void msgOrder(MarketCustomer c, String building){
+	public void msgCarOrder(MarketCustomer c, String building){ 
 		Do("Received an order");
 		orders.add(new MOrder(building, c, orderState.pending));
 		stateChanged();

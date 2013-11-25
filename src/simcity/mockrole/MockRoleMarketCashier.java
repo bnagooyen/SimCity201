@@ -50,6 +50,13 @@ public class MockRoleMarketCashier extends MockRole implements MarketCashier{
 		log.add(e);
 		
 	}
+	
+	public void msgOrder(MarketCustomer c,String building) {
+		LoggedEvent e = new LoggedEvent("got customer's order");
+		log.add(e);
+		
+		
+	}
 
 	public void msgCanGive(MOrder o) {
 		LoggedEvent e = new LoggedEvent("got order back of what we can give customer");
