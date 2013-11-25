@@ -23,7 +23,7 @@ import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
 
 /**
- * Restaurant Cook Agent
+ * Restaurant Cook Role
  */
 //We only have 2 types of agents in this prototype. A customer and an agent that
 //does all the rest. Rather than calling the other agent a waiter, we called him
@@ -103,7 +103,7 @@ public class LCookRole extends Role implements LCook {
 //		stateChanged();
 //	}
 	
-	public void msgHereIsDelivery(List<MFoodOrder> canGiveMe, double bill, MarketManager manager, MarketCashier cashier) {
+	public void msgHereIsDelivery(List<MFoodOrder> delivery, double bill, MarketManager manager, MarketCashier cashier) {
 		print("Got food from "+ manager);
 		
 		for(MarketOrder m : marketOrders) {
@@ -113,7 +113,7 @@ public class LCookRole extends Role implements LCook {
 			}
 		}
 		
-		for(MFoodOrder f : canGiveMe) {
+		for(MFoodOrder f : delivery) {
 			Do("got " + f.amount + " of " + f.type);
 			Food currentFood = foods.get(f.type);
 			foods.get(f.type).state = MarketState.noOrder;
@@ -224,17 +224,26 @@ public class LCookRole extends Role implements LCook {
 	}
 
 	private void orderFromMarket(String choice, int orderAmount){
-//		int orderAmount = foods.get(o.choice).capacity - foods.get(o.choice).amount;
-//		foods.get(o.choice).state = MarketState.noOrder;
 
+		//inserting food that needs to be ordered
 		List<MFoodOrder> needed = new ArrayList<MFoodOrder>();
 		needed.add(new MFoodOrder(choice, orderAmount));
+		
+		//choosing market to order from randomly
 		Random rand = new Random();
 		int select = rand.nextInt(markets.size());
 		MarketManager m = markets.get(select);
+		
+		//accounting for which market ordering from
 		marketOrders.add(new MarketOrder(m));
+		
+		//Calling order into specific market
 		m.msgIAmHere((Role) this, needed, "LRestaurant", "cook");
 		
+		
+		
+//		int orderAmount = foods.get(o.choice).capacity - foods.get(o.choice).amount;
+//		foods.get(o.choice).state = MarketState.noOrder;
 //		synchronized(markets){
 //			for(MyMarket m : markets){
 //				if(m.supply.get(o.choice)){
@@ -286,6 +295,8 @@ public class LCookRole extends Role implements LCook {
 			//call an individual action to implement all below
 			//foods.get(o.choice).needMarket = true;
 //			foods.get(o.choice).state = MarketState.firstOrder;
+			
+			
 			foods.get(o.choice).state = MarketState.order;
 			int orderAmount = foods.get(o.choice).capacity - foods.get(o.choice).amount;
 			foods.get(o.choice).need = orderAmount;

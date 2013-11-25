@@ -8,6 +8,7 @@ import simcity.LRestaurant.LMenu;
 import simcity.PersonAgent;
 import simcity.interfaces.LCustomer;
 import simcity.interfaces.LWaiter;
+import simcity.test.mock.EventLog;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -31,13 +32,14 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         private String name;
         Timer timer = new Timer();
         private boolean onBreak;
+        EventLog log;
 
 
         protected Semaphore task = new Semaphore(0,true);
 
         public LWaiterGui waiterGui = null;
         private LMenu m = new LMenu();
-        private WaiterState waiterState;
+        public WaiterState waiterState;
 
         LCookRole cook;
         LHostRole host;
@@ -54,6 +56,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                 this.name = p.getName();
                 onBreak = false;
                 waiterState = WaiterState.working;
+                log = new EventLog();
         }
 
 //        public WaiterRole() {

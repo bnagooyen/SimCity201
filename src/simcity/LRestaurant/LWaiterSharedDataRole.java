@@ -5,6 +5,7 @@ import simcity.LRestaurant.LRestaurantOrder;
 import simcity.LRestaurant.ProducerConsumerMonitor;
 import simcity.LRestaurant.LWaiterRole.CustomerState;
 import simcity.interfaces.LWaiter;
+import simcity.test.mock.LoggedEvent;
 
 public class LWaiterSharedDataRole extends LWaiterRole implements LWaiter{
 
@@ -17,6 +18,9 @@ public class LWaiterSharedDataRole extends LWaiterRole implements LWaiter{
 
 	@Override
 	protected void giveCookOrder(MyCustomers c) {
+		LoggedEvent e = new LoggedEvent("Giving order to cook");
+        log.add(e);
+		
 		//waiterGui.DoGoToCook();
 		Do("Sending cook order");
 		c.state = CustomerState.waitForFood;

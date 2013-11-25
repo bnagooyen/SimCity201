@@ -5,6 +5,7 @@ import java.util.List;
 import simcity.PersonAgent;
 import simcity.Market.MFoodOrder;
 import simcity.Market.MarketCustomerRole;
+import simcity.interfaces.Car;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
 
@@ -37,6 +38,12 @@ public class MockMarketCustomer extends Mock implements MarketCustomer{
 
 	@Override
 	public void msgMarketClosed() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgHereIsCarAndCheck(Car car, double check) {
 		// TODO Auto-generated method stub
 		
 	}
