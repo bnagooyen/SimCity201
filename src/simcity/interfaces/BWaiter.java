@@ -3,6 +3,7 @@ package simcity.interfaces;
 import simcity.PersonAgent;
 import simcity.interfaces.*;
 import simcity.BRestaurant.*;
+import simcity.BRestaurant.BWaiterRole.myCustomer;
 
 
 
@@ -21,6 +22,7 @@ public interface BWaiter {
 	public abstract void msgReadytoOrder(BCustomer customer);
 	public abstract void setCashier(BCashier cashier);
 	public abstract void msgOutOfThatFood(int tablenumber);
+	
        
 	
 }

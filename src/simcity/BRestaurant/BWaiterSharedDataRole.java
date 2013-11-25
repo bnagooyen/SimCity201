@@ -18,7 +18,7 @@ public class BWaiterSharedDataRole extends BWaiterRole implements BWaiter{
 
 	protected void giveCookOrder(myCustomer c) {
 		Do(": sending cook order of " + c.choice);
-		c.cusState = customerState.orderPending;
+		c.cusState = customerState.noAction;
 		//waiterGui.DoGoToCook();
 		try {
 			atCook.acquire();
