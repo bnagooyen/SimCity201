@@ -7,6 +7,7 @@ import simcity.PersonAgent;
 import simcity.Market.MFoodOrder;
 import simcity.Market.MOrder;
 import simcity.Market.MarketCashierRole;
+import simcity.interfaces.Car;
 import simcity.interfaces.Cook;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
@@ -61,6 +62,25 @@ public class MockMarketCashier extends Mock implements MarketCashier {
 
 	public void msgGoHome() {
 		LoggedEvent e = new LoggedEvent("Gone Home");
+		log.add(e);
+		
+	}
+
+	@Override
+	public void msgGoHome(double paycheck) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCanGive(Car currCar, MOrder o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCarOrder(MarketCustomer c, String building) {
+		LoggedEvent e = new LoggedEvent("got customer's car order");
 		log.add(e);
 		
 	}

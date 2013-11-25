@@ -70,6 +70,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         public void msgHereIsCarAndCheck(Car car, double check){
         	Do("Got car and check");
         	
+        	LoggedEvent e = new LoggedEvent("got car and check");
+            log.add(e);
         	myCheck = check;
         	p.myCar = car;
         	state = customerState.paying;
@@ -90,8 +92,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
                         goToManager();
                         return true; 
                 }
-                if ( state == customerState.timeToOrder && !purpose.equals("car")) {
-                        orderFood();
+                if ( state == customerState.timeToOrder && purpose.equals("food")) {
+                		Do("in");
+                		orderFood();
                         return true;
                 }
                 if( state == customerState.timeToOrder && purpose.equals("car")) {
