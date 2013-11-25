@@ -110,64 +110,78 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 		LoggedEvent ev = new LoggedEvent("fulfilling an order");
 		log.add(ev);
 		
-		if(o.foodsNeeded == null){ //customer ordered a car
+		if(purpose.equals("car")){ //customer ordered a car
 			Car currCar = cars.get(0);
+			ibGui.DoGoToCashier();
+			try {
+				gettingFood.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			mc.msgCanGive(currCar, o);
 			cars.remove(currCar);
+			//animation for car
 		}
 		
-		for(MFoodOrder f : o.foodsNeeded) {
-			int currFood = inventory.get(f.type);
-			if (currFood > f.amount) {
-				o.canGive.add(new MFoodOrder(f.type, f.amount));
-				inventory.put(f.type, inventory.get(f.type) -f.amount);
-			}
-			else {
-				o.canGive.add(new MFoodOrder(f.type, currFood));
-				inventory.put(f.type, 0);
-			}
-			if(f.type.equals("Steak")) {
-				ibGui.DoGetSteak();
-				try {
-					gettingFood.acquire();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+		if(o.foodsNeeded != null){
+			synchronized(o.foodsNeeded){
+				if(purpose.equals("food")){
+					for(MFoodOrder f : o.foodsNeeded) {
+						int currFood = inventory.get(f.type);
+						if (currFood > f.amount) {
+							o.canGive.add(new MFoodOrder(f.type, f.amount));
+							inventory.put(f.type, inventory.get(f.type) -f.amount);
+						}
+						else {
+							o.canGive.add(new MFoodOrder(f.type, currFood));
+							inventory.put(f.type, 0);
+						}
+						if(f.type.equals("Steak")) {
+							ibGui.DoGetSteak();
+							try {
+								gettingFood.acquire();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+						else if(f.type.equals("Chicken")) {
+							ibGui.DoGetChicken();try {
+								gettingFood.acquire();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+						else if(f.type.equals("Salad")) { 
+							ibGui.DoGetSalad();try {
+								gettingFood.acquire();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}	
+						else if (f.type.equals("Pizza")) {
+							ibGui.DoGetPizza();
+							try {
+								gettingFood.acquire();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+					}
 				}
+			
+			ibGui.DoGoToCashier();
+			try {
+				gettingFood.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			else if(f.type.equals("Chicken")) {
-				ibGui.DoGetChicken();try {
-					gettingFood.acquire();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			else if(f.type.equals("Salad")) { 
-				ibGui.DoGetSalad();try {
-					gettingFood.acquire();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}	
-			else if (f.type.equals("Pizza")) {
-				ibGui.DoGetPizza();
-				try {
-					gettingFood.acquire();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+			mc.msgCanGive(o);
+			orders.remove(o);
+			ibGui.DoGoToWaitingPos();
 			}
 		}
-		ibGui.DoGoToCashier();
-		try {
-			gettingFood.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		mc.msgCanGive(o);
-		orders.remove(o);
-		ibGui.DoGoToWaitingPos();
-
 	}
 	
 	private void goHome() {

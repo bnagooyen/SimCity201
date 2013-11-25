@@ -57,6 +57,26 @@ public class MockRoleMarketCashier extends MockRole implements MarketCashier{
 		
 		
 	}
+	
+	@Override
+	public void msgGoHome(double paycheck) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCanGive(Car currCar, MOrder o) {
+		LoggedEvent e = new LoggedEvent("got order back of what we can give customer");
+		log.add(e);
+		
+	}
+
+	@Override
+	public void msgCarOrder(MarketCustomer c, String building) {
+		LoggedEvent e = new LoggedEvent("got customer's car order");
+		log.add(e);
+		
+	}
 
 	public void msgCanGive(MOrder o) {
 		LoggedEvent e = new LoggedEvent("got order back of what we can give customer");
@@ -107,18 +127,6 @@ public class MockRoleMarketCashier extends MockRole implements MarketCashier{
 //		}
 		
 		return false;
-	}
-
-	@Override
-	public void msgGoHome(double paycheck) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgCanGive(Car currCar, MOrder o) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }
