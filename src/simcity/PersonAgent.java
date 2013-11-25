@@ -73,7 +73,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	boolean flake;
 	//boolean broke;
-	boolean needToGoToWork = false;
+	public boolean needToGoToWork = false;
 	public boolean activatedRole;
 
 	public PersonGui PersonGui = null;
