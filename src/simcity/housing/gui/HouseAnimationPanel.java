@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanel extends JPanel implements ActionListener {
+public class HouseAnimationPanel extends JPanel implements ActionListener {
 
     private final int WINDOWX = 450;
     private final int WINDOWY = 350;
@@ -17,7 +17,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
     private List<Gui> guis = new ArrayList<Gui>();
 
-    public AnimationPanel() {
+    public HouseAnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
         
@@ -40,30 +40,17 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.setColor(getBackground());
         g2.fillRect(beginX, beginY, WINDOWX, WINDOWY );
 
-        //Here is the table
+        //Here is the bed
         int w = 50; 
-        int h = 50; 
-        g2.setColor(Color.ORANGE);
-        g2.fillRect(50, 250, w, h);//200 and 250 need to be table params
-        g2.setColor(Color.ORANGE);
-        g2.fillRect(200, 250, w, h);
-        g2.setColor(Color.ORANGE);
-        g2.fillRect(350, 250, w, h);
-        
-        int kitchenW = 150; 
-        int kitchenH = 200; 
-        g2.setColor(Color.lightGray); 
-        g2.fillRect(370, 0, kitchenW, kitchenH);
+        int h = 80; 
+        g2.setColor(Color.cyan);
+        g2.fillRect(0, 0, w, h);
         
         int grillW = 40; 
         int grillH = 50; 
         g2.setColor(Color.RED);
         g2.fillRect(440, 140, grillW, grillH);
         
-        int plateW = 40;
-        int plateH = 50; 
-        g2.setColor(Color.BLACK);
-        g2.fillRect(370, 30, plateW, plateH);
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -78,19 +65,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
         }
     }
 
-    public void addGui(TCustomerGui gui) {
+    public void addGui(PersonGui gui) {
         guis.add(gui);
     }
 
-    public void addGui(THostGui gui) {
-        guis.add(gui);
-    }
-    
-    public void addGui(TWaiterGui gui) {
-        guis.add(gui);
-    }
-    
-    public void addGui(TCookGui gui) {
-        guis.add(gui);
-    }
 }

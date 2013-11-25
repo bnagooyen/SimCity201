@@ -18,7 +18,7 @@ import java.util.Vector;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class RestaurantPanel extends JPanel implements ActionListener {
+public class HousingPanel extends JPanel implements ActionListener {
 
     //Host, cook, waiters and customers
     //private HostRoleTT host;
@@ -37,17 +37,16 @@ public class RestaurantPanel extends JPanel implements ActionListener {
     
     //buttons
     private JButton pauseButton = new JButton("Pause");
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
-    private TWaiterPanel waiterPanel = new TWaiterPanel(this, "Waiters"); 
+    private ListPanel personPanel = new ListPanel(this, "People");
     private JPanel group = new JPanel();
     private JLabel label = new JLabel();
     private boolean IsPaused = false; 
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	
 	private int numCust = -2; 
-    private RestaurantGui gui; //reference to main gui
+    private HouseGui gui; //reference to main gui
 
-    public RestaurantPanel(RestaurantGui gui) {
+    public HousingPanel(HouseGui gui) {
         this.gui = gui;
         //starting threads for agents
         //host.startThread();
@@ -82,8 +81,7 @@ public class RestaurantPanel extends JPanel implements ActionListener {
         setLayout(new GridLayout(row, column, horizontalWidth, verticalWidth));
         group.setLayout(new GridLayout(1, 2, 10, 10));
         initRestLabel();
-        tabbedPane.add("Waiters", waiterPanel); 
-        tabbedPane.add("Customers", customerPanel);
+        tabbedPane.add("Customers", personPanel);
         pauseButton.addActionListener(this);
         add(pauseButton);
         group.add(tabbedPane);

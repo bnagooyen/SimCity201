@@ -22,10 +22,7 @@ public class ListPanel extends JPanel implements ActionListener {
                     JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private JPanel view = new JPanel();
     private List<JButton> list = new ArrayList<JButton>();
-    public JCheckBox CB = new JCheckBox("Hungry", false); 
-    private JTextField addMessage = new JTextField (10); 
-    private JButton addPersonB = new JButton("Add");
-    private RestaurantPanel restPanel;
+    private HousingPanel restPanel;
     private String type;
 
     /**
@@ -34,7 +31,7 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param rp   reference to the restaurant panel
      * @param type indicates if this is for customers or waiters
      */
-    public ListPanel(RestaurantPanel rp, String type) {
+    public ListPanel(HousingPanel rp, String type) {
         restPanel = rp;
         this.type = type;
         setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));
@@ -43,13 +40,6 @@ public class ListPanel extends JPanel implements ActionListener {
         Dimension messagePanel = getPreferredSize(); 
         Dimension messageSize = new Dimension(messagePanel.width + 20,
                 (int) (messagePanel.height));
-        addMessage.setPreferredSize(messageSize);
-        addMessage.setMinimumSize(messageSize);
-        addMessage.setMaximumSize(messageSize);
-        add(CB); 
-        add(addMessage);
-        addPersonB.addActionListener(this);
-        add(addPersonB);
         view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
         pane.setViewportView(view);
         add(pane);
@@ -60,18 +50,11 @@ public class ListPanel extends JPanel implements ActionListener {
      * Handles the event of the add button being pressed
      */
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == addPersonB) {
-        	if (!addMessage.getText().equals("")) {
-        		addPerson(addMessage.getText());
-        	}
-        }
-        else {
-
-        	for (JButton temp:list){
-                if (e.getSource() == temp)
+        for (JButton temp:list){
+               if (e.getSource() == temp) {
                     restPanel.showInfo(type, temp.getText());
-            }
-        }
+               }
+         }
     }
 
     /**
@@ -81,6 +64,7 @@ public class ListPanel extends JPanel implements ActionListener {
      *
      * @param name name of new person
      */
+    /**
     public void addPerson(String name) {
         if (name != null) {
             JButton button = new JButton(name);
@@ -102,4 +86,5 @@ public class ListPanel extends JPanel implements ActionListener {
             
         }
     }
+    */
 }
