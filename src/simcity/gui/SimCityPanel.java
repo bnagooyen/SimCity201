@@ -49,6 +49,7 @@ import simcity.LRestaurant.LCashierRole;
 import simcity.LRestaurant.LCookRole;
 import simcity.LRestaurant.LCustomerRole;
 import simcity.LRestaurant.LHostRole;
+import simcity.LRestaurant.LWaiterNormalRole;
 import simcity.LRestaurant.LWaiterRole;
 import simcity.Market.InventoryBoyRole;
 import simcity.Market.MarketCashierRole;
@@ -88,6 +89,8 @@ public class SimCityPanel extends JPanel{
 	
 	public SimCityPanel(SimCityGui gui) {
 		this.gui = gui;
+		
+		//*********Remember to add in delivery truck**********
 		
 //		// populate buildings map 
 //		PersonAgent p1 = new PersonAgent("bankmanager");
@@ -281,7 +284,7 @@ public class SimCityPanel extends JPanel{
 			j = new LHostRole(p);
 		}
 		else if (job.equals("Waiter5")) {
-			j = new LWaiterRole(p);
+			j = new LWaiterNormalRole(p);
 		}
 		
 		// TTRestaurant
