@@ -1,5 +1,5 @@
 Population(numPeopleInFile):
-38
+33
 EntryTemplate:
 Name
 	Money
@@ -169,30 +169,5 @@ BankRobber1
 Betty
 	200
 	Waiter1
-	false
-	Apartment
-Betty
-	200
-	Waiter2
-	false
-	Apartment
-Betty
-	200
-	Waiter3
-	false
-	Apartment
-Betty
-	200
-	Waiter4
-	false
-	Apartment
-Betty
-	200
-	Waiter5
-	false
-	Apartment
-Betty
-	200
-	Waiter6
 	false
 	Apartment

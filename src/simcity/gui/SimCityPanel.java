@@ -82,7 +82,7 @@ public class SimCityPanel extends JPanel{
 	public char aptLetCounter='A';
 	private SimCityGui gui;
 	public Map<String, List<Location>> buildings = new HashMap<String, List<Location>>();
-	public Map<String, List<Location>> busStops=new HashMap<String, List<Location>>();
+	public Map<String, List<Location>> busStops=new HashMap<String, List<Location>>(); //STILL BLANK
 	private List<Location> restaurants = new ArrayList<Location>();
 	private List<Location> banks = new ArrayList<Location>();
 	private List<Location> markets = new ArrayList<Location>();
@@ -370,7 +370,7 @@ public class SimCityPanel extends JPanel{
 				
 				//add to map
 				if(job.equals("BankManager") && bankCounter<=NUMBANKS) {
-					banks.add(new Bank("Bank1"+Integer.toString(bankCounter), myJob));
+					banks.add(new Bank("Bank"+Integer.toString(bankCounter), myJob));
 					bankCounter++;
 				}
 				else if(job.equals("MarketManager") && mktCounter<=NUMMARKETS) {
@@ -378,58 +378,71 @@ public class SimCityPanel extends JPanel{
 					mktCounter++;
 				}
 				else if(job.equals("Host1")) {
-					restaurants.add(new Restaurant("Drew_Restaurant", myJob, "normal"));
+					restaurants.add(new Restaurant("Restaurant1", myJob, "normal"));
 				}
 				else if(job.equals("Host2")) {
-					restaurants.add(new Restaurant("BRestaurant", myJob, "normal"));
+					restaurants.add(new Restaurant("Restaurant2", myJob, "normal"));
 				}
 				else if(job.equals("Host3")) {
-					restaurants.add(new Restaurant("DRestaurant", myJob, "normal"));
+					restaurants.add(new Restaurant("Restaurant3", myJob, "normal"));
 				}
 				else if(job.equals("Host4")) {
-					restaurants.add(new Restaurant("KRestaurant", myJob, "normal"));
+					restaurants.add(new Restaurant("Restaurant4", myJob, "normal"));
 				}
 				else if(job.equals("Host5")) {
-					restaurants.add(new Restaurant("LRestaurant", myJob, "normal"));
+					restaurants.add(new Restaurant("Restaurant5", myJob, "normal"));
 				}
 				else if(job.equals("Host6")) {
-					restaurants.add(new Restaurant("TRestaurant", myJob, "normal"));
+					restaurants.add(new Restaurant("Restaurant6", myJob, "normal"));
 				}
 				//for load balancing waiters when they are added on through gui
 				else if(job.equals("Waiter1")) {
 					for(Location r: restaurants) {
-						if(r.name.equals("Drew_Restaurant"))
-							r.numEmployees++;		
+						if(r.name.equals("Restaurant1")) {
+							//System.out.println(r.numEmployees);
+							r.numEmployees++;
+							break;
+						}
 					}
 				}
 				else if(job.equals("Waiter2")) {
 					for(Location r: restaurants) {
-						if(r.name.equals("BRestaurant"))
-							r.numEmployees++;		
+						if(r.name.equals("Restaurant2")){
+							r.numEmployees++;
+							break;
+						}	
 					}
 				}
 				else if(job.equals("Waiter3")) {
 					for(Location r: restaurants) {
-						if(r.name.equals("DRestaurant"))
-							r.numEmployees++;		
+						if(r.name.equals("Restaurant3")){
+							r.numEmployees++;
+							break;
+						}		
 					}
 				}
 				else if(job.equals("Waiter4")) {
 					for(Location r: restaurants) {
-						if(r.name.equals("KRestaurant"))
-							r.numEmployees++;		
+						if(r.name.equals("Restaurant4")){
+							r.numEmployees++;
+							break;
+						}		
 					}
 				}
 				else if(job.equals("Waiter5")) {
 					for(Location r: restaurants) {
-						if(r.name.equals("LRestaurant"))
-							r.numEmployees++;		
+						if(r.name.equals("Restaurant5")) {
+							r.numEmployees++;
+							break;
+						}		
 					}
 				}
 				else if(job.equals("Waiter6")) {
 					for(Location r: restaurants) {
-						if(r.name.equals("TRestaurant"))
-							r.numEmployees++;		
+						if(r.name.equals("Restaurant6")) {
+							r.numEmployees++;
+							break;
+						}
 					}
 				}
 				
@@ -467,6 +480,15 @@ public class SimCityPanel extends JPanel{
 				if(p.GetHomeState()==HomeType.apartment) {
 					landlords.get((p.getAptNum()-1)/ApartmentsPerLandlord).tenants.add(p);
 				}
+			}
+			
+			buildings.put("Bank", banks);
+			buildings.put("Market", markets);
+			buildings.put("Restaurant", restaurants);
+			
+			for (Person p: people) {
+				p.msgSetBuildingDirectory(buildings);
+				p.msgSetBusDirectory(busStops);
 			}
 //			
 			for(MyLandlord l: landlords) {
@@ -507,11 +529,56 @@ public class SimCityPanel extends JPanel{
 	  public void addPerson(String name, String role, double moneyVal, String houseOrApt) {
 
     		PersonAgent p = new PersonAgent(name);
-    		
-    		
-    		Role personRole= new DWaiterRole(p);
-    		p.SetJob(personRole);
-    		System.out.println(p.getJob());
+    		int minWaiterIndex=0;
+//    		for(Location r: restaurants) {
+//    			System.err.println(r.numEmployees);
+//    		}
+    		if(role.equals("Restaurant Waiter")) {
+    			for (int i=0; i<restaurants.size(); i++) {
+    				if(restaurants.get(i).numEmployees<restaurants.get(minWaiterIndex).numEmployees)
+    					minWaiterIndex=i;		
+    			}	
+    		}
+    		//System.out.println(Integer.parseInt(restaurants.get(minWaiterIndex).name.substring(restaurants.get(minWaiterIndex).name.length()-1)));
+    		int restAssignedTo = Integer.parseInt(restaurants.get(minWaiterIndex).name.substring(restaurants.get(minWaiterIndex).name.length()-1));
+    		Role myJob=jobFactory("Waiter"+Integer.toString(restAssignedTo), p);
+    		//System.out.println(myJob);
+    		for(Location r: restaurants) {
+    			if(r.name.equals("Restaurant"+Integer.toString(restAssignedTo))) {
+    				r.numEmployees++;
+    				break;
+    			}
+    		}
+    		//System.out.println(restAssignedTo);
+    		p.SetJob(myJob);
+//    		System.out.println(p.getJob());
+    		if(houseOrApt.equals("House") && houseNumCounter<=NUMHOUSES) {
+				p.SetHome(HomeType.house);
+				//System.err.println(houseNumCounter);
+				p.SetHouseLocation(houseNumCounter);
+				houseNumCounter++;
+				
+			}
+			else if(aptNumCounter<=aptNumCounter) {
+				p.SetHome(HomeType.apartment);
+				p.SetApatmentLocation(aptNumCounter, aptLetCounter);
+				//System.err.println(aptNumCounter + "  "+ aptLetCounter);
+				if(aptLetCounter=='C') {
+					aptLetCounter='A';
+					aptNumCounter++;
+				}
+				else {
+					aptLetCounter++;
+				}
+			}
+			else {
+				p.SetHome(HomeType.homeless);
+			}
+ 
+    		//give person directory
+    		p.msgSetBuildingDirectory(buildings);
+			p.msgSetBusDirectory(busStops);
+			
     		PersonGui g = new PersonGui(p, gui);
     		p.setGui(g);
     		gui.simCityAnimationPanel.addGui(g);
