@@ -3,6 +3,7 @@ package simcity.Market;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Transportation.CarAgent;
@@ -12,6 +13,7 @@ import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
+import simcity.Market.gui.MCustomerGui;
 import agent.Role;
 
 public class MarketCustomerRole extends Role implements MarketCustomer{
@@ -27,6 +29,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         public EventLog log;
         private PersonAgent p;
         
+        private MCustomerGui customerGui;
+        private Semaphore atCashier = new Semaphore(0, true);
+
+        
         public MarketCustomerRole(PersonAgent p) {
                 super(p); 
                 this.p = p;
@@ -36,7 +42,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         
         
         // messages
-        
+        public void msgAtCashier() {
+        	atCashier.release();
+        	stateChanged();
+        }
         public void msgGoToCashier(MarketCashier c) {
         		Do("Told to go to cashier");
                 LoggedEvent e = new LoggedEvent("told to go to cashier");
@@ -112,6 +121,14 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         }
         
         private void orderFood() {
+        		customerGui.DoGoToCashier();
+        		Do("going to cashier");
+        		try {
+					atCashier.acquire();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
         		Do("Telling cashier my order");
                 state = customerState.waiting;
                 LoggedEvent e = new LoggedEvent("telling cashier my order");
@@ -140,6 +157,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
                 mc.msgHereIsPayment(this, myCheck);
                 myCheck = 0;
                 isActive = false;
+                DoGoHome();
+
         }
         
         private void leaveStore() {
@@ -153,7 +172,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         
         // animation
         private void DoGoHome() {
-                // TODO Auto-generated method stub
+        	customerGui.DoGoHome();
                 
         }
 
@@ -177,6 +196,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         
         public double getMyCheck() {
                 return myCheck;
+        }
+        public void setGui(MCustomerGui g) {
+        	customerGui = g;
         }
         
 }

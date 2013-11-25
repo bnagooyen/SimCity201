@@ -391,6 +391,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 			else if(moneyState==MoneyState.poor && hour>7 && hour<23){
 				mydestination="market";
 				locationState=LocationState.inTransit;
+				possibleRoles.get("market").purpose="food";
 			}
 			else{
 				energyState=EnergyState.tired;
@@ -448,6 +449,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		Do("Go buy car");
 		mydestination="market";
 		locationState=LocationState.inTransit;
+		possibleRoles.get("market").purpose="car";
 	}
 
 	

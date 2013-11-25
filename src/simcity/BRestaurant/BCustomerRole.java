@@ -194,7 +194,7 @@ public class BCustomerRole extends Role implements BCustomer {
 			
 			state = AgentState.DoingNothing;
 			payCheck();
-			leaveTable();
+			//leaveTable();
 			return true;
 		}
 		
@@ -298,7 +298,7 @@ public class BCustomerRole extends Role implements BCustomer {
 	
 	private void payCheck(){
 		if (money<mycheck.price){
-			leaveTable();
+			//leaveTable();
 			waiter.msgCustomerNoMoney();
 			stateChanged();
 		}
@@ -313,7 +313,8 @@ public class BCustomerRole extends Role implements BCustomer {
 	 public void setCashier(BCashier cashier){
 			this.cashier = cashier;
 	    }
-	 
+	
+	/**
 	private void leaveTable() {
 		Do("Leaving.");
 		host.msgLeavingTable(this);
@@ -324,6 +325,7 @@ public class BCustomerRole extends Role implements BCustomer {
 		return mytable;
 	}
 
+	*/
 	// Accessors, etc.
 
 	public String getName() {

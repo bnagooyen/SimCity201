@@ -18,9 +18,10 @@ import simcity.interfaces.BankTeller;
 import simcity.interfaces.Landlord;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
+import agent.Agent;
 import agent.Role;
 
-public class BankManagerRole extends Role implements BankManager {
+public class BankManagerRole extends Agent implements BankManager {
 	
 	//data
 	public EventLog log = new EventLog();
@@ -36,10 +37,10 @@ public class BankManagerRole extends Role implements BankManager {
 	private double employeePayPerHour=10;
 	private double vault = 1000000000;
 	
-	public BankManagerRole(PersonAgent p) {
-		super(p);
+	public BankManagerRole() {
+		super();
 		// TODO Auto-generated constructor stub
-		startHour=7;
+		//startHour=7;
 		bankState=BankState.newDay;
 		hour=0;
 		officers.clear();
@@ -310,7 +311,7 @@ public class BankManagerRole extends Role implements BankManager {
 		tellers.clear();
 		bankState=BankState.closed;
 		BankIsClosed();
-		isActive = false;
+		//isActive = false;
 	}
 	
 	private void NewAccountForTeller() {

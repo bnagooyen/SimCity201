@@ -17,6 +17,8 @@ import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.RestaurantCashier;
+import simcity.Market.gui.MCashierGui;
+import simcity.Market.MarketCashierRole.orderState;
 import agent.Role;
 
 
@@ -37,6 +39,8 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	public myState state;
 	
+	private MCashierGui cashierGui;
+
 	public MarketCashierRole(PersonAgent p) {
 		super(p);
 		this.p = p;
@@ -146,7 +150,8 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	private void giveOrder(MOrder o){
 		Do("Giving fulfilled order");
 		double check = calculateCheck(o);
-		
+		o.state = orderState.given;
+
 		if(o.building.equals("")){
 			//Customer is at the market
 			DoGiveFood();
