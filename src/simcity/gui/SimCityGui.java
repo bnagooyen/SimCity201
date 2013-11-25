@@ -1,6 +1,7 @@
 package simcity.gui;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -24,6 +25,8 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 	
 	private SimCityPanel simcityPanel = new SimCityPanel(this);
 	private ListPanel addPersonPanel=new ListPanel(simcityPanel, "Person");
+	JPanel buildingPanels;
+	CardLayout cl;
 	
 	/**
 	 * Constructor for SimCityGui
@@ -44,6 +47,13 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 	         cityPanels.add(addPersonPanel);
 	         
 	         add(cityPanels, BorderLayout.WEST);
+	         
+	         /*buildingPanels = new JPanel();
+             buildingPanels.setLayout( cardLayout );
+             buildingPanels.setMinimumSize( new Dimension( 500, 250 ) );
+             buildingPanels.setMaximumSize( new Dimension( 500, 250 ) );
+             buildingPanels.setPreferredSize( new Dimension( 500, 250 ) );
+             buildingPanels.setBackground(Color.yellow);*/
 	         
 	         validate();
 	        
@@ -76,7 +86,12 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-
+	public void displayBuildingPanel( BuildingPanel bp ) {
+        System.out.println("abc");
+        System.out.println( bp.getName() );
+        cl.show( buildingPanels, bp.getName() );
+}
+	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub

@@ -588,6 +588,8 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			host = h;
 			foodType = type;
 		}
+		
+		
 	}
 	
 	public class Bank extends Location{
@@ -644,8 +646,8 @@ public class SimCityPanel extends JPanel implements MouseListener{
 
 
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
+	
+	/*public void mouseClicked(MouseEvent e) {
 		for (int i=0; i<restaurants.size();i++) {
 			if (e.getX()==restaurants.get(i).x && e.getY()==restaurants.get(i).y)
              //location.get(i).showbuilding();
@@ -666,11 +668,11 @@ public class SimCityPanel extends JPanel implements MouseListener{
     
 		
 	}
+*/
 
 
 
-
-	@Override
+	
 	public void mouseEntered(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
@@ -699,6 +701,15 @@ public class SimCityPanel extends JPanel implements MouseListener{
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
