@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
@@ -15,16 +16,20 @@ import simcity.interfaces.Car;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
+import simcity.Market.gui.IBGui;
 import agent.Role;
 
 public class InventoryBoyRole extends Role implements InventoryBoy{
 	public List<MOrder> orders = Collections.synchronizedList(new ArrayList<MOrder>());
 	public Map<String, Integer> inventory =Collections.synchronizedMap( new HashMap<String, Integer>());
 	public List<Car> cars = Collections.synchronizedList(new ArrayList<Car>());
+	
+	private Semaphore gettingFood = new Semaphore(0, true);
 
 	MarketCashier mc;
 	MarketManager manager;
-	
+	IBGui ibGui;
+
 	PersonAgent p;
 	
 	enum state {arrived, working, leave, unavailable }
@@ -51,6 +56,9 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	}
 
 	// messages
+	public void msgGotFood() {
+		gettingFood.release();
+	}
 	public void msgCheckInventory(MOrder o) {
 		Do("Got an order to fulfill");
 		orders.add(o);
@@ -99,8 +107,8 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	
 	private void getOrder(MOrder o) {
 		Do("Going to the back. Fulfilling an order.");
-		LoggedEvent e = new LoggedEvent("fulfilling an order");
-		log.add(e);
+		LoggedEvent ev = new LoggedEvent("fulfilling an order");
+		log.add(ev);
 		
 		if(o.foodsNeeded == null){ //customer ordered a car
 			Car currCar = cars.get(0);
@@ -118,9 +126,48 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 				o.canGive.add(new MFoodOrder(f.type, currFood));
 				inventory.put(f.type, 0);
 			}
-			mc.msgCanGive(o);
+			if(f.type.equals("Steak")) {
+				ibGui.DoGetSteak();
+				try {
+					gettingFood.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			else if(f.type.equals("Chicken")) {
+				ibGui.DoGetChicken();try {
+					gettingFood.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			else if(f.type.equals("Salad")) { 
+				ibGui.DoGetSalad();try {
+					gettingFood.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}	
+			else if (f.type.equals("Pizza")) {
+				ibGui.DoGetPizza();
+				try {
+					gettingFood.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 		}
+		ibGui.DoGoToCashier();
+		try {
+			gettingFood.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		mc.msgCanGive(o);
 		orders.remove(o);
+		ibGui.DoGoToWaitingPos();
+
 	}
 	
 	private void goHome() {
@@ -134,7 +181,8 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 
 	// animation
 	private void DoGoHome() {
-		
+		ibGui.DoGoHome();
+
 	}
 
 	// utilities
@@ -145,5 +193,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	public void setMarketManager(MarketManager m) {
 		this.manager = m;
 	}
-
+	public void setGui(IBGui g) {
+		ibGui = g;
+	}
 }
