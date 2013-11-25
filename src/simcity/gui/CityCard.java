@@ -33,9 +33,15 @@ public class CityCard extends SimCityPanel implements MouseListener {
                 secondPanel.add(firstButton);
                 secondPanel.add(secondButton);
                 
+                panelContainer.add(firstPanel,"1");
+                panelContainer.add(secondPanel, "2");
+                cardLayout.show(firstPanel, "1");
+                
                 this.setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
                 this.setVisible(true);
-                addMouseListener(this);
+                firstButton.addMouseListener(this);
+                secondButton.addMouseListener(this);
+                
                 setBackground(Color.green);
         }
         
@@ -48,7 +54,13 @@ public class CityCard extends SimCityPanel implements MouseListener {
         }
 
 
+        
         public void mouseClicked(MouseEvent e) {
+                if(e.getSource()==firstButton)
+                	cardLayout.show(panelContainer, "1");
+                
+                else if(e.getSource()==secondButton)
+                	cardLayout.show(panelContainer, "2");
                 
         }
 

@@ -6,6 +6,7 @@ import java.util.Map;
 import simcity.PersonAgent.HomeType;
 import simcity.Transportation.CarAgent;
 import simcity.gui.SimCityPanel.Location;
+import simcity.housing.LandlordRole;
 import agent.Role;
 
 
@@ -41,6 +42,9 @@ public interface Person {
 			Map<String, List<Location>> buildings);
 
 	public abstract void msgSetBusDirectory(Map<String, List<Location>> busStops);
+
+	public abstract void msgHereIsYourRentBill(LandlordRole landlordRole,
+			double rentBill);
 
 }
 
