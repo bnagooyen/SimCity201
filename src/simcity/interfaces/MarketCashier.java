@@ -16,5 +16,6 @@ public interface MarketCashier {
 	public abstract void msgHereIsPayment(Role r, double payment);
 	public abstract void msgGoHome(double paycheck);
 	public abstract void msgCanGive(Car currCar, MOrder o);
+	public abstract void msgCarOrder(MarketCustomer c, String building);
 
 }

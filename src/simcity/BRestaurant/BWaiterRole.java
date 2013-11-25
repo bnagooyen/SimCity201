@@ -289,7 +289,7 @@ public class BWaiterRole extends Role implements BWaiter{
 	public void seatCustomer(BCustomer customer, int tablenumber) {
 		customer.msgSitAtTable(tablenumber, new BMenu(), this);
 
-		DoSeatCustomer(customer, tablenumber);
+		//DoSeatCustomer(customer, tablenumber);
 		try {
 			atTable.acquire();
 		} catch (InterruptedException e) {
@@ -366,6 +366,7 @@ public class BWaiterRole extends Role implements BWaiter{
 		
 	}
 
+	
 	private void giveCookOrder(myCustomer customer){
 
 			print("Giving order to cook");
@@ -377,9 +378,9 @@ public class BWaiterRole extends Role implements BWaiter{
 	}
 
 	private void giveFood(myCustomer customer){
-		hostGui.DoGoToPlating();
-		hostGui.DoGoToCustomer(customer.tablenumber);
-		hostGui.DoLeaveCustomer();
+		//hostGui.DoGoToPlating();
+		//hostGui.DoGoToCustomer(customer.tablenumber);
+		//hostGui.DoLeaveCustomer();
 		customer.cusState = customerState.noAction;
 		customer.c.msgHereisYourOrder(customer.choice);
 	}
@@ -389,9 +390,9 @@ public class BWaiterRole extends Role implements BWaiter{
 		//Notice how we print "customer" directly. It's toString method will do it.
 		//Same with "table"
 		print("Seating " + customer + " at " + tablenumber);
-		hostGui.DoGoToWaiting();
-		hostGui.DoBringToTable(customer, tablenumber); 
-		hostGui.DoLeaveCustomer();
+		//hostGui.DoGoToWaiting();
+		//hostGui.DoBringToTable(customer, tablenumber); 
+		//hostGui.DoLeaveCustomer();
 		
 
 	}

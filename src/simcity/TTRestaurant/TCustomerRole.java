@@ -224,14 +224,14 @@ public class TCustomerRole extends Role implements TCustomer {
 		}
 		else {
 			print("I'll wait for a table.");
-			customerGui.DoWaitInLine(); 
+			//customerGui.DoWaitInLine(); 
 			event = AgentEvent.wantsToWait; 
 		}
 	}
 
 	private void SitDown() {
 		Do("Being seated. Going to table");
-		customerGui.DoGoToSeat(freeTable);
+		//customerGui.DoGoToSeat(freeTable);
 	}
 
 	private void LookAtMenu() {
@@ -335,7 +335,7 @@ public class TCustomerRole extends Role implements TCustomer {
 			if (Ordered.contains(myChoice)) {
 				print("Can't order anything else.");
 				waiter.msgLeavingTable(this);
-				customerGui.DoExitRestaurant();
+				//customerGui.DoExitRestaurant();
 				state = AgentState.DoingNothing; 
 				event = AgentEvent.none; 
 			}
@@ -353,7 +353,7 @@ public class TCustomerRole extends Role implements TCustomer {
 				if (Ordered.contains(myChoice)) {
 					print("Can't order anything else.");
 					waiter.msgLeavingTable(this);
-					customerGui.DoExitRestaurant();
+					//customerGui.DoExitRestaurant();
 					state = AgentState.DoingNothing; 
 					event = AgentEvent.none; 
 				}
@@ -367,7 +367,7 @@ public class TCustomerRole extends Role implements TCustomer {
 			else if (x >= 2){
 				print("Don't have enough money. Leaving now.");
 				waiter.msgLeavingTable(this);
-				customerGui.DoExitRestaurant();
+				//customerGui.DoExitRestaurant();
 				state = AgentState.DoingNothing; 
 				event = AgentEvent.none; 
 			}
@@ -413,7 +413,7 @@ public class TCustomerRole extends Role implements TCustomer {
 	private void leaveTable() {
 		Do("Leaving.");
 		waiter.msgLeavingTable(this);
-		customerGui.DoExitRestaurant();
+		//customerGui.DoExitRestaurant();
 	}
 
 	// Accessors, etc.
