@@ -126,6 +126,7 @@ public class ListPanel extends JPanel implements ActionListener {
     	if(e.getSource()==setScenario) {
     		scenarioSelection.setEnabled(false);
     		setScenario.setEnabled(false);
+    		simcityPanel.startTimer();
     		//start execution
     	}
     	if (e.getSource() == addPersonB) {
