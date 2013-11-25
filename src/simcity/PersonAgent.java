@@ -390,6 +390,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private void payRent() {
 		needToPayRent = false;
 		if (money >= rentBill) {
+			money -= rentBill; 
 			myLandlord.msgHereIsARentPayment(this, rentBill);
 		}
 		else {
