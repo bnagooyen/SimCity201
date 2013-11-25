@@ -230,7 +230,7 @@ public class TCookRole extends Role implements TCook {
 	// Actions
 
 	private void cookFood(final int orderNumber) {
-		goToFridge(); 
+		//goToFridge(); 
 		timer.schedule(new TimerTask() {
 			public void run() {
 				print("Done cooking food.");
@@ -251,6 +251,7 @@ public class TCookRole extends Role implements TCook {
 					Supply.put("Pizza", Supply.get("Pizza") - 1); 
 					print ("There are " + Supply.get("Pizza") + " pizzas left"); 
 				}
+				/**
 				leaveFood();
 				try {
 					atCounter.acquire();
@@ -258,8 +259,9 @@ public class TCookRole extends Role implements TCook {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				*/
 				orders.get(orderNumber).thisWaiter.msgOrderIsReady(orders.get(orderNumber).table);
-				waitForOrder(); 
+				//waitForOrder(); 
 				stateChanged(); 
 			}
 		},
@@ -339,6 +341,7 @@ public class TCookRole extends Role implements TCook {
 	
 	
 	//animations
+	/**
 	private void goToFridge() {
 		cookGui.makeFood(); 
 	}
@@ -350,6 +353,7 @@ public class TCookRole extends Role implements TCook {
 	private void waitForOrder() {
 		cookGui.goHome(); 
 	}
+	*/
 	
 	/**
 	//utilities 
