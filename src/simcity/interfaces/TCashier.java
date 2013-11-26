@@ -11,5 +11,7 @@ public interface TCashier {
 	
 	
 	public abstract void msgHereIsMyMoney(TCustomer c, double m, double cost);
+	
+	public abstract void msgGoHome(double moneys); 
 
 }

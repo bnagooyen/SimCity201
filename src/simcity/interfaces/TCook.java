@@ -16,5 +16,8 @@ public interface TCook {
 	public abstract void msgOrderFulfilled(Map<String, Integer> nS);
 	
 	public abstract void msgUnfulfilledStock(); 
+	
+	public abstract void msgGoHome(double moneys); 
+
 
 }

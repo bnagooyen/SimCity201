@@ -29,6 +29,7 @@ public class TWaiterRole extends Role implements TWaiter{
 	private TCashierRole cashier; 
 	public boolean onBreak = false;
 	public boolean askingForBreak = false; 
+	boolean goHome = false;
 	Timer timer = new Timer();
 	private Menu menu = new Menu();
 	private OrderStand orders; 
@@ -37,8 +38,8 @@ public class TWaiterRole extends Role implements TWaiter{
 	public TWaiterGui waiterGui = null;
 
 
-	public TWaiterRole(PersonAgent p) {
-		super(p);
+	public TWaiterRole() {
+		super();
 
 		this.name = name;
 	}
@@ -143,6 +144,14 @@ public class TWaiterRole extends Role implements TWaiter{
 		}
 		stateChanged(); 
 
+	}
+	
+	@Override
+	public void msgGoHome(double moneys) {
+		myPerson.money += moneys;
+		goHome = true;
+		stateChanged();
+		
 	}
 
 	public void msgNoBreak() {
@@ -260,6 +269,11 @@ public class TWaiterRole extends Role implements TWaiter{
 			}
 		} catch (ConcurrentModificationException e) {
 			e.printStackTrace();
+		}
+		
+		if(goHome) {
+			goHome();
+			return true;
 		}
 
 		if (onBreak == true && myCustomers.isEmpty()) {
@@ -409,6 +423,12 @@ public class TWaiterRole extends Role implements TWaiter{
 		host.msgOffBreak(this); 
 	}
 	
+	private void goHome() {
+		Do("Going home");
+		isActive = false;
+		goHome = false;
+	}
+	
 	/**
 	// The animation DoXYZ() routines
 	private void DoGetCustomer() {
@@ -506,6 +526,7 @@ public class TWaiterRole extends Role implements TWaiter{
 		}
 
 	}
+
 
 
 }

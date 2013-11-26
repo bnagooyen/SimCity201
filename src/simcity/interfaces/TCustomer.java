@@ -23,7 +23,9 @@ public interface TCustomer {
 	
 	public abstract void msgChange (double c);
 	
-	public abstract void setWaiter (TWaiter w); 
+	public abstract void setWaiter (TWaiter w);
+
+	public abstract void msgRestaurantClosed(); 
 
 
 }
