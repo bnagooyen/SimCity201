@@ -143,7 +143,7 @@ public class BListPanel extends JPanel implements ActionListener, KeyListener {
 			button.addActionListener(this);
 			list.add(button);
 			view.add(button);
-			restPanel.addPerson(type, name, hunger.isSelected());//puts customer on list
+			//restPanel.addPerson(type, name, hunger.isSelected());//puts customer on list
 			restPanel.showInfo(type, name);//puts hungry button on panel
 			validate();
 		}

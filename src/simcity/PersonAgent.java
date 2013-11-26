@@ -611,9 +611,9 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		bus=b;
 	}
 	
-    public void setBusStop(BusStop b){
-        busStop=b;
-    }
+	public void setBusStop(BusStop b){
+		busStop=b;
+	}
 
 	public void setPanel(SimCityPanel p) {
 		panel = p;
