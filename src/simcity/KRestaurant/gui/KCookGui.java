@@ -154,4 +154,8 @@ public class KCookGui implements KGui{
     	 }
     	 xDestination = platex +32;
      }
+	public void DoLeaveRestaurant() {
+		xDestination = -20;
+ 		 yDestination = -20;		
+	}
 }

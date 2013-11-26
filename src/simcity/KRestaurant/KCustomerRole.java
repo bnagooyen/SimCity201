@@ -134,6 +134,11 @@ public class KCustomerRole extends Role implements KCustomer{
 		stateChanged();
 	}
 
+	public void msgRestaurantClosed() {
+		state = AgentState.eating;
+		event = AgentEvent.doneEating;
+		stateChanged();
+	}
 	public void msgRestaurantFull(int waitingSpot) {
 		Do("host said restaurant is full :(");
 		event = AgentEvent.restaurantFull;
@@ -439,6 +444,8 @@ public class KCustomerRole extends Role implements KCustomer{
 	public KCustomerGui getGui() {
 		return customerGui;
 	}
+
+	
 	
 }
 
