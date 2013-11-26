@@ -67,8 +67,8 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	public enum State 
 	{pending, cooking, done, finished};
 
-	public Drew_CookRole(PersonAgent p) {
-		super(p);
+	public Drew_CookRole() {
+		//super(p);
 		this.name = name;
 		
 		

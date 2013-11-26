@@ -52,9 +52,9 @@ public class TCustomerRole extends Role implements TCustomer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public TCustomerRole(PersonAgent p){
-		super(p);
-		this.name = name;
+	public TCustomerRole(){
+//		super(p);
+		//this.name = name;
 	}
 
 	/**

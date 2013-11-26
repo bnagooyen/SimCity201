@@ -54,8 +54,8 @@ public class LCustomerRole extends Role implements LCustomer{
          * @param name name of the customer
          * @param gui  reference to the customergui so the customer can send it messages
          */
-        public LCustomerRole(PersonAgent p){
-                super(p);
+        public LCustomerRole(){
+                //super(p);
                 needToPay = 0;
                 givenName = p.getName();
                 name = givenName.split("-"); //name-money-choice-behavior

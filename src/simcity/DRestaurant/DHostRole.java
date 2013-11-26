@@ -50,8 +50,8 @@ public class DHostRole extends Role {
 
 	boolean KitchenReadyForOpen;
 
-	public DHostRole(PersonAgent p) {
-		super(p);
+	public DHostRole() {
+		//super(p);
 
 		//this.name = name;
 		// make some tables

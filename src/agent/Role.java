@@ -20,9 +20,9 @@ public abstract class Role {
     public String purpose;
     
 
-    public Role(PersonAgent p) {
-    	myPerson=p;
-    }
+//    public Role(PersonAgent p) {
+//    	myPerson=p;
+//    }
     
     public void timeUpdate(int hr) {
     	

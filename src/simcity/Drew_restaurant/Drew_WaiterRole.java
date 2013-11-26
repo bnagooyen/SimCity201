@@ -44,9 +44,9 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 		this.cook = cook;
 	}
 	
-	public Drew_WaiterRole(PersonAgent p) {
-		super(p);
-		this.name = name;
+	public Drew_WaiterRole() {
+		//super(p);
+		//this.name = name;
 	}
 
 	public String getName() {
