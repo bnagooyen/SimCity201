@@ -178,9 +178,9 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	// Messages
 	public void msgTimeUpdate(int hr) {
-		Do("got time update. Time is " + hr);
+		Do("got time update. Time is " + hr+" Work Starts at "+myJob.startHour);
 		hour = hr;
-		if(hr == 7) { 
+		if(hr == 6) { 
 			energyState= energyState.awake;
 		}
 		if(hr ==24) { 
@@ -290,7 +290,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		if(activatedRole) return anyTrue;
 
 
-		if(locationState==LocationState.Out && !(energyState==EnergyState.asleep)) {
+		if(locationState!=LocationState.inTransit && !(energyState==EnergyState.asleep)) {
 			if(moneyState==MoneyState.haveLoan){
 				buyCar();
 				return true;
@@ -317,7 +317,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				getCarLoan();
 				return true;
 			}
-			if(energyState==EnergyState.tired) {
+			if(energyState==EnergyState.tired && locationState==LocationState.Out) {
 				GoHome();
 				return true;
 			}
@@ -340,7 +340,6 @@ public class PersonAgent extends Agent implements Person {//implements Person
 			if (myCar==null){
 				if(transitState==TransitState.justLeaving){
 					walkToBus();
-					
 					return true;
 				}
 
@@ -453,20 +452,20 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		Do("going to work");
 		mydestination= jobLocation;
 		locationState=LocationState.inTransit;
-		homePersonGui.LeaveHouse(); 
+		//homePersonGui.LeaveHouse(); 					ACTIVATE FOR GUI
 	}
 
 	private void GoToBed() {
 		Do("going to bed"); 
 		energyState=EnergyState.asleep;
-		homePersonGui.goToBed();
+		//homePersonGui.goToBed();						ACTIVATE FOR GUI
 
 	}
 
 	private void deposit() {
 		Do("Going to deposit Money");
 		mydestination="bank";
-		homePersonGui.LeaveHouse(); 
+		//homePersonGui.LeaveHouse();						ACTIVATE FOR GUI 
 		locationState=LocationState.inTransit;
 		possibleRoles.get("bank").purpose="deposit";
 		
@@ -475,21 +474,21 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private void withdraw() {
 		Do("Going to Withdraw Money");
 		mydestination="bank";
-		homePersonGui.LeaveHouse(); 
+		//homePersonGui.LeaveHouse();						ACTIVATE FOR GUI 
 		locationState=LocationState.inTransit;
 		possibleRoles.get("bank").purpose="withdraw";
 
 	}
 
 	private void getCarLoan(){
-		homePersonGui.LeaveHouse(); 
+		//homePersonGui.LeaveHouse(); 						ACTIVATE FOR GUI
 		mydestination="bank";
 		locationState=LocationState.inTransit;
 		possibleRoles.get("bank").purpose="loan";
 	}
 	
 	private void buyCar() {
-		homePersonGui.LeaveHouse(); 
+		//homePersonGui.LeaveHouse();												ACTIVATE FOR GUI 
 		Do("Go buy car");
 		mydestination="market";
 		locationState=LocationState.inTransit;

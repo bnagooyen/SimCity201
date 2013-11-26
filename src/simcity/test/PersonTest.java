@@ -217,14 +217,15 @@ public class PersonTest extends TestCase{
 		assertTrue("Person's energy state should be awake", person.energyState==EnergyState.awake);
 		
 		//person.transitState=TransitState.goToCar;
-		person.pickAndExecuteAnAction();
+		assertTrue("Pick and exectuct should return true",person.pickAndExecuteAnAction());
+		assertEquals("Transist State Should be just Leaving", TransitState.justLeaving,person.transitState);
 		
-		assertEquals("Car should have received message from person, but it did not", car.log.size(),1);
+		assertEquals("Car should have received message from person, but it did not", 1, car.log.size());
 		
 		person.msgAtDestination("destination");
 		
 		assertTrue("Person's state should be to get out the car, but it is not", person.transitState==TransitState.getOutCar);
-		assertTrue("Person's locationState should be inTransit", person.locationState==LocationState.inTransit);
+		assertTrue("Person's locationState should be inTransit "+person.locationState, person.locationState==LocationState.Out);
 		assertTrue("Person's locationState should be inTransit", person.energyState!=EnergyState.asleep);
 
 		//person.pickAndExecuteAnAction();

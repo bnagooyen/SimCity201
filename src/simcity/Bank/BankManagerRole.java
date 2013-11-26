@@ -40,7 +40,7 @@ public class BankManagerRole extends Role implements BankManager {
 	public BankManagerRole(PersonAgent p) {
 		super(p);
 		// TODO Auto-generated constructor stub
-		//startHour=7;
+		startHour=7;
 		bankState=BankState.newDay;
 		hour=0;
 		officers.clear();
