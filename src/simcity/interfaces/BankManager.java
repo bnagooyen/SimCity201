@@ -26,4 +26,14 @@ public interface BankManager {
 	abstract public void msgGaveALoan(double cash);
 	
 	abstract public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill);
+
+	void msgAnimationFinishedGoToCorner();
+
+	void msgAnimationFinishedLeaveBank();
+
+	void msgAtTellerPos();
+
+	void msgAtManagerPos();
+
+	void msgAtLoanPos();
 }

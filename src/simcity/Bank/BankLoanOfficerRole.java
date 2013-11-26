@@ -1,12 +1,14 @@
 package simcity.Bank;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Bank.BankManagerRole.MyCustomer;
 import simcity.Bank.BankManagerRole.MyTeller;
 import simcity.Bank.BankTellerRole.accountState;
 import simcity.Bank.BankTellerRole.bankTellerState;
+import simcity.Bank.gui.BankLoanGui;
 //import simcity.Bank.BankManagerRole.MyEmployee;
 import simcity.interfaces.*;
 import agent.Role;
@@ -16,11 +18,17 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	//data
 	public BankManager manager;
 	MyCustomer customer;
-	public enum bankLoanState { working, atManager, waitingForLoanRequest, recieved, finished};
+	public enum bankLoanState { arrived, working, atManager, waitingForLoanRequest, recieved, finished};
 	public enum accountState {none,requested,created, exists, loanRequested, loanApproved, loanRequestSent};
 	bankLoanState state=bankLoanState.working;
 	private static List<String> acceptableJobs = Collections.synchronizedList(new ArrayList<String>());
 
+	
+	//Gui
+	private Semaphore atDest = new Semaphore(0,true);
+	public enum cornerState{ coming, leaving };
+	public cornerState corner=cornerState.coming;
+	private BankLoanGui bankloanGui;
 
 	public class MyCustomer{
 		BankCustomer BC;
@@ -43,6 +51,8 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		super();
 		startHour=8;
 		// TODO Auto-generated constructor stub
+		
+		state=bankLoanState.arrived;
 		
 		//Populate List of jobs to which we loan
 		acceptableJobs.add("waiter");
@@ -95,12 +105,35 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		state=bankLoanState.finished;
 		stateChanged();
 	}
-
-
+	
 	@Override
 	public void msgGoToLoanOfficerPosition() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void msgAnimationFinishedGoToCorner() {
+		// TODO Auto-generated method stub
+		if(corner==cornerState.coming){
+			bankloanGui.goToLoanPos();
+		}
+		else if(corner==cornerState.leaving){
+			bankloanGui.DoExitBank();
+		}
+		atDest.release();
+	}
+
+
+	@Override
+	public void msgAtLoanPos() {
+		atDest.release();
+	}
+
+	@Override
+	public void msgAnimationFinishedLeaveBank() {
+		atDest.release();
+		state=bankLoanState.arrived;
 	}
 	
 	//SCHEDULER	
@@ -108,6 +141,9 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub	
+		if(state==bankLoanState.arrived){
+			arriveAtBank();
+		}
 		if(customer!=null && customer.state==accountState.none && state==bankLoanState.working){
 			createNewAccount();
 			return true;
@@ -124,7 +160,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 			completeLoan();
 			return true;
 		}
-		if(state==bankLoanState.finished) {
+		if(state==bankLoanState.finished){
 			leaveBank();
 			return true;
 		}
@@ -184,15 +220,39 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	}
 
 	private void leaveBank() {
-		//DoLeaveBank();
-		this.isActive=false;
+		bankloanGui.goToCorner();
+		corner=cornerState.leaving;
+		finishTask();
 	}
-	
+	private void arriveAtBank() {
+		manager.msgIAmHere(this, "BankLoanOfficer");
+		bankloanGui.goToCorner();
+		corner=cornerState.coming;
+		finishTask();
+		state=bankLoanState.working;
+	}
 	//utilites
 	public MyCustomer GetCustomer() {
 		return customer;
 	}
 	public bankLoanState getState() {
 		return state;
+	}
+	
+	public void setGui(BankLoanGui BL){
+		bankloanGui=BL;
+	}
+	
+	public void setManager(BankManager Bman){
+		manager=Bman;
+	}
+	
+	private void finishTask(){			//Semaphore to make waiter finish task before running scheduler
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
