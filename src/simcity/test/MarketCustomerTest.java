@@ -22,7 +22,8 @@ public class MarketCustomerTest extends TestCase{
 	public void setUp() throws Exception {
 		super.setUp();
 		p = new PersonAgent("customer");
-		c = new MarketCustomerRole(p);
+		c = new MarketCustomerRole();
+		c.myPerson = p;
 		mc = new MockMarketCashier("mockMarketCashier");
 		manager = new MockMarketManager("mockManager");
 		cgui = new MCustomerGui(c);
@@ -52,9 +53,11 @@ public class MarketCustomerTest extends TestCase{
         assertEquals("MockMarketManager should have an empty event log. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 0);
         
 		// have customer go talk to manager
+        
 		c.pickAndExecuteAnAction();
 		assertTrue("MarketCustomer should tell manager he's here but didn't", c.log.containsString("telling manager I'm here"));
 		assertTrue("MockManager should get customer's msg but didn't", manager.log.containsString("got customer's message"));
+		c.msgGoToCashier(mc);
 		assertTrue("MarketCustomer should get msg to go to cashier but didn't", c.log.containsString("told to go to cashier"));
         assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
         assertEquals("MockMarketManager shouldn't have gotten a new loggedEvent. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 1);
@@ -93,6 +96,7 @@ public class MarketCustomerTest extends TestCase{
         c.pickAndExecuteAnAction();
      	assertTrue("MarketCustomer should tell manager he's here but didn't", c.log.containsString("telling manager I'm here"));
      	assertTrue("MockManager should get customer's msg but didn't", manager.log.containsString("got customer's message"));
+     	c.msgMarketClosed();
      	assertTrue("MarketCustomer should get msg market is closed but didn't", c.log.containsString("told market is closed"));
         assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
      	
@@ -129,6 +133,7 @@ public class MarketCustomerTest extends TestCase{
 		c.pickAndExecuteAnAction();
 		assertTrue("MarketCustomer should tell manager he's here but didn't", c.log.containsString("telling manager I'm here"));
 		assertTrue("MockManager should get customer's msg but didn't", manager.log.containsString("got customer's message"));
+		c.msgGoToCashier(mc);
 		assertTrue("MarketCustomer should get msg to go to cashier but didn't", c.log.containsString("told to go to cashier"));
         assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
         assertEquals("MockMarketManager shouldn't have gotten a new loggedEvent. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 1);

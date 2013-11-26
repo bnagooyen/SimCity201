@@ -35,8 +35,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
 
         
         public MarketCustomerRole() {
-//                super(p); 
-                this.p = p;
+                super(); 
+               // this.p = p;
                 log = new EventLog();
                 state = customerState.talkToManager;
         }
@@ -73,7 +73,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         	LoggedEvent e = new LoggedEvent("got car and check");
             log.add(e);
         	myCheck = check;
-        	p.myCar = car;
+        	myPerson.myCar = car;
         	state = customerState.paying;
             stateChanged();
         }
@@ -157,7 +157,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
                 LoggedEvent e = new LoggedEvent("paying check");
                 log.add(e);
                 state = customerState.done;
-                p.money -= myCheck;
+                myPerson.money -= myCheck;
                 mc.msgHereIsPayment(this, myCheck);
                 myCheck = 0;
                 isActive = false;

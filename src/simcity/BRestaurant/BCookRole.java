@@ -59,7 +59,9 @@ public class BCookRole extends Role implements BCook {
 	String name;
 	public Status status;
 	private BWaiter waiter;
-
+	boolean arrived;
+	private BHostRole host;
+	
 	Timer timer= new Timer();
 
 	public void setWaiter(BWaiter waiter) {
@@ -142,6 +144,12 @@ public class BCookRole extends Role implements BCook {
 
 
 	public boolean pickAndExecuteAnAction() {
+		
+		if (arrived){
+			tellHost();
+			return true;
+		}
+		
 		synchronized(marketOrders) {
 			for(MarketOrder o : marketOrders) {
 				giveCashierCheck(o);
@@ -194,6 +202,12 @@ public class BCookRole extends Role implements BCook {
 		marketOrders.remove(o);
 	}
 	
+	  private void tellHost() {
+ 	     Do("telling manager I'm here at work");
+ 	     arrived = false;
+ 	     host.msgIAmHere(this, "cashier");
+ 	 }
+	  
 	private void CookFood(Order order){
 		if(foodStock.get(order.choice).quantity >= 1){
 			

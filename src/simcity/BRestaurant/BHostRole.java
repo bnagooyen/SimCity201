@@ -203,6 +203,17 @@ public class BHostRole extends Role implements Host{
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		
+		  if(hour == 21 && !isClosed){
+              closeRestaurant();
+              return true;
+      }
+      
+      if(hour == 20 || isClosed){
+              restaurantClosed();
+              return true;
+      }
+      
 		synchronized(waiterList) {
 		for (myWaiter thisWaiter : waiterList ){
 			if(thisWaiter.needBreak==true){
@@ -272,6 +283,30 @@ public class BHostRole extends Role implements Host{
 		waitingCustomers.remove(customer);
 		hostGui.DoLeaveCustomer();
 	}
+	
+	 private void closeRestaurant(){ //pay employees 50
+         Do("Closing restaurant. It is "+hour);
+         synchronized(waiterList){
+                 for(myWaiter w: waiterList){
+                        
+                         w.w.msgGoHome(50);
+                 }
+         }
+         myCashier.msgGoHome(50);
+         mycook.msgGoHome(50);
+         
+         waiterList.clear();
+         myCashier = null;
+         mycook = null;
+         isClosed = true;
+ }
+	 
+	 private void restaurantClosed() {
+         Do("Telling market is closed");
+        
+                 waitingCustomers.clear();
+         
+ }
 	
 	private void makeBreakDecision(myWaiter waiter){
 		int breakers=0;
