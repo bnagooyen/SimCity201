@@ -8,6 +8,7 @@ import simcity.PersonAgent;
 import simcity.LRestaurant.LMenu;
 import simcity.interfaces.LCashier;
 import simcity.interfaces.LCustomer;
+import simcity.interfaces.LHost;
 import simcity.interfaces.LWaiter;
 
 import java.util.Random;
@@ -35,7 +36,7 @@ public class LCustomerRole extends Role implements LCustomer{
 
         // agent correspondents
         private LWaiter waiter;
-        private LHostRole host;
+        private LHost host;
         private LCashier cashier;
         //private WaiterAgent waiter;
 
@@ -107,8 +108,8 @@ public class LCustomerRole extends Role implements LCustomer{
          * hack to establish connection to Host agent.
          */
 
-        public void setHost(LHostRole host) {
-                this.host = host;
+        public void setHost(LHost host2) {
+                this.host = host2;
         }
 
         public void setWaiter(LWaiter waiter) {

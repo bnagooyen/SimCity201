@@ -7,6 +7,8 @@ import simcity.LRestaurant.gui.LWaiterGui;
 import simcity.LRestaurant.LMenu;
 import simcity.PersonAgent;
 import simcity.interfaces.Host;
+import simcity.interfaces.LCashier;
+import simcity.interfaces.LCook;
 import simcity.interfaces.LCustomer;
 import simcity.interfaces.LHost;
 import simcity.interfaces.LWaiter;
@@ -44,9 +46,9 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         private LMenu m = new LMenu();
         public WaiterState waiterState;
 
-        LCookRole cook;
+        LCook cook;
         LHost host;
-        LCashierRole cashier;
+        LCashier cashier;
 
         public enum WaiterState{working, wantBreak, askingBreak, canGoOn, onBreak, checkingIn, backFromBreak};
 
@@ -66,13 +68,13 @@ public abstract class LWaiterRole extends Role implements LWaiter{
 //                super();
 //        }
 
-        public void setCashier(LCashierRole cashier){
-                this.cashier = cashier;
+        public void setCashier(LCashier cashier2){
+                this.cashier = cashier2;
         }
 
-        public void setCook(LCookRole cook){
-                this.cook = cook;
-                waiterGui.setCookGui(cook.cookGui);
+        public void setCook(LCook cook2){
+                this.cook = cook2;
+                waiterGui.setCookGui(((LCookRole)cook2).cookGui);
         }
 
         public void setHost(Host host){

@@ -26,4 +26,6 @@ public interface LCook {
 	
 	public void msgTask();
 
+	public void setCashier(LCashier cashier);
+
 }

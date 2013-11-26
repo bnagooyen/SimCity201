@@ -63,6 +63,7 @@ import simcity.LRestaurant.LCustomerRole;
 import simcity.LRestaurant.LHostRole;
 import simcity.LRestaurant.LWaiterNormalRole;
 import simcity.LRestaurant.LWaiterRole;
+import simcity.LRestaurant.LWaiterSharedDataRole;
 import simcity.Market.InventoryBoyRole;
 import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCustomerRole;
@@ -73,7 +74,6 @@ import simcity.TTRestaurant.TCustomerRole;
 import simcity.TTRestaurant.THostRole;
 import simcity.TTRestaurant.TWaiterRole;
 import simcity.Transportation.CarAgent;
-import simcity.gui.SimCityPanel.RestaurantReplace.MyLandlord;
 import simcity.housing.LandlordRole;
 import simcity.housing.RepairManRole;
 import simcity.interfaces.BCashier;
@@ -85,6 +85,7 @@ import simcity.interfaces.DCook;
 import simcity.interfaces.DHost;
 import simcity.interfaces.DWaiter;
 import simcity.interfaces.Host;
+import simcity.interfaces.LCashier;
 import simcity.interfaces.LCook;
 import simcity.interfaces.LHost;
 import simcity.interfaces.MarketManager;
@@ -678,6 +679,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					cook = new LCookRole();
 					cashier = new LCashierRole();
 					((LHost) host).setCook((LCook)cook);
+					((LCook) cook).setCashier((LCashier)cashier);
 			
 			}
 		}
@@ -710,6 +712,15 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					((DHost)host).msgAddWaiter((DWaiter)dw);
 					waiters.add(dw);
 					return dw;
+			case 4:
+			case 5:	LWaiterRole lw = new LWaiterSharedDataRole();
+					lw.setCashier((LCashier)cashier);
+					lw.setCook((LCook)cook);
+					lw.setHost((LHost)host);
+					((LHost)host).addWaiter(lw);
+					waiters.add(lw);
+					return lw;
+			
 					
 			default: return null;
 			}
@@ -739,6 +750,15 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				dw.msgAddHost((DHost)host);
 				waiters.add(dw);
 				return dw;
+			
+			case 4:
+			case 5:	LWaiterRole lw = new LWaiterNormalRole();
+					lw.setCashier((LCashier)cashier);
+					lw.setCook((LCook)cook);
+					lw.setHost((LHost)host);
+					((LHost)host).addWaiter(lw);
+					waiters.add(lw);
+					return lw;
 			}
 		}
 		public Role AddCustomer() {
@@ -761,8 +781,17 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				customers.add(dc);
 				return dc;
 				
+				case 4:
+				case 5:	LCustomerRole lc = new LCustomerRole();
+				lc.setCashier((LCashier)cashier);
+				lc.setHost((LHost)host);
+				customers.add(lc);
+				return lc;
+					
 				
 				
+				
+			}
 		}
 	}
 	  
@@ -828,4 +857,4 @@ public class SimCityPanel extends JPanel implements MouseListener{
 */
 
 	
-}
+

@@ -32,4 +32,6 @@ public interface LHost extends Host {
 
 public abstract void setCook(LCook cook);
 
+public abstract void addWaiter(LWaiter lw);
+
 }
