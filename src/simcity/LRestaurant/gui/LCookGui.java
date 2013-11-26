@@ -143,4 +143,10 @@ public class LCookGui implements LGui {
     public int getYPos() {
         return yPos;
     }
+
+
+	public void DoLeaveRestaurant() {
+		xDestination = -20;
+        yDestination = -20;		
+	}
 }

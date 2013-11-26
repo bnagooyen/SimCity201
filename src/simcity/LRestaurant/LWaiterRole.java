@@ -1,6 +1,7 @@
 package simcity.LRestaurant;
 
 import agent.Role;
+import simcity.KRestaurant.KWaiterRole.WaiterState;
 import simcity.LRestaurant.LCookRole.OrderState;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
 import simcity.LRestaurant.gui.LWaiterGui;
@@ -50,7 +51,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         LHost host;
         LCashier cashier;
 
-        public enum WaiterState{working, wantBreak, askingBreak, canGoOn, onBreak, checkingIn, backFromBreak};
+        public enum WaiterState{working, wantBreak, askingBreak, canGoOn, onBreak, checkingIn, backFromBreak, leaving, unavailable};
 
         public enum CustomerState{waiting, seated, readyToOrder, askOrder, ordered, reorder, newChoice, waitForFood, orderIsReady, served, receivingCheck, wantsCheck, waitingOnCashier, gotCheck, leaving, gone};
 
@@ -111,6 +112,12 @@ public abstract class LWaiterRole extends Role implements LWaiter{
 
         // Messages
 
+        public void msgGoHome(int cash) {
+			Do("told to go home");
+			myPerson.money += cash;
+			waiterState = WaiterState.leaving;
+		}
+        
         public void msgBreakReply(boolean reply){
                 onBreak = reply;
                 if(reply == true){
@@ -223,6 +230,11 @@ public abstract class LWaiterRole extends Role implements LWaiter{
          * Scheduler.  Determine what action is called for, and do it.
          */
         public boolean pickAndExecuteAnAction() {
+        		if(waiterState.equals(WaiterState.leaving)){
+        			goHome();
+        			return true;
+        		}
+        	
                 if(waiterState.equals(WaiterState.wantBreak)){
                         askHostForBreak();
                         return true;
@@ -299,6 +311,15 @@ public abstract class LWaiterRole extends Role implements LWaiter{
 
         // Actions
 
+        private void goHome(){
+        	Do("Going back home");
+        	isActive = false;
+        	waiterState = WaiterState.unavailable;
+        	waiterGui.DoGoHome();
+        	
+        }
+     
+        
         private void tellHostBack(){
                 Do("Back from Break");
                 onBreak = false;
@@ -547,4 +568,6 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                         check = 0;
                 }
         }
+
+		
 }

@@ -32,4 +32,6 @@ public interface LCustomer {
 	public abstract void msgAnimationFinishedLeaveRestaurant();
 
 	public abstract String getCustomerName();
+
+	public abstract void msgRestaurantClosed();
 }

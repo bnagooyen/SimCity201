@@ -68,6 +68,7 @@ import simcity.Market.InventoryBoyRole;
 import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCustomerRole;
 import simcity.Market.MarketManagerRole;
+import simcity.SimCityPanel.Business;
 import simcity.TTRestaurant.TCashierRole;
 import simcity.TTRestaurant.TCookRole;
 import simcity.TTRestaurant.TCustomerRole;
@@ -670,6 +671,24 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		}
 	}
 	
+	public class BankPlace extends Business {
+		//JPanel animationPanel = new JPanel();
+		
+		public BankLoanOfficerRole loanOfficer;
+		public BankManagerRole manager;
+		public BankTellerRole bankTeller;
+		public BankRobberRole robber;
+		
+		
+		List<BankCustomerRole> bankCustomers;
+		
+		public BankPlace() {
+			loanOfficer = new BankLoanOfficerRole();
+			manager = new BankManagerRole();
+			bankTeller = new BankTellerRole();
+			bankCustomers = new ArrayList<BankCustomerRole>();
+		}
+	}
 	class RestaurantPlace extends Business {
 		//JPanel animationPanel = new JPanel();
 		public int restNum;

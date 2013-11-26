@@ -134,6 +134,11 @@ public class LWaiterGui implements LGui {
     	xDestination = -20;
     	yDestination = -20;
     }
+    
+    public void DoGoHome() {
+    	xDestination = -20;
+    	yDestination = -20;
+    }
     public void DoGoToTable(int tableNumber) {//animation to table
     	tableNum = tableNumber;
     	

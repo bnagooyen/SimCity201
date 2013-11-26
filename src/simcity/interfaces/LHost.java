@@ -34,4 +34,6 @@ public abstract void setCook(LCook cook);
 
 public abstract void addWaiter(LWaiter lw);
 
+public abstract void msgHereIsMoney(int restMoney);
+
 }
