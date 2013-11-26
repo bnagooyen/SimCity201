@@ -77,6 +77,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	public static final int NUMHOUSES = 15;
 	public static final int NUMBANKS = 2;
 	public static final int NUMMARKETS = 4;
+	public static final int NUMRESTAURANTS = 6;
 	public int mktCounter=1;
 	public int bankCounter = 1;
 	public int houseNumCounter=1;
@@ -96,6 +97,9 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	
 	public SimCityPanel(SimCityGui gui) {
 		this.gui = gui;
+		
+		
+		
 		
 		//*********Remember to add in delivery truck**********
 		
@@ -572,45 +576,66 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	    }
 	
 	// Location classes
-	public abstract class Location {
-		// Location l
+//	public abstract class Location {
+//		// Location l
+//		public String name;
+//		public int numEmployees=0;
+//		public int x;
+//		public int y;
+//	}
+//	
+//	public class Restaurant extends Location{
+//		Role host;
+//		String foodType;
+//		
+//		public Restaurant(String n, Role h, String type) {
+//			name = n;
+//			host = h;
+//			foodType = type;
+//		}
+//		
+//		
+//	}
+//	
+//
+//	
+//	public class Bank extends Location{
+//		Role manager;
+//		
+//		public Bank(String n, Role myJob){
+//			name = n;
+//			manager = myJob;
+//		}
+//	}
+//	
+//	public class Market extends Location {
+//		Role manager;
+//		
+//		public Market(String n, Role m) {
+//			name = n;
+//			manager = m;
+//		}
+//	}
+	
+	class Business {
 		public String name;
-		public int numEmployees=0;
 		public int x;
 		public int y;
 	}
 	
-	public class Restaurant extends Location{
-		Role host;
-		String foodType;
-		
-		public Restaurant(String n, Role h, String type) {
-			name = n;
-			host = h;
-			foodType = type;
-		}
-		
-		
-	}
-	
-	public class Bank extends Location{
-		Role manager;
-		
-		public Bank(String n, Role myJob){
-			name = n;
-			manager = myJob;
+	class Restaurant extends Business {
+		public int restNum;
+		public Role host = null;
+		public Role cook = null;
+		public Role cashier = null;
+		List<Role> waiters = null;
+		Restaurant(int restNum) {
+			switch(restNum) {
+			case 1: host = new DHostRole();
+			}
 		}
 	}
-	
-	public class Market extends Location {
-		Role manager;
-		
-		public Market(String n, Role m) {
-			name = n;
-			manager = m;
-		}
-	}
-	
+	  
 	public class MyLandlord {
 		Person p;
 		List<Person> tenants= new ArrayList<Person>();
@@ -665,12 +690,12 @@ public class SimCityPanel extends JPanel implements MouseListener{
              //location.get(i).showbuilding();
             
     }
+   
 		
     
 		
 	}
 */
-
 
 
 	
