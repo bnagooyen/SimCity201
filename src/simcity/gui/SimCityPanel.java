@@ -488,8 +488,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 
 				}
 				else if(job.equals("Cook5")) {
-					//p.SetJob(LRestaurant.cook);
-					p.SetJob(KRestaurant.cook);
+					p.SetJob(LRestaurant.cook);
 				}
 				else if(job.equals("RCashier5")) {
 					p.SetJob(LRestaurant.cashier);
