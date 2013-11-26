@@ -100,7 +100,9 @@ public class KHostRole extends Role implements Host{
 	
 	public void msgTimeUpdate(int hour){
 		this.hour = hour;
-		restaurantMoney = 50000.0;
+		if(hour == 9) {
+			restaurantMoney = 50000.0;
+		}
 	}
 	public void msgIAmHere(Role r, String type){
 		
