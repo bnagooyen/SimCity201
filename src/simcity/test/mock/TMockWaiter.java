@@ -65,6 +65,12 @@ public class TMockWaiter extends Mock implements TWaiter {
 	public void msgOnBreak() {
 		
 	}
+
+	@Override
+	public void msgGoHome(double moneys) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	/**
 

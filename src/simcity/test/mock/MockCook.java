@@ -23,7 +23,7 @@ public class MockCook extends Mock implements Cook{
 		super(name);
 		p = new PersonAgent("default");
 		log = new EventLog();
-		cr = new DCookRole(p);
+		cr = new DCookRole();
 		// TODO Auto-generated constructor stub
 	}
 

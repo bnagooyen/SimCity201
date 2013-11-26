@@ -7,8 +7,8 @@ import simcity.mockrole.MockRole;
 public class MockBankTeller extends MockRole implements BankTeller{
 
 	public EventLog log;
-	public MockBankTeller(String Name, PersonAgent p) {
-		super(Name,p);
+	public MockBankTeller(String Name) {
+		super(Name);
 		// TODO Auto-generated constructor stub
 		log = new EventLog();
 	}

@@ -52,6 +52,12 @@ public class TMockCustomer extends Mock implements TCustomer {
 		
 	}
 
+	@Override
+	public void msgRestaurantClosed() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }
