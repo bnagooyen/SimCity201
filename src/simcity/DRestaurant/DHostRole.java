@@ -408,5 +408,17 @@ public class DHostRole extends Role implements DHost {
 			return "table " + tableNumber;
 		}
 	}
+
+	@Override
+	public void msgIWantFood(DCustomer dCustomerRole) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgIDontWantToWait(DCustomer dCustomerRole) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
