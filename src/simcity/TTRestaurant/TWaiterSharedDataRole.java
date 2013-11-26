@@ -13,7 +13,7 @@ import java.util.concurrent.Semaphore;
  * Restaurant Waiter Agent
  */
 
-public class THeadWaiterRole extends Role implements TWaiter{
+public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 	public List<customers> myCustomers
 	= new ArrayList<customers>(); 
 
@@ -40,7 +40,7 @@ public class THeadWaiterRole extends Role implements TWaiter{
 	public TWaiterGui waiterGui = null;
 
 
-	public THeadWaiterRole() {
+	public TWaiterSharedDataRole() {
 		super();
 
 		this.name = name;

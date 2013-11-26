@@ -40,8 +40,8 @@ public class BusStopTest extends TestCase{
 	public void setUp() throws Exception{
 		person=new PersonAgent("person");
 		person2=new PersonAgent("person2");
-		mockrole=new MockRole("mockrole", person);
-		mockrole2=new MockRole("mockrole", person2);
+		mockrole=new MockRole("mockrole");
+		mockrole2=new MockRole("mockrole");
 		
 		bus=new MockBus("mockBus");
 		bus2=new MockBus("mockBus2");

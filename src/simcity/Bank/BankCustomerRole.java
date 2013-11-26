@@ -5,9 +5,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Bank.BankLoanOfficerRole.bankLoanState;
+import simcity.Bank.gui.BankCustomerGui;
 import simcity.interfaces.BankCustomer;
 import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;
@@ -24,16 +26,22 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	//public String purpose;
 	public Integer accountNum=null;
 	
+	//Gui
+	private Semaphore atDest = new Semaphore(0,true);
+	private BankCustomerGui bankcustomerGui;
+	
 	
 	//messages
 	public void msgGoToLoanOfficer(BankLoanOfficer BL){
 		Do("Told to go to load officer");
 		loanOfficer=BL;
+		stateChanged();
 	}
 	
 	public void msgGoToTeller(BankTeller BT){
 		Do("Told to go to teller");
 		teller=BT;
+		stateChanged();
 	}
 	
 	public void msgTransactionComplete(double amount){
@@ -70,8 +78,24 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	public BankCustomerRole() {
+		super();
 		
+		state=bankCustomerState.arrived;		
 		//purpose="transaction";						//NEED A GOOD WAY FOR PERSON TO DECIDE
+	}
+	
+	public void msgAtTellerPos() {
+		atDest.release();
+		
+	}
+
+	public void msgAnimationFinishedLeaveBank() {
+		atDest.release();
+		state=bankCustomerState.arrived;
+	}
+
+	public void msgAtLoanPos() {
+		atDest.release();
 	}
 	
 
@@ -82,7 +106,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			tellManagerArrived();
 			return true;
 		}
-		if((loanOfficer!=null || teller!=null) && accountNum==null){
+		if((loanOfficer!=null || teller!=null) && accountNum==null && state==bankCustomerState.waiting){
 			makeAccount();
 			return true;
 		}
@@ -106,9 +130,13 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		Do("Arriving at bank");
 		if(purpose.equals("withdraw")||purpose.equals("deposit")||purpose.equals("rob")){
 			manager.msgIAmHere(this,"transaction");
+			bankcustomerGui.goToTeller();
+			finishTask();
 		}
 		else if(purpose.equals("loan")){
 			manager.msgIAmHere(this,"loan");
+			bankcustomerGui.goToLoanPos();
+			finishTask();
 		}
 		state=bankCustomerState.waiting;
 	}
@@ -146,8 +174,20 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	private void leaveBank(){
 		Do("Leaving bank");
 		this.isActive=false;
-		state=bankCustomerState.arrived;
-		//doLeaveBank
+		bankcustomerGui.DoExitBank();
 	}
 
+	//GUI
+	public void setGui(BankCustomerGui BC){
+		bankcustomerGui=BC;
+	}
+	
+	private void finishTask(){			//Semaphore to make waiter finish task before running scheduler
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

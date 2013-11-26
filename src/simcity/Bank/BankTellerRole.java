@@ -1,12 +1,15 @@
 package simcity.Bank;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
+import simcity.Bank.gui.BankTellerGui;
 //import simcity.Bank.BankManagerRole.MyCustomer;
 //import simcity.Bank.BankManagerRole.MyEmployee;
 import simcity.interfaces.*;
 import simcity.test.mock.EventLog;
+import Bank.BankTellerRole.bankTellerState;
 import agent.Role;
 
 public class BankTellerRole extends Role implements BankTeller {
@@ -18,8 +21,15 @@ public class BankTellerRole extends Role implements BankTeller {
 	public Double requested=0.00;
 	public Double transacted=0.00;
 	
-	public enum bankTellerState { working, success, error, finished };
-	public bankTellerState state=bankTellerState.working;
+	//GUI
+	private BankTellerGui banktellerGui;
+	public enum cornerState{ coming, leaving };
+	public cornerState corner=cornerState.coming;
+	public boolean broke=false;
+	
+	public enum bankTellerState { arrived, working, success, error, finished };
+	public bankTellerState state;
+	private Semaphore atDest = new Semaphore(0,true);
 	
 	public enum accountState {none,requested,justMade,existing};
 	

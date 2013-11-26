@@ -4,7 +4,6 @@ import simcity.DRestaurant.DCookRole;
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.gui.DGui;
 import simcity.DRestaurant.gui.DRestaurantGui;
-import simcity.DRestaurant.gui.DCookGui.CookLabel.LabelState;
 import simcity.PersonAgent;
 
 import java.awt.*;

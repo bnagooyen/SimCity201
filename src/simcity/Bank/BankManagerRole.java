@@ -5,11 +5,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Bank.BankManagerRole.MyCustomer.MyCustomerState;
 import simcity.Bank.BankManagerRole.MyLoanOfficer.MyOfficerState;
 import simcity.Bank.BankManagerRole.MyTeller.MyTellerState;
+import simcity.Bank.gui.BankManagerGui;
 import simcity.housing.LandlordRole;
 import simcity.interfaces.BankCustomer;
 import simcity.interfaces.BankLoanOfficer;
@@ -36,6 +39,14 @@ public class BankManagerRole extends Role implements BankManager {
 	BankState bankState;
 	private double employeePayPerHour=10;
 	private double vault = 1000000000;
+	
+	
+	//gui
+	private Semaphore atDest = new Semaphore(0,true);
+	public enum cornerState{ coming, leaving };
+	public cornerState corner=cornerState.coming;
+	private BankManagerGui bankManagerGui;
+	private Timer timer=new Timer();
 	
 	public BankManagerRole(PersonAgent p) {
 		super();
@@ -79,6 +90,9 @@ public class BankManagerRole extends Role implements BankManager {
 			Do("Customer with a transaction is here");
 			customers.add(new MyCustomer((BankCustomer)person, MyCustomer.MyCustomerState.transaction));
 			stateChanged();
+		}
+		else{
+			Do("*****************************INVALID STRING PASSED*****************************");
 		}
 	}
 	
@@ -124,6 +138,45 @@ public class BankManagerRole extends Role implements BankManager {
 		Do("Gave loan");
 		vault -= cash;
 		stateChanged();
+	}
+	
+	@Override
+	public void msgAnimationFinishedGoToCorner() {
+		if(corner==cornerState.coming){
+			bankManagerGui.goToTellerPos();
+		}
+		else if(corner==cornerState.leaving){
+			bankManagerGui.DoExitBank();
+		}
+		atDest.release();
+	}
+
+
+	@Override
+	public void msgAnimationFinishedLeaveBank() {
+		//this.isActive=false;
+		atDest.release();
+	}
+
+
+	@Override
+	public void msgAtTellerPos() {
+		atDest.release();
+		
+	}
+
+
+	@Override
+	public void msgAtManagerPos() {
+		// TODO Auto-generated method stub
+		atDest.release();
+	}
+
+
+	@Override
+	public void msgAtLoanPos() {
+		// TODO Auto-generated method stub
+		atDest.release();
 	}
 	
 	public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill) {
@@ -182,7 +235,7 @@ public class BankManagerRole extends Role implements BankManager {
 			return true;
 		}
 		
-		if(!officers.isEmpty() && tellers.get(0).needsAccount) {
+		if(!officers.isEmpty() && officers.get(0).needsAccount) {
 			NewAccountForOfficer();
 			return true;
 		}
@@ -232,24 +285,36 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	private void OpenBank() {
 		Do("Opening bank");
+		bankManagerGui.goToCorner();
+		finishTask();
+		bankManagerGui.goToManagerPos();
+		finishTask();
 		bankState=BankState.open;
 	}
 	private void SwapTellers() {
 		Do("Switching out tellers");
+		bankManagerGui.goToTellerPos();
+		finishTask();
 		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
 		tellers.get(1).emp.msgGoToTellerPosition();
 		tellers.get(1).startHr=hour;
 		tellers.get(1).state=MyTellerState.available;
 		tellers.remove(tellers.get(0));
+		bankManagerGui.goToManagerPos();
+		finishTask();
 	}
 	
 	private void SwapLoanOfficers() {
 		Do("Switching out loan officers");
+		bankManagerGui.goToLoanPos();
+		finishTask();
 		officers.get(0).emp.msgGoHome((hour-officers.get(0).startHr)*employeePayPerHour);
 		officers.get(1).emp.msgGoToLoanOfficerPosition();
 		officers.get(1).startHr=hour;
 		officers.get(1).state=MyOfficerState.available;
 		officers.remove(officers.get(0));
+		bankManagerGui.goToManagerPos();
+		finishTask();
 	}
 	
 	private void AddTeller() {
@@ -305,13 +370,21 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	private void CloseBank() {
 		Do("Closing bank");
-		officers.get(0).emp.msgGoHome((hour-officers.get(0).startHr)*employeePayPerHour);
-		officers.clear();
+		bankManagerGui.goToTellerPos();
+		finishTask();		
 		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
 		tellers.clear();
+		bankManagerGui.goToLoanPos();
+		finishTask();
+		officers.get(0).emp.msgGoHome((hour-officers.get(0).startHr)*employeePayPerHour);
+		officers.clear();
 		bankState=BankState.closed;
+		bankManagerGui.goToCorner();;
+		finishTask();
+		bankManagerGui.DoExitBank();
+		finishTask();
 		BankIsClosed();
-		//isActive = false;
+		this.isActive = false;
 	}
 	
 	private void NewAccountForTeller() {
@@ -332,13 +405,17 @@ public class BankManagerRole extends Role implements BankManager {
 		Do("Doing and completing transaction");
 		if(accounts.get(tellers.get(0).accountNum)==null) { // customer doesn't exist
 //			tellers.get(0).msgAccountInexistant();
+			Do("NO CUSTOMER");
 			return;
 		}
 		if(tellers.get(0).requested<-1*(accounts.get(tellers.get(0).accountNum)).balance) {
 			tellers.get(0).requested=-1*(accounts.get(tellers.get(0).accountNum).balance);
 		}
 		MyAccount update = accounts.get(tellers.get(0).accountNum);
+		Do("Account=$"+update.balance);
 		update.balance+=tellers.get(0).requested;
+		Do("Account=$"+update.balance);
+		vault-=tellers.get(0).requested;
 		accounts.put(tellers.get(0).accountNum, update);
 		tellers.get(0).emp.msgTransactionProcessed(tellers.get(0).requested);
 		tellers.get(0).requested=0.0;
@@ -396,6 +473,19 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	public BankState getBankStatus() {
 		return bankState;
+	}
+	
+	public void setGui(BankManagerGui Bman){
+		bankManagerGui=Bman;
+	}
+	
+	private void finishTask(){			//Semaphore to make waiter finish task before running scheduler
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//classes

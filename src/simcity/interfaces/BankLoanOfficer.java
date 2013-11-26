@@ -21,4 +21,14 @@ public interface BankLoanOfficer {
 	public void msgGoHome(double pay); // add this method!
 
 	public void msgGoToLoanOfficerPosition();
+
+	void msgAnimationFinishedGoToCorner();
+
+	void msgAnimationFinishedLeaveBank();
+
+	void msgAtLoanPos();
+
+	public void setManager(BankManager m);
+
+
 }
