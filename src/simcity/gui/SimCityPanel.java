@@ -96,6 +96,7 @@ import simcity.interfaces.MarketManager;
 import simcity.interfaces.Person;
 import simcity.interfaces.TCashier;
 import simcity.interfaces.TCook;
+import simcity.restaurant.interfaces.Cashier;
 
 public class SimCityPanel extends JPanel implements MouseListener{
 
@@ -374,8 +375,8 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				PersonAgent p = new PersonAgent(in.next());
 				p.setMoney(in.nextDouble());
 				String job = in.next().trim();
-				Role myJob = jobFactory(job,p);
-				p.SetJob(myJob);
+				//Role myJob = jobFactory(job,p);
+				//p.SetJob(myJob);
 				if(job.equals("Landlord")) {
 					landlords.add(new MyLandlord(p));
 //					System.out.println("landlord added");
@@ -679,8 +680,8 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					cashier = new DCashierRole();
 					((DHost)host).addCook((DCook)cook);
 					((DCookRole) cook).AddHost((DHostRole)host);
-					((DCookRole)cook).AddCashier((DCashierRole)cashier);
-					((DCashierRole)cashier).AddCook((DCookRole)cook);
+					((DCookRole)cook).AddCashier((Cashier)cashier);
+					((DCashierRole)cashier).AddCook((DCook)cook);
 					break;
 			case 4: host = new KHostRole();
 					cook = new KCookRole();
@@ -690,14 +691,14 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					((KCookRole)cook).setHost((KHostRole) host);
 					((KCookRole)cook).setCashier((KCashierRole) cashier);
 					((KCashierRole)cashier).setHost((KHostRole) host);
-					((KCashierRole)cashier).setCook(((KCookRole) cook);
-
+					((KCashierRole)cashier).setCook((KCookRole) cook);
+					break;
 			case 5:	host = new LHostRole();
 					cook = new LCookRole();
 					cashier = new LCashierRole();
 					((LHost) host).setCook((LCook)cook);
 					((LCook) cook).setCashier((LCashier)cashier);
-					
+					break;
 			case 6: host = new THostRole(); 
 					cook = new TCookRole();
 					cashier = new TCashierRole();
@@ -899,6 +900,51 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	                       0,        //initial delay
 	                       1*12000);  //subsequent rate		
 			}
+
+
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 	}
