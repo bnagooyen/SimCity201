@@ -654,7 +654,20 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	//waiter needs host
 	//customer needs hot
 	//waiter needs cook setCook(cook)
-	class RestaurantReplace extends Business {
+	
+	class MarketPlace extends Business {
+		public InventoryBoyRole ib;
+		public MarketManagerRole mManager;
+		public MarketCashierRole mCashier;
+		
+		public MarketPlace() {
+			ib = new InventoryBoyRole();
+			mManager = new MarketManagerRole();
+			mCashier = new MarketCashierRole();
+		}
+	}
+	
+	class RestaurantPlace extends Business {
 		//JPanel animationPanel = new JPanel();
 		public int restNum;
 		public Role host = null;
@@ -662,7 +675,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		public Role cashier = null;
 		List<Role> waiters = null;
 		List<Role> customers = null;
-		RestaurantReplace(int restNum) {
+		RestaurantPlace(int restNum) {
 			switch(restNum) {
 			
 			case 1: host = new Drew_HostRole();
