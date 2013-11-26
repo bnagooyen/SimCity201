@@ -36,8 +36,8 @@ public class MarketManagerRole extends Role implements MarketManager{
 	
 	MManagerGui managerGui;
 
-	public MarketManagerRole(PersonAgent p) {
-		super(p);
+	public MarketManagerRole() {
+		super();
 		marketMoney = 50000.0; //***********threshold all the rest deposit to the bank
 		log = new EventLog();
 	}
@@ -129,7 +129,6 @@ public class MarketManagerRole extends Role implements MarketManager{
 		
 		if(isClosed){
 			marketClosed();
-			return true;
 		}
 		
 		if(cashiers.size() > 1){

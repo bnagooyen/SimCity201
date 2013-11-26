@@ -39,9 +39,9 @@ public class LCashierRole extends Role implements LCashier {
 	public enum TransState {pending, computing, done};
 	//private CookGui cookGui;
 	
-	public LCashierRole(PersonAgent p){
-		super(p);
-		this.name = p.getName();
+	public LCashierRole(){
+		super();
+		//this.name = p.getName();
 		restMoney = 100;
 		foods.put("P", new Food("P", 8)); //choice, cookTime, amount, capacity, threshold
 		foods.put("St", new Food("St", 15));

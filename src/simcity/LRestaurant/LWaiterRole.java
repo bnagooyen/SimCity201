@@ -6,7 +6,9 @@ import simcity.LRestaurant.LCustomerRole.AgentEvent;
 import simcity.LRestaurant.gui.LWaiterGui;
 import simcity.LRestaurant.LMenu;
 import simcity.PersonAgent;
+import simcity.interfaces.Host;
 import simcity.interfaces.LCustomer;
+import simcity.interfaces.LHost;
 import simcity.interfaces.LWaiter;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
@@ -43,7 +45,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         public WaiterState waiterState;
 
         LCookRole cook;
-        LHostRole host;
+        LHost host;
         LCashierRole cashier;
 
         public enum WaiterState{working, wantBreak, askingBreak, canGoOn, onBreak, checkingIn, backFromBreak};
@@ -52,9 +54,9 @@ public abstract class LWaiterRole extends Role implements LWaiter{
 
         int numCust = 0;
 
-        public LWaiterRole(PersonAgent p) {
-                super(p);
-                this.name = p.getName();
+        public LWaiterRole() {
+                super();
+                //this.name = p.getName();
                 onBreak = false;
                 waiterState = WaiterState.working;
                 log = new EventLog();
@@ -73,8 +75,8 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                 waiterGui.setCookGui(cook.cookGui);
         }
 
-        public void setHost(LHostRole host){
-                this.host = host;
+        public void setHost(Host host){
+                this.host = (LHost) host;
         }
 
         public String getMaitreDName() {
@@ -361,6 +363,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                         e.printStackTrace();
                 }
                 */
+                
                 host.msgLeftLine();
                 //print("Got a semaphore");
                 //waiterGui.DoLeaveCustomer();

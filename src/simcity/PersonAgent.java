@@ -213,6 +213,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	}
 
 	public void msgBusIsHere(Bus b){
+		setBus(b);
 		transitState=TransitState.getOnBus;
 		stateChanged();
 	}
@@ -515,6 +516,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	}
 
 	private void getOnBus(){
+		Do("getting on bus");
 		bus.msgGettingOn(this, mydestination);
 		transitState=TransitState.onBus;
 	}

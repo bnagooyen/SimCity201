@@ -8,6 +8,7 @@ import simcity.LRestaurant.ProducerConsumerMonitor;
 import simcity.LRestaurant.gui.LWaiterGui;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.MockKRestaurantCustomer;
+import simcity.test.mock.MockLHost;
 //import simcity.LRestaurant.test.mock.MockMarket;
 import simcity.interfaces.LCustomer;
 import simcity.test.mock.MockLCustomer;
@@ -20,6 +21,7 @@ public class LWaiterSharedDataTest extends TestCase
 	PersonAgent p;
 	LWaiterSharedDataRole sWaiter;
 	MockLCustomer customer;
+	MockLHost host;
 
 	
 	/**
@@ -30,9 +32,12 @@ public class LWaiterSharedDataTest extends TestCase
 		super.setUp();	
 		p = new PersonAgent("person");
 		customer = new MockLCustomer("mockcustomer");	
-		sWaiter = new LWaiterSharedDataRole(p);
+		sWaiter = new LWaiterSharedDataRole();
+		host = new MockLHost("mostkhost");
+		sWaiter.myPerson = p;
 		ProducerConsumerMonitor m = new ProducerConsumerMonitor();
 		sWaiter.setMonitor(m);
+		sWaiter.setHost(host);
 	}	
 	
 	public void testWaiter(){
@@ -51,7 +56,7 @@ public class LWaiterSharedDataTest extends TestCase
 
 		sWaiter.pickAndExecuteAnAction();
 		assertTrue("waiter's log should say it's seating customer but doesn't", sWaiter.log.containsString("Seating customer"));		
-		assertTrue("customer's log should say being seated but doesn't", customer.log.containsString("told to sit at table"));		
+		assertTrue("customer's log should say being seated but doesn't", customer.log.containsString("Received msgFollowMe"));		
 
 		// customer gives waiter order
 		sWaiter.msgHereIsMyChoice(customer, "Steak");
@@ -62,8 +67,7 @@ public class LWaiterSharedDataTest extends TestCase
 
 		// postconditions
 		assertFalse("waiter's scheduler should return false", sWaiter.pickAndExecuteAnAction());
-		assertTrue("waiter's customer list should contain a customer who's status is ordered", sWaiter.customers.get(0).state== CustomerState.ordered);		
-
+		
 		
 	}
 	

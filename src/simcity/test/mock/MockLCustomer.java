@@ -33,7 +33,8 @@ public class MockLCustomer extends Mock implements LCustomer {
 	}
 
 	public void msgFollowMe(int tableNumber, LMenu m, LWaiter w){
-		
+		LoggedEvent e = new LoggedEvent("Received msgFollowMe");
+		log.add(e);
 	}
 
 	public void msgPleaseReorder(LMenu m){

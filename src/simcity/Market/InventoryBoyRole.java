@@ -38,8 +38,8 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	public EventLog log;
 
 	
-	public InventoryBoyRole(PersonAgent p) {
-		super(p);
+	public InventoryBoyRole() {
+		super();
 		this.p = p;
 		log = new EventLog();
 		

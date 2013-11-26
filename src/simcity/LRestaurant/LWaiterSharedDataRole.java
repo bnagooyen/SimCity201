@@ -11,13 +11,14 @@ public class LWaiterSharedDataRole extends LWaiterRole implements LWaiter{
 
 	private ProducerConsumerMonitor theMonitor;
 	
-	public LWaiterSharedDataRole(PersonAgent p) {
-		super(p);
+	public LWaiterSharedDataRole() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected void giveCookOrder(MyCustomers c) {
+		System.out.println(c.state);
 		LoggedEvent e = new LoggedEvent("Giving order cook");
         log.add(e);
 		

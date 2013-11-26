@@ -1,12 +1,14 @@
 package simcity.Drew_restaurant;
 
 import agent.Role;
+import restaurant.CookAgent;
 import simcity.PersonAgent;
-//import restaurant.gui.RestaurantPanel;
 //import restaurant.Customer.AgentState;
 //import restaurant.gui.WaiterGui;
 import simcity.Drew_restaurant.interfaces.*;
+import simcity.interfaces.Cook;
 import simcity.interfaces.Host;
+
 import java.util.*;
 
 /**
@@ -17,6 +19,7 @@ import java.util.*;
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
 public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
+	private ProducerConsumerMonitor theMonitor;
 	public static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -28,6 +31,8 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 	
 	public List<MyWaiter> waiters
 	= Collections.synchronizedList(new ArrayList<MyWaiter>());
+	
+	public Cook cook;
 	
 	public Collection<Table> tables;
 	//note that tables is typed with Collection semantics.
@@ -176,6 +181,11 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 	}
 
 	//utilities
+	
+	public void setCook(Cook C){
+		cook=C;
+		cook.setMonitor(theMonitor);
+	}
 
 	private class MyWaiter{
 		Drew_Waiter waiter;
