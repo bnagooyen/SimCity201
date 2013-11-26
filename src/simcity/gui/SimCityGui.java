@@ -49,7 +49,7 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 	    add(simCityAnimationPanel, BorderLayout.CENTER);
 	
 	    PersonAgent person = new PersonAgent("Drew");
-	    BankManagerRole bm = new BankManagerRole(person);
+	    BankManagerRole bm = new BankManagerRole();
 	    person.SetJob(bm);
 	    person.startThread(); 
 	   

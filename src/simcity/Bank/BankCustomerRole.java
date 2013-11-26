@@ -195,4 +195,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			e.printStackTrace();
 		}
 	}
+
+	public void setMarketManager(BankManagerRole bankManager) {
+		manager = bankManager;
+	}
 }

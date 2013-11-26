@@ -408,32 +408,32 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				}
 				
 				//add to map
-				if(job.equals("BankManager") && bankCounter<=NUMBANKS) {
-					banks.add(new Bank("Bank"+Integer.toString(bankCounter), myJob));
-					bankCounter++;
-				}
-				else if(job.equals("MarketManager") && mktCounter<=NUMMARKETS) {
-					markets.add(new Market("Market"+Integer.toString(mktCounter), myJob));	
-					mktCounter++;
-				}
-				else if(job.equals("Host1")) {
-					restaurants.add(new Restaurant("Restaurant1", myJob, "normal"));
-				}
-				else if(job.equals("Host2")) {
-					restaurants.add(new Restaurant("Restaurant2", myJob, "normal"));
-				}
-				else if(job.equals("Host3")) {
-					restaurants.add(new Restaurant("Restaurant3", myJob, "normal"));
-				}
-				else if(job.equals("Host4")) {
-					restaurants.add(new Restaurant("Restaurant4", myJob, "normal"));
-				}
-				else if(job.equals("Host5")) {
-					restaurants.add(new Restaurant("Restaurant5", myJob, "normal"));
-				}
-				else if(job.equals("Host6")) {
-					restaurants.add(new Restaurant("Restaurant6", myJob, "normal"));
-				}
+//				if(job.equals("BankManager") && bankCounter<=NUMBANKS) {
+//					banks.add(new Bank("Bank"+Integer.toString(bankCounter), myJob));
+//					bankCounter++;
+//				}
+//				else if(job.equals("MarketManager") && mktCounter<=NUMMARKETS) {
+//					markets.add(new Market("Market"+Integer.toString(mktCounter), myJob));	
+//					mktCounter++;
+//				}
+//				else if(job.equals("Host1")) {
+//					restaurants.add(new Restaurant("Restaurant1", myJob, "normal"));
+//				}
+//				else if(job.equals("Host2")) {
+//					restaurants.add(new Restaurant("Restaurant2", myJob, "normal"));
+//				}
+//				else if(job.equals("Host3")) {
+//					restaurants.add(new Restaurant("Restaurant3", myJob, "normal"));
+//				}
+//				else if(job.equals("Host4")) {
+//					restaurants.add(new Restaurant("Restaurant4", myJob, "normal"));
+//				}
+//				else if(job.equals("Host5")) {
+//					restaurants.add(new Restaurant("Restaurant5", myJob, "normal"));
+//				}
+//				else if(job.equals("Host6")) {
+//					restaurants.add(new Restaurant("Restaurant6", myJob, "normal"));
+//				}
 				//for load balancing waiters when they are added on through gui
 				else if(job.equals("Waiter1")) {
 					for(Location r: restaurants) {
@@ -582,7 +582,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
     		int restAssignedTo = Integer.parseInt(restaurants.get(minWaiterIndex).name.substring(restaurants.get(minWaiterIndex).name.length()-1));
     		
    /*****************call add waiter*********************/ 		
-    		Role myJob=jobFactory("Waiter"+Integer.toString(restAssignedTo), p);
+    		//Role myJob=jobFactory("Waiter"+Integer.toString(restAssignedTo), p);
     		//System.out.println(myJob);
     		for(Location r: restaurants) {
     			if(r.name.equals("Restaurant"+Integer.toString(restAssignedTo))) {
@@ -591,7 +591,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
     			}
     		}
     		//System.out.println(restAssignedTo);
-    		p.SetJob(myJob);
+//    		p.SetJob(myJob);
 //    		System.out.println(p.getJob());
     		if(houseOrApt.equals("House") && houseNumCounter<=NUMHOUSES) {
 				p.SetHome(HomeType.house);
@@ -691,6 +691,20 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			mManager = new MarketManagerRole();
 			mCashier = new MarketCashierRole();
 			mCustomers = new ArrayList<MarketCustomer>();
+			
+			ib.setMarketCashier(mCashier);
+			ib.setMarketManager(mManager);
+			
+			mCashier.setInventoryBoy(ib);
+			mCashier.setMarketManager(mManager);
+		
+		}
+		
+		public MarketCustomer addCustomer() {
+			MarketCustomerRole c = new MarketCustomerRole();
+			c.setMarketManager(mManager);
+			mCustomers.add(c);
+			return c;
 		}
 	}
 	
@@ -698,7 +712,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		//JPanel animationPanel = new JPanel();
 		
 		public BankLoanOfficerRole loanOfficer;
-		public BankManagerRole manager;
+		public BankManagerRole bankManager;
 		public BankTellerRole bankTeller;
 		public BankRobberRole robber;
 		
@@ -707,9 +721,19 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		
 		public BankPlace() {
 			loanOfficer = new BankLoanOfficerRole();
-			manager = new BankManagerRole();
+			bankManager = new BankManagerRole();
 			bankTeller = new BankTellerRole();
 			bankCustomers = new ArrayList<BankCustomerRole>();
+			
+			loanOfficer.setManager(bankManager);
+			bankTeller.setManager(bankManager);
+			
+		}
+		public BankCustomerRole addCustomer() {
+			BankCustomerRole b = new BankCustomerRole();
+			b.setMarketManager(bankManager);
+			bankCustomers.add(b);
+			return b;
 		}
 	}
 	class RestaurantPlace extends Business {
