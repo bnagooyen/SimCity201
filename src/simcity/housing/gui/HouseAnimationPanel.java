@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class HouseAnimationPanel extends JPanel implements ActionListener {
 
-    private final int WINDOWX = 450;
-    private final int WINDOWY = 350;
+    private final int WINDOWX = 575;
+    private final int WINDOWY = 325;
     private Image bufferImage;
     private Dimension bufferSize;
 
@@ -46,7 +46,7 @@ public class HouseAnimationPanel extends JPanel implements ActionListener {
         g2.setColor(Color.black);
         g2.fillRect(200, 250, w, h);
            
-        //Here is the table
+        //Here is the bed
         g2.setColor(Color.blue);
         g2.fillRect(0, 0, 50, 80);
            
