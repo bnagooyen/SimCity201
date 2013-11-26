@@ -43,6 +43,7 @@ public class KCookRole extends Role implements KCook{
 	private Semaphore atFridge = new Semaphore(0,true);
 	private Semaphore atPlating = new Semaphore(0, true);
 	
+	public boolean goHome = false;
 	public boolean needToOrder;
 	private KRestaurantGui gui;
 
@@ -80,7 +81,12 @@ public class KCookRole extends Role implements KCook{
 	}
 
 	// Messages
-
+	public void msgGoHome(double payment) {
+		Do("told to go home");
+		myPerson.money += payment;
+		goHome = false;
+		stateChanged();
+	}
 	public void msgHereIsAnOrder(KWaiter w, String choice, int table) {
 		Do("got order from waiter");
 		LoggedEvent e = new LoggedEvent("got order from waiter");
@@ -177,6 +183,9 @@ public class KCookRole extends Role implements KCook{
 				}
 			}
 		}
+		if(goHome) {
+			leaveRestaurant();
+		}
 		else {
 			checkRotatingStand();
 		}
@@ -185,6 +194,19 @@ public class KCookRole extends Role implements KCook{
 
 	
 	// Actions
+
+	
+
+	private void goHome() {
+		Do("going home");
+		isActive = false;
+		goHome = false;
+		leaveRestaurant();
+	}
+
+	private void leaveRestaurant() {
+		cookGui.DoLeaveRestaurant();
+	}
 
 	private void giveCashierCheck(MarketOrder m) {
 		Do("giving check to cashier");
@@ -392,6 +414,7 @@ public class KCookRole extends Role implements KCook{
 			state = marketOrderState.waiting;
 		}
 	}
+	
 	
 }
 

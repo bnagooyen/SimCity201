@@ -49,7 +49,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	
 	public enum WaiterState 
 	{
-		working, wantToGoOnBreak, askingToGoOnBreak, canGoOnBreak, onBreak, backFromBreak
+		working, wantToGoOnBreak, askingToGoOnBreak, canGoOnBreak, onBreak, backFromBreak, leave, unavailable
 	}
 	public enum customerstate 
 	{ waiting, seated, readyToOrder, askedToOrder, ordered, needToOrderAgain, waitingForFood,
@@ -74,7 +74,13 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	}
 	
 	// Messages
-
+	public void msgGoHome(double paycheck) {
+		Do("told to go home");
+		myPerson.money += paycheck;
+		mystate = WaiterState.leave;
+		stateChanged();
+	}
+	
 	public void msgSeatCustomer(KCustomer cust, int table) {
 		MyCustomer c = null;
 		for(MyCustomer mc : customers) {
@@ -303,10 +309,25 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 		catch(ConcurrentModificationException e) {
 			return false;
 		}
+		if ( mystate == WaiterState.leave ) {
+			goHome();
+			return true;
+		}
 		return false;
 	}
 
 	// Actions
+
+	private void goHome() {
+		Do("going home");
+		isActive = false;
+		mystate = WaiterState.unavailable;
+		DoGoHome();
+	}
+
+	private void DoGoHome() {
+		waiterGui.DoGoHome();
+	}
 
 	private void askToGoOnBreak() {
 		mystate = WaiterState.askingToGoOnBreak;
@@ -518,5 +539,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 			foodPickup = -1;
 		}
 	}
+
+	
 }
 

@@ -89,8 +89,8 @@ public class TCashierRole extends Role implements TCashier{
 	}
 	
 	
-	public TCashierRole(PersonAgent p){
-		super(p);
+	public TCashierRole(){
+		super();
 		this.name = name;
 	}
 

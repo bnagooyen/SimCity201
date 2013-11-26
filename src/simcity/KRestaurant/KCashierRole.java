@@ -26,6 +26,8 @@ public class KCashierRole extends Role implements KCashier{
 	public EventLog log;
 	private double myMoney;
 	
+	boolean goHome = false;
+	
 	private String name;
 				
 	private Timer timer;
@@ -58,7 +60,11 @@ public class KCashierRole extends Role implements KCashier{
 	}
 
 	// Messages
-
+	public void msgGoHome(double paycheck) {
+		myPerson.money += paycheck;
+		goHome = true;
+		stateChanged();
+	}
 	public void msgBill(KCustomer c, KWaiter w, String choice ) {
 		Do("got bill order from waiter");
 		synchronized(bills) {
@@ -133,10 +139,20 @@ public class KCashierRole extends Role implements KCashier{
 				}
 			}
 		}
+		if(goHome) {
+			goHome();
+			return true;
+		}
 		return false;
 	}
 
 	// Actions
+
+	private void goHome() {
+		Do("Going home");
+		isActive = false;
+		goHome = false;
+	}
 
 	public void compute(final Order o) {
 		o.s = orderState.computed;
@@ -240,6 +256,8 @@ public class KCashierRole extends Role implements KCashier{
 	public void setMoney(double money) {
 		myMoney = money;
 	}
+
+	
 
 	
 }
