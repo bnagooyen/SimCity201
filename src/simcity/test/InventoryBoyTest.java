@@ -24,8 +24,9 @@ public class InventoryBoyTest extends TestCase{
 	
 	public void setUp() throws Exception{
 		super.setUp();
-		p = new PersonAgent("InventoryBoy");
-		ib = new InventoryBoyRole(p);
+		p = new PersonAgent("default");
+		ib = new InventoryBoyRole();
+		ib.myPerson = p;
 		mc = new MockMarketCashier("mockMarketCashier");
 		c = new MockMarketCustomer("mockCustomer");
 		ibGui = new IBGui(ib);
