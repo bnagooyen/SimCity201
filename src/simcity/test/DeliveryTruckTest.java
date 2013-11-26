@@ -48,9 +48,9 @@ public class DeliveryTruckTest extends TestCase{
 //		person=new MockPerson("person");
 		p = new PersonAgent("default");
 		truck = new DeliveryTruckAgent(manager);
-		manager = new MockRoleMarketManager("mockManager",p);
-		cashier = new MockRoleMarketCashier("mockMarketCashier", p);
-		cook = new MockRoleCook("mockCook", p);
+		manager = new MockRoleMarketManager("mockManager");
+		cashier = new MockRoleMarketCashier("mockMarketCashier");
+		cook = new MockRoleCook("mockCook");
 
 	}
 	
@@ -87,6 +87,8 @@ public class DeliveryTruckTest extends TestCase{
 	}
 
 
+	
 
 
 }
+
