@@ -1,10 +1,9 @@
 package simcity.DRestaurant.gui;
 
-import simcity.DRestaurant.DCustomerRole;
-import simcity.DRestaurant.DHostRole;
-
 import java.awt.*;
 import java.util.Random;
+
+import simcity.DRestaurant.DCustomerRole;
 
 
 public class DCustomerGui implements DGui{
@@ -15,6 +14,7 @@ public class DCustomerGui implements DGui{
 	private boolean isServed = false;
 	private boolean orderDisplayed=false;
 	private String dispChoice;
+	//private HostAgent host;
 	DRestaurantGui gui;
 
     public static final int x_Offset = 100;
@@ -53,6 +53,7 @@ public class DCustomerGui implements DGui{
 		this.gui = gui;
 	}
 
+	@Override
 	public void updatePosition() {
 		if (xPos < xDestination)
 			xPos++;
@@ -82,6 +83,7 @@ public class DCustomerGui implements DGui{
 		}
 	}
 
+	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(Color.GREEN);
 		g.fillRect(xPos, yPos, 20, 20);
@@ -94,6 +96,7 @@ public class DCustomerGui implements DGui{
 		}
 	}
 
+	@Override
 	public boolean isPresent() {
 		return isPresent;
 	}
@@ -125,6 +128,8 @@ public class DCustomerGui implements DGui{
 		
 	}
 	public void DoGoToSeat(int table, int seatnumber) {//later you will map seatnumber to table coordinates.
+		//xDestination = xTable;
+		//yDestination = yTable;
 		
 		xDestination = ((table -1)%TABLES_perRow*TABLESZ_xy*2) + TABLE_gap+ x_Offset;
         yDestination = ((table-1)/TABLES_perRow)*TABLESZ_xy*2+TABLE_gap;
@@ -149,7 +154,7 @@ public class DCustomerGui implements DGui{
 	public void DoGoToCashier() {
 		xDestination = cashier_x;
 		yDestination = cashier_y;
-		System.out.println("dogotocashier called");
+//		System.out.println("dogotocashier called");
 		command = Command.GoToCashier;
 	}
 	

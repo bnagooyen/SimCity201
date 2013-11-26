@@ -7,7 +7,7 @@ public interface DCustomer {
 	public abstract void gotHungry(); 
 	public void msgNoRoomForYou();
 
-	public abstract void msgFollowMe(DMenu menu, int tnum, DWaiter w);
+	public abstract void msgFollowMe(DMenu menu, int tnum, DWaiterRole w);
 	public abstract void msgHereIsYourBill(int tnum, double d);
 	
 
