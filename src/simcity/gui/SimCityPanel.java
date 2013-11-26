@@ -92,6 +92,7 @@ import simcity.interfaces.KWaiter;
 import simcity.interfaces.LCashier;
 import simcity.interfaces.LCook;
 import simcity.interfaces.LHost;
+import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.Person;
 import simcity.interfaces.TCashier;
@@ -659,11 +660,13 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		public InventoryBoyRole ib;
 		public MarketManagerRole mManager;
 		public MarketCashierRole mCashier;
+		List<MarketCustomer> mCustomers;
 		
 		public MarketPlace() {
 			ib = new InventoryBoyRole();
 			mManager = new MarketManagerRole();
 			mCashier = new MarketCashierRole();
+			mCustomers = new ArrayList<MarketCustomer>();
 		}
 	}
 	
