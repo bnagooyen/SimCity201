@@ -3,6 +3,8 @@ package simcity.TTRestaurant;
 import simcity.interfaces.TCustomer;
 import simcity.interfaces.TWaiter;
 import simcity.PersonAgent;
+import simcity.KRestaurant.KCustomerRole.AgentEvent;
+import simcity.KRestaurant.KCustomerRole.AgentState;
 import simcity.TTRestaurant.gui.TCustomerGui;
 import agent.Role;
 
@@ -77,6 +79,12 @@ public class TCustomerRole extends Role implements TCustomer {
 	}
 	// Messages
 
+	public void msgRestaurantClosed() {
+		state = AgentState.Leaving;
+		event = AgentEvent.doneLeaving;
+		stateChanged();
+	}
+	
 	public void gotHungry() {//from animation
 		print("I'm hungry");
 		myMoney = randomOrder.nextInt(20); 

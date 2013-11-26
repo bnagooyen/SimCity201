@@ -32,5 +32,8 @@ public interface TWaiter {
 	public abstract void msgNoBreak();
 
 	public abstract void msgOnBreak();
+	
+	public abstract void msgGoHome(double moneys); 
+
 
 }

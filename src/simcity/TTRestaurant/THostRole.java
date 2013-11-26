@@ -23,7 +23,8 @@ public class THostRole extends Role implements Host {
 	public Collection<Table> tables;
 	public List<myWaiters> waiters
 	= Collections.synchronizedList(new ArrayList<myWaiters>());
-
+	TCashierRole cashier = new TCashierRole();
+	TCookRole cook = new TCookRole(); 
 
 	enum WaiterState 
 	{ready, wantsBreak, onBreak};
@@ -33,11 +34,14 @@ public class THostRole extends Role implements Host {
 	private int waiterNum = 0;
 	private int waitersOnBreak = 0;
 	private int occupiedTable = 0; 
+	private int hour;
+	private boolean isClosed;
+	public double restaurantMoney = 2000; 
 
 	public THostGui hostGui = null;
 
-	public THostRole(PersonAgent p) {
-		super(p);
+	public THostRole() {
+		super();
 
 		this.name = name;
 		// make some tables
@@ -54,6 +58,10 @@ public class THostRole extends Role implements Host {
 
 
 	// Messages
+	
+	public void msgTimeUpdate(int hour) {
+		this.hour = hour;
+	}
 
 	public void msgIWantFood(TCustomer cust) {
 		waitingCustomers.add(cust);
@@ -137,6 +145,17 @@ public class THostRole extends Role implements Host {
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
+		
+		if(hour == 20 && !isClosed){
+			closeRestaurant();
+			return true;
+		}
+		
+		if(isClosed){
+			restaurantClosed();
+			return true;
+		}
+		
 		synchronized(waiters) {
 		for (int index = 0; index < waiters.size(); index++) {
 			if (waiters.get(index).state == WaiterState.wantsBreak) {
@@ -189,6 +208,34 @@ public class THostRole extends Role implements Host {
 	}
 
 	// Actions
+	
+	private void closeRestaurant(){ //pay employees 50
+		Do("Closing restaurant. It is "+hour);
+		synchronized(waiters){
+			for(myWaiters w: waiters){
+				restaurantMoney -= 50;
+				w.w.msgGoHome(50);
+			}
+		}
+		cashier.msgGoHome(50);
+		cook.msgGoHome(50);
+		
+		waiters.clear();
+		cashier = null;
+		cook = null;
+		isClosed = true;
+	}
+	
+	private void restaurantClosed() {
+		Do("Telling market is closed");
+		synchronized(waitingCustomers){
+			for(TCustomer c: waitingCustomers){
+				c.msgRestaurantClosed();
+			}
+			waitingCustomers.clear();
+		}
+	}
+	
 	
 	private void callWaiter(int table, int index) { 
 		waiters.get(index).w.msgSeatAtTable(waitingCustomers.get(0), table); //messaging waiter to seat customer;

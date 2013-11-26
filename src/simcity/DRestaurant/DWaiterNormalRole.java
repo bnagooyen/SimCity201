@@ -6,8 +6,8 @@ import simcity.PersonAgent;
 
 public class DWaiterNormalRole extends DWaiterRole implements DWaiter {
 
-	public DWaiterNormalRole(PersonAgent name) {
-		super(name);
+	public DWaiterNormalRole() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

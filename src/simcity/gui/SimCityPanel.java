@@ -36,6 +36,7 @@ import simcity.DRestaurant.DCashierRole;
 import simcity.DRestaurant.DCookRole;
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DHostRole;
+import simcity.DRestaurant.DWaiterNormalRole;
 import simcity.DRestaurant.DWaiterRole;
 import simcity.DRestaurant.DWaiterSharedRole;
 import simcity.Drew_restaurant.Drew_CashierRole;
@@ -44,6 +45,7 @@ import simcity.Drew_restaurant.Drew_CustomerRole;
 import simcity.Drew_restaurant.Drew_HostRole;
 import simcity.Drew_restaurant.Drew_WaiterNormalRole;
 import simcity.Drew_restaurant.Drew_WaiterRole;
+import simcity.Drew_restaurant.Drew_WaiterSharedDataRole;
 import simcity.Drew_restaurant.gui.Drew_WaiterGui;
 import simcity.Drew_restaurant.interfaces.Drew_Cashier;
 import simcity.Drew_restaurant.interfaces.Drew_Cook;
@@ -83,6 +85,8 @@ import simcity.interfaces.DCook;
 import simcity.interfaces.DHost;
 import simcity.interfaces.DWaiter;
 import simcity.interfaces.Host;
+import simcity.interfaces.LCook;
+import simcity.interfaces.LHost;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.Person;
 
@@ -657,24 +661,31 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					cashier = new Drew_CashierRole();
 					break;
 			case 2: host = new BHostRole();
-					((BHost)host).setCook((BCook)cook);
+					((BHost)host).setCook((BCookRole)cook);
 					cook = new BCookRole();
 					cashier = new BCashierRole();
 					break;
 			case 3: host = new DHostRole();
 					cook = new DCookRole();
 					cashier = new DCashierRole();
+					((DHost)host).addCook((DCook)cook);
 					((DCookRole) cook).AddHost((DHostRole)host);
 					((DCookRole)cook).AddCashier((DCashierRole)cashier);
 					((DCashierRole)cashier).AddCook((DCookRole)cook);
-					
+					break;
+			case 4:
+			case 5:	host = new LHostRole();
+					cook = new LCookRole();
+					cashier = new LCashierRole();
+					((LHost) host).setCook((LCook)cook);
+			
 			}
 		}
 		
 		public Role AddNormalWaiter() {
 			switch(restNum) {
 			
-			case 1: Drew_WaiterRole aw = new Drew_WaiterNormalRole();
+			case 1: Drew_WaiterRole aw = new Drew_WaiterSharedDataRole();
 					aw.setCook((Drew_Cook)cook);
 					aw.addCashier((Drew_Cashier)cashier);
 					aw.setHost((Drew_Host)host);
@@ -697,6 +708,9 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					dw.msgAddCook((DCook)cook);
 					dw.msgAddHost((DHost)host);
 					((DHost)host).msgAddWaiter((DWaiter)dw);
+					waiters.add(dw);
+					return dw;
+					
 			default: return null;
 			}
 		}
@@ -704,7 +718,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			switch(restNum) {
 			
 			case 1:
-			Drew_WaiterRole aw = new Drew_WaiterRole();
+			Drew_WaiterRole aw = new Drew_WaiterNormalRole();
 			aw.setCook((Drew_Cook)cook);
 			waiters.add(aw);
 			return aw;
@@ -717,6 +731,14 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
 				waiters.add(bw);
 				return bw;
+				
+			case 3: 
+				DWaiterRole dw = new DWaiterNormalRole();
+				dw.msgAddCashier((DCashier)cashier);
+				dw.msgAddCook((DCook)cook);
+				dw.msgAddHost((DHost)host);
+				waiters.add(dw);
+				return dw;
 			}
 		}
 		public Role AddCustomer() {
@@ -732,6 +754,13 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				bc.setHost((BHostRole)host);
 				customers.add(bc);
 				return bc;
+				
+				case 3: DCustomerRole dc = new DCustomerRole();
+				dc.setCashier((DCashier)cashier);
+				dc.setHost((DHost)host);
+				customers.add(dc);
+				return dc;
+				
 				
 				
 		}
@@ -768,10 +797,10 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	     timer.schedule(new RemindTask(),
 	                       0,        //initial delay
 	                       1*12000);  //subsequent rate		
+			}
+
+
 	}
-
-
-
 
 	
 	/*public void mouseClicked(MouseEvent e) {
@@ -798,46 +827,5 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	}
 */
 
-
 	
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -42,6 +42,7 @@ public class TCookRole extends Role implements TCook {
 	= Collections.synchronizedList(new ArrayList<Market>());
 	enum MarketState  
 	{none, waiting, paying}; 
+	boolean goHome = false;
 	
 	public TCookRole() {
 		super();
@@ -141,6 +142,13 @@ public class TCookRole extends Role implements TCook {
 		atCounter.release();
 		stateChanged(); 
 	}
+	
+	public void msgGoHome(double moneys) {
+		myPerson.money += moneys;
+		goHome = true;
+		stateChanged();
+		
+	}
 
 	
 	/**
@@ -218,9 +226,12 @@ public class TCookRole extends Role implements TCook {
 			}
 			}
 		}
+		if(goHome) {
+			goHome();
+			return true; 
+		}
 		else {
 			checkOrders(); 
-			return true; 
 		}
 
      return false; 
@@ -337,6 +348,13 @@ public class TCookRole extends Role implements TCook {
 		cashier.msgPayForSupply(m.c, m.bill); 
 		markets.remove(m); 
 	}
+	
+	private void goHome() {
+		Do("Going home");
+		isActive = false;
+		goHome = false;
+	}
+
 	
 	
 	

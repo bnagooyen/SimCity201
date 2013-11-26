@@ -1,7 +1,10 @@
 package simcity.DRestaurant;
  
 import simcity.PersonAgent;
+import simcity.interfaces.DCashier;
 import simcity.interfaces.DCustomer;
+import simcity.interfaces.DHost;
+import simcity.interfaces.DWaiter;
 import simcity.DRestaurant.gui.DCustomerGui;
 import agent.Role;
 
@@ -35,9 +38,9 @@ public class DCustomerRole extends Role implements DCustomer {
 	Semaphore atFront = new Semaphore(0, true);
 	
 	// agent correspondents
-	private DHostRole host;
-	private DWaiterRole waiter;
-	private DCashierRole cashier;
+	private DHost host;
+	private DWaiter waiter;
+	private DCashier cashier;
 	
 	//table
 	private int tableNum;
@@ -97,12 +100,12 @@ public class DCustomerRole extends Role implements DCustomer {
 	/**
 	 * hack to establish connection to Host agent.
 	 */
-	public void setHost(DHostRole host) {
-		this.host = host;
+	public void setHost(DHost host2) {
+		this.host = host2;
 	}
 
-	public void setCashier(DCashierRole ca) {
-		cashier= ca;
+	public void setCashier(DCashier cook) {
+		cashier= cook;
 	}
 	public String getCustomerName() {
 		return name;
