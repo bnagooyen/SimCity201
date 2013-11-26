@@ -8,6 +8,7 @@ import simcity.DRestaurant.gui.DHostGui;
 import agent.Agent;
 import agent.Role;
 import simcity.interfaces.DCustomer;
+import simcity.interfaces.DHost;
 import simcity.interfaces.DWaiter;
 
 import java.util.*;
@@ -20,7 +21,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class DHostRole extends Role {
+public class DHostRole extends Role implements DHost {
 	
 	private DProducerConsumerMonitor theMonitor;
 	

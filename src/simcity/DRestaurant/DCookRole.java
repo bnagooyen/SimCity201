@@ -60,8 +60,8 @@ public class DCookRole extends Role implements DCook{
 	
 	boolean RestaurantIsOpen, CheckedAtFirst, valsAreSet;
 	
-	public DCookRole(PersonAgent p) {
-		super(p);
+	public DCookRole() {
+		super();
 		
 		//this.name = name;
 		
