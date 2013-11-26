@@ -18,8 +18,8 @@ public class MockRoleMarketManager extends MockRole implements MarketManager{
 	public MarketCashier mc;
 	public boolean open;
 	
-	public MockRoleMarketManager(String name, PersonAgent p) {
-		super(name, p);
+	public MockRoleMarketManager(String name) {
+		super(name);
 		log = new EventLog();
 	}
 

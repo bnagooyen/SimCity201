@@ -63,6 +63,9 @@ public class LCookRole extends Role implements LCook {
 //		markets.add(new MyMarket(m));
 //	}
 
+	public void setCashier(LCashier c){
+		cashier = c;
+	}
 
 	// Messages
 

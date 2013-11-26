@@ -15,8 +15,8 @@ public class MockDeliveryTruck extends MockRole implements DeliveryTruck{
 	String name;
 	public EventLog log;
 	
-	public MockDeliveryTruck(String name, PersonAgent p) {
-		super(name, p);
+	public MockDeliveryTruck(String name) {
+		super(name);
 		this.name = name;
 		log = new EventLog();
 	}

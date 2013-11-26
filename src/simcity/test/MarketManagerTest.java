@@ -44,13 +44,13 @@ public class MarketManagerTest extends TestCase{
 	public void setUp() throws Exception{
 		super.setUp();
 		p = new PersonAgent("MarketCashier");
-		mc = new MockRoleMarketCashier("mockMarketCashier", p);
-		p.addRole(m);
+		mc = new MockRoleMarketCashier("mockMarketCashier");
+		m.myPerson = p;
 		ib = new MockInventoryBoy("mockInventoryBoy");
-		c = new MockRoleMarketCustomer("mockCustomer", p);
-		cook = new MockRoleCook("mockCook", p);
-		m = new MarketManagerRole(p);
-		dTruck = new MockDeliveryTruck("mockDeliveryTruck",p);
+		c = new MockRoleMarketCustomer("mockCustomer");
+		cook = new MockRoleCook("mockCook");
+		m = new MarketManagerRole();
+		dTruck = new MockDeliveryTruck("mockDeliveryTruck");
 	}
 	
 	
