@@ -95,7 +95,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	public void msgGoHome(double paycheck){
 		Do("Told to go home");
-		p.money += paycheck;
+		myPerson.money += paycheck;
 		state = myState.goHome;
 		stateChanged();
 	}
