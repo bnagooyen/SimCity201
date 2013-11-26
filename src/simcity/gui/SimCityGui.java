@@ -17,8 +17,11 @@ import javax.swing.JPanel;
 
 import simcity.PersonAgent;
 import simcity.Bank.BankManagerRole;
+import simcity.Transportation.BusAgent;
+import simcity.Transportation.BusStopAgent;
 import simcity.gui.ListPanel;
 import simcity.gui.SimCityAnimationPanel;
+import simcity.interfaces.BusStop;
 import simcity.interfaces.Person;
 
 public class SimCityGui extends JFrame implements ActionListener, MouseListener {
@@ -45,9 +48,15 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 	    add(simCityAnimationPanel, BorderLayout.CENTER);
 	
 	    PersonAgent person = new PersonAgent("Drew");
-	    BankManagerRole bm = new BankManagerRole(person); 
+	    BankManagerRole bm = new BankManagerRole(person);
 	    person.SetJob(bm);
 	    person.startThread(); 
+	    BusAgent b = new BusAgent();
+	    BusStopAgent bs = new BusStopAgent();
+	    person.setBus(b);
+	    person.setBusStop(bs);
+	    b.startThread(); 
+	    bs.startThread(); 
 		people.add(person);
 		startTimer();
 	    
