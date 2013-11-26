@@ -536,7 +536,7 @@ public class BankManagerRole extends Role implements BankManager {
 		
 	}
 	
-	/*class MyClient {
+	class MyClient {
 		public MyClient(Landlord l, Integer account, double rentBill) {
 			client = l; 
 			AN = account; 
@@ -547,7 +547,7 @@ public class BankManagerRole extends Role implements BankManager {
 		Integer AN; 
 		double bill; 	
 		
-	}*/
+	}
 	
 	public class MyAccount{
 	
