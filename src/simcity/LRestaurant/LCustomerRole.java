@@ -57,39 +57,39 @@ public class LCustomerRole extends Role implements LCustomer{
         public LCustomerRole(){
                 //super(p);
                 needToPay = 0;
-                givenName = p.getName();
-                name = givenName.split("-"); //name-money-choice-behavior
-
-                m = new LMenu();
-
-                if(name.length != 4){ //cases just in case user fails to input everything
-                        name = new String[] {"Default","20","S","wait"};
-                }
-
-                if(isNumeric(name[1])){
-                        money = Integer.parseInt(name[1]);
-                }
-                else{
-                        //name = new String[] {"Default","20","S","wait"};
-                		money = 20;
-                }
-                
-                        
-                //use name input as the choice
-                if(name[2].equals("S") || name[2].equals("Ch")  || name[2].equals("St")  || name[2].equals("P") ){
-                        choice = name[2];
-                }
-                else{
-                        //name = new String[] {"Default","20","S","wait"};
-                		choice = "S";
-                }
-
-                if(name[3].equals("leave")){
-                        willStay = false;
-                }
-                else{
-                        willStay = true;
-                }
+//                givenName = p.getName();
+//                name = givenName.split("-"); //name-money-choice-behavior
+//
+//                m = new LMenu();
+//
+//                if(name.length != 4){ //cases just in case user fails to input everything
+//                        name = new String[] {"Default","20","S","wait"};
+//                }
+//
+//                if(isNumeric(name[1])){
+//                        money = Integer.parseInt(name[1]);
+//                }
+//                else{
+//                        //name = new String[] {"Default","20","S","wait"};
+//                		money = 20;
+//                }
+//                
+//                        
+//                //use name input as the choice
+//                if(name[2].equals("S") || name[2].equals("Ch")  || name[2].equals("St")  || name[2].equals("P") ){
+//                        choice = name[2];
+//                }
+//                else{
+//                        //name = new String[] {"Default","20","S","wait"};
+//                		choice = "S";
+//                }
+//
+//                if(name[3].equals("leave")){
+//                        willStay = false;
+//                }
+//                else{
+//                        willStay = true;
+//                }
         }
 
         private boolean isNumeric(String string) {

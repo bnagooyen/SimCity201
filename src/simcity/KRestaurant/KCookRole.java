@@ -55,8 +55,8 @@ public class KCookRole extends Role implements KCook{
 	public enum marketOrderState 
 	{ waiting, arrived, done}
 	
-	public KCookRole(PersonAgent p) {
-		super(p);
+	public KCookRole() {
+		super();
 		
 		log = new EventLog();
 		foods.put("Steak", new Food("Steak", 5000, 3, 3, 1,10));
@@ -105,6 +105,8 @@ public class KCookRole extends Role implements KCook{
 	}
 	
 	public void msgHereIsDelivery(List<MFoodOrder> canGiveMe, double bill, MarketManager manager, MarketCashier cashier) {
+		LoggedEvent e = new LoggedEvent("got delivery from market");
+		log.add(e);
 		synchronized(marketOrders) {
 		for(MarketOrder m : marketOrders) {
 			if( m.m == manager) {
@@ -382,7 +384,7 @@ public class KCookRole extends Role implements KCook{
 		MarketManager m;
 		MarketCashier cashier;
 		double check;
-		marketOrderState state;
+		public marketOrderState state;
 		
 		public MarketOrder(MarketManager m) {
 			this.m = m;
