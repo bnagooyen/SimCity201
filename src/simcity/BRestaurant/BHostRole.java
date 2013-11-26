@@ -1,17 +1,21 @@
 package simcity.BRestaurant;
 
 import agent.Agent;
-
 import simcity.BRestaurant.*;
 import simcity.interfaces.*;
 import simcity.BRestaurant.gui.*;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
+
 import agent.Role;
 import simcity.PersonAgent;
 import simcity.PersonAgent;
 import simcity.interfaces.*;
 import simcity.BRestaurant.*;
+import simcity.KRestaurant.KCookRole;
+import simcity.KRestaurant.KWaiterSharedDataRole;
+import simcity.KRestaurant.ProducerConsumerMonitor;
 
 
 /**
@@ -36,6 +40,9 @@ public class BHostRole extends Role implements Host{
 	
 	public boolean needBreak;
 	public boolean returnToWork;
+	
+	private BOrderStand theMonitor;
+	private BCookRole mycook;
 	
 	private class myWaiter{
 		public BWaiterRole w;
@@ -77,6 +84,7 @@ public class BHostRole extends Role implements Host{
 
 		}
 		}
+		theMonitor = new BOrderStand();
 	}
 
 	public String getMaitreDName() {
@@ -310,14 +318,24 @@ public class BHostRole extends Role implements Host{
 	public void setGui(BHostGui gui) {
 		hostGui = gui;
 	}
+	
+	public void setCook(BCookRole c) {
+		mycook = c;
+		c.setMonitor(theMonitor);
+	}
 
 	public BHostGui getGui() {
 		return hostGui;
 	}
 
 	public void setWaiter(BWaiterRole w){
+			
+		
 			myWaiter thisWaiter=new myWaiter(w);
 			waiterList.add(thisWaiter);
+			if(w instanceof BWaiterSharedDataRole) {
+				((BWaiterSharedDataRole) w).setMonitor(theMonitor);
+			}
 			stateChanged();
 	}
 
