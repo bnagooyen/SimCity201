@@ -9,6 +9,8 @@ public class BuildingPanel extends JPanel {
         
         String myName;
         SimCityGui myCity;
+        int x;
+        int y;
         
         public BuildingPanel( Rectangle2D r, int i, SimCityGui sc ) {
                 
