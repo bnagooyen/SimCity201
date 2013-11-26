@@ -48,7 +48,7 @@ public class BankManagerRole extends Role implements BankManager {
 	private BankManagerGui bankManagerGui;
 	private Timer timer=new Timer();
 	
-	public BankManagerRole(PersonAgent p) {
+	public BankManagerRole() {
 		super();
 		// TODO Auto-generated constructor stub
 		startHour=7;
