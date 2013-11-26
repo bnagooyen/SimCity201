@@ -32,6 +32,9 @@ public class THeadWaiterRole extends Role implements TWaiter{
 	boolean goHome = false;
 	Timer timer = new Timer();
 	private Menu menu = new Menu();
+	
+    boolean arrived;
+
 
 
 	public TWaiterGui waiterGui = null;
@@ -190,7 +193,10 @@ public class THeadWaiterRole extends Role implements TWaiter{
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-
+		if(arrived) {
+			tellHost();
+			return true;
+		}
 		if (askingForBreak == true) {
 			askingForBreak = false; 
 			AskForBreak(); 
@@ -286,6 +292,12 @@ public class THeadWaiterRole extends Role implements TWaiter{
 	}
 
 	// Actions
+	
+	private void tellHost() {
+		Do("telling manager I can work");
+		arrived = false;
+		host.msgIAmHere(this, "Waiter");
+	}
 	
 	private void goHome() {
 		Do("Going home");

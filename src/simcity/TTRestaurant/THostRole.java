@@ -62,6 +62,31 @@ public class THostRole extends Role implements Host {
 	public void msgTimeUpdate(int hour) {
 		this.hour = hour;
 	}
+	
+	public void msgIAmHere(Role r, String type){
+		
+		if(type.equals("Waiter")){
+			Do("Waiter is here");
+			waiters.add(new myWaiters((TWaiterRole) r));
+		}
+		else if(type.equals("Cook")){
+			Do("Cook is here");
+			cook = (TCookRole)r;
+		}
+		else if(type.equals("cashier")){
+			Do("Cashier is here");
+			cashier = (TCashierRole) r;
+		}
+		
+		if(!waiters.isEmpty() && cook != null && cashier != null){
+			isClosed = false;
+		}
+		else{
+			isClosed = true;
+		}
+		
+		stateChanged();
+	}
 
 	public void msgIWantFood(TCustomer cust) {
 		waitingCustomers.add(cust);
@@ -273,6 +298,7 @@ public class THostRole extends Role implements Host {
 
 	//utilities
 	
+	/**
 	public void setWaiter(TWaiterRole wait) {
 		myWaiters waitList = new myWaiters();
 		waitList.setWaiter(wait);
@@ -280,6 +306,7 @@ public class THostRole extends Role implements Host {
 		wait.setHomePosition(waiters.size() - 1);
 		stateChanged(); 
 	}
+	*/
 
 	public void setGui(THostGui gui) {
 		hostGui = gui;
@@ -294,10 +321,11 @@ public class THostRole extends Role implements Host {
 		THeadWaiterRole hw; 
 		WaiterState state;
 		
-		public void setWaiter(TWaiterRole wait) {
-			w = wait;
-			state = WaiterState.ready; 
+		public myWaiters(TWaiterRole r) {
+			w = r;
+			state = WaiterState.ready; 		
 		}
+
 		
 		public void setHeadWaiter(THeadWaiterRole wait) {
 			hw = wait;
