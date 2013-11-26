@@ -34,8 +34,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         private Semaphore atCashier = new Semaphore(0, true);
 
         
-        public MarketCustomerRole(PersonAgent p) {
-                super(p); 
+        public MarketCustomerRole() {
+//                super(p); 
                 this.p = p;
                 log = new EventLog();
                 state = customerState.talkToManager;

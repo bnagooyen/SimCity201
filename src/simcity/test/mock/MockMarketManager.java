@@ -42,8 +42,8 @@ public class MockMarketManager extends Mock implements MarketManager{
 	@Override
 	public void msgIAmHere(Role r, List<MFoodOrder> need, String building,
 			String type) {
-		// TODO Auto-generated method stub
-		
+		LoggedEvent e = new LoggedEvent("got order from cook");
+		log.add(e);
 	}
 
 	@Override

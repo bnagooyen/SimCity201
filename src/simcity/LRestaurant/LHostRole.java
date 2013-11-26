@@ -46,8 +46,8 @@ public class LHostRole extends Role implements Host {
 
         public LHostGui hostGui = null;
 
-        public LHostRole(PersonAgent p) {
-                super(p);
+        public LHostRole() {
+                //super(p);
 
                 //this.name = p.getName();
                 // make some tables

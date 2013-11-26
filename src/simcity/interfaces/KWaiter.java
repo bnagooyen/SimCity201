@@ -7,5 +7,10 @@ public interface KWaiter {
 	
 	public abstract void msgHereIsCheck(KCustomer c, double price);
 
+	public abstract void msgOutOf(int table, String choice);
+
+	public abstract void msgOrderIsReady(String choice, int table,
+			KMovingFoodGui gui, int grill);
+
 	
 }

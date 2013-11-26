@@ -60,11 +60,12 @@ public class DCustomerRole extends Role implements DCustomer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public DCustomerRole(PersonAgent p){
-		super(p);
+	public DCustomerRole(){
+		//super(p);
 		
 		//parsing string
 		//Input: Name, MoneyVal, Order , Stay/Leave
+		//String[] inputs = name.split(", "); 
 //		String[] inputs = name.split(", "); 
 		
 		
@@ -79,6 +80,7 @@ public class DCustomerRole extends Role implements DCustomer {
 //		}
 //		if(inputs[3].trim().equals("Leave")) {
 //			stayOrLeave=false;
+//		}
 		//}
 		//System.out.printf("Name: "+ name + " Money: "+ "%d ", wallet);
 		//System.out.print(wallet);

@@ -110,14 +110,14 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		transitState=TransitState.justLeaving;
 		
 
-		possibleRoles.put("bank", new BankCustomerRole(this));
-		possibleRoles.put("market", new MarketCustomerRole(this));
-		possibleRoles.put("drestaurant", new DCustomerRole(this));
-		possibleRoles.put("drew_restaurant", new Drew_CustomerRole(this));
-		possibleRoles.put("brestaurant", new BCustomerRole(this));
-		possibleRoles.put("krestaurant", new KCustomerRole(this));
-		possibleRoles.put("trestaurant", new TCustomerRole(this));
-		possibleRoles.put("lrestaurant", new LCustomerRole(this));
+		possibleRoles.put("bank", new BankCustomerRole());
+		possibleRoles.put("market", new MarketCustomerRole());
+		possibleRoles.put("drestaurant", new DCustomerRole());
+		possibleRoles.put("drew_restaurant", new Drew_CustomerRole());
+		possibleRoles.put("brestaurant", new BCustomerRole());
+		possibleRoles.put("krestaurant", new KCustomerRole());
+		possibleRoles.put("trestaurant", new TCustomerRole());
+		possibleRoles.put("lrestaurant", new LCustomerRole());
 	}
 
 	public void SetJob(Role job) {

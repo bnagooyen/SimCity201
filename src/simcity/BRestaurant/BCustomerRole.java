@@ -52,10 +52,10 @@ public class BCustomerRole extends Role implements BCustomer {
 	 */
 	
 
-	public BCustomerRole(PersonAgent p){
-		super(p);
+	public BCustomerRole(){
+		//super(p);
 //		host = (BHostRole) r;
-		name = p.getName();
+		//name = p.getName();
 
 		state=AgentState.DoingNothing;
 		event = AgentEvent.gotHungry; //event is the state change		

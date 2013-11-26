@@ -34,7 +34,9 @@ public class ProducerConsumerMonitor extends Object{
 //	            } catch (InterruptedException ex) {};
 //	 
 	        data = remove_KRestaurantOrder();
-	        count--;
+	        
+	        if(data != null)
+	        	count--;
 	        if(count == N-1){ 
 	            System.out.println("\tNot full, notify");
 	            notify();                               // Not full, notify a 

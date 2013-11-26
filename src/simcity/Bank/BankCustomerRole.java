@@ -69,8 +69,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		stateChanged();
 	}
 	
-	public BankCustomerRole(PersonAgent p) {
-		super(p);
+	public BankCustomerRole() {
 		
 		//purpose="transaction";						//NEED A GOOD WAY FOR PERSON TO DECIDE
 	}

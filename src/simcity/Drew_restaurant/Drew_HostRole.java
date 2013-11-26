@@ -36,11 +36,8 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 	private String name;
 	//private Semaphore atTable = new Semaphore(0,true);
 
-	public Drew_HostRole(PersonAgent p) {
-		super(p);
-
-		this.name = name;
-		
+	public Drew_HostRole() {
+//		super(p);
 		// make some tables
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		for (int ix = 1; ix <= NTABLES; ix++) {
