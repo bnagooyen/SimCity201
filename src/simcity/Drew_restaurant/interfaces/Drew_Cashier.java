@@ -16,6 +16,7 @@ public interface Drew_Cashier {
 
 	public abstract void payBill(Double b, Double Money, Drew_Customer customer);
 	
+	public abstract void msgGoHome(double pay);
 	//public abstract void marketBill(Double cost, Market m);
 
 }

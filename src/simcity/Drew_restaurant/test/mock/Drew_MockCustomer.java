@@ -100,6 +100,12 @@ public class Drew_MockCustomer extends Mock implements Drew_Customer {
 	public double getDebt(){
 		return debt;
 	}
+
+	@Override
+	public void msgGoHome() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
 /*

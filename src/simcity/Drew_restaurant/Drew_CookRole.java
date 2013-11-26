@@ -56,6 +56,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 
 
 	private String name;
+	private boolean onDuty;
 	
 	public List<MarketManager> markets
 	= new ArrayList<MarketManager>();
@@ -74,8 +75,9 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	{pending, cooking, done, finished};
 
 	public Drew_CookRole() {
-		//super(p);
+		super();
 		this.name = name;
+		onDuty=true;
 		
 		
 		//Initialize food amount
@@ -112,6 +114,13 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	}
 
 	// Messages
+	
+	@Override
+	public void msgGoHome(double pay) {
+		myPerson.money+=pay;
+		onDuty=false;
+		stateChanged();
+	}
 	
 	public void hereIsOrder(Drew_Waiter w, String choice, int table){
 		orders.add(new Order(w, choice,table));
@@ -198,6 +207,9 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		for(MarketBill b: marketBills) {
 			giveCashierBill(b);
 		}
+		}
+		if(!onDuty){
+			leaveBank();
 		}
 		checkRotatingStand();
 		return false;
@@ -328,6 +340,11 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 				},
 				2000);
 		}
+	}
+	
+	private void leaveBank(){
+		//gui.goOffScreen();
+		this.isActive=false;
 	}
 
 

@@ -40,6 +40,8 @@ public interface Drew_Waiter {
 
 	public abstract void heresBill(Double bill, int table);
 	
+	public abstract void msgGoHome(double pay);
+	
 	//Get & Set
 	
 	public void addCashier(Drew_Cashier c);
