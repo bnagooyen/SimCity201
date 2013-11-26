@@ -51,6 +51,7 @@ public class TCookRole extends Role implements TCook {
 	public TCookRole() {
 		super();
 		this.name = name;
+		addFood(); 
 	}
 	
 	class Orders {
@@ -399,7 +400,7 @@ public class TCookRole extends Role implements TCook {
 	public void setHost(THostRole h) {
 		host = h;
 	}
-
+	
 	public void addFood() {
 		/**
 		Supply.put("Steak", 0); 
@@ -407,10 +408,10 @@ public class TCookRole extends Role implements TCook {
 		Supply.put("Salad", 0); 
 		Supply.put("Chicken", 0);
 		*/
-		Supply.put("Steak", randomQuan.nextInt(4)); 
-		Supply.put("Pizza", randomQuan.nextInt(4)); 
-		Supply.put("Salad", randomQuan.nextInt(4)); 
-		Supply.put("Chicken", randomQuan.nextInt(4));
+		Supply.put("Steak", randomQuan.nextInt(10)); 
+		Supply.put("Pizza", randomQuan.nextInt(10)); 
+		Supply.put("Salad", randomQuan.nextInt(10)); 
+		Supply.put("Chicken", randomQuan.nextInt(10));
 	}
 
 	public void setGui(TCookGui gui) {

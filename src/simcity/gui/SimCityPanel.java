@@ -488,8 +488,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 
 				}
 				else if(job.equals("Cook5")) {
-					//p.SetJob(LRestaurant.cook);
-					p.SetJob(KRestaurant.cook);
+					p.SetJob(LRestaurant.cook);
 				}
 				else if(job.equals("RCashier5")) {
 					p.SetJob(LRestaurant.cashier);
@@ -913,6 +912,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					dw.msgAddCook((DCook)cook);
 					dw.msgAddHost((DHost)host);
 					((DHost)host).msgAddWaiter((DWaiter)dw);
+					System.out.println("DHost is "+dw);
 					waiters.add(dw);
 					return dw;
 			case 4:

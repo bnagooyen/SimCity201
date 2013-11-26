@@ -140,10 +140,10 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		else if(job instanceof BCashier || job instanceof BCook || job instanceof BWaiter){
 			jobLocation="brestaurant";
 		}
-		else if(job instanceof DCashier || job instanceof Cook /*|| job instanceof DWaiter*/){
+		else if(job instanceof DCashier || job instanceof Cook || job instanceof DWaiter){
 			jobLocation="drestaurant";
 		}
-		else if(job instanceof Drew_Cashier || job instanceof Drew_Cook || job instanceof BWaiter){
+		else if(job instanceof Drew_Cashier || job instanceof Drew_Cook || job instanceof Drew_Waiter){
 			jobLocation="drew";
 		}
 		else if(job instanceof KCashier || job instanceof KCook || job instanceof KWaiter){
