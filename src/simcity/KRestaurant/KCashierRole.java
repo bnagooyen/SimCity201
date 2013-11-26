@@ -37,8 +37,8 @@ public class KCashierRole extends Role implements KCashier{
 	public enum paidState
 	{ notPaid, halfPaid, paid}
 	
-	public KCashierRole(PersonAgent p) {
-		super(p);
+	public KCashierRole() {
+		super();
 		this.name = name;
 		myMoney = 10;
 		prices.put("Steak", 15.99);

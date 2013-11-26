@@ -6,8 +6,8 @@ import simcity.interfaces.KWaiter;
 
 public class KWaiterNormalRole extends KWaiterRole implements KWaiter{
 
-	public KWaiterNormalRole(PersonAgent p) {
-		super(p);
+	public KWaiterNormalRole() {
+		super();
 	}
 
 	@Override
