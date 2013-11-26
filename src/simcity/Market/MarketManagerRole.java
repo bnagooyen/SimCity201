@@ -186,7 +186,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		cashiers.clear();
 		inventoryBoys.clear();
 		isClosed = true;
-		managerGui.DoGoHome();
+		//managerGui.DoGoHome();
 
 	}
 	
