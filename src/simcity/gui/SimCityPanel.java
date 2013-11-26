@@ -42,6 +42,7 @@ import simcity.Drew_restaurant.Drew_CashierRole;
 import simcity.Drew_restaurant.Drew_CookRole;
 import simcity.Drew_restaurant.Drew_CustomerRole;
 import simcity.Drew_restaurant.Drew_HostRole;
+import simcity.Drew_restaurant.Drew_WaiterNormalRole;
 import simcity.Drew_restaurant.Drew_WaiterRole;
 import simcity.Drew_restaurant.gui.Drew_WaiterGui;
 import simcity.Drew_restaurant.interfaces.Drew_Cashier;
@@ -651,9 +652,11 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			
 			case 1: host = new Drew_HostRole();
 					cook = new Drew_CookRole();
+					((Drew_HostRole)host).setCook((Drew_Cook)cook);
 					cashier = new Drew_CashierRole();
 					break;
 			case 2: host = new BHostRole();
+					((BHost)host).setCook((BCook)cook);
 					cook = new BCookRole();
 					cashier = new BCashierRole();
 					break;
@@ -670,7 +673,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		public Role AddNormalWaiter() {
 			switch(restNum) {
 			
-			case 1: Drew_WaiterRole aw = new Drew_WaiterRole();
+			case 1: Drew_WaiterRole aw = new Drew_WaiterNormalRole();
 					aw.setCook((Drew_Cook)cook);
 					aw.addCashier((Drew_Cashier)cashier);
 					aw.setHost((Drew_Host)host);

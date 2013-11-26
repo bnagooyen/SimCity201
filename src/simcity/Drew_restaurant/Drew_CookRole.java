@@ -333,6 +333,9 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 
 	//utilities
 
+	public void setMonitor(ProducerConsumerMonitor w) {
+		theMonitor = w;
+	}
 	/*public void setGui(WaiterGui gui) {					GUI
 		waiterGui = gui;
 	}

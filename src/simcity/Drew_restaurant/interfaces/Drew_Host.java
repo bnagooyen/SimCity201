@@ -24,6 +24,6 @@ public interface Drew_Host {
 	
 	public abstract void leaving(Drew_Customer cust);
 
-	public abstract void addWaiter(Drew_WaiterRole aw);
+	public abstract void addWaiter(Drew_Waiter aw);
 
 }
