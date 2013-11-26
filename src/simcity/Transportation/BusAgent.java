@@ -78,12 +78,10 @@ public class BusAgent extends Agent implements Bus {
 	public void msgTimeUpdate(int hr) {
 		Do("got time update.");
 		hour = hr;
-		if(hr%2==0) { 
+		if(hr==7) { 
 			busStops.get(0).msgAnyPassengers(this);
 		}
-		if(hr%2==1) { 
-			busStops.get(1).msgAnyPassengers(this);
-		}
+		
 		
 		
 		
@@ -141,6 +139,11 @@ public class BusAgent extends Agent implements Bus {
 	}
 	
 	private void goToNextStop(){
+		if(currentStop=="stop1")
+			currentStop="stop2";
+		else if (currentStop=="stop2")
+			currentStop="stop1";
+		
 		state=busState.travelling;
 		Do("Go To Next Stop");
 	}
