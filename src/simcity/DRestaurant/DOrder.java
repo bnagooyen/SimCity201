@@ -8,7 +8,7 @@ public class DOrder {
 		public enum OrderState {needsReOrder, pending, cooking, cooked, serving, billPending, billProcessed, grillInUse, ordered, clearPlating, plated, plating};
 		OrderState state;
 
-		DOrder(String c, int t, DWaiterRole wa) 
+		DOrder(String c, int t, DWaiterRole wa) //new Order(cust.getChoice(), cust.getTablenum(), this)
 		{
 			choice=c;
 			tablenum=t;

@@ -1,15 +1,14 @@
 package simcity.DRestaurant;
 
-import agent.Role;
-import agent.Agent;
+import simcity.PersonAgent;
+import simcity.DRestaurant.DProducerConsumerMonitor;
 import simcity.DRestaurant.DHostRole.MyCustomer.CustState;
 import simcity.DRestaurant.DHostRole.MyWaiter.MyWaiterState;
-import simcity.DRestaurant.DWaiterRole.WaiterState;
 import simcity.DRestaurant.gui.DHostGui;
-import simcity.restaurant.interfaces.Customer;
-import simcity.restaurant.interfaces.Waiter;
-import simcity.interfaces.Host;
-import simcity.PersonAgent;
+import agent.Agent;
+import agent.Role;
+import simcity.interfaces.DCustomer;
+import simcity.interfaces.DWaiter;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -21,7 +20,9 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class DHostRole extends Role implements Host{
+public class DHostRole extends Role {
+	
+	private DProducerConsumerMonitor theMonitor;
 	
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
@@ -31,10 +32,15 @@ public class DHostRole extends Role implements Host{
 
 	DCustomerRole custLeavingWaitlist;
 	DCustomerRole sendFullMsgTo;
-
+	
+	DCookRole myCook = null;
+	
+	//list of waiters
 	public List<MyWaiter> waiters =  Collections.synchronizedList(new ArrayList<MyWaiter>());
 	
 	public Collection<Table> tables;
+	//note that tables is typed with Collection semantics.
+	//Later we will see how it is implemented
 
 	private int customersInRST;
 	private String name;
@@ -47,22 +53,25 @@ public class DHostRole extends Role implements Host{
 	public DHostRole(PersonAgent p) {
 		super(p);
 
-		//name = p.getName();
-		
+		//this.name = name;
+		// make some tables
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
-		synchronized(tables) {
 		for (int ix = 1; ix <= NTABLES; ix++) {
-			tables.add(new Table(ix));
+			tables.add(new Table(ix));//how you add to a collections
 		}
-		}
+		
 		KitchenReadyForOpen=false;
+		//adding one waiter.. to be changed
+		//waiters.add(new WaiterAgent("Joe"));
 
 		customersInRST=0;
 		
 		custLeavingWaitlist=null;
 		sendFullMsgTo=null;
+		
+		theMonitor = new DProducerConsumerMonitor();
 	}
-	
+
 	public String getMaitreDName() {
 		return name;
 	}
@@ -88,7 +97,7 @@ public class DHostRole extends Role implements Host{
 	}
 	public void msgIWantFood(DCustomerRole cust) { //telling agent i want food (once seated)
 		if(customersInRST<NTABLES) {
-			Do("adding "+cust+" to host customer list");
+			System.out.println("adding "+cust+" to host customer list");
 			waitingCustomers.add(new MyCustomer(cust));
 			
 			stateChanged();
@@ -101,51 +110,38 @@ public class DHostRole extends Role implements Host{
 		}
 	}
 	public void msgIDontWantToWait(DCustomerRole cust) {
-		synchronized(waitingCustomers) {
 		for(MyCustomer c: waitingCustomers) {
 			if(c.c==cust) {
 				custLeavingWaitlist=cust;
 				stateChanged();
 			}
 		}
-		}
 	}
 
-	public void msgAddWaiter(DWaiterRole w) {
-		
-		waiters.add(new MyWaiter(w));
-		
-		System.out.println("waiter "+ w.getName() +" added to host list");
-		stateChanged();
-	}
 	
-	public void msgHereToTakeMyCustomer(Waiter w) {
-		synchronized(waiters) {
+	public void msgHereToTakeMyCustomer(DWaiter w) {
 		for(MyWaiter waiter: waiters) {
 			if(waiter.w==w) {
 				waiter.state=MyWaiterState.atFront;
 				stateChanged();
 			}
 		}
-		}
+		
 	}
 
-	public void msgHereToGetSeated(Customer c) {
+	public void msgHereToGetSeated(DCustomer c) {
 		System.out.println("received here to get seated from customer");
 		customerAtFront.release();
 		stateChanged();
 	}
 	public void msgTableIsClear(int t, DWaiterRole wa)
 	{
-		synchronized(waiters) {
 		for(MyWaiter waiter: waiters) {
 			if (waiter.w==wa) {
 				waiter.numCustomers--;
 				break;
 			}
 		}
-		}
-		synchronized(tables) {
 		for(Table table: tables)
 		{
 			if (table.getTableNum()==t)
@@ -155,28 +151,23 @@ public class DHostRole extends Role implements Host{
 				stateChanged();
 			}
 		}
-		}
 	}
 	
 	public void msgGoOnBreakPlease(DWaiterRole w) {
-		synchronized(waiters) {
 		for(MyWaiter waiter: waiters) {
 			if(waiter.w==w) {
 				waiter.state=MyWaiterState.requestedBreak;
 				stateChanged();
 			}
 		}
-		}
 	}
 	
 	public void msgBackToWork(DWaiterRole w) {
-		synchronized(waiters) {
 		for(MyWaiter waiter: waiters) {
 			if(waiter.w==w) {
 				waiter.state=MyWaiterState.working;
 				stateChanged();
 			}
-		}
 		}
 	}
 
@@ -199,57 +190,49 @@ public class DHostRole extends Role implements Host{
 			RestaurantIsFull();
 			return true;
 		}
-		synchronized(waitingCustomers) {
+		
 		for(MyCustomer cust: waitingCustomers) {
 			if(cust.state==CustState.justArrived) {
 				TellCustomerToHangout(cust);
 				return true;
 			}
 		}
-		}
-		synchronized(waitingCustomers) {
+		
 		for(MyCustomer cust: waitingCustomers) {
 			if(cust.state==CustState.assignedWaiter && cust.w.state==MyWaiterState.atFront) {
 				CallCustomerToFront(cust);
 				return true;
 			}
 		}
-		}
+		
 		if(!waiters.isEmpty() && KitchenReadyForOpen)
 		{
 		
-			MyWaiter w=waiters.get(0); 
-			int minCustomers=waiters.get(0).numCustomers; //dummy value for initialization.. theoretically if only 1 waiter will be the one at the top
-			synchronized(waiters) {
+			MyWaiter w=waiters.get(0); int minCustomers=waiters.get(0).numCustomers; //dummy value for initialization.. theoretically if only 1 waiter will be the one at the top
 			for(MyWaiter waiter: waiters)
 			{
+				//System.out.println("checking waiter "+ waiter.getName());
 				if(waiter.state==MyWaiterState.working)
 					if (waiter.numCustomers<minCustomers)
-						{	
-							w=waiter; 
-							minCustomers=waiter.numCustomers; 
-						}
+						{ w=waiter; minCustomers=waiter.numCustomers; }
 			}
-			}
-			synchronized(tables) {
+//			System.err.println("chose waiter "+ w);
 			for (Table table : tables) {
 				for(MyCustomer cust: waitingCustomers) {
 					if (!(table.isOccupied()) && cust.state==CustState.waiting) {
-						print("Assigning waiter to cust");
 						TellWaiterToSeat(cust, w, table);//the action
 						return true;//return true to the abstract agent to reinvoke the scheduler.
 					}
 				}
 			}
-			}
-			synchronized(waiters) {
+			
 			for(MyWaiter waiter: waiters) {
 				if(waiter.state==MyWaiterState.requestedBreak) {
 					AnswerWaiterBreakRequest(waiter);
 					return true;
 				}
 			}
-			}	
+				
 			
 		}
 
@@ -271,7 +254,7 @@ public class DHostRole extends Role implements Host{
 	
 	private void CallCustomerToFront(MyCustomer cu) {
 		cu.c.msgYourTableIsReady();
-
+//		System.err.println(customerAtFront.availablePermits());
 		try {
 			customerAtFront.acquire();
 		} catch (InterruptedException e) {
@@ -300,40 +283,49 @@ public class DHostRole extends Role implements Host{
 	private void TellWaiterToSeat(MyCustomer cust, MyWaiter w, Table t) {
 		t.occupiedBy=(DCustomerRole) cust.c;
 		w.numCustomers++;
+		//waitingCustomers.remove(cust);
 		cust.w=w;
 		w.w.msgHereIsAWaitingCustomer(cust.c, t.getTableNum());
 		cust.state=CustState.assignedWaiter;
 		
 	}
 	
-
+//	private void AssignToTable(MyCustomer cust, MyWaiter w, Table t)
+//	{
+//		t.occupiedBy=(CustomerAgent) cust.c;
+//		waitingCustomers.remove(cust);
+//		w.w.msgSitAtTable(t.getTableNum(), cust.c);
+//		Do(((CustomerAgent) (cust.c)).getName() +" assigned waiter: " + w.w.getName());
+//		w.numCustomers++;
+//		System.out.println(name+": sent sitAtTable msg");
+//		customersInRST++;
+//		
+//	}
+//	
 	private void AnswerWaiterBreakRequest(MyWaiter w) {
 		int waitersOnDuty=0;
-		synchronized(waiters) {
 		for(MyWaiter waiter: waiters) {
 			if(waiter.state==MyWaiterState.working) {
 				waitersOnDuty++;
 			}
 		}
-		}
+		//System.out.println("num waiters :: " + waitersOnDuty );
 		if(waitersOnDuty>=1) {
 			Do("yes "+ w.w.getName()+", you can take a break!");
 			w.w.msgBreakReply(true);
 			w.state=MyWaiterState.onBreak;
+			//w.requestedBreak=false;
 		}
 		else {
 			Do("no "+ w.w.getName()+", you can't take a break!");
 			w.w.msgBreakReply(false);
 			w.state=MyWaiterState.working;
+			//w.requestedBreak=false;
 		}
 	}
 
 	//utilities
 
-	public void setWaiter(DWaiterRole r){
-		waiters.add(new MyWaiter(r));
-	}
-	
 	public void setGui(DHostGui gui) {
 		hostGui = gui;
 	}
@@ -342,26 +334,42 @@ public class DHostRole extends Role implements Host{
 		return hostGui;
 	}
 	
+	public void msgAddWaiter(DWaiterRole w) {
+		//waiters.add(w);
+		waiters.add(new MyWaiter(w));
+		System.out.println("waiter "+ w.getName() +" added to host list");
+		if(w instanceof DWaiterSharedRole) {
+			((DWaiterSharedRole) w).setMonitor(theMonitor);
+		}
+		
+	}
+	
+	public void addCook(DCookRole c) {
+		myCook = c;
+		c.setMonitor(theMonitor);
+	}
+	
 	static public class MyWaiter {
 		
 		DWaiterRole w;
 		enum MyWaiterState {working, onBreak, atFront, requestedBreak};
 		MyWaiterState state;
 		int numCustomers;
-		public MyWaiter(DWaiterRole w) {
-			this.w=w;
+		public MyWaiter(DWaiterRole w2) {
+			// TODO Auto-generated constructor stub
+			w=w2;
 			state=MyWaiterState.working;
 			numCustomers=0;
 		}
 	}
 	
 	static public class MyCustomer {
-		Customer c;
+		DCustomer c;
 		enum CustState {justArrived, waiting, assignedWaiter, atFront, comingToFront};
 		CustState state;
 		MyWaiter w;
 		
-		MyCustomer(Customer cu) {
+		MyCustomer(DCustomer cu) {
 			c=cu;
 			state=CustState.justArrived;
 		}

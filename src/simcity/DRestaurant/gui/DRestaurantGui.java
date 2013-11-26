@@ -1,10 +1,8 @@
 package simcity.DRestaurant.gui;
-import agent.Agent;
+import javax.swing.*;
+
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DWaiterRole;
-import simcity.gui.SimCityAnimationPanel;
-
-import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -20,7 +18,7 @@ public class DRestaurantGui extends JFrame implements ActionListener {
 	JFrame simCityFrame = new JFrame("Sim City");
 	
 	DAnimationPanel animationPanel = new DAnimationPanel(this);
-	SimCityAnimationPanel simCityPanel = new SimCityAnimationPanel(this);
+	DSimCityAnimationPanel simCityPanel = new DSimCityAnimationPanel(this);
 	DListPanel addPersonPanel = null;
 	
     /* restPanel holds 2 panels
@@ -61,10 +59,10 @@ public class DRestaurantGui extends JFrame implements ActionListener {
         int WINDOWY = 750;
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        simCityFrame.setVisible(true);
+        
       simCityFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         simCityFrame.setBounds(50, 50 , WINDOWX+400, WINDOWY-300);
-         
+         simCityFrame.setBounds(50, 25 , WINDOWX+275, 462);
+         simCityFrame.setVisible(true);
          simCityFrame.setLayout(new BorderLayout());
 //     	animationFrame.add(animationPanel); 
          simCityFrame.add(simCityPanel, BorderLayout.CENTER);
@@ -72,13 +70,13 @@ public class DRestaurantGui extends JFrame implements ActionListener {
          
          JPanel cityPanels = new JPanel();
          cityPanels.setLayout(new GridLayout(1,1));
-         cityPanels.setMaximumSize(new Dimension((int)(WINDOWX*0.3), (int)(100)));
-         cityPanels.setPreferredSize(new Dimension((int)(WINDOWX*0.4), (int)(100)));
-         cityPanels.setMinimumSize(new Dimension((int)(WINDOWX*0.4), (int)(100)));
+         cityPanels.setMaximumSize(new Dimension((int)(WINDOWX*0.4), (200)));
+         cityPanels.setPreferredSize(new Dimension((int)(WINDOWX*0.4), (200)));
+         cityPanels.setMinimumSize(new Dimension((int)(WINDOWX*0.4), (200)));
          cityPanels.add(addPersonPanel);
          
          simCityFrame.add(cityPanels, BorderLayout.WEST);
-        
+         
          simCityFrame.validate();
         
        // animationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,7 +92,7 @@ public class DRestaurantGui extends JFrame implements ActionListener {
     	//setLayout(new FlowLayout(FlowLayout.LEFT, 5,5));
 
     	
-        Dimension restDim = new Dimension(WINDOWX, (int) (WINDOWY));
+        Dimension restDim = new Dimension(WINDOWX, (WINDOWY));
         
         JPanel utilitiesPanel= new JPanel();
         utilitiesPanel.setLayout(new BorderLayout());
@@ -236,20 +234,18 @@ public class DRestaurantGui extends JFrame implements ActionListener {
      * If it's the customer's checkbox, it will make him hungry
      * For v3, it will propose a break for the waiter.
      */
-    public void actionPerformed(ActionEvent e) {
+    @Override
+	public void actionPerformed(ActionEvent e) {
         if (e.getSource() == stateCB) {
             if (currentPerson instanceof DCustomerRole) {
                 DCustomerRole c = (DCustomerRole) currentPerson;
-                System.err.println("ahh");
                 c.getGui().setHungry();
                 stateCB.setEnabled(false);
             }
         }
-
         if(e.getSource()== pause) {
-//        	restPanel.msgTogglePause();
+        	restPanel.msgTogglePause();
         }
-
 //        if(e.getSource()==)
 //      private JButton kitchenThresholdInc;
 //      private JButton kitchenThresholdDec;
@@ -257,25 +253,25 @@ public class DRestaurantGui extends JFrame implements ActionListener {
 //      private JButton kitchenAmntDec;
 //      private JButton marketAmntInc;
 //      private JButton marketAmntDec;
-//        if(e.getSource()==kitchenThresholdInc) {
-//        	restPanel.msgIncreaseKitchenThreshold();
-//        }
-//        if(e.getSource()==kitchenThresholdDec) {
-//        	restPanel.msgDecreaseKitchenThreshold();
-//        }
-//        if(e.getSource()==kitchenAmntInc) {
-//        	restPanel.msgIncreaseKitchenAmount();
-//        }
-//        if(e.getSource()==kitchenAmntDec) {
-//        	restPanel.msgDecreaseKitchenAmount();
-//        }
-//        if(e.getSource()==marketAmntInc) {
-//        	restPanel.msgIncreaseMarketAmount();
-//        }
-//        if(e.getSource()==marketAmntDec) {
-//        	restPanel.msgDecreaseMarketAmount();
-//        }
-//        
+        if(e.getSource()==kitchenThresholdInc) {
+        	restPanel.msgIncreaseKitchenThreshold();
+        }
+        if(e.getSource()==kitchenThresholdDec) {
+        	restPanel.msgDecreaseKitchenThreshold();
+        }
+        if(e.getSource()==kitchenAmntInc) {
+        	restPanel.msgIncreaseKitchenAmount();
+        }
+        if(e.getSource()==kitchenAmntDec) {
+        	restPanel.msgDecreaseKitchenAmount();
+        }
+        if(e.getSource()==marketAmntInc) {
+        	restPanel.msgIncreaseMarketAmount();
+        }
+        if(e.getSource()==marketAmntDec) {
+        	restPanel.msgDecreaseMarketAmount();
+        }
+        
         if(e.getSource()==setAmounts) {
         	kitchenThresholdInc.setEnabled(false);
         	kitchenThresholdDec.setEnabled(false);
@@ -284,7 +280,7 @@ public class DRestaurantGui extends JFrame implements ActionListener {
         	marketAmntDec.setEnabled(false);
         	marketAmntInc.setEnabled(false);
         	setAmounts.setEnabled(false);
-        //	restPanel.msgInventoryValsSet();
+        	restPanel.msgInventoryValsSet();
         }
         
         

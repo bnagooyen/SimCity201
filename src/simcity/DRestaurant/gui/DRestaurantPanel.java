@@ -1,18 +1,20 @@
 package simcity.DRestaurant.gui;
 
-import simcity.PersonAgent;
+import simcity.interfaces.DCook;
+
+import javax.swing.*;
+
 import simcity.DRestaurant.DCashierRole;
 import simcity.DRestaurant.DCookRole;
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DHostRole;
+//import simcity.DRestaurant.DMarketRole;
+import simcity.DRestaurant.DWaiterNormalRole;
 import simcity.DRestaurant.DWaiterRole;
-import simcity.gui.PersonGui;
-//import restaurant.MarketAgent;
-
-import javax.swing.*;
+import simcity.DRestaurant.DWaiterSharedRole;
+import simcity.PersonAgent;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.util.Vector;
 
 /**
@@ -22,74 +24,53 @@ import java.util.Vector;
 public class DRestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
-//	private DHostRole h = null;
-//	private PersonAgent host = new PersonAgent("Host", h);
-//	private PersonAgent hey = new PersonAgent("doreen", h);
-//    h = new DHostRole(host);
-//    //private HostGui hostGui = new HostGui(host);
-//  
-//    private DWaiterRole w = null;
-//    private PersonAgent waiter = new PersonAgent("Waiter", w);
-//    w = new DWaiterRole(waiter);
-//    
-//    private DCookRole c = null;
-//    private PersonAgent cook = new PersonAgent("Cook", c);
-//    c = new DCookRole(cook);   
-//    
-//    private DCashierRole cash = null;
-//    private PersonAgent cashier = new PersonAgent("Cashier", cash);
-//    cash = new DCashierRole(cashier);
-//    
+    private DHostRole host = new DHostRole("Sarah");
+    private DHostGui hostGui = new DHostGui(host);
+    
+    
+    //private WaiterAgent waiter = new WaiterAgent("Joe");
+    //private WaiterGui waiterGui = new WaiterGui(waiter);
+    
+    private DCookRole cook = new DCookRole("Michael Crowley");
+    private DCookGui cookGui = null;
+    
+//    private PersonAgent person = new PersonAgent("Doreen");
+//    private PersonGui personGui=null;
+    
     private Vector<PersonAgent> people = new Vector<PersonAgent>();
     //private CookGui cookGui = new CookGui(cook);
-       
+    
+    private DCashierRole cashier = new DCashierRole("Betty");
     private int waiterIndex = 1;
     private Vector<DWaiterRole> waiters = new Vector<DWaiterRole>();
     private Vector<DCustomerRole> customers = new Vector<DCustomerRole>();
     
     private final int numMarkets = 3;
-//    private Vector<MarketAgent> markets = new Vector<MarketAgent>();
+    private Vector<DMarketRole> markets = new Vector<DMarketRole>();
     
     private JPanel restLabel = new JPanel();
+   //customer drop down!
     private DListPanel customerPanel = new DListPanel(this, "Customers");
     private DListPanel waiterPanel = new DListPanel(this, "Waiters");
+    //private JPanel group = new JPanel();
 
-    private DRestaurantGui gui;
+    private DRestaurantGui gui; //reference to main gui
     
+  //Person
+
+    
+
     public DRestaurantPanel(DRestaurantGui gui) {
         this.gui = gui;
-//
-//        
-//        c1.startThread();
-//        
-//        host.addRole(h);
-//        h.isActive = true;
-//        host.startThread();
-//        c1.setHost(host.getHostRole());
-//
-//        waiter.addRole(w);
-//        w.isActive = true;
-//        waiter.startThread();
-//        
-//        h.setWaiter(w);
-//        
-//        cook.addRole(c);
-//        c.isActive = true;
-//        cook.startThread();
-//        
-//        cashier.addRole(cash);
-//        cash.isActive = true;
-//        cashier.startThread();
-//        
-//        c1.gotHungry();
-
-    }
-        //host.setGui(hostGui);
+       
+        host.setGui(hostGui);
         //waiter.setGui(waiterGui);
-//        cashier.startThread();
+        //System.err.println(cook);
+        cashier.AddCook(cook);
+        cashier.startThread();
         
         //waiter.startThread();
-//        host.startThread();
+        host.startThread();
 
         
         //cook.msgAddWaiter(waiter);
@@ -101,30 +82,36 @@ public class DRestaurantPanel extends JPanel {
         
        // gui.animationPanel.addGui(waiterGui);
         
-//        setLayout(new GridLayout(1,3));
-//        //group.setLayout(new GridLayout(1, 2));
-//
-//        add(customerPanel);
-//        add(waiterPanel);
-//
-//        initRestLabel();
-//        add(restLabel);
+        setLayout(new GridLayout(1,3));
+        //group.setLayout(new GridLayout(1, 2));
+
+        add(customerPanel);
+        add(waiterPanel);
+
+        initRestLabel();
+        add(restLabel);
         
         //add markets and start their threads
-//        for(int i=1; i<=numMarkets; i++) {
-//        	MarketAgent myMarket = new MarketAgent(i);
-//        	cook.msgAddMarket(myMarket);
-//        	myMarket.msgAddCook(cook);
-//        	markets.add(myMarket);
-//        	myMarket.startThread();
-//        }
+        for(int i=1; i<=numMarkets; i++) {
+        	DMarketRole myMarket = new DMarketRole(i);
+        	cook.msgAddMarket(myMarket);
+        	myMarket.msgAddCook(cook);
+        	host.addCook(cook);
+        	markets.add(myMarket);
+        	myMarket.startThread();
+        }
         
         
         
-        //cook.AddHost(host);
-        //cook.AddCashier(cashier);
+        //need this for checking if kitchen has enough food
+        cookGui= new DCookGui(cook, gui);
+        cook.setGui(cookGui);
+        gui.animationPanel.addGui(cookGui);
         
-//        cook.startThread();
+        cook.AddHost(host);
+        cook.AddCashier(cashier);
+        
+        cook.startThread();
         
 //        personGui=new PersonGui(person, gui);
 //        person.setGui(personGui);
@@ -132,20 +119,25 @@ public class DRestaurantPanel extends JPanel {
 //        person.startThread();
 
        // add(group);
-//    }
+    }
 
     /**
      * Sets up the restaurant label that includes the menu,
      * and host and cook information
      */
     private void initRestLabel() {
-//        JLabel label = new JLabel();
-//     
-//        label.setText(
-//                "<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
-//        
-//        restLabel.add(label, BorderLayout.CENTER);
-//   
+        JLabel label = new JLabel();
+     
+        //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
+        //restLabel.setLayout(new BorderLayout());
+        label.setText(
+                "<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
+
+        //label.setText("aaaah");
+        //restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
+        restLabel.add(label, BorderLayout.CENTER);
+        //restLabel.add(new JLabel("               "), BorderLayout.EAST);
+        //restLabel.add(new JLabel("       "), BorderLayout.WEST);
     }
 
     /**
@@ -157,67 +149,69 @@ public class DRestaurantPanel extends JPanel {
      * @param name name of person
      */
     public Object showInfo(String type, String name) {
-//
-//        if (type.equals("Customers")) {
-//
-//            for (int i = 0; i < customers.size(); i++) {
-//                CustomerRole temp = customers.get(i);
-//                if (temp.getText() == name) {
-//                	return temp;
-//                }
-//            }
-//        }
-//        
-//        if (type.equals("Waiters")) {
-//
-//            for (int i = 0; i < waiters.size(); i++) {
-//                WaiterRole temp = waiters.get(i);
-//                if (temp.getName() == name)
-//                    return temp;
-//            }
-//        }
-//        
-        if (type.equals("Person")) {
 
-            for (int i = 0; i < people.size(); i++) {
-                PersonAgent temp = people.get(i);
-                if (temp.getName() == name) {
+        if (type.equals("Customers")) {
+
+            for (int i = 0; i < customers.size(); i++) {
+                DCustomerRole temp = customers.get(i);
+                if (temp.getText() == name) {
                 	return temp;
                 }
             }
         }
-//        
-//        
+        
+        if (type.equals("Waiters")) {
+
+            for (int i = 0; i < waiters.size(); i++) {
+                DWaiterRole temp = waiters.get(i);
+                if (temp.getName() == name)
+                    return temp;
+            }
+        }
+        
+        if (type.equals("Person")) {
+//        	System.err.println("lsdfjlkasdjf");
+      
+            for (int i = 0; i < people.size(); i++) {
+                PersonAgent temp = people.get(i);
+                if (temp.getName() == name) {
+//                	System.out.println("sdljflskjdf");
+                	return temp;
+                }
+            }
+        }
+        
+        
         return new Object();
     }
 
-//    public void msgTogglePause() {
-//    	if(host.isPaused) {
-//    		host.isPaused=false;
-//    		host.Restart();
-//    	}
-//    	else host.isPaused=true;
-//    	for(WaiterAgent waiter: waiters) {
-//	    	if(waiter.isPaused) {
-//	    		waiter.isPaused=false;
-//	    		waiter.Restart();
-//	    	}
-//	    	else waiter.isPaused=true;
-//    	}
-//    	for(CustomerAgent customer: customers) {
-//    		if(customer.isPaused) {
-//    			customer.isPaused=false;
-//    			customer.Restart();
-//    		}
-//    		else customer.isPaused=true;
-//    	}
-//    	
-//    	if(cook.isPaused) {
-//    		cook.isPaused=false;
-//    		cook.Restart();
-//    	}
-//    	else cook.isPaused=true;
-//   }
+    public void msgTogglePause() {
+    	if(host.isPaused) {
+    		host.isPaused=false;
+    		host.Restart();
+    	}
+    	else host.isPaused=true;
+    	for(DWaiterRole waiter: waiters) {
+	    	if(waiter.isPaused) {
+	    		waiter.isPaused=false;
+	    		waiter.Restart();
+	    	}
+	    	else waiter.isPaused=true;
+    	}
+    	for(DCustomerRole customer: customers) {
+    		if(customer.isPaused) {
+    			customer.isPaused=false;
+    			customer.Restart();
+    		}
+    		else customer.isPaused=true;
+    	}
+    	
+    	if(cook.isPaused) {
+    		cook.isPaused=false;
+    		cook.Restart();
+    	}
+    	else cook.isPaused=true;
+    }
     /*
      *         if(e.getSource()==kitchenThresholdInc) {
         	restPanel.msgIncreaseKitchenThreshold();
@@ -240,58 +234,36 @@ public class DRestaurantPanel extends JPanel {
      * 
      */
     
-//<<<<<<< HEAD
-//    public void msgInventoryValsSet() {
-//    	cook.msgCheckInventoryValsForOpen();
-//    }
-//    
-//    public void msgIncreaseKitchenThreshold() {
-//    	cook.msgIncKitchenThreshold();
-//    }
-//    
-//    public void msgDecreaseKitchenThreshold() {
-//    	cook.msgDecKitchenThreshold();
-//    }
-//    
-//    public void msgIncreaseKitchenAmount() {
-//    	cook.msgIncKitchenAmnt();
-//    }
-//    
-//    public void msgDecreaseKitchenAmount() {
-//    	cook.msgDecKitchenAmnt();
-//    }
-//=======
-//    public void msgInventoryValsSet() {
-//    	cook.msgCheckInventoryValsForOpen();
-//    }
-//    
-//    public void msgIncreaseKitchenThreshold() {
-//    	cook.msgIncKitchenThreshold();
-//    }
-//    
-//    public void msgDecreaseKitchenThreshold() {
-//    	cook.msgDecKitchenThreshold();
-//    }
-//    
-//    public void msgIncreaseKitchenAmount() {
-//    	cook.msgIncKitchenAmnt();
-//    }
-//    
-//    public void msgDecreaseKitchenAmount() {
-//    	cook.msgDecKitchenAmnt();
-//    }
-//    public void msgIncreaseMarketAmount() {
-//    	for(MarketAgent market: markets) {
-//    		market.msgIncMarketAmnt();
-//    	}
-//    }
-//    
-//    public void msgDecreaseMarketAmount() {
-//    	for(MarketAgent market: markets) {
-//    		market.msgDecMarketAmnt();
-//    	}
-//    }
-//>>>>>>> d91644cc014bfaf6ae424eeaee615c251913ed82
+    public void msgInventoryValsSet() {
+    	cook.msgCheckInventoryValsForOpen();
+    }
+    
+    public void msgIncreaseKitchenThreshold() {
+    	cook.msgIncKitchenThreshold();
+    }
+    
+    public void msgDecreaseKitchenThreshold() {
+    	cook.msgDecKitchenThreshold();
+    }
+    
+    public void msgIncreaseKitchenAmount() {
+    	cook.msgIncKitchenAmnt();
+    }
+    
+    public void msgDecreaseKitchenAmount() {
+    	cook.msgDecKitchenAmnt();
+    }
+    public void msgIncreaseMarketAmount() {
+    	for(DMarketRole market: markets) {
+    		market.msgIncMarketAmnt();
+    	}
+    }
+    
+    public void msgDecreaseMarketAmount() {
+    	for(DMarketRole market: markets) {
+    		market.msgDecMarketAmnt();
+    	}
+    }
     
     /**
      * Adds a customer or waiter to the appropriate list
@@ -302,48 +274,56 @@ public class DRestaurantPanel extends JPanel {
     
     public void addPerson(String type, String name) {
 
-//    	if (type.equals("Customers")) {
-//    		PersonAgent p = new PersonAgent(name);
-//    		//CustomerRole c = new CustomerRole(p, host);	
-//    		CustomerGui g = new CustomerGui(c, gui);
-//
-//   		gui.animationPanel.addGui(g);// dw
-//    		//c.setHost(host);
-//    		c.setCashier(cashier);
-//    		c.setGui(g);
-//    		customers.add(c);
-//    		//c.startThread();
+    	if (type.equals("Customers")) {
+    		DCustomerRole c = new DCustomerRole(name);	
+    		DCustomerGui g = new DCustomerGui(c, gui);
+
+    		gui.animationPanel.addGui(g);// dw
+    		c.setHost(host);
+    		c.setCashier(cashier);
+    		c.setGui(g);
+    		customers.add(c);
+    		c.startThread();
 //    		System.out.println("added");
-//    	}
-//    	
-//    	if(type.equals("Waiters")) {
-//    		PersonAgent p = new PersonAgent(name);
-//    		WaiterRole w = new WaiterRole(p);
-//    		WaiterGui g= new WaiterGui(w, gui, waiterIndex);
-//    		waiterIndex++;
-//    		
-//    		gui.animationPanel.addGui(g);
-//    		w.setGui(g);
-//    		
-//    		
-//    		//w.msgAddCook(cook);
-//          //  w.msgAddHost(host);
-//          //  w.msgAddCashier(cashier);
-//           // host.msgAddWaiter(w);
-//            waiters.add(w);
-//    		
-//    		
-//    	}
-//    	
-//    	if(type.equals("Person")) {
-//    		PersonAgent p = new PersonAgent(name);
-//    		PersonGui g = new PersonGui(p, gui);
-//    		p.setGui(g);
-//    		gui.simCityPanel.addGui(g);
-//    		p.startThread();
-//    		people.add(p);
-//    		System.err.println("added person in restpanel");
-//    	}
+    	}
+    	
+    	if(type.equals("Waiters")) {
+    		DWaiterRole w;
+    		if(waiterIndex%2==0) {
+    			w= new DWaiterNormalRole(name);
+    		}
+    		else {
+    			w = new DWaiterSharedRole(name);
+    		}
+    		
+    		DWaiterGui g= new DWaiterGui(w, gui, waiterIndex);
+    		waiterIndex++;
+    		
+    		gui.animationPanel.addGui(g);
+    		w.setGui(g);
+    		
+    		w.startThread();
+    		//System.out.println("called thread start for + " + name);
+    		
+    		w.msgAddCook(cook);
+            w.msgAddHost(host);
+            w.msgAddCashier(cashier);
+            host.msgAddWaiter(w);
+            waiters.add(w);
+    		
+    		
+    	}
+    	
+    	if(type.equals("Person")) {
+//    		System.out.println("added");
+    		PersonAgent p = new PersonAgent(name);
+//    		System.err.println("**** "+ name);
+    		DPersonGui g = new DPersonGui(p, gui);
+    		p.setGui(g);
+    		gui.simCityPanel.addGui(g);
+    		p.startThread();
+    		people.add(p);
+    	}
     }
     
     public void setCustomerEnabled(String name, double val) {

@@ -2,7 +2,6 @@ package simcity;
 
 import agent.Agent;
 import agent.Role;
-import simcity.restaurant.interfaces.Cashier;
 import simcity.BRestaurant.BCustomerRole;
 import simcity.Bank.BankCustomerRole;
 //import simcity.Bank.BankManagerRole.MyClient;
@@ -13,7 +12,6 @@ import simcity.DRestaurant.gui.DCookGui;
 import simcity.DRestaurant.gui.DCustomerGui;
 import simcity.DRestaurant.gui.DHostGui;
 import simcity.DRestaurant.gui.DWaiterGui;
-import simcity.restaurant.interfaces.*;
 import simcity.KRestaurant.KCustomerRole;
 import simcity.LRestaurant.LCustomerRole;
 import simcity.Market.MarketCustomerRole;
@@ -136,7 +134,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		else if(job instanceof BCashier || job instanceof BCook || job instanceof BWaiter){
 			jobLocation="brestaurant";
 		}
-		else if(job instanceof Cashier || job instanceof Cook || job instanceof Waiter){
+		else if(job instanceof DCashier || job instanceof Cook || job instanceof DWaiter){
 			jobLocation="drestaurant";
 		}
 		else if(job instanceof Drew_Cashier || job instanceof Drew_Cook || job instanceof BWaiter){
