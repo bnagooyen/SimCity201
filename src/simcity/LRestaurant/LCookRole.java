@@ -47,6 +47,7 @@ public class LCookRole extends Role implements LCook {
 	public List<MarketManager> markets =Collections.synchronizedList( new ArrayList<MarketManager>()); 
 	public List<MarketOrder> marketOrders =Collections.synchronizedList( new ArrayList<MarketOrder>()); 
 	
+	boolean goHome = false;
 	
 	private Semaphore task = new Semaphore(0,true);
 
@@ -69,6 +70,13 @@ public class LCookRole extends Role implements LCook {
 
 	// Messages
 
+	public void msgGoHome(int cash) {
+		Do("told to go home");
+		myPerson.money += cash;
+		goHome = true;
+		stateChanged();	
+	}
+	
 	public void msgHereIsAnOrder(int table, String choice, LWaiterRole w) {//from animation
 		//print("Received order from " + choice);
 		orders.add(new Order(table, choice,w,OrderState.pending));
@@ -193,7 +201,12 @@ public class LCookRole extends Role implements LCook {
 			}
 		}
 		
+		if(goHome) {
+			goHome();
+		}
+		else {
 			checkRotatingStand();
+		}
 		
 		return false;
 		//we have tried all our rules and found
@@ -203,6 +216,13 @@ public class LCookRole extends Role implements LCook {
 
 
 	// Actions
+
+	private void goHome() {
+		Do("going home");
+		isActive = false;
+		goHome = false;
+		cookGui.DoLeaveRestaurant();		
+	}
 
 	private void checkRotatingStand() {
 		LRestaurantOrder newOrder = theMonitor.remove();
@@ -439,4 +459,5 @@ public class LCookRole extends Role implements LCook {
 	public String toString() {
 		return name;
 	}
+	
 }

@@ -15,6 +15,7 @@ import simcity.LRestaurant.LCustomerRole.AgentEvent;
 import simcity.test.mock.EventLog;
 import simcity.interfaces.LCashier;
 import simcity.interfaces.LCustomer;
+import simcity.interfaces.LHost;
 import simcity.interfaces.LWaiter;
 import simcity.interfaces.MarketCashier;
 
@@ -30,6 +31,10 @@ public class LCashierRole extends Role implements LCashier {
 	String name;
 	int restMoney;
 	public EventLog log = new EventLog();
+	boolean goHome = false;
+	
+	LHost host;
+	LCookRole cook;
 	
 	public List<Order>orders = Collections.synchronizedList(new ArrayList<Order>());
 	public List<Transaction>transactions = Collections.synchronizedList(new ArrayList<Transaction>());
@@ -53,6 +58,12 @@ public class LCashierRole extends Role implements LCashier {
 	
 	
 	// Messages
+	
+	public void msgGoHome(int cash) {
+		myPerson.money += cash;
+		goHome = true;
+		stateChanged();		
+	}
 	
 	public void msgComputeCheck(String choice, LCustomer c, LWaiter w) {//from animation
 		//print("Received order from " + w);
@@ -106,6 +117,11 @@ public class LCashierRole extends Role implements LCashier {
 				}
 			}
 		}
+		
+		if(goHome) {
+			goHome();
+			return true;
+		}
 
 		return false;
 		//we have tried all our rules and found
@@ -114,7 +130,14 @@ public class LCashierRole extends Role implements LCashier {
 	}
 	
 	// Actions
-
+	
+	private void goHome(){
+		Do("Going home");
+		isActive = false;
+		goHome = false;
+		host.msgHereIsMoney(restMoney);
+	}
+	
 	private void PayMarket(final Bill b) {
 		if(restMoney >= b.amount){
 			Do("Paying Market "+b.amount);
@@ -225,6 +248,7 @@ public class LCashierRole extends Role implements LCashier {
 			didPay = p;
 		}
 	}
+
 
 }
 

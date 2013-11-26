@@ -87,7 +87,7 @@ public class KCookRole extends Role implements KCook{
 	public void msgGoHome(double payment) {
 		Do("told to go home");
 		myPerson.money += payment;
-		goHome = false;
+		goHome = true;
 		stateChanged();
 	}
 	public void msgHereIsAnOrder(KWaiter w, String choice, int table) {
@@ -191,7 +191,7 @@ public class KCookRole extends Role implements KCook{
 			}
 		}
 		if(goHome) {
-			leaveRestaurant();
+			goHome();
 		}
 		else {
 			checkRotatingStand();

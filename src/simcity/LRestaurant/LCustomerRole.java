@@ -123,8 +123,15 @@ public class LCustomerRole extends Role implements LCustomer{
         public String getCustomerName() {
                 return name[0];
         }
+        
         // Messages
 
+		public void msgRestaurantClosed() {
+			state = AgentState.receiveCheck;
+			event = AgentEvent.gotChange;
+			stateChanged();
+		}
+        
         public void gotHungry() {//from animation
                 print("I'm hungry");
                 event = AgentEvent.gotHungry;
@@ -457,6 +464,8 @@ public class LCustomerRole extends Role implements LCustomer{
         public LCustomerGui getGui() {
                 return customerGui;
         }
+
+		
 
 		
 }

@@ -79,6 +79,12 @@ public class MockLHost extends Mock implements LHost{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void msgHereIsMoney(int restMoney) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
 

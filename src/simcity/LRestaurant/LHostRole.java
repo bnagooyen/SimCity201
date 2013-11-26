@@ -1,6 +1,11 @@
 package simcity.LRestaurant;
 
 import agent.Role;
+import simcity.LRestaurant.LCashierRole;
+import simcity.LRestaurant.LCookRole;
+import simcity.LRestaurant.LWaiterRole;
+import simcity.LRestaurant.LHostRole.MyCustomers;
+import simcity.LRestaurant.LHostRole.myWaiter;
 import simcity.LRestaurant.ProducerConsumerMonitor;
 import simcity.LRestaurant.LWaiterRole;
 import simcity.LRestaurant.LWaiterRole.WaiterState;
@@ -34,6 +39,11 @@ public class LHostRole extends Role implements Host {
 
         private ProducerConsumerMonitor theMonitor;
         LCookRole cook;
+        LCashierRole cashier;
+        
+        private int hour;
+        private boolean isClosed;
+        private double restaurantMoney;
         
         public enum CustomerState {waiting, assigned, seated, deciding, thinking, left};
 
@@ -94,6 +104,43 @@ public class LHostRole extends Role implements Host {
         }
         // Messages
 
+        public void msgHereIsMoney(double money){
+    		restaurantMoney += money;
+    	}
+    	
+        
+        public void msgTimeUpdate(int hour){
+    		this.hour = hour;
+    		if(hour == 9) {
+    			restaurantMoney = 50000.0;
+    		}
+    	}
+        
+        public void msgIAmHere(Role r, String type){
+    		
+    		if(type.equals("waiter")){
+    			Do("Waiter is here");
+    			waiters.add(new myWaiter((LWaiterRole) r,0));
+    		}
+    		else if(type.equals("cook")){
+    			Do("Cook is here");
+    			cook = (LCookRole)r;
+    		}
+    		else if(type.equals("cashier")){
+    			Do("Cashier is here");
+    			cashier = (LCashierRole) r;
+    		}
+    		
+    		if(!waiters.isEmpty() && cook != null && cashier != null){
+    			isClosed = false;
+    		}
+    		else{
+    			isClosed = true;
+    		}
+    		
+    		stateChanged();
+    	}
+        
         public void msgLeftLine(){
                 moveWaitLine = true;
                 stateChanged();
@@ -207,7 +254,16 @@ public class LHostRole extends Role implements Host {
          * Scheduler.  Determine what action is called for, and do it.
          */
         public boolean pickAndExecuteAnAction() {
-
+        		
+        	if(hour == 21 && !isClosed){
+    			closeRestaurant();
+    			return true;
+    		}
+    		
+    		if(hour == 20 || isClosed){
+    			restaurantClosed();
+    			return true;
+    		}
 
                 synchronized(customers){
                         for(MyCustomers c: customers){
@@ -290,6 +346,34 @@ public class LHostRole extends Role implements Host {
 
         // Actions
 
+        private void closeRestaurant(){ //pay employees 50
+    		Do("Closing restaurant. It is "+hour);
+    		synchronized(waiters){
+    			for(myWaiter w: waiters){
+    				restaurantMoney -= 50;
+    				w.w.msgGoHome(50);
+    			}
+    		}
+    		cashier.msgGoHome(50);
+    		cook.msgGoHome(50);
+    		
+    		waiters.clear();
+    		cashier = null;
+    		cook = null;
+    		isClosed = true;
+    	}
+    	
+    	private void restaurantClosed() {
+    		Do("Telling market is closed");
+    		synchronized(customers){
+    			for(MyCustomers c: customers){
+    				c.c.msgRestaurantClosed();
+    			}
+    			customers.clear();
+    		}
+    	}
+    	
+        
         private void fullRestaurant(MyCustomers c){
                         c.c.msgRestaurantIsFull();
                         c.state = CustomerState.thinking;
