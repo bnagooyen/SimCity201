@@ -55,8 +55,8 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	{ waiting, seated, readyToOrder, askedToOrder, ordered, needToOrderAgain, waitingForFood,
 		orderIsReady, eating, leaving, gone , checkReady, givenCheck, cantPay}
 	
-	public KWaiterRole(PersonAgent p) {
-		super(p);
+	public KWaiterRole() {
+		super();
 		
 		mystate = WaiterState.working;
 		menu = new KMenu();

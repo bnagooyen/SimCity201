@@ -32,8 +32,8 @@ public class BCookRole extends Role implements BCook {
 	private BCashierRole cashier;
 	private BOrderStand theMonitor;
 	
-	public BCookRole(PersonAgent p) {// , List<BMarketRole> markets) {
-			super(p);
+	public BCookRole() {// , List<BMarketRole> markets) {
+			super();
 			
 			this.name=name;
 			

@@ -129,7 +129,6 @@ public class MarketManagerRole extends Role implements MarketManager{
 		
 		if(isClosed){
 			marketClosed();
-			return true;
 		}
 		
 		if(cashiers.size() > 1){

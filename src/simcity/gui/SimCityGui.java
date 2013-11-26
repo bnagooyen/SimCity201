@@ -24,6 +24,7 @@ import simcity.gui.SimCityAnimationPanel;
 import simcity.interfaces.BusStop;
 import simcity.interfaces.Person;
 
+
 public class SimCityGui extends JFrame implements ActionListener, MouseListener {
 
 	public static final int SIMCITYX=985;
@@ -33,7 +34,7 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 	private SimCityPanel simcityPanel = new SimCityPanel(this);
 	private ListPanel addPersonPanel=new ListPanel(simcityPanel, "Person");
 	private ArrayList<Person> people = new ArrayList<Person>();
-
+	BusAgent b = new BusAgent();
 	JPanel buildingPanels;
 	CardLayout cl;
 	
@@ -51,17 +52,19 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 	    BankManagerRole bm = new BankManagerRole(person);
 	    person.SetJob(bm);
 	    person.startThread(); 
-	    BusAgent b = new BusAgent();
+	   
 	    BusStopAgent bs = new BusStopAgent();
 	    BusStopAgent bs2 = new BusStopAgent();
 	    bs.myStop="stop1";
 	    bs2.myStop="stop2";
+	    bs2.startThread();
+	    bs.startThread(); 
 	    b.busStops.put(bs.myStop, bs);
 	    b.busStops.put(bs2.myStop, bs2);
 	    
-	    person.setBusStop(bs);
+	    person.setBusStop(b.busStops.get(bs.myStop));
 	    b.startThread(); 
-	    bs.startThread(); 
+	    
 		people.add(person);
 		startTimer();
 	    
@@ -165,6 +168,7 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 		                 System.out.println("hour is " + counter);
 		                 for(Person p: people) {
 		                	 p.msgTimeUpdate(counter);
+		                	 b.msgTimeUpdate(counter);
 		                 }
 		                 counter++;
 		                 if (counter == 25) {

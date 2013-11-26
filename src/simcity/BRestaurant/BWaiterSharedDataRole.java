@@ -12,8 +12,8 @@ public class BWaiterSharedDataRole extends BWaiterRole implements BWaiter{
     private BOrderStand theMonitor;
 
 	
-	public BWaiterSharedDataRole(PersonAgent p) {
-		super(p);
+	public BWaiterSharedDataRole() {
+		super();
 	}
 
 	protected void giveCookOrder(myCustomer c) {

@@ -38,6 +38,7 @@ public class BusStopAgent extends Agent implements BusStop{
 	
 		if(buses.size()>0){
 			givePassengerList(buses.get(0));
+			
 			return true;
 		}
 		

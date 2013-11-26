@@ -4,9 +4,14 @@ import agent.Agent;
 import agent.Role;
 import simcity.PersonAgent;
 import simcity.KRestaurant.gui.KWaiterGui;
+import simcity.interfaces.Cook;
+import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.KCustomer;
 import simcity.interfaces.Host;
+import simcity.interfaces.MarketCustomer;
 import simcity.KRestaurant.gui.KRestaurantGui;
+import simcity.Market.MarketManagerRole.MyCustomer;
+import simcity.Market.MarketManagerRole.MyMarketCashier;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -22,12 +27,19 @@ public class KHostRole extends Role implements Host{
 	
 	static final int NTABLES = 4;
 
+	private int hour;
+	private boolean isClosed;
+	private double restaurantMoney;
+	
+	private KCookRole myCook;
+	private KCashierRole myCashier;
 	public List<MyCustomer> customers= Collections.synchronizedList(new ArrayList<MyCustomer>());
 	public List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	public List<Integer> waitingCustomers = Collections.synchronizedList(new ArrayList<Integer>());
 	public Collection<Table> tables;
 	
 	KRestaurantGui gui;
+
 	
 	public enum state 
 	{waiting, atTable, done};
@@ -43,7 +55,6 @@ public class KHostRole extends Role implements Host{
 	
 	public KWaiterGui hostGui = null;
 	
-	private KCookRole myCook;
 
 	public KHostRole() {
 		//super(p);
@@ -81,6 +92,14 @@ public class KHostRole extends Role implements Host{
 		return tables;
 	}
 	
+	public void msgHereIsMoney(double money){
+		restaurantMoney += money;
+	}
+	
+	public void msgTimeUpdate(int hour){
+		this.hour = hour;
+		restaurantMoney = 50000.0;
+	}
 	
 	public void msgIWantFood(KCustomerRole cust) {
 		System.out.println("got msg from customer, he's hungry");
@@ -155,6 +174,17 @@ public class KHostRole extends Role implements Host{
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		
+		if(hour == 20 && !isClosed){
+			closeRestaurant();
+			return true;
+		}
+		
+		if(isClosed){
+			restaurantClosed();
+			return true;
+		}
+		
 		synchronized(waiters) {
 			for(MyWaiter w: waiters) {
 				if ( w.state == WaiterState.wantToGoOnBreak) {
@@ -188,7 +218,33 @@ public class KHostRole extends Role implements Host{
 	}
 	
 	// Actions
-
+	private void closeRestaurant(){ //pay employees 50
+		Do("Closing restaurant. It is "+hour);
+		synchronized(waiters){
+			for(MyWaiter w: waiters){
+				restaurantMoney -= 50;
+				w.w.msgGoHome(50);
+			}
+		}
+		myCashier.msgGoHome(50);
+		myCook.msgGoHome(50);
+		
+		waiters.clear();
+		myCashier = null;
+		myCook = null;
+		isClosed = true;
+	}
+	
+	private void restaurantClosed() {
+		Do("Telling market is closed");
+		synchronized(customers){
+			for(MyCustomer c: customers){
+				c.c.msgRestaurantClosed();
+			}
+			customers.clear();
+		}
+	}
+	
 	private void sayRestaurantFull(MyCustomer c) {
 		synchronized(waitingCustomers) {
 			for(int i = 0; i<10; i++) {
@@ -321,5 +377,8 @@ public class KHostRole extends Role implements Host{
 		}
 	}
 	
+	public void setCashier(KCashierRole c) {
+		myCashier = c;
+	}
 }
 
