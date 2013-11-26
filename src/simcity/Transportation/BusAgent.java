@@ -17,6 +17,7 @@ public class BusAgent extends Agent implements Bus {
 	public busState state;
 	public List<MyPassenger> passengers=new ArrayList<MyPassenger>();
 	public int hour;
+	boolean start=true;
 	
 	
 	public class MyPassenger{
@@ -44,6 +45,11 @@ public class BusAgent extends Agent implements Bus {
 	}
 	
 	public void msgHereArePassengers(List<PersonAgent> people){
+		
+		if(people.size()==0){
+			state=busState.readyToGo;
+		}
+		else{
 		for (int i=0; i<people.size(); i++ ){
 			MyPassenger thispassenger=new MyPassenger();
 			thispassenger.p=people.get(i);
@@ -51,6 +57,9 @@ public class BusAgent extends Agent implements Bus {
 			state=busState.loading;
 			
 		}
+		
+		}
+		
 		stateChanged();
 	}
 	
@@ -80,7 +89,9 @@ public class BusAgent extends Agent implements Bus {
 		Do("got time update.");
 		hour = hr;
 		if(hr==7) { 
+			
 			busStops.get(currentStop).msgAnyPassengers(this);
+			start=false;
 		}
 		
 		
@@ -90,6 +101,12 @@ public class BusAgent extends Agent implements Bus {
 	//Scheduler
 	
 	public boolean pickAndExecuteAnAction(){
+		
+		if(start==true){
+			busStops.get(currentStop).msgAnyPassengers(this);
+			start=false;
+			
+		}
 		
 		if (state==busState.arrived){
 			arriveAtStop();
@@ -146,7 +163,7 @@ public class BusAgent extends Agent implements Bus {
 		else if (currentStop=="stop2")
 			currentStop="stop1";
 		
-		state=busState.travelling;
+		state=busState.arrived;
 		Do("Go To Next Stop");
 	}
 	
