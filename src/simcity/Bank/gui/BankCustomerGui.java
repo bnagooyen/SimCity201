@@ -32,14 +32,14 @@ public class BankCustomerGui implements Gui{
 	public static final int xOffScreen = 100;
 	public static final int yOffScreen = 350;
 
-	public BankCustomerGui(BankCustomerRole BC, BankGui gui, BankManager m) {
+	public BankCustomerGui(BankCustomer BC, BankGui gui, BankManager m) {
 		Role = BC;
 		xPos = 100;
 		yPos = 350;
 		xDestination = 100;
 		yDestination = 400;
 		manager = m;
-		BC.manager=m;
+		BC.setManager(m);
 		this.gui = gui;
 	}
 

@@ -59,12 +59,7 @@ public class BankPanel extends JPanel {
 		loanOfficer.setGui(LOGui);
 		bankcustomer.setGui(BCGui);
 		
-		bankcustomer.manager=bankmanager;
-		
-        bankteller.startThread();
-        bankmanager.startThread();
-        loanOfficer.startThread();
-        bankcustomer.startThread();
+		bankcustomer.setManager(bankmanager);
     }
 
     /**

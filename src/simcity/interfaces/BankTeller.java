@@ -1,5 +1,7 @@
 package simcity.interfaces;
 
+import simcity.Bank.gui.BankTellerGui;
+
 //import simcity.Bank.BankTellerRole.MyCustomer;
 //import simcity.Bank.BankTellerRole.accountState;
 //import simcity.Bank.BankTellerRole.bankTellerState;
@@ -31,4 +33,6 @@ public interface BankTeller {
 	void msgAtTellerPos();
 
 	public void setManager(BankManager m);
+
+	public void setGui(BankTellerGui bgui);
 }

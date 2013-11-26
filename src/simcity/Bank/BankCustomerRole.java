@@ -176,6 +176,11 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		this.isActive=false;
 		bankcustomerGui.DoExitBank();
 	}
+	
+
+	public void setManager(BankManager m){
+		manager=m;
+	}
 
 	//GUI
 	public void setGui(BankCustomerGui BC){
