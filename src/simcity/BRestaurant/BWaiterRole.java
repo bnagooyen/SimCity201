@@ -23,7 +23,7 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
 	public List<BCustomer> waitingCustomers = new ArrayList<BCustomer>();
-
+	boolean arrived;
 	public List<String> myOrders = new ArrayList<String>();
 	public int customerTable;
 	public String customerOrder;
@@ -35,11 +35,18 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 
 
 	public enum customerState{
-		needtobeSeated, readytoOrder, orderPending, orderisReady, done, reorder, noAction, needCheck
+		needtobeSeated, readytoOrder, orderPending, orderisReady, done, reorder, noAction, needCheck, leave
 	};
 
 
-
+	public WaiterState mystate;
+    
+    public enum WaiterState 
+    {
+            working, wantToGoOnBreak, askingToGoOnBreak, canGoOnBreak, onBreak, backFromBreak, leave, unavailable
+    }
+    
+    
 	public List<myCustomer> myCustomers = new ArrayList<myCustomer>();
 
 	public class myCustomer{
@@ -131,6 +138,12 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 		stateChanged();
 	}
 
+	   public void msgGoHome(double paycheck) {
+           Do("told to go home");
+           myPerson.money += paycheck;
+           mystate = WaiterState.leave;
+           stateChanged();
+   }
 	public void msgLeavingTable(BCustomer cust) {
 		for (Table table : tables) {
 			if (table.getOccupant() == cust) {
@@ -209,6 +222,10 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 		for (Table table : tables) {
 		
 			
+			if(arrived){
+				tellHost();
+			}
+			
 			try{
 			for (myCustomer customer : myCustomers) {
 				if (customer.cusState==customerState.readytoOrder) {
@@ -279,6 +296,10 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 
 
 		}
+		
+		if(mystate==WaiterState.leave){
+			goHome();
+		}
 
 		return false;
 		//we have tried all our rules and found
@@ -312,6 +333,12 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 		
 	}
 	
+	 private void tellHost() {
+         Do("telling manager I can work");
+         arrived = false;
+         host.msgIAmHere(this, "waiter");
+ }
+	
 	private void returnFromBreak(){
 		
 		
@@ -328,6 +355,13 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 		hostGui.DoLeaveCustomer();
 
 	}
+	
+	  private void goHome() {
+          Do("going home");
+          isActive = false;
+          mystate = WaiterState.unavailable;
+          
+  }
 	
 	public void setRequestingBreak(){
 		if(requestBreak==false){
