@@ -79,6 +79,7 @@ public abstract class CityComponent {
 	}
 	
 	public boolean contains(int x, int y) {
+		if(image!=null) return false;
 		return rectangle.contains(x, y);
 	}
 	

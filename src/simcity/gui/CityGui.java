@@ -109,6 +109,7 @@ public class CityGui extends JFrame {
 	public static void main(String[] args) {
 		CityGui test = new CityGui();
 		test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		test.simcityPanel.LoadScenario("config1");
 		test.setResizable(false);
 		test.pack();
 		test.setVisible(true);
