@@ -1,7 +1,6 @@
 package simcity.Drew_restaurant;
 
 import agent.Role;
-import restaurant.CookAgent;
 import simcity.PersonAgent;
 //import restaurant.Customer.AgentState;
 //import restaurant.gui.WaiterGui;
@@ -32,7 +31,7 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 	public List<MyWaiter> waiters
 	= Collections.synchronizedList(new ArrayList<MyWaiter>());
 	
-	public Cook cook;
+	public Drew_Cook cook;
 	
 	public Collection<Table> tables;
 	//note that tables is typed with Collection semantics.
@@ -182,8 +181,8 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 
 	//utilities
 	
-	public void setCook(Cook C){
-		cook=C;
+	public void setCook(Drew_Cook cook2){
+		cook=cook2;
 		cook.setMonitor(theMonitor);
 	}
 

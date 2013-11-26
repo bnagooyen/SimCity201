@@ -7,7 +7,7 @@ import simcity.Drew_restaurant.interfaces.*;
 
 public class Drew_WaiterNormalRole extends Drew_WaiterRole implements Drew_Waiter{
 
-	public Drew_WaiterNormalRole(PersonAgent p) {
+	public Drew_WaiterNormalRole() {
 		super();
 	}
 

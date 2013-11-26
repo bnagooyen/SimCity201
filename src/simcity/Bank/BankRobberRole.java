@@ -14,8 +14,8 @@ public class BankRobberRole extends Role implements BankRobber {
 	public enum bankRobberState { arrived, waiting, inProgress, unsucessful, done};
 	public bankRobberState state=bankRobberState.arrived;
 	
-	public BankRobberRole(PersonAgent p) {
-		super(p);
+	public BankRobberRole() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 	

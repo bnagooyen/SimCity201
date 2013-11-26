@@ -3,6 +3,7 @@ package simcity.Drew_restaurant.interfaces;
 
 //import restaurant.WaiterAgent;
 import simcity.Drew_restaurant.Drew_CookRole.Order;
+import simcity.Drew_restaurant.ProducerConsumerMonitor;
 import simcity.Drew_restaurant.gui.*;
 
 /**
@@ -24,5 +25,7 @@ public interface Drew_Cook {
 	public abstract void msgAtDest();
 	
 	public abstract CookGui getGui();
+
+	public abstract void setMonitor(ProducerConsumerMonitor theMonitor);
 
 }

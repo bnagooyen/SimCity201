@@ -36,8 +36,8 @@ public class BankTellerRole extends Role implements BankTeller {
 		}
 	}
 		
-	public BankTellerRole(PersonAgent p) {
-		super(p);
+	public BankTellerRole() {
+		super();
 		startHour=8;
 		log=new EventLog();
 	}
