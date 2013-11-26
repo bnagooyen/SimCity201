@@ -313,7 +313,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				deposit();
 				return true;
 			}
-			if(money<withdrawalThreshold){
+			if(money<withdrawalThreshold && moneyState!=MoneyState.poor){
 				withdraw();
 				return true;
 			}
