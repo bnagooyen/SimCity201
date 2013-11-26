@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class BAnimationPanel extends JPanel implements ActionListener {
 
-    private final int WINDOWX = 450;
-    private final int WINDOWY = 300;
+    private final int WINDOWX = 575;
+    private final int WINDOWY = 325;
     private final int x=50;
     private final int y=150;
     private final int height=50;
