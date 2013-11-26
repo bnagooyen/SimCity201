@@ -14,7 +14,7 @@ import simcity.Drew_restaurant.interfaces.*;
  * Restaurant Waiter Agent
  */
 
-public class Drew_WaiterRole extends Role implements Drew_Waiter{
+public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 	
 	
 	//Data
@@ -24,7 +24,7 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 	private String name;
 	private Semaphore atDest = new Semaphore(-1,true);
 	private Drew_Host host;
-	private Drew_Cook cook;
+	protected Drew_Cook cook;
 	private Drew_Cashier cashier; 
 	
 	public enum CustomerState 
@@ -45,7 +45,7 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 	}
 	
 	public Drew_WaiterRole() {
-		//super(p);
+		super();
 		//this.name = name;
 	}
 
@@ -297,15 +297,15 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 		customer.s=CustomerState.askedToOrder;
 	}
 	
-	private void putInOrder(MyCustomer c){
-		//waitergui.pickUpOrder();
+	protected abstract void putInOrder(MyCustomer c);
+		/*//waitergui.pickUpOrder();
 		//waitergui.goToKitchen();
 		finishTask();
 		//waitergui.dropOff();
 		cook.hereIsOrder(this, c.choice, c.t);
 		c.s=CustomerState.waitingForFood;
 		stateChanged();
-	}
+	}*/
 	
 	private void deliverFood(MyCustomer c){
 		//waitergui.goToKitchen();
@@ -358,7 +358,7 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 
 	//utilities
 
-	private void finishTask(){			//Semaphore to make waiter finish task before running scheduler
+	protected void finishTask(){			//Semaphore to make waiter finish task before running scheduler
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {

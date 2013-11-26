@@ -10,6 +10,8 @@ import java.util.concurrent.Semaphore;
 
 
 
+
+
 //import restaurant.HostAgent.MyWaiter;
 import simcity.Drew_restaurant.interfaces.Drew_Cook;
 import simcity.Drew_restaurant.interfaces.Drew_Waiter;
@@ -25,6 +27,8 @@ import simcity.interfaces.MarketManager;
 public class Drew_CookRole extends Role implements Drew_Cook {
 	
 	//Data
+	private ProducerConsumerMonitor theMonitor;
+	
 	public List<Order> orders
 	= Collections.synchronizedList(new ArrayList<Order>());
 	
@@ -33,6 +37,8 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	
 	public List<Delivery> deliveries
 	= Collections.synchronizedList( new ArrayList<Delivery>());
+	
+	private Timer timer= new Timer();
 	
 	Drew_CashierRole cashier;
 	
@@ -113,6 +119,11 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		stateChanged();
 	}
 	
+	private void msgTimeToCheckStand() {
+		Do("time to check stand");
+		stateChanged();
+	}
+	
 	public void TimerDone(Order O){
 		O.s=State.done;
 	}
@@ -188,6 +199,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 			giveCashierBill(b);
 		}
 		}
+		checkRotatingStand();
 		return false;
 	}
 
@@ -295,6 +307,26 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	
+	private void checkRotatingStand() {
+		Do("Checking Stand");
+		Drew_RestaurantOrder newOrder = theMonitor.remove();
+		if(newOrder != null) {
+			Order o = new Order(newOrder.w, newOrder.choice, newOrder.table);
+			orders.add(o);
+			stateChanged();
+			}
+		else{
+			timer.schedule(new TimerTask() {
+				public void run() {
+						msgTimeToCheckStand();
+						Do("timer Done!");
+					}
+				},
+				2000);
 		}
 	}
 
