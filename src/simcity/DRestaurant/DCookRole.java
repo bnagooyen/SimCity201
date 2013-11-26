@@ -306,9 +306,9 @@ public class DCookRole extends Role implements Cook {
                         return true;
                 }
                 synchronized(marketBills) {
-                for(MarketBill b : marketBills) {
-                        giveCashierBill(b);
-                }
+	                for(MarketBill b : marketBills) {
+	                        giveCashierBill(b);
+	                }
                 }
                 return false;
         }

@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import simcity.BRestaurant.*;
-import simcity.BRestaurant.BMarketRole.cookState;
-import simcity.BRestaurant.gui.BCustomerGui;
-import simcity.interfaces.*;
+import simcity.BRestaurant.BCheck;
+import simcity.BRestaurant.BFood;
+import simcity.interfaces.BCashier;
+import simcity.interfaces.BCook;
+import simcity.interfaces.BCustomer;
+import simcity.interfaces.BWaiter;
 /**
  * A sample MockCustomer built to unit test a CashierAgent.
  *
@@ -28,7 +30,7 @@ public class BMockWaiter extends Mock implements BWaiter{
    	 private List<BCheck> myChecks=new ArrayList<BCheck>();
    	 private String name;
    	 public BCook cook;
-   	 public cookState state; 
+   	 //public cookState state; 
    	 private BCheck marketCheck;
    	 
    	 private int totalMoney=0;

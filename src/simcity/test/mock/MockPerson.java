@@ -108,10 +108,11 @@ public EventLog log;
 		
 	}
 
-	@Override
+
 	public void msgHereIsYourRentBill(LandlordRole landlordRole, double rentBill) {
 		log.add(new LoggedEvent("Received message from Landlord"));
 		
 	}
 
 }
+

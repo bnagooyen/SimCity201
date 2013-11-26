@@ -25,7 +25,7 @@ import simcity.KRestaurant.ProducerConsumerMonitor;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class BHostRole extends Role implements Host, BHost{
+public class BHostRole extends Role implements Host{
 	static final int NTABLES = 3;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -40,9 +40,12 @@ public class BHostRole extends Role implements Host, BHost{
 	
 	public boolean needBreak;
 	public boolean returnToWork;
-	
+	 private boolean isClosed;
+	 int hour;
+	 
 	private BOrderStand theMonitor;
 	private BCookRole mycook;
+	private BCashierRole myCashier;
 	
 	private class myWaiter{
 		public BWaiterRole w;
@@ -154,6 +157,11 @@ public class BHostRole extends Role implements Host, BHost{
 		stateChanged();
 	}
 	
+	 public void msgTimeUpdate(int hour){
+         this.hour = hour;
+         
+ }
+	
 	public void msgWaiterRequestBreak(BWaiterRole waiter){
 		synchronized(waiterList) {
 		for (myWaiter thisWaiter : waiterList ){
@@ -165,6 +173,31 @@ public class BHostRole extends Role implements Host, BHost{
 		}
 		}
 	}
+	
+	public void msgIAmHere(Role r, String type){
+		    
+		     if(type.equals("waiter")){
+		       Do("Waiter is here");
+		       waiterList.add(new myWaiter((BWaiterRole) r));
+		     }
+		     else if(type.equals("cook")){
+		       Do("Cook is here");
+		       mycook = (BCookRole)r;
+		     }
+		     else if(type.equals("cashier")){
+		       Do("Cashier is here");
+		       myCashier = (BCashierRole) r;
+		     }
+		     
+		     if(!waiterList.isEmpty() && mycook != null && myCashier != null){
+		       isClosed = false;
+		     }
+		     else{
+		       isClosed = true;
+		     }
+		     
+		     stateChanged();
+		  }
 
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.

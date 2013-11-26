@@ -28,6 +28,7 @@ public class BCookRole extends Role implements BCook {
 	int amountNeeded;
 	private boolean needtoOrder=false;
 	private boolean alreadyOrdered=false;
+	boolean goHome=false;
 	
 	private BCashierRole cashier;
 	private BOrderStand theMonitor;
@@ -125,6 +126,12 @@ public class BCookRole extends Role implements BCook {
 		stateChanged();
 	}
 	
+	 public void msgGoHome(double paycheck) {
+         myPerson.money += paycheck;
+         goHome = true;
+         stateChanged();
+ }
+	
 	public void foodFinished(Order order){//called by timer
 		order.status = Status.done;
 		stateChanged();
@@ -169,7 +176,9 @@ public class BCookRole extends Role implements BCook {
 				}
 			}
 		}
-		
+		if(goHome){
+			goHome();
+		}
 		else{
 			checkRotatingStand();
 		
@@ -250,6 +259,13 @@ public class BCookRole extends Role implements BCook {
 			}
 		}
 	}
+	
+    private void goHome() {
+        Do("going home");
+        isActive = false;
+        goHome = false;
+       
+}
 	
 	//utilities
 

@@ -22,8 +22,8 @@ public class BMockCustomer extends MockRole implements BCustomer{
         public BCashierRole cashier;
         public EventLog log=new EventLog();
 
-        public BMockCustomer(String name, PersonAgent p) {
-                super(name,p);
+        public BMockCustomer(String name) {
+                super(name);
 
         }
 

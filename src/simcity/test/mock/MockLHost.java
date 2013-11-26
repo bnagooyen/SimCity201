@@ -9,6 +9,7 @@ import simcity.test.mock.LoggedEvent;
 import simcity.test.mock.Mock;
 import simcity.interfaces.Host;
 import simcity.interfaces.LCashier;
+import simcity.interfaces.LCook;
 import simcity.interfaces.LCustomer;
 import simcity.interfaces.LHost;
 import simcity.interfaces.LWaiter;
@@ -66,4 +67,18 @@ public class MockLHost extends Mock implements LHost{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void setCook(LCook cook) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addWaiter(LWaiter lw) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
+

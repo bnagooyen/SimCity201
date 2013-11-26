@@ -73,6 +73,12 @@ public class MockKRestaurantCustomer extends Mock implements KCustomer {
 		
 	}
 
+	@Override
+	public void msgRestaurantClosed() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	//@Override
 //	public void HereIsYourTotal(double total) {
 //		log.add(new LoggedEvent("Received HereIsYourTotal from cashier. Total = "+ total));
