@@ -778,7 +778,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			case 5:	host = new LHostRole();
 					cook = new LCookRole();
 					cashier = new LCashierRole();
-					((LHost) host).setCook((LCook)cook);
+					((LHostRole) host).setCook((LCook)cook);
 					((LCook) cook).setCashier((LCashier)cashier);
 					((LCashierRole)cashier).setHost((LHost)host);
 					((LCashierRole)cashier).setCook((LCook)cook);
