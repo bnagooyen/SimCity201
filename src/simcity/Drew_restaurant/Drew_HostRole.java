@@ -64,7 +64,7 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 	
 	public void addWaiter(Drew_Waiter w){
 		waiters.add(new MyWaiter(w));
-		stateChanged();
+		//stateChanged();
 	}
 	
 	public void msgIAmHere(Role person){

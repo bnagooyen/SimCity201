@@ -302,7 +302,7 @@ public class THostRole extends Role implements Host {
 		myWaiters waitList = new myWaiters(wait);
 		waiters.add(waitList);
 		wait.setHomePosition(waiters.size() - 1);
-		stateChanged(); 
+		//stateChanged(); 
 	}
 
 	public void setGui(THostGui gui) {

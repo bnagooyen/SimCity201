@@ -463,7 +463,7 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 	}
 	
 	public void setHomePosition (int l) {
-		waiterGui.setHome(l); 
+		//waiterGui.setHome(l); 
 	}
 
 	public TWaiterGui getGui() {

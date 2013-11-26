@@ -36,7 +36,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	
 	public KWaiterGui waiterGui = null;
 	public KHostRole host = null;
-	public KCook cook = null;
+	public KCookRole cook = null;
 	public KCashier cashier = null;
 	public KMenu menu = null;
 	private KRestaurantGui gui;
@@ -510,7 +510,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 		this.homepos = homepos;
 	}
 	
-	public void setCook(KCook cook2) {
+	public void setCook(KCookRole cook2) {
 		cook = cook2;
 
 	}

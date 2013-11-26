@@ -121,6 +121,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	}
 
 	public void SetJob(Role job) {
+		Do("job set to " + job);
 		myJob =job;
 		roles.add(myJob);
 		

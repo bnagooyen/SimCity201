@@ -75,7 +75,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
 
         public void setCook(LCook cook2){
                 this.cook = cook2;
-                waiterGui.setCookGui(((LCookRole)cook2).cookGui);
+               // waiterGui.setCookGui(((LCookRole)cook2).cookGui);
         }
 
         public void setHost(Host host){

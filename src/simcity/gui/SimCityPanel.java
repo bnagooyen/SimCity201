@@ -43,6 +43,7 @@ import simcity.Drew_restaurant.Drew_CashierRole;
 import simcity.Drew_restaurant.Drew_CookRole;
 import simcity.Drew_restaurant.Drew_CustomerRole;
 import simcity.Drew_restaurant.Drew_HostRole;
+import simcity.Drew_restaurant.Drew_RestaurantOrder;
 import simcity.Drew_restaurant.Drew_WaiterNormalRole;
 import simcity.Drew_restaurant.Drew_WaiterRole;
 import simcity.Drew_restaurant.Drew_WaiterSharedDataRole;
@@ -509,7 +510,8 @@ public class SimCityPanel extends JPanel implements MouseListener{
 //						if(r.name.equals("Restaurant1")) {
 							//System.out.println(r.numEmployees);
 							//r.numEmployees++;
-							p.SetJob(DrewRestaurant.AddNormalWaiter());
+							Drew_WaiterNormalRole w = (Drew_WaiterNormalRole) DrewRestaurant.AddHeadWaiter();
+							p.SetJob(w);
 
 							//break;
 						//}
@@ -519,7 +521,8 @@ public class SimCityPanel extends JPanel implements MouseListener{
 //					for(Location r: restaurants) {
 //						if(r.name.equals("Restaurant2")){
 //							r.numEmployees++;
-						p.SetJob(BRestaurant.AddNormalWaiter());
+						BWaiterNormalRole w = (BWaiterNormalRole) BRestaurant.AddHeadWaiter();
+						p.SetJob(w);
 
 					
 //							break;
@@ -824,9 +827,10 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		public Role host = null;
 		public Role cook = null;
 		public Role cashier = null;
-		List<Role> waiters = null;
-		List<Role> customers = null;
+		List<Role> waiters = new ArrayList<Role>();
+		List<Role> customers = new ArrayList<Role>();
 		RestaurantPlace(int restNum) {
+			this.restNum = restNum;
 			switch(restNum) {
 			
 			case 1: host = new Drew_HostRole();
@@ -859,6 +863,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					break;
 			case 5:	host = new LHostRole();
 					cook = new LCookRole();
+					System.out.println("LCookRole is "+cook);
 					cashier = new LCashierRole();
 					((LHostRole) host).setCook((LCook)cook);
 					((LCook) cook).setCashier((LCashier)cashier);
