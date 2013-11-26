@@ -76,6 +76,8 @@ import simcity.TTRestaurant.TCustomerRole;
 import simcity.TTRestaurant.THostRole;
 import simcity.TTRestaurant.TWaiterRole;
 import simcity.TTRestaurant.TWaiterSharedDataRole;
+import simcity.Transportation.BusAgent;
+import simcity.Transportation.BusStopAgent;
 import simcity.Transportation.CarAgent;
 import simcity.housing.LandlordRole;
 import simcity.housing.RepairManRole;
@@ -83,6 +85,7 @@ import simcity.interfaces.BCashier;
 import simcity.interfaces.BCook;
 import simcity.interfaces.BHost;
 import simcity.interfaces.BankManager;
+import simcity.interfaces.BusStop;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.DCook;
 import simcity.interfaces.DHost;
@@ -116,7 +119,13 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	public char aptLetCounter='A';
 	private SimCityGui gui;
 	public Map<String, List<Location>> buildings = new HashMap<String, List<Location>>();
-	public Map<String, List<Location>> busStops=new HashMap<String, List<Location>>(); //STILL BLANK
+	//public Map<String, List<Location>> busStops=new HashMap<String, List<Location>>(); //STILL BLANK
+	public Map<String, BusStop> busStops=new HashMap<String, BusStop>();  
+	BusAgent bus;
+	BusStopAgent bs=new BusStopAgent();
+	BusStopAgent bs2=new BusStopAgent();
+	
+	
 	private List<Location> restaurants = new ArrayList<Location>();
 	private List<Location> banks = new ArrayList<Location>();
 	private List<Location> markets = new ArrayList<Location>();
@@ -215,6 +224,8 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		
 		banks.add(new Bank("Bank1", bank.bankManager));
 		markets.add(new Market("Market1", market.mManager));
+		busStops.put("stop1",bs);
+		busStops.put("stop2",bs2);
 
 }
 	   

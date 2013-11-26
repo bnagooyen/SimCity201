@@ -18,7 +18,8 @@ public class BusAgent extends Agent implements Bus {
 	public List<MyPassenger> passengers=new ArrayList<MyPassenger>();
 	public int hour;
 	boolean start=true;
-	
+	BusStopAgent bs;
+	BusStopAgent bs2;
 	
 	public class MyPassenger{
 		public PersonAgent p;
@@ -30,6 +31,7 @@ public class BusAgent extends Agent implements Bus {
 
 	public BusAgent(){
 		currentStop="stop1";
+		
 		state=null;
 		stateChanged();
 		}
