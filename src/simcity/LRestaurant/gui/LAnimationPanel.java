@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class LAnimationPanel extends JPanel implements ActionListener {
 
-    private final int WINDOWX = 450;
-    private final int WINDOWY = 350;
+    private final int WINDOWX = 575;
+    private final int WINDOWY = 325;
     private final int PANELX = 0;
     private final int PANELY = 0;
     
