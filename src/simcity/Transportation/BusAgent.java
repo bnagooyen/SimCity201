@@ -10,7 +10,7 @@ import java.util.*;
 
 
 public class BusAgent extends Agent implements Bus {
-	String currentStop="stop1";
+	String currentStop;
 	public Map<String, BusStop> busStops=new HashMap<String, BusStop>();  
 	
 	public enum busState {travelling, arrived, atStop, loading, waiting, readyToGo};
@@ -28,7 +28,7 @@ public class BusAgent extends Agent implements Bus {
 	}
 
 	public BusAgent(){
-		currentStop=null;
+		currentStop="stop1";
 		state=null;
 		stateChanged();
 		}
@@ -80,7 +80,7 @@ public class BusAgent extends Agent implements Bus {
 		Do("got time update.");
 		hour = hr;
 		if(hr==7) { 
-			busStops.get("stop1").msgAnyPassengers(this);
+			busStops.get(currentStop).msgAnyPassengers(this);
 		}
 		
 		
