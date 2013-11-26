@@ -206,6 +206,7 @@ public class LCookRole extends Role implements LCook {
 		if(newOrder != null) {
 			Order o = new Order(newOrder.table, newOrder.choice,newOrder.w, OrderState.pending);
 			orders.add(o);
+			msgTimeToCheckStand();
 			}
 		else{
 			timer.schedule(new TimerTask() {

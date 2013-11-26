@@ -9,6 +9,7 @@ import simcity.PersonAgent;
 import simcity.interfaces.LCustomer;
 import simcity.interfaces.LWaiter;
 import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -32,7 +33,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         private String name;
         Timer timer = new Timer();
         private boolean onBreak;
-        EventLog log;
+        public EventLog log;
 
 
         protected Semaphore task = new Semaphore(0,true);
@@ -115,6 +116,8 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         }
 
         public void msgSeatCustomer(LCustomer cust, int table) {
+        	LoggedEvent e = new LoggedEvent("Received msgSeatCustomer");
+    		log.add(e);
 //                waiterGui.setWorking();
 //                waiterState = WaiterState.working;
                 customers.add(new MyCustomers(cust, table, CustomerState.waiting));
@@ -135,6 +138,8 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         }
 
         public void msgHereIsMyChoice(LCustomer cust, String choice) {
+        	LoggedEvent e = new LoggedEvent("Received msgHereIsMyChoice");
+    		log.add(e);
                 synchronized(customers){
                         for(MyCustomers c : customers){
                                 if(c.c == cust){
@@ -329,6 +334,8 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         }
 
         private void seatCustomer(MyCustomers c) {
+        	LoggedEvent e = new LoggedEvent("Seating customer");
+    		log.add(e);
         		/**
                 waiterGui.DoGetCustomer();
                 c.state = CustomerState.seated;
@@ -525,7 +532,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                 LCustomer c;
                 int table;
                 String choice;
-                CustomerState state;
+                public CustomerState state;
                 int check;
 
                 MyCustomers(LCustomer cust,int t, CustomerState s){

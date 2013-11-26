@@ -12,6 +12,7 @@ import simcity.Market.MOrder;
 import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCashierRole.myState;
 import simcity.interfaces.MarketCashier;
+import simcity.mockrole.MockRoleCook;
 import simcity.test.mock.MockCashier;
 import simcity.test.mock.MockCook;
 import simcity.test.mock.MockInventoryBoy;
@@ -27,7 +28,7 @@ public class MarketCashierTest extends TestCase{
         MarketCashierRole mc;
         MockInventoryBoy ib;
         MockMarketCustomer c;
-        MockCook cook;
+        MockRoleCook cook;
         MockMarketManager man;
         MockCashier restaurantC;
         
@@ -41,7 +42,7 @@ public class MarketCashierTest extends TestCase{
                 p.addRole(mc);
                 ib = new MockInventoryBoy("mockInventoryBoy");
                 c = new MockMarketCustomer("mockCustomer");
-                cook = new MockCook("mockCook");
+                cook = new MockRoleCook("mockCook",p);
                 man = new MockMarketManager("mockManager");
                 restaurantC = new MockCashier("mockCashier");
         }
@@ -249,7 +250,7 @@ public class MarketCashierTest extends TestCase{
                 
       //give mc adding an order
         mc.msgOrder(cook, foods, "b1");
-        mc.orders.get(0).cook = cook.cr; 
+        mc.orders.get(0).cook = cook; 
         assertEquals("MarketCashier should have one order", mc.orders.size(), 1);
         mc.msgHereIsPayment((Role)mc.orders.get(0).cook, 10.0);
         assertEquals("Order state is ready.", mc.orders.get(0).state, orderState.paid);  

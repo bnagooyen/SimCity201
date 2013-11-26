@@ -1,5 +1,6 @@
 package simcity.Transportation;
 import agent.Agent;
+import agent.Role;
 import simcity.PersonAgent;
 import simcity.Transportation.*;
 import simcity.interfaces.Bus;
@@ -15,6 +16,7 @@ public class BusAgent extends Agent implements Bus {
 	public enum busState {travelling, arrived, atStop, loading, waiting, readyToGo};
 	public busState state;
 	public List<MyPassenger> passengers=new ArrayList<MyPassenger>();
+	public int hour;
 	
 	
 	public class MyPassenger{
@@ -73,6 +75,17 @@ public class BusAgent extends Agent implements Bus {
 		}
 	}
 	
+	public void msgTimeUpdate(int hr) {
+		Do("got time update.");
+		hour = hr;
+		if(hr==7) { 
+			busStops.get(0).msgAnyPassengers(this);
+		}
+		
+		
+		
+		
+		}
 	//Scheduler
 	
 	public boolean pickAndExecuteAnAction(){
@@ -126,6 +139,11 @@ public class BusAgent extends Agent implements Bus {
 	}
 	
 	private void goToNextStop(){
+		if(currentStop=="stop1")
+			currentStop="stop2";
+		else if (currentStop=="stop2")
+			currentStop="stop1";
+		
 		state=busState.travelling;
 		Do("Go To Next Stop");
 	}
