@@ -38,11 +38,11 @@ public class MarketCashierTest extends TestCase{
         public void setUp() throws Exception{
                 super.setUp();
                 p = new PersonAgent("MarketCashier");
-                mc = new MarketCashierRole(p);
-                p.addRole(mc);
+                mc = new MarketCashierRole();
+                mc.myPerson = p;
                 ib = new MockInventoryBoy("mockInventoryBoy");
                 c = new MockMarketCustomer("mockCustomer");
-                cook = new MockRoleCook("mockCook",p);
+                cook = new MockRoleCook("mockCook");
                 man = new MockMarketManager("mockManager");
                 restaurantC = new MockCashier("mockCashier");
         }
