@@ -27,8 +27,8 @@ public class BCashierRole extends Role implements BCashier {
     public enum MarketPaidState{notPaid, Paid};
     MarketPaidState checkState;
     
-    public BCashierRole(PersonAgent p) {
-		super(p);
+    public BCashierRole() {
+		super();
 		
 		
     }

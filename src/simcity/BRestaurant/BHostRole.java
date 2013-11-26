@@ -71,8 +71,8 @@ public class BHostRole extends Role implements Host{
 	
 	public BHostGui hostGui = null;
 
-	public BHostRole(PersonAgent p) {
-		super(p);
+	public BHostRole() {
+		//super(p);
 
 		this.name = name;
 		// make some tables

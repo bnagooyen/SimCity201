@@ -26,6 +26,7 @@ import simcity.BRestaurant.BCustomerRole;
 import simcity.BRestaurant.BHostRole;
 import simcity.BRestaurant.BWaiterNormalRole;
 import simcity.BRestaurant.BWaiterRole;
+import simcity.BRestaurant.BWaiterSharedDataRole;
 import simcity.Bank.BankCustomerRole;
 import simcity.Bank.BankLoanOfficerRole;
 import simcity.Bank.BankManagerRole;
@@ -646,11 +647,14 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					cashier = new Drew_CashierRole();
 					break;
 			case 2: host = new BHostRole();
+					cook = new BCookRole();
+					cashier = new BCashierRole();
 			}
 		}
 		
 		public Role AddNormalWaiter() {
 			switch(restNum) {
+			
 			case 1: Drew_WaiterRole aw = new Drew_WaiterRole();
 					aw.setCook((Drew_Cook)cook);
 					aw.addCashier((Drew_Cashier)cashier);
@@ -659,7 +663,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					waiters.add(aw);
 					return aw;
 			case 2: 
-					BWaiterRole bw = new BWaiterNormalRole();
+					BWaiterRole bw = new BWaiterSharedDataRole();
 					bw.setHost((BHostRole)host);
 					bw.setCook((BCook)cook);
 					bw.setCashier((BCashier)cashier);
@@ -671,16 +675,39 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			}
 		}
 		public Role AddHeadWaiter() {
-			Drew_WaiterRole w = new Drew_WaiterRole();
-			w.setCook((Drew_Cook)cook);
-			waiters.add(w);
-			return w;
+			switch(restNum) {
+			
+			case 1:
+			Drew_WaiterRole aw = new Drew_WaiterRole();
+			aw.setCook((Drew_Cook)cook);
+			waiters.add(aw);
+			return aw;
+			
+			case 2:
+				BWaiterRole bw = new BWaiterNormalRole();
+				bw.setHost((BHostRole)host);
+				bw.setCook((BCook)cook);
+				bw.setCashier((BCashier)cashier);
+				//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
+				waiters.add(bw);
+				return bw;
+			}
 		}
 		public Role AddCustomer() {
-			Drew_CustomerRole c = new Drew_CustomerRole();
-			c.setHost((Drew_Host)host);
-			customers.add(c);
-			return c;
+			switch(restNum) {
+			
+				case 1: Drew_CustomerRole ac = new Drew_CustomerRole();
+				ac.setHost((Drew_Host)host);
+				customers.add(ac);
+				return ac;
+				
+				case 2: BCustomerRole bc = new BCustomerRole();
+				bc.setCashier((BCashier)cashier);
+				bc.setHost((BHostRole)host);
+				customers.add(bc);
+				return bc;
+				
+				
 		}
 	}
 	  
