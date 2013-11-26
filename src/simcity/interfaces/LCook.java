@@ -16,16 +16,6 @@ import simcity.LRestaurant.LCookRole.OrderState;
  */
 public interface LCook {
 	
-	public void msgHereIsAnOrder(int table, String choice, LWaiterRole w);
-
-//	public void msgSupplyUnfulfilled(String choice, int stillNeed, LMarketAgent market);
-
-//	public void msgHereIsFoodSupply(String choice, int a, LMarket mark);
-
-	public void msgDone(Order o);
 	
-	public void msgTask();
-
-	public void setCashier(LCashier cashier);
 
 }
