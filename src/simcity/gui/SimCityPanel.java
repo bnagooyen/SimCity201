@@ -71,6 +71,7 @@ import simcity.TTRestaurant.TCustomerRole;
 import simcity.TTRestaurant.THostRole;
 import simcity.TTRestaurant.TWaiterRole;
 import simcity.Transportation.CarAgent;
+import simcity.gui.SimCityPanel.RestaurantReplace.MyLandlord;
 import simcity.housing.LandlordRole;
 import simcity.housing.RepairManRole;
 import simcity.interfaces.BCashier;

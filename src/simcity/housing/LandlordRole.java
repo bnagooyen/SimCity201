@@ -71,8 +71,8 @@ public class LandlordRole extends Role implements Landlord{
 	{nothing, waitingForPayment, paid, ShortOnMoney}; 
 	
 
-	public LandlordRole(PersonAgent p) {
-		super(p);
+	public LandlordRole() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 	

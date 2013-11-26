@@ -43,8 +43,8 @@ public class TCookRole extends Role implements TCook {
 	enum MarketState  
 	{none, waiting, paying}; 
 	
-	public TCookRole(PersonAgent p) {
-		super(p);
+	public TCookRole() {
+		super();
 		this.name = name;
 	}
 	
