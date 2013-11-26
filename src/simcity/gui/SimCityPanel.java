@@ -125,6 +125,21 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	private ArrayList<MyLandlord> landlords = new ArrayList<MyLandlord>();
 	static Scanner in;
 	
+	// make restaurants w/roles
+			RestaurantPlace DrewRestaurant = new RestaurantPlace(1);
+			RestaurantPlace BRestaurant = new RestaurantPlace(2);
+			RestaurantPlace DRestaurant = new RestaurantPlace(3);
+			RestaurantPlace KRestaurant = new RestaurantPlace(4);
+			RestaurantPlace LRestaurant = new RestaurantPlace(5);
+			RestaurantPlace TRestaurant = new RestaurantPlace(6);
+						
+
+			// make bank
+			BankPlace bank = new BankPlace();
+			
+			// make market 
+			MarketPlace market = new MarketPlace();
+			
 	public SimCityPanel(SimCityGui gui) {
 		this.gui = gui;
 		
@@ -191,9 +206,16 @@ public class SimCityPanel extends JPanel implements MouseListener{
 //		p6.startThread();
 //		waiter.startThread();
 //		cust.startThread();
+		restaurants.add(new Restaurant("DrewRestaurant", DrewRestaurant.host, "normal"));
+		restaurants.add(new Restaurant("BRestaurant", BRestaurant.host, "normal"));
+		restaurants.add(new Restaurant("DRestaurant", DRestaurant.host, "normal"));
+		restaurants.add(new Restaurant("KRestaurant", KRestaurant.host, "normal"));
+		restaurants.add(new Restaurant("LRestaurant", LRestaurant.host, "normal"));
+		restaurants.add(new Restaurant("TRestaurant", TRestaurant.host, "normal"));
 		
-		
-	    
+		banks.add(new Bank("Bank1", bank.bankManager));
+		markets.add(new Market("Market1", market.mManager));
+
 }
 	   
 	
@@ -369,29 +391,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		aptNumCounter=1;
 		aptLetCounter='A';
 		
-		// make restaurants w/roles
-		RestaurantPlace DrewRestaurant = new RestaurantPlace(1);
-		RestaurantPlace BRestaurant = new RestaurantPlace(2);
-		RestaurantPlace DRestaurant = new RestaurantPlace(3);
-		RestaurantPlace KRestaurant = new RestaurantPlace(4);
-		RestaurantPlace LRestaurant = new RestaurantPlace(5);
-		RestaurantPlace TRestaurant = new RestaurantPlace(6);
 		
-		// add restaurants to restaurants list
-		restaurants.add(new Restaurant("DrewRestaurant", DrewRestaurant.host, "normal"));
-		restaurants.add(new Restaurant("BRestaurant", BRestaurant.host, "normal"));
-		restaurants.add(new Restaurant("DRestaurant", DRestaurant.host, "normal"));
-		restaurants.add(new Restaurant("KRestaurant", KRestaurant.host, "normal"));
-		restaurants.add(new Restaurant("LRestaurant", LRestaurant.host, "normal"));
-		restaurants.add(new Restaurant("TRestaurant", TRestaurant.host, "normal"));
-
-		// make bank and add it to banks list
-		BankPlace bank = new BankPlace();
-		banks.add(new Bank("Bank1", bank.bankManager));
-		
-		// make market and add it to market list
-		MarketPlace market = new MarketPlace();
-		markets.add(new Market("Market1", market.mManager));
 		try {
 			in  = new Scanner(new FileReader("config"+File.separator+type+".txt"));
 //			System.out.println(in.next());
@@ -663,10 +663,12 @@ public class SimCityPanel extends JPanel implements MouseListener{
     					minWaiterIndex=i;		
     			}	
     		}
+    		Role w = DrewRestaurant.AddNormalWaiter();
     		//System.out.println(Integer.parseInt(restaurants.get(minWaiterIndex).name.substring(restaurants.get(minWaiterIndex).name.length()-1)));
     		int restAssignedTo = Integer.parseInt(restaurants.get(minWaiterIndex).name.substring(restaurants.get(minWaiterIndex).name.length()-1));
     		
-   /*****************call add waiter*********************/ 		
+   /*****************call add waiter*********************/ 
+    		
     		//Role myJob=jobFactory("Waiter"+Integer.toString(restAssignedTo), p);
     		//System.out.println(myJob);
     		for(Location r: restaurants) {
@@ -911,7 +913,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					return dw;
 			case 4:
 					KWaiterRole kw = new KWaiterSharedDataRole();
-					kw.setCook((KCook)cook);
+					kw.setCook((KCookRole)cook);
 					kw.setCashier((KCashier)cashier);
 					kw.setHost((KHostRole)host);
 					((KHostRole)host).addWaiter((KWaiterRole)kw);
@@ -966,7 +968,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			
 			case 4:
 				KWaiterRole kw = new KWaiterNormalRole();
-				kw.setCook((KCook)cook);
+				kw.setCook((KCookRole)cook);
 				kw.setCashier((KCashier)cashier);
 				kw.setHost((KHostRole)host);
 				((KHostRole)host).addWaiter((KWaiterRole)kw);
