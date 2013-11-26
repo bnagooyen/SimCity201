@@ -629,8 +629,9 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		bus=b;
 	}
 	
-	public void setBusStop(BusStop b){
+	public void setBusStop(BusStopAgent b){
 		busStop=b;
+		b.startThread();
 	}
 
 	public void setPanel(SimCityPanel p) {
@@ -658,6 +659,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public void setCar(CarAgent c) {
 		// TODO Auto-generated method stub
 		myCar= c;
+		c.startThread();
 	}
 
 	@Override
