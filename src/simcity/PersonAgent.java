@@ -19,6 +19,7 @@ import simcity.Drew_restaurant.*;
 import simcity.Drew_restaurant.interfaces.*;
 import simcity.TTRestaurant.TCustomerRole;
 import simcity.Transportation.BusAgent;
+import simcity.Transportation.BusStopAgent;
 import simcity.Transportation.CarAgent;
 import simcity.gui.PersonGui;
 import simcity.gui.SimCityPanel;
@@ -53,6 +54,8 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public String mydestination;
 	public String mylocation="home";
 	public String jobLocation;
+	public BusStopAgent bs=new BusStopAgent();
+	
 	public enum HomeType{apartment, house, homeless};
 	HomeType homeType;
 	int houseNum;
@@ -108,6 +111,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		locationState=LocationState.atHome;
 		moneyState=MoneyState.adequate;
 		transitState=TransitState.justLeaving;
+		setBusStop(bs);
 		
 
 		possibleRoles.put("bank", new BankCustomerRole());
@@ -553,7 +557,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	private void goToCar(){
 		Do("Do go To car"); //gui?
-		myCar.msgGoToDestination(jobLocation, this);
+		myCar.msgGoToDestination(mydestination, this);
 		transitState=TransitState.inCar;
 	}
 

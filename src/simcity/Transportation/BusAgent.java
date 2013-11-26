@@ -102,11 +102,7 @@ public class BusAgent extends Agent implements Bus {
 	
 	public boolean pickAndExecuteAnAction(){
 		
-		if(start==true){
-			busStops.get(currentStop).msgAnyPassengers(this);
-			start=false;
-			
-		}
+		
 		
 		if (state==busState.arrived){
 			arriveAtStop();
