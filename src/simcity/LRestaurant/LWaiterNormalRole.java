@@ -6,8 +6,8 @@ import simcity.test.mock.LoggedEvent;
 
 public class LWaiterNormalRole extends LWaiterRole implements LWaiter{
 
-	public LWaiterNormalRole(PersonAgent p) {
-		super(p);
+	public LWaiterNormalRole() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

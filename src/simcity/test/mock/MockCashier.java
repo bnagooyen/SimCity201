@@ -24,7 +24,7 @@ public class MockCashier extends Mock implements Cashier {
 	
 	public MockCashier(String name) {
 		super(name);
-		cr = new DCashierRole(p);
+		cr = new DCashierRole();
 	}
 	
 	@Override

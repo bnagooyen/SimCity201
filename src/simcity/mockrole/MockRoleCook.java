@@ -22,11 +22,11 @@ public class MockRoleCook extends MockRole implements Cook{
 	public PersonAgent p;
 	public DCookRole cr;
 	
-	public MockRoleCook(String name, PersonAgent p) {
-		super(name, p);
+	public MockRoleCook(String name) {
+		super(name);
 		p = new PersonAgent("default");
 		log = new EventLog();
-		cr = new DCookRole(p);
+		cr = new DCookRole();
 		// TODO Auto-generated constructor stub
 	}
 

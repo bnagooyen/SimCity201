@@ -43,16 +43,9 @@ public class MarketCashierRole extends Role implements MarketCashier{
 
 	public MarketCashierRole() {
 		super();
-<<<<<<< HEAD
+
 		//this.p = p;
-		this.p = p;
-=======
-<<<<<<< HEAD
-		this.p = p;
-=======
-		//this.p = p;
->>>>>>> 2d18647b080b07e05745d4416bd0ff37725e278a
->>>>>>> ce491b818f4c10dedd58d15e940794a84167837a
+
 		log = new EventLog();
 		state = myState.arrived;
 	}
