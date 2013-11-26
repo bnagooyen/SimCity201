@@ -29,6 +29,7 @@ public class THeadWaiterRole extends Role implements TWaiter{
 	private TCashierRole cashier; 
 	public boolean onBreak = false;
 	public boolean askingForBreak = false; 
+	boolean goHome = false;
 	Timer timer = new Timer();
 	private Menu menu = new Menu();
 
@@ -36,8 +37,8 @@ public class THeadWaiterRole extends Role implements TWaiter{
 	public TWaiterGui waiterGui = null;
 
 
-	public THeadWaiterRole(PersonAgent p) {
-		super(p);
+	public THeadWaiterRole() {
+		super();
 
 		this.name = name;
 	}
@@ -177,6 +178,13 @@ public class THeadWaiterRole extends Role implements TWaiter{
 		stateChanged(); 
 	}
 	
+	public void msgGoHome(double moneys) {
+		myPerson.money += moneys;
+		goHome = true;
+		stateChanged();
+		
+	}
+	
 
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
@@ -262,6 +270,11 @@ public class THeadWaiterRole extends Role implements TWaiter{
 		} catch (ConcurrentModificationException e) {
 			e.printStackTrace();
 		}
+		
+		if(goHome) {
+			goHome();
+			return true;
+		}
 
 		if (onBreak == true && myCustomers.isEmpty()) {
 			onBreak = false; 
@@ -273,6 +286,12 @@ public class THeadWaiterRole extends Role implements TWaiter{
 	}
 
 	// Actions
+	
+	private void goHome() {
+		Do("Going home");
+		isActive = false;
+		goHome = false;
+	}
 
 	private void seatCustomer(customers customer) {
 		//DoGetCustomer(); 

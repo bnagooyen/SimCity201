@@ -36,6 +36,7 @@ public class TCashierRole extends Role implements TCashier{
 	public List<Markets> markets 
 	= new ArrayList<Markets>(); 
 
+	boolean goHome = false;
 	private TCookRole cook;
 	Map<String, Double> Menu = new HashMap<String, Double>(4);
 	
@@ -122,6 +123,12 @@ public class TCashierRole extends Role implements TCashier{
 		stateChanged(); 
 	}
 
+	public void msgGoHome(double moneys) {
+		myPerson.money += moneys;
+		goHome = true;
+		stateChanged();
+	}
+	
 	
 
 	/**
@@ -142,6 +149,11 @@ public class TCashierRole extends Role implements TCashier{
 		if (!markets.isEmpty()) {
 			payForStock(); 
 			return true; 
+		}
+		
+		if(goHome) {
+			goHome();
+			return true;
 		}
 		
 
@@ -205,6 +217,12 @@ public class TCashierRole extends Role implements TCashier{
 		
 	}
 	
+	private void goHome() {
+		Do("Going home");
+		isActive = false;
+		goHome = false;
+	}
+	
 	
 
 	public void addFood() {
@@ -217,7 +235,7 @@ public class TCashierRole extends Role implements TCashier{
 	public void setCook(TCookRole cook) {
 		this.cook = cook;
 	}
-	
+
 }
 
 
