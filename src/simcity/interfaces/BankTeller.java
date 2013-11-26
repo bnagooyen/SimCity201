@@ -23,4 +23,12 @@ public interface BankTeller {
 	public void msgGoHome(double pay);
 	
 	public void msgGoToTellerPosition();
+
+	void msgAnimationFinishedGoToCorner();
+
+	void msgAnimationFinishedLeaveBank();
+
+	void msgAtTellerPos();
+
+	public void setManager(BankManager m);
 }

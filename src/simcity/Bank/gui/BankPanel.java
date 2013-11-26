@@ -4,12 +4,13 @@ package simcity.Bank.gui;
 
 import javax.swing.*;
 
-import Bank.BankCustomerRole;
-import Bank.BankLoanOfficerRole;
-import Bank.BankManagerRole;
-import Bank.BankTellerRole;
+import simcity.Bank.BankCustomerRole;
+import simcity.Bank.BankLoanOfficerRole;
+import simcity.Bank.BankManagerRole;
+import simcity.Bank.BankTellerRole;
 import simcity.interfaces.BankCustomer;
 import simcity.interfaces.BankLoanOfficer;
+import simcity.interfaces.BankManager;
 import simcity.interfaces.BankTeller;
 
 import java.awt.*;
@@ -21,10 +22,10 @@ import java.util.Vector;
  */
 public class BankPanel extends JPanel {
 	
-	private BankTellerRole bankteller = new BankTellerRole();
-	private BankLoanOfficerRole loanOfficer = new BankLoanOfficerRole();
-	private BankManagerRole bankmanager = new BankManagerRole();
-	private BankCustomerRole bankcustomer = new BankCustomerRole();
+	private BankTeller bankteller = new BankTellerRole();
+	private BankLoanOfficer loanOfficer = new BankLoanOfficerRole();
+	private BankManager bankmanager = new BankManagerRole();
+	private BankCustomer bankcustomer = new BankCustomerRole();
     
     private Vector<BankCustomer> customers = new Vector<BankCustomer>();
     private Vector<BankTeller> tellers = new Vector<BankTeller>();

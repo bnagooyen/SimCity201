@@ -16,4 +16,10 @@ public interface BankCustomer {
 	public void msgAccountMade(int AN);
 
 	public void msgLeaveBank();
+
+	public void msgAtTellerPos();
+
+	public void msgAnimationFinishedLeaveBank();
+
+	public void msgAtLoanPos();
 }
