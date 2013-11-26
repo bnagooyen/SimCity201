@@ -41,9 +41,9 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	private MCashierGui cashierGui;
 
-	public MarketCashierRole(PersonAgent p) {
-		super(p);
-		this.p = p;
+	public MarketCashierRole() {
+		super();
+		//this.p = p;
 		log = new EventLog();
 		state = myState.arrived;
 	}
