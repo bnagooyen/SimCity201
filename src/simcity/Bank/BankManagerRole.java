@@ -52,7 +52,7 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	//MESSAGES
 	
-	public void msgTimeUpdate(int hr) {
+	public void timeUpdate(int hr) {
 		hour=hr;
 		if(hr==1) bankState=BankState.newDay;
 		stateChanged();

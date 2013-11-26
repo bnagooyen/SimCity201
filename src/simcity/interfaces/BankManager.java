@@ -9,7 +9,7 @@ import agent.Role;
 
 public interface BankManager {
 
-	abstract public void msgTimeUpdate(int hr);
+	//abstract public void msgTimeUpdate(int hr);
 	
 	abstract public void msgIAmHere(Role person, String type);
 	

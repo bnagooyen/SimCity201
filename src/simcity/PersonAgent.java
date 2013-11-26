@@ -134,7 +134,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		else if(job instanceof BCashier || job instanceof BCook || job instanceof BWaiter){
 			jobLocation="brestaurant";
 		}
-		else if(job instanceof DCashier || job instanceof Cook || job instanceof DWaiter){
+		else if(job instanceof DCashier || job instanceof Cook /*|| job instanceof DWaiter*/){
 			jobLocation="drestaurant";
 		}
 		else if(job instanceof Drew_Cashier || job instanceof Drew_Cook || job instanceof BWaiter){
@@ -187,6 +187,15 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		if(hr==myJob.startHour-1) {
 			needToGoToWork=true;
 		}
+		
+		synchronized(roles) {
+			for(Role r: roles) {
+				if(r.isActive) {
+					r.timeUpdate(hr);
+				}
+			}
+		}
+		
 		hungerLevel+=10;
 		stateChanged();
 	}
@@ -549,6 +558,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		
 		if (mydestination != "home") {
 			boolean haveRole=false;
+			locationState=LocationState.Out;
 			neededRole=possibleRoles.get(mydestination);
 	
 			if(needToGoToWork){
@@ -568,6 +578,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				}
 			}
 		}
+		else if(mydestination.equals("home")) locationState=LocationState.atHome;
 	}
 	// utilities
 

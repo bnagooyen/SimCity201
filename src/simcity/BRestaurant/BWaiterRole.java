@@ -84,6 +84,7 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 
 	public void setCook(BCook cook) {
 		this.cook = cook;
+		
 	}
 
 	public void msgSitCustomerAtTable(BCustomer customer, int tableNum){

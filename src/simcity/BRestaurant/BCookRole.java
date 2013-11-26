@@ -8,7 +8,6 @@ import simcity.interfaces.*;
 import simcity.BRestaurant.gui.*;
 import simcity.KRestaurant.KRestaurantOrder;
 import simcity.KRestaurant.ProducerConsumerMonitor;
-
 import simcity.KRestaurant.KCookRole.marketOrderState;
 import simcity.KRestaurant.KCookRole.orderState;
 import simcity.Market.MFoodOrder;
@@ -173,7 +172,7 @@ public class BCookRole extends Role implements BCook {
 		
 		else{
 			checkRotatingStand();
-			return true;
+		
 		}
 		return false;
 	}	
@@ -223,6 +222,14 @@ public class BCookRole extends Role implements BCook {
 			o.status=Status.pending;
 			pendingOrders.add(o);
 			}
+		else{
+			timer.schedule(new TimerTask() {
+				public void run() {
+						msgTimeToCheckStand();
+					}
+				},
+				2000);
+		}
 		
 	}
 	
@@ -262,5 +269,9 @@ public class BCookRole extends Role implements BCook {
 	
 	public void setMonitor(BOrderStand m) {
 		theMonitor = m;
+	}
+	
+	private void msgTimeToCheckStand() {
+		stateChanged();
 	}
 }

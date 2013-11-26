@@ -23,6 +23,10 @@ public abstract class Role {
     public Role(PersonAgent p) {
     	myPerson=p;
     }
+    
+    public void timeUpdate(int hr) {
+    	
+    }
 
     /**
      * This should be called whenever state has changed that might cause
