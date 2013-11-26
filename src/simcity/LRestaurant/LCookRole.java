@@ -33,6 +33,7 @@ public class LCookRole extends Role implements LCook {
 	Timer timer = new Timer();
 	String name;
 	LCashier cashier;
+	LHostRole host;
 	private ProducerConsumerMonitor theMonitor;
 	//private List<MarketAgent> markets = new ArrayList<MarketAgent>();
 //	private List<MyMarket> markets = Collections.synchronizedList(new ArrayList<MyMarket>());
@@ -58,7 +59,7 @@ public class LCookRole extends Role implements LCook {
 		foods.put("St", new Food("St", 1000, 2, 5, 2));
 		foods.put("S", new Food("S", 500, 1, 5, 2));
 		foods.put("Ch", new Food("Ch", 900, 2, 5, 2));
-		}
+	}
 
 //	public void addMarket(LMarket m){
 //		markets.add(new MyMarket(m));
@@ -377,6 +378,10 @@ public class LCookRole extends Role implements LCook {
 
 	//utilities
 
+	public void setHost(LHostRole host){
+		this.host = host;
+	}
+	
 	public void setGui(LCookGui gui){
 		cookGui = gui;
 	}
