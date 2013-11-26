@@ -38,7 +38,7 @@ public class BankManagerRole extends Role implements BankManager {
 	private double vault = 1000000000;
 	
 	public BankManagerRole(PersonAgent p) {
-		super(p);
+		super();
 		// TODO Auto-generated constructor stub
 		startHour=7;
 		bankState=BankState.newDay;
