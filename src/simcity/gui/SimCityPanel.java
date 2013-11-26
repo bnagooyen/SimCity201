@@ -807,6 +807,14 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				((LHost)host).addWaiter(lw);
 				waiters.add(lw);
 				return lw;
+			case 6:	
+				TWaiterRole tw = new TWaiterRole();
+				tw.setCashier((TCashierRole)cashier);
+				tw.setCook((TCookRole)cook);
+				tw.setHost((THostRole)host);
+				((THostRole)host).addWaiter(tw);
+				waiters.add(tw);
+				return tw;
 					
 			default: return null;
 
@@ -844,6 +852,12 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				lc.setHost((LHost)host);
 				customers.add(lc);
 				return lc;
+				
+				case 6:	TCustomerRole tc = new TCustomerRole();
+				tc.setCashier((TCashierRole)cashier);
+				tc.setHost((THostRole)host);
+				customers.add(tc);
+				return tc;
 					
 				
 				default: return null;
