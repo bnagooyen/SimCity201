@@ -187,6 +187,15 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		if(hr==myJob.startHour-1) {
 			needToGoToWork=true;
 		}
+		
+		synchronized(roles) {
+			for(Role r: roles) {
+				if(r.isActive) {
+					r.timeUpdate(hr);
+				}
+			}
+		}
+		
 		hungerLevel+=10;
 		stateChanged();
 	}
