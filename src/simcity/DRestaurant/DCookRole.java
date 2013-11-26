@@ -9,6 +9,8 @@ import simcity.DRestaurant.gui.DHostGui;
 import simcity.DRestaurant.gui.DWaiterGui;
 import simcity.Market.MFoodOrder;
 import simcity.interfaces.Cook;
+import simcity.interfaces.DCashier;
+import simcity.interfaces.DCook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
 import simcity.restaurant.interfaces.Cashier;
@@ -20,7 +22,7 @@ import java.util.concurrent.Semaphore;
 /**
  * Restaurant Host Agent
  */
-public class DCookRole extends Role implements Cook {
+public class DCookRole extends Role implements DCook {
         
         Timer timer = new Timer();
         private String name;
@@ -51,7 +53,7 @@ public class DCookRole extends Role implements Cook {
         List<MarketBill> marketBills = Collections.synchronizedList(new ArrayList<MarketBill>());
         List<MarketManager> markets = Collections.synchronizedList(new ArrayList<MarketManager>());
         
-        Cashier myCashier;
+        DCashier myCashier;
         boolean RestaurantIsOpen, CheckedAtFirst, valsAreSet;
         
         public DCookRole() {
@@ -135,9 +137,9 @@ public class DCookRole extends Role implements Cook {
                 host=h;
         }
         
-        public void AddCashier(Cashier h) {
+        public void AddCashier(DCashier cashier) {
                 //System.out.println("host added to cook");
-                myCashier=h;
+                myCashier= cashier;
         }
         
         public void msgAddWaiter(DWaiterRole w) {
@@ -561,6 +563,12 @@ public class DCookRole extends Role implements Cook {
                         // TODO Auto-generated method stub
                         
                 }
+
+				@Override
+				public void setMonitor(DProducerConsumerMonitor theMonitor) {
+					// TODO Auto-generated method stub
+					
+				}
 
                 
 }

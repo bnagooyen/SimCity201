@@ -13,7 +13,10 @@ import simcity.LRestaurant.gui.LWaiterGui;
 import simcity.LRestaurant.gui.LHostGui;
 import simcity.PersonAgent;
 import simcity.interfaces.Host;
+import simcity.interfaces.LCook;
 import simcity.interfaces.LCustomer;
+import simcity.interfaces.LHost;
+import simcity.interfaces.LWaiter;
 
 import java.util.*;
 //import java.util.concurrent.Semaphore;
@@ -25,7 +28,7 @@ import java.util.*;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class LHostRole extends Role implements Host {
+public class LHostRole extends Role implements LHost {
         static final int NTABLES = 4;//a global for the number of tables.
         //Notice that we implement waitingCustomers using ArrayList, but type it
         //with List semantics.
@@ -507,4 +510,22 @@ public class LHostRole extends Role implements Host {
                         return "table " + tableNumber;
                 }
         }
+
+		@Override
+		public void setCook(LCook cook) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void addWaiter(LWaiter lw) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void msgHereIsMoney(int restMoney) {
+			// TODO Auto-generated method stub
+			
+		}
 }

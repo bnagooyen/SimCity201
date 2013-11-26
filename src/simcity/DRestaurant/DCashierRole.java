@@ -7,6 +7,7 @@ import agent.Role;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.DCook;
 import simcity.interfaces.DCustomer;
+import simcity.interfaces.MarketCashier;
 import simcity.PersonAgent;
 import simcity.interfaces.DWaiter;
 import simcity.test.mock.EventLog;
@@ -354,6 +355,12 @@ public class DCashierRole extends Role implements DCashier {
 		
 		
 		//System.out.println("cash inflow.. regAmnt = "+ registerAmnt);
+		
+	}
+
+	@Override
+	public void msgBillFromMarket(double bill, MarketCashier cashier) {
+		// TODO Auto-generated method stub
 		
 	}
 	

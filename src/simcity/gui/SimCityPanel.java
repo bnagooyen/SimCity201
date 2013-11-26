@@ -68,7 +68,6 @@ import simcity.Market.InventoryBoyRole;
 import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCustomerRole;
 import simcity.Market.MarketManagerRole;
-import simcity.SimCityPanel.Business;
 import simcity.TTRestaurant.TCashierRole;
 import simcity.TTRestaurant.TCookRole;
 import simcity.TTRestaurant.TCustomerRole;
@@ -753,8 +752,8 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					cashier = new Drew_CashierRole();
 					break;
 			case 2: host = new BHostRole();
-					((BHost)host).setCook((BCookRole)cook);
 					cook = new BCookRole();
+					((BHost)host).setCook((BCookRole)cook);
 					cashier = new BCashierRole();
 					break;
 			case 3: host = new DHostRole();
@@ -762,7 +761,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					cashier = new DCashierRole();
 					((DHost)host).addCook((DCook)cook);
 					((DCookRole) cook).AddHost((DHostRole)host);
-					((DCookRole)cook).AddCashier((Cashier)cashier);
+					((DCookRole)cook).AddCashier((DCashier)cashier);
 					((DCashierRole)cashier).AddCook((DCook)cook);
 					break;
 			case 4: host = new KHostRole();

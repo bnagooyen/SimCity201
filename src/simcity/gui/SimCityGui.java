@@ -48,27 +48,7 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 		setLayout(new BorderLayout()); 
 	    add(simCityAnimationPanel, BorderLayout.CENTER);
 	
-	    PersonAgent person = new PersonAgent("Drew");
-	    BankManagerRole bm = new BankManagerRole();
-	    person.SetJob(bm);
-	    person.startThread(); 
-	   
-	    BusStopAgent bs = new BusStopAgent();
-	    BusStopAgent bs2 = new BusStopAgent();
-	    bs.myStop="stop1";
-	    bs2.myStop="stop2";
-	    bs2.startThread();
-	    bs.startThread(); 
-	    b.busStops.put(bs.myStop, bs);
-	    b.busStops.put(bs2.myStop, bs2);
-	    
-	    person.setBusStop(b.busStops.get(bs.myStop));
-	    b.startThread(); 
-	    
-		people.add(person);
-		startTimer();
-	    
-	         
+ 
 	         JPanel cityPanels = new JPanel();
 	         cityPanels.setLayout(new GridLayout(1,1));
 	         cityPanels.setMaximumSize(new Dimension((int)(SIMCITYX*0.25), (200)));
@@ -157,29 +137,5 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 		
 	}
 	
-	public void startTimer() {
-		Timer timer;
-	    
-		 class RemindTask extends TimerTask {
-			 int counter= 5;
-		        @Override
-				public void run() {
-		        	if(counter <25) {
-		                 System.out.println("hour is " + counter);
-		                 for(Person p: people) {
-		                	 p.msgTimeUpdate(counter);
-		                	 b.msgTimeUpdate(counter);
-		                 }
-		                 counter++;
-		                 if (counter == 25) {
-		                	 counter = 1;
-		                 }
-		        	}
-		        }
-		 }
-	     timer = new Timer();
-	     timer.schedule(new RemindTask(),
-	                       0,        //initial delay
-	                       1*12000);  //subsequent rate		
-	}
+	
 }

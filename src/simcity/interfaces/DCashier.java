@@ -12,4 +12,5 @@ public interface DCashier {
 //	public abstract void msgMadeInventoryOrder(int oRDER_ID, double billAmnt, Market a);
 	//public abstract void msgAnswerVerificationRequest(boolean b);
 	public abstract void msgHereForMyBills(DWaiter dWaiterRole);
+	public abstract void msgBillFromMarket(double bill, MarketCashier cashier);
 }

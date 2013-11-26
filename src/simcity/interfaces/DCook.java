@@ -4,7 +4,7 @@ import simcity.DRestaurant.DOrder;
 import simcity.DRestaurant.DProducerConsumerMonitor;
 
 
-public interface DCook {
+public interface DCook extends Cook{
 
 	void setMonitor(DProducerConsumerMonitor theMonitor);
 
