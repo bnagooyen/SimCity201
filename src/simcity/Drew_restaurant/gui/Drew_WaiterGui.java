@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.awt.*;
 
-public class WaiterGui implements Gui {
+public class Drew_WaiterGui implements Gui {
 
     private Drew_WaiterRole agent = null;
 	public CustomerGui customerGui=null;
@@ -61,7 +61,7 @@ public class WaiterGui implements Gui {
     private int xDestination;//default start position
 	private int yDestination;
 	
-    public WaiterGui(Drew_WaiterRole agent, RestaurantGui RG, int waiterCount) {
+    public Drew_WaiterGui(Drew_WaiterRole agent, RestaurantGui RG, int waiterCount) {
         this.agent = agent;
         restGui= RG;
         count=waiterCount;

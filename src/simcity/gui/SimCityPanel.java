@@ -41,6 +41,10 @@ import simcity.Drew_restaurant.Drew_CookRole;
 import simcity.Drew_restaurant.Drew_CustomerRole;
 import simcity.Drew_restaurant.Drew_HostRole;
 import simcity.Drew_restaurant.Drew_WaiterRole;
+import simcity.Drew_restaurant.gui.Drew_WaiterGui;
+import simcity.Drew_restaurant.interfaces.Drew_Cashier;
+import simcity.Drew_restaurant.interfaces.Drew_Cook;
+import simcity.Drew_restaurant.interfaces.Drew_Host;
 import simcity.KRestaurant.KCashierRole;
 import simcity.KRestaurant.KCookRole;
 import simcity.KRestaurant.KCustomerRole;
@@ -169,160 +173,160 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	
 	
 	
-	public Role jobFactory(String job, PersonAgent p) {
-		Role j = null;
-		// bank 
-		if (job.equals("BankLoanOfficer")) {
-			j = new BankLoanOfficerRole(p);
-		}
-		else if (job.equals("BankManager")) {
-			j = new BankManagerRole(p);
-		}
-		else if (job.equals("BankRobber")) {
-			j = new BankRobberRole(p);
-		}
-		else if (job.equals("BankTeller")) {
-			j = new BankTellerRole(p);
-		}
-		
-		// market
-		else if (job.equals("InventoryBoy")) {
-			j = new InventoryBoyRole(p);
-		}
-		else if (job.equals("MarketCashier")) {
-			j = new MarketCashierRole(p);
-		}
-		else if (job.equals("MarketManager")) {
-			j = new MarketManagerRole(p);
-		}
-
-		// house
-		else if (job.equals("Landlord")) {
-			j = new LandlordRole(p);
-		}
-		else if (job.equals("RepairMan")) {
-			j = new RepairManRole(p);
-		}
-		
-		// BRestaurant
-		else if (job.equals("RestCashier2")) {
-			j = new BCashierRole(p);
-		}
-		else if (job.equals("Cook2")) {
-			j = new BCookRole(p);
-		}
-		else if (job.equals("Host2")) {
-			j = new BHostRole(p);
-		}
-		else if (job.equals("Waiter2")) {
-			j = new BWaiterNormalRole(p);
-		}
-		
-		// DRestaurant
-		else if (job.equals("RestCashier3")) {
-			j = new DCashierRole(p);
-		}
-		else if (job.equals("Cook3")) {
-			j = new DCookRole(p);
-		}
-		else if (job.equals("Host3")) {
-			j = new DHostRole(p);
-		}
-		else if (job.equals("Waiter3")) {
-			j = new DWaiterNormalRole(p);
-		}
-		
-		// Drew_Restaurant
-		else if (job.equals("RestCashier1")) {
-			j = new Drew_CashierRole(p);
-		}
-		else if (job.equals("Cook1")) {
-			j = new Drew_CookRole(p);
-		}
-		else if (job.equals("Host1")) {
-			j = new Drew_HostRole(p);
-		}
-		else if (job.equals("Waiter1")) {
-			j = new Drew_WaiterRole(p);
-		}
-		
-		// KRestaurant
-		else if (job.equals("RestCashier4")) {
-			j = new KCashierRole(p);
-		}
-		else if (job.equals("Cook4")) {
-			j = new KCookRole(p);
-		}
-		else if (job.equals("Host4")) {
-			j = new KHostRole(p);
-		}
-		else if (job.equals("Waiter4")) {
-			j = new KWaiterNormalRole(p);
-		}
-		else if (job.equals("WaiterSharedData4")) {
-			j = new KWaiterSharedDataRole(p);
-		}
-		
-		// LRestaurant
-		else if (job.equals("RestCashier5")) {
-			j = new LCashierRole(p);
-		}
-		else if (job.equals("Cook5")) {
-			j = new LCookRole(p);
-		}
-		else if (job.equals("Host5")) {
-			j = new LHostRole(p);
-		}
-		else if (job.equals("Waiter5")) {
-			j = new LWaiterNormalRole(p);
-		}
-		
-		// TTRestaurant
-		else if (job.equals("RestCashier6")) {
-			j = new TCashierRole(p);
-		}
-		else if (job.equals("Cook6")) {
-			j = new TCookRole(p);
-		}
-		else if (job.equals("Host6")) {
-			j = new THostRole(p);
-		}
-		else if (job.equals("Waiter6")) {
-			j = new TWaiterRole(p);
-		}
-		return j;
-	}
-	
-	public Role customerFactory(String place, PersonAgent p) {
-		Role c = null;
-		if (place.equals("Bank")) {
-			System.out.println("making bank customer");
-			c = new BankCustomerRole(p);
-		}
-		else if (place.equals("Market")) {
-			c = new MarketCustomerRole(p);
-		}
-		else if (place.equals("KRestaurant")) {
-			c = new KCustomerRole(p);
-		}
-		else if (place.equals("BRestaurant")) {
-			c = new BCustomerRole(p);
-		}
-		else if (place.equals("Drew_restaurant")) {
-			c = new Drew_CustomerRole(p);
-		}
-		else if (place.equals("DRestaurant")) {
-			c = new DCustomerRole(p);
-			System.out.println("made drestaurantcust");
-		}
-		else if (place.equals("LRestaurant")) {
-			c = new LCustomerRole(p);
-		}
-		else if (place.equals("TRestaurant")) {
-			c = new TCustomerRole(p);
-		}
-		return c;
-	}
+//	public Role jobFactory(String job, PersonAgent p) {
+//		Role j = null;
+//		// bank 
+//		if (job.equals("BankLoanOfficer")) {
+//			j = new BankLoanOfficerRole(p);
+//		}
+//		else if (job.equals("BankManager")) {
+//			j = new BankManagerRole(p);
+//		}
+//		else if (job.equals("BankRobber")) {
+//			j = new BankRobberRole(p);
+//		}
+//		else if (job.equals("BankTeller")) {
+//			j = new BankTellerRole(p);
+//		}
+//		
+//		// market
+//		else if (job.equals("InventoryBoy")) {
+//			j = new InventoryBoyRole(p);
+//		}
+//		else if (job.equals("MarketCashier")) {
+//			j = new MarketCashierRole(p);
+//		}
+//		else if (job.equals("MarketManager")) {
+//			j = new MarketManagerRole(p);
+//		}
+//
+//		// house
+//		else if (job.equals("Landlord")) {
+//			j = new LandlordRole(p);
+//		}
+//		else if (job.equals("RepairMan")) {
+//			j = new RepairManRole(p);
+//		}
+//		
+//		// BRestaurant
+//		else if (job.equals("RestCashier2")) {
+//			j = new BCashierRole(p);
+//		}
+//		else if (job.equals("Cook2")) {
+//			j = new BCookRole(p);
+//		}
+//		else if (job.equals("Host2")) {
+//			j = new BHostRole(p);
+//		}
+//		else if (job.equals("Waiter2")) {
+//			j = new BWaiterNormalRole(p);
+//		}
+//		
+//		// DRestaurant
+//		else if (job.equals("RestCashier3")) {
+//			j = new DCashierRole(p);
+//		}
+//		else if (job.equals("Cook3")) {
+//			j = new DCookRole(p);
+//		}
+//		else if (job.equals("Host3")) {
+//			j = new DHostRole(p);
+//		}
+//		else if (job.equals("Waiter3")) {
+//			j = new DWaiterNormalRole(p);
+//		}
+//		
+//		// Drew_Restaurant
+//		else if (job.equals("RestCashier1")) {
+//			j = new Drew_CashierRole(p);
+//		}
+//		else if (job.equals("Cook1")) {
+//			j = new Drew_CookRole(p);
+//		}
+//		else if (job.equals("Host1")) {
+//			j = new Drew_HostRole(p);
+//		}
+//		else if (job.equals("Waiter1")) {
+//			j = new Drew_WaiterRole(p);
+//		}
+//		
+//		// KRestaurant
+//		else if (job.equals("RestCashier4")) {
+//			j = new KCashierRole(p);
+//		}
+//		else if (job.equals("Cook4")) {
+//			j = new KCookRole(p);
+//		}
+//		else if (job.equals("Host4")) {
+//			j = new KHostRole(p);
+//		}
+//		else if (job.equals("Waiter4")) {
+//			j = new KWaiterNormalRole(p);
+//		}
+//		else if (job.equals("WaiterSharedData4")) {
+//			j = new KWaiterSharedDataRole(p);
+//		}
+//		
+//		// LRestaurant
+//		else if (job.equals("RestCashier5")) {
+//			j = new LCashierRole(p);
+//		}
+//		else if (job.equals("Cook5")) {
+//			j = new LCookRole(p);
+//		}
+//		else if (job.equals("Host5")) {
+//			j = new LHostRole(p);
+//		}
+//		else if (job.equals("Waiter5")) {
+//			j = new LWaiterNormalRole(p);
+//		}
+//		
+//		// TTRestaurant
+//		else if (job.equals("RestCashier6")) {
+//			j = new TCashierRole(p);
+//		}
+//		else if (job.equals("Cook6")) {
+//			j = new TCookRole(p);
+//		}
+//		else if (job.equals("Host6")) {
+//			j = new THostRole(p);
+//		}
+//		else if (job.equals("Waiter6")) {
+//			j = new TWaiterRole(p);
+//		}
+//		return j;
+//	}
+//	
+//	public Role customerFactory(String place, PersonAgent p) {
+//		Role c = null;
+//		if (place.equals("Bank")) {
+//			System.out.println("making bank customer");
+//			c = new BankCustomerRole(p);
+//		}
+//		else if (place.equals("Market")) {
+//			c = new MarketCustomerRole(p);
+//		}
+//		else if (place.equals("KRestaurant")) {
+//			c = new KCustomerRole(p);
+//		}
+//		else if (place.equals("BRestaurant")) {
+//			c = new BCustomerRole(p);
+//		}
+//		else if (place.equals("Drew_restaurant")) {
+//			c = new Drew_CustomerRole(p);
+//		}
+//		else if (place.equals("DRestaurant")) {
+//			c = new DCustomerRole(p);
+//			System.out.println("made drestaurantcust");
+//		}
+//		else if (place.equals("LRestaurant")) {
+//			c = new LCustomerRole(p);
+//		}
+//		else if (place.equals("TRestaurant")) {
+//			c = new TCustomerRole(p);
+//		}
+//		return c;
+//	}
 	
 	public void LoadScenario(String type) {
 		people.clear();
@@ -622,18 +626,47 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		public int x;
 		public int y;
 	}
-	
+	//waiter needs host
+	//customer needs hot
+	//waiter needs cook setCook(cook)
 	class RestaurantReplace extends Business {
+		//JPanel animationPanel = new JPanel();
 		public int restNum;
 		public Role host = null;
 		public Role cook = null;
 		public Role cashier = null;
 		List<Role> waiters = null;
+		List<Role> customers = null;
 		RestaurantReplace(int restNum) {
 			switch(restNum) {
 			case 1: host = new Drew_HostRole();
 					cook = new Drew_CookRole();
+					cashier = new Drew_CashierRole();
 			}
+		}
+		public Role AddNormalWaiter() {
+			switch(restNum) {
+			case 1: Drew_WaiterRole w = new Drew_WaiterRole();
+					w.setCook((Drew_Cook)cook);
+					w.addCashier((Drew_Cashier)cashier);
+					w.setHost((Drew_Host)host);
+					//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
+					waiters.add(w);
+					return w;
+			case 2: 
+			}
+		}
+		public Role AddHeadWaiter() {
+			Drew_WaiterRole w = new Drew_WaiterRole();
+			w.setCook((Drew_Cook)cook);
+			waiters.add(w);
+			return w;
+		}
+		public Role AddCustomer() {
+			Drew_CustomerRole c = new Drew_CustomerRole();
+			c.setHost((Drew_Host)host);
+			customers.add(c);
+			return c;
 		}
 	}
 	  

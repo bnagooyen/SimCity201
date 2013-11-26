@@ -43,8 +43,7 @@ public class Drew_CashierRole extends Role implements Drew_Cashier {
 	private Drew_CookRole cook;
 	
 	public EventLog log;
-	public Drew_CashierRole(PersonAgent p) {
-		super(p);
+	public Drew_CashierRole() {
 		this.name = name;
 		
 		//Initialize price list

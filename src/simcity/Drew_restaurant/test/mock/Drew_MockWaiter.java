@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import simcity.Drew_restaurant.Drew_WaiterRole.MyCustomer;
-import simcity.Drew_restaurant.gui.WaiterGui;
+import simcity.Drew_restaurant.gui.Drew_WaiterGui;
 import simcity.Drew_restaurant.interfaces.Drew_Cashier;
 import simcity.Drew_restaurant.interfaces.Drew_Cook;
 import simcity.Drew_restaurant.interfaces.Drew_Customer;
@@ -29,7 +29,7 @@ public class Drew_MockWaiter extends Mock implements Drew_Waiter {
 	public EventLog log;
 	public String name;
 	public double debt;
-	public WaiterGui waitergui;
+	public Drew_WaiterGui waitergui;
 	
 	public List<MyCustomer> customers
 	= new ArrayList<MyCustomer>();
@@ -94,7 +94,7 @@ public class Drew_MockWaiter extends Mock implements Drew_Waiter {
 		return name;
 	}
 	
-	public WaiterGui getGui(){
+	public Drew_WaiterGui getGui(){
 		return waitergui;
 	}
 

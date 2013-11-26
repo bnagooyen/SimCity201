@@ -12,7 +12,7 @@ import simcity.Drew_restaurant.Drew_WaiterRole.MyCustomer;
 //import restaurant.WaiterAgent.CustomerState;
 //import simcity.Drew_restaurant.Drew_WaiterRole.MyCustomer;
 import simcity.Drew_restaurant.gui.Menu;
-import simcity.Drew_restaurant.gui.WaiterGui;
+import simcity.Drew_restaurant.gui.Drew_WaiterGui;
 
 /**
  * A sample Customer interface built to unit test a CashierAgent.
@@ -50,7 +50,7 @@ public interface Drew_Waiter {
 
 	public String getName();
 	
-	public WaiterGui getGui();
+	public Drew_WaiterGui getGui();
 
 	public List<MyCustomer> getWaitingCustomers();
 

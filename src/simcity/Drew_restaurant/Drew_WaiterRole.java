@@ -2,7 +2,7 @@ package simcity.Drew_restaurant;
 
 import agent.Role;
 import simcity.PersonAgent;
-import simcity.Drew_restaurant.gui.WaiterGui;
+import simcity.Drew_restaurant.gui.Drew_WaiterGui;
 import simcity.Drew_restaurant.gui.Menu;
 
 import java.util.*;
@@ -30,7 +30,7 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 	public enum CustomerState 
 	{waiting, seated,readyToOrder,askedToOrder, ordered, waitingForFood, foodReady, eating, billReady,paying, done};
 
-	public WaiterGui waitergui=null;
+	public Drew_WaiterGui waitergui=null;
 	
 	public void addCashier(Drew_Cashier c){
 		cashier=c;
@@ -277,7 +277,7 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 		//waitergui.DoBringToTable(customer.getTable());	//WaiterGui sends Location to CustomerGui
 		customer.getCustomer().followMeToTable(new Menu()); 
 		finishTask();		//Utilizes AtDest semaphore to allow waiter to complete task
-		//customer.getCustomer().followMeToTable(new Menu()); 
+		//customer.getCustomer().followMeToTaxble(new Menu()); 
 		customer.s=CustomerState.seated;
 	} 
 	
@@ -367,11 +367,11 @@ public class Drew_WaiterRole extends Role implements Drew_Waiter{
 		}
 	}
 	
-	public void setGui(WaiterGui gui) {					
+	public void setGui(Drew_WaiterGui gui) {					
 		waitergui = gui;
 	}
 
-	public WaiterGui getGui() {
+	public Drew_WaiterGui getGui() {
 		return waitergui;
 	}
 	
