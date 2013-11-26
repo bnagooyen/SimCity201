@@ -18,27 +18,16 @@ public class CarAgent extends Agent implements Car {
 	
 	public carState state;
 	
-	//MESSAGES
 	
-	public void msgGoToDestination(String location, Person person){
-		driver=person;
-		destination=location;
-		state=carState.arrived;
-		stateChanged();
-	}
 	
-	public void msgAtDestination(){
-		state=carState.arrived;
-		stateChanged();
-	}
 	
-	//SCHEDULER
 	
-	public boolean pickAndExecuteAnAction(){
+public boolean pickAndExecuteAnAction(){
 		
 		if(state==carState.receivedLocation){
 			goToLocation();
-			state=carState.travelling;
+			
+			state=carState.arrived;
 			return true;
 		}
 		
@@ -50,6 +39,26 @@ public class CarAgent extends Agent implements Car {
 		
 		return false;
 	}
+
+//MESSAGES
+	public void msgGoToDestination(String location, Person person){
+		
+		driver=person;
+		destination=location;
+		state=carState.receivedLocation;
+		stateChanged();
+		
+		
+	}
+	
+	public void msgAtDestination(){
+		state=carState.arrived;
+		stateChanged();
+	}
+	
+	//SCHEDULER
+	
+	
 	
 	
 	//ACTIONS

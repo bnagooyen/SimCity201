@@ -339,7 +339,7 @@ public class DHostRole extends Role implements DHost {
 	public void msgAddWaiter(DWaiter w) {
 		//waiters.add(w);
 		waiters.add(new MyWaiter(w));
-		System.out.println("waiter "+ w.getName() +" added to host list");
+		System.out.println("waiter "+ w +" added to host list");
 		if(w instanceof DWaiterSharedRole) {
 			((DWaiterSharedRole) w).setMonitor(theMonitor);
 		}

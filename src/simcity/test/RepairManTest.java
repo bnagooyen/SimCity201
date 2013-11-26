@@ -40,7 +40,7 @@ public class RepairManTest extends TestCase{
 		
 		//calling the scheduler
 		assertTrue("Repairman's scheduler should have returned true, but didn't.", repairman.pickAndExecuteAnAction());
-		assertTrue("MockLandlord should have logged an event for receiving jobDone but instead it's: " + landlord.log.getLastLoggedEvent().toString(), landlord.log.containsString("Received a bill from the repairman. Bill = 30.0"));
+		assertTrue("MockLandlord should have logged an event for receiving jobDone but instead it's: " + landlord.log.getLastLoggedEvent().toString(), landlord.log.containsString("Received a bill from the repairman. Bill = 15.0"));
 		assertEquals("MockLandlord should have one log right now. It doesn't", landlord.log.size(), 1); 
 		assertFalse("Repairman's scheduler should have returned false now, since it has nothing to do. It didn't.", repairman.pickAndExecuteAnAction());
 		assertEquals("Repairman should have no jobs again. It doesn't.", repairman.jobs.size(), 0); 
@@ -64,7 +64,7 @@ public class RepairManTest extends TestCase{
 		assertTrue("Repairman's scheduler should have returned true, but didn't.", repairman.pickAndExecuteAnAction());
 		
 		//checking preconditions and post conditions
-		assertTrue("MockLandlord should have logged an event for receiving jobDone but instead it's: " + landlord.log.getLastLoggedEvent().toString(), landlord.log.containsString("Received a bill from the repairman. Bill = 30.0"));
+		assertTrue("MockLandlord should have logged an event for receiving jobDone but instead it's: " + landlord.log.getLastLoggedEvent().toString(), landlord.log.containsString("Received a bill from the repairman. Bill = 15.0"));
 		assertEquals("MockLandlord should have one log right now. It doesn't", landlord.log.size(), 1); 
 		assertEquals("Repairman should still have one job. It doesn't.", repairman.jobs.size(), 1);
 		
@@ -72,7 +72,7 @@ public class RepairManTest extends TestCase{
 		assertTrue("Repairman's scheduler should have returned true, but didn't.", repairman.pickAndExecuteAnAction());
 		
 		//checking postconditions
-		assertTrue("MockLandlord should have logged an event for receiving jobDone but instead it's: " + landlord.log.getLastLoggedEvent().toString(), landlord.log.containsString("Received a bill from the repairman. Bill = 30.0"));
+		assertTrue("MockLandlord should have logged an event for receiving jobDone but instead it's: " + landlord.log.getLastLoggedEvent().toString(), landlord.log.containsString("Received a bill from the repairman. Bill = 15.0"));
 		assertEquals("MockLandlord should have one log right now. It doesn't", landlord.log.size(), 2); 
 		assertFalse("Repairman's scheduler should have returned false now, since it has nothing to do. It didn't.", repairman.pickAndExecuteAnAction());
 		assertEquals("Repairman should have no jobs again. It doesn't.", repairman.jobs.size(), 0);
