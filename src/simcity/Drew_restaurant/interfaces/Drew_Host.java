@@ -1,5 +1,7 @@
 package simcity.Drew_restaurant.interfaces;
 
+import simcity.Drew_restaurant.Drew_WaiterRole;
+
 
 
 /**
@@ -21,5 +23,7 @@ public interface Drew_Host {
 	public abstract void backFromBreak(Drew_Waiter wait);
 	
 	public abstract void leaving(Drew_Customer cust);
+
+	public abstract void addWaiter(Drew_WaiterRole aw);
 
 }

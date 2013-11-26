@@ -53,8 +53,8 @@ public class DCashierRole extends Role implements DCashier {
 		return myBills;
 	}
 
-	public DCashierRole(PersonAgent p) {
-		super(p);
+	public DCashierRole() {
+		super();
 
 		///this.name = name;
 		// make some tables

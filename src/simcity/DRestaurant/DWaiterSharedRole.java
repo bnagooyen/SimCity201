@@ -9,8 +9,8 @@ public class DWaiterSharedRole extends DWaiterRole implements DWaiter {
 
 	private DProducerConsumerMonitor theMonitor;
 	
-	public DWaiterSharedRole(PersonAgent name) {
-		super(name);
+	public DWaiterSharedRole() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

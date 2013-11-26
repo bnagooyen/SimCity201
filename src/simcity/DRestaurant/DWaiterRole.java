@@ -8,7 +8,10 @@ import simcity.DRestaurant.DOrder.OrderState;
 import simcity.DRestaurant.gui.DWaiterGui;
 import simcity.DRestaurant.DCustomerRole;
 import agent.Role;
+import simcity.interfaces.DCashier;
+import simcity.interfaces.DCook;
 import simcity.interfaces.DCustomer;
+import simcity.interfaces.DHost;
 import simcity.interfaces.DWaiter;
 
 import java.util.*;
@@ -37,9 +40,9 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	
 	Timer timer = new Timer();
 	
-	DCookRole cook;
-	DHostRole host;
-	DCashierRole cashier;
+	DCook cook;
+	DHost host;
+	DCashier cashier;
 	
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
@@ -72,8 +75,8 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	
 	public WaiterState state;
 	
-	public DWaiterRole(PersonAgent p) {
-		super(p);
+	public DWaiterRole() {
+		super();
 		
 		//this.name = name;
 		
@@ -104,16 +107,16 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	// Messages
 
 	//hack!
-	public void msgAddCook(DCookRole c) {
+	public void msgAddCook(DCook c) {
 		cook=c;
 	}
 	
-	public void msgAddCashier(DCashierRole ca) {
+	public void msgAddCashier(DCashier ca) {
 		cashier= ca;
 	}
 	
-	public void msgAddHost(DHostRole h) {
-		host=h;
+	public void msgAddHost(DHost host2) {
+		host=host2;
 	}
 	
 	public void msgHereIsAWaitingCustomer(DCustomer c, int t) {

@@ -25,7 +25,7 @@ import simcity.KRestaurant.ProducerConsumerMonitor;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class BHostRole extends Role implements Host{
+public class BHostRole extends Role implements Host, BHost{
 	static final int NTABLES = 3;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.

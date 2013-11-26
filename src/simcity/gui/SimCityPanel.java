@@ -37,6 +37,7 @@ import simcity.DRestaurant.DCookRole;
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DHostRole;
 import simcity.DRestaurant.DWaiterRole;
+import simcity.DRestaurant.DWaiterSharedRole;
 import simcity.Drew_restaurant.Drew_CashierRole;
 import simcity.Drew_restaurant.Drew_CookRole;
 import simcity.Drew_restaurant.Drew_CustomerRole;
@@ -73,7 +74,12 @@ import simcity.housing.LandlordRole;
 import simcity.housing.RepairManRole;
 import simcity.interfaces.BCashier;
 import simcity.interfaces.BCook;
+import simcity.interfaces.BHost;
 import simcity.interfaces.BankManager;
+import simcity.interfaces.DCashier;
+import simcity.interfaces.DCook;
+import simcity.interfaces.DHost;
+import simcity.interfaces.DWaiter;
 import simcity.interfaces.Host;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.Person;
@@ -642,6 +648,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		List<Role> customers = null;
 		RestaurantReplace(int restNum) {
 			switch(restNum) {
+			
 			case 1: host = new Drew_HostRole();
 					cook = new Drew_CookRole();
 					cashier = new Drew_CashierRole();
@@ -649,6 +656,14 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			case 2: host = new BHostRole();
 					cook = new BCookRole();
 					cashier = new BCashierRole();
+					break;
+			case 3: host = new DHostRole();
+					cook = new DCookRole();
+					cashier = new DCashierRole();
+					((DCookRole) cook).AddHost((DHostRole)host);
+					((DCookRole)cook).AddCashier((DCashierRole)cashier);
+					((DCashierRole)cashier).AddCook((DCookRole)cook);
+					
 			}
 		}
 		
@@ -661,6 +676,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					aw.setHost((Drew_Host)host);
 					//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
 					waiters.add(aw);
+					((Drew_Host)host).addWaiter(aw);
 					return aw;
 			case 2: 
 					BWaiterRole bw = new BWaiterSharedDataRole();
@@ -669,8 +685,14 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					bw.setCashier((BCashier)cashier);
 					//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
 					waiters.add(bw);
+					((BHost)host).setWaiter(bw);
 					return bw;
 			case 3: 
+					DWaiterRole dw = new DWaiterSharedRole();
+					dw.msgAddCashier((DCashier)cashier);
+					dw.msgAddCook((DCook)cook);
+					dw.msgAddHost((DHost)host);
+					((DHost)host).msgAddWaiter((DWaiter)dw);
 			default: return null;
 			}
 		}
