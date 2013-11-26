@@ -448,7 +448,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				else if(job.equals("Cook1")) {
 					p.SetJob(DrewRestaurant.cook);
 				}
-				else if(job.equals("Cashier1")) {
+				else if(job.equals("RCashier1")) {
 					p.SetJob(DrewRestaurant.cashier);
 				}
 				else if(job.equals("Host2")) {
@@ -458,7 +458,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				else if(job.equals("Cook2")) {
 					p.SetJob(BRestaurant.cook);
 				}
-				else if(job.equals("Cashier2")) {
+				else if(job.equals("RCashier2")) {
 					p.SetJob(BRestaurant.cashier);
 				}
 				else if(job.equals("Host3")) {
@@ -468,7 +468,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				else if(job.equals("Cook3")) {
 					p.SetJob(DRestaurant.cook);
 				}
-				else if(job.equals("Cashier3")) {
+				else if(job.equals("RCashier3")) {
 					p.SetJob(DRestaurant.cashier);
 				}
 				else if(job.equals("Host4")) {
@@ -479,7 +479,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				else if(job.equals("Cook4")) {
 					p.SetJob(KRestaurant.cook);
 				}
-				else if(job.equals("Cashier4")) {
+				else if(job.equals("RCashier4")) {
 					p.SetJob(KRestaurant.cashier);
 				}
 				else if(job.equals("Host5")) {
@@ -488,9 +488,10 @@ public class SimCityPanel extends JPanel implements MouseListener{
 
 				}
 				else if(job.equals("Cook5")) {
-					p.SetJob(LRestaurant.cook);
+					//p.SetJob(LRestaurant.cook);
+					p.SetJob(KRestaurant.cook);
 				}
-				else if(job.equals("Cashier5")) {
+				else if(job.equals("RCashier5")) {
 					p.SetJob(LRestaurant.cashier);
 				}
 				else if(job.equals("Host6")) {
@@ -501,7 +502,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				else if(job.equals("Cook6")) {
 					p.SetJob(TRestaurant.cook);
 				}
-				else if(job.equals("Cashier6")) {
+				else if(job.equals("RCashier6")) {
 					p.SetJob(TRestaurant.cashier);
 				}
 				//for load balancing waiters when they are added on through gui
@@ -596,7 +597,9 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				else {
 					p.SetHome(HomeType.homeless);
 				}
+				p.startThread();
 				people.add(p);
+				
 			}
 			
 			ApartmentsPerLandlord = NUMAPTS/landlords.size();
@@ -870,9 +873,10 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					
 					cashier = new LCashierRole();
 					((LHostRole) host).setCook((LCook)cook);
-					((LCook) cook).setCashier((LCashier)cashier);
-					((LCashierRole)cashier).setHost((LHost)host);
-					((LCashierRole)cashier).setCook((LCook)cook);
+					((LCookRole) cook).setCashier((LCashierRole)cashier);
+					((LCookRole) cook).setHost((LHostRole)host);
+					((LCashierRole)cashier).setHost((LHostRole)host);
+					((LCashierRole)cashier).setCook((LCookRole)cook);
 					break;
 			case 6: host = new THostRole(); 
 					cook = new TCookRole();
@@ -1048,6 +1052,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		List<Person> tenants= new ArrayList<Person>();
 		public MyLandlord(Person per) {
 			p=per;
+			p.SetJob(new LandlordRole());
 		}
 	}
 
