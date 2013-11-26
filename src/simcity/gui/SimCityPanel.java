@@ -35,7 +35,6 @@ import simcity.DRestaurant.DCashierRole;
 import simcity.DRestaurant.DCookRole;
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DHostRole;
-import simcity.DRestaurant.DWaiterNormalRole;
 import simcity.DRestaurant.DWaiterRole;
 import simcity.Drew_restaurant.Drew_CashierRole;
 import simcity.Drew_restaurant.Drew_CookRole;

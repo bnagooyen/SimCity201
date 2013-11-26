@@ -134,7 +134,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		else if(job instanceof BCashier || job instanceof BCook || job instanceof BWaiter){
 			jobLocation="brestaurant";
 		}
-		else if(job instanceof DCashier || job instanceof Cook || job instanceof DWaiter){
+		else if(job instanceof DCashier || job instanceof Cook /*|| job instanceof DWaiter*/){
 			jobLocation="drestaurant";
 		}
 		else if(job instanceof Drew_Cashier || job instanceof Drew_Cook || job instanceof BWaiter){
@@ -549,6 +549,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		
 		if (mydestination != "home") {
 			boolean haveRole=false;
+			locationState=LocationState.Out;
 			neededRole=possibleRoles.get(mydestination);
 	
 			if(needToGoToWork){
@@ -568,6 +569,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				}
 			}
 		}
+		else if(mydestination.equals("home")) locationState=LocationState.atHome;
 	}
 	// utilities
 
@@ -608,6 +610,10 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public void setBus(Bus b){
 		bus=b;
 	}
+	
+    public void setBusStop(BusStop b){
+        busStop=b;
+    }
 
 	public void setPanel(SimCityPanel p) {
 		panel = p;
