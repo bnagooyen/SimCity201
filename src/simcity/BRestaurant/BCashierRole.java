@@ -16,14 +16,14 @@ import simcity.BRestaurant.*;
 
 public class BCashierRole extends Role implements BCashier {
 
-    
-
+	boolean goHome = false;
+	BHostRole host;
 	BCookRole cook;
     public double totalMoney=500;
     public List<BCheck> myChecks = Collections.synchronizedList(new ArrayList<BCheck>());
     public List<BCustomer> myCustomers = Collections.synchronizedList(new ArrayList<BCustomer>());
     public List<marketCheck> marketChecks=Collections.synchronizedList(new ArrayList<marketCheck>());
-    
+    boolean arrived;
     public enum MarketPaidState{notPaid, Paid};
     MarketPaidState checkState;
     
@@ -48,6 +48,11 @@ public class BCashierRole extends Role implements BCashier {
     
     
     public boolean pickAndExecuteAnAction() {
+    	
+    	if(arrived){
+    		tellHost();
+    		return true;
+    	}
 
     	synchronized(myChecks){
     	for(BCheck thisCheck: myChecks) {
@@ -67,6 +72,11 @@ public class BCashierRole extends Role implements BCashier {
     	}
     	}
     	
+    	if(goHome){
+    		goHome();
+    		return true;
+    	}
+    	
 		return false;
     }
  
@@ -76,6 +86,12 @@ public class BCashierRole extends Role implements BCashier {
     	myChecks.remove(check);
     }  
     
+    private void tellHost() {
+    	     Do("telling manager I'm here at work");
+    	     arrived = false;
+    	     host.msgIAmHere(this, "cashier");
+    	 }
+    
     private void payMarket(marketCheck check){
     	totalMoney=totalMoney-check.check;
     	
@@ -83,6 +99,12 @@ public class BCashierRole extends Role implements BCashier {
     	
     	check.cashier.msgHereIsPayment(cook, check.check);
     }
+    
+    private void goHome() {
+        Do("Going home");
+        isActive = false;
+        goHome = false;
+}
     
     //messages
     
@@ -124,6 +146,12 @@ public class BCashierRole extends Role implements BCashier {
     	
     	stateChanged();
     }
+    
+    public void msgGoHome(double paycheck) {
+        myPerson.money += paycheck;
+        goHome = true;
+        stateChanged();
+}
     
     public void msgRepeatCashierCheck(BCheck check, BCustomer customer)
     {
