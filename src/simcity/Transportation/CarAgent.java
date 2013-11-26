@@ -23,7 +23,7 @@ public class CarAgent extends Agent implements Car {
 	public void msgGoToDestination(String location, Person person){
 		driver=person;
 		destination=location;
-		state=carState.receivedLocation;
+		state=carState.arrived;
 		stateChanged();
 	}
 	

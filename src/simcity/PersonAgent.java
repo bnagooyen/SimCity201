@@ -61,7 +61,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public enum PersonState { none };
 	public enum EnergyState {tired, asleep, awake, none };
 	public enum LocationState { atHome, inTransit, atWork, Out };
-	public enum TransitState {justLeaving, walkingToBus, onBus, goToCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
+	public enum TransitState {justLeaving, walkingToBus, onBus, goToCar, inCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
 	public enum MoneyState { poor, adequate, rich, haveLoan};
 	private PersonState personState;
 	public EnergyState energyState;
@@ -553,7 +553,8 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	private void goToCar(){
 		Do("Do go To car"); //gui?
-		myCar.msgGoToDestination("location", this);
+		myCar.msgGoToDestination(jobLocation, this);
+		transitState=TransitState.inCar;
 	}
 
 	private void getOutCarAndWalk(){
