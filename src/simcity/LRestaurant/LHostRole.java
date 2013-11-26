@@ -1,6 +1,7 @@
 package simcity.LRestaurant;
 
 import agent.Role;
+import simcity.LRestaurant.ProducerConsumerMonitor;
 import simcity.LRestaurant.LWaiterRole;
 import simcity.LRestaurant.LWaiterRole.WaiterState;
 import simcity.LRestaurant.gui.LWaiterGui;
@@ -31,6 +32,9 @@ public class LHostRole extends Role implements Host {
         //note that tables is typed with Collection semantics.
         //Later we will see how it is implemented
 
+        private ProducerConsumerMonitor theMonitor;
+        LCookRole cook;
+        
         public enum CustomerState {waiting, assigned, seated, deciding, thinking, left};
 
         public enum WaiterState {working, wantsToGoOnBreak, isOnBreak};
@@ -51,25 +55,27 @@ public class LHostRole extends Role implements Host {
                 for (int ix = 1; ix <= NTABLES; ix++) {
                         tables.add(new Table(ix));//how you add to a collections
                 }
+                
+                theMonitor = new ProducerConsumerMonitor();
 
         }
 
-        public void addWaiter(LWaiterRole w){
-                waiters.add(new myWaiter(w,0));//newly hired waiter 
-                //int count = -1;
-                synchronized(waiters){
-                        for(myWaiter wait:waiters){
-                                if(wait.state == WaiterState.working){
-                                        countW++;
-                                }
-                                if(wait.w == w){
-                                        w.waiterGui.DoWait(countW);
-                                }
-                        }
-                        countW = -1;
-                }
-                stateChanged();
-        }
+//        public void addWaiter(LWaiterRole w){
+//                waiters.add(new myWaiter(w,0));//newly hired waiter 
+//                //int count = -1;
+//                synchronized(waiters){
+//                        for(myWaiter wait:waiters){
+//                                if(wait.state == WaiterState.working){
+//                                        countW++;
+//                                }
+//                                if(wait.w == w){
+//                                        w.waiterGui.DoWait(countW);
+//                                }
+//                        }
+//                        countW = -1;
+//                }
+//                stateChanged();
+//        }
 
         public String getMaitreDName() {
                 return name;
@@ -327,6 +333,31 @@ public class LHostRole extends Role implements Host {
 
 
         //utilities
+        public void addWaiter(LWaiterRole w) {
+    		waiters.add(new myWaiter(w,0));
+    		if(w instanceof LWaiterSharedDataRole) {
+    			((LWaiterSharedDataRole) w).setMonitor(theMonitor);
+    		}
+    		
+    		 synchronized(waiters){
+               for(myWaiter wait:waiters){
+                       if(wait.state == WaiterState.working){
+                               countW++;
+                       }
+                       if(wait.w == w){
+                               w.waiterGui.DoWait(countW);
+                       }
+               }
+               countW = -1;
+       }
+       stateChanged();
+    	}
+
+    	public void setCook(LCookRole c) {
+    		cook = c;
+    		c.setMonitor(theMonitor);
+    	}
+        
 
         public class myWaiter {
                 LWaiterRole w;

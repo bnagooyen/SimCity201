@@ -2,6 +2,7 @@ package simcity.LRestaurant;
 
 import simcity.PersonAgent;
 import simcity.interfaces.LWaiter;
+import simcity.test.mock.LoggedEvent;
 
 public class LWaiterNormalRole extends LWaiterRole implements LWaiter{
 
@@ -12,18 +13,19 @@ public class LWaiterNormalRole extends LWaiterRole implements LWaiter{
 
 	@Override
 	protected void giveCookOrder(MyCustomers c) {
+		LoggedEvent e = new LoggedEvent("Giving order cook");
+        log.add(e);
+        
 		//waiterGui.DoGoToCook();
        Do("Giving cook order");
        c.state = CustomerState.waitForFood;
        //print("Asking for a semaphore. CookOrder1");
-       /**
-       try {
+       /**try {
                task.acquire();
        } catch (InterruptedException e) {
                // TODO Auto-generated catch block
                e.printStackTrace();
-       }
-       */
+       }*/
        //print("Got a semaphore");
        cook.msgHereIsAnOrder(c.table, c.choice, this);
        

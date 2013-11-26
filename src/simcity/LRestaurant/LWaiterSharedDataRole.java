@@ -18,7 +18,7 @@ public class LWaiterSharedDataRole extends LWaiterRole implements LWaiter{
 
 	@Override
 	protected void giveCookOrder(MyCustomers c) {
-		LoggedEvent e = new LoggedEvent("Giving order to cook");
+		LoggedEvent e = new LoggedEvent("Giving order cook");
         log.add(e);
 		
 		//waiterGui.DoGoToCook();
