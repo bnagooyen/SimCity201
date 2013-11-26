@@ -353,6 +353,14 @@ public class SimCityPanel extends JPanel implements MouseListener{
 //		return c;
 //	}
 	
+	public SimCityPanel(CityGui cityGui) {
+		// TODO Auto-generated constructor stub
+		this.gui = gui;
+	}
+
+
+
+
 	public void LoadScenario(String type) {
 		people.clear();
 		landlords.clear();

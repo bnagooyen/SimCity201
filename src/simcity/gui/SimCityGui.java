@@ -35,8 +35,8 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 	private ListPanel addPersonPanel=new ListPanel(simcityPanel, "Person");
 	private ArrayList<Person> people = new ArrayList<Person>();
 	BusAgent b = new BusAgent();
-	JPanel buildingPanels;
-	CardLayout cl;
+//	JPanel buildingPanels;
+//	CardLayout cl;
 	
 	/**
 	 * Constructor for SimCityGui
@@ -96,13 +96,7 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	public void displayBuildingPanel( BuildingPanel bp ) {
-        System.out.println("abc");
-        System.out.println( bp.getName() );
-        cl.show( buildingPanels, bp.getName() );
-}
-	
-	
+
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -136,6 +130,7 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 		// TODO Auto-generated method stub
 		
 	}
+	
 	
 	
 }

@@ -300,6 +300,7 @@ public class SimCityAnimationPanel extends JPanel implements ActionListener {
         g2.drawImage(houseL, 3*yardSpace+4*housingWidth+7*sidewalkWidth+3*streetWidth, streetWidth+3*housingLength+ sidewalkWidth, null);
         g2.drawImage(restaurantB, 3*yardSpace+4*housingWidth+7*sidewalkWidth+3*streetWidth, streetWidth+4*housingLength+ sidewalkWidth, null);
         
+        
         //row7
         g2.drawImage(bankT, 4*yardSpace+5*housingWidth+7*sidewalkWidth+3*streetWidth, streetWidth+sidewalkWidth, null);
         g2.drawImage(houseR, 4*yardSpace+5*housingWidth+7*sidewalkWidth+3*streetWidth, streetWidth+housingLength+ sidewalkWidth, null);

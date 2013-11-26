@@ -4,10 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 public abstract class CityComponent {
 	//Consider creating a rectangle for every Component for better universal collision detection
-
+	BufferedImage image;
 	Rectangle rectangle;
 	int x, y;
 	Color color;
@@ -30,6 +31,22 @@ public abstract class CityComponent {
 		isActive = true;
 	}
 	
+	public CityComponent(int x, int y, BufferedImage i) {
+		this.x=x;
+		this.y=y;
+		image = i;
+		isActive=true;
+		ID = "";
+	}
+	
+	public CityComponent(int x, int y, BufferedImage i, String L) {
+		this.x=x;
+		this.y=y;
+		image = i;
+		isActive=true;
+		ID = L;
+	}
+	
 	public CityComponent(int x, int y, Color c) {
 		this.x = x;
 		this.y = y;
@@ -49,7 +66,13 @@ public abstract class CityComponent {
 	public abstract void updatePosition();
 	
 	public void paint(Graphics g) {
+		
 		if (isActive) {
+			if(image!=null) {
+				 g.drawImage(image, x,y, null);
+				 return;
+			}
+			
 			g.setColor(color);
 			g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 		}

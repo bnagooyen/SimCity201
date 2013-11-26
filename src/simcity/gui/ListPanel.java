@@ -41,9 +41,16 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param type indicates if this is for customers or waiters
      */
     public ListPanel(SimCityPanel rp, String type) {
+    	CityGui city;
+    	JLabel text;
+    	final int INFO_WIDTH = 300;
+		final int INFO_HEIGHT = 150;
+    	
         simcityPanel = rp;
         this.type = type;
 
+        this.setPreferredSize(new Dimension(INFO_WIDTH, INFO_HEIGHT));
+        
         JPanel scenarioSelector = new JPanel();
         scenarioSelector.setLayout(new GridLayout(2,2));
         scenarioSelector.add(new JLabel("Select a scenario:"));
@@ -95,7 +102,7 @@ public class ListPanel extends JPanel implements ActionListener {
 //    	addPersonB.setPreferredSize(new Dimension(50,10));
     	  
     	
-        
+//        
         Dimension dim = new Dimension(250, 250);
         pane.setSize(dim);
         pane.setPreferredSize(pane.getSize());

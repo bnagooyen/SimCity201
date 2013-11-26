@@ -2,6 +2,8 @@ package simcity.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
@@ -13,7 +15,7 @@ import javax.imageio.ImageIO;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 
-public class CityPanel extends TSimCityPanel implements MouseMotionListener {
+public class CityPanel extends TSimCityPanel implements ActionListener, MouseMotionListener {
 
 	public static final int CITY_WIDTH = 575, CITY_HEIGHT = 385;
     public static final int streetWidth = 30;
@@ -32,6 +34,8 @@ public class CityPanel extends TSimCityPanel implements MouseMotionListener {
     private BufferedImage bank = null;
     private BufferedImage market = null;
     
+    
+    
 	boolean addingObject = false;
 	CityComponent temp;
 	
@@ -41,7 +45,24 @@ public class CityPanel extends TSimCityPanel implements MouseMotionListener {
 		super(city);
 		this.setPreferredSize(new Dimension(CITY_WIDTH, CITY_HEIGHT));
 		this.setVisible(true);
-		background = new Color(50, 64, 0);
+		background = Color.white;
+		
+		
+	 	  try {
+              StringBuilder path = new StringBuilder("images"+ File.separator);
+              houseL = ImageIO.read(new File(path.toString() + "houseL.png"));
+              houseR = ImageIO.read(new File(path.toString() + "houseR.png"));
+              apartmentR = ImageIO.read(new File(path.toString() + "apartmentR.png"));
+              apartmentL = ImageIO.read(new File(path.toString() + "apartmentL.png"));
+              market= ImageIO.read(new File(path.toString() + "market.png"));
+              bank = ImageIO.read(new File(path.toString() + "bank.png"));
+              restaurant=ImageIO.read(new File(path.toString() + "restaurant.png"));
+              
+      } catch (IOException e) {
+    	  System.out.println("couldn't find file");
+      }
+    	
+
 		
 		//buildings col1
 		this.addStatic(new CityHouse(yardSpace, streetWidth+sidewalkWidth));
@@ -99,47 +120,99 @@ public class CityPanel extends TSimCityPanel implements MouseMotionListener {
 		this.addStatic(new CityHouse( 4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+3*housingLength+ sidewalkWidth+ 3*parkingGap, "House 15"));
 		this.addStatic(new CityHomelessShelter(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
 		
-		int counter=0;
-		int i=yardSpace+housingWidth;
-		while(i<550) {
-			this.addStatic(new CityRoad(i, RoadDirection.VERTICAL, Color.gray));
+		
+		//drawing images
+		
+		
+		//buildings col1
+		this.addStatic(new CityBuildingImage(yardSpace, streetWidth+sidewalkWidth, houseR));
+		this.addStatic(new CityBuildingImage(yardSpace, streetWidth+sidewalkWidth+housingLength+ parkingGap, apartmentR));
+		this.addStatic(new CityBuildingImage(yardSpace, streetWidth+sidewalkWidth+2*housingLength+ 2*parkingGap, houseR));
+		this.addStatic(new CityBuildingImage(yardSpace, streetWidth+sidewalkWidth+3*housingLength+ 3*parkingGap, apartmentR));
+		this.addStatic(new CityBuildingImage(yardSpace, streetWidth+sidewalkWidth+4*housingLength+ 5*parkingGap, houseR));
+		
+		//buildings col2
+		this.addStatic(new CityBuildingImage(yardSpace+housingWidth+2*sidewalkWidth+streetWidth, streetWidth+sidewalkWidth, market));
+		this.addStatic(new CityBuildingImage(yardSpace+housingWidth+2*sidewalkWidth+streetWidth, streetWidth+housingLength+ sidewalkWidth + parkingGap, houseL));
+		this.addStatic(new CityBuildingImage(yardSpace+housingWidth+2*sidewalkWidth+streetWidth, streetWidth+2*housingLength+ sidewalkWidth+ 2*parkingGap, apartmentL));
+		this.addStatic(new CityBuildingImage(yardSpace+housingWidth+2*sidewalkWidth+streetWidth, streetWidth+3*housingLength+ sidewalkWidth+ 3*parkingGap, houseL));
+		this.addStatic(new CityBuildingImage(yardSpace+housingWidth+2*sidewalkWidth+streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap, bank));
+		
+		//buildings col3
+		this.addStatic(new CityBuildingImage(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth, streetWidth+sidewalkWidth, restaurant));
+		this.addStatic(new CityBuildingImage(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth, streetWidth+housingLength + sidewalkWidth+ parkingGap, apartmentR));
+		this.addStatic(new CityBuildingImage(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth, streetWidth+2*housingLength+ sidewalkWidth+ 2*parkingGap, houseR));
+		this.addStatic(new CityBuildingImage(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth, streetWidth+3*housingLength+ sidewalkWidth+ 3*parkingGap, apartmentR));
+		this.addStatic(new CityBuildingImage(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap, restaurant));
+		
+		//buildings col4
+		this.addStatic(new CityBuildingImage(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+sidewalkWidth, restaurant));
+		this.addStatic(new CityBuildingImage(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+housingLength+ sidewalkWidth+ parkingGap, houseL));
+		this.addStatic(new CityBuildingImage(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+2*housingLength+ sidewalkWidth+ 2*parkingGap, apartmentL));
+		this.addStatic(new CityBuildingImage( 2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+3*housingLength+ sidewalkWidth+ 3*parkingGap, houseL));
+		this.addStatic(new CityBuildingImage(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap, market));
+		
+		//buildings col5
+		this.addStatic(new CityBuildingImage(3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+sidewalkWidth, restaurant));
+		this.addStatic(new CityBuildingImage(3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+housingLength+ sidewalkWidth+ parkingGap, apartmentR));
+		this.addStatic(new CityBuildingImage(3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+2*housingLength+ sidewalkWidth+ 2*parkingGap, houseR));
+		this.addStatic(new CityBuildingImage( 3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+3*housingLength+ sidewalkWidth+ 3*parkingGap, apartmentR));
+		this.addStatic(new CityBuildingImage(3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap, restaurant));
+		
+		//buildings col6
+		this.addStatic(new CityBuildingImage(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+sidewalkWidth, market));
+		this.addStatic(new CityBuildingImage(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+housingLength+ sidewalkWidth+ parkingGap, houseL));
+		this.addStatic(new CityBuildingImage(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+2*housingLength+ sidewalkWidth+ 2*parkingGap, apartmentL));
+		this.addStatic(new CityBuildingImage( 3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+3*housingLength+ sidewalkWidth+ 3*parkingGap, houseL));
+		this.addStatic(new CityBuildingImage(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap, restaurant));
+		
+		//buildings col7
+		this.addStatic(new CityBuildingImage(4*yardSpace+6*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+sidewalkWidth, bank));
+		this.addStatic(new CityBuildingImage(4*yardSpace+6*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+housingLength+ sidewalkWidth+ parkingGap, houseR));
+		this.addStatic(new CityBuildingImage(4*yardSpace+6*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+2*housingLength+ sidewalkWidth+ 2*parkingGap, apartmentR));
+		this.addStatic(new CityBuildingImage( 4*yardSpace+6*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+3*housingLength+ sidewalkWidth+ 3*parkingGap, houseR));
+		this.addStatic(new CityBuildingImage(4*yardSpace+6*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap, market));
+		
+		//buildings col8
+		this.addStatic(new CityBuildingImage(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+sidewalkWidth, apartmentL));
+		this.addStatic(new CityBuildingImage(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+housingLength+ sidewalkWidth+ parkingGap, houseL));
+		this.addStatic(new CityBuildingImage(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+2*housingLength+ sidewalkWidth+ 2*parkingGap,apartmentL));
+		this.addStatic(new CityBuildingImage( 4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+3*housingLength+ sidewalkWidth+ 3*parkingGap, houseL));
+		this.addStatic(new CityHomelessShelter(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+		
+	 	  
+	 		int counter=0;
+			int i=yardSpace+housingWidth;
+			while(i<550) {
+				this.addStatic(new CityRoad(i, RoadDirection.VERTICAL, Color.gray));
 
-			if(counter%2==0) i += streetWidth+sidewalkWidth;
-			else i += 2*housingWidth+ streetWidth;
-			counter++;
-		}
-		
-		this.addStatic(new CityRoad(streetWidth, RoadDirection.HORIZONTAL, Color.gray));
-		this.addStatic(new CityRoad(streetWidth+5*housingLength+ sidewalkWidth+ 5*parkingGap, RoadDirection.HORIZONTAL, Color.gray));
-		
-		int w=housingWidth+streetWidth;
-		while(w<500) {
-			this.addStatic(new CityRoad(w, RoadDirection.VERTICAL, Color.DARK_GRAY));
+				if(counter%2==0) i += streetWidth+sidewalkWidth;
+				else i += 2*housingWidth+ streetWidth;
+				counter++;
+			}
+			
+			this.addStatic(new CityRoad(streetWidth, RoadDirection.HORIZONTAL, Color.gray));
+			this.addStatic(new CityRoad(streetWidth+5*housingLength+ sidewalkWidth+ 5*parkingGap, RoadDirection.HORIZONTAL, Color.gray));
+			
+			int w=housingWidth+streetWidth;
+			while(w<500) {
+				this.addStatic(new CityRoad(w, RoadDirection.VERTICAL, Color.DARK_GRAY));
 
-			w+=2*sidewalkWidth+2*housingWidth+yardSpace+streetWidth;
-		}
-		
-		this.addStatic(new CityRoad(0, RoadDirection.HORIZONTAL, Color.DARK_GRAY));
-		this.addStatic(new CityRoad(streetWidth+5*housingLength+ sidewalkWidth+ 5*parkingGap+sidewalkWidth, RoadDirection.HORIZONTAL, Color.DARK_GRAY));
-		
+				w+=2*sidewalkWidth+2*housingWidth+yardSpace+streetWidth;
+			}
+			
+			this.addStatic(new CityRoad(0, RoadDirection.HORIZONTAL, Color.DARK_GRAY));
+			this.addStatic(new CityRoad(streetWidth+5*housingLength+ sidewalkWidth+ 5*parkingGap+sidewalkWidth, RoadDirection.HORIZONTAL, Color.DARK_GRAY));
+			
+	 	  
+	
 		addMouseListener(this);
 		addMouseMotionListener(this);
-	
-		 try {
-             StringBuilder path = new StringBuilder("images"+ File.separator);
-             houseL = ImageIO.read(new File(path.toString() + "houseL.png"));
-             houseR = ImageIO.read(new File(path.toString() + "houseR.png"));
-             apartmentR = ImageIO.read(new File(path.toString() + "apartmentR.png"));
-             apartmentL = ImageIO.read(new File(path.toString() + "apartmentL.png"));
-             market=ImageIO.read(new File(path.toString() + "market.png"));
-             bank = ImageIO.read(new File(path.toString() + "bank.png"));
-             restaurant=ImageIO.read(new File(path.toString() + "restaurantT.png"));
-             
-		     } catch (IOException e) {
-		   	  System.out.println("couldn't find file");
-		     }
-	
+
+		 
 	}
+	
+
 	
 	public void mouseClicked(MouseEvent arg0) {
 		

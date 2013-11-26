@@ -4,18 +4,26 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
+import simcity.Transportation.BusAgent;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.TracePanel;
+import simcity.interfaces.Person;
 
 public class CityGui extends JFrame {
 	
 	CityPanel city;
 	TListPanel info;
-	TListPanel cityInfo;
+	private SimCityPanel simcityPanel = new SimCityPanel(this);
+	private ListPanel addPersonPanel=new ListPanel(simcityPanel, "Person");
+	private ArrayList<Person> people = new ArrayList<Person>();
+	BusAgent b = new BusAgent();
 	CityView view;
 	//CityControlPanel CP;
 	TracePanel tracePanel;
@@ -63,12 +71,26 @@ public class CityGui extends JFrame {
 		
 		this.setLayout(new BorderLayout());
 		
-		cityInfo = new TListPanel(this);
+//		cityInfo = new TListPanel(this);
+//		
+//		add(cityInfo, BorderLayout.WEST);
 		
-		add(cityInfo, BorderLayout.WEST);
 //		c.gridx = 0; c.gridy = 0;
 //		c.gridwidth = 6; c.gridheight = 6;
+		
+		
+		
 		add(city, BorderLayout.CENTER);
+		
+		
+        JPanel cityPanels = new JPanel();
+        cityPanels.setLayout(new GridLayout(1,1));
+//        cityPanels.setMaximumSize(new Dimension((int)(SIMCITYX*0.25), (200)));
+//        cityPanels.setPreferredSize(new Dimension((int)(SIMCITYX*0.25), (200)));
+//        cityPanels.setMinimumSize(new Dimension((int)(SIMCITYX*0.25), (200)));
+        cityPanels.add(addPersonPanel);
+        
+        add(cityPanels, BorderLayout.WEST);
 		
 
 //		c.gridx = 0; c.gridy = 6;
