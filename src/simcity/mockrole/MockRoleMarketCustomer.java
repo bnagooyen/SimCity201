@@ -20,8 +20,8 @@ public class MockRoleMarketCustomer extends MockRole implements MarketCustomer{
 	public customerState state;
 	public MockRoleMarketCashier mc;
 	
-	public MockRoleMarketCustomer(String name, PersonAgent p) {
-		super(name, p);
+	public MockRoleMarketCustomer(String name) {
+		super(name);
 		this.name = name;
 		log = new EventLog();
 		

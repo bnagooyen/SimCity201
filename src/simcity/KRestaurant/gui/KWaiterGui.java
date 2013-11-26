@@ -201,4 +201,9 @@ public class KWaiterGui implements KGui {
     public int getYPos() {
         return yPos;
     }
+
+	public void DoGoHome() {
+		xDestination = -20;
+    	yDestination = -20;
+	}
 }

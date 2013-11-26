@@ -52,7 +52,7 @@ public class LCookRole extends Role implements LCook {
 
 	public LCookRole(){
 		super();
-		this.name = p.getName();
+		//this.name = p.getName();
 		foods.put("P", new Food("P", 700, 2, 5, 2)); //choice, cookTime, amount, capacity, threshold
 		foods.put("St", new Food("St", 1000, 2, 5, 2));
 		foods.put("S", new Food("S", 500, 1, 5, 2));
@@ -63,6 +63,9 @@ public class LCookRole extends Role implements LCook {
 //		markets.add(new MyMarket(m));
 //	}
 
+	public void setCashier(LCashier c){
+		cashier = c;
+	}
 
 	// Messages
 

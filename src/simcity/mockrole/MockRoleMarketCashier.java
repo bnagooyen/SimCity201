@@ -27,8 +27,8 @@ public class MockRoleMarketCashier extends MockRole implements MarketCashier{
 	public MockInventoryBoy ib;
 	public MarketManagerRole m;
 	
-	public MockRoleMarketCashier(String name, PersonAgent p) {
-		super(name, p);
+	public MockRoleMarketCashier(String name) {
+		super(name);
 		this.name = name;
 		log = new EventLog();
 	}

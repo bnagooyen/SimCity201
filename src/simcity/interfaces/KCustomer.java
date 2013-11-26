@@ -35,5 +35,6 @@ public interface KCustomer {
 	 */
 	//public abstract void YouOweUs(double remaining_cost);
 	public abstract void msgGoToSeeWaiter();
+	public abstract void msgRestaurantClosed();
 
 }

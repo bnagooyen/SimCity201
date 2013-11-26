@@ -40,7 +40,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	
 	public InventoryBoyRole() {
 		super();
-		this.p = p;
+		//this.p = p;
 		log = new EventLog();
 		
 		// populate inventory
@@ -71,7 +71,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 		Do("Told to go home");
 		LoggedEvent e = new LoggedEvent("told to go home");
 		log.add(e);
-		p.money += paycheck;
+		myPerson.money += paycheck;
 		s = state.leave;
 		stateChanged();
 	}
