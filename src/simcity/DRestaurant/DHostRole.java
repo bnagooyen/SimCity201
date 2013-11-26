@@ -7,6 +7,7 @@ import simcity.DRestaurant.DHostRole.MyWaiter.MyWaiterState;
 import simcity.DRestaurant.gui.DHostGui;
 import agent.Agent;
 import agent.Role;
+import simcity.interfaces.DCook;
 import simcity.interfaces.DCustomer;
 import simcity.interfaces.DHost;
 import simcity.interfaces.DWaiter;
@@ -34,7 +35,7 @@ public class DHostRole extends Role implements DHost {
 	DCustomerRole custLeavingWaitlist;
 	DCustomerRole sendFullMsgTo;
 	
-	DCookRole myCook = null;
+	DCook myCook = null;
 	
 	//list of waiters
 	public List<MyWaiter> waiters =  Collections.synchronizedList(new ArrayList<MyWaiter>());
@@ -335,7 +336,7 @@ public class DHostRole extends Role implements DHost {
 		return hostGui;
 	}
 	
-	public void msgAddWaiter(DWaiterRole w) {
+	public void msgAddWaiter(DWaiter w) {
 		//waiters.add(w);
 		waiters.add(new MyWaiter(w));
 		System.out.println("waiter "+ w.getName() +" added to host list");
@@ -345,18 +346,18 @@ public class DHostRole extends Role implements DHost {
 		
 	}
 	
-	public void addCook(DCookRole c) {
+	public void addCook(DCook c) {
 		myCook = c;
 		c.setMonitor(theMonitor);
 	}
 	
 	static public class MyWaiter {
 		
-		DWaiterRole w;
+		DWaiter w;
 		enum MyWaiterState {working, onBreak, atFront, requestedBreak};
 		MyWaiterState state;
 		int numCustomers;
-		public MyWaiter(DWaiterRole w2) {
+		public MyWaiter(DWaiter w2) {
 			// TODO Auto-generated constructor stub
 			w=w2;
 			state=MyWaiterState.working;

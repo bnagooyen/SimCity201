@@ -30,4 +30,6 @@ public interface LHost extends Host {
 
  public abstract void msgEmptyTable(int tableNum, LWaiterRole waiter, LCustomer c);
 
+public abstract void setCook(LCook cook);
+
 }

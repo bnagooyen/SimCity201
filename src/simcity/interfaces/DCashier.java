@@ -1,5 +1,7 @@
 package simcity.interfaces;
 
+import simcity.DRestaurant.DWaiterRole;
+
 public interface DCashier {
 
 	public abstract void msgHereIsAPayment(DCustomer cust, int tnum, double valCustPaid);
@@ -9,4 +11,5 @@ public interface DCashier {
 	public abstract double getRegisterAmnt();
 //	public abstract void msgMadeInventoryOrder(int oRDER_ID, double billAmnt, Market a);
 	//public abstract void msgAnswerVerificationRequest(boolean b);
+	public abstract void msgHereForMyBills(DWaiter dWaiterRole);
 }

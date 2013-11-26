@@ -30,5 +30,8 @@ public interface DWaiter {
 	public abstract void msgHereIsACheck(int tnum, double amnt);
 	void msgHereIsABill(DCheck bill);
 	void msgOrderIsReady(int tablenum);
+	public abstract void msgYourCustomerHasArrived();
+	public abstract void msgHereIsAWaitingCustomer(DCustomer c, int tableNum);
+	public abstract String getName();
 	
 }
