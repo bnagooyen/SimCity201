@@ -27,5 +27,7 @@ public interface Drew_Cook {
 	public abstract CookGui getGui();
 
 	public abstract void setMonitor(ProducerConsumerMonitor theMonitor);
+	
+	public abstract void msgGoHome(double pay);
 
 }

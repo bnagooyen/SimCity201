@@ -5,6 +5,7 @@ import simcity.KRestaurant.KMenu.Food;
 import simcity.KRestaurant.gui.KCustomerGui;
 import simcity.KRestaurant.gui.KFoodGui;
 import simcity.KRestaurant.gui.KRestaurantGui;
+import simcity.interfaces.KCashier;
 import simcity.interfaces.KCustomer;
 import agent.Agent;
 import agent.Role;
@@ -41,7 +42,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	// agent correspondents
 	private KHostRole host;
 	private KWaiterRole waiter = null;
-	private KCashierRole cashier = null;
+	private KCashier cashier = null;
 	
 	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
@@ -445,7 +446,9 @@ public class KCustomerRole extends Role implements KCustomer{
 		return customerGui;
 	}
 
-	
+	public void setCashier(KCashier c) {
+		cashier = c;
+	}
 	
 }
 

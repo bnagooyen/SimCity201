@@ -56,7 +56,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
 	public Drew_CustomerRole(){
-		//super(p);
+		super();
 		//this.name = name;
 	}
 
@@ -71,6 +71,12 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 		return name;
 	}
 	// Messages
+	
+	public void msgGoHome() {
+		state=AgentState.Paying;
+		event=AgentEvent.donePaying;
+		stateChanged();
+	}
 
 	public void gotHungry() {//from animation
 		print("I'm hungry");

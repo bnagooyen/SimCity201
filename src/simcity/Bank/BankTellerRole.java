@@ -170,7 +170,7 @@ public class BankTellerRole extends Role implements BankTeller {
 	
 	private void leaveBank() {
 		//DoLeaveBank();
-		//deactivate role ?
+		this.isActive=false;
 	}
 	
 		

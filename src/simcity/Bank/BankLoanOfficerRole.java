@@ -124,6 +124,10 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 			completeLoan();
 			return true;
 		}
+		if(state==bankLoanState.finished) {
+			leaveBank();
+			return true;
+		}
 		return false;
 	}
 
@@ -179,6 +183,11 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		state=bankLoanState.working;
 	}
 
+	private void leaveBank() {
+		//DoLeaveBank();
+		this.isActive=false;
+	}
+	
 	//utilites
 	public MyCustomer GetCustomer() {
 		return customer;

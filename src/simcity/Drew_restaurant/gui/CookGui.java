@@ -26,6 +26,8 @@ public class CookGui implements Gui{
 	public static final int yGrill = 280;
 	public static final int xWindow = 175;
 	public static final int yWindow = 250;
+	public static final int xOffScreen = -40;
+	public static final int yOffScreen = -40;
 	
 	public static final int cookSize = 20;
 
@@ -66,6 +68,12 @@ public class CookGui implements Gui{
 	
     public void goToGrill() {
     	xDestination = xGrill;
+        yDestination = yGrill;
+        justArrived=true;
+    }
+    
+    public void goOffScreen(){
+    	xDestination = xOffScreen;
         yDestination = yGrill;
         justArrived=true;
     }

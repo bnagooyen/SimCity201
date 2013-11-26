@@ -340,10 +340,10 @@ public class KHostRole extends Role implements Host{
 
 
 	//utilities
-	public void addWaiter(KWaiterRole w) {
-		waiters.add(new MyWaiter(w));
-		if(w instanceof KWaiterSharedDataRole) {
-			((KWaiterSharedDataRole) w).setMonitor(theMonitor);
+	public void addWaiter(KWaiterRole kw) {
+		waiters.add(new MyWaiter(kw));
+		if(kw instanceof KWaiterSharedDataRole) {
+			((KWaiterSharedDataRole) kw).setMonitor(theMonitor);
 		}
 	}
 

@@ -21,6 +21,8 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 	public List<MyCustomer> customers
 	= new ArrayList<MyCustomer>();
 	
+	private boolean onDuty;
+	
 	private String name;
 	private Semaphore atDest = new Semaphore(-1,true);
 	private Drew_Host host;
@@ -58,6 +60,12 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 	}
 
 	// Messages
+	
+	public void msgGoHome(double pay){
+		myPerson.money+=pay;
+		onDuty=false;
+		stateChanged();
+	}
 	
 	//Host to waiter to seat customer
 	public void sitAtTable(Drew_Customer c, int table){
@@ -256,6 +264,9 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 		catch(ConcurrentModificationException e) {
 			return false;
 		}
+		if(!onDuty){
+			leaveBank();
+		}
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
@@ -354,6 +365,11 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 		print("Customer Has been given the Bill "+ c.b);
 		c.s=CustomerState.paying;
 		//waitergui.dropOff();
+	}
+	
+	private void leaveBank(){
+		waitergui.goHome();
+		this.isActive=false;
 	}
 
 	//utilities

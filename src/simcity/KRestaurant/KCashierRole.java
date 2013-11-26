@@ -165,6 +165,7 @@ public class KCashierRole extends Role implements KCashier{
 		Do("Going home");
 		isActive = false;
 		goHome = false;
+		host.msgHereIsMoney(myMoney);
 	}
 
 	public void compute(final Order o) {

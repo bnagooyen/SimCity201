@@ -2,6 +2,7 @@ package simcity.Drew_restaurant;
 
 import agent.Role;
 import simcity.PersonAgent;
+import simcity.Bank.BankManagerRole.BankState;
 //import restaurant.Customer.AgentState;
 //import restaurant.gui.WaiterGui;
 import simcity.Drew_restaurant.interfaces.*;
@@ -24,6 +25,9 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 	//with List semantics.
 	
 	public int count=0;		//Keeps track of total # seated
+	public int hour=7;
+	
+	public boolean restaurantOpen;
 	
 	public List<Drew_Customer> waitingCustomers
 	=Collections.synchronizedList( new ArrayList<Drew_Customer>());
@@ -32,6 +36,7 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 	= Collections.synchronizedList(new ArrayList<MyWaiter>());
 	
 	public Drew_Cook cook;
+	public Drew_Cashier cashier;
 	
 	public Collection<Table> tables;
 	//note that tables is typed with Collection semantics.
@@ -41,8 +46,10 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 	//private Semaphore atTable = new Semaphore(0,true);
 
 	public Drew_HostRole() {
-//		super(p);
+		super();
 		// make some tables
+		startHour=11;
+		restaurantOpen=false;
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		for (int ix = 1; ix <= NTABLES; ix++) {
 			Table t = new Table(ix);			
@@ -50,9 +57,26 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 		}
 	}
 	
+	public void timeUpdate(int hr) {
+		hour=hr;
+		stateChanged();
+	}
+	
 	public void addWaiter(Drew_Waiter w){
 		waiters.add(new MyWaiter(w));
 		stateChanged();
+	}
+	
+	public void msgIAmHere(Role person){
+		if(person instanceof Drew_Waiter){
+			waiters.add(new MyWaiter((Drew_Waiter) person));
+		}
+		else if(person instanceof Drew_Cook){
+			cook=(Drew_Cook) person;
+		}
+		else if(person instanceof Drew_Cashier){
+			cashier=(Drew_Cashier)person;
+		}
 	}
 
 	public String getMaitreDName() {
@@ -126,6 +150,18 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
+		if(hour>startHour && !restaurantOpen){
+			openRestaurant();
+			return true;
+		}		
+		if(hour>22 && restaurantOpen){
+			closeRestaurant();
+			return true;
+		}
+		if(!restaurantOpen && !waitingCustomers.isEmpty()){
+			sendHome();
+			return true;
+		}
 		synchronized(tables) {
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
@@ -144,6 +180,29 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 
 	// Actions
 
+	private void openRestaurant(){
+		Do("Opening Restaurant");
+		restaurantOpen=true;
+	}
+	
+	private void closeRestaurant(){
+		Do("Closing Restaurant");
+		restaurantOpen=false;
+		for(MyWaiter w:waiters){
+			w.waiter.msgGoHome(100.0);
+			waiters.remove(w);
+		}
+		cook.msgGoHome(100.0);
+		cook=null;
+		cashier.msgGoHome(100.0);
+		cashier=null;
+	}
+	
+	private void sendHome(){
+		Do("We're Closed, Go Home");
+		waitingCustomers.get(0).msgGoHome();
+	}
+	
 	private void seatCustomer(Drew_Customer customer, Table table) {
 		MyWaiter MW=waiters.get(count%waiters.size());
 		while(MW.onBreak){
@@ -154,6 +213,7 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 		table.setOccupant(customer);
 		waitingCustomers.remove(customer);
 	}
+	
 
 	private void DoSeatCustomer(Drew_Customer customer, Table table, MyWaiter MW) {
 		print("Telling waiter " + MW.waiter.getName() + " to seat " + customer + " at " + table);   //ADD WHICH WAITER YOUR TELLING		

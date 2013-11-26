@@ -37,6 +37,8 @@ public interface Drew_Customer {
 	
 	public abstract void atCashier();
 	
+	public abstract void msgGoHome();
+	
 	
 	//accessors
 	public void setWaiter(Drew_Waiter w);

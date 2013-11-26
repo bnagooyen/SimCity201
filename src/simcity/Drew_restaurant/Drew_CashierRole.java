@@ -2,6 +2,7 @@ package simcity.Drew_restaurant;
 
 import agent.Role;
 import simcity.PersonAgent;
+import simcity.Bank.BankLoanOfficerRole.bankLoanState;
 import simcity.Drew_restaurant.Drew_CashierRole.BillState;
 //import restaurant.WaiterAgent.CustomerState;
 import simcity.Drew_restaurant.gui.Bill;
@@ -41,10 +42,13 @@ public class Drew_CashierRole extends Role implements Drew_Cashier {
 	private  Map<String,Double> prices = new HashMap<String, Double>();
 
 	private Drew_CookRole cook;
+	private boolean onDuty;
 	
 	public EventLog log;
 	public Drew_CashierRole() {
 		this.name = name;
+		
+		onDuty=true;
 		
 		//Initialize price list
 		prices.put("chicken", 10.99);
@@ -62,6 +66,12 @@ public class Drew_CashierRole extends Role implements Drew_Cashier {
 	}
 
 	// Messages
+	
+	public void msgGoHome(double pay){
+		myPerson.money+=pay;
+		onDuty=false;
+		stateChanged();
+	}
 	
 	public void calculateBill(Drew_Waiter w, String choice, int table, Double debt){
 		bills.add(new MyBill(w,table, prices.get(choice.toLowerCase()),debt));
@@ -122,6 +132,9 @@ public class Drew_CashierRole extends Role implements Drew_Cashier {
 			}
 		}
 		}
+		if(!onDuty){
+			leaveBank();
+		}
 		return false;
 	}
 
@@ -146,6 +159,11 @@ public class Drew_CashierRole extends Role implements Drew_Cashier {
 		bill.market.msgHereIsPayment(cook, bill.b);
 		bill.s=BillState.done;
 		print("Paid market $"+bill.b+". Cash remaining $"+Cash);
+	}
+	
+	private void leaveBank(){
+		//GUI
+		this.isActive=false;
 	}
 
 

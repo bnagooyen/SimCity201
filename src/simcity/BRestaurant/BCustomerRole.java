@@ -31,6 +31,7 @@ public class BCustomerRole extends Role implements BCustomer {
 	private BCashier cashier;
 	private BMenu menu;
 	private BCheck mycheck;
+	boolean goHome = false;
 	
 
 	
