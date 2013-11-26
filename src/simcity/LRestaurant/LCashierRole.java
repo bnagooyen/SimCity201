@@ -14,6 +14,7 @@ import simcity.LRestaurant.LCustomerRole.AgentEvent;
 //import simcity.LRestaurant.interfaces.Market;
 import simcity.test.mock.EventLog;
 import simcity.interfaces.LCashier;
+import simcity.interfaces.LCook;
 import simcity.interfaces.LCustomer;
 import simcity.interfaces.LHost;
 import simcity.interfaces.LWaiter;
@@ -34,7 +35,7 @@ public class LCashierRole extends Role implements LCashier {
 	boolean goHome = false;
 	
 	LHost host;
-	LCookRole cook;
+	LCook cook;
 	
 	public List<Order>orders = Collections.synchronizedList(new ArrayList<Order>());
 	public List<Transaction>transactions = Collections.synchronizedList(new ArrayList<Transaction>());
@@ -196,7 +197,7 @@ public class LCashierRole extends Role implements LCashier {
 		this.host = host;
 	}
 	
-	public void setCook(LCookRole cook){
+	public void setCook(LCook cook){
 		this.cook = cook;
 	}
 	
