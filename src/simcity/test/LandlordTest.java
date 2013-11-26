@@ -25,7 +25,8 @@ public class LandlordTest extends TestCase{
 	public void setUp() throws Exception{
 		super.setUp();
 		person = new PersonAgent("Landlord");
-		landlord = new LandlordRole(person);
+		landlord = new LandlordRole();
+		landlord.myPerson = person; 
 		person.addRole(landlord);
 		
 		

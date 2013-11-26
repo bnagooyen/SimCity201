@@ -73,6 +73,7 @@ import simcity.TTRestaurant.TCookRole;
 import simcity.TTRestaurant.TCustomerRole;
 import simcity.TTRestaurant.THostRole;
 import simcity.TTRestaurant.TWaiterRole;
+import simcity.TTRestaurant.TWaiterSharedDataRole;
 import simcity.Transportation.CarAgent;
 import simcity.housing.LandlordRole;
 import simcity.housing.RepairManRole;
@@ -93,6 +94,8 @@ import simcity.interfaces.LCook;
 import simcity.interfaces.LHost;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.Person;
+import simcity.interfaces.TCashier;
+import simcity.interfaces.TCook;
 
 public class SimCityPanel extends JPanel implements MouseListener{
 
@@ -694,7 +697,15 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					cashier = new LCashierRole();
 					((LHost) host).setCook((LCook)cook);
 					((LCook) cook).setCashier((LCashier)cashier);
-			
+					
+			case 6: host = new THostRole(); 
+					cook = new TCookRole();
+					cashier = new TCashierRole();
+					((THostRole) host).setCook((TCookRole)cook);
+					((THostRole) host).setCashier((TCashierRole)cashier); 
+					((TCashierRole)cashier).setHost((THostRole)host); 
+					((TCookRole) cook).setCashier((TCashierRole)cashier);
+					
 			}
 		}
 		
@@ -743,6 +754,14 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					waiters.add(lw);
 					return lw;
 			
+			case 6:
+					TWaiterRole tw = new TWaiterSharedDataRole();
+					tw.setCashier((TCashierRole)cashier); 
+					tw.setCook((TCookRole)cook);
+					tw.setHost((THostRole)host);
+					((THostRole)host).addWaiter(tw); 
+					waiters.add(tw);
+					return tw; 
 					
 			default: return null;
 			}

@@ -149,7 +149,7 @@ public class THostRole extends Role implements Host {
 		stateChanged(); 
 	}
 	
-	public void msgOffBreak(THeadWaiterRole waiter) {
+	public void msgOffBreak(TWaiterSharedDataRole waiter) {
 		int index = 0; 
 		while (waiters.get(index).hw != waiter) {
 			index++; 
@@ -298,19 +298,26 @@ public class THostRole extends Role implements Host {
 
 	//utilities
 	
-	/**
-	public void setWaiter(TWaiterRole wait) {
-		myWaiters waitList = new myWaiters();
-		waitList.setWaiter(wait);
+	public void addWaiter(TWaiterRole wait) {
+		myWaiters waitList = new myWaiters(wait);
 		waiters.add(waitList);
 		wait.setHomePosition(waiters.size() - 1);
 		stateChanged(); 
 	}
-	*/
 
 	public void setGui(THostGui gui) {
 		hostGui = gui;
 	}
+	
+	public void setCook(TCookRole c) {
+		cook = c;
+	}
+
+	
+	public void setCashier(TCashierRole c) {
+		cashier = c;
+	}
+
 
 	public THostGui getGui() {
 		return hostGui;
@@ -318,7 +325,7 @@ public class THostRole extends Role implements Host {
 	
 	class myWaiters {
 		TWaiterRole w;
-		THeadWaiterRole hw; 
+		TWaiterSharedDataRole hw; 
 		WaiterState state;
 		
 		public myWaiters(TWaiterRole r) {
@@ -327,7 +334,7 @@ public class THostRole extends Role implements Host {
 		}
 
 		
-		public void setHeadWaiter(THeadWaiterRole wait) {
+		public void setHeadWaiter(TWaiterSharedDataRole wait) {
 			hw = wait;
 			state = WaiterState.ready; 
 		}
