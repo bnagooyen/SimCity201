@@ -597,7 +597,9 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				else {
 					p.SetHome(HomeType.homeless);
 				}
+				p.startThread();
 				people.add(p);
+				
 			}
 			
 			ApartmentsPerLandlord = NUMAPTS/landlords.size();
@@ -1048,6 +1050,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		List<Person> tenants= new ArrayList<Person>();
 		public MyLandlord(Person per) {
 			p=per;
+			p.SetJob(new LandlordRole());
 		}
 	}
 

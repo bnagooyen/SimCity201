@@ -19,6 +19,7 @@ public class LandlordRole extends Role implements Landlord{
 	final double rentBill = 25; 				//cost of rent each day
 	Random WorkerToday = new Random();			//the worker landlord decides to call that day
 	BankManager bankmanager; 
+	
 	public enum AgentState 
 	{nothing, askingForRent, collectedRent, callMaintanence};
 	private AgentState state = AgentState.nothing;
