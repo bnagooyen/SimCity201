@@ -35,8 +35,8 @@ public class RepairManRole extends Role implements RepairMan {
 	final double bill = 15; 	//constant for the cost of utilities each day
 	Timer timer = new Timer();
 	
-	public RepairManRole(PersonAgent p) {
-		super(p);
+	public RepairManRole() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 	

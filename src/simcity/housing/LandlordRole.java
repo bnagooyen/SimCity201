@@ -217,8 +217,8 @@ public class LandlordRole extends Role implements Landlord{
 			}
 		}
 		}
+		myPerson.money += revenue * .30; 
 		revenue = revenue *.70;
-		//add money to the personAgent
 		state = AgentState.nothing; 
 	}
 	
