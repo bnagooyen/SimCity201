@@ -173,6 +173,7 @@ public class BCookRole extends Role implements BCook {
 		
 		else{
 			checkRotatingStand();
+			return true;
 		}
 		return false;
 	}	
