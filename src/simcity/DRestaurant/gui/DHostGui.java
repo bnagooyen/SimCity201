@@ -1,12 +1,12 @@
 package simcity.DRestaurant.gui;
 
 
+import java.awt.*;
+import java.util.ArrayList;
+
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DHostRole;
 import simcity.DRestaurant.DHostRole.Table;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 public class DHostGui implements DGui {
 

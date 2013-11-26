@@ -24,6 +24,7 @@ import simcity.BRestaurant.BCashierRole;
 import simcity.BRestaurant.BCookRole;
 import simcity.BRestaurant.BCustomerRole;
 import simcity.BRestaurant.BHostRole;
+import simcity.BRestaurant.BWaiterNormalRole;
 import simcity.BRestaurant.BWaiterRole;
 import simcity.Bank.BankCustomerRole;
 import simcity.Bank.BankLoanOfficerRole;
@@ -210,7 +211,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			j = new BHostRole(p);
 		}
 		else if (job.equals("Waiter2")) {
-			j = new BWaiterRole(p);
+			j = new BWaiterNormalRole(p);
 		}
 		
 		// DRestaurant
@@ -224,7 +225,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			j = new DHostRole(p);
 		}
 		else if (job.equals("Waiter3")) {
-			j = new DWaiterRole(p);
+			j = new DWaiterNormalRole(p);
 		}
 		
 		// Drew_Restaurant

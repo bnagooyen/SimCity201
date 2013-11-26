@@ -1,7 +1,7 @@
 package simcity.BRestaurant.gui;
 
 
-
+import simcity.BRestaurant.BWaiterRole; 
 import simcity.PersonAgent;
 import simcity.interfaces.*;
 import simcity.BRestaurant.*;
@@ -20,13 +20,13 @@ import java.util.ArrayList;
  */
 public class BRestaurantPanel extends JPanel {
 	
-	private List<BMarketRole> markets = new ArrayList<BMarketRole>();
+	//private List<BMarketRole> markets = new ArrayList<BMarketRole>();
 	
-	private BWaiterRole waiter = new BWaiterRole("Sarah");
-	private BHostRole host = new BHostRole("Cool Guy");
-	private BCookRole cook= new BCookRole("Cook guy", markets);
+	//private BWaiterRole waiter = new BWaiterRole("Sarah");
+	//private BHostRole host = new BHostRole("Cool Guy");
+	//private BCookRole cook= new BCookRole("Cook guy", markets);
 	
-    private BCashierRole cashier = new BCashierRole();
+    //private BCashierRole cashier = new BCashierRole();
 	
 
 
@@ -48,6 +48,7 @@ public class BRestaurantPanel extends JPanel {
 	
 		//cashier.startThread();
 		
+		/**
 		BMarketRole market1 = new BMarketRole("market1");
 		market1.startThread();
 		market1.setCashier(cashier);
@@ -63,7 +64,7 @@ public class BRestaurantPanel extends JPanel {
 		market3.setCashier(cashier);
 		markets.add(market3);
 		
-		
+		*/
 		
 
 		//waiter.startThread();
@@ -91,8 +92,8 @@ public class BRestaurantPanel extends JPanel {
 		JLabel label = new JLabel();
 		//restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
 		restLabel.setLayout(new BorderLayout());
-		label.setText(
-				"<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + waiter.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
+		//label.setText(
+				//"<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + waiter.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
 
 		restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
 		restLabel.add(label, BorderLayout.CENTER);
@@ -130,7 +131,7 @@ public class BRestaurantPanel extends JPanel {
 	}
 
 
-
+	/**
 	public BWaiterRole getWaiter(){
 		return waiter;
 	}
@@ -140,7 +141,7 @@ public class BRestaurantPanel extends JPanel {
 	}
 
 	public void addPerson(String type, String name, boolean isHungry) {
-
+		/**
 		if (type.equals("Customers")) {
 			BCustomerRole c = new BCustomerRole(name);	
 			BCustomerGui g = new BCustomerGui(c, gui);
@@ -157,10 +158,10 @@ public class BRestaurantPanel extends JPanel {
 			c.startThread();
 		}
 	}
-
+*/
 	public void addWaiter(String type, String name, int counter) {
 
-		
+		/**
 		if (type.equals("Waiters")) {
 			BWaiterRole w = new BWaiterRole(name);	
 			BHostGui g = new BHostGui(w, gui, counter);
@@ -176,6 +177,7 @@ public class BRestaurantPanel extends JPanel {
 			waiters.add(w);
 			w.startThread();
 		}
+		*/
 	}
 
 }

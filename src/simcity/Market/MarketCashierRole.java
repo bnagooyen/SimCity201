@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import simcity.PersonAgent;
-import simcity.restaurant.interfaces.Cashier;
+//import simcity.restaurant.interfaces.Cashier;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import simcity.DRestaurant.DCashierRole;

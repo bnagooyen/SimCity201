@@ -7,5 +7,6 @@ public interface DCashier {
 			DWaiter wa);
 	public abstract void setRegisterAmnt(double amnt);
 	public abstract double getRegisterAmnt();
-	void msgBillFromMarket(double check, MarketCashier marketCashier);
+//	public abstract void msgMadeInventoryOrder(int oRDER_ID, double billAmnt, Market a);
+	//public abstract void msgAnswerVerificationRequest(boolean b);
 }

@@ -2,7 +2,6 @@ package simcity;
 
 import agent.Agent;
 import agent.Role;
-import simcity.restaurant.interfaces.Cashier;
 import simcity.BRestaurant.BCustomerRole;
 import simcity.Bank.BankCustomerRole;
 //import simcity.Bank.BankManagerRole.MyClient;
@@ -13,7 +12,6 @@ import simcity.DRestaurant.gui.DCookGui;
 import simcity.DRestaurant.gui.DCustomerGui;
 import simcity.DRestaurant.gui.DHostGui;
 import simcity.DRestaurant.gui.DWaiterGui;
-import simcity.restaurant.interfaces.*;
 import simcity.KRestaurant.KCustomerRole;
 import simcity.LRestaurant.LCustomerRole;
 import simcity.Market.MarketCustomerRole;
@@ -62,7 +60,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	char aptLet;
 	public enum PersonState { none };
 	public enum EnergyState {tired, asleep, awake, none };
-	public enum LocationState { atHome, inTransit, atWork };
+	public enum LocationState { atHome, inTransit, atWork, Out };
 	public enum TransitState {justLeaving, walkingToBus, onBus, goToCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
 	public enum MoneyState { poor, adequate, rich, haveLoan};
 	private PersonState personState;
@@ -73,7 +71,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	boolean flake;
 	//boolean broke;
-	boolean needToGoToWork = false;
+	public boolean needToGoToWork = false;
 	public boolean activatedRole;
 
 	public PersonGui PersonGui = null;
@@ -136,7 +134,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		else if(job instanceof BCashier || job instanceof BCook || job instanceof BWaiter){
 			jobLocation="brestaurant";
 		}
-		else if(job instanceof Cashier || job instanceof Cook || job instanceof Waiter){
+		else if(job instanceof DCashier || job instanceof Cook /*|| job instanceof DWaiter*/){
 			jobLocation="drestaurant";
 		}
 		else if(job instanceof Drew_Cashier || job instanceof Drew_Cook || job instanceof BWaiter){
@@ -178,9 +176,9 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	// Messages
 	public void msgTimeUpdate(int hr) {
-		Do("got time update. Time is " + hr);
+		Do("got time update. Time is " + hr+" Work Starts at "+myJob.startHour);
 		hour = hr;
-		if(hr == 7) { 
+		if(hr == 6) { 
 			energyState= energyState.awake;
 		}
 		if(hr ==24) { 
@@ -290,19 +288,12 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		if(activatedRole) return anyTrue;
 
 
-		if(locationState==LocationState.atHome && !(energyState==EnergyState.asleep)) {
-			if (needToPayRent) {
-				payRent(); 
-				return true; 
-			}
+		if(locationState!=LocationState.inTransit && !(energyState==EnergyState.asleep)) {
 			if(moneyState==MoneyState.haveLoan){
 				buyCar();
 				return true;
 			}
-			if(energyState==EnergyState.tired) {
-				GoToBed();
-				return true;
-			}
+
 			if(needToGoToWork) {
 				GoToWork();
 				return true;
@@ -324,6 +315,21 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				getCarLoan();
 				return true;
 			}
+			if(energyState==EnergyState.tired && locationState==LocationState.Out) {
+				GoHome();
+				return true;
+			}
+		}
+		
+		if(locationState==LocationState.atHome && !(energyState==EnergyState.asleep)) {
+			if (needToPayRent) {
+				payRent(); 
+				return true; 
+			}
+			if(energyState==EnergyState.tired) {
+				GoToBed();
+				return true;
+			}
 		}
 		
 			//Don't travel if your already in the right place
@@ -332,7 +338,6 @@ public class PersonAgent extends Agent implements Person {//implements Person
 			if (myCar==null){
 				if(transitState==TransitState.justLeaving){
 					walkToBus();
-					
 					return true;
 				}
 
@@ -370,7 +375,6 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	}
 
-
 	// Actions
 
 	private void Die() {
@@ -389,7 +393,6 @@ public class PersonAgent extends Agent implements Person {//implements Person
 			else if(meals>0){
 				Do("Eat at home");
 				mydestination="home";
-				meals--;
 				homePersonGui.makeFood();
 				try {
 					inKitchen.acquire();
@@ -397,6 +400,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				meals--;
 				homePersonGui.goToTable(); 
 				
 				
@@ -416,7 +420,6 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				((MarketCustomerRole) r).populateOrderList("P", 1);
 				homePersonGui.LeaveHouse(); 
 
-
 			}
 			else{
 				energyState=EnergyState.tired;
@@ -435,27 +438,32 @@ public class PersonAgent extends Agent implements Person {//implements Person
 			myLandlord.msgCannotPayForRent(this); 
 		}
 	}
+	
+	private void GoHome() {
+		Do("going home");
+		mydestination="home";
+		locationState=LocationState.inTransit;
+		
+	}
 
 	private void GoToWork() {
 		Do("going to work");
 		mydestination= jobLocation;
 		locationState=LocationState.inTransit;
-		homePersonGui.LeaveHouse(); 
+		//homePersonGui.LeaveHouse(); 					ACTIVATE FOR GUI
 	}
 
 	private void GoToBed() {
-		Do("going to bed");
-		mydestination="home";
-		locationState=LocationState.inTransit;
+		Do("going to bed"); 
 		energyState=EnergyState.asleep;
-		homePersonGui.goToBed();
+		//homePersonGui.goToBed();						ACTIVATE FOR GUI
 
 	}
 
 	private void deposit() {
 		Do("Going to deposit Money");
 		mydestination="bank";
-		homePersonGui.LeaveHouse(); 
+		//homePersonGui.LeaveHouse();						ACTIVATE FOR GUI 
 		locationState=LocationState.inTransit;
 		possibleRoles.get("bank").purpose="deposit";
 		
@@ -464,21 +472,21 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	private void withdraw() {
 		Do("Going to Withdraw Money");
 		mydestination="bank";
-		homePersonGui.LeaveHouse(); 
+		//homePersonGui.LeaveHouse();						ACTIVATE FOR GUI 
 		locationState=LocationState.inTransit;
 		possibleRoles.get("bank").purpose="withdraw";
 
 	}
 
 	private void getCarLoan(){
-		homePersonGui.LeaveHouse(); 
+		//homePersonGui.LeaveHouse(); 						ACTIVATE FOR GUI
 		mydestination="bank";
 		locationState=LocationState.inTransit;
 		possibleRoles.get("bank").purpose="loan";
 	}
 	
 	private void buyCar() {
-		homePersonGui.LeaveHouse(); 
+		//homePersonGui.LeaveHouse();												ACTIVATE FOR GUI 
 		Do("Go buy car");
 		mydestination="market";
 		locationState=LocationState.inTransit;
@@ -541,6 +549,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		
 		if (mydestination != "home") {
 			boolean haveRole=false;
+			locationState=LocationState.Out;
 			neededRole=possibleRoles.get(mydestination);
 	
 			if(needToGoToWork){
@@ -560,6 +569,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 				}
 			}
 		}
+		else if(mydestination.equals("home")) locationState=LocationState.atHome;
 	}
 	// utilities
 
@@ -599,6 +609,10 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	public void setBus(Bus b){
 		bus=b;
+	}
+	
+	public void setBusStop(BusStop b){
+		busStop=b;
 	}
 
 	public void setPanel(SimCityPanel p) {

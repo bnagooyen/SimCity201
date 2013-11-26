@@ -1,17 +1,15 @@
 package simcity.DRestaurant.gui;
 
 
-import simcity.DRestaurant.DCookRole;
-import simcity.DRestaurant.DCustomerRole;
-import simcity.DRestaurant.gui.DCookGui.CookLabel.LabelState;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 
-import javax.swing.JLabel;
+import simcity.DRestaurant.DCookRole;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.gui.DCookGui.CookLabel.LabelState;
 
 public class DCookGui implements DGui {
 
@@ -513,7 +511,7 @@ public class DCookGui implements DGui {
     	String food;
     	int xPos, yPos;
     	boolean isFollowing;
-    	public enum LabelState {ingredient, cooking, cooked, plating, plated};
+    	enum LabelState {ingredient, cooking, cooked, plating, plated};
     	LabelState state;
     	CookLabel(String f, int x, int y) {
 //    		System.err.println(f);

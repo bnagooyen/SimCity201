@@ -9,10 +9,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import simcity.PersonAgent;
+import simcity.Bank.BankManagerRole;
 import simcity.gui.ListPanel;
 import simcity.gui.SimCityAnimationPanel;
 import simcity.interfaces.Person;
@@ -25,6 +29,8 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 	
 	private SimCityPanel simcityPanel = new SimCityPanel(this);
 	private ListPanel addPersonPanel=new ListPanel(simcityPanel, "Person");
+	private ArrayList<Person> people = new ArrayList<Person>();
+
 	JPanel buildingPanels;
 	CardLayout cl;
 	
@@ -38,6 +44,13 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 		setLayout(new BorderLayout()); 
 	    add(simCityAnimationPanel, BorderLayout.CENTER);
 	
+	    PersonAgent person = new PersonAgent("Drew");
+	    BankManagerRole bm = new BankManagerRole(person); 
+	    person.SetJob(bm);
+	    person.startThread(); 
+		people.add(person);
+		startTimer();
+	    
 	         
 	         JPanel cityPanels = new JPanel();
 	         cityPanels.setLayout(new GridLayout(1,1));
@@ -92,6 +105,7 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
         cl.show( buildingPanels, bp.getName() );
 }
 	
+	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -124,5 +138,30 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void startTimer() {
+		Timer timer;
+	    
+		 class RemindTask extends TimerTask {
+			 int counter= 5;
+		        @Override
+				public void run() {
+		        	if(counter <25) {
+		                 System.out.println("hour is " + counter);
+		                 for(Person p: people) {
+		                	 p.msgTimeUpdate(counter);
+		                 }
+		                 counter++;
+		                 if (counter == 25) {
+		                	 counter = 1;
+		                 }
+		        	}
+		        }
+		 }
+	     timer = new Timer();
+	     timer.schedule(new RemindTask(),
+	                       0,        //initial delay
+	                       1*12000);  //subsequent rate		
 	}
 }

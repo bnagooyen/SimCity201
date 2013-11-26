@@ -1,10 +1,10 @@
 package simcity.DRestaurant.gui;
 
 
+import java.awt.*;
+
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DWaiterRole;
-
-import java.awt.*;
 
 public class DWaiterGui implements DGui {
 

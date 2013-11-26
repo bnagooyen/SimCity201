@@ -55,11 +55,13 @@ public class DAnimationPanel extends JPanel implements ActionListener {
     	timer.start();
     }
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		repaint();  //Will have paintComponent called
 	}
 
-    public void paintComponent(Graphics g) {
+    @Override
+	public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
 
         //Clear the screen by painting a rectangle the size of the frame

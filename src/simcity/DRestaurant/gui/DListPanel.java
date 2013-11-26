@@ -1,11 +1,10 @@
 package simcity.DRestaurant.gui;
 
+import javax.swing.*;
+
 import simcity.DRestaurant.DCustomerRole;
-import simcity.DRestaurant.DHostRole;
 import simcity.DRestaurant.DWaiterRole;
 import simcity.PersonAgent;
-
-import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -106,7 +105,7 @@ public class DListPanel extends JPanel implements ActionListener {
         
       
         
-        view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
+        view.setLayout(new BoxLayout(view, BoxLayout.Y_AXIS));
         
         functionalities.add(addCust);
         
@@ -121,7 +120,8 @@ public class DListPanel extends JPanel implements ActionListener {
      * Method from the ActionListener interface.
      * Handles the event of the add button being pressed
      */
-    public void actionPerformed(ActionEvent e) {
+    @Override
+	public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addPersonB) {
         	// Chapter 2.19 describes showInputDialog()
             //addPerson(JOptionPane.showInputDialog("Please enter a name:"));
@@ -142,22 +142,24 @@ public class DListPanel extends JPanel implements ActionListener {
                 JButton temp = list.get(i);*/
         	for (int i=0; i<list.size(); i++){
                 if (e.getSource() == list.get(i)) {
-//                	System.err.println("actionperformed listpanel");
+//                	System.out.println("yup");
+//                	System.err.println(pplList.get(i).getText());
                     currentPerson=restPanel.showInfo(type, pplList.get(i).getText());
 //                    System.err.println(currentPerson);
                     if (currentPerson instanceof DCustomerRole) {
                     	list.get(i).setEnabled(false);
                         DCustomerRole c = (DCustomerRole) currentPerson;
                         c.getGui().setHungry();
-       
+                        //System.out.println("found!");
                         
                     }
                     else if (currentPerson instanceof PersonAgent) {
-//                    	System.err.println("list panel action performed");
+//                    	System.out.println("yupyup");
                     	list.get(i).setEnabled(false);
                         PersonAgent p = (PersonAgent) currentPerson;
                         p.getGui().setHungry();
-                
+                 
+//                        System.err.println("found!");
                         
                     }
                     else if(currentPerson instanceof DWaiterRole) {
@@ -191,8 +193,10 @@ public class DListPanel extends JPanel implements ActionListener {
         	JPanel myPerson = new JPanel();
         	myPerson.setLayout(new BorderLayout());
             JLabel button = new JLabel(name, SwingConstants.CENTER);
+//            System.err.println("addPerson");
             button.setBorder(BorderFactory.createLineBorder(Color.black));
             if(type == "Customers") {
+//            	System.err.println("eeeeee");
 	            JCheckBox custStateCB = new JCheckBox();
 	            custStateCB.setText("Hungry?");
 	            custStateCB.addActionListener(this);
@@ -203,7 +207,7 @@ public class DListPanel extends JPanel implements ActionListener {
 
 	                 Dimension paneSize = pane.getSize();
 	                 Dimension buttonSize = new Dimension(paneSize.width - 110,
-	                         (int) (paneSize.height / 7));
+	                         paneSize.height / 7);
 	                 button.setPreferredSize(buttonSize);
 	                 button.setMinimumSize(buttonSize);
 	                 button.setMaximumSize(buttonSize);
@@ -226,15 +230,17 @@ public class DListPanel extends JPanel implements ActionListener {
                 	//list.get(i).setEnabled(false);
                     DCustomerRole c = (DCustomerRole) currentPerson;
                     c.getGui().setHungry();
-                    System.out.println("found!");
+//                    System.out.println("found!");
                     return;
 	                 
 	            }
 	            
 	            list.add(custStateCB);
 	            myPerson.add(custStateCB, BorderLayout.EAST);
+//	       	 	System.err.println("added button");
             }
             else if(type == "Person") {
+//            	System.out.println("ayayayayya");
 	            JCheckBox custStateCB = new JCheckBox();
 	            custStateCB.setText("Hungry?");
 	            custStateCB.addActionListener(this);
@@ -245,7 +251,7 @@ public class DListPanel extends JPanel implements ActionListener {
 
 	                 Dimension paneSize = pane.getSize();
 	                 Dimension buttonSize = new Dimension(paneSize.width - 110,
-	                         (int) (paneSize.height / 7));
+	                         paneSize.height / 7);
 	                 button.setPreferredSize(buttonSize);
 	                 button.setMinimumSize(buttonSize);
 	                 button.setMaximumSize(buttonSize);
@@ -268,15 +274,16 @@ public class DListPanel extends JPanel implements ActionListener {
                 	//list.get(i).setEnabled(false);
                     PersonAgent c = (PersonAgent) currentPerson;
                     c.getGui().setHungry();
-                    System.out.println("found!");
+//                    System.out.println("found!");
                     return;
 	                 
 	            }
 	            else {
+//	            	System.err.println("asdkljfldsjflk");
 	            pplList.add(button);
 	            list.add(custStateCB);
 	            myPerson.add(custStateCB, BorderLayout.EAST);
-	       	 	System.err.println("added button.. "+ list.size());
+//	       	 	System.err.println("added button");
 	            }
             }
             else {
@@ -290,7 +297,7 @@ public class DListPanel extends JPanel implements ActionListener {
 
             Dimension paneSize = pane.getSize();
             Dimension buttonSize = new Dimension(paneSize.width - 110,
-                    (int) (paneSize.height / 7));
+                    paneSize.height / 7);
             button.setPreferredSize(buttonSize);
             button.setMinimumSize(buttonSize);
             button.setMaximumSize(buttonSize);
