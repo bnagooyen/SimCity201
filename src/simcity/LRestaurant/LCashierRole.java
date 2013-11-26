@@ -192,6 +192,14 @@ public class LCashierRole extends Role implements LCashier {
 
 	//utilities
 
+	public void setHost(LHost host){
+		this.host = host;
+	}
+	
+	public void setCook(LCookRole cook){
+		this.cook = cook;
+	}
+	
 	public class Food{
 		String choice;
 		int price;
