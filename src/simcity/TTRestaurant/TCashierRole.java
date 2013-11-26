@@ -12,6 +12,8 @@ import simcity.interfaces.TCashier;
 
 
 
+
+
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -29,6 +31,7 @@ public class TCashierRole extends Role implements TCashier{
 	private String name;
 	public double budget = 100;
 	public double debt = 0; 
+    boolean arrived;
 	public List<Customers> payingCustomers
 	= Collections.synchronizedList(new ArrayList<Customers>());
 	public List<Waiters> waiters
@@ -36,6 +39,7 @@ public class TCashierRole extends Role implements TCashier{
 	public List<Markets> markets 
 	= new ArrayList<Markets>(); 
 
+	THostRole host;
 	boolean goHome = false;
 	private TCookRole cook;
 	Map<String, Double> Menu = new HashMap<String, Double>(4);
@@ -135,6 +139,10 @@ public class TCashierRole extends Role implements TCashier{
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if(arrived) {
+			tellHost();
+			return true;
+		}
 		if (!waiters.isEmpty()) {
 			calculateBill(waiters.get(0).thisWaiter); 
 			return true; 
@@ -163,6 +171,12 @@ public class TCashierRole extends Role implements TCashier{
 
 	// Actions
 
+	private void tellHost() {
+		Do("telling manager I can work");
+		arrived = false;
+		host.msgIAmHere(this, "Cashier");
+	}
+	
 	private void calculateBill(TWaiter wait) {
 		print("Calculating bill for waiter."); 
 		int index = 0; 
@@ -223,7 +237,9 @@ public class TCashierRole extends Role implements TCashier{
 		goHome = false;
 	}
 	
-	
+	public void setHost(THostRole h) {
+		host = h;
+	}
 
 	public void addFood() {
 		Menu.put("Steak", 15.99); 

@@ -11,6 +11,8 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
+import simcity.KRestaurant.KCookRole;
+import simcity.KRestaurant.KHostRole;
 import simcity.KRestaurant.KRestaurantOrder;
 import simcity.KRestaurant.ProducerConsumerMonitor;
 import simcity.KRestaurant.KCookRole.marketOrderState;
@@ -30,7 +32,8 @@ public class TCookRole extends Role implements TCook {
 	Timer timer = new Timer();
 	private String name; 
 	public boolean buyingFood = false;
-	private boolean unFullfilled = false; 
+	private boolean unFullfilled = false;
+    boolean arrived;
 	public TCookGui cookGui = null;  
 	public List<Orders> orders
 	= Collections.synchronizedList(new ArrayList<Orders>());
@@ -42,6 +45,7 @@ public class TCookRole extends Role implements TCook {
 	= Collections.synchronizedList(new ArrayList<Market>());
 	enum MarketState  
 	{none, waiting, paying}; 
+	THostRole host;
 	boolean goHome = false;
 	
 	public TCookRole() {
@@ -155,6 +159,10 @@ public class TCookRole extends Role implements TCook {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if(arrived) {
+			tellHost();
+			return true;
+		}
 		synchronized(markets) {
 			for (Market m:markets) {
 				if( m.state == MarketState.paying ){
@@ -239,6 +247,12 @@ public class TCookRole extends Role implements TCook {
 	}
 
 	// Actions
+
+	private void tellHost() {
+		Do("telling manager I can work");
+		arrived = false;
+		host.msgIAmHere(this, "Cook");
+	}
 
 	private void cookFood(final int orderNumber) {
 		//goToFridge(); 
@@ -381,6 +395,10 @@ public class TCookRole extends Role implements TCook {
 		markets.add(m);
 	}
 	*/
+	
+	public void setHost(THostRole h) {
+		host = h;
+	}
 
 	public void addFood() {
 		/**
