@@ -43,6 +43,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	private Timer timer;
     public EventLog log;
 
+    boolean arrived;
 	int homepos;
 	
 	public WaiterState mystate;
@@ -214,6 +215,10 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if(arrived) {
+			tellHost();
+			return true;
+		}
 		if ( mystate == WaiterState.wantToGoOnBreak ) {
 			askToGoOnBreak();
 			return true;
@@ -317,6 +322,12 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	}
 
 	// Actions
+
+	private void tellHost() {
+		Do("telling manager I can work");
+		arrived = false;
+		host.msgIAmHere(this, "waiter");
+	}
 
 	private void goHome() {
 		Do("going home");

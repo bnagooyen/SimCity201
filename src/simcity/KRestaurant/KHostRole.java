@@ -9,9 +9,11 @@ import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.KCustomer;
 import simcity.interfaces.Host;
 import simcity.interfaces.MarketCustomer;
+import simcity.test.mock.LoggedEvent;
 import simcity.KRestaurant.gui.KRestaurantGui;
 import simcity.Market.MarketManagerRole.MyCustomer;
 import simcity.Market.MarketManagerRole.MyMarketCashier;
+import simcity.Market.MarketManagerRole.workerState;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -100,6 +102,31 @@ public class KHostRole extends Role implements Host{
 		this.hour = hour;
 		restaurantMoney = 50000.0;
 	}
+	public void msgIAmHere(Role r, String type){
+		
+		if(type.equals("waiter")){
+			Do("Waiter is here");
+			waiters.add(new MyWaiter((KWaiterRole) r));
+		}
+		else if(type.equals("cook")){
+			Do("Cook is here");
+			myCook = (KCookRole)r;
+		}
+		else if(type.equals("cashier")){
+			Do("Cashier is here");
+			myCashier = (KCashierRole) r;
+		}
+		
+		if(!waiters.isEmpty() && myCook != null && myCashier != null){
+			isClosed = false;
+		}
+		else{
+			isClosed = true;
+		}
+		
+		stateChanged();
+	}
+	
 	
 	public void msgIWantFood(KCustomerRole cust) {
 		System.out.println("got msg from customer, he's hungry");
@@ -175,12 +202,12 @@ public class KHostRole extends Role implements Host{
 	 */
 	public boolean pickAndExecuteAnAction() {
 		
-		if(hour == 20 && !isClosed){
+		if(hour == 21 && !isClosed){
 			closeRestaurant();
 			return true;
 		}
 		
-		if(isClosed){
+		if(hour == 20 || isClosed){
 			restaurantClosed();
 			return true;
 		}

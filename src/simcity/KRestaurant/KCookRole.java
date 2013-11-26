@@ -28,6 +28,8 @@ public class KCookRole extends Role implements KCook{
 	
 	private ProducerConsumerMonitor theMonitor;
 	
+	private KHostRole host;
+	
 	public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	public Map<String, Food > foods = Collections.synchronizedMap( new HashMap<String, Food>()); 
 	public List<MarketManager> markets =Collections.synchronizedList( new ArrayList<MarketManager>());
@@ -43,6 +45,7 @@ public class KCookRole extends Role implements KCook{
 	private Semaphore atFridge = new Semaphore(0,true);
 	private Semaphore atPlating = new Semaphore(0, true);
 	
+	private boolean arrived; 
 	public boolean goHome = false;
 	public boolean needToOrder;
 	private KRestaurantGui gui;
@@ -147,6 +150,10 @@ public class KCookRole extends Role implements KCook{
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if(arrived){
+			tellHost();
+			return true;
+		}
 		synchronized(marketOrders) {
 			for(MarketOrder m : marketOrders) {
 				if(m.state == marketOrderState.arrived) {
@@ -195,7 +202,11 @@ public class KCookRole extends Role implements KCook{
 	
 	// Actions
 
-	
+	private void tellHost() {
+		Do("telling manager I'm here to work");
+		arrived = false;
+		host.msgIAmHere(this, "cook");
+	}
 
 	private void goHome() {
 		Do("going home");
@@ -345,6 +356,9 @@ public class KCookRole extends Role implements KCook{
 	
 	
 	//utilities
+	public void setHost(KHostRole h) {
+		host = h;
+	}
 	
 	public void setInitial(KRestaurantGui gui) {
 		this.gui = gui;

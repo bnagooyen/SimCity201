@@ -27,12 +27,15 @@ public class KCashierRole extends Role implements KCashier{
 	private double myMoney;
 	
 	boolean goHome = false;
+	boolean arrived;
 	
 	private String name;
 				
 	private Timer timer;
 	
 	KCookRole cook; 
+	KHostRole host;
+	
 	public enum orderState 
 	{ pending, computed, givenPayment, completed }
 	
@@ -115,6 +118,10 @@ public class KCashierRole extends Role implements KCashier{
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if(arrived) {
+			tellHost();
+			return true;
+		}
 		synchronized(bills) {
 			for( Order o : bills ) {
 				if ( o.s == orderState.pending) {
@@ -147,6 +154,12 @@ public class KCashierRole extends Role implements KCashier{
 	}
 
 	// Actions
+
+	private void tellHost() {
+		Do("telling manager I'm here at work");
+		arrived = false;
+		host.msgIAmHere(this, "cashier");
+	}
 
 	private void goHome() {
 		Do("Going home");
@@ -257,7 +270,9 @@ public class KCashierRole extends Role implements KCashier{
 		myMoney = money;
 	}
 
-	
+	public void setHost(KHostRole h) {
+		host = h;
+	}
 
 	
 }
