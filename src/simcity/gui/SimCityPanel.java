@@ -226,6 +226,8 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		markets.add(new Market("Market1", market.mManager));
 		busStops.put("stop1",bs);
 		busStops.put("stop2",bs2);
+		bus.msgSetBusDirectory(busStops);
+		bus.startThread();
 
 }
 	   
