@@ -70,6 +70,8 @@ import simcity.TTRestaurant.TWaiterRole;
 import simcity.Transportation.CarAgent;
 import simcity.housing.LandlordRole;
 import simcity.housing.RepairManRole;
+import simcity.interfaces.BCashier;
+import simcity.interfaces.BCook;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.Host;
 import simcity.interfaces.MarketManager;
@@ -642,18 +644,30 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			case 1: host = new Drew_HostRole();
 					cook = new Drew_CookRole();
 					cashier = new Drew_CashierRole();
+					break;
+			case 2: host = new BHostRole();
 			}
 		}
+		
 		public Role AddNormalWaiter() {
 			switch(restNum) {
-			case 1: Drew_WaiterRole w = new Drew_WaiterRole();
-					w.setCook((Drew_Cook)cook);
-					w.addCashier((Drew_Cashier)cashier);
-					w.setHost((Drew_Host)host);
+			case 1: Drew_WaiterRole aw = new Drew_WaiterRole();
+					aw.setCook((Drew_Cook)cook);
+					aw.addCashier((Drew_Cashier)cashier);
+					aw.setHost((Drew_Host)host);
 					//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
-					waiters.add(w);
-					return w;
+					waiters.add(aw);
+					return aw;
 			case 2: 
+					BWaiterRole bw = new BWaiterNormalRole();
+					bw.setHost((BHostRole)host);
+					bw.setCook((BCook)cook);
+					bw.setCashier((BCashier)cashier);
+					//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
+					waiters.add(bw);
+					return bw;
+			case 3: 
+			default: return null;
 			}
 		}
 		public Role AddHeadWaiter() {

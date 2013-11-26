@@ -71,8 +71,8 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 
 	
 
-	public BWaiterRole(PersonAgent p) {
-		super(p);
+	public BWaiterRole() {
+		//super(p);
 
 		this.name = name;
 		// make some tables
