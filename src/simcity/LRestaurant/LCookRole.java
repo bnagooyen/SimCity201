@@ -50,8 +50,8 @@ public class LCookRole extends Role implements LCook {
 	
 	private Semaphore task = new Semaphore(0,true);
 
-	public LCookRole(PersonAgent p){
-		super(p);
+	public LCookRole(){
+		super();
 		this.name = p.getName();
 		foods.put("P", new Food("P", 700, 2, 5, 2)); //choice, cookTime, amount, capacity, threshold
 		foods.put("St", new Food("St", 1000, 2, 5, 2));

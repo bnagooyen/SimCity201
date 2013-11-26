@@ -12,8 +12,8 @@ import agent.Role;
 public class MockRole extends Role {
 	private String name;
 
-	public MockRole(String name, PersonAgent p) {
-		super(p);
+	public MockRole(String name) {
+		super();
 		this.name = name;
 	}
 

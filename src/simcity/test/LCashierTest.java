@@ -30,7 +30,8 @@ public class LCashierTest extends TestCase
 	public void setUp() throws Exception{
 		super.setUp();	
 		p = new PersonAgent("person");
-		cashier = new LCashierRole(p);		
+		cashier = new LCashierRole();
+		cashier.myPerson = p;
 		customer = new MockLCustomer("mockcustomer");	
 //		market = new MockMarket("mockmarket");
 //		market2 = new MockMarket("mockmarket2");

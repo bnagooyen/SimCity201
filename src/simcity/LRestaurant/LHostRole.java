@@ -380,7 +380,7 @@ public class LHostRole extends Role implements Host {
                 return hostGui;
         }
 
-        private class MyCustomers {
+        public class MyCustomers {
                 LCustomer c;
                 CustomerState state;
                 
@@ -391,7 +391,7 @@ public class LHostRole extends Role implements Host {
 
         }
 
-        private class Table {
+        public class Table {
                 LCustomer occupiedBy;
                 int tableNumber;
 
