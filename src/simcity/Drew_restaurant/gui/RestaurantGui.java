@@ -44,8 +44,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * Sets up all the gui components.
      */
     public RestaurantGui() {
-        int windowXSize=650;		//Sets window size
-        int windowYSize=350;
+        int windowXSize=575;		//Sets window size
+        int windowYSize=325;
         int xStart=250;				//Sets starting spot for panel
         int yStart=450;
         
