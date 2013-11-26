@@ -53,7 +53,12 @@ public class SimCityGui extends JFrame implements ActionListener, MouseListener 
 	    person.startThread(); 
 	    BusAgent b = new BusAgent();
 	    BusStopAgent bs = new BusStopAgent();
-	    person.setBus(b);
+	    BusStopAgent bs2 = new BusStopAgent();
+	    bs.myStop="stop1";
+	    bs2.myStop="stop2";
+	    b.busStops.put(bs.myStop, bs);
+	    b.busStops.put(bs2.myStop, bs2);
+	    
 	    person.setBusStop(bs);
 	    b.startThread(); 
 	    bs.startThread(); 
