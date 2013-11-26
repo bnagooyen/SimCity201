@@ -12,8 +12,11 @@ import simcity.interfaces.KCook;
 //import simcity.interfaces.Market;
 
 
+import simcity.interfaces.KWaiter;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
+import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -40,9 +43,10 @@ public class KCookRole extends Role implements KCook{
 	private Semaphore atFridge = new Semaphore(0,true);
 	private Semaphore atPlating = new Semaphore(0, true);
 	
-	private boolean needToOrder;
+	public boolean needToOrder;
 	private KRestaurantGui gui;
 
+	public EventLog log;
 	private Timer timer = new Timer(); 
 		
 	public enum orderState 
@@ -54,6 +58,7 @@ public class KCookRole extends Role implements KCook{
 	public KCookRole(PersonAgent p) {
 		super(p);
 		
+		log = new EventLog();
 		foods.put("Steak", new Food("Steak", 5000, 3, 3, 1,10));
 		foods.put("Chicken", new Food("Chicken", 4500, 2, 3,1,7));
 		foods.put("Salad", new Food("Salad", 2000, 3, 3, 1, 3));
@@ -76,8 +81,10 @@ public class KCookRole extends Role implements KCook{
 
 	// Messages
 
-	public void msgHereIsAnOrder(KWaiterRole w, String choice, int table) {
+	public void msgHereIsAnOrder(KWaiter w, String choice, int table) {
 		Do("got order from waiter");
+		LoggedEvent e = new LoggedEvent("got order from waiter");
+		log.add(e);
 		orders.add(new Order(w, choice, table, orderState.pending));
 		stateChanged();
 	}
@@ -208,7 +215,7 @@ public class KCookRole extends Role implements KCook{
 			return;
 		}
 		o.s = orderState.cooking;
-		DoCooking(o); 
+		//DoCooking(o); 
 		timer.schedule(new TimerTask() {
 			public void run() {
 					print("Done cooking");
@@ -220,6 +227,8 @@ public class KCookRole extends Role implements KCook{
 			food.cookingTime);
 		food.amount--;
 		if ( food.amount == food.low) {
+			LoggedEvent e = new LoggedEvent("need to order food");
+			log.add(e);
 			Do("need to order food");
 			food.stillNeed = food.capacity - food.low;
 			orderFoodThatIsLow();
@@ -272,7 +281,7 @@ public class KCookRole extends Role implements KCook{
 			e.printStackTrace();
 		}
 		Do("going to grill " +o.grill);
-		o.gui = new KMovingFoodGui(this, o.w, gui, (o.grill *20) + 5, o.choice);
+		o.gui = new KMovingFoodGui(this, (KWaiterRole) o.w, gui, (o.grill *20) + 5, o.choice);
 		gui.animationPanel.addGui(o.gui);
 		//cookGui.DoCookFood(o.grill);
 		try{
@@ -332,14 +341,14 @@ public class KCookRole extends Role implements KCook{
 //	}
 	
 	private class Order {
-		KWaiterRole w;
+		KWaiter w;
 		String choice;
 		int table;
 		orderState s;
 		int grill;
 		KMovingFoodGui gui;
 
-		public Order(KWaiterRole waiter, String c, int t, orderState state) {
+		public Order(KWaiter waiter, String c, int t, orderState state) {
 			w = waiter;
 			choice = c;
 			table = t;
@@ -350,7 +359,7 @@ public class KCookRole extends Role implements KCook{
 	public class Food {
 		String type;
 		int cookingTime;
-		int amount;
+		public int amount;
 		int low;
 		int capacity;
 		int stillNeed;

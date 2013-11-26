@@ -65,6 +65,7 @@ public class DCustomerRole extends Role implements DCustomer {
 		
 		//parsing string
 		//Input: Name, MoneyVal, Order , Stay/Leave
+		//String[] inputs = name.split(", "); 
 //		String[] inputs = name.split(", "); 
 		
 		
@@ -79,6 +80,7 @@ public class DCustomerRole extends Role implements DCustomer {
 //		}
 //		if(inputs[3].trim().equals("Leave")) {
 //			stayOrLeave=false;
+//		}
 		//}
 		//System.out.printf("Name: "+ name + " Money: "+ "%d ", wallet);
 		//System.out.print(wallet);
