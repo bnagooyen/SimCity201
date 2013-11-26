@@ -55,9 +55,9 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public Drew_CustomerRole(PersonAgent p){
-		super(p);
-		this.name = name;
+	public Drew_CustomerRole(){
+		//super(p);
+		//this.name = name;
 	}
 
 	/**

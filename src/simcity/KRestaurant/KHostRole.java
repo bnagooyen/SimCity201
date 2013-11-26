@@ -45,9 +45,9 @@ public class KHostRole extends Role implements Host{
 	
 	private KCookRole myCook;
 
-	public KHostRole(PersonAgent p) {
-		super(p);
-		this.name = name;
+	public KHostRole() {
+		//super(p);
+		//this.name = name;
 		// make some tables
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		synchronized(tables) {

@@ -60,8 +60,8 @@ public class DCustomerRole extends Role implements DCustomer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public DCustomerRole(PersonAgent p){
-		super(p);
+	public DCustomerRole(){
+		//super(p);
 		
 		//parsing string
 		//Input: Name, MoneyVal, Order , Stay/Leave

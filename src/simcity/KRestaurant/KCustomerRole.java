@@ -59,9 +59,9 @@ public class KCustomerRole extends Role implements KCustomer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public KCustomerRole(PersonAgent p){
-		super(p);
-		this.name = name;
+	public KCustomerRole(){
+		//super(p);
+		//this.name = name;
 		this.hungry = hungry;
 		check = 0;
 		myCash = 20;
