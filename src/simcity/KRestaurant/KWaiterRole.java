@@ -9,6 +9,7 @@ import simcity.KRestaurant.gui.KMovingFoodGui;
 import simcity.KRestaurant.gui.KRestaurantGui;
 import simcity.KRestaurant.gui.KWaiterGui;
 import simcity.interfaces.KCashier;
+import simcity.interfaces.KCook;
 import simcity.interfaces.KCustomer;
 import simcity.interfaces.KWaiter;
 
@@ -35,7 +36,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	
 	public KWaiterGui waiterGui = null;
 	public KHostRole host = null;
-	public KCookRole cook = null;
+	public KCook cook = null;
 	public KCashier cashier = null;
 	public KMenu menu = null;
 	private KRestaurantGui gui;
@@ -509,6 +510,16 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 		this.homepos = homepos;
 	}
 	
+	public void setCook(KCook cook2) {
+		cook = cook2;
+
+	}
+	public void setHost(KHostRole h) {
+		host = h;
+	}
+	public void setCashier(KCashier cashier) {
+		this.cashier = cashier;
+	}
 	public boolean onBreak() {
 		return (mystate == WaiterState.onBreak);
 	}

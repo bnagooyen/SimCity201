@@ -85,6 +85,9 @@ import simcity.interfaces.DCook;
 import simcity.interfaces.DHost;
 import simcity.interfaces.DWaiter;
 import simcity.interfaces.Host;
+import simcity.interfaces.KCashier;
+import simcity.interfaces.KCook;
+import simcity.interfaces.KWaiter;
 import simcity.interfaces.LCashier;
 import simcity.interfaces.LCook;
 import simcity.interfaces.LHost;
@@ -548,6 +551,8 @@ public class SimCityPanel extends JPanel implements MouseListener{
     		}
     		//System.out.println(Integer.parseInt(restaurants.get(minWaiterIndex).name.substring(restaurants.get(minWaiterIndex).name.length()-1)));
     		int restAssignedTo = Integer.parseInt(restaurants.get(minWaiterIndex).name.substring(restaurants.get(minWaiterIndex).name.length()-1));
+    		
+   /*****************call add waiter*********************/ 		
     		Role myJob=jobFactory("Waiter"+Integer.toString(restAssignedTo), p);
     		//System.out.println(myJob);
     		for(Location r: restaurants) {
@@ -674,7 +679,16 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					((DCookRole)cook).AddCashier((DCashierRole)cashier);
 					((DCashierRole)cashier).AddCook((DCookRole)cook);
 					break;
-			case 4:
+			case 4: host = new KHostRole();
+					cook = new KCookRole();
+					cashier = new KCashierRole();
+					((KHostRole)host).setCook((KCookRole) cook);
+					((KHostRole)host).setCashier((KCashierRole) cashier);
+					((KCookRole)cook).setHost((KHostRole) host);
+					((KCookRole)cook).setCashier((KCashierRole) cashier);
+					((KCashierRole)cashier).setHost((KHostRole) host);
+					((KCashierRole)cashier).setCook(((KCookRole) cook);
+
 			case 5:	host = new LHostRole();
 					cook = new LCookRole();
 					cashier = new LCashierRole();
@@ -713,7 +727,15 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					waiters.add(dw);
 					return dw;
 			case 4:
-			case 5:	LWaiterRole lw = new LWaiterSharedDataRole();
+					KWaiterRole kw = new KWaiterSharedDataRole();
+					kw.setCook((KCook)cook);
+					kw.setCashier((KCashier)cashier);
+					kw.setHost((KHostRole)host);
+					((KHostRole)host).addWaiter((KWaiterRole)kw);
+					return kw;
+					
+			case 5:	
+					LWaiterRole lw = new LWaiterSharedDataRole();
 					lw.setCashier((LCashier)cashier);
 					lw.setCook((LCook)cook);
 					lw.setHost((LHost)host);
@@ -752,14 +774,25 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				return dw;
 			
 			case 4:
-			case 5:	LWaiterRole lw = new LWaiterNormalRole();
-					lw.setCashier((LCashier)cashier);
-					lw.setCook((LCook)cook);
-					lw.setHost((LHost)host);
-					((LHost)host).addWaiter(lw);
-					waiters.add(lw);
-					return lw;
+				KWaiterRole kw = new KWaiterNormalRole();
+				kw.setCook((KCook)cook);
+				kw.setCashier((KCashier)cashier);
+				kw.setHost((KHostRole)host);
+				((KHostRole)host).addWaiter((KWaiterRole)kw);
+				return kw;
+			case 5:	
+				LWaiterRole lw = new LWaiterNormalRole();
+				lw.setCashier((LCashier)cashier);
+				lw.setCook((LCook)cook);
+				lw.setHost((LHost)host);
+				((LHost)host).addWaiter(lw);
+				waiters.add(lw);
+				return lw;
+					
+			default: return null;
+
 			}
+
 		}
 		public Role AddCustomer() {
 			switch(restNum) {
@@ -781,7 +814,12 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				customers.add(dc);
 				return dc;
 				
-				case 4:
+				case 4: KCustomerRole kc = new KCustomerRole();
+				kc.setHost((KHostRole)host);
+				kc.setCashier((KCashier)cashier);
+				customers.add(kc);
+				return kc;
+					
 				case 5:	LCustomerRole lc = new LCustomerRole();
 				lc.setCashier((LCashier)cashier);
 				lc.setHost((LHost)host);
@@ -789,7 +827,8 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				return lc;
 					
 				
-				
+				default: return null;
+
 				
 			}
 		}
