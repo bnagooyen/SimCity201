@@ -49,7 +49,7 @@ public class BankTellerRole extends Role implements BankTeller {
 		super();
 		startHour=8;
 		log=new EventLog();
-		print("BankTeller Created");
+		//print("BankTeller Created");
 		state=bankTellerState.arrived;
 		broke=false;
 	}

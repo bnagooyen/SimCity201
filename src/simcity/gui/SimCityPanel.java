@@ -412,85 +412,159 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				//p.SetJob(myJob);
 				if(job.equals("Landlord")) {
 					landlords.add(new MyLandlord(p));
-//					System.out.println("landlord added");
+					System.out.println("landlord added");
 				}
 				
+				if(job.equals("BankLoanOfficer")) {
+					p.SetJob(bank.loanOfficer);
+				}
+				
+				else if(job.equals("BankTeller")) {
+					p.SetJob(bank.bankTeller);
+				}
+				
+				else if(job.equals("InventoryBoy")) {
+					p.SetJob(market.ib);
+				}
+				else if(job.equals("MarketCashier")) {
+					p.SetJob(market.mCashier);
+				}
 				//add to map
-//				if(job.equals("BankManager") && bankCounter<=NUMBANKS) {
-//					banks.add(new Bank("Bank"+Integer.toString(bankCounter), myJob));
-//					bankCounter++;
-//				}
-//				else if(job.equals("MarketManager") && mktCounter<=NUMMARKETS) {
-//					markets.add(new Market("Market"+Integer.toString(mktCounter), myJob));	
-//					mktCounter++;
-//				}
-//				else if(job.equals("Host1")) {
-//					restaurants.add(new Restaurant("Restaurant1", myJob, "normal"));
-//				}
-//				else if(job.equals("Host2")) {
-//					restaurants.add(new Restaurant("Restaurant2", myJob, "normal"));
-//				}
-//				else if(job.equals("Host3")) {
-//					restaurants.add(new Restaurant("Restaurant3", myJob, "normal"));
-//				}
-//				else if(job.equals("Host4")) {
-//					restaurants.add(new Restaurant("Restaurant4", myJob, "normal"));
-//				}
-//				else if(job.equals("Host5")) {
-//					restaurants.add(new Restaurant("Restaurant5", myJob, "normal"));
-//				}
-//				else if(job.equals("Host6")) {
-//					restaurants.add(new Restaurant("Restaurant6", myJob, "normal"));
-//				}
+				if(job.equals("BankManager") && bankCounter<=NUMBANKS) {
+					//banks.add(new Bank("Bank"+Integer.toString(bankCounter), myJob));
+					p.SetJob(bank.bankManager);
+					bankCounter++;
+				}
+				else if(job.equals("MarketManager") && mktCounter<=NUMMARKETS) {
+					//markets.add(new Market("Market"+Integer.toString(mktCounter), myJob));
+					p.SetJob(market.mManager);
+					mktCounter++;
+				}
+				else if(job.equals("Host1")) {
+					//restaurants.add(new Restaurant("Restaurant1", myJob, "normal"));
+					p.SetJob(DrewRestaurant.host);
+				}
+				else if(job.equals("Cook1")) {
+					p.SetJob(DrewRestaurant.cook);
+				}
+				else if(job.equals("Cashier1")) {
+					p.SetJob(DrewRestaurant.cashier);
+				}
+				else if(job.equals("Host2")) {
+					//restaurants.add(new Restaurant("Restaurant2", myJob, "normal"));
+					p.SetJob(BRestaurant.host);
+				}
+				else if(job.equals("Cook2")) {
+					p.SetJob(BRestaurant.cook);
+				}
+				else if(job.equals("Cashier2")) {
+					p.SetJob(BRestaurant.cashier);
+				}
+				else if(job.equals("Host3")) {
+					//restaurants.add(new Restaurant("Restaurant3", myJob, "normal"));
+					p.SetJob(DRestaurant.host);
+				}
+				else if(job.equals("Cook3")) {
+					p.SetJob(DRestaurant.cook);
+				}
+				else if(job.equals("Cashier3")) {
+					p.SetJob(DRestaurant.cashier);
+				}
+				else if(job.equals("Host4")) {
+					//restaurants.add(new Restaurant("Restaurant4", myJob, "normal"));
+					p.SetJob(KRestaurant.host);
+
+				}
+				else if(job.equals("Cook4")) {
+					p.SetJob(KRestaurant.cook);
+				}
+				else if(job.equals("Cashier4")) {
+					p.SetJob(KRestaurant.cashier);
+				}
+				else if(job.equals("Host5")) {
+					//restaurants.add(new Restaurant("Restaurant5", myJob, "normal"));
+					p.SetJob(LRestaurant.host);
+
+				}
+				else if(job.equals("Cook5")) {
+					p.SetJob(LRestaurant.cook);
+				}
+				else if(job.equals("Cashier5")) {
+					p.SetJob(LRestaurant.cashier);
+				}
+				else if(job.equals("Host6")) {
+					//restaurants.add(new Restaurant("Restaurant6", myJob, "normal"));
+					p.SetJob(TRestaurant.host);
+
+				}
+				else if(job.equals("Cook6")) {
+					p.SetJob(TRestaurant.cook);
+				}
+				else if(job.equals("Cashier6")) {
+					p.SetJob(TRestaurant.cashier);
+				}
 				//for load balancing waiters when they are added on through gui
 				else if(job.equals("Waiter1")) {
-					for(Location r: restaurants) {
-						if(r.name.equals("Restaurant1")) {
+//					for(Location r: restaurants) {
+//						if(r.name.equals("Restaurant1")) {
 							//System.out.println(r.numEmployees);
-							r.numEmployees++;
-							break;
-						}
-					}
+							//r.numEmployees++;
+							p.SetJob(DrewRestaurant.AddNormalWaiter());
+
+							//break;
+						//}
+					//}
 				}
 				else if(job.equals("Waiter2")) {
-					for(Location r: restaurants) {
-						if(r.name.equals("Restaurant2")){
-							r.numEmployees++;
-							break;
-						}	
-					}
+//					for(Location r: restaurants) {
+//						if(r.name.equals("Restaurant2")){
+//							r.numEmployees++;
+						p.SetJob(BRestaurant.AddNormalWaiter());
+
+					
+//							break;
+//						}	
+//					}
 				}
 				else if(job.equals("Waiter3")) {
-					for(Location r: restaurants) {
-						if(r.name.equals("Restaurant3")){
-							r.numEmployees++;
-							break;
-						}		
-					}
+//					for(Location r: restaurants) {
+//						if(r.name.equals("Restaurant3")){
+//							r.numEmployees++;
+//							break;
+					p.SetJob(DRestaurant.AddNormalWaiter());
+
+//						}		
+//					}
 				}
 				else if(job.equals("Waiter4")) {
-					for(Location r: restaurants) {
-						if(r.name.equals("Restaurant4")){
-							r.numEmployees++;
-							break;
-						}		
-					}
+//					for(Location r: restaurants) {
+//						if(r.name.equals("Restaurant4")){
+//							r.numEmployees++;
+//							break;
+					p.SetJob(KRestaurant.AddNormalWaiter());
+
+//						}		
+//					}
 				}
 				else if(job.equals("Waiter5")) {
-					for(Location r: restaurants) {
-						if(r.name.equals("Restaurant5")) {
-							r.numEmployees++;
-							break;
-						}		
-					}
+//					for(Location r: restaurants) {
+//						if(r.name.equals("Restaurant5")) {
+//							r.numEmployees++;
+//							break;
+					p.SetJob(LRestaurant.AddNormalWaiter());
+
+//						}		
+//					}
 				}
 				else if(job.equals("Waiter6")) {
-					for(Location r: restaurants) {
-						if(r.name.equals("Restaurant6")) {
-							r.numEmployees++;
-							break;
-						}
-					}
+//					for(Location r: restaurants) {
+//						if(r.name.equals("Restaurant6")) {
+//							r.numEmployees++;
+//							break;
+					p.SetJob(TRestaurant.AddNormalWaiter());
+
+//						}
+//					}
 				}
 				
 				boolean hasACar = in.nextBoolean();
