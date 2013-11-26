@@ -1,7 +1,7 @@
 package simcity.DRestaurant;
 
 import simcity.PersonAgent;
-import simcity.DRestaurant.DCookRole.InventoryOrder.InventoryOrderState;
+//import simcity.DRestaurant.DCookRole.InventoryOrder.InventoryOrderState;
 import simcity.DRestaurant.DOrder.OrderState;
 import simcity.DRestaurant.gui.DCookGui;
 import simcity.DRestaurant.DWaiterRole;
@@ -51,8 +51,8 @@ public class DCookRole extends Role implements DCook{
 	
 	ArrayList<ArrayList<DFoodOrder>> delivery= new ArrayList<ArrayList<DFoodOrder>>();
 	List<DOrder> orders =  Collections.synchronizedList(new ArrayList<DOrder>());
-	ArrayList<DMarketRole> markets = new ArrayList<DMarketRole>();
-	List<InventoryOrder> myOrders =  Collections.synchronizedList(new ArrayList<InventoryOrder>());
+	//ArrayList<DMarketRole> markets = new ArrayList<DMarketRole>();
+	//List<InventoryOrder> myOrders =  Collections.synchronizedList(new ArrayList<InventoryOrder>());
 	private int ORDER_ID;
 	ArrayList<DFoodOrder> orderToMarket = new ArrayList<DFoodOrder>();
 	//private int marketToSendOrdersTo;
@@ -74,9 +74,9 @@ public class DCookRole extends Role implements DCook{
 		myFood.put("Steak", new DFood("Steak", 10, initialFoodAmnt));
 		myFood.put("Salad", new DFood("Salad", 3, initialFoodAmnt));
 		myFood.put("Pizza", new DFood("Pizza", 6, initialFoodAmnt));
-		System.out.println("INITALIZE VALUES OF KITCHEN AND HIT 'SET' IN ORDER FOR COOK TO BEGIN CHECKING IF READY FOR OPEN");
-		System.out.println("Cook Kitchen Inventory is initialized to "+ initialFoodAmnt+ " and threshold is "+ threshold);
-		System.out.println("Maximum capacity in kitchen is 10");
+		//System.out.println("INITALIZE VALUES OF KITCHEN AND HIT 'SET' IN ORDER FOR COOK TO BEGIN CHECKING IF READY FOR OPEN");
+		//System.out.println("Cook Kitchen Inventory is initialized to "+ initialFoodAmnt+ " and threshold is "+ threshold);
+		//System.out.println("Maximum capacity in kitchen is 10");
 	
 		grillOccupied.put("Pizza", false);
 		grillOccupied.put("Steak", false);
@@ -162,10 +162,10 @@ public class DCookRole extends Role implements DCook{
 		waiter=w;
 	}
 	
-	public void msgAddMarket(DMarketRole m) {
-		//System.out.println("added");
-		markets.add(m);
-	}
+//	public void msgAddMarket(DMarketRole m) {
+//		//System.out.println("added");
+//		markets.add(m);
+//	}
 	
 	public void msgIncKitchenThreshold() {
 		threshold++;
@@ -232,19 +232,19 @@ public class DCookRole extends Role implements DCook{
 //		}
 //	}
 	
-	public void msgShouldIPayThisBill(double amt, DMarket ma) {
-		System.out.println("cashier received shouldipaythisbill");
-		for(InventoryOrder o: myOrders){
-			if(o.market==ma) {
-				if(o.billExpected==amt)
-					o.state=InventoryOrderState.approved;
-				else 
-					o.state=InventoryOrderState.denied;	
-				stateChanged();
-				break;
-			}
-		}
-	}
+//	public void msgShouldIPayThisBill(double amt, DMarket ma) {
+//		System.out.println("cashier received shouldipaythisbill");
+//		for(InventoryOrder o: myOrders){
+//			if(o.market==ma) {
+//				if(o.billExpected==amt)
+//					o.state=InventoryOrderState.approved;
+//				else 
+//					o.state=InventoryOrderState.denied;	
+//				stateChanged();
+//				break;
+//			}
+//		}
+//	}
 	
 	public void msgHereIsAnOrder(DOrder order) {
 		orders.add(new DOrder(order.getChoice(), order.getTablenum(), order.getWaiter()));
@@ -270,20 +270,20 @@ public class DCookRole extends Role implements DCook{
 		stateChanged();
 	}
 	
-	public void msgCouldNotFulfillThese(ArrayList<DFoodOrder> reorderlist, int ORDERID) {
-		
-		
-		for(InventoryOrder order: myOrders) {
-			if(order.getID()==ORDERID) {
-				System.out.println("got inventory orderback from "+order.getMarketOrderingFrom());
-				order.incMarketOrderingFrom();
-				order.state=InventoryOrderState.needsReorder;
-				order.myorder=reorderlist;
-				stateChanged();
-			}
-		}
-	}
-	
+//	public void msgCouldNotFulfillThese(ArrayList<DFoodOrder> reorderlist, int ORDERID) {
+//		
+//		
+//		for(InventoryOrder order: myOrders) {
+//			if(order.getID()==ORDERID) {
+//				System.out.println("got inventory orderback from "+order.getMarketOrderingFrom());
+//				order.incMarketOrderingFrom();
+//				order.state=InventoryOrderState.needsReorder;
+//				order.myorder=reorderlist;
+//				stateChanged();
+//			}
+//		}
+//	}
+//	
 	public void msgAnimationArrivedAtFridge() {
 		atFridge.release();
 		stateChanged();
@@ -330,20 +330,20 @@ public class DCookRole extends Role implements DCook{
 			ProcessDelivery(delivery.get(0));
 			return true;
 		}
-		if(!waitingForInventory) {
-			if((myFood.get("Chicken").getAmount()<=threshold || myFood.get("Pizza").getAmount()<=threshold ||
-					myFood.get("Steak").getAmount()<=threshold || myFood.get("Salad").getAmount()<=threshold)) {
-						OrderFoodFromMarket();
-						return true;
-					}
-		}
-		for(InventoryOrder o: myOrders) {
-			if(o.state==InventoryOrderState.approved || o.state==InventoryOrderState.denied) {
-				NotifyCashierOfVerification(o);
-				return true;
-			}
-		}
-	
+//		if(!waitingForInventory) {
+//			if((myFood.get("Chicken").getAmount()<=threshold || myFood.get("Pizza").getAmount()<=threshold ||
+//					myFood.get("Steak").getAmount()<=threshold || myFood.get("Salad").getAmount()<=threshold)) {
+//						OrderFoodFromMarket();
+//						return true;
+//					}
+//		}
+//		for(InventoryOrder o: myOrders) {
+//			if(o.state==InventoryOrderState.approved || o.state==InventoryOrderState.denied) {
+//				NotifyCashierOfVerification(o);
+//				return true;
+//			}
+//		}
+//	
 		for(int i=0; i<orders.size(); i++) {
 			if(orders.get(i).state==OrderState.grillInUse && !grillOccupied.get(orders.get(i).getChoice())) {
 //				CookOrder(orders.get(i));
@@ -370,18 +370,18 @@ public class DCookRole extends Role implements DCook{
 			}
 		}
 		
-		for(InventoryOrder i: myOrders) {
-			if(i.state==InventoryOrderState.needsReorder) {
-				ReorderFood(i);
-				return true;
-			}
-		}
-		
-		
-		if(!RestaurantIsOpen && valsAreSet && !waitingForInventory) {
-			CheckIfFullyStocked(); 
-			return true;
-		}
+//		for(InventoryOrder i: myOrders) {
+//			if(i.state==InventoryOrderState.needsReorder) {
+//				ReorderFood(i);
+//				return true;
+//			}
+//		}
+//		
+//		
+//		if(!RestaurantIsOpen && valsAreSet && !waitingForInventory) {
+//			CheckIfFullyStocked(); 
+//			return true;
+//		}
 		
 		CheckRotatingStand();
 		
@@ -411,29 +411,29 @@ public class DCookRole extends Role implements DCook{
 			}
 		}
 	
-		private void NotifyCashierOfVerification(InventoryOrder o) {
-			System.out.println("notifying cashier");
-			if(o.state==InventoryOrderState.approved) {
-				myCashier.msgAnswerVerificationRequest(true);
-			}
-			if(o.state==InventoryOrderState.denied) {
-				myCashier.msgAnswerVerificationRequest(false);
-			}
-			myOrders.remove(o);
-		}
+//		private void NotifyCashierOfVerification(InventoryOrder o) {
+//			System.out.println("notifying cashier");
+//			if(o.state==InventoryOrderState.approved) {
+//				myCashier.msgAnswerVerificationRequest(true);
+//			}
+//			if(o.state==InventoryOrderState.denied) {
+//				myCashier.msgAnswerVerificationRequest(false);
+//			}
+//			myOrders.remove(o);
+//		}
 		private void ClearPlating(DOrder o) {
 //			System.err.println("***");
 			DoClearPlating(o.getChoice().substring(0,2));
 			orders.remove(o);
 		}
-		private void CheckIfFullyStocked() {
-			//System.out.println("called");
-			if(myFood.get("Chicken").getAmount()>=threshold && myFood.get("Steak").getAmount()>=threshold &&
-					myFood.get("Pizza").getAmount()>=threshold && myFood.get("Salad").getAmount()>=threshold) {
-				host.msgKitchenIsReady();
-				RestaurantIsOpen=true;
-			}
-		}
+//		private void CheckIfFullyStocked() {
+//			//System.out.println("called");
+//			if(myFood.get("Chicken").getAmount()>=threshold && myFood.get("Steak").getAmount()>=threshold &&
+//					myFood.get("Pizza").getAmount()>=threshold && myFood.get("Salad").getAmount()>=threshold) {
+//				host.msgKitchenIsReady();
+//				RestaurantIsOpen=true;
+//			}
+//		}
 		
 		private void CookOrder(final DOrder o) {
 //			System.out.println("asdfjlaksdjflkasj");
@@ -555,94 +555,94 @@ public class DCookRole extends Role implements DCook{
 //			orders.remove(o);
 //		}
 		
-		private void OrderFoodFromMarket() {
-			/*
-			 	if(food.getAmount()==threshold) // made it ==, not <= so won't keep ordering
-				{
-					System.out.println("Out of "+ food.getChoice()+"!");
-					markets.get(InventoryMarketTracker.get(o.getChoice())).msgHereIsAnInventoryOrder(o.getChoice(), threshold);
-					System.out.println("Made an order to mkt#"+ InventoryMarketTracker.get(o.getChoice()) + " for " + threshold);
-					
-				}
-			 */
-			System.out.println("need to order");
-			double billAmnt = 0;
-			orderToMarket.clear(); //restart a new order
-			
-			if(myFood.get("Chicken").getAmount()<=threshold) {
-				orderToMarket.add(new DFoodOrder("Chicken", MAXCAPACITY- myFood.get("Chicken").getAmount()));
-				billAmnt+=(MAXCAPACITY - myFood.get("Chicken").getAmount())*prices.get("Chicken");
-			}
-			
-			if(myFood.get("Steak").getAmount()<=threshold) {
-				orderToMarket.add(new DFoodOrder("Steak", MAXCAPACITY-myFood.get("Steak").getAmount()));
-				billAmnt+=(MAXCAPACITY - myFood.get("Steak").getAmount())*prices.get("Steak");
-			}
-			
-			if(myFood.get("Pizza").getAmount()<=threshold) {
-				orderToMarket.add(new DFoodOrder("Pizza", MAXCAPACITY-myFood.get("Pizza").getAmount()));
-				billAmnt+=(MAXCAPACITY - myFood.get("Pizza").getAmount())*prices.get("Pizza");
-			}
-			
-			if(myFood.get("Salad").getAmount()<=threshold) {
-				orderToMarket.add(new DFoodOrder("Salad", MAXCAPACITY-myFood.get("Salad").getAmount()));
-				billAmnt+=(MAXCAPACITY - myFood.get("Salad").getAmount())*prices.get("Salad");
-			}
-//			for(FoodOrder order: orderToMarket) {
-//				System.out.println(order.getFood()+"..."+order.getVal());
+//		private void OrderFoodFromMarket() {
+//			/*
+//			 	if(food.getAmount()==threshold) // made it ==, not <= so won't keep ordering
+//				{
+//					System.out.println("Out of "+ food.getChoice()+"!");
+//					markets.get(InventoryMarketTracker.get(o.getChoice())).msgHereIsAnInventoryOrder(o.getChoice(), threshold);
+//					System.out.println("Made an order to mkt#"+ InventoryMarketTracker.get(o.getChoice()) + " for " + threshold);
+//					
+//				}
+//			 */
+//			System.out.println("need to order");
+//			double billAmnt = 0;
+//			orderToMarket.clear(); //restart a new order
+//			
+//			if(myFood.get("Chicken").getAmount()<=threshold) {
+//				orderToMarket.add(new DFoodOrder("Chicken", MAXCAPACITY- myFood.get("Chicken").getAmount()));
+//				billAmnt+=(MAXCAPACITY - myFood.get("Chicken").getAmount())*prices.get("Chicken");
 //			}
-			markets.get(0).msgHereIsAnInventoryOrder(orderToMarket, ORDER_ID, myCashier);
-			myOrders.add(new InventoryOrder(markets.get(0), billAmnt, ORDER_ID));
-			ORDER_ID++;
-			waitingForInventory=true;
-		}
-		
-		private void ReorderFood(InventoryOrder reord) {
-			if(reord.getMarketOrderingFrom()>markets.size()) {
-				for(int i=0; i< reord.myorder.size(); i++) {
-					System.out.println("all markets are out of "+ reord.myorder.get(i).getFood());
-				}
-				if(!RestaurantIsOpen && reord.getMarketOrderingFrom()>markets.size()) { //markets don't have it.. should just open anyway
-					RestaurantIsOpen=true;
-					host.msgKitchenIsReady();
-				}
-				myOrders.remove(reord);
-				return;
-			}
-			
-			double billAmnt =0;
-			for(DFoodOrder ord: reord.myorder) {
-				if(ord.getFood().equals("Chicken")) {
-					billAmnt+=ord.getVal()*prices.get("Chicken");
-				}
-				if(ord.getFood().equals("Steak")) {
-					billAmnt+=ord.getVal()*prices.get("Steak");
-				}
-				if(ord.getFood().equals("Salad")) {
-					billAmnt+=ord.getVal()*prices.get("Salad");
-				}
-				if(ord.getFood().equals("Pizza")) {
-					billAmnt+=ord.getVal()*prices.get("Pizza");
-				}
-			}
-			
-			
-			
-			System.out.println("sent reorder");
-			markets.get(reord.mktOrderingFrom-1).msgHereIsAnInventoryOrder(reord.myorder, ORDER_ID, myCashier);
-			for(InventoryOrder ord: myOrders) {
-				if(ord.orderID==ORDER_ID-1) {
-					ord.billExpected-=billAmnt;
-				}
-			}
-			myOrders.add(new InventoryOrder(markets.get(reord.mktOrderingFrom-1), billAmnt, ORDER_ID));
-			waitingForInventory=true;
-			ORDER_ID++;
-			reord.state=InventoryOrderState.ordered;
-		
-			
-			
-		}
+//			
+//			if(myFood.get("Steak").getAmount()<=threshold) {
+//				orderToMarket.add(new DFoodOrder("Steak", MAXCAPACITY-myFood.get("Steak").getAmount()));
+//				billAmnt+=(MAXCAPACITY - myFood.get("Steak").getAmount())*prices.get("Steak");
+//			}
+//			
+//			if(myFood.get("Pizza").getAmount()<=threshold) {
+//				orderToMarket.add(new DFoodOrder("Pizza", MAXCAPACITY-myFood.get("Pizza").getAmount()));
+//				billAmnt+=(MAXCAPACITY - myFood.get("Pizza").getAmount())*prices.get("Pizza");
+//			}
+//			
+//			if(myFood.get("Salad").getAmount()<=threshold) {
+//				orderToMarket.add(new DFoodOrder("Salad", MAXCAPACITY-myFood.get("Salad").getAmount()));
+//				billAmnt+=(MAXCAPACITY - myFood.get("Salad").getAmount())*prices.get("Salad");
+//			}
+////			for(FoodOrder order: orderToMarket) {
+////				System.out.println(order.getFood()+"..."+order.getVal());
+////			}
+//			markets.get(0).msgHereIsAnInventoryOrder(orderToMarket, ORDER_ID, myCashier);
+//			myOrders.add(new InventoryOrder(markets.get(0), billAmnt, ORDER_ID));
+//			ORDER_ID++;
+//			waitingForInventory=true;
+//		}
+//		
+//		private void ReorderFood(InventoryOrder reord) {
+//			if(reord.getMarketOrderingFrom()>markets.size()) {
+//				for(int i=0; i< reord.myorder.size(); i++) {
+//					System.out.println("all markets are out of "+ reord.myorder.get(i).getFood());
+//				}
+//				if(!RestaurantIsOpen && reord.getMarketOrderingFrom()>markets.size()) { //markets don't have it.. should just open anyway
+//					RestaurantIsOpen=true;
+//					host.msgKitchenIsReady();
+//				}
+//				myOrders.remove(reord);
+//				return;
+//			}
+//			
+//			double billAmnt =0;
+//			for(DFoodOrder ord: reord.myorder) {
+//				if(ord.getFood().equals("Chicken")) {
+//					billAmnt+=ord.getVal()*prices.get("Chicken");
+//				}
+//				if(ord.getFood().equals("Steak")) {
+//					billAmnt+=ord.getVal()*prices.get("Steak");
+//				}
+//				if(ord.getFood().equals("Salad")) {
+//					billAmnt+=ord.getVal()*prices.get("Salad");
+//				}
+//				if(ord.getFood().equals("Pizza")) {
+//					billAmnt+=ord.getVal()*prices.get("Pizza");
+//				}
+//			}
+//			
+//			
+//			
+//			System.out.println("sent reorder");
+//			markets.get(reord.mktOrderingFrom-1).msgHereIsAnInventoryOrder(reord.myorder, ORDER_ID, myCashier);
+//			for(InventoryOrder ord: myOrders) {
+//				if(ord.orderID==ORDER_ID-1) {
+//					ord.billExpected-=billAmnt;
+//				}
+//			}
+//			myOrders.add(new InventoryOrder(markets.get(reord.mktOrderingFrom-1), billAmnt, ORDER_ID));
+//			waitingForInventory=true;
+//			ORDER_ID++;
+//			reord.state=InventoryOrderState.ordered;
+//		
+//			
+//			
+//		}
 		
 	
 		private void ProcessDelivery(ArrayList<DFoodOrder> groceries) {
@@ -667,44 +667,44 @@ public class DCookRole extends Role implements DCook{
 		}
 		
 		
-		static class InventoryOrder {
-			int orderID;
-			ArrayList<DFoodOrder> myorder;
-			int mktOrderingFrom;
-			DMarket market;
-			double billExpected;
-			enum InventoryOrderState {ordered, needsReorder, approved, denied};
-			InventoryOrderState state;
-			InventoryOrder (ArrayList<DFoodOrder> mo, int orderid) {
-				myorder=mo;
-				mktOrderingFrom=1;
-				orderID=orderid;
-				state=InventoryOrderState.ordered;
-				//reorder=false;
-				//sent=false;
-			}
-			
-			InventoryOrder(DMarket mkt, double billAmt, int ord) {
-				market= mkt;
-				billExpected=billAmt;
-				//sent=true;
-				orderID = ord;
-			}
-			
-			DMarket getMarket() {
-				return market;
-			}
-			int getMarketOrderingFrom() {
-				return mktOrderingFrom;
-			}
-			
-			void incMarketOrderingFrom(){
-				mktOrderingFrom++;
-			}
-			
-			int getID() {
-				return orderID;
-			}
+//		static class InventoryOrder {
+//			int orderID;
+//			ArrayList<DFoodOrder> myorder;
+//			int mktOrderingFrom;
+//			DMarket market;
+//			double billExpected;
+//			enum InventoryOrderState {ordered, needsReorder, approved, denied};
+//			InventoryOrderState state;
+//			InventoryOrder (ArrayList<DFoodOrder> mo, int orderid) {
+//				myorder=mo;
+//				mktOrderingFrom=1;
+//				orderID=orderid;
+//				state=InventoryOrderState.ordered;
+//				//reorder=false;
+//				//sent=false;
+//			}
+//			
+//			InventoryOrder(DMarket mkt, double billAmt, int ord) {
+//				market= mkt;
+//				billExpected=billAmt;
+//				//sent=true;
+//				orderID = ord;
+//			}
+//			
+//			DMarket getMarket() {
+//				return market;
+//			}
+//			int getMarketOrderingFrom() {
+//				return mktOrderingFrom;
+//			}
+//			
+//			void incMarketOrderingFrom(){
+//				mktOrderingFrom++;
+//			}
+//			
+//			int getID() {
+//				return orderID;
+//			}
 //			}
 //			boolean getReorder() {
 //				return reorder;
@@ -713,7 +713,7 @@ public class DCookRole extends Role implements DCook{
 //				reorder=r;
 //			}
 //			
-		}
+//		}
 
 		
 }

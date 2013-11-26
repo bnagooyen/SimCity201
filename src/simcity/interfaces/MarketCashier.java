@@ -7,7 +7,7 @@ import simcity.DRestaurant.DCashierRole;
 import simcity.Market.MFoodOrder;
 import simcity.Market.MOrder;
 import simcity.Transportation.CarAgent;
-import simcity.restaurant.interfaces.Cashier;
+//import simcity.restaurant.interfaces.Cashier;
 
 public interface MarketCashier {
 	public abstract void msgOrder(MarketCustomer c, List<MFoodOrder> foods, String building);

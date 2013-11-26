@@ -507,7 +507,7 @@ public class DCookGui implements DGui {
         return yPos;
     }
     
-   static class CookLabel {
+   public static class CookLabel {
     	String food;
     	int xPos, yPos;
     	boolean isFollowing;

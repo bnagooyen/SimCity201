@@ -65,25 +65,25 @@ public class DCustomerRole extends Role implements DCustomer {
 		
 		//parsing string
 		//Input: Name, MoneyVal, Order , Stay/Leave
-		String[] inputs = name.split(", "); 
+//		String[] inputs = name.split(", "); 
 		
 		
-		this.myText = name;
-		wallet= Double.parseDouble(inputs[1].trim());
-		this.name=inputs[0].trim();
-		choice=inputs[2].trim();
-		//System.out.println(inputs[3]);
-		if(inputs[3].trim().equals("Stay")) {
-			stayOrLeave=true;
-			//System.out.println("staying.");
-		}
-		if(inputs[3].trim().equals("Leave")) {
-			stayOrLeave=false;
-		}
+//		this.myText = name;
+//		wallet= Double.parseDouble(inputs[1].trim());
+//		this.name=inputs[0].trim();
+//		choice=inputs[2].trim();
+//		//System.out.println(inputs[3]);
+//		if(inputs[3].trim().equals("Stay")) {
+//			stayOrLeave=true;
+//			//System.out.println("staying.");
+//		}
+//		if(inputs[3].trim().equals("Leave")) {
+//			stayOrLeave=false;
+		//}
 		//System.out.printf("Name: "+ name + " Money: "+ "%d ", wallet);
 		//System.out.print(wallet);
 
-		state=AgentState.DoingNothing;
+//		state=AgentState.DoingNothing;
 //		debt=0;
 		
 	}
