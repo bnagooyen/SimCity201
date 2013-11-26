@@ -123,6 +123,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public void SetJob(Role job) {
 		Do("job set to " + job);
 		myJob =job;
+		Do("my job is " + myJob);
 		roles.add(myJob);
 		
 		//Set location for go to work
