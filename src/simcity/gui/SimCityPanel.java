@@ -360,6 +360,29 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		aptNumCounter=1;
 		aptLetCounter='A';
 		
+		// make restaurants w/roles
+		RestaurantPlace DrewRestaurant = new RestaurantPlace(1);
+		RestaurantPlace BRestaurant = new RestaurantPlace(2);
+		RestaurantPlace DRestaurant = new RestaurantPlace(3);
+		RestaurantPlace KRestaurant = new RestaurantPlace(4);
+		RestaurantPlace LRestaurant = new RestaurantPlace(5);
+		RestaurantPlace TRestaurant = new RestaurantPlace(6);
+		
+		// add restaurants to restaurants list
+		restaurants.add(new Restaurant("DrewRestaurant", DrewRestaurant.host, "normal"));
+		restaurants.add(new Restaurant("BRestaurant", BRestaurant.host, "normal"));
+		restaurants.add(new Restaurant("DRestaurant", DRestaurant.host, "normal"));
+		restaurants.add(new Restaurant("KRestaurant", KRestaurant.host, "normal"));
+		restaurants.add(new Restaurant("LRestaurant", LRestaurant.host, "normal"));
+		restaurants.add(new Restaurant("TRestaurant", TRestaurant.host, "normal"));
+
+		// make bank and add it to banks list
+		BankPlace bank = new BankPlace();
+		banks.add(new Bank("Bank1", bank.bankManager));
+		
+		// make market and add it to market list
+		MarketPlace market = new MarketPlace();
+		markets.add(new Market("Market1", market.mManager));
 		try {
 			in  = new Scanner(new FileReader("config"+File.separator+type+".txt"));
 //			System.out.println(in.next());
