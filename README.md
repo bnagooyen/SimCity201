@@ -18,6 +18,7 @@
 
 ###How To Compile and Run
 	+ Download files and open onto eclipse, then press 'run'!
+	+ Make sure to go into unit tests and add JUnit3 to buildpath
 	+ Go to Run->Run Configurations->Have the program run simcity.gui.SimCityGui
 	+ One can choose a Scenario or add Person
 	
