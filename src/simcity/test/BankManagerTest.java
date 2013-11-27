@@ -36,16 +36,17 @@ public class BankManagerTest extends TestCase{
 	public void setUp() throws Exception{
 		super.setUp();
 		p = new PersonAgent("BankManager");
-		mockrole=new MockRole("mockrole", p);
-		manager = new BankManagerRole(p);
-		p.addRole(manager);
+		mockrole=new MockRole("mockrole");
+		manager = new BankManagerRole();
+//		p.addRole(manager);
+		manager.myPerson = p;
 		PersonAgent p2 = new PersonAgent("MockTeller");
-		teller = new MockBankTeller("mockTeller", p2);
+		teller = new MockBankTeller("mockTeller");
 		
 		loanOfficer = new MockBankLoanOfficer("mockOfficer");
 		manager.isActive=true;
 		PersonAgent p3 = new PersonAgent("MockTeller");
-		teller2 = new MockBankTeller("mockTeller2", p3);
+		teller2 = new MockBankTeller("mockTeller2");
 		loanOfficer2 = new MockBankLoanOfficer("mockOfficer2");
 		
 		customer1t = new MockBankCustomer("transaction");
@@ -176,6 +177,7 @@ public class BankManagerTest extends TestCase{
 		manager.msgTimeUpdate(8);
 	
 		//loan and teller added
+		
 		assertTrue(manager.pickAndExecuteAnAction());
 		assertEquals("size of officerlist =1", manager.getOfficer().size(),1);
 //		assertEquals("officer has one log that is on duty", loanOfficer.log.size(), 1);
