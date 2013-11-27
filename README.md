@@ -79,7 +79,7 @@
 	+Unit Testing of Bus Agent
 	+Shared Data of Restaurant (rotating wheel)
 	+Help Unit Test Person
-	
+	+Created Mocks involved in Person Testing
 	
 	Tiffany:
 	+Design+Implementation Landlord 
@@ -102,7 +102,7 @@
 	
 	
 	
-	
+	Overall, a strong team effort was made.
 	
 	
 	
