@@ -220,15 +220,15 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	}
 
 	private void leaveBank() {
-		bankloanGui.goToCorner();
+//		bankloanGui.goToCorner();
 		corner=cornerState.leaving;
-		finishTask();
+//		finishTask();
 	}
 	private void arriveAtBank() {
 		manager.msgIAmHere(this, "BankLoanOfficer");
-		bankloanGui.goToCorner();
+//		bankloanGui.goToCorner();
 		corner=cornerState.coming;
-		finishTask();
+//		finishTask();
 		state=bankLoanState.working;
 	}
 	//utilites
