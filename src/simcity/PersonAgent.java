@@ -46,7 +46,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	BusStop busStop;
 	public Car myCar=null;
 	public List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
-	Map<String,Role> possibleRoles = new HashMap<String,Role>();
+	public Map<String,Role> possibleRoles = new HashMap<String,Role>();
 	//List<Role> customerRoles = new ArrayList<Role>();
 	private Semaphore inKitchen = new Semaphore(0, true);
 	public Role myJob;
