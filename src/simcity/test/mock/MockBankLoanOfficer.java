@@ -1,5 +1,6 @@
 package simcity.test.mock;
 
+import simcity.Bank.gui.BankLoanGui;
 import simcity.interfaces.*;
 
 public class MockBankLoanOfficer extends Mock implements BankLoanOfficer{
@@ -41,6 +42,36 @@ public class MockBankLoanOfficer extends Mock implements BankLoanOfficer{
 	public void msgGoToLoanOfficerPosition() {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("On duty"));
+	}
+
+	@Override
+	public void msgAnimationFinishedGoToCorner() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgAnimationFinishedLeaveBank() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgAtLoanPos() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setManager(BankManager m) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setGui(BankLoanGui lOGui) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

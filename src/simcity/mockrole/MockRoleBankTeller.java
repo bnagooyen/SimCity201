@@ -88,10 +88,6 @@ public class MockRoleBankTeller extends MockRole implements BankTeller{
 		
 	}
 
-	@Override
-	public void msgTimeUpdate() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }
