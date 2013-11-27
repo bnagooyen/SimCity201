@@ -1,5 +1,5 @@
 Population(numPeopleInFile):
-33
+32
 EntryTemplate:
 Name
 	Money
@@ -108,32 +108,32 @@ Cook6
 	Apartment
 RCashier1
 	200
-	RestCashier1
+	RCashier1
 	false
 	Apartment
 RCashier2
 	200
-	RestCashier2
+	RCashier2
 	false
 	Apartment
 RCashier3
 	200
-	RestCashier3
+	RCashier3
 	false
 	Apartment
 RCashier4
 	200
-	RestCashier4
+	RCashier4
 	false
 	Apartment
 RCashier5
 	200
-	RestCashier5
+	RCashier5
 	false
 	Apartment
 RCashier6
 	200
-	RestCashier6
+	RCashier6
 	false
 	Apartment
 InventoryBoy1
@@ -160,11 +160,6 @@ Landlord1
 	500
 	Landlord
 	true
-	House
-BankRobber1
-	0
-	BankRobber
-	false
 	House
 Betty
 	200

@@ -20,8 +20,8 @@ public class CityGui extends JFrame {
 	
 	CityPanel city;
 	TListPanel info;
-	private SimCityPanel simcityPanel = new SimCityPanel(this);
-	private ListPanel addPersonPanel=new ListPanel(simcityPanel, "Person");
+	private ts_SimCityPanel simcityPanel = new ts_SimCityPanel(this);
+	private ts_ListPanel addPersonPanel=new ts_ListPanel( simcityPanel, "Person");
 	private ArrayList<Person> people = new ArrayList<Person>();
 	BusAgent b = new BusAgent();
 	CityView view;
@@ -103,12 +103,17 @@ public class CityGui extends JFrame {
 //		this.add(tracePanel, c);
 	}
 
+	public void addPeople(ArrayList<Person> people) {
+		addPersonPanel.AddPeople(people);
+	}
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		CityGui test = new CityGui();
 		test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		test.simcityPanel.LoadScenario("config1");
 		test.setResizable(false);
 		test.pack();
 		test.setVisible(true);
