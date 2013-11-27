@@ -223,18 +223,18 @@ public class BankTellerRole extends Role implements BankTeller {
 		}
 		
 		private void leaveBank() {
-			banktellerGui.goToCorner();
+//			banktellerGui.goToCorner();
 			corner=cornerState.leaving;
-			finishTask();
+//			finishTask();
 			this.isActive=false;
 		}
 		private void arriveAtBank() {
 			Do("Telling Manager I am Here");
 			state=bankTellerState.working;
 			manager.msgIAmHere(this, "BankTeller");
-			banktellerGui.goToCorner();
+//			banktellerGui.goToCorner();
 			corner=cornerState.coming;
-			finishTask();
+//			finishTask();
 		}
 
 		public void setGui(BankTellerGui BG){

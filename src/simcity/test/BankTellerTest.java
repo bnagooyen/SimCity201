@@ -22,9 +22,10 @@ public class BankTellerTest extends TestCase{
 	public void setUp() throws Exception{
 		super.setUp();
 		p = new PersonAgent("BankManager");
-		mockrole=new MockRole("mockrole", p);
-		t = new BankTellerRole(p);
-		p.addRole(t);
+		mockrole=new MockRole("mockrole");
+		t = new BankTellerRole();
+//		p.addRole(t);
+		t.myPerson = p;
 		mgr = new MockBankManager("MockBankManager");
 		customer = new MockBankCustomer("mockCustomer");
 		robber = new MockBankRobber("mockRobber");
@@ -36,7 +37,7 @@ public class BankTellerTest extends TestCase{
 		//preconditions
         assertEquals("Requested should equal 0", t.requested, 0.0);
         assertEquals("Requested should equal 0", t.transacted, 0.0);
-        assertEquals("AccountState should start at ", t.state, bankTellerState.working);
+        assertEquals("AccountState should start at ", t.state, bankTellerState.arrived);
         assertEquals("teller should have an empty event log before his msgBill is called. Instead, the teller's event log read: " + t.log.toString(), 0, t.log.size());
         assertEquals("MockBankManager should have an empty event log. Instead, the MockBankManager's event log reads: "
                 + mgr.log.toString(), 0, mgr.log.size());
@@ -77,12 +78,13 @@ public class BankTellerTest extends TestCase{
         assertTrue("Teller should have a MyCustomer", t.customer==null);
 	}
 	
+	
 	public void testNormativeDeposit() {
 		
 		//preconditions
         assertEquals("Requested should equal 0", t.requested, 0.0);
         assertEquals("Requested should equal 0", t.transacted, 0.0);
-        assertEquals("AccountState should start at ", t.state, bankTellerState.working);
+        assertEquals("AccountState should start at ", t.state, bankTellerState.arrived);
         assertEquals("teller should have an empty event log before his msgBill is called. Instead, the teller's event log read: " + t.log.toString(), 0, t.log.size());
         assertEquals("MockBankManager should have an empty event log. Instead, the MockBankManager's event log reads: "
                 + mgr.log.toString(), 0, mgr.log.size());
@@ -123,12 +125,13 @@ public class BankTellerTest extends TestCase{
         assertTrue("Teller should have a MyCustomer", t.customer==null);
 	}
 	
+	
 	public void testGettingRobbed() {
 		
 		//preconditions
         assertEquals("Requested should equal 0", t.requested, 0.0);
         assertEquals("Requested should equal 0", t.transacted, 0.0);
-        assertEquals("AccountState should start at ", t.state, bankTellerState.working);
+        assertEquals("AccountState should start at ", t.state, bankTellerState.arrived);
         assertEquals("teller should have an empty event log before his msgBill is called. Instead, the teller's event log read: " + t.log.toString(), 0, t.log.size());
         assertEquals("MockBankManager should have an empty event log. Instead, the MockBankManager's event log reads: "
                 + mgr.log.toString(), 0, mgr.log.size());
@@ -145,4 +148,5 @@ public class BankTellerTest extends TestCase{
         
         
 	}
+	
 }
