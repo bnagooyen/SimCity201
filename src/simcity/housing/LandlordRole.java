@@ -278,7 +278,7 @@ public class LandlordRole extends Role implements Landlord{
 		}
 	}
 	
-	public void setTenants(List<PersonAgent> newTenants) {
+	public void setTenants(List<Person> newTenants) {
 		int x = 0; 
 		for (Tenant t: myTenants) {
 			x++; 
