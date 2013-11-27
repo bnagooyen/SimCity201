@@ -29,6 +29,10 @@
 	+ NOTE 2: Initializing kitchen threshold values/current inventory values/market values MUST be set at first.
 	+		Can increase/decrease as you like, once happy with numbers hit 'SET' so cook can check if restaurant is ready for open
 	
+
+	For our v1 SimCity deliverable, each of our agents and roles work independently of eachother and this is evidenced by our working Unit Tests.  However, with the addition of the PersonAgent to unify all of our roles and agents together, there were many errors that occured.  Through Person's errors, our separate working roles and agents were unable to operate well in the whole city.  
+
+	
 ###Resources
   + [Restaurant v1](http://www-scf.usc.edu/~csci201/readings/restaurant-v1.html)
   + [Agent Roadmap](http://www-scf.usc.edu/~csci201/readings/agent-roadmap.html)
