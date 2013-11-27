@@ -12,6 +12,7 @@ import simcity.interfaces.MarketCashier;
 import simcity.interfaces.Person;
 import simcity.mockrole.MockRole;
 import simcity.mockrole.MockRoleBankTeller;
+import simcity.mockrole.MockRoleCar;
 import simcity.mockrole.MockRoleMarketCashier;
 import simcity.test.mock.*;
 import simcity.Market.MarketCashierRole.orderState;
@@ -30,8 +31,8 @@ public class PersonTest extends TestCase{
 	MockRole role;
 	MockBus bus;
 	MockBusStop busStop;
-	MockCar car;
-	MockBankTeller teller;
+	MockRoleCar car;
+	MockRoleBankTeller teller;
 	
 	
 
@@ -42,18 +43,18 @@ public class PersonTest extends TestCase{
 		bus=new MockBus("bus");
 		busStop=new MockBusStop("mock busStop");
 		person.SetJob(role);
-		car=new MockCar("car");
+		car=new MockRoleCar("car");
 		
 
 	}
 	
 	public void testnormativePersonToBank(){
-		MockRoleBankTeller bankTeller=new MockRoleBankTeller("teller",person);
-		person.SetJob(bankTeller);
+		teller=new MockRoleBankTeller("teller");
+		person.SetJob(teller);
 		person.myCar=car;
 		person.msgTimeUpdate(6);
 		
-		assertEquals("Persons Job should have been BankTeller", person.myJob,bankTeller);
+		assertEquals("Persons Job should have been BankTeller", person.myJob,teller);
 		assertEquals("Persons Job location should be the bank", person.jobLocation,"bank");
 		assertEquals("Should not have a destination", person.mydestination,null);
 		assertEquals("Starts with $200", person.money,200.0);
@@ -208,10 +209,12 @@ public class PersonTest extends TestCase{
 	}
 
 	public void testCarInteraction(){
-		teller = new MockBankTeller("teller");
-		person.SetJob(teller);
-		teller.myPerson= person;
+		car.myPerson = person;
 		person.myCar=car;
+		teller = new MockRoleBankTeller("teller");
+		teller.myPerson= person;
+		person.SetJob(teller);
+
 		assertEquals("Car should have no messages sent to it, but it has messages in log", car.log.size(), 0);
 		
 		person.msgTimeUpdate(6);
