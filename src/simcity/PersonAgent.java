@@ -4,6 +4,8 @@ import agent.Agent;
 import agent.Role;
 import simcity.BRestaurant.BCustomerRole;
 import simcity.Bank.BankCustomerRole;
+import simcity.Bank.BankManagerRole;
+import simcity.Bank.BankTellerRole;
 //import simcity.Bank.BankManagerRole.MyClient;
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DCustomerRole.AgentEvent;
@@ -216,22 +218,25 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	// Messages
 	public void msgTimeUpdate(int hr) {
-		Do("got time update. Time is " + hr+" Work Starts at " +myJob.startHour);
+		//Do("got time update. Time is " + hr+" Work Starts at " +myJob.startHour);
 		hour = hr;
-		if(hr == 6) { 
+		if(hr == 6&& ((myJob instanceof BankManagerRole)  || (myJob instanceof BankTellerRole) || (myJob instanceof BankLoanOfficer))) { 
+			energyState= energyState.awake;
+		}
+		else if (hr == 7 && ((myJob instanceof BankManagerRole)  || (myJob instanceof BankTellerRole) || (myJob instanceof BankLoanOfficer))) {
 			energyState= energyState.awake;
 		}
 		if(hr ==24) { 
 			energyState = energyState.asleep;
 		}
-		if(hr==myJob.startHour-1) {
+		if(hr == 6){//hr==myJob.startHour-1) {
 			needToGoToWork=true;
 		}
 		
 		synchronized(roles) {
 			for(Role r: roles) {
-				System.out.println("****Activity " +r.isActive);
-				System.out.println("****Role " +r);
+//				System.out.println("****Activity " +r.isActive);
+//				System.out.println("****Role " +r);
 				if(r.isActive) {
 					r.timeUpdate(hr);
 				}
