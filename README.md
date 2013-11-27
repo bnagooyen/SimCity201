@@ -44,7 +44,7 @@
 	+Contributed to other Market Agents 
 	+Collaborated on PersonAgent
 	+Started Shared Data on Restaurants
-	+Fixed Market/Cashier Interactions
+	+Implemented Market Interactions
 	+Shared Data of Restaurant (rotating wheel)
 	+Unit Test Market Inventory Boy
 	+Unit Test Market Customer
@@ -54,14 +54,18 @@
 	
 	Linda:
 	+Design+Implementation MarketCashier 
-	+Design+Implementation Delivery Truck
-	+Updated JUnit corrections and errors
 	+Design+Implementation MarketManager
+	+Design+Implementation Delivery Truck
+	+Contributed to other Market Agents
+	+Implemented Market interactions
+	+Created initial and Market MockRoles
 	+Shared Data in Restaurant (rotating wheel)
-	+Unit Test MarketCashier 
-	+Unit Test Delivery Truck
 	+Updated JUnit corrections and errors
+	+Unit Test MarketCashier 
 	+Unit Tested MarketManager
+	+Unit Test Delivery Truck
+	+Unit Test LWaiterSharedData
+	
 
 	Brian:
 	+Design+Implementation Bus Agent
@@ -74,6 +78,7 @@
 	+Unit Testing of Bus Agent
 	+Shared Data of Restaurant (rotating wheel)
 	+Help Unit Test Person
+	
 	
 	Tiffany:
 	+Design+Implementation Landlord 
