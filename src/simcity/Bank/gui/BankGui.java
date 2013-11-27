@@ -16,7 +16,7 @@ public class BankGui extends JFrame implements ActionListener {
      */
 	JFrame animationFrame = new JFrame("Bank Animation");
 	//JFrame panelFrame = new JFrame("Panel");
-	AnimationPanel animationPanel = new AnimationPanel();
+	BankAnimationPanel animationPanel = new BankAnimationPanel();
 	
     /* restPanel holds 2 panels
      * 1) the staff listing, menu, and lists of current customers all constructed

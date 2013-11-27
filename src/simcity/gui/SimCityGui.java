@@ -48,7 +48,7 @@ public class SimCityGui extends JFrame {
 		globalLog.setResizable(true);
 		globalLog.add(tracePanel);
 		globalLog.pack();
-		globalLog.setVisible(true);
+		globalLog.setVisible(false);
 		
 		
 		city = new CityPanel(this);

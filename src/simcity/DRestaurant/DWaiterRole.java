@@ -72,6 +72,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	private boolean wantBreakChecked;
 	private boolean returnFromWorkChecked;
 	private boolean disableBoxTillBreak;
+	private boolean arrived= false;
 	
 	public WaiterState state;
 	
@@ -323,6 +324,11 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 			
 			//notifying clear table to host on the radio
 			
+			if(arrived && !arrived) {
+				ReportForDuty();
+				return true;
+			}
+			
 			if(wantBreakChecked) {
 				AskHostForBreak();
 				return true;
@@ -444,6 +450,11 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	}
 
 	// Actions
+	
+	private void ReportForDuty() {
+		arrived =true;
+		host.msgIAmHere(this);
+	}
 	private void GoToCashier() {
 		checksWaiting=false;
 		DoGoToCashier();
