@@ -38,12 +38,12 @@ public abstract class TSimCityPanel extends JPanel implements MouseListener {
 	private ArrayList<MyLandlord> landlords = new ArrayList<MyLandlord>();
 	static Scanner in;
 	
-	protected CityGui city;
+	protected SimCityGui city;
 	protected ArrayList<CityComponent> statics, movings;
 	protected Color background;
 	//protected Timer timer;
 	
-	public TSimCityPanel(CityGui city) {
+	public TSimCityPanel(SimCityGui city) {
 		this.city = city;
 		statics = new ArrayList<CityComponent>();
 		movings = new ArrayList<CityComponent>();

@@ -8,7 +8,7 @@ public class CityCard extends TSimCityPanel {
 
 	public static final int CARD_WIDTH = 500, CARD_HEIGHT = 500;
 
-	public CityCard(CityGui city) {
+	public CityCard(SimCityGui city) {
 		super(city);
 		this.setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
 		this.setVisible(true);
@@ -16,7 +16,7 @@ public class CityCard extends TSimCityPanel {
 		background = Color.green;
 	}
 	
-	public CityCard(CityGui city, Color c) {
+	public CityCard(SimCityGui city, Color c) {
 		super(city);
 		this.setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
 		this.setVisible(true);

@@ -6,11 +6,11 @@ import javax.swing.*;
 
 public class TListPanel extends JPanel {
 
-	CityGui city;
+	SimCityGui city;
 	JLabel text;
 	public static final int INFO_WIDTH = 300, INFO_HEIGHT = 150;
 	
-	public TListPanel(CityGui city) {
+	public TListPanel(SimCityGui city) {
 		this.city = city;
 		this.setPreferredSize(new Dimension(INFO_WIDTH, INFO_HEIGHT));
 		this.setBackground(Color.LIGHT_GRAY);

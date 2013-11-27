@@ -79,6 +79,9 @@ import simcity.TTRestaurant.TWaiterSharedDataRole;
 import simcity.Transportation.BusAgent;
 import simcity.Transportation.BusStopAgent;
 import simcity.Transportation.CarAgent;
+import simcity.gui.SimCityPanel.Bank;
+import simcity.gui.SimCityPanel.Market;
+import simcity.gui.SimCityPanel.MyLandlord;
 import simcity.housing.LandlordRole;
 import simcity.housing.RepairManRole;
 import simcity.interfaces.BCashier;
@@ -119,12 +122,11 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	public char aptLetCounter='A';
 	private SimCityGui gui;
 	public Map<String, List<Location>> buildings = new HashMap<String, List<Location>>();
-	//public Map<String, List<Location>> busStops=new HashMap<String, List<Location>>(); //STILL BLANK
-	public Map<String, BusStop> busStops=new HashMap<String, BusStop>();  
+	public Map<String, BusStop> busStops=new HashMap<String, BusStop>(); //STILL BLANK
+
 	BusAgent bus=new BusAgent();
 	BusStopAgent bs=new BusStopAgent();
 	BusStopAgent bs2=new BusStopAgent();
-	
 	
 	private List<Location> restaurants = new ArrayList<Location>();
 	private List<Location> banks = new ArrayList<Location>();
@@ -157,64 +159,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		
 		//*********Remember to add in delivery truck**********
 		
-//		// populate buildings map 
-//		PersonAgent p1 = new PersonAgent("bankmanager");
-//		BankManagerRole bm = new BankManagerRole(p1);
-//		p1.SetJob(bm);
-//		banks.add(new Bank("Bank1", bm));
-//		
-//		PersonAgent p2 = new PersonAgent("marketmanager");
-//		MarketManagerRole mm =  new MarketManagerRole(p2);
-//		p2.SetJob(mm);
-//		markets.add(new Market("Market1", mm));
-//
-//		PersonAgent p3 = null;
-//		KHostRole kh = new KHostRole(p3);
-//		p3 = new PersonAgent("khost");
-//		restaurants.add(new Restaurant("KRestaurant", kh, "normal"));
-//
-//		PersonAgent p4 = null;
-//		BHostRole bh = new BHostRole(p4);
-//		p4 = new PersonAgent("bhost");
-//		restaurants.add(new Restaurant("BRestaurant", bh, "narmal"));
-//
-//		PersonAgent p5 = null;
-//		Drew_HostRole drewh =  new Drew_HostRole(p5);
-//		p5 = new PersonAgent("drew_host");
-//		restaurants.add(new Restaurant("DrewRestaurant", drewh, "normal"));
-//
-//		PersonAgent p6 = null;
-//		DHostRole dh = new DHostRole(p6);
-//		p6 = new PersonAgent("dhost");
-//		restaurants.add(new Restaurant("DRestaurant", dh, "normal"));
-//
-//		PersonAgent p7 = null;
-//		LHostRole lh =  new LHostRole(p7);
-//		p7 = new PersonAgent("lhost", lh);
-//		restaurants.add(new Restaurant("LRestaurant", lh, "normal"));
-//
-//		PersonAgent p8 = null;
-//		THostRole th = new THostRole(p8);
-//		p8 = new PersonAgent("thost", th);
-//		restaurants.add(new Restaurant("TRestaurant", th, "normal"));
-//
-//		buildings.put("Bank", banks);
-//		buildings.put("Market", markets);
-//		buildings.put("Restaurant", restaurants);
-//		
-		
-		
-		
-//		DWaiterRole w = null;
-//		PersonAgent waiter = new PersonAgent("waiter", w);
-//		w = new DWaiterRole(waiter);
-		
-//		PersonAgent cust = new PersonAgent("cust", null);
-//		cust.setPanel(this);
-//		
-//		p6.startThread();
-//		waiter.startThread();
-//		cust.startThread();
+
 		restaurants.add(new Restaurant("DrewRestaurant", DrewRestaurant.host, "normal"));
 		restaurants.add(new Restaurant("BRestaurant", BRestaurant.host, "normal"));
 		restaurants.add(new Restaurant("DRestaurant", DRestaurant.host, "normal"));
@@ -228,172 +173,8 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		busStops.put("stop2",bs2);
 		bus.startThread();
 		bus.msgSetBusDirectory(busStops);
-		
-
 }
 	   
-	
-	
-	
-//	public Role jobFactory(String job, PersonAgent p) {
-//		Role j = null;
-//		// bank 
-//		if (job.equals("BankLoanOfficer")) {
-//			j = new BankLoanOfficerRole(p);
-//		}
-//		else if (job.equals("BankManager")) {
-//			j = new BankManagerRole(p);
-//		}
-//		else if (job.equals("BankRobber")) {
-//			j = new BankRobberRole(p);
-//		}
-//		else if (job.equals("BankTeller")) {
-//			j = new BankTellerRole(p);
-//		}
-//		
-//		// market
-//		else if (job.equals("InventoryBoy")) {
-//			j = new InventoryBoyRole(p);
-//		}
-//		else if (job.equals("MarketCashier")) {
-//			j = new MarketCashierRole(p);
-//		}
-//		else if (job.equals("MarketManager")) {
-//			j = new MarketManagerRole(p);
-//		}
-//
-//		// house
-//		else if (job.equals("Landlord")) {
-//			j = new LandlordRole(p);
-//		}
-//		else if (job.equals("RepairMan")) {
-//			j = new RepairManRole(p);
-//		}
-//		
-//		// BRestaurant
-//		else if (job.equals("RestCashier2")) {
-//			j = new BCashierRole(p);
-//		}
-//		else if (job.equals("Cook2")) {
-//			j = new BCookRole(p);
-//		}
-//		else if (job.equals("Host2")) {
-//			j = new BHostRole(p);
-//		}
-//		else if (job.equals("Waiter2")) {
-//			j = new BWaiterNormalRole(p);
-//		}
-//		
-//		// DRestaurant
-//		else if (job.equals("RestCashier3")) {
-//			j = new DCashierRole(p);
-//		}
-//		else if (job.equals("Cook3")) {
-//			j = new DCookRole(p);
-//		}
-//		else if (job.equals("Host3")) {
-//			j = new DHostRole(p);
-//		}
-//		else if (job.equals("Waiter3")) {
-//			j = new DWaiterNormalRole(p);
-//		}
-//		
-//		// Drew_Restaurant
-//		else if (job.equals("RestCashier1")) {
-//			j = new Drew_CashierRole(p);
-//		}
-//		else if (job.equals("Cook1")) {
-//			j = new Drew_CookRole(p);
-//		}
-//		else if (job.equals("Host1")) {
-//			j = new Drew_HostRole(p);
-//		}
-//		else if (job.equals("Waiter1")) {
-//			j = new Drew_WaiterRole(p);
-//		}
-//		
-//		// KRestaurant
-//		else if (job.equals("RestCashier4")) {
-//			j = new KCashierRole(p);
-//		}
-//		else if (job.equals("Cook4")) {
-//			j = new KCookRole(p);
-//		}
-//		else if (job.equals("Host4")) {
-//			j = new KHostRole(p);
-//		}
-//		else if (job.equals("Waiter4")) {
-//			j = new KWaiterNormalRole(p);
-//		}
-//		else if (job.equals("WaiterSharedData4")) {
-//			j = new KWaiterSharedDataRole(p);
-//		}
-//		
-//		// LRestaurant
-//		else if (job.equals("RestCashier5")) {
-//			j = new LCashierRole(p);
-//		}
-//		else if (job.equals("Cook5")) {
-//			j = new LCookRole(p);
-//		}
-//		else if (job.equals("Host5")) {
-//			j = new LHostRole(p);
-//		}
-//		else if (job.equals("Waiter5")) {
-//			j = new LWaiterNormalRole(p);
-//		}
-//		
-//		// TTRestaurant
-//		else if (job.equals("RestCashier6")) {
-//			j = new TCashierRole(p);
-//		}
-//		else if (job.equals("Cook6")) {
-//			j = new TCookRole(p);
-//		}
-//		else if (job.equals("Host6")) {
-//			j = new THostRole(p);
-//		}
-//		else if (job.equals("Waiter6")) {
-//			j = new TWaiterRole(p);
-//		}
-//		return j;
-//	}
-//	
-//	public Role customerFactory(String place, PersonAgent p) {
-//		Role c = null;
-//		if (place.equals("Bank")) {
-//			System.out.println("making bank customer");
-//			c = new BankCustomerRole(p);
-//		}
-//		else if (place.equals("Market")) {
-//			c = new MarketCustomerRole(p);
-//		}
-//		else if (place.equals("KRestaurant")) {
-//			c = new KCustomerRole(p);
-//		}
-//		else if (place.equals("BRestaurant")) {
-//			c = new BCustomerRole(p);
-//		}
-//		else if (place.equals("Drew_restaurant")) {
-//			c = new Drew_CustomerRole(p);
-//		}
-//		else if (place.equals("DRestaurant")) {
-//			c = new DCustomerRole(p);
-//			System.out.println("made drestaurantcust");
-//		}
-//		else if (place.equals("LRestaurant")) {
-//			c = new LCustomerRole(p);
-//		}
-//		else if (place.equals("TRestaurant")) {
-//			c = new TCustomerRole(p);
-//		}
-//		return c;
-//	}
-	
-	public SimCityPanel(CityGui cityGui) {
-		// TODO Auto-generated constructor stub
-		this.gui = gui;
-	}
 
 
 
@@ -654,15 +435,17 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			buildings.put("Bank", banks);
 			buildings.put("Market", markets);
 			buildings.put("Restaurant", restaurants);
+		
+			/*******fix dis*********/
 			
-			for (Person p: people) {
-				p.msgSetBuildingDirectory(buildings);
-				p.msgSetBusDirectory(busStops);
-			}
+//			for (Person p: people) {
+//				p.msgSetBuildingDirectory(buildings);
+//				p.msgSetBusDirectory(busStops);
+//			}
 //			
 			for(MyLandlord l: landlords) {
 //				System.out.println(l.tenants.size());
-//				l.p.SetTenants(l.tenants);
+				l.l.setTenants(l.tenants);
 			}
 //			
 			//TEST CODE
@@ -694,7 +477,6 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			e.printStackTrace();
 		}
 	}
-	
 	  public void addPerson(String name, String role, double moneyVal, String houseOrApt) {
 
     		PersonAgent p = new PersonAgent(name);
@@ -748,13 +530,14 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				p.SetHome(HomeType.homeless);
 			}
  
-    		//give person directory
-    		p.msgSetBuildingDirectory(buildings);
-			p.msgSetBusDirectory(busStops);
+    		/********fix dis***********/
+//    		//give person directory
+//    		p.msgSetBuildingDirectory(buildings);
+//			p.msgSetBusDirectory(busStops);
 			
-    		PersonGui g = new PersonGui(p, gui);
-    		p.setGui(g);
-    		gui.simCityAnimationPanel.addGui(g);
+//    		PersonGui g = new PersonGui(p, gui);
+//    		p.setGui(g);
+//    		gui.simCityAnimationPanel.addGui(g);
     		p.startThread();
     		people.add(p);
 //    		System.err.println("added person in restpanel");
@@ -1089,12 +872,13 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	}
 	  
 	public class MyLandlord {
+		LandlordRole l;
 		Person p;
 		List<Person> tenants= new ArrayList<Person>();
 		public MyLandlord(Person per) {
 			p=per;
-			LandlordRole l = new LandlordRole();
-			p.SetJob(l);
+			p.SetJob(new LandlordRole());
+			l = new LandlordRole();
 			l.myPerson = (PersonAgent) per;
 		}
 	}

@@ -14,11 +14,11 @@ import javax.swing.JPanel;
 public class CityView extends JPanel implements MouseListener, ActionListener {
 
 	HashMap<String, CityCard> cards;
-	CityGui city;
+	SimCityGui city;
 	public static final int VIEW_WIDTH = 575, VIEW_HEIGHT = 325;
 	CardLayout layout;
 	
-	public CityView(CityGui city) {
+	public CityView(SimCityGui city) {
 		
 		this.setPreferredSize(new Dimension(VIEW_WIDTH, VIEW_HEIGHT));
 		this.setVisible(true);

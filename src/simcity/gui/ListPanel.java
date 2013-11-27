@@ -41,7 +41,7 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param type indicates if this is for customers or waiters
      */
     public ListPanel(SimCityPanel rp, String type) {
-    	CityGui city;
+    	SimCityGui city;
     	JLabel text;
     	final int INFO_WIDTH = 300;
 		final int INFO_HEIGHT = 150;

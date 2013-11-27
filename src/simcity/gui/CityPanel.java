@@ -41,7 +41,7 @@ public class CityPanel extends TSimCityPanel implements ActionListener, MouseMot
 	
 	String name = "City Panel";
 	
-	public CityPanel(CityGui city) {
+	public CityPanel(SimCityGui city) {
 		super(city);
 		this.setPreferredSize(new Dimension(CITY_WIDTH, CITY_HEIGHT));
 		this.setVisible(true);
