@@ -432,91 +432,112 @@ public class SimCityPanel extends JPanel implements MouseListener{
 				
 				if(job.equals("BankLoanOfficer")) {
 					p.SetJob(bank.loanOfficer);
+					bank.loanOfficer.myPerson = p;
 				}
 				
 				else if(job.equals("BankTeller")) {
 					p.SetJob(bank.bankTeller);
+					bank.bankTeller.myPerson = p;
 				}
 				
 				else if(job.equals("InventoryBoy")) {
 					p.SetJob(market.ib);
+					market.ib.myPerson = p;
 				}
 				else if(job.equals("MarketCashier")) {
 					p.SetJob(market.mCashier);
+					market.mCashier.myPerson = p;
 				}
 				//add to map
 				if(job.equals("BankManager") && bankCounter<=NUMBANKS) {
 					//banks.add(new Bank("Bank"+Integer.toString(bankCounter), myJob));
 					p.SetJob(bank.bankManager);
+					bank.bankManager.myPerson = p;
 					bankCounter++;
 				}
 				else if(job.equals("MarketManager") && mktCounter<=NUMMARKETS) {
 					//markets.add(new Market("Market"+Integer.toString(mktCounter), myJob));
 					p.SetJob(market.mManager);
+					market.mManager.myPerson = p;
 					mktCounter++;
 				}
 				else if(job.equals("Host1")) {
 					//restaurants.add(new Restaurant("Restaurant1", myJob, "normal"));
 					p.SetJob(DrewRestaurant.host);
+					DrewRestaurant.host.myPerson = p;
 				}
 				else if(job.equals("Cook1")) {
 					p.SetJob(DrewRestaurant.cook);
+					DrewRestaurant.cook.myPerson = p;
 				}
 				else if(job.equals("RCashier1")) {
 					p.SetJob(DrewRestaurant.cashier);
+					DrewRestaurant.cashier.myPerson = p;
 				}
 				else if(job.equals("Host2")) {
 					//restaurants.add(new Restaurant("Restaurant2", myJob, "normal"));
 					p.SetJob(BRestaurant.host);
+					BRestaurant.host.myPerson = p;
 				}
 				else if(job.equals("Cook2")) {
 					p.SetJob(BRestaurant.cook);
+					BRestaurant.cook.myPerson = p;
 				}
 				else if(job.equals("RCashier2")) {
 					p.SetJob(BRestaurant.cashier);
+					BRestaurant.cashier.myPerson = p;
 				}
 				else if(job.equals("Host3")) {
 					//restaurants.add(new Restaurant("Restaurant3", myJob, "normal"));
 					p.SetJob(DRestaurant.host);
+					DRestaurant.host.myPerson = p;
 				}
 				else if(job.equals("Cook3")) {
 					p.SetJob(DRestaurant.cook);
+					DRestaurant.cook.myPerson = p;
 				}
 				else if(job.equals("RCashier3")) {
 					p.SetJob(DRestaurant.cashier);
+					DRestaurant.cashier.myPerson = p;
 				}
 				else if(job.equals("Host4")) {
 					//restaurants.add(new Restaurant("Restaurant4", myJob, "normal"));
 					p.SetJob(KRestaurant.host);
-
+					KRestaurant.host.myPerson = p;
 				}
 				else if(job.equals("Cook4")) {
 					p.SetJob(KRestaurant.cook);
+					KRestaurant.cook.myPerson = p;
 				}
 				else if(job.equals("RCashier4")) {
 					p.SetJob(KRestaurant.cashier);
+					KRestaurant.cashier.myPerson = p;
 				}
 				else if(job.equals("Host5")) {
 					//restaurants.add(new Restaurant("Restaurant5", myJob, "normal"));
 					p.SetJob(LRestaurant.host);
-
+					LRestaurant.host.myPerson = p;
 				}
 				else if(job.equals("Cook5")) {
 					p.SetJob(LRestaurant.cook);
+					LRestaurant.cook.myPerson = p;
 				}
 				else if(job.equals("RCashier5")) {
 					p.SetJob(LRestaurant.cashier);
+					LRestaurant.cashier.myPerson = p;
 				}
 				else if(job.equals("Host6")) {
 					//restaurants.add(new Restaurant("Restaurant6", myJob, "normal"));
 					p.SetJob(TRestaurant.host);
-
+					TRestaurant.host.myPerson = p;
 				}
 				else if(job.equals("Cook6")) {
 					p.SetJob(TRestaurant.cook);
+					TRestaurant.cook.myPerson = p;
 				}
 				else if(job.equals("RCashier6")) {
 					p.SetJob(TRestaurant.cashier);
+					TRestaurant.cashier.myPerson = p;
 				}
 				//for load balancing waiters when they are added on through gui
 				else if(job.equals("Waiter1")) {
@@ -526,7 +547,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 							//r.numEmployees++;
 							Drew_WaiterNormalRole w = (Drew_WaiterNormalRole) DrewRestaurant.AddHeadWaiter();
 							p.SetJob(w);
-
+							w.myPerson = p;
 							//break;
 						//}
 					//}
@@ -537,7 +558,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 //							r.numEmployees++;
 						BWaiterNormalRole w = (BWaiterNormalRole) BRestaurant.AddHeadWaiter();
 						p.SetJob(w);
-
+						w.myPerson = p;
 					
 //							break;
 //						}	
@@ -548,7 +569,9 @@ public class SimCityPanel extends JPanel implements MouseListener{
 //						if(r.name.equals("Restaurant3")){
 //							r.numEmployees++;
 //							break;
-					p.SetJob(DRestaurant.AddNormalWaiter());
+					DWaiterNormalRole w = (DWaiterNormalRole) DRestaurant.AddHeadWaiter();
+					p.SetJob(w);
+					w.myPerson = p;
 
 //						}		
 //					}
@@ -558,7 +581,9 @@ public class SimCityPanel extends JPanel implements MouseListener{
 //						if(r.name.equals("Restaurant4")){
 //							r.numEmployees++;
 //							break;
-					p.SetJob(KRestaurant.AddNormalWaiter());
+					KWaiterNormalRole w = (KWaiterNormalRole) KRestaurant.AddHeadWaiter();
+					p.SetJob(w);
+					w.myPerson = p;
 
 //						}		
 //					}
@@ -568,7 +593,9 @@ public class SimCityPanel extends JPanel implements MouseListener{
 //						if(r.name.equals("Restaurant5")) {
 //							r.numEmployees++;
 //							break;
-					p.SetJob(LRestaurant.AddNormalWaiter());
+					LWaiterNormalRole w = (LWaiterNormalRole)LRestaurant.AddHeadWaiter();
+					p.SetJob(w);
+					w.myPerson = p;
 
 //						}		
 //					}
@@ -578,7 +605,9 @@ public class SimCityPanel extends JPanel implements MouseListener{
 //						if(r.name.equals("Restaurant6")) {
 //							r.numEmployees++;
 //							break;
+					TWaiterRole w = (TWaiterRole) TRestaurant.AddHeadWaiter();
 					p.SetJob(TRestaurant.AddNormalWaiter());
+					w.myPerson = p;
 
 //						}
 //					}
@@ -1064,7 +1093,9 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		List<Person> tenants= new ArrayList<Person>();
 		public MyLandlord(Person per) {
 			p=per;
-			p.SetJob(new LandlordRole());
+			LandlordRole l = new LandlordRole();
+			p.SetJob(l);
+			l.myPerson = (PersonAgent) per;
 		}
 	}
 

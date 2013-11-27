@@ -470,7 +470,7 @@ public class TWaiterRole extends Role implements TWaiter{
 	}
 	
 	public void setHomePosition (int l) {
-		waiterGui.setHome(l); 
+		//waiterGui.setHome(l); 
 	}
 
 	public TWaiterGui getGui() {
