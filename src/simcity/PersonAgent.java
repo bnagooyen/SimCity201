@@ -96,9 +96,10 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	
 	//directories
 	public Map<String, List<Location>> buildings = null;
-	public Map<String, BusStop> busStops = null; //STILL BLANK
+	public Map<String, BusStop> busStops=new HashMap<String, BusStop>(); //STILL BLANK
 	
 
+	
 	public PersonAgent(String name) {
 		super();
 
@@ -171,6 +172,8 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	
 	public  void msgSetBusDirectory(Map<String, BusStop> bs) {
 		busStops=bs;
+		setBusStop(busStops.get(currentStop));
+		
 	}
 	public String getName() {
 		return name;
@@ -213,7 +216,9 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	//	}
 	//	
 	public void msgAtStop(String destination){
+		currentStop=destination;
 		mydestination=destination;
+		setBusStop(busStops.get(currentStop));
 		transitState = TransitState.getOffBus;
 		stateChanged();
 	}
@@ -629,9 +634,9 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		bus=b;
 	}
 	
-	public void setBusStop(BusStopAgent b){
+	public void setBusStop(BusStop b){
 		busStop=b;
-		b.startThread();
+		
 	}
 
 	public void setPanel(SimCityPanel p) {

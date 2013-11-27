@@ -172,6 +172,8 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		
 		banks.add(new Bank("Bank1", bank.bankManager));
 		markets.add(new Market("Market1", market.mManager));
+		bs.startThread();
+		bs2.startThread();
 		busStops.put("stop1",bs);
 		busStops.put("stop2",bs2);
 		bus.startThread();
