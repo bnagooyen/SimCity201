@@ -22,12 +22,12 @@ public class BankRobberTest extends TestCase{
 	public void setUp() throws Exception{
 		super.setUp();
 		p = new PersonAgent("BankRobber");
-		mockrole=new MockRole("mockrole", p);
-		robber = new BankRobberRole(p);
+		mockrole=new MockRole("mockrole");
+		robber = new BankRobberRole();
+		robber.myPerson = p;
 		p.addRole(robber);
 		mgr = new MockBankManager("MockBankManager");
-		PersonAgent p2 = new PersonAgent("MockTeller");
-		teller = new MockBankTeller("mockTeller", p2);
+		teller = new MockBankTeller("mockTeller");
 		robber.manager=mgr;
 	}
 	
@@ -69,6 +69,7 @@ public class BankRobberTest extends TestCase{
         assertEquals("AccountState should be at ", robber.state, bankRobberState.arrived);
         
 	}
+	
 	
 	public void testShootingRobbery() {
 		
@@ -139,5 +140,6 @@ public class BankRobberTest extends TestCase{
         assertEquals("AccountState should be at ", robber.state, bankRobberState.arrived);
         
 	}
+	
         
 }

@@ -93,8 +93,8 @@ public class BusAgent extends Agent implements Bus {
 		hour = hr;
 		if(hr==7) { 
 			
-			busStops.get(currentStop).msgAnyPassengers(this);
-			start=false;
+			
+			
 		}
 		
 		
@@ -105,7 +105,10 @@ public class BusAgent extends Agent implements Bus {
 	
 	public boolean pickAndExecuteAnAction(){
 		
-		
+		if(start){
+			busStops.get(currentStop).msgAnyPassengers(this);
+			start=false;
+		}
 		
 		if (state==busState.arrived){
 			arriveAtStop();

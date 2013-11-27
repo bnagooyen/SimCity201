@@ -45,7 +45,7 @@ public class BankManagerRole extends Role implements BankManager {
 	private Semaphore atDest = new Semaphore(0,true);
 	public enum cornerState{ coming, leaving };
 	public cornerState corner=cornerState.coming;
-	private BankManagerGui bankManagerGui;
+//	Sprivate BankManagerGui bankManagerGui;
 	private Timer timer=new Timer();
 	
 	public BankManagerRole() {
@@ -63,7 +63,7 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	//MESSAGES
 	
-	public void timeUpdate(int hr) {
+	public void msgTimeUpdate(int hr) {
 		hour=hr;
 		if(hr==1) bankState=BankState.newDay;
 		stateChanged();
@@ -143,10 +143,10 @@ public class BankManagerRole extends Role implements BankManager {
 	@Override
 	public void msgAnimationFinishedGoToCorner() {
 		if(corner==cornerState.coming){
-			bankManagerGui.goToTellerPos();
+//			bankManagerGui.goToTellerPos();
 		}
 		else if(corner==cornerState.leaving){
-			bankManagerGui.DoExitBank();
+//			bankManagerGui.DoExitBank();
 		}
 		atDest.release();
 	}
@@ -176,6 +176,10 @@ public class BankManagerRole extends Role implements BankManager {
 	@Override
 	public void msgAtLoanPos() {
 		// TODO Auto-generated method stub
+		atDest.release();
+	}
+	
+	public void msgDoneAnimation(){
 		atDest.release();
 	}
 	
@@ -285,36 +289,36 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	private void OpenBank() {
 		Do("Opening bank");
-		bankManagerGui.goToCorner();
-		finishTask();
-		bankManagerGui.goToManagerPos();
-		finishTask();
+//		bankManagerGui.goToCorner();
+//		finishTask();
+//		bankManagerGui.goToManagerPos();
+//		finishTask();
 		bankState=BankState.open;
 	}
 	private void SwapTellers() {
 		Do("Switching out tellers");
-		bankManagerGui.goToTellerPos();
-		finishTask();
+//		bankManagerGui.goToTellerPos();
+//		finishTask();
 		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
 		tellers.get(1).emp.msgGoToTellerPosition();
 		tellers.get(1).startHr=hour;
 		tellers.get(1).state=MyTellerState.available;
 		tellers.remove(tellers.get(0));
-		bankManagerGui.goToManagerPos();
-		finishTask();
+//		bankManagerGui.goToManagerPos();
+//		finishTask();
 	}
 	
 	private void SwapLoanOfficers() {
 		Do("Switching out loan officers");
-		bankManagerGui.goToLoanPos();
-		finishTask();
+//		bankManagerGui.goToLoanPos();
+//		finishTask();
 		officers.get(0).emp.msgGoHome((hour-officers.get(0).startHr)*employeePayPerHour);
 		officers.get(1).emp.msgGoToLoanOfficerPosition();
 		officers.get(1).startHr=hour;
 		officers.get(1).state=MyOfficerState.available;
 		officers.remove(officers.get(0));
-		bankManagerGui.goToManagerPos();
-		finishTask();
+//		bankManagerGui.goToManagerPos();
+//		finishTask();
 	}
 	
 	private void AddTeller() {
@@ -370,19 +374,19 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	private void CloseBank() {
 		Do("Closing bank");
-		bankManagerGui.goToTellerPos();
-		finishTask();		
+//		bankManagerGui.goToTellerPos();
+//		finishTask();		
 		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
 		tellers.clear();
-		bankManagerGui.goToLoanPos();
-		finishTask();
+//		bankManagerGui.goToLoanPos();
+//		finishTask();
 		officers.get(0).emp.msgGoHome((hour-officers.get(0).startHr)*employeePayPerHour);
 		officers.clear();
 		bankState=BankState.closed;
-		bankManagerGui.goToCorner();;
-		finishTask();
-		bankManagerGui.DoExitBank();
-		finishTask();
+//		bankManagerGui.goToCorner();;
+//		finishTask();
+//		bankManagerGui.DoExitBank();
+//		finishTask();
 		BankIsClosed();
 		this.isActive = false;
 	}
@@ -476,7 +480,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	public void setGui(BankManagerGui Bman){
-		bankManagerGui=Bman;
+//		bankManagerGui=Bman;
 	}
 	
 	private void finishTask(){			//Semaphore to make waiter finish task before running scheduler
