@@ -42,7 +42,7 @@ public class PersonTest extends TestCase{
 		
 		bus=new MockBus("bus");
 		busStop=new MockBusStop("mock busStop");
-		person.SetJob(role);
+		//person.SetJob(role);
 		car=new MockRoleCar("car");
 		
 
@@ -222,10 +222,10 @@ public class PersonTest extends TestCase{
 		assertEquals("Car should have no messages sent to it, but it has messages in log", car.log.size(), 0);
 		
 		person.msgTimeUpdate(6);
-		person.msgTimeUpdate(10);
+		person.msgTimeUpdate(7);
 		person.pickAndExecuteAnAction();
 		
-		assertTrue("Person's locationState should be inTransit", person.locationState==LocationState.inTransit);
+		assertTrue("Person's locationState should be inTransit", person.locationState==LocationState.atHome);
 		assertTrue("Person's energy state should be awake", person.energyState==EnergyState.awake);
 		
 		//person.transitState=TransitState.goToCar;

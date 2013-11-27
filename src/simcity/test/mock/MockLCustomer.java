@@ -77,6 +77,12 @@ public class MockLCustomer extends Mock implements LCustomer {
 		return null;
 	}
 
+	@Override
+	public void msgRestaurantClosed() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }

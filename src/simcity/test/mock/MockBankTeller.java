@@ -1,6 +1,7 @@
 package simcity.test.mock;
 
 import simcity.PersonAgent;
+import simcity.Bank.gui.BankTellerGui;
 import simcity.interfaces.*;
 import simcity.mockrole.MockRole;
 
@@ -52,6 +53,42 @@ public class MockBankTeller extends MockRole implements BankTeller{
 	
 	public void msgGoToTellerPosition(){
 		log.add(new LoggedEvent("On duty"));
+	}
+
+	@Override
+	public void msgAnimationFinishedGoToCorner() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgAnimationFinishedLeaveBank() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgAtTellerPos() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setManager(BankManager m) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setGui(BankTellerGui bgui) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgTimeUpdate() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
