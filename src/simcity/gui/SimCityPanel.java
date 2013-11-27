@@ -182,6 +182,8 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		busStops.put("stop2",bs2);
 		bus.startThread();
 		bus.msgSetBusDirectory(busStops);
+		
+		
 }
 	   
 
@@ -927,6 +929,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		                 System.out.println("hour is " + counter);
 		                 for(Person p: people) {
 		                	 p.msgTimeUpdate(counter);
+		                	 bus.msgTimeUpdate(counter);
 		                 }
 		                 counter++;
 		                 if (counter == 25) {
