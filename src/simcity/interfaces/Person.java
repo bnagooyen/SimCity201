@@ -43,7 +43,7 @@ public interface Person {
 
 	public abstract void msgSetBusDirectory(Map<String, BusStop> busStops);
 	
-	public abstract void msgHereIsYourRentBill(Landlord l, double rentBill); 
+	public abstract void msgHereIsYourRentBill(Landlord l, double rentBill);
 
 }
 
