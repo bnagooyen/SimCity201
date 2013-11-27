@@ -170,6 +170,7 @@ public class BusAgent extends Agent implements Bus {
 	
 	public  void msgSetBusDirectory(Map<String, BusStop> bs) {
 		busStops=bs;
+		
 	}
 
 	

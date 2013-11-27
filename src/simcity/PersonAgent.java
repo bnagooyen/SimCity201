@@ -172,7 +172,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	
 	public  void msgSetBusDirectory(Map<String, BusStop> bs) {
 		busStops=bs;
-		busStop=busStops.get(currentStop);
+		setBusStop(busStops.get(currentStop));
 		
 	}
 	public String getName() {
