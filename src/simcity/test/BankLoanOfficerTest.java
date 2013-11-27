@@ -24,17 +24,20 @@ public class BankLoanOfficerTest extends TestCase{
 	MockBankManager mgr;
 	MockBankCustomer customer1;
 	MockBankCustomer customer2;
-	MockRole mockrole;
+
 	
 	public void setUp() throws Exception{
 		super.setUp();
 		p = new PersonAgent("loanOfficer");
-		mockrole=new MockRole("mockrole", p);
-		loanOfficer = new BankLoanOfficerRole(p);
+		
+		loanOfficer = new BankLoanOfficerRole();
+		loanOfficer.myPerson=p;
 		p.addRole(loanOfficer);
 		mgr = new MockBankManager("MockBankManager");
 		PersonAgent p2 = new PersonAgent("mockteller");
-		teller = new MockBankTeller("mockTeller", p2);
+		teller = new MockBankTeller("teller");
+		p2.SetJob(teller);
+		teller.myPerson=p;
 		loanOfficer.manager=mgr;
 		customer1= new MockBankCustomer("customer1");
 		customer2= new MockBankCustomer("customer2");
