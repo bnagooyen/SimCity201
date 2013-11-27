@@ -30,7 +30,13 @@
 	+		Can increase/decrease as you like, once happy with numbers hit 'SET' so cook can check if restaurant is ready for open
 	
 
-	For our v1 SimCity deliverable, each of our agents and roles work independently of eachother and this is evidenced by our working Unit Tests.  However, with the addition of the PersonAgent to unify all of our roles and agents together, some complications occurred during integration.  Our separate working roles and agents were unable to operate well in the whole city.  Approaching v2, Team 38 is well aware of the improvements that are needed in the Person Agent's scheduler in order to have a cohesive and correct v2.  As of now, our tests are correct and are representative of working agents.  In the SimCityView, Time only goes up to 7am, however time is correctly assigned to each person and they receive their jobs.  This is through a parsedReadIn configuration file which assigns the jobs to each person as well as other characteristics. The names are updated in the panel as well.  
+	For our v1 SimCity deliverable, each of our agents and roles work independently of eachother and this is evidenced by our working Unit Tests. 
+	However, with the addition of the PersonAgent to unify all of our roles and agents together, some complications occurred during integration. 
+	Our separate working roles and agents were unable to operate well in the whole city. 
+	Approaching v2, Team 38 is well aware of the improvements that are needed in the Person Agent's scheduler in order to have a cohesive and correct v2.  
+	As of now, our tests are correct and are representative of working agents. 
+	In the SimCityView, Time only goes up to 7am, however time is correctly assigned to each person and they receive their jobs.  
+	This is through a parsedReadIn configuration file which assigns the jobs to each person as well as other characteristics. The names are updated in the panel as well.  
 	
 	Doreen Hakimi:
 	+City View Gui and Panel
