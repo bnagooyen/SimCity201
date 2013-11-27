@@ -27,7 +27,7 @@ public class KCashierRole extends Role implements KCashier{
 	private double myMoney;
 	
 	boolean goHome = false;
-	boolean arrived = true;
+	boolean arrived;
 	
 	private String name;
 				

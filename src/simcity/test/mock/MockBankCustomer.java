@@ -1,6 +1,5 @@
 package simcity.test.mock;
 
-import simcity.Bank.gui.BankCustomerGui;
 import simcity.interfaces.*;
 
 public class MockBankCustomer extends Mock implements BankCustomer{
@@ -39,31 +38,6 @@ public class MockBankCustomer extends Mock implements BankCustomer{
 	public void msgLeaveBank() {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Bank closed"));
-	}
-	@Override
-	public void msgAtTellerPos() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void msgAnimationFinishedLeaveBank() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void msgAtLoanPos() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void setManager(BankManager m) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void setGui(BankCustomerGui BC) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

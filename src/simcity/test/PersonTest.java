@@ -50,7 +50,7 @@ public class PersonTest extends TestCase{
 		
 		bus=new MockBus("bus");
 		busStop=new MockBusStop("mock busStop");
-		//person.SetJob(role);
+		person.SetJob(role);
 		car=new MockRoleCar("car");
 		
 		person.possibleRoles.put("bank", new BankCustomerRole());
@@ -239,20 +239,21 @@ public class PersonTest extends TestCase{
 		teller = new MockRoleBankTeller("teller");
 		teller.myPerson= person;
 		person.SetJob(teller);
-		person.myJob.isActive = true;
-		
-		System.out.println("JOB "+person.myJob);
-		System.out.println("Job's active "+person.myJob.isActive);
-		
+
 		assertEquals("Car should have no messages sent to it, but it has messages in log", car.log.size(), 0);
 		
 		person.msgTimeUpdate(6);
+<<<<<<< HEAD
+		person.msgTimeUpdate(10);
+		person.pickAndExecuteAnAction();
+=======
 		person.msgTimeUpdate(7);
 		person.msgTimeUpdate(10);
 		
 		assertTrue("Pick and exectuct should return true",person.pickAndExecuteAnAction());
+>>>>>>> bcb7b95567df69d32791b95e9316c01d8fc952ef
 		
-		assertTrue("Person's locationState should be inTransit", person.locationState==LocationState.atHome);
+		assertTrue("Person's locationState should be inTransit", person.locationState==LocationState.inTransit);
 		assertTrue("Person's energy state should be awake", person.energyState==EnergyState.awake);
 		
 		person.transitState=TransitState.goToCar;
