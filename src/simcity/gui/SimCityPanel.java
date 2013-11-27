@@ -439,12 +439,12 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			buildings.put("Restaurant", restaurants);
 		
 			/*******fix dis*********/
-			
-//			for (Person p: people) {
-//				p.msgSetBuildingDirectory(buildings);
-//				p.msgSetBusDirectory(busStops);
-//			}
-//			
+				for (Person p: people) {
+				p.msgSetBuildingDirectory(buildings);
+				p.msgSetBusDirectory(busStops);
+			}
+	
+		
 			for(MyLandlord l: landlords) {
 //				System.out.println(l.tenants.size());
 				l.l.setTenants(l.tenants);
