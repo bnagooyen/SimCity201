@@ -54,6 +54,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public String mydestination;
 	public String mylocation="home";
 	public String jobLocation;
+	public String destinationStop;
 	
 	
 	public enum HomeType{apartment, house, homeless};
@@ -106,7 +107,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 		this.name = name;
 		currentStop="stop1";
-
+		destinationStop="stop2";
 		personState=PersonState.none;
 		energyState=EnergyState.asleep;
 		locationState=LocationState.atHome;
@@ -246,7 +247,11 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	//	
 	public void msgAtStop(String destination){
 		currentStop=destination;
-		mydestination=destination;
+		if(currentStop=="stop1")
+			destinationStop="stop2";
+		else if (currentStop=="stop2")
+			destinationStop="stop1";
+		
 		setBusStop(busStops.get(currentStop));
 		transitState = TransitState.getOffBus;
 		stateChanged();
@@ -557,7 +562,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 	private void getOnBus(){
 		Do("getting on bus");
-		bus.msgGettingOn(this, mydestination);
+		bus.msgGettingOn(this, destinationStop);
 		transitState=TransitState.onBus;
 	}
 
