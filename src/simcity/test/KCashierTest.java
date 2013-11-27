@@ -31,10 +31,12 @@ public class KCashierTest extends TestCase
 	 * This method is run before each test. You can use it to instantiate the class variables
 	 * for your agent and mocks, etc.
 	 */
+	
 	public void setUp() throws Exception{
 		super.setUp();		
 		p = new PersonAgent("person");
-		cashier = new KCashierRole(p);		
+		cashier = new KCashierRole();
+		cashier.myPerson = p;
 		customer = new MockKRestaurantCustomer("mockcustomer");		
 		waiter = new MockKRestaurantWaiter("mockwaiter");
 //		market1 = new MockMarket("mockMarket1");
@@ -378,4 +380,7 @@ public class KCashierTest extends TestCase
 //		assertTrue("Cashier's toPay list should contain another bill that is paid, but doesn't", cashier.toPay.get(1).paid == paidState.paid);
 //
 //	}
+	
 }
+
+
