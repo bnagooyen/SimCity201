@@ -35,6 +35,4 @@ public interface BankTeller {
 	public void setManager(BankManager m);
 
 	public void setGui(BankTellerGui bgui);
-	
-	public abstract void msgTimeUpdate();
 }

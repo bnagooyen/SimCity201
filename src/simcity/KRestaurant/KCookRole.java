@@ -45,7 +45,7 @@ public class KCookRole extends Role implements KCook{
 	private Semaphore atFridge = new Semaphore(0,true);
 	private Semaphore atPlating = new Semaphore(0, true);
 	
-	private boolean arrived = true; 
+	private boolean arrived; 
 	public boolean goHome = false;
 	public boolean needToOrder;
 	private KRestaurantGui gui;
