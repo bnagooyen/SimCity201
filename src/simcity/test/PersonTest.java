@@ -31,14 +31,14 @@ public class PersonTest extends TestCase{
 	MockBus bus;
 	MockBusStop busStop;
 	MockCar car;
-	
+	MockBankTeller teller;
 	
 	
 
 	
 	public void setUp() throws Exception{
-		role=new MockRole("mockrole", person);
 		person=new PersonAgent("person");
+		
 		bus=new MockBus("bus");
 		busStop=new MockBusStop("mock busStop");
 		person.SetJob(role);
@@ -96,7 +96,9 @@ public class PersonTest extends TestCase{
 	}
 	
 	public void testnormativePersonToWork(){
-		MockRoleMarketCashier marketCashier=new MockRoleMarketCashier("Mcashier",person);
+		MockRoleMarketCashier marketCashier=new MockRoleMarketCashier("Mcashier");
+		marketCashier.myPerson=person;
+		person.SetJob(marketCashier);
 		person.SetJob(marketCashier);
 		person.myCar=car;
 		
@@ -206,6 +208,9 @@ public class PersonTest extends TestCase{
 	}
 
 	public void testCarInteraction(){
+		teller = new MockBankTeller("teller");
+		person.SetJob(teller);
+		teller.myPerson= person;
 		person.myCar=car;
 		assertEquals("Car should have no messages sent to it, but it has messages in log", car.log.size(), 0);
 		

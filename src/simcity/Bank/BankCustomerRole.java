@@ -130,12 +130,12 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		Do("Arriving at bank");
 		if(purpose.equals("withdraw")||purpose.equals("deposit")||purpose.equals("rob")){
 			manager.msgIAmHere(this,"transaction");
-			bankcustomerGui.goToTeller();
+			//bankcustomerGui.goToTeller();
 			finishTask();
 		}
 		else if(purpose.equals("loan")){
 			manager.msgIAmHere(this,"loan");
-			bankcustomerGui.goToLoanPos();
+			//bankcustomerGui.goToLoanPos();
 			finishTask();
 		}
 		state=bankCustomerState.waiting;
@@ -174,7 +174,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	private void leaveBank(){
 		Do("Leaving bank");
 		this.isActive=false;
-		bankcustomerGui.DoExitBank();
+		//bankcustomerGui.DoExitBank();
 	}
 	
 
