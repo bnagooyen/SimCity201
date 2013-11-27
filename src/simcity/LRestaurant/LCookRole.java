@@ -74,7 +74,7 @@ public class LCookRole extends Role implements LCook {
 			stateChanged();	
 		}
 		
-		public void msgHereIsAnOrder(int table, String choice, LWaiterRole w) {//from animation
+		public void msgHereIsAnOrder(int table, String choice,LWaiterNormalRole w) {//from animation
 			//print("Received order from " + choice);
 			orders.add(new Order(table, choice,w,OrderState.pending));
 			stateChanged();
@@ -436,6 +436,7 @@ public class LCookRole extends Role implements LCook {
 		}
 
 	}
+
 
 
 }

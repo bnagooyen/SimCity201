@@ -1,6 +1,7 @@
 package simcity.interfaces;
 
 import simcity.LRestaurant.LCustomerRole;
+import simcity.LRestaurant.LWaiterNormalRole;
 //import simcity.LRestaurant.LMarketAgent;
 import simcity.LRestaurant.LWaiterRole;
 //import simcity.LRestaurant.LCookAgent.MarketState;
@@ -15,6 +16,9 @@ import simcity.LRestaurant.LCookRole.OrderState;
  *
  */
 public interface LCook {
+
+	public abstract void msgHereIsAnOrder(int table, String choice,
+			LWaiterNormalRole lWaiterNormalRole);
 	
 	
 
