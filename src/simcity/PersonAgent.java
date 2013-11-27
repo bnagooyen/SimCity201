@@ -223,7 +223,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		if(hr == 6&& ((myJob instanceof BankManagerRole)  || (myJob instanceof BankTellerRole) || (myJob instanceof BankLoanOfficer))) { 
 			energyState= energyState.awake;
 		}
-		else if (hr == 7 && ((myJob instanceof BankManagerRole)  || (myJob instanceof BankTellerRole) || (myJob instanceof BankLoanOfficer))) {
+		else if (hr == 7 && !((myJob instanceof BankManagerRole)  || (myJob instanceof BankTellerRole) || (myJob instanceof BankLoanOfficer))) {
 			energyState= energyState.awake;
 		}
 		if(hr ==24) { 

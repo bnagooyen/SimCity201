@@ -69,6 +69,7 @@ import simcity.Market.InventoryBoyRole;
 import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCustomerRole;
 import simcity.Market.MarketManagerRole;
+import simcity.Market.MarketManagerRole.MyDeliveryTruck;
 //import simcity.SimCityPanel.Business;
 import simcity.TTRestaurant.TCashierRole;
 import simcity.TTRestaurant.TCookRole;
@@ -79,6 +80,7 @@ import simcity.TTRestaurant.TWaiterSharedDataRole;
 import simcity.Transportation.BusAgent;
 import simcity.Transportation.BusStopAgent;
 import simcity.Transportation.CarAgent;
+import simcity.Transportation.DeliveryTruckAgent;
 import simcity.gui.SimCityPanel.Bank;
 import simcity.gui.SimCityPanel.Market;
 import simcity.gui.SimCityPanel.MyLandlord;
@@ -93,6 +95,7 @@ import simcity.interfaces.DCashier;
 import simcity.interfaces.DCook;
 import simcity.interfaces.DHost;
 import simcity.interfaces.DWaiter;
+import simcity.interfaces.DeliveryTruck;
 import simcity.interfaces.Host;
 import simcity.interfaces.KCashier;
 import simcity.interfaces.KCook;
@@ -130,6 +133,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	BusAgent bus=new BusAgent();
 	BusStopAgent bs=new BusStopAgent();
 	BusStopAgent bs2=new BusStopAgent();
+	
 	
 	private List<Location> restaurants = new ArrayList<Location>();
 	private List<Location> banks = new ArrayList<Location>();
@@ -625,12 +629,16 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		public MarketManagerRole mManager;
 		public MarketCashierRole mCashier;
 		List<MarketCustomer> mCustomers;
-		
+		DeliveryTruckAgent truck;
+
 		public MarketPlace() {
 			ib = new InventoryBoyRole();
 			mManager = new MarketManagerRole();
 			mCashier = new MarketCashierRole();
 			mCustomers = new ArrayList<MarketCustomer>();
+			truck = new DeliveryTruckAgent(mManager);
+			
+			mManager.dTruck = (DeliveryTruck)truck;
 			
 			ib.setMarketCashier(mCashier);
 			ib.setMarketManager(mManager);

@@ -141,10 +141,10 @@ public class MarketManagerRole extends Role implements MarketManager{
 			return true;
 		}
 		
-		if(truck.state.equals(workerState.occupied)){
-			sendOverTruck();
-			return true;
-		}
+//		if(truck.state.equals(workerState.occupied)){
+//			sendOverTruck();
+//			return true;
+//		}
 		
 		synchronized(customers){
 			for(MyCustomer c: customers){
