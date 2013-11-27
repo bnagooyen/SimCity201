@@ -128,6 +128,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	
 	public void setCustomerRoles(List<Role> role) {
 		for(Role r: role) {
+			r.myPerson = this;
 			if(r instanceof BankCustomer) {
 				possibleRoles.put("bank", r);
 			}
