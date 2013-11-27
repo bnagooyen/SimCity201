@@ -111,8 +111,11 @@ public class SimCityPanel extends JPanel implements MouseListener{
 
 	public static final int NUMAPTS = 12;
 	public static final int NUMHOUSES = 15;
-	public static final int NUMBANKS = 2;
-	public static final int NUMMARKETS = 4;
+	//	will Implement for v2:
+	//	public static final int NUMBANKS = 2;
+	//	public static final int NUMMARKETS = 4;
+	public static final int NUMBANKS = 1;
+	public static final int NUMMARKETS = 1;
 	public static final int NUMRESTAURANTS = 6;
 	public int mktCounter=1;
 	public int bankCounter = 1;
@@ -204,6 +207,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 			in.next();
 			for(int i=0; i<numItems; i++) {
 				PersonAgent p = new PersonAgent(in.next());
+				p.setCustomerRoles(GenerateAllCustomerRoles());
 				p.setMoney(in.nextDouble());
 				String job = in.next().trim();
 				//Role myJob = jobFactory(job,p);
@@ -482,6 +486,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	  public void addPerson(String name, String role, double moneyVal, String houseOrApt) {
 
     		PersonAgent p = new PersonAgent(name);
+    		p.setCustomerRoles(GenerateAllCustomerRoles());
     		int minWaiterIndex=0;
 //    		for(Location r: restaurants) {
 //    			System.err.println(r.numEmployees);
@@ -546,6 +551,24 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	    	
 	    }
 	
+	 private List<Role> GenerateAllCustomerRoles() {
+		 List<Role> myCustomerRoles= new ArrayList<Role>();
+		 /*******turn this into a loop to make more efficient*********/
+		 myCustomerRoles.add(bank.addCustomer());
+		 myCustomerRoles.add(market.addCustomer());
+		 myCustomerRoles.add(DrewRestaurant.AddCustomer());
+		 myCustomerRoles.add(BRestaurant.AddCustomer());
+		 myCustomerRoles.add(DRestaurant.AddCustomer());
+		 myCustomerRoles.add(KRestaurant.AddCustomer());
+		 myCustomerRoles.add(LRestaurant.AddCustomer());
+		 myCustomerRoles.add(TRestaurant.AddCustomer());
+	
+		 return myCustomerRoles;
+
+
+		 
+		 //return null;
+	 }
 	// Location classes
 	public abstract class Location {
 		// Location l
@@ -617,7 +640,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		
 		}
 		
-		public MarketCustomer addCustomer() {
+		public MarketCustomerRole addCustomer() {
 			MarketCustomerRole c = new MarketCustomerRole();
 			c.setMarketManager(mManager);
 			mCustomers.add(c);
