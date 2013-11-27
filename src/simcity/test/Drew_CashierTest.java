@@ -20,6 +20,7 @@ public class Drew_CashierTest extends TestCase
 	Drew_CashierRole cashier;
 	Drew_MockWaiter waiter;
 	Drew_MockCustomer customer;
+	PersonAgent p;
 	//MockMarket market;		MarketStuff
 	
 	
@@ -27,9 +28,12 @@ public class Drew_CashierTest extends TestCase
 	 * This method is run before each test. You can use it to instantiate the class variables
 	 * for your agent and mocks, etc.
 	 */
+	
 	public void setUp() throws Exception{
 		super.setUp();		
-		cashier = new Drew_CashierRole(new PersonAgent("cashier"));		
+		p = new PersonAgent("default");
+		cashier = new Drew_CashierRole();
+		cashier.myPerson = p;
 		customer = new Drew_MockCustomer("mockcustomer");		
 		waiter = new Drew_MockWaiter("mockwaiter");
 		//market = new MockMarket("mockmarket");
