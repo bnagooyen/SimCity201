@@ -114,15 +114,44 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		transitState=TransitState.justLeaving;
 		
 		
-
-		possibleRoles.put("bank", new BankCustomerRole());
-		possibleRoles.put("market", new MarketCustomerRole());
-		possibleRoles.put("drestaurant", new DCustomerRole());
-		possibleRoles.put("drew_restaurant", new Drew_CustomerRole());
-		possibleRoles.put("brestaurant", new BCustomerRole());
-		possibleRoles.put("krestaurant", new KCustomerRole());
-		possibleRoles.put("trestaurant", new TCustomerRole());
-		possibleRoles.put("lrestaurant", new LCustomerRole());
+//
+//		possibleRoles.put("bank", new BankCustomerRole());
+//		possibleRoles.put("market", new MarketCustomerRole());
+//		possibleRoles.put("drestaurant", new DCustomerRole());
+//		possibleRoles.put("drew_restaurant", new Drew_CustomerRole());
+//		possibleRoles.put("brestaurant", new BCustomerRole());
+//		possibleRoles.put("krestaurant", new KCustomerRole());
+//		possibleRoles.put("trestaurant", new TCustomerRole());
+//		possibleRoles.put("lrestaurant", new LCustomerRole());
+	}
+	
+	public void setCustomerRoles(List<Role> role) {
+		for(Role r: role) {
+			if(r instanceof BankCustomer) {
+				possibleRoles.put("bank", r);
+			}
+			else if(r instanceof MarketCustomer) {
+				possibleRoles.put("market", r);
+			}
+			else if(r instanceof Drew_CustomerRole) {
+				possibleRoles.put("drew_restaurant", r);
+			}
+			else if(r instanceof DCustomer) {
+				possibleRoles.put("drestaurat", r);
+			}
+			else if(r instanceof BCustomer) {
+				possibleRoles.put("drestaurat", r);
+			}
+			else if(r instanceof KCustomer) {
+				possibleRoles.put("krestaurat", r);
+			}
+			else if(r instanceof TCustomer) {
+				possibleRoles.put("trestaurat", r);
+			}
+			else if(r instanceof LCustomer) {
+				possibleRoles.put("lrestaurat", r);
+			}
+		}
 	}
 
 	public void SetJob(Role job) {
