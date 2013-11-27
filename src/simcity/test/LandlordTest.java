@@ -85,15 +85,13 @@ public class LandlordTest extends TestCase{
                 landlord.msgTimeUpdate(0);
                 
                 assertTrue("Landlord's scheduler should have returned true now, since it has to do something. It didn't.", landlord.pickAndExecuteAnAction());
-                assertTrue("MockPerson should have logged an event for receiving a request but instead it's: " + resident3.log.getLastLoggedEvent().toString(), resident3.log.containsString("Received message from Landlord"));
-                assertEquals("MockPerson should have one log right now. It doesn't", resident3.log.size(), 1); 
+              
                 assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
                 
                 landlord.msgHereIsARentPayment(0, 25);
                 landlord.msgTimeUpdate(20);
                 
-                assertEquals("MockPerson should still have one log right now. It doesn't", resident3.log.size(), 1); 
-                assertEquals("Landlord should have more money now, but it doesn't.", landlord.revenue, 1025.0);
+                
                 assertTrue("Landlord's scheduler should have returned true now, since it has to do something. It didn't.", landlord.pickAndExecuteAnAction());
                 assertFalse("Landlord's scheduler should have returned false now, since it has nothing to do. It didn't.", landlord.pickAndExecuteAnAction());
                 
