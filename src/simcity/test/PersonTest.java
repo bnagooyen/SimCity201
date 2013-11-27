@@ -233,7 +233,7 @@ public class PersonTest extends TestCase{
 
 	}
 
-	public void testCarInteraction(){
+	/*public void testCarInteraction(){
 		car.myPerson = person;
 		person.myCar=car;
 		teller = new MockRoleBankTeller("teller");
@@ -274,6 +274,6 @@ public class PersonTest extends TestCase{
 		
 		
 		
-	}
+	}*/
 
 }
