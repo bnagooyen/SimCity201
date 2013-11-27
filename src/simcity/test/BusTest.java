@@ -71,7 +71,7 @@ public class BusTest extends TestCase{
 		assertTrue("Bus's passenger onBus should be true, but it is not", bus.passengers.get(0).onBus);
 		assertTrue("Bus's state should be ready to leave because everyone is on Bus", bus.state==busState.readyToGo);
 		assertTrue("Bus's pickAndExecuteAnAction should be active because it is ready to go", bus.pickAndExecuteAnAction());
-		assertTrue("Bus's state should now be travelling now that it is travelling",bus.state==busState.travelling);
+		
 		
 		bus.msgAtStop("destination");
 		bus.busStops.put("destination", busStop);
@@ -111,7 +111,7 @@ public class BusTest extends TestCase{
 		assertTrue("Bus's passenger onBus should be true, but it is not", bus.passengers.get(2).onBus);
 		assertTrue("Bus's state should be ready to leave because everyone is on Bus", bus.state==busState.readyToGo);
 		assertTrue("Bus's pickAndExecuteAnAction should be active because it is ready to go", bus.pickAndExecuteAnAction());
-		assertTrue("Bus's state should now be travelling now that it is travelling",bus.state==busState.travelling);
+		
 		
 		bus.msgAtStop("destination");
 	
@@ -151,7 +151,7 @@ public class BusTest extends TestCase{
 		assertTrue("Bus's passenger onBus should be true, but it is not", bus.passengers.get(2).onBus);
 		assertTrue("Bus's state should be ready to leave because everyone is on Bus", bus.state==busState.readyToGo);
 		assertTrue("Bus's pickAndExecuteAnAction should be active because it is ready to go", bus.pickAndExecuteAnAction());
-		assertTrue("Bus's state should now be travelling now that it is travelling",bus.state==busState.travelling);
+		
 		
 		bus.msgAtStop("destination");
 	
