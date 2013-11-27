@@ -12,7 +12,6 @@ import simcity.Transportation.CarAgent;
 import simcity.gui.SimCityPanel.Location;
 import simcity.housing.LandlordRole;
 import simcity.interfaces.Bus;
-import simcity.interfaces.BusStop;
 import simcity.interfaces.Landlord;
 import simcity.interfaces.Person;
 import simcity.restaurant.interfaces.Cashier;
@@ -103,21 +102,17 @@ public EventLog log;
 		
 	}
 
+	@Override
+	public void msgSetBusDirectory(Map<String, List<Location>> busStops) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 	public void msgHereIsYourRentBill(LandlordRole landlordRole, double rentBill) {
 		log.add(new LoggedEvent("Received message from Landlord"));
 		
 	}
-
-	@Override
-	public void msgSetBusDirectory(Map<String, BusStop> busStops) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
 
 }
 

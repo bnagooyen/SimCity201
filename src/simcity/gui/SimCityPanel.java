@@ -69,7 +69,6 @@ import simcity.Market.InventoryBoyRole;
 import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCustomerRole;
 import simcity.Market.MarketManagerRole;
-import simcity.Market.MarketManagerRole.MyDeliveryTruck;
 //import simcity.SimCityPanel.Business;
 import simcity.TTRestaurant.TCashierRole;
 import simcity.TTRestaurant.TCookRole;
@@ -80,7 +79,6 @@ import simcity.TTRestaurant.TWaiterSharedDataRole;
 import simcity.Transportation.BusAgent;
 import simcity.Transportation.BusStopAgent;
 import simcity.Transportation.CarAgent;
-import simcity.Transportation.DeliveryTruckAgent;
 import simcity.gui.SimCityPanel.Bank;
 import simcity.gui.SimCityPanel.Market;
 import simcity.gui.SimCityPanel.MyLandlord;
@@ -95,7 +93,6 @@ import simcity.interfaces.DCashier;
 import simcity.interfaces.DCook;
 import simcity.interfaces.DHost;
 import simcity.interfaces.DWaiter;
-import simcity.interfaces.DeliveryTruck;
 import simcity.interfaces.Host;
 import simcity.interfaces.KCashier;
 import simcity.interfaces.KCook;
@@ -134,24 +131,31 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	BusStopAgent bs=new BusStopAgent();
 	BusStopAgent bs2=new BusStopAgent();
 	
+<<<<<<< HEAD
+=======
+	// make restaurants w/roles
+	RestaurantPlace DrewRestaurant;
+	RestaurantPlace BRestaurant;
+	RestaurantPlace DRestaurant;
+	RestaurantPlace KRestaurant;
+	RestaurantPlace LRestaurant;
+	RestaurantPlace TRestaurant;
+
 	
+>>>>>>> bcb7b95567df69d32791b95e9316c01d8fc952ef
 	private List<Location> restaurants = new ArrayList<Location>();
 	private List<Location> banks = new ArrayList<Location>();
 	private List<Location> markets = new ArrayList<Location>();
+	
+	private List<RestaurantPlace> myRestaurants;
 	
 	private ArrayList<Person> people = new ArrayList<Person>();
 	private ArrayList<MyLandlord> landlords = new ArrayList<MyLandlord>();
 	static Scanner in;
 	
-	// make restaurants w/roles
-			RestaurantPlace DrewRestaurant = new RestaurantPlace(1);
-			RestaurantPlace BRestaurant = new RestaurantPlace(2);
-			RestaurantPlace DRestaurant = new RestaurantPlace(3);
-			RestaurantPlace KRestaurant = new RestaurantPlace(4);
-			RestaurantPlace LRestaurant = new RestaurantPlace(5);
-			RestaurantPlace TRestaurant = new RestaurantPlace(6);
-						
 
+		
+			
 			// make bank
 			BankPlace bank = new BankPlace();
 			
@@ -161,8 +165,23 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	public SimCityPanel(SimCityGui gui) {
 		this.gui = gui;
 		
+		myRestaurants = new ArrayList<RestaurantPlace>();
+
+		
+		DrewRestaurant = new RestaurantPlace(1);
+		BRestaurant = new RestaurantPlace(2);
+		DRestaurant = new RestaurantPlace(3);
+		KRestaurant = new RestaurantPlace(4);
+		LRestaurant = new RestaurantPlace(5);
+		TRestaurant = new RestaurantPlace(6);
 		
 		
+		myRestaurants.add(DrewRestaurant);
+		myRestaurants.add(BRestaurant);
+		myRestaurants.add(DRestaurant);
+		myRestaurants.add(KRestaurant);
+		myRestaurants.add(LRestaurant);
+		myRestaurants.add(TRestaurant);
 		
 		//*********Remember to add in delivery truck**********
 		
@@ -503,20 +522,26 @@ public class SimCityPanel extends JPanel implements MouseListener{
     					minWaiterIndex=i;		
     			}	
     		}
-    		Role w = DrewRestaurant.AddNormalWaiter();
+    		//Role w = DrewRestaurant.AddNormalWaiter();
     		//System.out.println(Integer.parseInt(restaurants.get(minWaiterIndex).name.substring(restaurants.get(minWaiterIndex).name.length()-1)));
-    		int restAssignedTo = Integer.parseInt(restaurants.get(minWaiterIndex).name.substring(restaurants.get(minWaiterIndex).name.length()-1));
+    		//int restAssignedTo = Integer.parseInt(restaurants.get(minWaiterIndex).name.substring(restaurants.get(minWaiterIndex).name.length()-1));
     		
-   /*****************call add waiter*********************/ 
+    		int minindex=0;
+    		int minwaiters=myRestaurants.get(0).waiters.size();
     		
-    		//Role myJob=jobFactory("Waiter"+Integer.toString(restAssignedTo), p);
-    		//System.out.println(myJob);
-    		for(Location r: restaurants) {
-    			if(r.name.equals("Restaurant"+Integer.toString(restAssignedTo))) {
-    				r.numEmployees++;
-    				break;
+    		for (int r=0; r<myRestaurants.size(); r++) {
+    			if(minwaiters>myRestaurants.get(r).waiters.size()) {
+    				minwaiters=myRestaurants.get(r).waiters.size();
+    				minindex=r;
     			}
     		}
+    		
+    		
+    		Role r =myRestaurants.get(minindex).AddNormalWaiter();
+    		r.myPerson=p;
+    		p.SetJob(r);
+    		System.out.println(name +" job assigned: "+ r);
+    		
     		//System.out.println(restAssignedTo);
 //    		p.SetJob(myJob);
 //    		System.out.println(p.getJob());
@@ -631,16 +656,12 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		public MarketManagerRole mManager;
 		public MarketCashierRole mCashier;
 		List<MarketCustomer> mCustomers;
-		DeliveryTruckAgent truck;
-
+		
 		public MarketPlace() {
 			ib = new InventoryBoyRole();
 			mManager = new MarketManagerRole();
 			mCashier = new MarketCashierRole();
 			mCustomers = new ArrayList<MarketCustomer>();
-			truck = new DeliveryTruckAgent(mManager);
-			
-			mManager.dTruck = (DeliveryTruck)truck;
 			
 			ib.setMarketCashier(mCashier);
 			ib.setMarketManager(mManager);

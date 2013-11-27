@@ -44,7 +44,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	private Timer timer;
     public EventLog log;
 
-    boolean arrived = true;
+    boolean arrived;
 	int homepos;
 	
 	public WaiterState mystate;
