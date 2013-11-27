@@ -24,12 +24,16 @@ public class BankCustomerTest extends TestCase{
 		super.setUp();
 		
 		p = new PersonAgent("BankCustomer");
-		mockrole=new MockRole("mockrole", p);
-		customer = new BankCustomerRole(p);
+		//mockrole=new MockRole("mockrole");
+		customer = new BankCustomerRole();
+		customer.myPerson=p;
 		p.addRole(customer);
 		mgr = new MockBankManager("MockBankManager");
 		PersonAgent p2 = new PersonAgent("mockTeller");
-		teller = new MockBankTeller("mock bankTeller", p2);
+		teller = new MockBankTeller("mock bankTeller");
+		p.SetJob(teller);
+		teller.myPerson=p2;
+		
 		loanOfficer = new MockBankLoanOfficer("mockLoanOfficer");
 		customer.manager=mgr;
 	}
