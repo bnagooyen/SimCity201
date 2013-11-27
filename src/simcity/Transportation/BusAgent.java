@@ -18,7 +18,8 @@ public class BusAgent extends Agent implements Bus {
 	public List<MyPassenger> passengers=new ArrayList<MyPassenger>();
 	public int hour;
 	boolean start=true;
-	
+	BusStopAgent bs;
+	BusStopAgent bs2;
 	
 	public class MyPassenger{
 		public PersonAgent p;
@@ -30,6 +31,8 @@ public class BusAgent extends Agent implements Bus {
 
 	public BusAgent(){
 		currentStop="stop1";
+		busStops.put("stop1", bs);
+		busStops.put("stop2", bs2);
 		state=null;
 		stateChanged();
 		}
@@ -162,6 +165,13 @@ public class BusAgent extends Agent implements Bus {
 		state=busState.arrived;
 		Do("Go To Next Stop");
 	}
+	
+	//utilities
+	
+	public  void msgSetBusDirectory(Map<String, BusStop> bs) {
+		busStops=bs;
+	}
+
 	
 	
 

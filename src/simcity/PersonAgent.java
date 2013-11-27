@@ -39,7 +39,7 @@ import java.util.concurrent.Semaphore;
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
 public class PersonAgent extends Agent implements Person {//implements Person 
-
+	String currentStop;
 	Timer timer = new Timer();
 	private String name;
 	Bus bus;
@@ -54,7 +54,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	public String mydestination;
 	public String mylocation="home";
 	public String jobLocation;
-	public BusStopAgent bs=new BusStopAgent();
+	
 	
 	public enum HomeType{apartment, house, homeless};
 	HomeType homeType;
@@ -96,7 +96,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 	
 	//directories
 	public Map<String, List<Location>> buildings = null;
-	public Map<String, List<Location>> busStops = null; //STILL BLANK
+	public Map<String, BusStop> busStops = null; //STILL BLANK
 	
 
 	public PersonAgent(String name) {
@@ -104,14 +104,14 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 
 		this.name = name;
-
+		currentStop="stop1";
 
 		personState=PersonState.none;
 		energyState=EnergyState.asleep;
 		locationState=LocationState.atHome;
 		moneyState=MoneyState.adequate;
 		transitState=TransitState.justLeaving;
-		setBusStop(bs);
+		
 		
 
 		possibleRoles.put("bank", new BankCustomerRole());
@@ -169,7 +169,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		buildings = bu;
 	}
 	
-	public  void msgSetBusDirectory(Map<String, List<Location>> bs) {
+	public  void msgSetBusDirectory(Map<String, BusStop> bs) {
 		busStops=bs;
 	}
 	public String getName() {
@@ -704,6 +704,9 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		// TODO Auto-generated method stub
 		return aptLet;
 	}
+
+	
+	
 
 }
 

@@ -41,7 +41,7 @@ public interface Person {
 	public abstract void msgSetBuildingDirectory(
 			Map<String, List<Location>> buildings);
 
-	public abstract void msgSetBusDirectory(Map<String, List<Location>> busStops);
+	public abstract void msgSetBusDirectory(Map<String, BusStop> busStops);
 	
 	public abstract void msgHereIsYourRentBill(Landlord l, double rentBill); 
 
