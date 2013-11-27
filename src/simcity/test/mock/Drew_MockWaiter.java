@@ -102,4 +102,10 @@ public class Drew_MockWaiter extends Mock implements Drew_Waiter {
 		return customers;
 	}
 
+	@Override
+	public void msgGoHome(double pay) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
