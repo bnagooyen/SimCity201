@@ -11,10 +11,12 @@ public class MockRoleBankTeller extends MockRole implements BankTeller{
 
 	public EventLog log;
 	public int startHour=8;
+	public boolean isActive;
 	public MockRoleBankTeller(String Name) {
 		super(Name);
 		// TODO Auto-generated constructor stub
 		log = new EventLog();
+		isActive = true;
 	}
 	
 	public void msgMakeAccount(BankCustomer BC){
@@ -85,6 +87,12 @@ public class MockRoleBankTeller extends MockRole implements BankTeller{
 	@Override
 	public void setGui(BankTellerGui bgui) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgTimeUpdate() {
+		System.out.println("************Called from mockrolebankteller********");
 		
 	}
 

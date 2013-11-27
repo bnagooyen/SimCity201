@@ -214,7 +214,11 @@ public class PersonTest extends TestCase{
 		teller = new MockRoleBankTeller("teller");
 		teller.myPerson= person;
 		person.SetJob(teller);
-
+		person.myJob.isActive = true;
+		
+		System.out.println("JOB "+person.myJob);
+		System.out.println("Job's active "+person.myJob.isActive);
+		
 		assertEquals("Car should have no messages sent to it, but it has messages in log", car.log.size(), 0);
 		
 		person.msgTimeUpdate(6);

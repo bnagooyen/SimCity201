@@ -230,7 +230,8 @@ public class PersonAgent extends Agent implements Person {//implements Person
 		
 		synchronized(roles) {
 			for(Role r: roles) {
-				System.out.println("Role" +r);
+				System.out.println("****Activity " +r.isActive);
+				System.out.println("****Role " +r);
 				if(r.isActive) {
 					r.timeUpdate(hr);
 				}

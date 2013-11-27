@@ -253,6 +253,14 @@ public class BankTellerRole extends Role implements BankTeller {
 		public void setManager(BankManager Bman){
 			manager=Bman;
 		}
+
+
+
+		@Override
+		public void msgTimeUpdate() {
+			// TODO Auto-generated method stub
+			
+		}
 		
 			
 	
