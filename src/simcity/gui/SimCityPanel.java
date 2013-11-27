@@ -713,6 +713,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 					((DCookRole) cook).AddHost((DHostRole)host);
 					((DCookRole)cook).AddCashier((DCashier)cashier);
 					((DCashierRole)cashier).AddCook((DCook)cook);
+					((DCashierRole)cashier).AddHost((DHost)host);
 					break;
 			case 4: host = new KHostRole();
 					cook = new KCookRole();

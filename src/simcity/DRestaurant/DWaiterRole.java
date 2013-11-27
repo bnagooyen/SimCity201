@@ -324,7 +324,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 			
 			//notifying clear table to host on the radio
 			
-			if(arrived && !arrived) {
+			if(isActive && !arrived) {
 				ReportForDuty();
 				return true;
 			}
@@ -452,6 +452,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	// Actions
 	
 	private void ReportForDuty() {
+		//System.out.println( myPerson.getName() +": on duty");
 		arrived =true;
 		host.msgIAmHere(this);
 	}

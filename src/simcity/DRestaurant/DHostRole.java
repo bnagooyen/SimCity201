@@ -101,15 +101,15 @@ public class DHostRole extends Role implements DHost {
 	public void msgIAmHere(Role r){
 		
 		if(r instanceof DWaiter){
-			Do("Waiter is here");
+			System.out.println(myPerson.getName()+ ": Waiter is here");
 			waiters.add(new MyWaiter((DWaiterRole)r));
 		}
 		else if(r instanceof DCook){
-			Do("Cook is here");
+			System.out.println(myPerson.getName()+ ": Cook is here");
 			cook = (DCookRole)r;
 		}
 		else if(r instanceof DCashier ){
-			Do("Cashier is here");
+			System.out.println(myPerson.getName()+ ": Cashier is here");
 			cashier = (DCashierRole) r;
 		}
 		
