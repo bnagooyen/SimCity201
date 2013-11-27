@@ -39,7 +39,7 @@ import java.util.concurrent.Semaphore;
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
 public class PersonAgent extends Agent implements Person {//implements Person 
-
+	String currentStop;
 	Timer timer = new Timer();
 	private String name;
 	Bus bus;
@@ -104,7 +104,7 @@ public class PersonAgent extends Agent implements Person {//implements Person
 
 
 		this.name = name;
-
+		currentStop="stop1";
 
 		personState=PersonState.none;
 		energyState=EnergyState.asleep;

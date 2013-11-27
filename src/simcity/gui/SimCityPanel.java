@@ -121,7 +121,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	public Map<String, List<Location>> buildings = new HashMap<String, List<Location>>();
 	//public Map<String, List<Location>> busStops=new HashMap<String, List<Location>>(); //STILL BLANK
 	public Map<String, BusStop> busStops=new HashMap<String, BusStop>();  
-	BusAgent bus;
+	BusAgent bus=new BusAgent();
 	BusStopAgent bs=new BusStopAgent();
 	BusStopAgent bs2=new BusStopAgent();
 	
@@ -226,8 +226,9 @@ public class SimCityPanel extends JPanel implements MouseListener{
 		markets.add(new Market("Market1", market.mManager));
 		busStops.put("stop1",bs);
 		busStops.put("stop2",bs2);
-		bus.msgSetBusDirectory(busStops);
 		bus.startThread();
+		bus.msgSetBusDirectory(busStops);
+		
 
 }
 	   
@@ -1089,7 +1090,7 @@ public class SimCityPanel extends JPanel implements MouseListener{
 	     timer = new Timer();
 	     timer.schedule(new RemindTask(),
 	                       0,        //initial delay
-	                       1*12000);  //subsequent rate		
+	                       1*2000);  //subsequent rate		
 			}
 
 
