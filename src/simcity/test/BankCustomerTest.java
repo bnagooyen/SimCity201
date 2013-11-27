@@ -28,7 +28,7 @@ public class BankCustomerTest extends TestCase{
 		customer = new BankCustomerRole();
 		customer.myPerson=p;
 		customer.isActive = true;
-		p.addRole(customer);
+//		p.addRole(customer);
 		mgr = new MockBankManager("MockBankManager");
 		PersonAgent p2 = new PersonAgent("mockTeller");
 		teller = new MockBankTeller("mock bankTeller");
