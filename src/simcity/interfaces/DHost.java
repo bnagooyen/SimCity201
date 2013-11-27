@@ -1,5 +1,6 @@
 package simcity.interfaces;
 
+import agent.Role;
 import simcity.DRestaurant.DWaiterRole;
 
 public interface DHost {
@@ -21,5 +22,7 @@ public interface DHost {
 	void msgIDontWantToWait(DCustomer dCustomerRole);
 
 	void msgHereToGetSeated(DCustomer dCustomerRole);
+
+	void msgIAmHere(Role role);
 
 }

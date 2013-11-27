@@ -103,7 +103,7 @@ public class ListPanel extends JPanel implements ActionListener {
     	  
     	
 //        
-        Dimension dim = new Dimension(250, 250);
+        Dimension dim = new Dimension(250, 150);
         pane.setSize(dim);
         pane.setPreferredSize(pane.getSize());
         pane.setMinimumSize(pane.getSize());

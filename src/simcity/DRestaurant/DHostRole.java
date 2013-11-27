@@ -5,8 +5,13 @@ import simcity.DRestaurant.DProducerConsumerMonitor;
 import simcity.DRestaurant.DHostRole.MyCustomer.CustState;
 import simcity.DRestaurant.DHostRole.MyWaiter.MyWaiterState;
 import simcity.DRestaurant.gui.DHostGui;
+import simcity.LRestaurant.LCashierRole;
+import simcity.LRestaurant.LCookRole;
+import simcity.LRestaurant.LWaiterRole;
+import simcity.LRestaurant.LHostRole.myWaiter;
 import agent.Agent;
 import agent.Role;
+import simcity.interfaces.DCashier;
 import simcity.interfaces.DCook;
 import simcity.interfaces.DCustomer;
 import simcity.interfaces.DHost;
@@ -25,7 +30,8 @@ import java.util.concurrent.Semaphore;
 public class DHostRole extends Role implements DHost {
 	
 	private DProducerConsumerMonitor theMonitor;
-	
+	DCook cook;
+	DCashier cashier;
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -49,7 +55,7 @@ public class DHostRole extends Role implements DHost {
 	private Semaphore atTable = new Semaphore(0,true);
 	private Semaphore customerAtFront = new Semaphore(0,true);
 	public DHostGui hostGui = null;
-
+	public boolean isClosed = false;
 	boolean KitchenReadyForOpen;
 
 	public DHostRole() {
@@ -92,6 +98,31 @@ public class DHostRole extends Role implements DHost {
 	}
 	// Messages
 
+	public void msgIAmHere(Role r){
+		
+		if(r instanceof DWaiter){
+			System.out.println(myPerson.getName()+ ": Waiter is here");
+			waiters.add(new MyWaiter((DWaiterRole)r));
+		}
+		else if(r instanceof DCook){
+			System.out.println(myPerson.getName()+ ": Cook is here");
+			cook = (DCookRole)r;
+		}
+		else if(r instanceof DCashier ){
+			System.out.println(myPerson.getName()+ ": Cashier is here");
+			cashier = (DCashierRole) r;
+		}
+		
+		if(!waiters.isEmpty() && cook != null && cashier != null){
+			isClosed = false;
+		}
+		else{
+			isClosed = true;
+		}
+		
+		stateChanged();
+	}
+	
 	public void msgKitchenIsReady() {
 		System.out.println("received msg from cook that kitchen is fully stocked!");
 		KitchenReadyForOpen=true;

@@ -7,6 +7,8 @@ import agent.Role;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.DCook;
 import simcity.interfaces.DCustomer;
+import simcity.interfaces.DHost;
+import simcity.interfaces.Host;
 import simcity.interfaces.MarketCashier;
 import simcity.PersonAgent;
 import simcity.interfaces.DWaiter;
@@ -33,8 +35,9 @@ public class DCashierRole extends Role implements DCashier {
 
 	//list of waiters
 	//public List<WaiterAgent> waiters = new ArrayList<WaiterAgent>();
+	DHost myHost = null;
 	DCook myCook = null;
-	
+	boolean arrived = false;
 	public static final double MKT_interestRate=0.10;
 	
 	//public Collection<Table> tables;
@@ -161,7 +164,10 @@ public class DCashierRole extends Role implements DCashier {
             If so seat him at the table.
 		 */
 		//System.out.println('');
-		
+		if(isActive && !arrived) {
+			ReportForDuty();
+			return true;
+		}
 		for(DCheck b: myBills) {
 			if(b.state==CheckState.processing) {
 				ProcessBill(b);
@@ -180,6 +186,7 @@ public class DCashierRole extends Role implements DCashier {
 			GiveCheckToWaiter();
 			return true;
 		}
+		
 		
 //		for(InventoryBill bill: inventoryBills) {
 //			if(bill.state==InventoryBillState.justReceived) {
@@ -221,8 +228,14 @@ public class DCashierRole extends Role implements DCashier {
 		//and wait.
 	}
 
+	
 	// Actions
-	 
+	
+	private void ReportForDuty() {
+		arrived = true;
+		myHost.msgIAmHere(this);
+	}
+	
 //	private void RemoveFraudulentBill(InventoryBill bi) {
 //		inventoryBills.remove(bi);
 //	}
@@ -362,6 +375,11 @@ public class DCashierRole extends Role implements DCashier {
 	public void msgBillFromMarket(double bill, MarketCashier cashier) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void AddHost(DHost host) {
+		// TODO Auto-generated method stub
+		myHost = host;
 	}
 	
 

@@ -59,7 +59,7 @@ Waiter2
 Waiter3
 	200
 	Waiter3
-	false
+	true
 	Apartment
 Waiter4
 	200
@@ -119,7 +119,7 @@ RCashier2
 RCashier3
 	200
 	RCashier3
-	false
+	true
 	Apartment
 RCashier4
 	200

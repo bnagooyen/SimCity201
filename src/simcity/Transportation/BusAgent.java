@@ -12,6 +12,7 @@ import java.util.*;
 public class BusAgent extends Agent implements Bus {
 	String currentStop;
 	public Map<String, BusStop> busStops=new HashMap<String, BusStop>();  
+	BusStop busStop;
 	
 	public enum busState {travelling, arrived, atStop, loading, waiting, readyToGo};
 	public busState state;
@@ -31,9 +32,8 @@ public class BusAgent extends Agent implements Bus {
 
 	public BusAgent(){
 		currentStop="stop1";
-		busStops.put("stop1", bs);
-		busStops.put("stop2", bs2);
-		state=null;
+		
+		state=busState.atStop;
 		stateChanged();
 		}
 	
@@ -48,7 +48,7 @@ public class BusAgent extends Agent implements Bus {
 	}
 	
 	public void msgHereArePassengers(List<PersonAgent> people){
-		
+		System.out.println("bus test");
 		if(people.size()==0){
 			state=busState.readyToGo;
 		}
@@ -72,6 +72,7 @@ public class BusAgent extends Agent implements Bus {
 			if(p==currentPassenger.p){
 				currentPassenger.destination=destination;
 				currentPassenger.onBus=true;
+				
 				}
 			}
 		
@@ -89,11 +90,10 @@ public class BusAgent extends Agent implements Bus {
 	}
 	
 	public void msgTimeUpdate(int hr) {
-		Do("got time update.");
+		
 		hour = hr;
 		if(hr==7) { 
-			
-			
+			busStop.msgAnyPassengers(this);
 			
 		}
 		
@@ -105,13 +105,11 @@ public class BusAgent extends Agent implements Bus {
 	
 	public boolean pickAndExecuteAnAction(){
 		
-		if(start){
-			busStops.get(currentStop).msgAnyPassengers(this);
-			start=false;
-		}
+		
 		
 		if (state==busState.arrived){
 			arriveAtStop();
+			
 			return true;
 		}
 			
@@ -173,6 +171,7 @@ public class BusAgent extends Agent implements Bus {
 	
 	public  void msgSetBusDirectory(Map<String, BusStop> bs) {
 		busStops=bs;
+		busStop=busStops.get(currentStop);
 		
 	}
 

@@ -27,6 +27,7 @@ public class BusStopAgent extends Agent implements BusStop{
 	}
 	
 	public void msgAnyPassengers(Bus b){
+		
 		buses.add(b);
 		stateChanged();
 	}

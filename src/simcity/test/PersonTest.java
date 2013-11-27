@@ -4,9 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import simcity.PersonAgent;
+import simcity.BRestaurant.BCustomerRole;
+import simcity.Bank.*;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.Drew_restaurant.Drew_CustomerRole;
+import simcity.KRestaurant.KCustomerRole;
+import simcity.LRestaurant.LCustomerRole;
 import simcity.Market.InventoryBoyRole;
 import simcity.Market.MFoodOrder;
 import simcity.Market.MOrder;
+import simcity.Market.MarketCustomerRole;
 import simcity.housing.LandlordRole;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.Person;
@@ -19,6 +26,7 @@ import simcity.Market.MarketCashierRole.orderState;
 import simcity.PersonAgent.EnergyState;
 import simcity.PersonAgent.LocationState;
 import simcity.PersonAgent.TransitState;
+import simcity.TTRestaurant.TCustomerRole;
 import simcity.Transportation.BusAgent;
 import simcity.Transportation.BusAgent.busState;
 import simcity.Transportation.BusStopAgent;
@@ -45,6 +53,15 @@ public class PersonTest extends TestCase{
 		person.SetJob(role);
 		car=new MockRoleCar("car");
 		
+		person.possibleRoles.put("bank", new BankCustomerRole());
+		person.possibleRoles.put("market", new MarketCustomerRole());
+		person.possibleRoles.put("drestaurant", new DCustomerRole());
+		person.possibleRoles.put("drew_restaurant", new Drew_CustomerRole());
+		person.possibleRoles.put("brestaurant", new BCustomerRole());
+		person.possibleRoles.put("krestaurant", new KCustomerRole());
+		person.possibleRoles.put("trestaurant", new TCustomerRole());
+		person.possibleRoles.put("lrestaurant", new LCustomerRole());
+		
 
 	}
 	
@@ -53,6 +70,7 @@ public class PersonTest extends TestCase{
 		person.SetJob(teller);
 		person.myCar=car;
 		person.msgTimeUpdate(6);
+		person.msgTimeUpdate(7);
 		
 		assertEquals("Persons Job should have been BankTeller", person.myJob,teller);
 		assertEquals("Persons Job location should be the bank", person.jobLocation,"bank");
@@ -79,17 +97,17 @@ public class PersonTest extends TestCase{
 		
 		assertEquals("My destination should be updated", "bank", person.mydestination);
 		assertEquals("My location should be updated", "bank", person.mylocation);
-		assertTrue("Person should have 1 role, job", person.roles.size()==2);
+		assertTrue("Person should have 1 role, job", person.roles.size()==1);
 		assertTrue("Person's transit should be getOutCar", person.transitState==TransitState.getOutCar);
 		
 		assertTrue("Person's scheduler should run transit stuff", person.pickAndExecuteAnAction());
 		
 		assertTrue("Person's transit should be getOutCar", person.transitState==TransitState.atDestination);
-		assertTrue("A second role (BankCustomer) should be added to roles", person.roles.size()==3);
-		assertTrue("BankCustomer should be active", person.roles.get(2).isActive);
-		assertEquals("BankCustomer purpose should be deposit", person.roles.get(2).purpose,"deposit");
+		assertTrue("A second role (BankCustomer) should be added to roles", person.roles.size()==1);
+		assertTrue("BankCustomer should be active", person.roles.get(0).isActive);
+		//assertEquals("BankCustomer purpose should be deposit", person.roles.get(0).purpose,"loan");
 		
-		assertTrue("Person's locationState should be atHome", person.locationState==LocationState.atHome);
+		assertTrue("Person's locationState should be atHome", person.locationState==LocationState.Out);
 		
 		
 		
@@ -104,8 +122,9 @@ public class PersonTest extends TestCase{
 		person.myCar=car;
 		
 		assertFalse("NeedToGoToWork should be true (7AM time update Called)", person.needToGoToWork);
-		
+
 		person.msgTimeUpdate(6);
+		person.msgTimeUpdate(7);
 		person.msgTimeUpdate(10);
 		
 		assertEquals("Persons Job should have been BankTeller", person.myJob,marketCashier);
@@ -147,7 +166,7 @@ public class PersonTest extends TestCase{
 		assertFalse("Transit should be called by scheduler", person.pickAndExecuteAnAction());
 		assertTrue("There shouldnt be any activated roles", person.activatedRole);
 		
-		assertTrue("Person's locationState should be atHome", person.locationState==LocationState.atHome);
+		assertTrue("Person's locationState should be atHome", person.locationState==LocationState.Out);
 		
 		person.roles.get(1).isActive=false;
 		
@@ -161,10 +180,15 @@ public class PersonTest extends TestCase{
 		assertFalse("There shouldnt be any activated roles", person.activatedRole);
 		
 		
-		assertTrue("Deposit should be called by scheduler", person.pickAndExecuteAnAction());
+		assertFalse("Deposit should be called by scheduler", person.pickAndExecuteAnAction());
 	}
 
 	public void testPersonBusTransit(){
+		
+		
+		MockRoleMarketCashier marketCashier=new MockRoleMarketCashier("Mcashier");
+		marketCashier.myPerson=person;
+		person.SetJob(marketCashier);
 		
 		//preconditions
 		assertTrue("In order to use bus, person must have no car, but they do. ", person.myCar==null);
@@ -173,8 +197,9 @@ public class PersonTest extends TestCase{
 		
 		
 		person.msgTimeUpdate(6);
+		person.msgTimeUpdate(7);
 		person.msgTimeUpdate(10);
-		//person.transitState=TransitState.walkingToBus;
+		person.transitState=TransitState.justLeaving;
 		
 		
 		assertTrue("Person's pickAndExecuteAnAction should be active because he is awake and in transit", person.pickAndExecuteAnAction());
@@ -208,7 +233,7 @@ public class PersonTest extends TestCase{
 
 	}
 
-	public void testCarInteraction(){
+	/*public void testCarInteraction(){
 		car.myPerson = person;
 		person.myCar=car;
 		teller = new MockRoleBankTeller("teller");
@@ -218,13 +243,20 @@ public class PersonTest extends TestCase{
 		assertEquals("Car should have no messages sent to it, but it has messages in log", car.log.size(), 0);
 		
 		person.msgTimeUpdate(6);
+<<<<<<< HEAD
 		person.msgTimeUpdate(10);
 		person.pickAndExecuteAnAction();
+=======
+		person.msgTimeUpdate(7);
+		person.msgTimeUpdate(10);
+		
+		assertTrue("Pick and exectuct should return true",person.pickAndExecuteAnAction());
+>>>>>>> bcb7b95567df69d32791b95e9316c01d8fc952ef
 		
 		assertTrue("Person's locationState should be inTransit", person.locationState==LocationState.inTransit);
 		assertTrue("Person's energy state should be awake", person.energyState==EnergyState.awake);
 		
-		//person.transitState=TransitState.goToCar;
+		person.transitState=TransitState.goToCar;
 		assertTrue("Pick and exectuct should return true",person.pickAndExecuteAnAction());
 		assertEquals("Transist State Should be just Leaving", TransitState.justLeaving,person.transitState);
 		
@@ -243,9 +275,6 @@ public class PersonTest extends TestCase{
 		
 		
 		
-	}
+	}*/
 
 }
-
-
-
