@@ -48,6 +48,8 @@
 	+Shared Data of Restaurant (rotating wheel)
 	+Unit Test Market Inventory Boy
 	+Unit Test Market Customer
+	+Unit Test KCook interaction with Market
+	+Unit Test KWaiterSharedData 
 
 	
 	Linda:
