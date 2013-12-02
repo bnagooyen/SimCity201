@@ -18,7 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import com.sun.tools.javac.util.List;
+//import com.sun.tools.javac.util.List;
 
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
