@@ -32,6 +32,8 @@ public class PersonAgent extends Agent {
     double money=0;
 	String address;
 	
+	int a=5;
+	
 	public PersonAgent(String name) {
 		super();
 		
