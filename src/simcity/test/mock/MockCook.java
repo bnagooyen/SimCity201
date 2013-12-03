@@ -10,11 +10,11 @@ public class MockCook extends Mock implements DCook {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public void msgShouldIPayThisBill(double amt, Market ma) {
-		// TODO Auto-generated method stub
-		log.add(new LoggedEvent("Received should I accept"));
-	}
+//	@Override
+//	public void msgShouldIPayThisBill(double amt, Market ma) {
+//		// TODO Auto-generated method stub
+//		log.add(new LoggedEvent("Received should I accept"));
+//	}
 	
 	
 

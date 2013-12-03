@@ -180,7 +180,7 @@ public class DMarketAgent extends Agent implements Market {
 		  }
 		  tobeprocessed.state=InventoryOrderState.processed;
 		  if(notFulfilledList.size()>0) { // had something that wasn't complete
-			  cook.msgCouldNotFulfillThese(notFulfilledList, tobeprocessed.getID());
+			 // cook.msgCouldNotFulfillThese(notFulfilledList, tobeprocessed.getID());
 		  }
 		  if(deliveryList.size()>0) { // have something to send
 			  //computing bill
@@ -192,7 +192,7 @@ public class DMarketAgent extends Agent implements Market {
 				  @Override
 				public void run() {
 					  //cook.msgHereIsYourFoodOrder(forTimer);
-					  ((DCashierRole) tobeprocessed.c).msgHereIsAnInventoryBill(bill, forT);
+					  //((DCashierRole) tobeprocessed.c).msgHereIsAnInventoryBill(bill, forT);
 					  System.out.println("sent bill to cashier for " + bill+ "!");
 					  //myOrders.remove(tobeprocessed);
 					  tobeprocessed.state=InventoryOrderState.waitingForPayment;

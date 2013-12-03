@@ -7,6 +7,7 @@ import simcity.interfaces.DCook;
 import simcity.interfaces.DCustomer;
 import simcity.interfaces.Market;
 import simcity.interfaces.DWaiter;
+import simcity.interfaces.MarketCashier;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import simcity.DCashierRole.InventoryBill.InventoryBillState;
@@ -115,11 +116,17 @@ public class DCashierRole extends Role implements DCashier {
 			}
 		}
 	}
-	public void msgHereIsAnInventoryBill(double amnt, Market market1) {
-		System.out.print("received bill from "+ market1+" for "+ amnt);
+//	public void msgHereIsAnInventoryBill(double amnt, Market market1) {
+//		System.out.print("received bill from "+ market1+" for "+ amnt);
+////		inventoryBills.add(new InventoryBill(amnt, market1));
+//		//log.add(new LoggedEvent("Received msgHereIsAnInventoryBill"));
 //		inventoryBills.add(new InventoryBill(amnt, market1));
-		//log.add(new LoggedEvent("Received msgHereIsAnInventoryBill"));
-		inventoryBills.add(new InventoryBill(amnt, market1));
+//		stateChanged();
+//	}
+	
+	public void msgPayThisBill(double amnt, MarketCashier mkt) {
+		System.out.print("received bill from cook to pay "+ mkt+" for "+ amnt);
+		inventoryBills.add(new InventoryBill(amnt, mkt));
 		stateChanged();
 	}
 	
@@ -181,13 +188,13 @@ public class DCashierRole extends Role implements DCashier {
 			return true;
 		}
 		
-		for(InventoryBill bill: inventoryBills) {
-			if(bill.state==InventoryBillState.justReceived) {
-				System.out.println(bill);
-				AskCookForValidation(bill);
-				return true;
-			}
-		}
+//		for(InventoryBill bill: inventoryBills) {
+//			if(bill.state==InventoryBillState.justReceived) {
+//				System.out.println(bill);
+//				AskCookForValidation(bill);
+//				return true;
+//			}
+//		}
 		
 		for(InventoryBill bill: inventoryBills) {
 			if(bill.state==InventoryBillState.couldNotAfford && bill.amnt<=registerAmnt) {
@@ -226,11 +233,11 @@ public class DCashierRole extends Role implements DCashier {
 	private void RemoveFraudulentBill(InventoryBill bi) {
 		inventoryBills.remove(bi);
 	}
-	private void AskCookForValidation(InventoryBill bi) {
-		myCook.msgShouldIPayThisBill(bi.amnt, bi.ma);
-		bi.state=InventoryBillState.pendingResponse;
-		return;
-	}
+//	private void AskCookForValidation(InventoryBill bi) {
+//		myCook.msgShouldIPayThisBill(bi.amnt, bi.ma);
+//		bi.state=InventoryBillState.pendingResponse;
+//		return;
+//	}
 	private void ProcessInventoryBill(InventoryBill bi) {
 		//System.out.println("processing... "+ bi.amnt+ "  "+ registerAmnt);
 		DecimalFormat df = new DecimalFormat("###.##");
@@ -245,11 +252,12 @@ public class DCashierRole extends Role implements DCashier {
 
 		registerAmnt-=bi.amnt;
 		bi.state=InventoryBillState.processed;
-		final Market ma=bi.ma;
-		final double amt=bi.amnt;
-
+		//final Market ma=bi.ma;
+		//final double amt=bi.amnt;
+		bi.ma.msgHereIsPayment(this, bi.amnt);
 		inventoryBills.remove(bi);
-		ma.msgHereIsAPayment(amt, this);
+		
+		//bi.ma.msgHereIsAPayment(this, amt);
 			
 		
 	}
@@ -360,19 +368,19 @@ public class DCashierRole extends Role implements DCashier {
 	
 
 	public static class InventoryBill {
-		Market ma;
+		MarketCashier ma;
 		double amnt;
 		public enum InventoryBillState {justReceived, pendingResponse, processing, couldNotAfford, processed, sent, fraud};
 		public InventoryBillState state;
 		
-		InventoryBill(double a, Market market1) {
+		InventoryBill(double a, MarketCashier market1) {
 			ma = market1;
 			amnt = a;
 			state=InventoryBillState.justReceived;
 			
 		}
 		
-		public Market getMarket() {
+		public MarketCashier getMarket() {
 			return ma;
 		}
 		public double getAmnt() {

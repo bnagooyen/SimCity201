@@ -11,6 +11,7 @@ import simcity.interfaces.Market;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
 import simcity.DCookRole.InventoryOrder.InventoryOrderState;
+//import simcity.DCookRole.InventoryOrder.InventoryOrderState;
 import simcity.DOrder.OrderState;
 
 import java.text.DecimalFormat;
@@ -53,7 +54,7 @@ public class DCookRole extends Role implements DCook, Cook{
 	
 	Map<String, Boolean> grillOccupied = new HashMap<String, Boolean>();
 	
-	ArrayList<ArrayList<MFoodOrder>> delivery= new ArrayList<ArrayList<MFoodOrder>>();
+	ArrayList<MyDelivery> delivery= new ArrayList<MyDelivery>();
 	List<DOrder> orders =  Collections.synchronizedList(new ArrayList<DOrder>());
 	ArrayList<MarketCashier> myMarkets = new ArrayList<MarketCashier>();
 	ArrayList<DMarketAgent> markets = new ArrayList<DMarketAgent>();
@@ -220,6 +221,30 @@ public class DCookRole extends Role implements DCook, Cook{
 		}
 	}
 	
+	/********help me please!!!*********/
+
+	@Override
+	public void msgHereIsDelivery(List<MFoodOrder> canGive, double check,
+			MarketManager manager, MarketCashier mc) {
+		// TODO Auto-generated method stub
+		delivery.add(new MyDelivery(canGive, check, mc, manager));
+	}
+
+
+	@Override
+	public void msgGoToCashier(MarketCashier c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void msgMarketClosed() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 //	public void msgCheckInventoryValsForOpen() {
 //		//System.out.println("received msg");
 //		valsAreSet=true;
@@ -271,36 +296,36 @@ public class DCookRole extends Role implements DCook, Cook{
 //		InventoryMarketTracker.put(foo, InventoryMarketTracker.get(foo)+1);
 //	}
 	
-	public void msgHereIsYourFoodOrder(ArrayList<MFoodOrder> dlv) {
-		delivery.add(dlv);
-		//System.out.println("**received order from cook");
-		waitingForInventory=false;
-		stateChanged();
-	}
+//	public void msgHereIsYourFoodOrder(ArrayList<MFoodOrder> dlv) {
+//		delivery.add(dlv);
+//		//System.out.println("**received order from cook");
+//		waitingForInventory=false;
+//		stateChanged();
+//	}
 	
-	public void msgCouldNotFulfillThese(ArrayList<DFoodOrder> reorderlist, int ORDERID) {
-		
-		//System.err.println("*msgcouldnotfulfill");
-		synchronized(myOrders) {
-		for(int i=0; i<myOrders.size(); i++) {
-			if(myOrders.get(i).getID()==ORDERID) {
-				System.out.println("got inventory orderback from "+myOrders.get(i).getMarketOrderingFrom());
-				myOrders.get(i).incMarketOrderingFrom();
-				myOrders.get(i).state=InventoryOrderState.needsPriceUpdate;
-				//order.myorder=reorderlist;
-				InventoryOrder newOrder = new InventoryOrder(reorderlist, ORDERID+1, InventoryOrderState.needsReorder);
-				newOrder.mktOrderingFrom=myOrders.get(i).mktOrderingFrom;
-				newOrder.incMarketOrderingFrom();
-				myOrders.add(newOrder);
-				ORDERID++;
-				stateChanged();
-				break;
-			}
-		}
-		}
-		
-		
-	}
+//	public void msgCouldNotFulfillThese(ArrayList<DFoodOrder> reorderlist, int ORDERID) {
+//		
+//		//System.err.println("*msgcouldnotfulfill");
+//		synchronized(myOrders) {
+//		for(int i=0; i<myOrders.size(); i++) {
+//			if(myOrders.get(i).getID()==ORDERID) {
+//				System.out.println("got inventory orderback from "+myOrders.get(i).getMarketOrderingFrom());
+//				myOrders.get(i).incMarketOrderingFrom();
+//				myOrders.get(i).state=InventoryOrderState.needsPriceUpdate;
+//				//order.myorder=reorderlist;
+//				InventoryOrder newOrder = new InventoryOrder(reorderlist, ORDERID+1, InventoryOrderState.needsReorder);
+//				newOrder.mktOrderingFrom=myOrders.get(i).mktOrderingFrom;
+//				newOrder.incMarketOrderingFrom();
+//				myOrders.add(newOrder);
+//				ORDERID++;
+//				stateChanged();
+//				break;
+//			}
+//		}
+//		}
+//		
+//		
+//	}
 	
 	public void msgAnimationArrivedAtFridge() {
 		atFridge.release();
@@ -629,7 +654,7 @@ public class DCookRole extends Role implements DCook, Cook{
 			DecimalFormat df = new DecimalFormat("###.##");
 			if(reord.getMarketOrderingFrom()>markets.size()) {
 				for(int i=0; i< reord.myorder.size(); i++) {
-					System.out.println("all markets are out of "+ reord.myorder.get(i).getFood());
+					System.out.println("all markets are out of "+ reord.myorder.get(i).type);
 				}
 				if(!RestaurantIsOpen && reord.getMarketOrderingFrom()>markets.size()) { //markets don't have it.. should just open anyway
 					RestaurantIsOpen=true;
@@ -640,18 +665,18 @@ public class DCookRole extends Role implements DCook, Cook{
 			}
 			
 			double billAmnt =0;
-			for(DFoodOrder ord: reord.myorder) {
-				if(ord.getFood().equals("Chicken")) {
-					billAmnt+=ord.getVal()*prices.get("Chicken");
+			for(MFoodOrder ord: reord.myorder) {
+				if(ord.type.equals("Chicken")) {
+					billAmnt+=ord.amount*prices.get("Chicken");
 				}
-				if(ord.getFood().equals("Steak")) {
-					billAmnt+=ord.getVal()*prices.get("Steak");
+				if(ord.type.equals("Steak")) {
+					billAmnt+=ord.amount*prices.get("Steak");
 				}
-				if(ord.getFood().equals("Salad")) {
-					billAmnt+=ord.getVal()*prices.get("Salad");
+				if(ord.type.equals("Salad")) {
+					billAmnt+=ord.amount*prices.get("Salad");
 				}
-				if(ord.getFood().equals("Pizza")) {
-					billAmnt+=ord.getVal()*prices.get("Pizza");
+				if(ord.type.equals("Pizza")) {
+					billAmnt+=ord.amount*prices.get("Pizza");
 				}
 			}
 			
@@ -680,8 +705,8 @@ public class DCookRole extends Role implements DCook, Cook{
 		}
 		
 	
-		private void ProcessDelivery(ArrayList<MFoodOrder> groceries) {
-			for(MFoodOrder foo: groceries) {
+		private void ProcessDelivery(MyDelivery d) {
+			for(MFoodOrder foo: d.delivery) {
 				DFood temp = myFood.get(foo.type);
 				temp.setAmount(temp.getAmount()+foo.amount);
 				myFood.put(foo.type, temp);
@@ -690,47 +715,62 @@ public class DCookRole extends Role implements DCook, Cook{
 				
 			}
 			waitingForInventory=false;
-			delivery.remove(groceries);
-			if(!RestaurantIsOpen) {
-				if(myFood.get("Chicken").getAmount()==initialFoodAmnt && myFood.get("Steak").getAmount()==initialFoodAmnt &&
-						myFood.get("Pizza").getAmount()==initialFoodAmnt && myFood.get("Salad").getAmount()==initialFoodAmnt) {
-					host.msgKitchenIsReady();
-					RestaurantIsOpen=true;
-					//System.out.println("ready!");
+			
+			for(InventoryOrder o: myOrders){
+				if(d.mcashier==o.market) {
+					if(Math.abs(o.billExpected-d.check)<=0.01) {
+						myCashier.msgPayThisBill(d.check,d.mcashier);
+					}
+					else {
+						System.out.println("Fradulent bill...");
+					}
+			
+					delivery.remove(d);
+					if(!RestaurantIsOpen) {
+						if(myFood.get("Chicken").getAmount()==initialFoodAmnt && myFood.get("Steak").getAmount()==initialFoodAmnt &&
+								myFood.get("Pizza").getAmount()==initialFoodAmnt && myFood.get("Salad").getAmount()==initialFoodAmnt) {
+							host.msgKitchenIsReady();
+							RestaurantIsOpen=true;
+							//System.out.println("ready!");
+						}
+					}
 				}
 			}
 		}
-		
+
+
+		class MyDelivery {
+			public double check;
+			public MarketCashier mcashier;
+			public MarketManager mmanager;
+			public List<MFoodOrder> delivery;
+			public MyDelivery(List<MFoodOrder> dlv, double check, MarketCashier c, MarketManager m) {
+				delivery=new ArrayList<MFoodOrder>();
+				delivery=dlv;
+				this.check = check;
+				mcashier=c;
+				mmanager=m;
+			}
+		}
 		
 		static class InventoryOrder {
 			int orderID;
-			ArrayList<DFoodOrder> myorder;
+			ArrayList<MFoodOrder> myorder;
 			int mktOrderingFrom;
 			MarketCashier market;
 			double billExpected;
 			enum InventoryOrderState {ordered, needsReorder, approved, denied, needsPriceUpdate};
 			InventoryOrderState state;
-			InventoryOrder (ArrayList<DFoodOrder> mo, int orderid) {
-				myorder = new ArrayList<DFoodOrder>();
+			InventoryOrder (ArrayList<MFoodOrder> mo, int orderid) {
+				myorder = new ArrayList<MFoodOrder>();
 				myorder=mo;
 				mktOrderingFrom=1;
 				orderID=orderid;
-				state=InventoryOrderState.ordered;
+				//state=InventoryOrderState.ordered;
 				//reorder=false;
 				//sent=false;
 			}
-			
-			InventoryOrder (ArrayList<DFoodOrder> mo, int orderid, InventoryOrderState ord) {
-				myorder = new ArrayList<DFoodOrder>();
-				myorder=mo;
-				mktOrderingFrom=1;
-				orderID=orderid;
-				state=ord;
-				//reorder=false;
-				//sent=false;
-			}
-			
-			
+						
 			InventoryOrder(MarketCashier mkt, int mknum, double billAmt, int ord) {
 				market= mkt;
 				billExpected=billAmt;
@@ -750,44 +790,17 @@ public class DCookRole extends Role implements DCook, Cook{
 				mktOrderingFrom++;
 			}
 			
-			int getID() {
-				return orderID;
-			}
-//			}
-//			boolean getReorder() {
-//				return reorder;
-//			}
-//			void setReorder(boolean r) {
-//				reorder=r;
-//			}
-//			
-		}
-
-		/********help me please!!!*********/
-
-		@Override
-		public void msgHereIsDelivery(List<MFoodOrder> canGive, double check,
-				MarketManager manager, MarketCashier mc) {
-			// TODO Auto-generated method stub
-			
+	
 		}
 
 
-		@Override
-		public void msgGoToCashier(MarketCashier c) {
-			// TODO Auto-generated method stub
-			
-		}
-
-
-		@Override
-		public void msgMarketClosed() {
-			// TODO Auto-generated method stub
-			
-		}
+}
+		
+		
+	
 
 		
-}
+
 
 
 

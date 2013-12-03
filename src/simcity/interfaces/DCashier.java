@@ -9,4 +9,5 @@ public interface DCashier {
 	public abstract double getRegisterAmnt();
 //	public abstract void msgMadeInventoryOrder(int oRDER_ID, double billAmnt, Market a);
 	public abstract void msgAnswerVerificationRequest(boolean b);
+	public abstract void msgPayThisBill(double check, MarketCashier mcashier);
 }
