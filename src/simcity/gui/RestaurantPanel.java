@@ -1,5 +1,9 @@
 package simcity.gui;
 
+import simcity.Market.InventoryBoyRole;
+import simcity.Market.MarketCashierRole;
+import simcity.Market.MarketManagerRole;
+import simcity.Transportation.DeliveryTruckAgent;
 import simcity.gui.DGui.DCookGui;
 import simcity.gui.DGui.DWaiterGui;
 import simcity.interfaces.DCook;
@@ -59,10 +63,50 @@ public class RestaurantPanel extends JPanel {
     
   //Person
 
-    
+    // market people workers
+    private MarketManagerRole manager;
+    private MarketCashierRole mcashier;
+    private InventoryBoyRole ib;
 
     public RestaurantPanel(SimCityGui gui) {
         this.gui = gui;
+        
+        manager = new MarketManagerRole(gui);
+        mcashier = new MarketCashierRole(gui);
+        ib = new InventoryBoyRole(gui);
+        
+        manager.isActive = true;
+        PersonAgent mManagerPerson = new PersonAgent("Manager");
+        mManagerPerson.hungerLevel = 0;
+        mManagerPerson.SetJob(manager);
+        manager.myPerson = mManagerPerson;
+        
+        mcashier.isActive = true;
+        PersonAgent mCashierPerson = new PersonAgent("mCashier");
+        mCashierPerson.hungerLevel = 0;
+        mCashierPerson.SetJob(mcashier);
+        mcashier.myPerson = mCashierPerson;
+        
+        ib.isActive = true;
+        PersonAgent ibPerson = new PersonAgent("ib");
+        ibPerson.hungerLevel = 0;
+        ibPerson.SetJob(ib);
+        ib.myPerson = ibPerson;
+        
+        DeliveryTruckAgent dtruck = new DeliveryTruckAgent(manager);
+        // set market role pointers
+        mcashier.setInventoryBoy(ib);
+        mcashier.setMarketManager(manager);
+        ib.setMarketManager(manager);
+        ib.setMarketCashier(mcashier);
+        manager.setDeliveryTruck(dtruck);
+        
+        // start threads of market stuff
+        dtruck.startThread();
+        mManagerPerson.startThread();
+        mCashierPerson.startThread();
+        ibPerson.startThread();
+
         
         host.isActive=true;
         PersonAgent hostPerson = new PersonAgent("Host");
