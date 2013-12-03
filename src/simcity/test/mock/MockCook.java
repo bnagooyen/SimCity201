@@ -1,9 +1,9 @@
 package simcity.test.mock;
 
-import simcity.interfaces.Cook;
+import simcity.interfaces.DCook;
 import simcity.interfaces.Market;
 
-public class MockCook extends Mock implements Cook {
+public class MockCook extends Mock implements DCook {
 	public EventLog log = new EventLog();
 	public MockCook(String name) {
 		super(name);

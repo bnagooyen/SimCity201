@@ -1,17 +1,17 @@
 package simcity.test.mock;
 
 
-import simcity.interfaces.Cashier;
-import simcity.interfaces.Customer;
+import simcity.interfaces.DCashier;
+import simcity.interfaces.DCustomer;
 import simcity.DMenu;
 import simcity.DWaiterRole;
 
-public class MockCustomer extends Mock implements Customer {
+public class MockCustomer extends Mock implements DCustomer {
 
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.
 	 */
-	public Cashier cashier;
+	public DCashier cashier;
 	public EventLog log = new EventLog();
 	public double Wallet;
 	public double Debt;

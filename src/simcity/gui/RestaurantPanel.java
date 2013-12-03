@@ -1,6 +1,6 @@
 package simcity.gui;
 
-import simcity.interfaces.Cook;
+import simcity.interfaces.DCook;
 import simcity.DCashierRole;
 import simcity.DCookRole;
 import simcity.DCustomerRole;

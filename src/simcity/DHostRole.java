@@ -3,9 +3,9 @@ package simcity;
 import agent.Agent;
 import agent.Role;
 import simcity.gui.HostGui;
-import simcity.interfaces.Customer;
+import simcity.interfaces.DCustomer;
 import simcity.interfaces.Host;
-import simcity.interfaces.Waiter;
+import simcity.interfaces.DWaiter;
 import simcity.DProducerConsumerMonitor;
 import simcity.DHostRole.MyCustomer.CustState;
 import simcity.DHostRole.MyWaiter.MyWaiterState;
@@ -120,7 +120,7 @@ public class DHostRole extends Role implements Host {
 	}
 
 	
-	public void msgHereToTakeMyCustomer(Waiter w) {
+	public void msgHereToTakeMyCustomer(DWaiter w) {
 		for(MyWaiter waiter: waiters) {
 			if(waiter.w==w) {
 				waiter.state=MyWaiterState.atFront;
@@ -130,7 +130,7 @@ public class DHostRole extends Role implements Host {
 		
 	}
 
-	public void msgHereToGetSeated(Customer c) {
+	public void msgHereToGetSeated(DCustomer c) {
 		System.out.println("received here to get seated from customer");
 		customerAtFront.release();
 		stateChanged();
@@ -365,12 +365,12 @@ public class DHostRole extends Role implements Host {
 	}
 	
 	static public class MyCustomer {
-		Customer c;
+		DCustomer c;
 		enum CustState {justArrived, waiting, assignedWaiter, atFront, comingToFront};
 		CustState state;
 		MyWaiter w;
 		
-		MyCustomer(Customer cu) {
+		MyCustomer(DCustomer cu) {
 			c=cu;
 			state=CustState.justArrived;
 		}

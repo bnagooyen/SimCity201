@@ -2,13 +2,13 @@ package simcity.test.mock;
 
 import java.util.ArrayList;
 
-import simcity.interfaces.Cashier;
+import simcity.interfaces.DCashier;
 import simcity.interfaces.Market;
 import simcity.DFoodOrder;
 
 public class MockMarket extends Mock implements Market {
 
-	public Cashier cashier;
+	public DCashier cashier;
 	public EventLog log = new EventLog();
 	int inventory;
 	public MockMarket(String name) {
@@ -25,7 +25,7 @@ public class MockMarket extends Mock implements Market {
 
 	@Override
 	public void msgHereIsAnInventoryOrder(ArrayList<DFoodOrder> orderToMarket,
-			int id, Cashier c) {
+			int id, DCashier c) {
 			log.add(new LoggedEvent("Received msgHereIsAnInventoryOrder"));
 			//if(marketFood.get())
 			for(DFoodOrder order: orderToMarket) {
@@ -42,7 +42,7 @@ public class MockMarket extends Mock implements Market {
 	}
 
 	@Override
-	public void msgHereIsAPayment(double val, Cashier ca) {
+	public void msgHereIsAPayment(double val, DCashier ca) {
 		// TODO Auto-generated method stub
 			log.add(new LoggedEvent("Received msgHereIsAPayment "+ val));
 	}

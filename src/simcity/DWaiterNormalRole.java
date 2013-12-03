@@ -1,9 +1,9 @@
 package simcity;
 
-import simcity.interfaces.Waiter;
+import simcity.interfaces.DWaiter;
 import simcity.DOrder.OrderState;
 
-public class DWaiterNormalRole extends DWaiterRole implements Waiter {
+public class DWaiterNormalRole extends DWaiterRole implements DWaiter {
 
 	public DWaiterNormalRole() {
 		super();

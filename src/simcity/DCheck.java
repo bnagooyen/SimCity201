@@ -1,7 +1,7 @@
 package simcity;
 
-import simcity.interfaces.Customer;
-import simcity.interfaces.Waiter;
+import simcity.interfaces.DCustomer;
+import simcity.interfaces.DWaiter;
 
 public class DCheck {
 	int tablenum;
@@ -10,13 +10,13 @@ public class DCheck {
 	double debt;
 	//double Change;
 	String choice;
-	Waiter waiter;
+	DWaiter waiter;
 	String name;
-	Customer customer; //for cashier to keep track of who to give change to
+	DCustomer customer; //for cashier to keep track of who to give change to
 	public enum CheckState { processing, processed, sent, paid, debt };
 	CheckState state;
 	
-	DCheck(String ch, int tnum, double amnt, Waiter wa) {
+	DCheck(String ch, int tnum, double amnt, DWaiter wa) {
 		choice = ch;
 		tablenum = tnum;
 		waiter = wa;
@@ -26,7 +26,7 @@ public class DCheck {
 		debt=0;
 	}
 	
-	public DCheck(String ch, Customer cust, String nm, int tnum, Waiter wa) {
+	public DCheck(String ch, DCustomer cust, String nm, int tnum, DWaiter wa) {
 		choice = ch;
 		name=nm;
 		tablenum=tnum;
@@ -37,7 +37,7 @@ public class DCheck {
 		state=CheckState.processing;
 	}
 	
-	public DCheck(Customer cust, String ch, int tnum, double d) { // constructor for the customer.. this is all the info it needs to see
+	public DCheck(DCustomer cust, String ch, int tnum, double d) { // constructor for the customer.. this is all the info it needs to see
 		choice = ch;
 		BillAmnt = d;
 		customer=cust;
@@ -45,7 +45,7 @@ public class DCheck {
 	}
 
 
-	public DCheck(Customer customer2, int amnt,
+	public DCheck(DCustomer customer2, int amnt,
 			double d) {
 		// TODO Auto-generated constructor stub
 		tablenum = amnt;
@@ -62,7 +62,7 @@ public class DCheck {
 	String getChoice() {
 		return choice;
 	}
-	Waiter getWaiter() {
+	DWaiter getWaiter() {
 		return waiter;
 	}
 	int getTablenum() {
@@ -75,7 +75,7 @@ public class DCheck {
 		return CustomerPaid;
 	}
 	
-	public Customer getCustomer() {
+	public DCustomer getCustomer() {
 		return customer;
 	}
 	
@@ -87,7 +87,7 @@ public class DCheck {
 		return BillAmnt - CustomerPaid;
 	}
 	
-	void setCustomer(Customer cust) {
+	void setCustomer(DCustomer cust) {
 		customer=cust;
 	}
 	

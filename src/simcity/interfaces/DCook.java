@@ -1,7 +1,7 @@
 package simcity.interfaces;
 
 
-public interface Cook {
+public interface DCook {
 
 	public abstract void msgShouldIPayThisBill(double amt, Market ma);
 }

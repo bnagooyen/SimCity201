@@ -5,8 +5,8 @@ package simcity;
 import agent.Agent;
 import agent.Role;
 import simcity.gui.WaiterGui;
-import simcity.interfaces.Customer;
-import simcity.interfaces.Waiter;
+import simcity.interfaces.DCustomer;
+import simcity.interfaces.DWaiter;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -20,7 +20,7 @@ import simcity.DOrder.OrderState;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public abstract class DWaiterRole extends Role implements Waiter {
+public abstract class DWaiterRole extends Role implements DWaiter {
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -115,7 +115,7 @@ public abstract class DWaiterRole extends Role implements Waiter {
 		host=h;
 	}
 	
-	public void msgHereIsAWaitingCustomer(Customer c, int t) {
+	public void msgHereIsAWaitingCustomer(DCustomer c, int t) {
 		System.out.println("waiter: adding "+c+ " to my customers list");
 		customers.add(new MyCustomer(c, t, simcity.DWaiterRole.MyCustomer.MyCustomerState.waiting));
 		stateChanged();
@@ -721,7 +721,7 @@ public abstract class DWaiterRole extends Role implements Waiter {
 
 	}
 	
-	private void DoGoToTable(Customer customer, int table) {
+	private void DoGoToTable(DCustomer customer, int table) {
 		/*
 		if(customer.state==MyCustomer.MyCustomerState.serveMe) {
 			System.out.println("Serving "+ customer.getCustomer() + " at "+ table);
@@ -770,19 +770,19 @@ public abstract class DWaiterRole extends Role implements Waiter {
 
 	public static class MyCustomer {
 		
-		private Customer c;
+		private DCustomer c;
 		private int tablenum;
 		enum MyCustomerState {none, waiting, seated, readyToOrder, ordered, needsToReorder, waitingForFood, serveMe, served, gone, billed, couldNotAffordAndLeaving };
 		MyCustomerState state;
 		private String choice;
 		
-		MyCustomer(Customer c2, int t, MyCustomerState s) {
+		MyCustomer(DCustomer c2, int t, MyCustomerState s) {
 			c=c2;
 			tablenum=t;
 			state=s;
 		}
 		
-		public Customer getCustomer() {
+		public DCustomer getCustomer() {
 			return c;
 		}
 		

@@ -3,8 +3,8 @@ package simcity;
 import agent.Agent;
 import agent.Role;
 import simcity.gui.CookGui;
-import simcity.interfaces.Cashier;
-import simcity.interfaces.Cook;
+import simcity.interfaces.DCashier;
+import simcity.interfaces.DCook;
 import simcity.interfaces.Market;
 import simcity.DCookRole.InventoryOrder.InventoryOrderState;
 import simcity.DOrder.OrderState;
@@ -20,7 +20,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class DCookRole extends Role implements Cook{
+public class DCookRole extends Role implements DCook{
 
 	private DProducerConsumerMonitor theMonitor;
 	
@@ -39,7 +39,7 @@ public class DCookRole extends Role implements Cook{
 	private Semaphore atGrill = new Semaphore(0, true);
 	private Semaphore atPlating = new Semaphore(0, true);
 	
-	Cashier myCashier;
+	DCashier myCashier;
 	private DWaiterRole waiter;
 	private DHostRole host;
 
@@ -152,7 +152,7 @@ public class DCookRole extends Role implements Cook{
 		host=h;
 	}
 	
-	public void AddCashier(Cashier h) {
+	public void AddCashier(DCashier h) {
 		//System.out.println("host added to cook");
 		myCashier=h;
 	}

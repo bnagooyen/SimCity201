@@ -1,10 +1,10 @@
 package simcity;
 
-import simcity.interfaces.Waiter;
+import simcity.interfaces.DWaiter;
 import simcity.DOrder.OrderState;
 import simcity.DWaiterRole.WaiterState;
 
-public class DWaiterSharedDataRole extends DWaiterRole implements Waiter {
+public class DWaiterSharedDataRole extends DWaiterRole implements DWaiter {
 
 	private DProducerConsumerMonitor theMonitor;
 	

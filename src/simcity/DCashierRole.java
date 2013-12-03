@@ -2,11 +2,11 @@ package simcity;
 
 import agent.Agent;
 import agent.Role;
-import simcity.interfaces.Cashier;
-import simcity.interfaces.Cook;
-import simcity.interfaces.Customer;
+import simcity.interfaces.DCashier;
+import simcity.interfaces.DCook;
+import simcity.interfaces.DCustomer;
 import simcity.interfaces.Market;
-import simcity.interfaces.Waiter;
+import simcity.interfaces.DWaiter;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import simcity.DCashierRole.InventoryBill.InventoryBillState;
@@ -24,7 +24,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class DCashierRole extends Role implements Cashier {
+public class DCashierRole extends Role implements DCashier {
 	//static final int NTABLES = 12;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -33,7 +33,7 @@ public class DCashierRole extends Role implements Cashier {
 
 	//list of waiters
 	//public List<WaiterAgent> waiters = new ArrayList<WaiterAgent>();
-	Cook myCook = null;
+	DCook myCook = null;
 	
 	public static final double MKT_interestRate=0.10;
 	
@@ -44,7 +44,7 @@ public class DCashierRole extends Role implements Cashier {
 	private String name;
 	private Semaphore atTable = new Semaphore(0,true);
 	private Map<String, Double> prices = new HashMap<String, Double>();
-	private Waiter waiterAtRegister=null;
+	private DWaiter waiterAtRegister=null;
 	private double registerAmnt;
 	//public HostGui hostGui = null;
 	//Map<String, Double> blacklist = new HashMap<String, Double>();
@@ -98,7 +98,7 @@ public class DCashierRole extends Role implements Cashier {
 	
 
 	// Messages
-	public void AddCook(Cook tba) {
+	public void AddCook(DCook tba) {
 		myCook = tba;
 	}
 //	public void msgMadeInventoryOrder(int ORDER_ID, double billAmt, Market m) {
@@ -124,20 +124,20 @@ public class DCashierRole extends Role implements Cashier {
 	}
 	
 	@Override
-	public void msgComputeBill(String choice, Customer cust, String name, int tnum, Waiter wa) {
+	public void msgComputeBill(String choice, DCustomer cust, String name, int tnum, DWaiter wa) {
 		//System.out.println("received request for bill for table "+ (char)tnum);
 		myBills.add(new DCheck(choice, cust, name, tnum, wa)); // is that ok?
 		System.out.println("bill reqest added for customer "+ cust+ " at table"+ tnum);
 		stateChanged();
 	}
 	
-	public void msgHereForMyBills(Waiter w) {
+	public void msgHereForMyBills(DWaiter w) {
 		waiterAtRegister=w;
 		stateChanged();
 	}
 	
 	@Override
-	public void msgHereIsAPayment(Customer cust, int tnum, double valCustPaid) {
+	public void msgHereIsAPayment(DCustomer cust, int tnum, double valCustPaid) {
 //		System.err.println(tnum);
 		for (int i=0; i<myBills.size(); i++) {
 			if (cust==myBills.get(i).getCustomer() && !(myBills.get(i).state==CheckState.debt)) {

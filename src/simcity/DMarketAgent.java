@@ -1,7 +1,7 @@
 package simcity;
 
 import agent.Agent;
-import simcity.interfaces.Cashier;
+import simcity.interfaces.DCashier;
 import simcity.interfaces.Market;
 import simcity.DMarketAgent.InventoryOrder.InventoryOrderState;
 
@@ -94,14 +94,14 @@ public class DMarketAgent extends Agent implements Market {
 	}
 	
 	@Override
-	public void msgHereIsAnInventoryOrder(ArrayList<simcity.DFoodOrder> orderToMarket, int id, Cashier c) {
+	public void msgHereIsAnInventoryOrder(ArrayList<simcity.DFoodOrder> orderToMarket, int id, DCashier c) {
 		System.out.println("new order added w/ cahsier"+ c);
 		myOrders.add(new InventoryOrder(orderToMarket, id, c));
 		stateChanged();
 	}
 	
 	@Override
-	public void msgHereIsAPayment(double val, Cashier ca) {
+	public void msgHereIsAPayment(double val, DCashier ca) {
 		System.out.println("received payment from casheir for $" + val);
 		for(InventoryOrder order: myOrders) {
 			if(order.c==ca) {
@@ -215,14 +215,14 @@ public class DMarketAgent extends Agent implements Market {
 
 		static class InventoryOrder {
 			ArrayList<DFoodOrder> order;
-			Cashier c;
+			DCashier c;
 			double pmtVal;
 			double amnt;
 			enum InventoryOrderState { pending, processed, waitingForPayment, receivedPayment};
 			InventoryOrderState state;
 			int ORDERID;
 			
-			InventoryOrder(ArrayList<DFoodOrder> myOrder, int orderid, Cashier ca) {
+			InventoryOrder(ArrayList<DFoodOrder> myOrder, int orderid, DCashier ca) {
 				order = myOrder;
 				state= InventoryOrderState.pending;
 				ORDERID=orderid;

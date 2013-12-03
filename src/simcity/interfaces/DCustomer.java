@@ -3,7 +3,7 @@ package simcity.interfaces;
 import simcity.DMenu;
 import simcity.DWaiterRole;
 
-public interface Customer {
+public interface DCustomer {
 //	public abstract void gotHungry(); 
 	public void msgNoRoomForYou();
 

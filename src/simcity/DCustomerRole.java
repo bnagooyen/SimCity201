@@ -2,7 +2,7 @@ package simcity;
  
 import simcity.gui.CustomerGui;
 import simcity.gui.SimCityGui;
-import simcity.interfaces.Customer;
+import simcity.interfaces.DCustomer;
 import agent.Agent;
 import agent.Role;
 
@@ -16,7 +16,7 @@ import java.util.concurrent.Semaphore;
 /**
  * Restaurant customer agent.
  */
-public class DCustomerRole extends Role implements Customer {
+public class DCustomerRole extends Role implements DCustomer {
 	private String name;
 	private String myText;
 	//parse through string

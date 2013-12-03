@@ -4,7 +4,7 @@ import simcity.DCheck;
 import simcity.DCustomerRole;
 import simcity.DOrder;
 
-public interface Waiter {
+public interface DWaiter {
 
 	public abstract void msgSitAtTable(int t, DCustomerRole cust);
 	public void msgImReadyToOrder(DCustomerRole cust);
