@@ -13,8 +13,6 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import simcity.gui.Gui;
-
 public class MarketAnimationPanel extends BuildingAnimationPanel implements ActionListener {
 
 	 private final int WINDOWX = 575;
@@ -66,44 +64,61 @@ public class MarketAnimationPanel extends BuildingAnimationPanel implements Acti
 
 	    @Override
 		public void paintComponent(Graphics g) {
-	    	 Graphics2D g2 = (Graphics2D)g;
+	        Graphics2D g2 = (Graphics2D)g;
 
-	         //Clear the screen by painting a rectangle the size of the frame
-	         g2.setColor(Color.white);
-	         g2.fillRect(WINDOWX,  WINDOWY, this.getWidth(), this.getHeight());
-	         
-	         
-	         // counter
-	         g2.setColor(Color.ORANGE);
-	         g2.fillRect(150, 50, 20, 100);
+	        
+	        //Clear the screen by painting a rectangle the size of the frame
+	        g2.setColor(getBackground());
+	        g2.fillRect(BTMX, BTMY, WINDOWX, WINDOWY );
+	        
+	        g2.setColor(Color.ORANGE);
+	        g2.fillRect(150, 50, 20, 100);
 
-	         
-	         g2.setColor(Color.LIGHT_GRAY);
-	         g2.fillRect(400, 25, 100, 20);
-	         g2.fillRect(400, 100, 100, 20);
-	         g2.fillRect(400, 175, 100, 20);
-	         g2.fillRect(400, 250, 100, 20);
-	         g2.fillRect(600, 100, 50, 100);
-	         
-	         g.setColor(Color.BLACK);
-	         g.drawString("Steak", 435, 40);
-	         g.drawString("Chicken", 425, 115);
-	         g.drawString("Salad", 435, 190);
-	         g.drawString("Pizza", 435, 265);
-	         g.drawString("Car", 615, 150);
-	         
-	         for(Gui gui : guis) {
-	             if (gui.isPresent()) {
-	                 gui.updatePosition();
-	             }
-	         }
-	         synchronized(guis) {
-	 	        for(Gui gui : guis) {
-	 	            if (gui.isPresent()) {
-	 	                gui.draw(g2);
-	 	            }
-	 	        }
-	         }
+	        
+	        g2.setColor(Color.LIGHT_GRAY);
+	        g2.fillRect(400, 25, 100, 20);
+	        g2.fillRect(400, 100, 100, 20);
+	        g2.fillRect(400, 175, 100, 20);
+	        g2.fillRect(400, 250, 100, 20);
+	        g2.fillRect(600, 100, 50, 100);
+	        
+	        g.setColor(Color.BLACK);
+	        g.drawString("Steak", 435, 40);
+	        g.drawString("Chicken", 425, 115);
+	        g.drawString("Salad", 435, 190);
+	        g.drawString("Pizza", 435, 265);
+	        g.drawString("Car", 615, 150);
+	        
+	        
+//
+//	        //Here is the table
+//	        g2.setColor(Color.ORANGE);
+//	        for(int i=0; i<nTABLES; i++)
+//	        {
+//	        	int fillx = (i%TABLES_perRow)*TABLESZ_xy*2 + TABLE_gap + x_Offset;
+//	        	int filly = (i/TABLES_perRow)*TABLESZ_xy*2 + TABLE_gap;
+//	        	g2.fillRect(fillx, filly, TABLESZ_xy, TABLESZ_xy);//200 and 250 need to be table params
+//	        
+//	        }
+//	        
+//	        //draw kitchen components
+//	        g2.setColor(Color.cyan);
+//	        g2.fillRect(allKitchenItems_x, refrig_y, refrig_xsz, refrig_ysz);
+//	        g2.setColor(Color.LIGHT_GRAY);
+//	        g2.fillRect(allKitchenItems_x, grillPizza_y, grill_xsz, grill_ysz);
+//	        g2.fillRect(allKitchenItems_x, grillChicken_y, grill_xsz, grill_ysz);
+//	        g2.fillRect(allKitchenItems_x, grillSteak_y, grill_xsz, grill_ysz);
+//	        g2.fillRect(allKitchenItems_x, grillSalad_y, grill_xsz, grill_ysz);
+//
+//	        g2.setColor(Color.pink);
+//	        g2.fillRect(allKitchenItems_x, plating_x, grill_xsz, plating_ysz);
+//	       
+//
+//	        for(Gui gui : guis) {
+//	            if (gui.isPresent()) {
+//	                gui.draw(g2);
+//	            }
+//	        }
 	    }
 
 		@Override
