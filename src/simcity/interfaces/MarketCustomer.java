@@ -5,7 +5,7 @@ import java.util.List;
 import simcity.Market.MFoodOrder;
 import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCustomerRole.customerState;
-import simcity.Transportation.CarAgent;
+//import simcity.Transportation.CarAgent;
 
 public interface MarketCustomer {
 

@@ -28,7 +28,7 @@ public class DCookRole extends Role implements DCook{
 	private String name;
 	private Map<String, DFood> myFood = new HashMap<String, DFood>();
 	//public HostGui hostGui = null;
-	private int initialFoodAmnt= 5;
+	private int initialFoodAmnt= 10;
 	private static final int MAXCAPACITY=10;
 	private int threshold = 4;
 	//private final int NUM_MARKETS = 3;
