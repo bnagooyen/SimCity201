@@ -70,6 +70,8 @@ public class PersonGui implements Gui {
 //        for(int i=0; i<labelIsShowing.length;i++)
 //        	labelIsShowing[i]=false;
         
+        //coordinates are from citypanel, find the building you want to ppl to go to and copy/paste coordinates to this map
+        
         myMap.put("Restaurant 3", new Point(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+sidewalkWidth));
         myMap.put("House 1", new Point(yardSpace, streetWidth+sidewalkWidth));
         myMap.put("House 2", new Point(yardSpace, streetWidth+sidewalkWidth+2*housingLength+ 2*parkingGap));

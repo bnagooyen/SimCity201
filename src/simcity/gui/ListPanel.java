@@ -29,7 +29,7 @@ public class ListPanel extends JPanel implements ActionListener {
     private JButton addPersonAndSetHungryB = new JButton("Add + Set Hungry");
     private JTextField myPerson = new JTextField(); 
     private JComboBox roleSelection = new JComboBox();
-    private RestaurantPanel restPanel;
+    private SimCityPanel restPanel;
     private String type;
     private Object currentPerson;/* Holds the agent that the info is about.
 	Seems like a hack */
@@ -40,7 +40,7 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param rp   reference to the restaurant panel
      * @param type indicates if this is for customers or waiters
      */
-    public ListPanel(RestaurantPanel rp, String type) {
+    public ListPanel(SimCityPanel rp, String type) {
         restPanel = rp;
         this.type = type;
 

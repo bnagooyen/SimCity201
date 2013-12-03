@@ -49,7 +49,7 @@ public class SimCityGui extends JFrame implements ActionListener {
      *    in RestaurantPanel()
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
-    public RestaurantPanel restPanel;
+    public SimCityPanel restPanel;
     //private AnimationPanel myRestaurant = new AnimationPanel(this);
     
     /* infoPanel holds information about the clicked customer, if there is one*/
@@ -309,7 +309,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 //		c.gridwidth = 6; c.gridheight = 6;
 		add(city, BorderLayout.CENTER);
 		
-		 restPanel = new RestaurantPanel(this);
+		 restPanel = new SimCityPanel(this);
         
         
     }

@@ -26,7 +26,7 @@ import java.util.Vector;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class RestaurantPanel extends JPanel {
+public class SimCityPanel extends JPanel {
 
    
     public static final int NUMAPTS = 12;
@@ -76,7 +76,7 @@ public class RestaurantPanel extends JPanel {
     private MarketCashierRole mcashier;
     private InventoryBoyRole ib;
 
-    public RestaurantPanel(SimCityGui gui) {
+    public SimCityPanel(SimCityGui gui) {
         this.gui = gui;
         
         manager = new MarketManagerRole(gui);

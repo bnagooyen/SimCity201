@@ -30,7 +30,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
     private JComboBox roleSelection = new JComboBox();
     private JComboBox scenarioSelection = new JComboBox();
     private JComboBox houseOrApt = new JComboBox();
-    private RestaurantPanel simcityPanel;
+    private SimCityPanel simcityPanel;
     private String type;
     private Object currentPerson;/* Holds the agent that the info is about.
 	Seems like a hack */
