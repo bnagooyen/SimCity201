@@ -1,7 +1,7 @@
 package simcity;
  
-import simcity.gui.CustomerGui;
 import simcity.gui.SimCityGui;
+import simcity.gui.DGui.DCustomerGui;
 import simcity.interfaces.DCustomer;
 import agent.Agent;
 import agent.Role;
@@ -24,7 +24,7 @@ public class DCustomerRole extends Role implements DCustomer {
 	private int hungerLevel = 5;        // determines length of meal
 	//private int sittingAt; //table handling
 	Timer timer = new Timer();
-	private CustomerGui customerGui;
+	private DCustomerGui customerGui;
 	
 	private boolean stayOrLeave;
 	
@@ -307,7 +307,7 @@ public class DCustomerRole extends Role implements DCustomer {
 	// Actions
 
 	private void goToRestaurant() {
-		customerGui = new CustomerGui(this, rGui);
+		customerGui = new DCustomerGui(this, rGui);
 		customerGui.setPresent(true);
 		rGui.myPanels.get("Restaurant 3").panel.addGui(customerGui);
 		Do("Going to restaurant");
@@ -595,11 +595,11 @@ public class DCustomerRole extends Role implements DCustomer {
 		return "customer " + getName();
 	}
 
-	public void setGui(CustomerGui g) {
+	public void setGui(DCustomerGui g) {
 		customerGui = g;
 	}
 
-	public CustomerGui getGui() {
+	public DCustomerGui getGui() {
 		return customerGui;
 	}
 

@@ -1,7 +1,9 @@
-package simcity.gui;
+package simcity.gui.DGui;
 
 
-import simcity.gui.CookGui.CookLabel.LabelState;
+import simcity.gui.Gui;
+import simcity.gui.SimCityGui;
+import simcity.gui.DGui.DCookGui.CookLabel.LabelState;
 import simcity.DCookRole;
 import simcity.DCustomerRole;
 
@@ -11,7 +13,7 @@ import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 
-public class CookGui implements Gui {
+public class DCookGui implements Gui {
 
     private DCookRole agent = null;
 
@@ -107,7 +109,7 @@ public class CookGui implements Gui {
     
    //f private void setSeatingAt(int t) { seatingAt=t; }
     
-    public CookGui(DCookRole agent, SimCityGui g) {
+    public DCookGui(DCookRole agent, SimCityGui g) {
     	gui=g;
         this.agent = agent;
         madeToFront=true;

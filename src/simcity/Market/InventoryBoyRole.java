@@ -10,8 +10,12 @@ import java.util.concurrent.Semaphore;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import simcity.PersonAgent;
-import simcity.Transportation.CarAgent;
+//<<<<<<< HEAD
+//import simcity.Transportation.CarAgent;
 import simcity.gui.SimCityGui;
+//=======
+////import simcity.Transportation.CarAgent;
+
 import simcity.interfaces.Car;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
@@ -54,9 +58,9 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
         inventory.put("Salad", 20);
         inventory.put("Pizza", 20);
         
-        for(int i = 0; i<20; i++){
-        	cars.add(new CarAgent());
-        }
+//        for(int i = 0; i<20; i++){
+//        	cars.add(new CarAgent());
+//        }
         s = state.arrived;
 		startHour = 11;
 

@@ -2,7 +2,7 @@ package simcity;
 
 import agent.Agent;
 import agent.Role;
-import simcity.gui.CookGui;
+import simcity.gui.DGui.DCookGui;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.DCook;
 import simcity.interfaces.Market;
@@ -33,7 +33,7 @@ public class DCookRole extends Role implements DCook{
 	private int threshold = 4;
 	//private final int NUM_MARKETS = 3;
     
-    public CookGui CookGui = null;
+    public DCookGui CookGui = null;
 	
 	private Semaphore atFridge = new Semaphore(0,true);
 	private Semaphore atGrill = new Semaphore(0, true);
@@ -101,7 +101,7 @@ public class DCookRole extends Role implements DCook{
 	// The animation DoXYZ() routines
 	
 	private void DoClearPlating(String foo) {
-		simcity.gui.CookGui.DoClearPlating(foo);
+		simcity.gui.DGui.DCookGui.DoClearPlating(foo);
 	}
 	
 	private void DoGoToRefrigerator() {
@@ -310,7 +310,7 @@ public class DCookRole extends Role implements DCook{
 	
 	//utilities
 
-	public void setGui(CookGui gui) {
+	public void setGui(DCookGui gui) {
 		CookGui = gui;
 	}
 	
