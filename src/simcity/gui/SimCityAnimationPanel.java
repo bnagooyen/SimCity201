@@ -3,6 +3,10 @@ package simcity.gui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import simcity.gui.DGui.DCookGui;
+import simcity.gui.DGui.DCustomerGui;
+import simcity.gui.DGui.DWaiterGui;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -359,15 +363,15 @@ public class SimCityAnimationPanel extends JPanel implements ActionListener {
         guis.add(gui);
     }
 
-    public void addGui(CustomerGui gui) {
+    public void addGui(DCustomerGui gui) {
         guis.add(gui);
     }
 
-    public void addGui(WaiterGui gui) {
+    public void addGui(DWaiterGui gui) {
         guis.add(gui);
     }
     
-    public void addGui(CookGui gui) {
+    public void addGui(DCookGui gui) {
         guis.add(gui);
     }
 }

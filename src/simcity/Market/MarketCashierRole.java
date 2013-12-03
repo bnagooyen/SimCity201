@@ -8,7 +8,7 @@ import simcity.PersonAgent;
 //import simcity.restaurant.interfaces.Cashier;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
-import simcity.Transportation.CarAgent;
+//import simcity.Transportation.CarAgent;
 import simcity.interfaces.Car;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;

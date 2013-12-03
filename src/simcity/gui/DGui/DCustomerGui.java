@@ -1,12 +1,14 @@
-package simcity.gui;
+package simcity.gui.DGui;
 
 import simcity.DCustomerRole;
+import simcity.gui.Gui;
+import simcity.gui.SimCityGui;
 
 import java.awt.*;
 import java.util.Random;
 
 
-public class CustomerGui implements Gui{
+public class DCustomerGui implements Gui{
 
 	private DCustomerRole agent = null;
 	private boolean isPresent = false;
@@ -43,7 +45,7 @@ public class CustomerGui implements Gui{
     public static final int nTABLES = 12;
     public static final int TABLES_perRow = 4;
 
-	public CustomerGui(DCustomerRole c, SimCityGui gui){ //HostAgent m) {
+	public DCustomerGui(DCustomerRole c, SimCityGui gui){ //HostAgent m) {
 		agent = c;
 		xPos = -40;
 		yPos = -40;

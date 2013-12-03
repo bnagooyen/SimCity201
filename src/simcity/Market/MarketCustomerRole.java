@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
-import simcity.Transportation.CarAgent;
+//import simcity.Transportation.CarAgent;
 import simcity.interfaces.Car;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;

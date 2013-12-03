@@ -2,7 +2,7 @@ package simcity;
 
 import agent.Agent;
 import agent.Role;
-import simcity.gui.HostGui;
+//import simcity.gui.HostGui;
 import simcity.interfaces.DCustomer;
 import simcity.interfaces.Host;
 import simcity.interfaces.DWaiter;
@@ -46,7 +46,7 @@ public class DHostRole extends Role implements Host {
 	private String name;
 	private Semaphore atTable = new Semaphore(0,true);
 	private Semaphore customerAtFront = new Semaphore(0,true);
-	public HostGui hostGui = null;
+	//public HostGui hostGui = null;
 
 	boolean KitchenReadyForOpen;
 
@@ -327,13 +327,13 @@ public class DHostRole extends Role implements Host {
 
 	//utilities
 
-	public void setGui(HostGui gui) {
-		hostGui = gui;
-	}
-
-	public HostGui getGui() {
-		return hostGui;
-	}
+//	public void setGui(HostGui gui) {
+//		hostGui = gui;
+//	}
+//
+//	public HostGui getGui() {
+//		return hostGui;
+//	}
 	
 	public void msgAddWaiter(DWaiterRole w) {
 		//waiters.add(w);

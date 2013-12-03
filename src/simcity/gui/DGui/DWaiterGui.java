@@ -1,12 +1,14 @@
-package simcity.gui;
+package simcity.gui.DGui;
 
 
 import simcity.DCustomerRole;
 import simcity.DWaiterRole;
+import simcity.gui.Gui;
+import simcity.gui.SimCityGui;
 
 import java.awt.*;
 
-public class WaiterGui implements Gui {
+public class DWaiterGui implements Gui {
 
     private DWaiterRole agent = null;
 
@@ -67,7 +69,7 @@ public class WaiterGui implements Gui {
     
    //f private void setSeatingAt(int t) { seatingAt=t; }
     
-    public WaiterGui(DWaiterRole agent, SimCityGui g, int startPos) {
+    public DWaiterGui(DWaiterRole agent, SimCityGui g, int startPos) {
     	gui=g;
         this.agent = agent;
         madeToFront=true;
@@ -216,7 +218,7 @@ public class WaiterGui implements Gui {
     }
     
     public void DoShowCookedLabel(String food, int table) {
-    	CookGui.DoClearPlating(food.substring(0,2));
+    	DCookGui.DoClearPlating(food.substring(0,2));
     	tableGoingTo=table;
     	foodReady=food;
     	labelIsShowing=true;

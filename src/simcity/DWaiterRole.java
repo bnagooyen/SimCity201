@@ -4,7 +4,7 @@ package simcity;
 
 import agent.Agent;
 import agent.Role;
-import simcity.gui.WaiterGui;
+import simcity.gui.DGui.DWaiterGui;
 import simcity.interfaces.DCustomer;
 import simcity.interfaces.DWaiter;
 
@@ -56,7 +56,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	private Semaphore customerArrived = new Semaphore(0,true);
 	private Semaphore atCashier = new Semaphore(0,true);
 	private Semaphore atCook = new Semaphore(0, true);
-	public WaiterGui WaiterGui = null;
+	public DWaiterGui WaiterGui = null;
 
 	public enum WaiterState {working, takingOrder, 
 			goingToCook, servingFood, onBreak};
@@ -760,11 +760,11 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 //	}
 	//utilities
 
-	public void setGui(WaiterGui gui) {
+	public void setGui(DWaiterGui gui) {
 		WaiterGui = gui;
 	}
 
-	public WaiterGui getGui() {
+	public DWaiterGui getGui() {
 		return WaiterGui;
 	}
 

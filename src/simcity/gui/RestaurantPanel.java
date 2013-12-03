@@ -1,5 +1,7 @@
 package simcity.gui;
 
+import simcity.gui.DGui.DCookGui;
+import simcity.gui.DGui.DWaiterGui;
 import simcity.interfaces.DCook;
 import simcity.DCashierRole;
 import simcity.DCookRole;
@@ -24,14 +26,14 @@ public class RestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
     private DHostRole host = new DHostRole();
-    private HostGui hostGui = new HostGui(host);
+    //private HostGui hostGui = new HostGui(host);
     
     
     //private WaiterAgent waiter = new WaiterAgent("Joe");
     //private WaiterGui waiterGui = new WaiterGui(waiter);
     
     private DCookRole cook = new DCookRole();
-    private CookGui cookGui = null;
+    private DCookGui cookGui = null;
     
 //    private PersonAgent person = new PersonAgent("Doreen");
 //    private PersonGui personGui=null;
@@ -69,7 +71,7 @@ public class RestaurantPanel extends JPanel {
         host.myPerson=hostPerson;
         hostPerson.startThread();
         
-        host.setGui(hostGui);
+       // host.setGui(hostGui);
         //waiter.setGui(waiterGui);
         //System.err.println(cook);
         cashier.isActive=true;
@@ -117,7 +119,7 @@ public class RestaurantPanel extends JPanel {
         
         
         //need this for checking if kitchen has enough food
-        cookGui= new CookGui(cook, gui);
+        cookGui= new DCookGui(cook, gui);
         cook.setGui(cookGui);
         gui.myPanels.get("Restaurant 3").panel.addGui(cookGui);
         
@@ -137,7 +139,7 @@ public class RestaurantPanel extends JPanel {
         headWaiter.msgAddHost(host);
         headWaiter.msgAddCook(cook);
         headWaiter.msgAddCashier(cashier);
-        WaiterGui wGui= new WaiterGui(headWaiter, gui, waiterIndex);
+        DWaiterGui wGui= new DWaiterGui(headWaiter, gui, waiterIndex);
         headWaiter.setGui(wGui);
         nWaiter.startThread();
         gui.myPanels.get("Restaurant 3").panel.addGui(wGui);

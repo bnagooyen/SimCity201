@@ -8,7 +8,7 @@ import simcity.PersonAgent;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 //import simcity.test.mock.MockMarketCustomer;
-import simcity.Transportation.DeliveryTruckAgent;
+//import simcity.Transportation.DeliveryTruckAgent;
 import simcity.interfaces.Cook;
 import simcity.interfaces.DeliveryTruck;
 import simcity.interfaces.InventoryBoy;
