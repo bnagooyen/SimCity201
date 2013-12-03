@@ -9,7 +9,8 @@ import simcity.Market.MarketCashierRole;
 public class MCashierGui implements Gui{
 	
 	private MarketCashierRole role = null;
-	
+	private boolean isPresent = false;
+
 	int homeposx = 170;
 	int homeposy = 100;
     private int xPos = -20, yPos = -20;
@@ -42,7 +43,11 @@ public class MCashierGui implements Gui{
 	public boolean isPresent() {
 		return true;
 	}
-
+	
+	public void setPresent(boolean p) {
+		isPresent = p;
+	}
+	
 	public void DoGoHome() {
 		xDestination = -20;
 		yDestination = -20;

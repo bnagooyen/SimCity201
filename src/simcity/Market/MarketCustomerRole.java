@@ -7,6 +7,7 @@ import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Transportation.CarAgent;
+import simcity.gui.SimCityGui;
 import simcity.interfaces.Car;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
@@ -15,6 +16,7 @@ import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 //import simcity.Market.gui.MCustomerGui;
 import simcity.Market.MFoodOrder;
+import simcity.Market.gui.MCustomerGui;
 import agent.Role;
 
 public class MarketCustomerRole extends Role implements MarketCustomer{
@@ -30,13 +32,16 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         public EventLog log;
         private PersonAgent p;
         
-//        private MCustomerGui customerGui;
+        private MCustomerGui customerGui;
         private Semaphore atCashier = new Semaphore(0, true);
 
+        private SimCityGui gui;
         
-        public MarketCustomerRole() {
+        public MarketCustomerRole(SimCityGui gui) {
                 super(); 
                // this.p = p;
+                
+                this.gui = gui;
                 log = new EventLog();
                 state = customerState.talkToManager;
         }
@@ -116,6 +121,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
 
         // actions
         private void goToManager() {
+        		customerGui = new MCustomerGui(this);
+        		customerGui.setPresent(true);
+    			gui.myPanels.get("Market 1").panel.addGui(customerGui);
+
         		Do("Telling manager I'm here");
                 LoggedEvent e = new LoggedEvent("telling manager I'm here");
                 log.add(e);
@@ -125,14 +134,14 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         }
         
         private void orderFood() {
-//        		customerGui.DoGoToCashier();
-//        		Do("going to cashier");
-//        		try {
-//					atCashier.acquire();
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+        		customerGui.DoGoToCashier();
+        		Do("going to cashier");
+        		try {
+					atCashier.acquire();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
         		Do("Telling cashier my order");
                 state = customerState.waiting;
                 LoggedEvent e = new LoggedEvent("telling cashier my order");
@@ -176,7 +185,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         
         // animation
         private void DoGoHome() {
-//        	customerGui.DoGoHome();
+        	customerGui.DoGoHome();
                 
         }
 
@@ -201,9 +210,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         public double getMyCheck() {
                 return myCheck;
         }
-//        public void setGui(MCustomerGui g) {
-//        	customerGui = g;
-//        }
+        public void setGui(MCustomerGui g) {
+        	customerGui = g;
+        }
         public void populateOrderList(String type, int amount) {
         	order.add(new MFoodOrder(type, amount));
         }

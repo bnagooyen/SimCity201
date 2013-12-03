@@ -7,15 +7,17 @@ import java.util.List;
 import simcity.PersonAgent;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
+import simcity.Market.gui.MManagerGui;
 //import simcity.test.mock.MockMarketCustomer;
 import simcity.Transportation.DeliveryTruckAgent;
+import simcity.gui.SimCityGui;
 import simcity.interfaces.Cook;
 import simcity.interfaces.DeliveryTruck;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
-//import simcity.Market.gui.MManagerGui;
+import simcity.Market.gui.MManagerGui;
 //import simcity.PersonAgent.EnergyState;
 //import simcity.PersonAgent.LocationState;
 import agent.Role;
@@ -35,10 +37,13 @@ public class MarketManagerRole extends Role implements MarketManager{
 	public enum workerState{justArrived, available, occupied};
 	public EventLog log;
 		
-//	MManagerGui managerGui;
+	MManagerGui managerGui;
 
-	public MarketManagerRole() {
+	private SimCityGui gui;
+	
+	public MarketManagerRole(SimCityGui gui) {
 		super();
+		this.gui = gui;
 		marketMoney = 50000.0; //***********threshold all the rest deposit to the bank
 		log = new EventLog();
 		startHour = 10;
@@ -189,7 +194,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		cashiers.clear();
 		inventoryBoys.clear();
 		isClosed = true;
-		//managerGui.DoGoHome();
+		managerGui.DoGoHome();
 		
 		isActive = false;
 //		myPerson.energyState = EnergyState.tired;
@@ -324,8 +329,8 @@ public class MarketManagerRole extends Role implements MarketManager{
 		}
 
 	}
-//	public void setGui(MManagerGui g) {
-//		managerGui = g;
-//	}
+	public void setGui(MManagerGui g) {
+		managerGui = g;
+	}
 
 }

@@ -9,7 +9,8 @@ import simcity.Market.MarketCustomerRole;
 public class MCustomerGui implements Gui{
 	
 	private MarketCustomerRole role = null;
-	
+	private boolean isPresent = false;
+
     private int xPos = -20, yPos = -20;
     private int xDestination = 0, yDestination = 0;
     
@@ -46,6 +47,10 @@ public class MCustomerGui implements Gui{
 	@Override
 	public boolean isPresent() {
 		return true;
+	}
+	
+	public void setPresent(boolean p) {
+		isPresent = p;
 	}
 	
 	public void DoGoToCashier(){

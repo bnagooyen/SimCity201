@@ -9,6 +9,7 @@ import simcity.PersonAgent;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import simcity.Transportation.CarAgent;
+import simcity.gui.SimCityGui;
 import simcity.interfaces.Car;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
@@ -16,8 +17,8 @@ import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.RestaurantCashier;
-//import simcity.Market.gui.MCashierGui;
 import simcity.Market.MarketCashierRole.orderState;
+import simcity.Market.gui.MCashierGui;
 //import simcity.PersonAgent.EnergyState;
 //import simcity.PersonAgent.LocationState;
 import agent.Role;
@@ -39,11 +40,13 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	public myState state;
 	
-//	private MCashierGui cashierGui;
+	private MCashierGui cashierGui;
 
-	public MarketCashierRole() {
+	private SimCityGui gui;
+	
+	public MarketCashierRole(SimCityGui gui) {
 		super();
-
+		this.gui = gui;
 		//this.p = p;
 
 		log = new EventLog();
@@ -187,6 +190,11 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 
 	private void tellManager(){
+		if(cashierGui == null) {
+			cashierGui = new MCashierGui(this);
+			gui.myPanels.get("Market 1").panel.addGui(cashierGui);
+		}
+		cashierGui.setPresent(true);
 		Do("Telling manager that I can work");
 		state = myState.working;
 		manager.msgIAmHere(this, "cashier");
@@ -274,8 +282,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	private void DoGoHome() {
-		// TODO Auto-generated method stub
-		
+		cashierGui.DoGoHome();
 	}
 	
 	// utilities

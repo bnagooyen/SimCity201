@@ -11,11 +11,13 @@ import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import simcity.PersonAgent;
 import simcity.Transportation.CarAgent;
+import simcity.gui.SimCityGui;
 import simcity.interfaces.Car;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
-//import simcity.Market.gui.IBGui;
+import simcity.Market.gui.IBGui;
+import simcity.Market.gui.MCashierGui;
 //import simcity.PersonAgent.EnergyState;
 //import simcity.PersonAgent.LocationState;
 import agent.Role;
@@ -29,7 +31,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 
 	MarketCashier mc;
 	MarketManager manager;
-//	IBGui ibGui;
+	IBGui ibGui;
 
 	PersonAgent p;
 	
@@ -38,9 +40,11 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	
 	public EventLog log;
 
+	private SimCityGui gui;
 	
-	public InventoryBoyRole() {
+	public InventoryBoyRole(SimCityGui gui) {
 		super();
+		this.gui = gui;
 		//this.p = p;
 		log = new EventLog();
 		
@@ -103,6 +107,12 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	}
 
 	private void tellManager() {
+		if(ibGui == null) {
+			ibGui = new IBGui(this);
+			gui.myPanels.get("Market 1").panel.addGui(ibGui);
+		}
+		ibGui.setPresent(true);
+		
 		Do("Telling manager that I can work");
 		s = state.working;
 		manager.msgIAmHere(this, "inventory boy");
@@ -115,13 +125,13 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 		
 		if(purpose.equals("car")){ //customer ordered a car
 			Car currCar = cars.get(0);
-//			ibGui.DoGoToCashier();
-//			try {
-//				gettingFood.acquire();
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			ibGui.DoGoToCashier();
+			try {
+				gettingFood.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			mc.msgCanGive(currCar, o);
 			cars.remove(currCar);
 			//animation for car
@@ -140,40 +150,40 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 							o.canGive.add(new MFoodOrder(f.type, currFood));
 							inventory.put(f.type, 0);
 						}
-//						if(f.type.equals("Steak")) {
-//							ibGui.DoGetSteak();
-//							try {
-//								gettingFood.acquire();
-//							} catch (InterruptedException e) {
-//								e.printStackTrace();
-//							}
-//						}
-//						else if(f.type.equals("Chicken")) {
-//							ibGui.DoGetChicken();try {
-//								gettingFood.acquire();
-//							} catch (InterruptedException e) {
-//								e.printStackTrace();
-//							}
-//						}
-//						else if(f.type.equals("Salad")) { 
-//							ibGui.DoGetSalad();try {
-//								gettingFood.acquire();
-//							} catch (InterruptedException e) {
-//								e.printStackTrace();
-//							}
-//						}	
-//						else if (f.type.equals("Pizza")) {
-//							ibGui.DoGetPizza();
-//							try {
-//								gettingFood.acquire();
-//							} catch (InterruptedException e) {
-//								e.printStackTrace();
-//							}
-//						}
+						if(f.type.equals("Steak")) {
+							ibGui.DoGetSteak();
+							try {
+								gettingFood.acquire();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+						else if(f.type.equals("Chicken")) {
+							ibGui.DoGetChicken();try {
+								gettingFood.acquire();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+						else if(f.type.equals("Salad")) { 
+							ibGui.DoGetSalad();try {
+								gettingFood.acquire();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}	
+						else if (f.type.equals("Pizza")) {
+							ibGui.DoGetPizza();
+							try {
+								gettingFood.acquire();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
 					}
 				}
 			
-//			ibGui.DoGoToCashier();
+			ibGui.DoGoToCashier();
 			try {
 				gettingFood.acquire();
 			} catch (InterruptedException e) {
@@ -182,7 +192,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 			}
 			mc.msgCanGive(o);
 			orders.remove(o);
-//			ibGui.DoGoToWaitingPos();
+			ibGui.DoGoToWaitingPos();
 			}
 		}
 	}
@@ -201,7 +211,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 
 	// animation
 	private void DoGoHome() {
-//		ibGui.DoGoHome();
+		ibGui.DoGoHome();
 
 	}
 
@@ -213,7 +223,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	public void setMarketManager(MarketManager m) {
 		this.manager = m;
 	}
-//	public void setGui(IBGui g) {
-//		ibGui = g;
-//	}
+	public void setGui(IBGui g) {
+		ibGui = g;
+	}
 }

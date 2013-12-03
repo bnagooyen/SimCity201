@@ -10,6 +10,7 @@ public class IBGui implements Gui {
 	
 	private InventoryBoyRole role = null;
 	
+	private boolean isPresent;
 	private int xPos = -20, yPos = -20;
     private int xDestination = 270, yDestination = 100;
     
@@ -84,6 +85,10 @@ public class IBGui implements Gui {
 		gettingFood = true;
 		xDestination = 450;
 		yDestination = 235;
+	}
+
+	public void setPresent(boolean b) {
+		isPresent = b;
 	}
 	
 }
