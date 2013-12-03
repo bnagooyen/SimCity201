@@ -28,7 +28,15 @@ import java.util.Vector;
  */
 public class RestaurantPanel extends JPanel {
 
-    //Host, cook, waiters and customers
+   
+    public static final int NUMAPTS = 12;
+    public static final int NUMHOUSES = 15;
+    public int houseNumCounter=1;
+    public int ApartmentsPerLandlord;
+    public int aptNumCounter=1;
+    public char aptLetCounter='A';
+	
+	//Host, cook, waiters and customers
     private DHostRole host = new DHostRole();
     //private HostGui hostGui = new HostGui(host);
     
@@ -413,11 +421,32 @@ public class RestaurantPanel extends JPanel {
     		restCustomer.cashier=cashier;
     		p.addCustomerRoles(restCustomer);
 //    		System.err.println("**** "+ name);
-    		PersonGui g = new PersonGui(p, gui);
-    		g.setPresent(true);
-    		p.setGui(g);
-    		gui.city.addGui(g);
-    		p.startThread();
+    		
+			 if(houseOrApt.equals("House") && houseNumCounter<=NUMHOUSES) {
+	             p.SetHomeAddress("House "+ Integer.toString(houseNumCounter));
+	             houseNumCounter++;
+	             
+			 }
+    		 else if(aptNumCounter<=aptNumCounter) {
+                 p.SetHomeAddress("Apartment "+ Integer.toString(aptNumCounter)+ aptLetCounter);
+                 if(aptLetCounter=='C') {
+                         aptLetCounter='A';
+                         aptNumCounter++;
+                 }
+                 else {
+                         aptLetCounter++;
+                 }
+    		 }
+    		 else {
+                 p.SetHomeAddress("Homeless Shelter");
+    		 }
+    		
+	    		PersonGui g = new PersonGui(p, gui);
+	    		g.setPresent(true);
+	    		p.setGui(g);
+	    		gui.city.addGui(g);
+	    		p.startThread();
+			 
     		people.add(p);
     	}
     }

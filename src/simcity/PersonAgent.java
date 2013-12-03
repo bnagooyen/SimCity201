@@ -30,7 +30,7 @@ public class PersonAgent extends Agent {
     Role myJob;
     List<Role> roles= new ArrayList<Role>();
     double money=0;
-	String address;
+	public String homeAddress;
 	
 	public PersonAgent(String name) {
 		super();
@@ -39,7 +39,12 @@ public class PersonAgent extends Agent {
 		state=PersonState.doingNothing;
 		hungerLevel=70;
 		myLocation=LocationState.atHome;
-		address="House 1";
+		//address="House 1";
+	}
+	
+	public void SetHomeAddress(String ad) {
+		homeAddress=ad;
+		//System.err.println("home address added ... "+ homeAddress);
 	}
 	
 	public void addCustomerRoles(Role r) {
@@ -166,7 +171,7 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void GoHome() {
-		DoGoTo(address);
+		DoGoTo(homeAddress);
 	}
 	
 	private void DoGoTo(String dest) {
