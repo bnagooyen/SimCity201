@@ -2,10 +2,14 @@ package simcity;
 
 import agent.Agent;
 import agent.Role;
+import simcity.Market.MFoodOrder;
 import simcity.gui.DGui.DCookGui;
+import simcity.interfaces.Cook;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.DCook;
 import simcity.interfaces.Market;
+import simcity.interfaces.MarketCashier;
+import simcity.interfaces.MarketManager;
 import simcity.DCookRole.InventoryOrder.InventoryOrderState;
 import simcity.DOrder.OrderState;
 
@@ -20,7 +24,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class DCookRole extends Role implements DCook{
+public class DCookRole extends Role implements DCook, Cook{
 
 	private DProducerConsumerMonitor theMonitor;
 	
@@ -28,7 +32,7 @@ public class DCookRole extends Role implements DCook{
 	private String name;
 	private Map<String, DFood> myFood = new HashMap<String, DFood>();
 	//public HostGui hostGui = null;
-	private int initialFoodAmnt= 10;
+	private int initialFoodAmnt= 4;
 	private static final int MAXCAPACITY=10;
 	private int threshold = 4;
 	//private final int NUM_MARKETS = 3;
@@ -49,12 +53,13 @@ public class DCookRole extends Role implements DCook{
 	
 	Map<String, Boolean> grillOccupied = new HashMap<String, Boolean>();
 	
-	ArrayList<ArrayList<DFoodOrder>> delivery= new ArrayList<ArrayList<DFoodOrder>>();
+	ArrayList<ArrayList<MFoodOrder>> delivery= new ArrayList<ArrayList<MFoodOrder>>();
 	List<DOrder> orders =  Collections.synchronizedList(new ArrayList<DOrder>());
+	ArrayList<MarketCashier> myMarkets = new ArrayList<MarketCashier>();
 	ArrayList<DMarketAgent> markets = new ArrayList<DMarketAgent>();
 	List<InventoryOrder> myOrders =  Collections.synchronizedList(new ArrayList<InventoryOrder>());
 	private int ORDER_ID;
-	ArrayList<DFoodOrder> orderToMarket = new ArrayList<DFoodOrder>();
+	ArrayList<MFoodOrder> orderToMarket = new ArrayList<MFoodOrder>();
 	//private int marketToSendOrdersTo;
 
 	
@@ -165,6 +170,10 @@ public class DCookRole extends Role implements DCook{
 		//System.out.println("added");
 		markets.add(m);
 	}
+
+	public void msgAddMarket(MarketCashier m) {
+		myMarkets.add(m);
+	}
 	
 	public void msgIncKitchenThreshold() {
 		threshold++;
@@ -262,7 +271,7 @@ public class DCookRole extends Role implements DCook{
 //		InventoryMarketTracker.put(foo, InventoryMarketTracker.get(foo)+1);
 //	}
 	
-	public void msgHereIsYourFoodOrder(ArrayList<DFoodOrder> dlv) {
+	public void msgHereIsYourFoodOrder(ArrayList<MFoodOrder> dlv) {
 		delivery.add(dlv);
 		//System.out.println("**received order from cook");
 		waitingForInventory=false;
@@ -586,30 +595,32 @@ public class DCookRole extends Role implements DCook{
 			orderToMarket.clear(); //restart a new order
 			
 			if(myFood.get("Chicken").getAmount()<=threshold) {
-				orderToMarket.add(new DFoodOrder("Chicken", MAXCAPACITY- myFood.get("Chicken").getAmount()));
+				orderToMarket.add(new MFoodOrder("Chicken", MAXCAPACITY- myFood.get("Chicken").getAmount()));
 				billAmnt+=(MAXCAPACITY - myFood.get("Chicken").getAmount())*prices.get("Chicken");
 			}
 			
 			if(myFood.get("Steak").getAmount()<=threshold) {
-				orderToMarket.add(new DFoodOrder("Steak", MAXCAPACITY-myFood.get("Steak").getAmount()));
+				orderToMarket.add(new MFoodOrder("Steak", MAXCAPACITY-myFood.get("Steak").getAmount()));
 				//System.err.println(MAXCAPACITY - myFood.get("Steak").getAmount());
 				billAmnt+=(MAXCAPACITY - myFood.get("Steak").getAmount())*prices.get("Steak");
 			}
 			
 			if(myFood.get("Pizza").getAmount()<=threshold) {
-				orderToMarket.add(new DFoodOrder("Pizza", MAXCAPACITY-myFood.get("Pizza").getAmount()));
+				orderToMarket.add(new MFoodOrder("Pizza", MAXCAPACITY-myFood.get("Pizza").getAmount()));
 				billAmnt+=(MAXCAPACITY - myFood.get("Pizza").getAmount())*prices.get("Pizza");
 			}
 			
 			if(myFood.get("Salad").getAmount()<=threshold) {
-				orderToMarket.add(new DFoodOrder("Salad", MAXCAPACITY-myFood.get("Salad").getAmount()));
+				orderToMarket.add(new MFoodOrder("Salad", MAXCAPACITY-myFood.get("Salad").getAmount()));
 				billAmnt+=(MAXCAPACITY - myFood.get("Salad").getAmount())*prices.get("Salad");
 			}
 //			for(FoodOrder order: orderToMarket) {
 //				System.out.println(order.getFood()+"..."+order.getVal());
 //			}
-			markets.get(0).msgHereIsAnInventoryOrder(orderToMarket, ORDER_ID, myCashier);
-			myOrders.add(new InventoryOrder(markets.get(0), 1, billAmnt, ORDER_ID));
+			//markets.get(0).msgHereIsAnInventoryOrder(orderToMarket, ORDER_ID, myCashier);
+			//myOrders.add(new InventoryOrder(markets.get(0), 1, billAmnt, ORDER_ID));
+			myMarkets.get(0).msgOrder(this, orderToMarket, name);
+			myOrders.add(new InventoryOrder(myMarkets.get(0), 1, billAmnt, ORDER_ID));
 			ORDER_ID++;
 			waitingForInventory=true;
 		}
@@ -647,8 +658,9 @@ public class DCookRole extends Role implements DCook{
 			
 			
 			System.out.println("Cook sent reorder");
-			markets.get(reord.mktOrderingFrom-1).msgHereIsAnInventoryOrder(reord.myorder, ORDER_ID, myCashier);
-			reord.market=markets.get(reord.mktOrderingFrom-1);
+			//markets.get(reord.mktOrderingFrom-1).msgHereIsAnInventoryOrder(reord.myorder, ORDER_ID, myCashier);
+			//reord.market=markets.get(reord.mktOrderingFrom-1);
+			myMarkets.get(reord.mktOrderingFrom-1).msgOrder(this, orderToMarket, name);
 			reord.billExpected=billAmnt;
 			for(InventoryOrder ord: myOrders) {
 				if(ord.state==InventoryOrderState.needsPriceUpdate) {
@@ -668,11 +680,11 @@ public class DCookRole extends Role implements DCook{
 		}
 		
 	
-		private void ProcessDelivery(ArrayList<DFoodOrder> groceries) {
-			for(DFoodOrder foo: groceries) {
-				DFood temp = myFood.get(foo.getFood());
-				temp.setAmount(temp.getAmount()+foo.getVal());
-				myFood.put(foo.getFood(), temp);
+		private void ProcessDelivery(ArrayList<MFoodOrder> groceries) {
+			for(MFoodOrder foo: groceries) {
+				DFood temp = myFood.get(foo.type);
+				temp.setAmount(temp.getAmount()+foo.amount);
+				myFood.put(foo.type, temp);
 				System.out.println("update on " + temp.getChoice() + ": "+ myFood.get(temp.getChoice()).getAmount());
 				//myFood.put(f.getFood(), myFood.get(f.getVal()+));
 				
@@ -694,7 +706,7 @@ public class DCookRole extends Role implements DCook{
 			int orderID;
 			ArrayList<DFoodOrder> myorder;
 			int mktOrderingFrom;
-			Market market;
+			MarketCashier market;
 			double billExpected;
 			enum InventoryOrderState {ordered, needsReorder, approved, denied, needsPriceUpdate};
 			InventoryOrderState state;
@@ -719,7 +731,7 @@ public class DCookRole extends Role implements DCook{
 			}
 			
 			
-			InventoryOrder(Market mkt, int mknum, double billAmt, int ord) {
+			InventoryOrder(MarketCashier mkt, int mknum, double billAmt, int ord) {
 				market= mkt;
 				billExpected=billAmt;
 				//sent=true;
@@ -727,7 +739,7 @@ public class DCookRole extends Role implements DCook{
 				mktOrderingFrom=mknum;
 			}
 			
-			Market getMarket() {
+			MarketCashier getMarket() {
 				return market;
 			}
 			int getMarketOrderingFrom() {
@@ -749,6 +761,29 @@ public class DCookRole extends Role implements DCook{
 //				reorder=r;
 //			}
 //			
+		}
+
+		/********help me please!!!*********/
+
+		@Override
+		public void msgHereIsDelivery(List<MFoodOrder> canGive, double check,
+				MarketManager manager, MarketCashier mc) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void msgGoToCashier(MarketCashier c) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void msgMarketClosed() {
+			// TODO Auto-generated method stub
+			
 		}
 
 		

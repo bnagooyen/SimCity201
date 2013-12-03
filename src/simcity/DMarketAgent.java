@@ -191,7 +191,7 @@ public class DMarketAgent extends Agent implements Market {
 			  timer.schedule(new TimerTask() {
 				  @Override
 				public void run() {
-					  cook.msgHereIsYourFoodOrder(forTimer);
+					  //cook.msgHereIsYourFoodOrder(forTimer);
 					  ((DCashierRole) tobeprocessed.c).msgHereIsAnInventoryBill(bill, forT);
 					  System.out.println("sent bill to cashier for " + bill+ "!");
 					  //myOrders.remove(tobeprocessed);

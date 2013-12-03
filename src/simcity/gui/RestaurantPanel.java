@@ -81,6 +81,8 @@ public class RestaurantPanel extends JPanel {
         mManagerPerson.SetJob(manager);
         manager.myPerson = mManagerPerson;
         
+        cook.msgAddMarket(mcashier);
+        
         mcashier.isActive = true;
         PersonAgent mCashierPerson = new PersonAgent("mCashier");
         mCashierPerson.hungerLevel = 0;
@@ -151,14 +153,14 @@ public class RestaurantPanel extends JPanel {
        // add(restLabel);
         
         //add markets and start their threads
-        for(int i=1; i<=numMarkets; i++) {
-        	DMarketAgent myMarket = new DMarketAgent(i);
-        	cook.msgAddMarket(myMarket);
-        	myMarket.msgAddCook(cook);
-        	host.addCook(cook);
-        	markets.add(myMarket);
-        	myMarket.startThread();
-        }
+//        for(int i=1; i<=numMarkets; i++) {
+//        	DMarketAgent myMarket = new DMarketAgent(i);
+//        	cook.msgAddMarket(myMarket);
+//        	myMarket.msgAddCook(cook);
+//        	host.addCook(cook);
+//        	markets.add(myMarket);
+//        	myMarket.startThread();
+//        }
         
         
         
