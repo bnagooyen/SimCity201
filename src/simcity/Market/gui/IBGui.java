@@ -17,6 +17,7 @@ public class IBGui implements Gui {
     boolean gettingFood = false;
 	public IBGui(InventoryBoyRole r) {
 		this.role = r;
+		DoGoToWaitingPos();
 	}
 	
 	public void updatePosition() {

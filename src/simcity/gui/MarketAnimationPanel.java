@@ -114,17 +114,18 @@ public class MarketAnimationPanel extends BuildingAnimationPanel implements Acti
 //	        g2.fillRect(allKitchenItems_x, plating_x, grill_xsz, plating_ysz);
 //	       
 //
-//	        for(Gui gui : guis) {
-//	            if (gui.isPresent()) {
-//	                gui.draw(g2);
-//	            }
-//	        }
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.draw(g2);
+	            }
+	        }
 	    }
 
 		@Override
 		public void addGui(Gui g) {
 			// TODO Auto-generated method stub
 			guis.add(g);
+			System.out.println("added a gui");
 		}
 
 
