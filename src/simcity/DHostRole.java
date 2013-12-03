@@ -327,6 +327,9 @@ public class DHostRole extends Role implements Host {
 
 	//utilities
 
+	public DProducerConsumerMonitor getMonitor() {
+		return theMonitor;
+	}
 //	public void setGui(HostGui gui) {
 //		hostGui = gui;
 //	}

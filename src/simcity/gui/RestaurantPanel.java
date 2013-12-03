@@ -82,6 +82,7 @@ public class RestaurantPanel extends JPanel {
         manager.myPerson = mManagerPerson;
         
         cook.msgAddMarket(mcashier);
+        cook.setMonitor(host.getMonitor());
         
         mcashier.isActive = true;
         PersonAgent mCashierPerson = new PersonAgent("mCashier");
