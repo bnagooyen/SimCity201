@@ -134,6 +134,9 @@ public class SimCityPanel extends JPanel {
         bcustomer.addCustomerRoles(bc);
         bcustomer.bankTime = true;
         bcustomer.hungerLevel = 0;
+        for(int i=0;i<1000;i++){
+        	System.out.println("");
+        }
         bcustomer.startThread();
         
         

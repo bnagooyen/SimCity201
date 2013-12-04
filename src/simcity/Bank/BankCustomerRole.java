@@ -129,7 +129,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	//actions
 	private void tellManagerArrived(){
-		Do("Arriving at bank");
+		Do("Arriving at bank with $"+ myPerson.money);
 		if(bankcustomerGui == null) {
 			bankcustomerGui = new BankCustomerGui(this, manager);
 			gui.myPanels.get("Bank 1").panel.addGui(bankcustomerGui);
@@ -188,7 +188,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	private void leaveBank(){
-		Do("Leaving bank");
+		Do("Leaving bank with $"+myPerson.money);
 		this.isActive=false;
 		bankcustomerGui.DoExitBank();
 	}
