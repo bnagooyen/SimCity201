@@ -1,5 +1,6 @@
 package simcity.gui;
 
+import simcity.Bank.BankCustomerRole;
 import simcity.Bank.BankLoanOfficerRole;
 import simcity.Bank.BankManagerRole;
 import simcity.Bank.BankTellerRole;
@@ -126,6 +127,14 @@ public class SimCityPanel extends JPanel {
         
         //Hack Bank Customer
         Bmanager.msgTimeUpdate(8);
+        PersonAgent bcustomer = new PersonAgent("bcustomer");
+        BankCustomerRole bc = new BankCustomerRole(gui);
+        bc.myPerson = bcustomer;
+        bc.setManager(Bmanager);
+        bcustomer.addCustomerRoles(bc);
+        bcustomer.bankTime = true;
+        bcustomer.hungerLevel = 0;
+        bcustomer.startThread();
         
         
         //Market

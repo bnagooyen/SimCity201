@@ -273,7 +273,7 @@ public class PersonAgent extends Agent {
 		for(Role r: roles) {
 			if(r instanceof BankCustomerRole) {
 				r.isActive = true;
-				r.purpose="transaction";
+				r.purpose="withdraw";
 			}
 		}
 		money=200;

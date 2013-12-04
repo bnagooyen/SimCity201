@@ -190,7 +190,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	private void leaveBank(){
 		Do("Leaving bank");
 		this.isActive=false;
-		//bankcustomerGui.DoExitBank();
+		bankcustomerGui.DoExitBank();
 	}
 	
 
