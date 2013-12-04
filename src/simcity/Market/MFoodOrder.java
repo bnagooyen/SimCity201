@@ -20,6 +20,8 @@ public class MFoodOrder {
 		else if(t.equals("Pizza")) {
 			price = 5;
 		}
-		
+		else if(t.equals("Car")) {
+			price = 1000;
+		}
 	}
 }

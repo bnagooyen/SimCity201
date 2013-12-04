@@ -644,7 +644,7 @@ public class DCookRole extends Role implements DCook, Cook{
 //			}
 			//markets.get(0).msgHereIsAnInventoryOrder(orderToMarket, ORDER_ID, myCashier);
 			//myOrders.add(new InventoryOrder(markets.get(0), 1, billAmnt, ORDER_ID));
-			myMarkets.get(0).msgOrder(this, orderToMarket, name);
+			myMarkets.get(0).msgOrder(this, orderToMarket, "DRestaurant");
 			myOrders.add(new InventoryOrder(myMarkets.get(0), 1, billAmnt, ORDER_ID));
 			ORDER_ID++;
 			waitingForInventory=true;
