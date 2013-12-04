@@ -127,23 +127,11 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 		LoggedEvent ev = new LoggedEvent("fulfilling an order");
 		log.add(ev);
 		
-		if(purpose.equals("car")){ //customer ordered a car
-			Car currCar = cars.get(0);
-			ibGui.DoGoToCashier();
-			try {
-				gettingFood.acquire();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			mc.msgCanGive(currCar, o);
-			cars.remove(currCar);
+
 			//animation for car
-		}
 		
-		if(o.foodsNeeded != null){
-			synchronized(o.foodsNeeded){
-				if(purpose.equals("food")){
+			if(o.foodsNeeded != null){
+				synchronized(o.foodsNeeded){
 					for(MFoodOrder f : o.foodsNeeded) {
 						int currFood = inventory.get(f.type);
 						if (currFood > f.amount) {
@@ -184,8 +172,20 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 								e.printStackTrace();
 							}
 						}
+						else if (f.type.equals("Car")) {
+							Car currCar = cars.get(0);
+							ibGui.DoGoToCashier();
+							try {
+								gettingFood.acquire();
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							mc.msgCanGive(currCar, o);
+							cars.remove(currCar);
+						}
+
 					}
-				}
 			
 			ibGui.DoGoToCashier();
 			try {

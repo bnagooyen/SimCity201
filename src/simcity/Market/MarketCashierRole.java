@@ -158,7 +158,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		Do("Giving fulfilled order");
 		double check = calculateCheck(o);
 		o.state = orderState.given;
-
+		Do("o.building is " + o.building);
 		if(o.building.equals("")){
 			//Customer is at the market
 			DoGiveFood();
@@ -166,7 +166,6 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		}
 		else if(o.cook == null){
 			//phone order from customer
-			DoDeliverFood();
 			o.c.msgHereIsOrderAndCheck(o.canGive, check);
 		}
 		else if(o.foodsNeeded == null){
@@ -175,7 +174,6 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		else{
 			//phone order from cook
 //			o.cashier.msgBillFromMarket(check, this);
-			DoDeliverFood();
 			manager.msgLoadDeliveryTruck(this, o.canGive, o.building, check, o.cook);
 			//o.cook.msgHereIsDelivery(o.canGive, check, manager, this);
 		}
@@ -273,11 +271,6 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	private void DoGiveFood() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	private void DoDeliverFood() {
 		// TODO Auto-generated method stub
 		
 	}

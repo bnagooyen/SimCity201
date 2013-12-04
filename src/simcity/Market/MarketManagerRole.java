@@ -35,7 +35,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	public double marketMoney;
 	public int hour;
 	public boolean isClosed;
-	public enum workerState{justArrived, available, occupied};
+	public enum workerState{justArrived, available, occupied, out};
 	public EventLog log;
 		
 	MManagerGui managerGui;
@@ -174,6 +174,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	//Actions
 	
 	private void sendOverTruck(){
+		truck.state = workerState.out;
 		Do("Sending delivery truck over");
 		truck.d.msgGoToDestination(truck.mc, truck.supply, truck.destination, truck.check, truck.cook);
 	}
