@@ -715,12 +715,9 @@ public class DCookRole extends Role implements DCook, Cook{
                                 
                         }
                         waitingForInventory=false;
-                        
-              /****************** change I made ***************************/          
-                        delivery.remove(d);
-              /*************************************************************/          
+         
                         for(InventoryOrder o: myOrders){
-                                if(d.mcashier==o.market) {
+                                if(d.mmanager==o.market) {
                                         if(Math.abs(o.billExpected-d.check)<=0.01) {
                                                 myCashier.msgPayThisBill(d.check,d.mcashier);
                                         }
