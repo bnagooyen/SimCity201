@@ -63,6 +63,8 @@ public class DCookRole extends Role implements DCook, Cook{
 	ArrayList<MFoodOrder> orderToMarket = new ArrayList<MFoodOrder>();
 	//private int marketToSendOrdersTo;
 
+	enum CookState {cooking, available};
+	CookState state;
 	
 	boolean RestaurantIsOpen, CheckedAtFirst;// valsAreSet;
 	
@@ -101,6 +103,7 @@ public class DCookRole extends Role implements DCook, Cook{
 		
 		RestaurantIsOpen=false; CheckedAtFirst=false; //valsAreSet=false;
 		
+		state=CookState.available;
 	}
 
 
@@ -400,7 +403,7 @@ public class DCookRole extends Role implements DCook, Cook{
 		}
 	
 		for(int i=0; i<orders.size(); i++) {
-			if(orders.get(i).state==OrderState.grillInUse && !grillOccupied.get(orders.get(i).getChoice())) {
+			if(orders.get(i).state==OrderState.grillInUse && !grillOccupied.get(orders.get(i).getChoice()) && state==CookState.available) {
 //				CookOrder(orders.get(i));
 //				System.err.println("****");
 				CookOrder(orders.get(i));
@@ -487,6 +490,8 @@ public class DCookRole extends Role implements DCook, Cook{
 		
 		private void CookOrder(final DOrder o) {
 //			System.out.println("asdfjlaksdjflkasj");
+			System.out.println("cooking order");
+			state=CookState.cooking;
 			DFood food=myFood.get(o.getChoice());
 			
 			if(food.getAmount()==0) {
@@ -495,14 +500,16 @@ public class DCookRole extends Role implements DCook, Cook{
 					orders.remove(o);
 					return;
 				}
-			
-			food.setAmount(food.getAmount()-1);
-			myFood.put(o.getChoice(), food);
-			
+
 			if(grillOccupied.get(o.getChoice())) {
 				o.state=OrderState.grillInUse;
 				return;
 			}
+			
+			
+			food.setAmount(food.getAmount()-1);
+			myFood.put(o.getChoice(), food);
+			
 			
 			grillOccupied.put(o.getChoice(), true);
 			DoGoToRefrigerator();
@@ -598,6 +605,7 @@ public class DCookRole extends Role implements DCook, Cook{
 			System.out.println("order plated");
 			o.getWaiter().msgOrderIsReady(o.getTablenum());
 			orders.remove(o);
+			state=CookState.available;
 		}
 		
 //		private void CallWaiter(Order o) {
