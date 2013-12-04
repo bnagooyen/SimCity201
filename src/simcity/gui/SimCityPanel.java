@@ -95,9 +95,9 @@ public class SimCityPanel extends JPanel {
         this.gui = gui;
         
         //Bank
-        Bmanager = new BankManagerRole();
-        Bteller = new BankTellerRole();
-        Bloanofficer = new BankLoanOfficerRole();
+        Bmanager = new BankManagerRole(gui);
+        Bteller = new BankTellerRole(gui);
+        Bloanofficer = new BankLoanOfficerRole(gui);
         
         Bmanager.isActive=true;
         PersonAgent bManagerPerson = new PersonAgent("BankManager");
@@ -125,7 +125,7 @@ public class SimCityPanel extends JPanel {
         bloanofficerPerson.startThread();
         
         //Hack Bank Customer
-        
+        Bmanager.msgTimeUpdate(8);
         
         
         //Market

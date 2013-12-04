@@ -34,13 +34,13 @@ public class BankManagerGui implements Gui{
 	public static final int xOffScreen = 80;
 	public static final int yOffScreen = 400;
 
-	public BankManagerGui(BankManager Bman, Gui gui) {
+	public BankManagerGui(BankManager Bman) {
 		Role = Bman;
 		xPos = 80;
 		yPos = 400;
 		xDestination = 80;
 		yDestination = 400;
-		this.gui = gui;
+		//this.gui = gui;
 	}
 
 	public void updatePosition() {

@@ -2,6 +2,7 @@ package simcity;
 
 import agent.Agent;
 import agent.Role;
+import simcity.Bank.BankCustomerRole;
 import simcity.Market.MarketCustomerRole;
 import simcity.gui.PersonGui;
 import simcity.housing.gui.ResidentGui;
@@ -42,6 +43,7 @@ public class PersonAgent extends Agent {
 	
 	
 	public boolean marketTime = false;
+	public boolean bankTime=false;
 	
 	public PersonAgent(String name) {
 		super();
@@ -152,6 +154,10 @@ public class PersonAgent extends Agent {
 			return true;
 		}
 		
+		if(bankTime){
+			GoToBank();
+		}
+		
 		if(hungerLevel>50) {
 			if (money >= 40) {
 				GoToRestaurant();
@@ -259,6 +265,18 @@ public class PersonAgent extends Agent {
 			}
 		}
 
+	}
+	
+	private void GoToBank() {
+		bankTime = false;
+		Do("here");
+		for(Role r: roles) {
+			if(r instanceof BankCustomerRole) {
+				r.isActive = true;
+				r.purpose="transaction";
+			}
+		}
+		money=200;
 	}
 	
 

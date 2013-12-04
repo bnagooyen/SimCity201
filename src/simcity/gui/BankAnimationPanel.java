@@ -13,6 +13,9 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import simcity.Bank.gui.BankCustomerGui;
+import simcity.Bank.gui.BankLoanGui;
+import simcity.Bank.gui.BankManagerGui;
 import simcity.Bank.gui.BankTellerGui;
 
 public class BankAnimationPanel extends BuildingAnimationPanel implements ActionListener {
@@ -87,7 +90,7 @@ public class BankAnimationPanel extends BuildingAnimationPanel implements Action
 	        guis.add(gui);
 	    }
 	    
-	    /*public void addGui(BankManagerGui gui) {
+	    public void addGui(BankManagerGui gui) {
 	        guis.add(gui);
 	    }
 	    
@@ -97,7 +100,7 @@ public class BankAnimationPanel extends BuildingAnimationPanel implements Action
 	    
 	    public void addGui(BankCustomerGui gui) {
 	        guis.add(gui);
-	    }*/
+	    }
 
 		@Override
 		public void addGui(Gui g) {

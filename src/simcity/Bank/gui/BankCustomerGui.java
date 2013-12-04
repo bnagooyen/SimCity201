@@ -33,7 +33,7 @@ public class BankCustomerGui implements Gui{
 	public static final int xOffScreen = 100;
 	public static final int yOffScreen = 350;
 
-	public BankCustomerGui(BankCustomer BC, Gui gui, BankManager m) {
+	public BankCustomerGui(BankCustomer BC, BankManager m) {
 		Role = BC;
 		xPos = 100;
 		yPos = 350;
@@ -41,7 +41,7 @@ public class BankCustomerGui implements Gui{
 		yDestination = 400;
 		manager = m;
 		BC.setManager(m);
-		this.gui = gui;
+		//this.gui = gui;
 	}
 
 	public void updatePosition() {

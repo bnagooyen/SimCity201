@@ -9,6 +9,7 @@ import simcity.Bank.BankManagerRole.MyTeller;
 import simcity.Bank.BankTellerRole.accountState;
 import simcity.Bank.BankTellerRole.bankTellerState;
 import simcity.Bank.gui.BankLoanGui;
+import simcity.gui.SimCityGui;
 //import simcity.Bank.BankManagerRole.MyEmployee;
 import simcity.interfaces.*;
 import agent.Role;
@@ -29,6 +30,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	public enum cornerState{ coming, leaving };
 	public cornerState corner=cornerState.coming;
 	private BankLoanGui bankloanGui;
+	private SimCityGui gui; 
 
 	public class MyCustomer{
 		BankCustomer BC;
@@ -47,9 +49,10 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		}
 	}
 
-	public BankLoanOfficerRole() {
+	public BankLoanOfficerRole(SimCityGui G) {
 		super();
 		startHour=8;
+		gui=G;
 		// TODO Auto-generated constructor stub
 		
 		state=bankLoanState.arrived;
@@ -220,15 +223,21 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	}
 
 	private void leaveBank() {
-//		bankloanGui.goToCorner();
+		bankloanGui.goToCorner();
 		corner=cornerState.leaving;
-//		finishTask();
+		finishTask();
 	}
 	private void arriveAtBank() {
+		Do("Telling Manager I am Here");
+		if(bankloanGui == null) {
+			bankloanGui = new BankLoanGui(this, manager);
+			gui.myPanels.get("Bank 1").panel.addGui(bankloanGui);
+		}
+		bankloanGui.setPresent(true);
 		manager.msgIAmHere(this, "BankLoanOfficer");
-//		bankloanGui.goToCorner();
+		bankloanGui.goToCorner();
 		corner=cornerState.coming;
-//		finishTask();
+		finishTask();
 		state=bankLoanState.working;
 	}
 	//utilites

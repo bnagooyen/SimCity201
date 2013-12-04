@@ -9,6 +9,8 @@ import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Bank.gui.BankCustomerGui;
+import simcity.Bank.gui.BankManagerGui;
+import simcity.gui.SimCityGui;
 import simcity.interfaces.BankCustomer;
 import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;
@@ -28,6 +30,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	//Gui
 	private Semaphore atDest = new Semaphore(0,true);
 	private BankCustomerGui bankcustomerGui;
+	private SimCityGui gui; 
 	
 	
 	//messages
@@ -76,9 +79,9 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		stateChanged();
 	}
 	
-	public BankCustomerRole() {
+	public BankCustomerRole(SimCityGui G) {
 		super();
-		
+		gui=G;
 		state=bankCustomerState.arrived;		
 		//purpose="transaction";						//NEED A GOOD WAY FOR PERSON TO DECIDE
 	}
@@ -127,14 +130,20 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	//actions
 	private void tellManagerArrived(){
 		Do("Arriving at bank");
+		if(bankcustomerGui == null) {
+			bankcustomerGui = new BankCustomerGui(this, manager);
+			gui.myPanels.get("Bank 1").panel.addGui(bankcustomerGui);
+		}
+		bankcustomerGui.setPresent(true);
+		
 		if(purpose.equals("withdraw")||purpose.equals("deposit")||purpose.equals("rob")){
 			manager.msgIAmHere(this,"transaction");
-			//bankcustomerGui.goToTeller();
+			bankcustomerGui.goToTeller();
 			finishTask();
 		}
 		else if(purpose.equals("loan")){
 			manager.msgIAmHere(this,"loan");
-			//bankcustomerGui.goToLoanPos();
+			bankcustomerGui.goToLoanPos();
 			finishTask();
 		}
 		state=bankCustomerState.waiting;
@@ -153,14 +162,22 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	private void requestLoan(){
 		Do("Requesting for loan");
-		//doGoToLoanOfficer
 		loanOfficer.msgINeedALoan(this, accountNum, 1000, "waiter"/*myPerson.job*/);		//Need a way to decide how much $$ to request  
 		state=bankCustomerState.inProgress;
 	}
 	
 	private void makeTransaction(){
 		Do("Making a transaction");
-		//doGoToTeller
+		
+		//HACK TO TEST
+		if(myPerson.money>150){
+			teller.msgDeposit(this, accountNum, myPerson.money-150);
+		}
+		if(myPerson.money<50){
+			teller.msgWithdrawal(this, accountNum, 50-myPerson.money);
+		}
+		
+		
 		/*if(myPerson.money>myPerson.depositThreshold){
 			teller.msgDeposit(this, accountNum, myPerson.money-myPerson.depositThreshold);
 		}

@@ -13,6 +13,7 @@ import simcity.Bank.BankManagerRole.MyCustomer.MyCustomerState;
 import simcity.Bank.BankManagerRole.MyLoanOfficer.MyOfficerState;
 import simcity.Bank.BankManagerRole.MyTeller.MyTellerState;
 import simcity.Bank.gui.BankManagerGui;
+import simcity.Bank.gui.BankTellerGui;
 import simcity.gui.SimCityGui;
 //import simcity.housing.LandlordRole;
 import simcity.interfaces.BankCustomer;
@@ -61,11 +62,13 @@ public class BankManagerRole extends Role implements BankManager {
 	private Semaphore atDest = new Semaphore(0,true);
 	public enum cornerState{ coming, leaving };
 	public cornerState corner=cornerState.coming;
-	private BankManagerGui Gui;
+	private BankManagerGui bankmanagerGui;
+	private SimCityGui gui; 
 	private Timer timer=new Timer();
 	
-	public BankManagerRole() {
+	public BankManagerRole(SimCityGui G) {
 		super();
+		gui=G;
 		// TODO Auto-generated constructor stub
 		startHour=7;
 		bankState=BankState.newDay;
@@ -305,23 +308,28 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	private void OpenBank() {
 		Do("Opening bank");
-//		bankManagerGui.goToCorner();
-//		finishTask();
-//		bankManagerGui.goToManagerPos();
-//		finishTask();
+		if(bankmanagerGui == null) {
+			bankmanagerGui = new BankManagerGui(this);
+			gui.myPanels.get("Bank 1").panel.addGui(bankmanagerGui);
+		}
+		bankmanagerGui.setPresent(true);
+		bankmanagerGui.goToCorner();
+		finishTask();
+		bankmanagerGui.goToManagerPos();
+		finishTask();
 		bankState=BankState.open;
 	}
 	private void SwapTellers() {
 		Do("Switching out tellers");
-//		bankManagerGui.goToTellerPos();
-//		finishTask();
+		bankmanagerGui.goToTellerPos();
+		finishTask();
 		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
 		tellers.get(1).emp.msgGoToTellerPosition();
 		tellers.get(1).startHr=hour;
 		tellers.get(1).state=MyTellerState.available;
 		tellers.remove(tellers.get(0));
-//		bankManagerGui.goToManagerPos();
-//		finishTask();
+		bankmanagerGui.goToManagerPos();
+		finishTask();
 	}
 	
 	private void SwapLoanOfficers() {
@@ -390,19 +398,19 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	private void CloseBank() {
 		Do("Closing bank");
-//		bankManagerGui.goToTellerPos();
-//		finishTask();		
+		bankmanagerGui.goToTellerPos();
+		finishTask();		
 		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
 		tellers.clear();
-//		bankManagerGui.goToLoanPos();
-//		finishTask();
+		bankmanagerGui.goToLoanPos();
+		finishTask();
 		officers.get(0).emp.msgGoHome((hour-officers.get(0).startHr)*employeePayPerHour);
 		officers.clear();
 		bankState=BankState.closed;
-//		bankManagerGui.goToCorner();;
-//		finishTask();
-//		bankManagerGui.DoExitBank();
-//		finishTask();
+		bankmanagerGui.goToCorner();;
+		finishTask();
+		bankmanagerGui.DoExitBank();
+		finishTask();
 		BankIsClosed();
 		this.isActive = false;
 	}
@@ -496,7 +504,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	public void setGui(BankManagerGui Bgui){
-		Gui = Bgui;
+		bankmanagerGui = Bgui;
 	}
 	
 	private void finishTask(){			//Semaphore to make waiter finish task before running scheduler

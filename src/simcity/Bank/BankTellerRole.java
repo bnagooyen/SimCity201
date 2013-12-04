@@ -49,12 +49,13 @@ public class BankTellerRole extends Role implements BankTeller {
 		}
 	}
 		
-	public BankTellerRole() {
+	public BankTellerRole(SimCityGui G) {
 		super();
 		startHour=8;
 		log=new EventLog();
 		//print("BankTeller Created");
 		state=bankTellerState.arrived;
+		gui=G;
 		broke=false;
 	}
 
