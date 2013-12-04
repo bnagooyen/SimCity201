@@ -5,6 +5,8 @@ import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Bank.gui.BankTellerGui;
+import simcity.Market.gui.IBGui;
+import simcity.gui.SimCityGui;
 //import simcity.Bank.BankManagerRole.MyCustomer;
 //import simcity.Bank.BankManagerRole.MyEmployee;
 import simcity.interfaces.*;
@@ -25,6 +27,8 @@ public class BankTellerRole extends Role implements BankTeller {
 	public enum cornerState{ coming, leaving };
 	public cornerState corner=cornerState.coming;
 	public boolean broke=false;
+	
+	private SimCityGui gui;
 	
 	public enum bankTellerState { arrived, working, success, error, finished };
 	public bankTellerState state;
@@ -230,11 +234,16 @@ public class BankTellerRole extends Role implements BankTeller {
 		}
 		private void arriveAtBank() {
 			Do("Telling Manager I am Here");
+			if(banktellerGui == null) {
+				banktellerGui = new BankTellerGui(this, manager);
+				gui.myPanels.get("Bank 1").panel.addGui(banktellerGui);
+			}
+			banktellerGui.setPresent(true);
 			state=bankTellerState.working;
 			manager.msgIAmHere(this, "BankTeller");
-//			banktellerGui.goToCorner();
+			banktellerGui.goToCorner();
 			corner=cornerState.coming;
-//			finishTask();
+			finishTask();
 		}
 
 		public void setGui(BankTellerGui BG){

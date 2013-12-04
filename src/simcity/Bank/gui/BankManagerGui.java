@@ -4,6 +4,7 @@ package simcity.Bank.gui;
 
 import java.awt.*;
 
+import simcity.gui.Gui;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.BankTeller;
 
@@ -13,7 +14,7 @@ public class BankManagerGui implements Gui{
 	private boolean isPresent = true;
 	public boolean isHungry = false;
 	
-	public BankGui gui;
+	public Gui gui;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -33,7 +34,7 @@ public class BankManagerGui implements Gui{
 	public static final int xOffScreen = 80;
 	public static final int yOffScreen = 400;
 
-	public BankManagerGui(BankManager Bman, BankGui gui) {
+	public BankManagerGui(BankManager Bman, Gui gui) {
 		Role = Bman;
 		xPos = 80;
 		yPos = 400;

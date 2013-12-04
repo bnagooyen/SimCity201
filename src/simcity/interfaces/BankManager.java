@@ -5,7 +5,7 @@ package simcity.interfaces;
 //import simcity.Bank.BankManagerRole.MyTeller;
 
 import simcity.Bank.gui.BankManagerGui;
-import simcity.housing.LandlordRole;
+//import simcity.housing.LandlordRole;
 import agent.Role;
 
 public interface BankManager {
@@ -26,7 +26,7 @@ public interface BankManager {
 	
 	abstract public void msgGaveALoan(double cash);
 	
-	abstract public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill);
+	//abstract public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill);
 
 	void msgAnimationFinishedGoToCorner();
 

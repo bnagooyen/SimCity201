@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
+import simcity.Bank.gui.BankCustomerGui;
 import simcity.interfaces.BankCustomer;
 import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;

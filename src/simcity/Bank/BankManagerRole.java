@@ -13,12 +13,13 @@ import simcity.Bank.BankManagerRole.MyCustomer.MyCustomerState;
 import simcity.Bank.BankManagerRole.MyLoanOfficer.MyOfficerState;
 import simcity.Bank.BankManagerRole.MyTeller.MyTellerState;
 import simcity.Bank.gui.BankManagerGui;
-import simcity.housing.LandlordRole;
+import simcity.gui.SimCityGui;
+//import simcity.housing.LandlordRole;
 import simcity.interfaces.BankCustomer;
 import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.BankTeller;
-import simcity.interfaces.Landlord;
+//import simcity.interfaces.Landlord;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import agent.Agent;
@@ -26,12 +27,27 @@ import agent.Role;
 
 public class BankManagerRole extends Role implements BankManager {
 	
+	
+	/*
+	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * ALL LANDLORD STUFF COMMENTED OUT
+	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * ALL LANDLORD STUFF COMMENTED OUT
+	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * COMMENTED OUT HEREISRENT IN INTERFACE TOO
+	 */
+	
+	
+	
+	
+	
+	
 	//data
 	public EventLog log = new EventLog();
 	private List<MyTeller> tellers = Collections.synchronizedList(new ArrayList<MyTeller>());
 	private List<MyLoanOfficer> officers = Collections.synchronizedList(new ArrayList<MyLoanOfficer>());
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
-	public List<MyClient> clients = Collections.synchronizedList(new ArrayList<MyClient>()); 
+	//public List<MyClient> clients = Collections.synchronizedList(new ArrayList<MyClient>()); 
 	public Map<Integer, MyAccount> accounts = new HashMap<Integer, MyAccount>();
 	int hour;
 	private boolean bankIsOpen;
@@ -45,7 +61,7 @@ public class BankManagerRole extends Role implements BankManager {
 	private Semaphore atDest = new Semaphore(0,true);
 	public enum cornerState{ coming, leaving };
 	public cornerState corner=cornerState.coming;
-//	Sprivate BankManagerGui bankManagerGui;
+	private BankManagerGui Gui;
 	private Timer timer=new Timer();
 	
 	public BankManagerRole() {
@@ -183,11 +199,11 @@ public class BankManagerRole extends Role implements BankManager {
 		atDest.release();
 	}
 	
-	public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill) {
+	/*public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill) {				//COMMENTED OUT
 		Do("Receiving rent bill");
 		clients.add(new MyClient((Landlord) l, account, rentBill));
 		stateChanged(); 
-	}
+	}*/
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
@@ -249,10 +265,10 @@ public class BankManagerRole extends Role implements BankManager {
 			return true;
 		}
 		
-		if(!clients.isEmpty()) {
+		/*if(!clients.isEmpty()) {
 			TransferMoneyToLandlord(); 
 			return true; 
-		}
+		}*/
 
 		
 		if(customers.size()>0 && (tellers.isEmpty() || officers.isEmpty())) {
@@ -349,7 +365,7 @@ public class BankManagerRole extends Role implements BankManager {
 		customers.remove(c);
 	}
 	
-	private void TransferMoneyToLandlord() {
+	/*private void TransferMoneyToLandlord() {
 		Do("Transferring money");
 		if (accounts.get(clients.get(0).AN).balance >= clients.get(0).bill) {
 			accounts.get(clients.get(0).AN).balance -= clients.get(0).bill;
@@ -359,7 +375,7 @@ public class BankManagerRole extends Role implements BankManager {
 			clients.get(0).client.msgCannotPayForRent(clients.get(0).AN);
 		}		
 		clients.remove(0); 
-	}
+	}*/
 	
 	private void BankIsClosed() {
 		Do("Telling customer bank is closed");
@@ -479,8 +495,8 @@ public class BankManagerRole extends Role implements BankManager {
 		return bankState;
 	}
 	
-	public void setGui(BankManagerGui Bman){
-//		bankManagerGui=Bman;
+	public void setGui(BankManagerGui Bgui){
+		Gui = Bgui;
 	}
 	
 	private void finishTask(){			//Semaphore to make waiter finish task before running scheduler
@@ -540,7 +556,7 @@ public class BankManagerRole extends Role implements BankManager {
 		
 	}
 	
-	class MyClient {
+	/*class MyClient {
 		public MyClient(Landlord l, Integer account, double rentBill) {
 			client = l; 
 			AN = account; 
@@ -551,7 +567,7 @@ public class BankManagerRole extends Role implements BankManager {
 		Integer AN; 
 		double bill; 	
 		
-	}
+	}*/
 	
 	public class MyAccount{
 	

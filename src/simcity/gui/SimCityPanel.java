@@ -1,5 +1,8 @@
 package simcity.gui;
 
+import simcity.Bank.BankLoanOfficerRole;
+import simcity.Bank.BankManagerRole;
+import simcity.Bank.BankTellerRole;
 import simcity.Market.InventoryBoyRole;
 import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCustomerRole;
@@ -9,6 +12,9 @@ import simcity.gui.DGui.DCookGui;
 import simcity.gui.DGui.DWaiterGui;
 import simcity.housing.gui.ResidentGui;
 import simcity.housing.gui.TenantGui;
+import simcity.interfaces.BankLoanOfficer;
+import simcity.interfaces.BankManager;
+import simcity.interfaces.BankTeller;
 import simcity.interfaces.DCook;
 import simcity.DCashierRole;
 import simcity.DCookRole;
@@ -78,10 +84,51 @@ public class SimCityPanel extends JPanel {
     private MarketManagerRole manager;
     private MarketCashierRole mcashier;
     private InventoryBoyRole ib;
+    
+    //Bank people workers
+    private BankManagerRole Bmanager;
+    private BankTellerRole Bteller;
+    private BankLoanOfficerRole Bloanofficer;
+
 
     public SimCityPanel(SimCityGui gui) {
         this.gui = gui;
         
+        //Bank
+        Bmanager = new BankManagerRole();
+        Bteller = new BankTellerRole();
+        Bloanofficer = new BankLoanOfficerRole();
+        
+        Bmanager.isActive=true;
+        PersonAgent bManagerPerson = new PersonAgent("BankManager");
+        bManagerPerson.hungerLevel = 0;
+        bManagerPerson.SetJob(Bmanager);
+        Bmanager.myPerson = bManagerPerson;
+        
+        Bteller.isActive=true;
+        PersonAgent btellerPerson = new PersonAgent("Bankteller");
+        btellerPerson.hungerLevel = 0;
+        btellerPerson.SetJob(Bteller);
+        Bteller.manager=Bmanager;
+        Bteller.myPerson = btellerPerson;
+        
+        Bloanofficer.isActive=true;
+        PersonAgent bloanofficerPerson = new PersonAgent("Bankloanofficer");
+        bloanofficerPerson.hungerLevel = 0;
+        bloanofficerPerson.SetJob(Bloanofficer);
+        Bloanofficer.manager=Bmanager;
+        Bloanofficer.myPerson = bloanofficerPerson;
+        
+        //Start Threads
+        bManagerPerson.startThread();
+        btellerPerson.startThread();
+        bloanofficerPerson.startThread();
+        
+        //Hack Bank Customer
+        
+        
+        
+        //Market
         manager = new MarketManagerRole(gui);
         mcashier = new MarketCashierRole(gui);
         ib = new InventoryBoyRole(gui);
