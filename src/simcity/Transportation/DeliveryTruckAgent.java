@@ -102,6 +102,7 @@ public class DeliveryTruckAgent extends Agent implements DeliveryTruck{
 		log.add(e);
 		Do("Arrived at destination");
 		cook.msgHereIsDelivery(supply, check, manager, mc);
+		
 		//animation to go home
 		manager.msgBackFromDelivery();
 		state = truckState.available;

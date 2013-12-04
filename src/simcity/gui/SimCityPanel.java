@@ -129,7 +129,7 @@ public class SimCityPanel extends JPanel {
         mcustomer.addCustomerRoles(mc);
         mcustomer.marketTime = true;
         mcustomer.hungerLevel = 0;
-        mcustomer.startThread();
+        //mcustomer.startThread();
         
         
         
