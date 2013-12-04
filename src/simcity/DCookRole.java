@@ -1,6 +1,5 @@
 package simcity;
 
-import agent.Agent;
 import agent.Role;
 import simcity.Market.MFoodOrder;
 import simcity.gui.DGui.DCookGui;
@@ -457,6 +456,7 @@ public class DCookRole extends Role implements DCook, Cook{
 			}
 			else {
 				timer.schedule(new TimerTask() {
+					@Override
 					public void run() {
 						msgTimeToCheckStand();
 					}
