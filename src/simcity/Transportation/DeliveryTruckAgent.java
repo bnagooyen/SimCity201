@@ -72,25 +72,28 @@ public class DeliveryTruckAgent extends Agent implements DeliveryTruck{
 			
 			if(state==truckState.receivedLocation){
 				goToLocation();
-				state=truckState.travelling;
 				return true;
 			}
-			
+			Do("state is " + state);
 			if(state==truckState.arrived){
 				HaveArrived();
 				state=truckState.parked;
 				return true;
 			}
-			
+			Do("here");
 			return false;
 		}
 		
 	//Actions
 		
 	private void goToLocation(){
+		state=truckState.travelling;
 		LoggedEvent e = new LoggedEvent("Going to destination");
 		log.add(e);
 		Do("Go To Location");
+		
+/**************************** hack - need to add animation code *****************************************/
+		state = truckState.arrived;
 		//animation using destination
 	}
 	
