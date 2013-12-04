@@ -7,6 +7,8 @@ import simcity.Market.MarketManagerRole;
 import simcity.Transportation.DeliveryTruckAgent;
 import simcity.gui.DGui.DCookGui;
 import simcity.gui.DGui.DWaiterGui;
+import simcity.housing.gui.ResidentGui;
+import simcity.housing.gui.TenantGui;
 import simcity.interfaces.DCook;
 import simcity.DCashierRole;
 import simcity.DCookRole;
@@ -454,6 +456,17 @@ public class SimCityPanel extends JPanel {
     		 }
     		
 	    		PersonGui g = new PersonGui(p, gui);
+	    		if(houseOrApt.equals("House")) {
+	    			ResidentGui rg = new ResidentGui(p);
+	    			p.setGui(rg);
+	    			gui.myPanels.get(p.homeAddress).panel.addGui(rg);
+	    		}
+	    		else if(houseOrApt.equals("Apartment")) {
+	    			TenantGui tg = new TenantGui(p, p.homeAddress.substring(p.homeAddress.length()-1));
+	    			p.setGui(tg);
+	    			String tempAddress = p.homeAddress.substring(0, p.homeAddress.length()-1);
+	    			gui.myPanels.get(tempAddress).panel.addGui(tg);
+	    		}
 	    		g.setPresent(true);
 	    		p.setGui(g);
 	    		gui.city.addGui(g);

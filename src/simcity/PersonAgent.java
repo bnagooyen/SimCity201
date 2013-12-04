@@ -4,6 +4,8 @@ import agent.Agent;
 import agent.Role;
 import simcity.Market.MarketCustomerRole;
 import simcity.gui.PersonGui;
+import simcity.housing.gui.ResidentGui;
+import simcity.housing.gui.TenantGui;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -27,7 +29,12 @@ public class PersonAgent extends Agent {
 	//private final int NUM_MARKETS = 3;
     Semaphore atRestaurant = new Semaphore(0, true);
     Semaphore atLocation = new Semaphore(0, true);
+    //home semaphores
+	private Semaphore atFridge = new Semaphore(0,true);
+	private Semaphore atGrill = new Semaphore(0,true);
     public PersonGui PersonGui = null;
+    public ResidentGui residentGui = null; 
+	public TenantGui tenantGui = null;
     Role myJob;
     List<Role> roles= new ArrayList<Role>();
     double money=0;
@@ -90,6 +97,15 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 	
+	public void msgAtFridge() {
+		atFridge.release();
+		stateChanged();
+	}
+	public void msgAtGrill() {
+		atGrill.release();
+		stateChanged();
+	}
+	
 //	public void msgLeftLocation() {
 //		atLocation.release();
 //		stateChanged();
@@ -99,6 +115,15 @@ public class PersonAgent extends Agent {
 	public void setGui(PersonGui gui) {
 		PersonGui = gui;
 	}
+	
+	public void setGui(ResidentGui pg) {
+		residentGui = pg; 
+	}
+	
+	public void setGui(TenantGui pg) {
+		tenantGui = pg; 
+	}
+
 	
 	public PersonGui getGui() {
 		return PersonGui;
