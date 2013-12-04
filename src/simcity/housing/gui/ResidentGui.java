@@ -35,11 +35,11 @@ public class ResidentGui implements Gui {
         else if (yPos > yDestination)
             yPos--;
         
-        if (xPos == 0 && yPos == 0) {
+        if (xPos == 490 && yPos == 155) {
         	agent.msgAtFridge();
         }
         
-        if (xPos == 0 && yPos == 0) {
+        if (xPos == 490 && yPos == 15) {
         	agent.msgAtGrill();
         }
     }
@@ -71,13 +71,13 @@ public class ResidentGui implements Gui {
     }
     
     public void makeFood() {
-    	xDestination = 175; 
-    	yDestination = 100; 
+    	xDestination = 490; 
+    	yDestination = 15; 
     }
     
     public void goToFridge() {
-    	xDestination = 0; 
-    	yDestination = 0; 
+    	xDestination = 490; 
+    	yDestination = 155; 
     }
     
     public void goToTable() {

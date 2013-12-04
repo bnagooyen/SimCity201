@@ -13,6 +13,8 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import simcity.housing.gui.TenantGui;
+
 public class ApartmentAnimationPanel extends BuildingAnimationPanel implements ActionListener {
 
 	 private final int WINDOWX = 575;
@@ -65,46 +67,95 @@ public class ApartmentAnimationPanel extends BuildingAnimationPanel implements A
 	    	name = nm;
 	    }
 
-	    @Override
-		public void paintComponent(Graphics g) {
-	        Graphics2D g2 = (Graphics2D)g;
-
-	        
+	    public void paintComponent(Graphics g) {
+	    	Graphics2D g2 = (Graphics2D)g;
+	           
 	        //Clear the screen by painting a rectangle the size of the frame
 	        g2.setColor(getBackground());
-	        g2.fillRect(BTMX, BTMY, WINDOWX, WINDOWY );
-	        g2.setColor(Color.gray);
-	        g2.fillRect(520,300,20,20);
-//
-//	        //Here is the table
-//	        g2.setColor(Color.ORANGE);
-//	        for(int i=0; i<nTABLES; i++)
-//	        {
-//	        	int fillx = (i%TABLES_perRow)*TABLESZ_xy*2 + TABLE_gap + x_Offset;
-//	        	int filly = (i/TABLES_perRow)*TABLESZ_xy*2 + TABLE_gap;
-//	        	g2.fillRect(fillx, filly, TABLESZ_xy, TABLESZ_xy);//200 and 250 need to be table params
-//	        
-//	        }
-//	        
-//	        //draw kitchen components
-//	        g2.setColor(Color.cyan);
-//	        g2.fillRect(allKitchenItems_x, refrig_y, refrig_xsz, refrig_ysz);
-//	        g2.setColor(Color.LIGHT_GRAY);
-//	        g2.fillRect(allKitchenItems_x, grillPizza_y, grill_xsz, grill_ysz);
-//	        g2.fillRect(allKitchenItems_x, grillChicken_y, grill_xsz, grill_ysz);
-//	        g2.fillRect(allKitchenItems_x, grillSteak_y, grill_xsz, grill_ysz);
-//	        g2.fillRect(allKitchenItems_x, grillSalad_y, grill_xsz, grill_ysz);
-//
-//	        g2.setColor(Color.pink);
-//	        g2.fillRect(allKitchenItems_x, plating_x, grill_xsz, plating_ysz);
-//	       
-//
-//	        for(Gui gui : guis) {
-//	            if (gui.isPresent()) {
-//	                gui.draw(g2);
-//	            }
-//	        }
+	        g2.fillRect(0, 0, WINDOWX, WINDOWY );
+	        
+	        //Here are the walls
+	        g2.setColor(Color.black);
+	        g2.fillRect(180, 0, 10, WINDOWY);
+	        g2.fillRect(370, 0, 10, WINDOWY);
+
+	        //Here are the tables
+	        int w = 50; 
+	        int h = 50; 
+	        g2.setColor(Color.PINK);
+	        g2.fillRect(30, 60, w, h);
+	        g2.setColor(Color.CYAN);
+	        g2.fillRect(310, 100, w, h);
+	        g2.setColor(Color.white);
+	        g2.fillRect(500, 170, w, h);
+	           
+	        //Here are the beds
+	        g2.setColor(Color.red);
+	        g2.fillRect(130, 120, 50, 80);
+	        g2.setColor(Color.blue);
+	        g2.fillRect(190, 80, 50, 80);
+	        g2.setColor(Color.black);
+	        g2.fillRect(380, 220, 50, 80);
+	        
+	        //Here are the kitchens
+	        int kitchenW = 80; 
+	        int kitchenH = 130; 
+	        g2.setColor(Color.lightGray); 
+	        g2.fillRect(0, 170, kitchenW, kitchenH);
+	        g2.fillRect(240, 240, kitchenH, kitchenW);
+	        g2.fillRect(490, 0, kitchenW, kitchenH);
+	        
+	        g2.setColor(Color.white);
+	        g2.fillRect(0, 170, 30, 90);
+	        g2.setColor(Color.red);
+	        g2.fillRect(0, 260, 30, 40);
+	        
+	        g2.setColor(Color.black);
+	        g2.fillRect(240, 290, 90, 50); 
+	        g2.setColor(Color.white);
+	        g2.fillRect(330, 290, 40, 30);
+	        
+	        g2.setColor(Color.white);
+	        g2.fillRect(540, 0, 50, 90); 
+	        g2.setColor(Color.black);
+	        g2.fillRect(540, 90, 30, 40);
+
+	        
+	        g2.setColor(Color.red); 
+	        g2.fillOval(3, 175, 10, 10);
+	        g2.fillOval(3, 190, 10, 10);
+	        g2.fillOval(18, 175, 10, 10);
+	        g2.fillOval(18, 190, 10, 10);
+	        
+	        g2.fillOval(245, 290, 10, 10);
+	        g2.fillOval(245, 305, 10, 10);
+	        g2.fillOval(260, 290, 10, 10);
+	        g2.fillOval(260, 305, 10, 10);
+	        
+
+	        g2.fillOval(542, 5, 10, 10);
+	        g2.fillOval(542, 20, 10, 10);
+	        g2.fillOval(557, 5, 10, 10);
+	        g2.fillOval(557, 20, 10, 10);
+	        
+
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	               gui.updatePosition();
+	            }
+	        }
+
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.draw(g2);
+	             }
+	        }
 	    }
+
+	    public void addGui(TenantGui gui) {
+	        guis.add(gui);
+	    }
+	    
 
 		@Override
 		public void addGui(Gui g) {
