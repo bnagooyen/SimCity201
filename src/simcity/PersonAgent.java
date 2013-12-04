@@ -2,6 +2,7 @@ package simcity;
 
 import agent.Agent;
 import agent.Role;
+import simcity.Market.MarketCustomerRole;
 import simcity.gui.PersonGui;
 
 import java.util.*;
@@ -31,6 +32,9 @@ public class PersonAgent extends Agent {
     List<Role> roles= new ArrayList<Role>();
     double money=0;
 	public String homeAddress;
+	
+	
+	public boolean marketTime = false;
 	
 	public PersonAgent(String name) {
 		super();
@@ -116,6 +120,13 @@ public class PersonAgent extends Agent {
 //			GoToRestaurant();
 //			return true;
 //		}
+		
+/************* hack to test behavior*******************/
+		if(marketTime) {
+			GoToMarket();
+			return true;
+		}
+		
 		if(hungerLevel>50) {
 			GoToRestaurant();
 			return true;
@@ -170,6 +181,19 @@ public class PersonAgent extends Agent {
 		
 	}
 	
+	private void GoToMarket() {
+		marketTime = false;
+		Do("here");
+		for(Role r: roles) {
+			if(r instanceof MarketCustomerRole) {
+				r.isActive = true;
+				((MarketCustomerRole) r).populateOrderList("Steak", 1);
+			}
+		}
+
+	}
+	
+
 	private void GoHome() {
 		DoGoTo(homeAddress);
 		myLocation=LocationState.atHome;

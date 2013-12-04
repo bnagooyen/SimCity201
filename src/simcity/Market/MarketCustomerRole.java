@@ -53,6 +53,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         	atCashier.release();
         	stateChanged();
         }
+        
         public void msgGoToCashier(MarketCashier c) {
         		Do("Told to go to cashier");
                 LoggedEvent e = new LoggedEvent("told to go to cashier");
@@ -98,15 +99,15 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
                         goToManager();
                         return true; 
                 }
-                if ( state == customerState.timeToOrder && purpose.equals("food")) {
+                if ( state == customerState.timeToOrder){ //&& purpose.equals("food")) {
                 		Do("in");
                 		orderFood();
                         return true;
                 }
-                if( state == customerState.timeToOrder && purpose.equals("car")) {
-                    orderCar();
-                    return true;
-                }
+//                if( state == customerState.timeToOrder){// && purpose.equals("car")) {
+//                    orderCar();
+//                    return true;
+//                }
                 if ( state == customerState.paying ) {
                         payCheck();
                         return true;
@@ -179,7 +180,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         		Do("Leaving market");
                 LoggedEvent e = new LoggedEvent("leaving market");
                 log.add(e);
-                state = customerState.done;
+                state = customerState.talkToManager;
                 isActive = false;
                 DoGoHome();
         }

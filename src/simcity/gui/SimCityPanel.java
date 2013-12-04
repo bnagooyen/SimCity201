@@ -2,6 +2,7 @@ package simcity.gui;
 
 import simcity.Market.InventoryBoyRole;
 import simcity.Market.MarketCashierRole;
+import simcity.Market.MarketCustomerRole;
 import simcity.Market.MarketManagerRole;
 import simcity.Transportation.DeliveryTruckAgent;
 import simcity.gui.DGui.DCookGui;
@@ -89,7 +90,7 @@ public class SimCityPanel extends JPanel {
         mManagerPerson.SetJob(manager);
         manager.myPerson = mManagerPerson;
         
-        cook.msgAddMarket(mcashier);
+        cook.msgAddMarket(manager);
         cook.setMonitor(host.getMonitor());
         
         mcashier.isActive = true;
@@ -118,6 +119,17 @@ public class SimCityPanel extends JPanel {
         mCashierPerson.startThread();
         ibPerson.startThread();
 
+        // hack market customer
+        PersonAgent mcustomer = new PersonAgent("mcustomer");
+        MarketCustomerRole mc = new MarketCustomerRole(gui);
+        mc.myPerson = mcustomer;
+        mc.setMarketManager(manager);
+        mcustomer.addCustomerRoles(mc);
+        mcustomer.marketTime = true;
+        mcustomer.hungerLevel = 0;
+        mcustomer.startThread();
+        
+        
         
         host.isActive=true;
         PersonAgent hostPerson = new PersonAgent("Host");

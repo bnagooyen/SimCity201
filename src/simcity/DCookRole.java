@@ -652,6 +652,7 @@ public class DCookRole extends Role implements DCook, Cook{
 //			}
 			//markets.get(0).msgHereIsAnInventoryOrder(orderToMarket, ORDER_ID, myCashier);
 			//myOrders.add(new InventoryOrder(markets.get(0), 1, billAmnt, ORDER_ID));
+			myMarkets.get(0).msgIAmHere(this, orderToMarket, "Restaurant3", "cook");
 			myMarkets.get(0).msgIAmHere(this, orderToMarket, "Restaurant 3", "cook"); //Role r, List<MFoodOrder>need, String building, String type
 			myOrders.add(new InventoryOrder(myMarkets.get(0), 1, billAmnt, ORDER_ID));
 			ORDER_ID++;
@@ -693,7 +694,7 @@ public class DCookRole extends Role implements DCook, Cook{
 			System.out.println("Cook sent reorder");
 			//markets.get(reord.mktOrderingFrom-1).msgHereIsAnInventoryOrder(reord.myorder, ORDER_ID, myCashier);
 			//reord.market=markets.get(reord.mktOrderingFrom-1);
-			myMarkets.get(reord.mktOrderingFrom-1).msgOrder(this, orderToMarket, name);
+			myMarkets.get(reord.mktOrderingFrom-1).msgIAmHere(this, orderToMarket, "Restaurant3", "cook");
 			reord.billExpected=billAmnt;
 			for(InventoryOrder ord: myOrders) {
 				if(ord.state==InventoryOrderState.needsPriceUpdate) {
@@ -765,7 +766,7 @@ public class DCookRole extends Role implements DCook, Cook{
 			int orderID;
 			ArrayList<MFoodOrder> myorder;
 			int mktOrderingFrom;
-			MarketCashier market;
+			MarketManager market;
 			double billExpected;
 			enum InventoryOrderState {ordered, needsReorder, approved, denied, needsPriceUpdate};
 			InventoryOrderState state;
@@ -779,7 +780,7 @@ public class DCookRole extends Role implements DCook, Cook{
 				//sent=false;
 			}
 						
-			InventoryOrder(MarketCashier mkt, int mknum, double billAmt, int ord) {
+			InventoryOrder(MarketManager mkt, int mknum, double billAmt, int ord) {
 				market= mkt;
 				billExpected=billAmt;
 				//sent=true;
@@ -787,7 +788,7 @@ public class DCookRole extends Role implements DCook, Cook{
 				mktOrderingFrom=mknum;
 			}
 			
-			MarketCashier getMarket() {
+			MarketManager getMarket() {
 				return market;
 			}
 			int getMarketOrderingFrom() {
