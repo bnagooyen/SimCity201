@@ -153,7 +153,12 @@ public class PersonAgent extends Agent {
 		}
 		
 		if(hungerLevel>50) {
-			GoToRestaurant();
+			if (money >= 40) {
+				GoToRestaurant();
+			}
+			else {
+				EatAtHome(); 
+			}
 			return true;
 		}
 		
@@ -180,6 +185,44 @@ public class PersonAgent extends Agent {
 		//and wait.
 	}
 
+
+	private void EatAtHome() {
+		if (homeAddress.equals("House")) {
+			residentGui.goToFridge();
+			try {
+				atFridge.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			residentGui.makeFood();
+			try {
+				atGrill.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			residentGui.goToTable();
+		}
+		else {
+			tenantGui.goToFridge();
+			try {
+				atFridge.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			tenantGui.makeFood();
+			try {
+				atGrill.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			tenantGui.goToTable();
+		}
+		hungerLevel = 0;
+	}
 
 	// Actions
 	private void GoToRestaurant() {
