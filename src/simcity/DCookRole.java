@@ -56,7 +56,7 @@ public class DCookRole extends Role implements DCook, Cook{
 	
 	ArrayList<MyDelivery> delivery= new ArrayList<MyDelivery>();
 	List<DOrder> orders =  Collections.synchronizedList(new ArrayList<DOrder>());
-	ArrayList<MarketCashier> myMarkets = new ArrayList<MarketCashier>();
+	ArrayList<MarketManager> myMarkets = new ArrayList<MarketManager>();
 	ArrayList<DMarketAgent> markets = new ArrayList<DMarketAgent>();
 	List<InventoryOrder> myOrders =  Collections.synchronizedList(new ArrayList<InventoryOrder>());
 	private int ORDER_ID;
@@ -175,7 +175,7 @@ public class DCookRole extends Role implements DCook, Cook{
 		markets.add(m);
 	}
 
-	public void msgAddMarket(MarketCashier m) {
+	public void msgAddMarket(MarketManager m) {
 		myMarkets.add(m);
 	}
 	
@@ -652,7 +652,7 @@ public class DCookRole extends Role implements DCook, Cook{
 //			}
 			//markets.get(0).msgHereIsAnInventoryOrder(orderToMarket, ORDER_ID, myCashier);
 			//myOrders.add(new InventoryOrder(markets.get(0), 1, billAmnt, ORDER_ID));
-			myMarkets.get(0).msgOrder(this, orderToMarket, "DRestaurant");
+			myMarkets.get(0).msgIAmHere(this, orderToMarket, "Restaurant 3", "cook"); //Role r, List<MFoodOrder>need, String building, String type
 			myOrders.add(new InventoryOrder(myMarkets.get(0), 1, billAmnt, ORDER_ID));
 			ORDER_ID++;
 			waitingForInventory=true;
