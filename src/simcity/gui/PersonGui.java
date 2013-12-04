@@ -192,7 +192,7 @@ public class PersonGui implements Gui {
     	if(destination.contains("House") || destination.contains("Apartment")) {
     		if(destination.contains("Apartment")) {
     			destination=destination.substring(0, destination.length()-1);
-    			System.err.println(destination);
+    			//System.err.println(destination);
     		}
     		Point myDest = myMap.get(destination);
     		xDestination = myDest.x;

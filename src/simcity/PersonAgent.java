@@ -172,6 +172,7 @@ public class PersonAgent extends Agent {
 	
 	private void GoHome() {
 		DoGoTo(homeAddress);
+		myLocation=LocationState.atHome;
 	}
 	
 	private void DoGoTo(String dest) {
