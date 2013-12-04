@@ -37,7 +37,7 @@ public class PersonAgent extends Agent {
 	public TenantGui tenantGui = null;
     Role myJob;
     List<Role> roles= new ArrayList<Role>();
-    double money=0;
+    public double money=0;
 	public String homeAddress;
 	
 	
