@@ -162,14 +162,17 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		if(o.building.equals("")){
 			//Customer is at the market
 			DoGiveFood();
-			o.c.msgHereIsOrderAndCheck(o.canGive, check);
+			o.c.msgHereIsOrder(o.canGive);
+			//msg rest cashier
 		}
 		else if(o.cook == null){
 			//phone order from customer
-			o.c.msgHereIsOrderAndCheck(o.canGive, check);
+			o.c.msgHereIsOrder(o.canGive);
+			//msg rest cashier
 		}
 		else if(o.foodsNeeded == null){
-			o.c.msgHereIsCarAndCheck(o.car, check);
+			o.c.msgHereIsCar(o.car);
+			//msg rest cashier
 		}
 		else{
 			//phone order from cook

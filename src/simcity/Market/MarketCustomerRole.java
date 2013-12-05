@@ -63,23 +63,23 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
                 stateChanged();
         }
         
-        public void msgHereIsOrderAndCheck(List<MFoodOrder> canGive, double check) {
+        public void msgHereIsOrder(List<MFoodOrder> canGive) {
         		Do("Got food and check");
                 LoggedEvent e = new LoggedEvent("got food and check");
                 log.add(e);
                 
-                myCheck = calculateBill(canGive);
+//              myCheck = calculateBill(canGive);
                 updateMyFood(canGive);
                 state = customerState.paying;
                 stateChanged();
         }
         
-        public void msgHereIsCarAndCheck(Car car, double check){
+        public void msgHereIsCar(Car car){
         	Do("Got car and check");
         	
         	LoggedEvent e = new LoggedEvent("got car and check");
             log.add(e);
-        	myCheck = check;
+//        	myCheck = check;
 //        	myPerson.myCar = car;
         	state = customerState.paying;
             stateChanged();
