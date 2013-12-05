@@ -87,10 +87,10 @@ public class DCookRole extends Role implements DCook, Cook{
                 grillOccupied.put("Chicken", false);
                 grillOccupied.put("Salad", false);
                 
-                prices.put("Steak", 15.99);
-                prices.put("Chicken", 10.99);
-                prices.put("Salad", 5.99);
-                prices.put("Pizza", 8.99);
+                prices.put("Steak", 10.0);
+                prices.put("Chicken", 7.0);
+                prices.put("Salad", 3.0);
+                prices.put("Pizza", 5.0);
                 
                 waitingForInventory=false;
                 //reOrdering=false;
@@ -226,7 +226,10 @@ public class DCookRole extends Role implements DCook, Cook{
         public void msgHereIsDelivery(List<MFoodOrder> canGive, double check,
                         MarketManager manager, MarketCashier mc) {
                 // TODO Auto-generated method stub
-                delivery.add(new MyDelivery(canGive, check, mc, manager));
+        		MyDelivery dlv = new MyDelivery(canGive, check, mc, manager);
+        		System.out.println("received delivery with bill = "+ dlv.check);
+                delivery.add(dlv);
+                stateChanged();
         }
 
 
@@ -645,7 +648,9 @@ public class DCookRole extends Role implements DCook, Cook{
                         //markets.get(0).msgHereIsAnInventoryOrder(orderToMarket, ORDER_ID, myCashier);
                         //myOrders.add(new InventoryOrder(markets.get(0), 1, billAmnt, ORDER_ID));
                         myMarkets.get(0).msgIAmHere(this, orderToMarket, "DRestaurant", "cook");
-                        myOrders.add(new InventoryOrder(myMarkets.get(0), 1, billAmnt, ORDER_ID));
+                        
+                       myOrders.add(new InventoryOrder(myMarkets.get(0), 1, billAmnt, ORDER_ID));
+                       System.out.println("expecting bill for "+ billAmnt);
                         ORDER_ID++;
                         waitingForInventory=true;
                 }
@@ -718,7 +723,9 @@ public class DCookRole extends Role implements DCook, Cook{
          
                         for(InventoryOrder o: myOrders){
                                 if(d.mmanager==o.market) {
+                                		System.out.println("market found.. order expected = "+ o.billExpected +" .. bill received = "+ d.check);
                                         if(Math.abs(o.billExpected-d.check)<=0.01) {
+                                        		System.out.println("paid bill of "+ o.billExpected);
                                                 myCashier.msgPayThisBill(d.check,d.mcashier);
                                         }
                                         else {
@@ -726,6 +733,7 @@ public class DCookRole extends Role implements DCook, Cook{
                                         }
                         
                                         delivery.remove(d);
+                                        myOrders.remove(o);
                                         if(!RestaurantIsOpen) {
                                                 if(myFood.get("Chicken").getAmount()==initialFoodAmnt && myFood.get("Steak").getAmount()==initialFoodAmnt &&
                                                                 myFood.get("Pizza").getAmount()==initialFoodAmnt && myFood.get("Salad").getAmount()==initialFoodAmnt) {
@@ -734,6 +742,7 @@ public class DCookRole extends Role implements DCook, Cook{
                                                         //System.out.println("ready!");
                                                 }
                                         }
+                                        break; //prevent concurrent mod error
                                 }
                         }
                 }
