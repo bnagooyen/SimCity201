@@ -10,12 +10,17 @@ public class Building {
 	Color color;
 	String ID;
 	boolean isActive;
+	String busStop;
 	public Building(int x, int y, Color c, String name) {
 		rectangle = new Rectangle(x, y, 30, 35);
 		this.x=x;
 		this.y=y;
 		color = c;
 		this.name=name;
+	}
+	
+	public void setBusStop(String bs){
+		busStop = bs;
 	}
 	
 	public boolean contains(int x, int y) {
