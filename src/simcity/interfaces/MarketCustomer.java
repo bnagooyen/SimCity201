@@ -13,10 +13,10 @@ public interface MarketCustomer {
 	
 	public void msgHereIsOrder(List<MFoodOrder> canGive);
 	
-	public void msgHereIsOrderCheck(List<MFoodOrder> canGive, double check);
+	public void msgHereIsOrderAndCheck(List<MFoodOrder> canGive, double check);
 
 	public void msgMarketClosed();
 
-	public void msgHereIsCarCheck(Car car, double check);
+	public void msgHereIsCarAndCheck(Car car, double check);
 
 }

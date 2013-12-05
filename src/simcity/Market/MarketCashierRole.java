@@ -68,9 +68,9 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		stateChanged();
 	}
 	
-	public void msgOrder(Cook cook, List<MFoodOrder> foods, String building){
+	public void msgOrder(Cook cook, List<MFoodOrder> foods, String building, RestaurantCashier cashier){
 		Do("Received an order");
-		orders.add(new MOrder(foods, building, cook, orderState.pending));
+		orders.add(new MOrder(foods, building, cook, orderState.pending, cashier));
 		stateChanged();
 	}
 	
@@ -162,13 +162,13 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		if(o.building.equals("")){
 			//Customer is at the market
 			DoGiveFood();
-			o.c.msgHereIsOrderAndCheck(o.canGive);
+			o.c.msgHereIsOrderAndCheck(o.canGive, check);
 			//msg rest cashier
 		}
 		else if(o.cook == null){
 			//phone order from customer
 			o.c.msgHereIsOrder(o.canGive);
-			//msg rest cashier
+			o.cashier.msgBillFromMarket(check, this);
 		}
 		else if(o.foodsNeeded == null){
 			o.c.msgHereIsCarAndCheck(o.car, check);

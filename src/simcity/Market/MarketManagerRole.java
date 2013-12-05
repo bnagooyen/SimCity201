@@ -18,6 +18,7 @@ import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
+import simcity.interfaces.RestaurantCashier;
 import simcity.Market.gui.MManagerGui;
 //import simcity.PersonAgent.EnergyState;
 //import simcity.PersonAgent.LocationState;
@@ -91,13 +92,13 @@ public class MarketManagerRole extends Role implements MarketManager{
 		stateChanged();
 	}
 	
-	public void msgIAmHere(Role r, List<MFoodOrder>need, String building, String type){
+	public void msgIAmHere(Role r, List<MFoodOrder>need, String building, String type, RestaurantCashier cashier){
 		LoggedEvent e = new LoggedEvent("Received msgIAmHere.");
 		log.add(e);
 		
 		Do("Cook is here");
 		if(type.equals("cook")) {
-			customers.add(new MyCustomer(r, need, building, "cook"));
+			customers.add(new MyCustomer(r, need, building, "cook", cashier));
 		}
 		stateChanged();
 	}
@@ -243,7 +244,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 			((MarketCustomer) c.c).msgGoToCashier((MarketCashier) mc.c);
 		}
 		else { // type must be cook
-			mc.c.msgOrder((Cook)c.c, c.need, c.building);
+			mc.c.msgOrder((Cook)c.c, c.need, c.building,c.cashier);
 //			((Cook) c.c).msgGoToCashier((MarketCashier) mc.c);
 
 		}
@@ -315,6 +316,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		String type;
 		List<MFoodOrder>need;
 		String building;
+		public RestaurantCashier cashier;
 		
 		MyCustomer(Role r, String s){
 			c = r;
@@ -322,12 +324,13 @@ public class MarketManagerRole extends Role implements MarketManager{
 			waiting = true;
 		}
 		
-		MyCustomer(Role r, List<MFoodOrder>n, String b, String s){
+		MyCustomer(Role r, List<MFoodOrder>n, String b, String s, RestaurantCashier cash){
 			c = r;
 			type = s;
 			waiting = true;
 			need = n;
 			building = b;
+			cashier = cash;
 		}
 
 	}
