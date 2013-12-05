@@ -13,7 +13,7 @@ public interface MarketManager {
 	public abstract void msgTimeUpdate(int hour);
 	
 	public abstract void msgIAmHere(Role r, String type);
-	public abstract void msgIAmHere(Role r, List<MFoodOrder>need, String building, String type);
+	public abstract void msgIAmHere(Role r, List<MFoodOrder>need, String building, String type, RestaurantCashier cashier);
 	
 	public abstract void msgCustomerDone(MarketCashier mc, Role r);
 	public abstract void msgHereIsMoney(double money);
