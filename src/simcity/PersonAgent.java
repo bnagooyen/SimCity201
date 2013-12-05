@@ -25,6 +25,8 @@ public class PersonAgent extends Agent {
 	public int hungerLevel;
 	enum PersonState { doingNothing, gotHungry, atRestaurant };
 	enum LocationState {atHome, atRestaurant};
+	enum TravelPreference {walk, bus, car};
+	TravelPreference myTravelPreference;
 	private LocationState myLocation;
 	private PersonState state;
 	//private final int NUM_MARKETS = 3;
@@ -53,11 +55,24 @@ public class PersonAgent extends Agent {
 		hungerLevel=70;
 		myLocation=LocationState.atHome;
 		//address="House 1";
+		myTravelPreference=TravelPreference.walk;
 	}
 	
 	public void SetHomeAddress(String ad) {
 		homeAddress=ad;
 		//System.err.println("home address added ... "+ homeAddress);
+	}
+
+	public void SetTravelPreference(String choice) {
+		if (choice.equals("Walk")) {
+			myTravelPreference=TravelPreference.walk;
+		}
+		else if (choice.equals("Bus")) {
+			myTravelPreference=TravelPreference.bus;
+		}
+		else if (choice.equals("Car")) {
+			myTravelPreference=TravelPreference.car;
+		}
 	}
 	
 	public void addCustomerRoles(Role r) {

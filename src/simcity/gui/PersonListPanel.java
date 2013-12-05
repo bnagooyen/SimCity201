@@ -28,12 +28,11 @@ public class PersonListPanel extends JPanel implements ActionListener {
     private JTextField myPerson = new JTextField(); 
     private JTextField myPersonMoneyVal = new JTextField(); 
     private JComboBox roleSelection = new JComboBox();
+    private ArrayList<JComboBox> switchRoles = new ArrayList<JComboBox>();
     private JComboBox scenarioSelection = new JComboBox();
     private JComboBox houseOrApt = new JComboBox();
-    private SimCityPanel simcityPanel;
     private String type;
-    private Object currentPerson;/* Holds the agent that the info is about.
-	Seems like a hack */
+   
 
     /**
      * Constructor for ListPanel.  Sets up all the gui
@@ -77,10 +76,17 @@ public class PersonListPanel extends JPanel implements ActionListener {
         myPerson.setPreferredSize(new Dimension(100,24));
         myPersonMoneyVal.setPreferredSize(new Dimension(40,24)); 
         Dimension dim2 = new Dimension(100, 24);
+
         roleSelection.setPreferredSize(dim2);
         
+        
       	roleSelection.addItem("Role..");
-    	roleSelection.addItem("Restaurant Waiter");
+    	roleSelection.addItem("Visitor_Bus");
+    	roleSelection.addItem("Visitor_Walk");
+    	roleSelection.addItem("Visitor_Car");
+    	
+
+    	
 //    	roleSelection.addItem("Market Inventory");
 //    	roleSelection.addItem("Bank Robber");
     	
@@ -105,7 +111,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
     	  
     	
 //        
-        Dimension dim = new Dimension(250, 150);
+        Dimension dim = new Dimension(300, 200);
         pane.setSize(dim);
         pane.setPreferredSize(pane.getSize());
         pane.setMinimumSize(pane.getSize());
@@ -216,7 +222,15 @@ public class PersonListPanel extends JPanel implements ActionListener {
             JLabel button = new JLabel(name, SwingConstants.CENTER);
 //            System.err.println("addPerson");
             button.setBorder(BorderFactory.createLineBorder(Color.black));
-
+            adding.setBorder(BorderFactory.createLineBorder(Color.black));
+            JComboBox switchRole = new JComboBox();
+            Dimension dim3 = new Dimension(120, 24);
+            switchRole.setPreferredSize(dim3);
+        	switchRole.addItem("Visitor_Bus");
+        	switchRole.addItem("Visitor_Walk");
+        	switchRole.addItem("Visitor_Car");
+        	switchRole.addActionListener(this);
+        	switchRoles.add(switchRole);
 
 	        pplList.add(button);
 	           
@@ -225,7 +239,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
             button.setBackground(Color.white);
 
             Dimension paneSize = pane.getSize();
-            Dimension buttonSize = new Dimension(paneSize.width - 50,
+            Dimension buttonSize = new Dimension(paneSize.width - 150,
                     40);
             button.setPreferredSize(buttonSize);
             button.setMinimumSize(buttonSize);
@@ -236,6 +250,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
             pplList.add(button);
             
             adding.add(button, BorderLayout.CENTER);
+            adding.add(switchRole, BorderLayout.EAST);
             view.add(adding);
             //simcityPanel.addPerson(name, role, moneyVal, houseOrApt);//puts customer on list
             gui.restPanel.addPerson("Person", name, moneyVal, role, houseOrApt);
