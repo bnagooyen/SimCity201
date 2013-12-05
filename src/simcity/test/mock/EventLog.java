@@ -1,6 +1,7 @@
 package simcity.test.mock;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This class should be used by Mock agents to log significant events. For
@@ -84,7 +85,6 @@ public class EventLog {
 		return events.getLast();
 	}
 
-	@Override
 	public String toString() {
 		StringBuilder text = new StringBuilder();
 		String newLine = System.getProperty("line.separator");

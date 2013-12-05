@@ -1,0 +1,165 @@
+package simcity.test;
+
+import simcity.PersonAgent;
+import simcity.Market.MFoodOrder;
+import simcity.Market.MarketCustomerRole;
+import simcity.Market.MarketCustomerRole.customerState;
+import simcity.Market.gui.MCustomerGui;
+import simcity.test.mock.MockCar;
+import simcity.test.mock.MockMarketCashier;
+import simcity.test.mock.MockMarketManager;
+import junit.framework.TestCase;
+
+public class MarketCustomerTest extends TestCase{
+	
+	PersonAgent p;
+	MarketCustomerRole c;
+	MockMarketCashier mc;
+	MockMarketManager manager;
+	MCustomerGui cgui;
+	MockCar car; 
+	
+	public void setUp() throws Exception {
+		super.setUp();
+		p = new PersonAgent("customer");
+		c = new MarketCustomerRole();
+		c.myPerson = p;
+		mc = new MockMarketCashier("mockMarketCashier");
+		manager = new MockMarketManager("mockManager");
+		cgui = new MCustomerGui(c);
+		c.setGui(cgui);
+		car = new MockCar("mockCar");
+	}
+	
+	public void testOrderFood() {
+		manager.mc = mc;
+		mc.m = manager;
+		c.setMarketManager(manager);
+		manager.open = true;
+		c.purpose = "food";
+		
+		// preconditions
+        assertEquals("MarketCustomer should have an empty event log. Instead, the customer's event log reads: " + c.log.toString(), c.log.size(), 0);
+        assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
+        assertEquals("MockMarketManager should have an empty event log. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 0);
+        assertEquals("MarketCustomer's myCheck should be zero but isn't", c.getMyCheck(), 0.0);
+        
+        // populate customer's order list
+        c.order.add(new MFoodOrder("Steak", 3));
+        c.order.add(new MFoodOrder("Pizza", 2));
+        c.order.add(new MFoodOrder("Chicken", 4));
+        assertEquals("MarketCustomer's order list should be size 3 but isn't", c.order.size(), 3);
+        assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
+        assertEquals("MockMarketManager should have an empty event log. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 0);
+        
+		// have customer go talk to manager
+        
+		c.pickAndExecuteAnAction();
+		assertTrue("MarketCustomer should tell manager he's here but didn't", c.log.containsString("telling manager I'm here"));
+		assertTrue("MockManager should get customer's msg but didn't", manager.log.containsString("got customer's message"));
+		c.msgGoToCashier(mc);
+		assertTrue("MarketCustomer should get msg to go to cashier but didn't", c.log.containsString("told to go to cashier"));
+        assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
+        assertEquals("MockMarketManager shouldn't have gotten a new loggedEvent. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 1);
+
+		// have customer talk to cashier
+        c.msgAtCashier();
+        c.msgGoToCashier(mc);
+		c.pickAndExecuteAnAction();
+		assertTrue("MarketCustomer should tell cashier his order but didn't", c.log.containsString("telling cashier my order"));
+		assertTrue("MockMarketCashier should have gotten order but didn't", mc.log.containsString("got customer's order"));
+		assertTrue("MarketCustomer should get order but didn't", c.log.containsString("got food and check"));
+        assertEquals("MockMarketManager shouldn't have gotten a new loggedEvent. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 1);
+
+		// have customer pay check
+		c.pickAndExecuteAnAction();
+		assertTrue("MarketCustomer should pay cashier but didn't", c.log.containsString("paying check"));
+		assertTrue("MockMarketCashier should have gotten payment but didn't", mc.log.containsString("received payment"));
+        assertEquals("MockMarketManager shouldn't have gotten a new loggedEvent. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 1);
+
+		// postconditions
+		assertTrue("Customer shouldn't be active anymore but is", c.isActive == false);
+		assertTrue("Customer's state should be done",c.state == customerState.done);
+        assertEquals("customer's scheduler should return false but doesn't", c.pickAndExecuteAnAction(), false);
+        assertEquals("MockMarketManager shouldn't have gotten a new loggedEvent. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 1);
+
+	}
+	
+	public void testMarketClosed() {
+		c.setMarketManager(manager);
+		assertEquals("MarketCustomer should have an empty event log. Instead, the customer's event log reads: " + c.log.toString(), c.log.size(), 0);
+        assertEquals("MockMarketManager should have an empty event log. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 0);
+        assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
+
+        
+        // have customer go talk to manager
+        c.pickAndExecuteAnAction();
+     	assertTrue("MarketCustomer should tell manager he's here but didn't", c.log.containsString("telling manager I'm here"));
+     	assertTrue("MockManager should get customer's msg but didn't", manager.log.containsString("got customer's message"));
+     	c.msgMarketClosed();
+     	assertTrue("MarketCustomer should get msg market is closed but didn't", c.log.containsString("told market is closed"));
+        assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
+     	
+     	// make sure customer leaves
+        c.msgMarketClosed();
+        c.pickAndExecuteAnAction();
+     	assertTrue("MarketCustomer should leave but didn't", c.log.containsString("leaving market"));
+        assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
+        assertEquals("MockMarketManager shouldn't have gotten a new logged event. Instead, the MockMarketCashier's event log reads: " + manager.log.toString(), manager.log.size(), 1);
+
+     	
+     	// check postconditions
+     	assertTrue("Customer shouldn't be active anymore but is", c.isActive == false);
+		assertTrue("Customer's state should be done",c.state == customerState.done);
+        assertEquals("customer's scheduler should return false but doesn't", c.pickAndExecuteAnAction(), false);
+        assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
+
+	}
+	
+	public void testOrderCar(){
+		manager.mc = mc;
+		mc.m = manager;
+		c.setMarketManager(manager);
+		manager.open = true;
+		c.purpose = "car";
+		
+		// preconditions
+        assertEquals("MarketCustomer should have an empty event log. Instead, the customer's event log reads: " + c.log.toString(), c.log.size(), 0);
+        assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
+        assertEquals("MockMarketManager should have an empty event log. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 0);
+        assertEquals("MarketCustomer's myCheck should be zero but isn't", c.getMyCheck(), 0.0);
+        
+		// have customer go talk to manager
+		c.pickAndExecuteAnAction();
+		assertTrue("MarketCustomer should tell manager he's here but didn't", c.log.containsString("telling manager I'm here"));
+		assertTrue("MockManager should get customer's msg but didn't", manager.log.containsString("got customer's message"));
+		c.msgGoToCashier(mc);
+		assertTrue("MarketCustomer should get msg to go to cashier but didn't", c.log.containsString("told to go to cashier"));
+        assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
+        assertEquals("MockMarketManager shouldn't have gotten a new loggedEvent. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 1);
+
+		// have customer talk to cashier
+        c.msgAtCashier();
+        c.msgGoToCashier(mc);
+		c.pickAndExecuteAnAction();
+		assertTrue("MarketCustomer should tell cashier his order but didn't", c.log.containsString("telling cashier my car order"));
+		assertTrue("MockMarketCashier should have gotten order but didn't", mc.log.containsString("got customer's car order"));
+		
+		c.msgHereIsCarAndCheck(car, 1000.0);
+		assertTrue("MarketCustomer should get order but didn't", c.log.containsString("got car and check"));
+        assertEquals("MockMarketManager shouldn't have gotten a new loggedEvent. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 1);
+
+		// have customer pay check
+		c.pickAndExecuteAnAction();
+		assertTrue("MarketCustomer should pay cashier but didn't", c.log.containsString("paying check"));
+		assertTrue("MockMarketCashier should have gotten payment but didn't", mc.log.containsString("received payment"));
+        assertEquals("MockMarketManager shouldn't have gotten a new loggedEvent. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 1);
+
+		// postconditions
+		assertTrue("Customer shouldn't be active anymore but is", c.isActive == false);
+		assertTrue("Customer's state should be done",c.state == customerState.done);
+        assertEquals("customer's scheduler should return false but doesn't", c.pickAndExecuteAnAction(), false);
+        assertEquals("MockMarketManager shouldn't have gotten a new loggedEvent. Instead, the MockMarketManager's event log reads: " + manager.log.toString(), manager.log.size(), 1);
+
+	}
+}

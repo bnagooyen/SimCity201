@@ -1,17 +1,18 @@
 package simcity.test.mock;
 
 
-import simcity.interfaces.DCashier;
-import simcity.interfaces.DCustomer;
-import simcity.DMenu;
-import simcity.DWaiterRole;
+import simcity.DRestaurant.DMenu;
+import simcity.DRestaurant.DWaiterRole;
+import simcity.interfaces.Landlord;
+import simcity.restaurant.interfaces.Cashier;
+import simcity.restaurant.interfaces.Customer;
 
-public class MockCustomer extends Mock implements DCustomer {
+public class MockCustomer extends Mock implements Customer {
 
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.
 	 */
-	public DCashier cashier;
+	public Cashier cashier;
 	public EventLog log = new EventLog();
 	public double Wallet;
 	public double Debt;
@@ -63,11 +64,11 @@ public class MockCustomer extends Mock implements DCustomer {
 	}
 	*/
 
-//	@Override
-////	public void gotHungry() {
-////		// TODO Auto-generated method stub
-////		log.add(new LoggedEvent("Received msggotHungry"));
-////	}
+	@Override
+	public void gotHungry() {
+		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Received msggotHungry"));
+	}
 
 	@Override
 	public void msgNoRoomForYou() {
@@ -139,11 +140,6 @@ public class MockCustomer extends Mock implements DCustomer {
 	public void msgYourTableIsReady() {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgYourTableIsReady"));
-	}
-	@Override
-	public void ActivateRole() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

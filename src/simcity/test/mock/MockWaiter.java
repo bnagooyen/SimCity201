@@ -1,11 +1,13 @@
 package simcity.test.mock;
 
-import simcity.interfaces.DWaiter;
-import simcity.DCheck;
-import simcity.DCustomerRole;
-import simcity.DOrder;
+import java.util.List;
 
-public class MockWaiter extends Mock implements DWaiter {
+import simcity.DRestaurant.DCheck;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DOrder;
+import simcity.restaurant.interfaces.Waiter;
+
+public class MockWaiter extends Mock implements Waiter {
 	private String name;
 	public EventLog log = new EventLog();
 	public MockWaiter(String name) {

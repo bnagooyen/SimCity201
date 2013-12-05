@@ -46,7 +46,6 @@ public class LoggedEvent {
 		return message;
 	}
 
-	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(DateFormat.getTimeInstance().format(timestamp));
