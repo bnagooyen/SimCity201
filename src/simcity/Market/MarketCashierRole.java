@@ -162,7 +162,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		if(o.building.equals("")){
 			//Customer is at the market
 			DoGiveFood();
-			o.c.msgHereIsOrder(o.canGive);
+			o.c.msgHereIsOrderAndCheck(o.canGive);
 			//msg rest cashier
 		}
 		else if(o.cook == null){
@@ -171,8 +171,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 			//msg rest cashier
 		}
 		else if(o.foodsNeeded == null){
-			o.c.msgHereIsCar(o.car);
-			//msg rest cashier
+			o.c.msgHereIsCarAndCheck(o.car, check);
 		}
 		else{
 			//phone order from cook
