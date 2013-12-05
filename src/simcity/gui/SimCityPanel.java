@@ -212,39 +212,6 @@ public class SimCityPanel extends JPanel {
         cashierPerson.startThread();
         
         
-        //waiter.startThread();
-       // host.startThread();
-
-        
-        //cook.msgAddWaiter(waiter);
-        
-        //waiter.msgAddCook(cook);
-        //waiter.msgAddHost(host);
-        //need to loop this once have multiple
-        
-        
-       // gui.animationPanel.addGui(waiterGui);
-        
-        //setLayout(new GridLayout(1,3));
-        //group.setLayout(new GridLayout(1, 2));
-
-        //add(customerPanel);
-        //add(waiterPanel);
-
-        //initRestLabel();
-       // add(restLabel);
-        
-        //add markets and start their threads
-//        for(int i=1; i<=numMarkets; i++) {
-//        	DMarketAgent myMarket = new DMarketAgent(i);
-//        	cook.msgAddMarket(myMarket);
-//        	myMarket.msgAddCook(cook);
-//        	host.addCook(cook);
-//        	markets.add(myMarket);
-//        	myMarket.startThread();
-//        }
-        
-        
         
         //need this for checking if kitchen has enough food
         cookGui= new DCookGui(cook, gui);
@@ -356,86 +323,7 @@ public class SimCityPanel extends JPanel {
         return new Object();
     }
 
-//    public void msgTogglePause() {
-//    	if(host.isPaused) {
-//    		host.isPaused=false;
-//    		host.Restart();
-//    	}
-//    	else host.isPaused=true;
-//    	for(WaiterRole waiter: waiters) {
-//	    	if(waiter.isPaused) {
-//	    		waiter.isPaused=false;
-//	    		waiter.Restart();
-//	    	}
-//	    	else waiter.isPaused=true;
-//    	}
-//    	for(CustomerRole customer: customers) {
-//    		if(customer.isPaused) {
-//    			customer.isPaused=false;
-//    			customer.Restart();
-//    		}
-//    		else customer.isPaused=true;
-//    	}
-//    	
-//    	if(cook.isPaused) {
-//    		cook.isPaused=false;
-//    		cook.Restart();
-//    	}
-//    	else cook.isPaused=true;
-//    }
-    /*
-     *         if(e.getSource()==kitchenThresholdInc) {
-        	restPanel.msgIncreaseKitchenThreshold();
-        }
-        if(e.getSource()==kitchenThresholdDec) {
-        	restPanel.msgDecreaseKitchenThreshold();
-        }
-        if(e.getSource()==kitchenAmntInc) {
-        	restPanel.msgIncreaseKitchenAmount();
-        }
-        if(e.getSource()==kitchenAmountDec) {
-        	restPanel.msgDecreaseKitchenAmount();
-        }
-        if(e.getSource()==marketAmntInc) {
-        	restPanel.msgIncreaseMarketAmount();
-        }
-        if(e.getSource()==kitchenAmountDec) {
-        	restPanel.msgDecreaseMarketAmount();
-        }
-     * 
-     */
-//    
-//    public void msgInventoryValsSet() {
-//    	cook.msgCheckInventoryValsForOpen();
-//    }
-//    
-//    public void msgIncreaseKitchenThreshold() {
-//    	cook.msgIncKitchenThreshold();
-//    }
-//    
-//    public void msgDecreaseKitchenThreshold() {
-//    	cook.msgDecKitchenThreshold();
-//    }
-//    
-//    public void msgIncreaseKitchenAmount() {
-//    	cook.msgIncKitchenAmnt();
-//    }
-//    
-//    public void msgDecreaseKitchenAmount() {
-//    	cook.msgDecKitchenAmnt();
-//    }
-//    public void msgIncreaseMarketAmount() {
-//    	for(MarketAgent market: markets) {
-//    		market.msgIncMarketAmnt();
-//    	}
-//    }
-//    
-//    public void msgDecreaseMarketAmount() {
-//    	for(MarketAgent market: markets) {
-//    		market.msgDecMarketAmnt();
-//    	}
-//    }
-    
+
     /**
      * Adds a customer or waiter to the appropriate list
      *
@@ -534,30 +422,6 @@ public class SimCityPanel extends JPanel {
     		people.add(p);
     	}
     }
-    
-//    public void setCustomerEnabled(String name, double val) {
-//    	
-//    	for(CustomerRole c: customers) {
-//    		if(c.getText()==name) {
-//    			String s[] = name.split(", ");
-//    			String temp = s[0].trim()+", "+ String.valueOf(val)+ ", "+ s[2].trim()+", "+s[3].trim();
-//    			c.setText(temp);
-//    			customerPanel.setCustomerEnabled(name, temp);
-//    		}
-//    	}
-//    	
-//    }
-//    
-//    public void setWaiterEnabled(String name) {
-//    	waiterPanel.setWaiterEnabled(name);
-//    }
-//    
-//    public void setWaiterDisabled(String name) {
-//    	waiterPanel.setWaiterDisabled(name);
-//    }
-//    
-//    public void setWaiterToBreak(String name) {
-//    	waiterPanel.setWaiterToBreak(name);
-//    }
+
 
 }
