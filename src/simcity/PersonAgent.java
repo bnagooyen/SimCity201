@@ -21,7 +21,14 @@ import java.util.concurrent.Semaphore;
 public class PersonAgent extends Agent {
 
 	Timer timer = new Timer();
+	
 	private String name;
+	Role myJob;
+    List<Role> roles= new ArrayList<Role>();
+    public double money=0;
+	public String homeAddress;
+	
+	//States
 	public int hungerLevel;
 	enum PersonState { doingNothing, gotHungry, atRestaurant };
 	enum LocationState {atHome, atRestaurant};
@@ -30,23 +37,25 @@ public class PersonAgent extends Agent {
 	private LocationState myLocation;
 	private PersonState state;
 	//private final int NUM_MARKETS = 3;
-    Semaphore atRestaurant = new Semaphore(0, true);
+    
+	//GUI
+	Semaphore atRestaurant = new Semaphore(0, true);
     Semaphore atLocation = new Semaphore(0, true);
+    
     //home semaphores
 	private Semaphore atFridge = new Semaphore(0,true);
 	private Semaphore atGrill = new Semaphore(0,true);
     public PersonGui PersonGui = null;
     public ResidentGui residentGui = null; 
 	public TenantGui tenantGui = null;
-    Role myJob;
-    List<Role> roles= new ArrayList<Role>();
-    public double money=0;
-	public String homeAddress;
+
 	
-	
+	//Hacks for testing
 	public boolean marketTime = false;
 	public boolean bankTime=false;
 	
+	
+	//Constructor
 	public PersonAgent(String name) {
 		super();
 		
@@ -57,58 +66,11 @@ public class PersonAgent extends Agent {
 		//address="House 1";
 		myTravelPreference=TravelPreference.walk;
 	}
-	
-	public void SetHomeAddress(String ad) {
-		homeAddress=ad;
-		//System.err.println("home address added ... "+ homeAddress);
-	}
-
-	public void SetTravelPreference(String choice) {
-		if (choice.equals("Walk")) {
-			myTravelPreference=TravelPreference.walk;
-		}
-		else if (choice.equals("Bus")) {
-			myTravelPreference=TravelPreference.bus;
-		}
-		else if (choice.equals("Car")) {
-			myTravelPreference=TravelPreference.car;
-		}
-	}
-	
-	public void addCustomerRoles(Role r) {
-		//for (Role r: roles) {
-			r.myPerson=this;
-			roles.add(r);
-		//}
-	}
-	
-	public void setMoney(double money) {
-		this.money=money;
-	}
-
-	public void SetJob(Role job) {
-		myJob=job;
-		roles.add(myJob);
-		myJob.isActive=true;
-	}
-
-	// The animation DoXYZ() routines
-	
-
-
-	@Override
-	public String getName() {
-		return name;
-	}
 
 	// Messages
-
-//	public void gotHungry() {//from animation
-//		print("I'm hungry");
-//		state = PersonState.gotHungry; //event is the state change
-//		stateChanged();
-//	}
 	
+	
+	//Animation Messages
 	public void msgAnimationArivedAtRestaurant() {
 		atRestaurant.release();
 		stateChanged();
@@ -127,36 +89,13 @@ public class PersonAgent extends Agent {
 //		atLocation.release();
 //		stateChanged();
 //	}
-	//utilities
 
-	public void setGui(PersonGui gui) {
-		PersonGui = gui;
-	}
-	
-	public void setGui(ResidentGui pg) {
-		residentGui = pg; 
-	}
-	
-	public void setGui(TenantGui pg) {
-		tenantGui = pg; 
-	}
-
-	
-	public PersonGui getGui() {
-		return PersonGui;
-	}
 	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	@Override
 	protected boolean pickAndExecuteAnAction() {
-		/* Think of this next rule as:
-            Does there exist a table and customer,
-            so that table is unoccupied and customer is waiting.
-            If so seat him at the table.
-		 */
-		//System.err.println("aaah");
 
 //		if(state==PersonState.gotHungry) {
 //			GoToRestaurant();
@@ -303,7 +242,69 @@ public class PersonAgent extends Agent {
 	private void DoGoTo(String dest) {
 		PersonGui.DoGoTo(dest);
 	}
+	
+	
+	
+	//Getters & Setters
+	public void SetHomeAddress(String ad) {
+		homeAddress=ad;
+		//System.err.println("home address added ... "+ homeAddress);
+	}
+
+	public void SetTravelPreference(String choice) {
+		if (choice.equals("Walk")) {
+			myTravelPreference=TravelPreference.walk;
+		}
+		else if (choice.equals("Bus")) {
+			myTravelPreference=TravelPreference.bus;
+		}
+		else if (choice.equals("Car")) {
+			myTravelPreference=TravelPreference.car;
+		}
+	}
+	
+	public void addCustomerRoles(Role r) {
+		//for (Role r: roles) {
+			r.myPerson=this;
+			roles.add(r);
+		//}
+	}
+	
+	public void setMoney(double money) {
+		this.money=money;
+	}
+
+	public void SetJob(Role job) {
+		myJob=job;
+		roles.add(myJob);
+		myJob.isActive=true;
+	}
 		
+	@Override
+	public String getName() {
+		return name;
+	}
+	
+	
+	//utilities
+
+	public void setGui(PersonGui gui) {
+		PersonGui = gui;
+	}
+	
+	public void setGui(ResidentGui pg) {
+		residentGui = pg; 
+	}
+	
+	public void setGui(TenantGui pg) {
+		tenantGui = pg; 
+	}
+
+	
+	public PersonGui getGui() {
+		return PersonGui;
+	}
+
 		
 }
 
