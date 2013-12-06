@@ -10,6 +10,7 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.Bank.gui.BankCustomerGui;
 import simcity.Bank.gui.BankManagerGui;
+import simcity.PersonAgent.MoneyState;
 import simcity.gui.SimCityGui;
 import simcity.interfaces.BankCustomer;
 import simcity.interfaces.BankLoanOfficer;
@@ -63,6 +64,13 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		Do("Denied loan");
 		state=bankCustomerState.done;
 		stateChanged();
+	}
+	
+	public void msgBalance(Double Balance){
+		Do("Got my balance");
+		if(Balance<1.0) myPerson.moneystate=MoneyState.poor;
+		else if(Balance>1000) myPerson.moneystate=MoneyState.rich;
+		else myPerson.moneystate=MoneyState.middle;
 	}
 	
 	public void msgAccountMade(int AN){
@@ -164,33 +172,34 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	private void requestLoan(){
 		Do("Requesting for loan");
-		loanOfficer.msgINeedALoan(this, accountNum, 1000, "waiter"/*myPerson.job*/);		//Need a way to decide how much $$ to request  
+		String job=jobString();
+		loanOfficer.msgINeedALoan(this, accountNum, 1000, job);		//Need a way to decide how much $$ to request  
 		state=bankCustomerState.inProgress;
+	}
+	
+	private String jobString(){
+		if(myPerson.jobLocation.contains("restaurant")) return "waiter";
+		else if(myPerson.jobLocation.contains("Bank")) return "bankteller";
+		else return "";
 	}
 	
 	private void makeTransaction(){
 		Do("Making a transaction");
 		
 		//HACK TO TEST
-		if(myPerson.money>150){
-			teller.msgDeposit(this, accountNum, myPerson.money-150);
-		}
-		if(myPerson.money<50){
-			teller.msgWithdrawal(this, accountNum, 50-myPerson.money);
-		}
-		
-		
-		/*if(myPerson.money>myPerson.depositThreshold){
+		if(myPerson.money>myPerson.depositThreshold){
 			teller.msgDeposit(this, accountNum, myPerson.money-myPerson.depositThreshold);
 		}
 		if(myPerson.money<myPerson.withdrawalThreshold){
 			teller.msgWithdrawal(this, accountNum, myPerson.withdrawalThreshold-myPerson.money);
-		}*/
+		}
+		
 		state=bankCustomerState.inProgress;
 	}
 	
 	private void leaveBank(){
 		Do("Leaving bank with $"+myPerson.money);
+		manager.msgCheckBalance(this, accountNum);
 		bankcustomerGui.DoExitBank();
 		state=bankCustomerState.exiting;
 	}

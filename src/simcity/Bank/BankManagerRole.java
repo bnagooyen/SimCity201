@@ -51,6 +51,8 @@ public class BankManagerRole extends Role implements BankManager {
 	//public List<MyClient> clients = Collections.synchronizedList(new ArrayList<MyClient>()); 
 	public Map<Integer, MyAccount> accounts = new HashMap<Integer, MyAccount>();
 	int hour;
+	int checkAccount;
+	BankCustomerRole accountCheckCust;
 	private boolean bankIsOpen;
 	public enum BankState {open, closed, arriving, newDay};
 	BankState bankState;
@@ -77,7 +79,7 @@ public class BankManagerRole extends Role implements BankManager {
 		officers.clear();
 		tellers.clear();
 		customers.clear();
-		
+		checkAccount=0;
 	}
 
 	
@@ -86,6 +88,12 @@ public class BankManagerRole extends Role implements BankManager {
 	public void msgTimeUpdate(int hr) {
 		hour=hr;
 		if(hr==1) bankState=BankState.arriving;
+		stateChanged();
+	}
+	
+	public void msgCheckBalance(BankCustomerRole c, int AN){
+		checkAccount=AN;
+		accountCheckCust=c;
 		stateChanged();
 	}
 	
@@ -224,6 +232,13 @@ public class BankManagerRole extends Role implements BankManager {
 		
 		if(tellers.size()==1 && tellers.get(0).state==MyTellerState.justArrived) {
 			AddTeller();
+			return true;
+		}
+		
+		if(accountCheckCust!=null){
+			accountCheckCust.msgBalance(accounts.get(checkAccount).balance);
+			accountCheckCust=null;
+			checkAccount=0;
 			return true;
 		}
 		

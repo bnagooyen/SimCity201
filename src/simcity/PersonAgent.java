@@ -35,10 +35,12 @@ public class PersonAgent extends Agent {
 	public int hungerLevel;
 	enum PersonState { doingNothing, atRestaurant, workTime, tired, asleep, dead };
 	enum LocationState {atHome, atRestaurant, atBank, atWork};
+	public enum MoneyState {poor, middle, rich};
 	enum TravelPreference {walk, bus, car};
 	TravelPreference myTravelPreference;
 	private LocationState myLocation;
 	private PersonState state;
+	public MoneyState moneystate;
 
 	
 	//GUI
@@ -55,6 +57,10 @@ public class PersonAgent extends Agent {
 	public TenantGui tenantGui = null;
 
 	
+	//Bank Constants
+	public double depositThreshold=150.00;
+	public double withdrawalThreshold=50;
+	
 	//Hacks for testing
 	public boolean marketTime = false;
 	public boolean bankTime=false;
@@ -68,6 +74,7 @@ public class PersonAgent extends Agent {
 		state=PersonState.doingNothing;
 		hungerLevel=70;
 		myLocation=LocationState.atHome;
+		moneystate=MoneyState.poor;
 		//address="House 1";
 		myTravelPreference=TravelPreference.walk;
         BankChoice="Bank "+ Integer.toString(generator.nextInt(1)+1);        //CHANGE RANDOM TO 2 TO HAVE people go to both banks
@@ -130,7 +137,6 @@ public class PersonAgent extends Agent {
 	 */
 	@Override
 	protected boolean pickAndExecuteAnAction() {
-
 		
 		if(state==PersonState.asleep||state==PersonState.dead){
 			return false;
@@ -152,10 +158,10 @@ public class PersonAgent extends Agent {
 			return true;
 		}
 		
-		if(bankTime){
+		/*if(bankTime){
 			GoToBank();
 			return true;
-		}	
+		}*/	
 	/******************************************************/
 		
 		if (state==PersonState.tired){
@@ -180,6 +186,13 @@ public class PersonAgent extends Agent {
 			return true;
 		}
 		
+		
+		if(money>depositThreshold||(money<withdrawalThreshold && moneystate!=MoneyState.poor)||(moneystate==MoneyState.rich)){
+			GoToBank();
+			return true;
+		}
+
+		
 		if(!(myLocation==LocationState.atHome)) {
 			GoHome();
 			return true;
@@ -197,7 +210,7 @@ public class PersonAgent extends Agent {
 	//ACTIONS
 	private void EatAtHome() {
 		Do("Eating at Home");
-		if(myLocation!=LocationState.atHome) DoGoTo(homeAddress);
+		/*if(myLocation!=LocationState.atHome)*/ DoGoTo(homeAddress);
 		try {
 			atRestaurant.acquire();
 		} catch (InterruptedException e) {
@@ -298,7 +311,9 @@ public class PersonAgent extends Agent {
 		for(Role r: roles) {
 			if(r instanceof BankCustomerRole) {
 				r.isActive = true;
-				r.purpose="withdraw";
+				if(money>depositThreshold) r.purpose="deposit";
+				else if(money<withdrawalThreshold) r.purpose="withdraw";
+				else r.purpose="loan";
 			}
 		}
 		stateChanged();
