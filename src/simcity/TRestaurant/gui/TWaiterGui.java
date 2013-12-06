@@ -1,9 +1,9 @@
 package simcity.TRestaurant.gui;
 
 
-import simcity.TTRestaurant.TWaiterRole;
-
 import java.awt.*;
+
+import simcity.TRestaurant.TWaiterRole;
 
 public class TWaiterGui implements TGui {
 

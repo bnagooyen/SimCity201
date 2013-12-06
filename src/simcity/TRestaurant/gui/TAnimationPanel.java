@@ -2,6 +2,8 @@ package simcity.TRestaurant.gui;
 
 import javax.swing.*;
 
+import simcity.gui.Gui;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

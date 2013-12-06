@@ -9,7 +9,7 @@ public interface TCashier {
 	
 	public abstract void msgComputeBill(TWaiter w, TCustomer c, String order);
 	
-	public abstract void msgHereIsMyMoney(TCustomer c, double m, double cost);
+	public abstract void msgBillFromMarket(double check, MarketCashier m, MarketManager manager); 
 	
 	public abstract void msgGoHome(double moneys); 
 
