@@ -22,7 +22,7 @@ public class LCookGui implements Gui {
     private boolean plateFood = false;
     private String food;
     private String name;
-    LRestaurantGui gui;
+//    LRestaurantGui gui;
     
     public enum commandState{noCommand, moving};
     private commandState command;
@@ -50,10 +50,10 @@ public class LCookGui implements Gui {
     
     private int tableNum;
 
-    public LCookGui(LCookRole agent, String name, LRestaurantGui gui) {
+    public LCookGui(LCookRole agent, String name){ //, LRestaurantGui gui) {
         this.agent = agent;
         this.name = name;
-        this.gui = gui;
+        //this.gui = gui;
         command =  commandState.noCommand;
     }
     

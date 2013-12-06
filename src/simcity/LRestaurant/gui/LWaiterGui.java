@@ -19,7 +19,7 @@ public class LWaiterGui implements Gui {
     private boolean hasFood = false;
     private String food;
     private String name;
-    LRestaurantGui gui;
+//    LRestaurantGui gui;
     
     public enum commandState{noCommand, moving};
     private commandState command =  commandState.noCommand;
@@ -59,10 +59,10 @@ public class LWaiterGui implements Gui {
     
     private int tableNum;
 
-    public LWaiterGui(LWaiterRole agent, String name, LRestaurantGui gui) {
+    public LWaiterGui(LWaiterRole agent, String name){ //, LRestaurantGui gui) {
         this.agent = agent;
         this.name = name;
-        this.gui = gui;
+        //this.gui = gui;
     }
     
     public void setCookGui(LCookGui c){
@@ -74,7 +74,7 @@ public class LWaiterGui implements Gui {
     }
     
     public void setWorking(){
-    	gui.setWaiterEnabled(agent);
+    	//gui.setWaiterEnabled(agent);
     }
     
     public void setFood(String f){

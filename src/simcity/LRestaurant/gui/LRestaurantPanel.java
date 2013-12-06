@@ -40,7 +40,7 @@ public class LRestaurantPanel extends JPanel {
 //
 //    private RestaurantGui gui; //reference to main gui
 
-    public LRestaurantPanel(LRestaurantGui gui) {
+    public LRestaurantPanel(){//LRestaurantGui gui) {
 //        this.gui = gui;
 //
 //        gui.animationPanel.addGui(hostGui);
