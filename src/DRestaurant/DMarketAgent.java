@@ -1,9 +1,9 @@
-package simcity;
+package DRestaurant;
 
+import DRestaurant.DMarketAgent.InventoryOrder.InventoryOrderState;
 import agent.Agent;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.Market;
-import simcity.DMarketAgent.InventoryOrder.InventoryOrderState;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -94,7 +94,7 @@ public class DMarketAgent extends Agent implements Market {
 	}
 	
 	@Override
-	public void msgHereIsAnInventoryOrder(ArrayList<simcity.DFoodOrder> orderToMarket, int id, DCashier c) {
+	public void msgHereIsAnInventoryOrder(ArrayList<DRestaurant.DFoodOrder> orderToMarket, int id, DCashier c) {
 		System.out.println("new order added w/ cahsier"+ c);
 		myOrders.add(new InventoryOrder(orderToMarket, id, c));
 		stateChanged();

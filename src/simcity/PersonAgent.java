@@ -1,5 +1,7 @@
 package simcity;
 
+import DRestaurant.DCustomerRole;
+import DRestaurant.DMenu;
 import agent.Agent;
 import agent.Role;
 import simcity.Bank.BankCustomerRole;

@@ -1,14 +1,14 @@
-package simcity;
+package DRestaurant;
 
+import DRestaurant.DProducerConsumerMonitor;
+import DRestaurant.DHostRole.MyCustomer.CustState;
+import DRestaurant.DHostRole.MyWaiter.MyWaiterState;
 import agent.Agent;
 import agent.Role;
 //import simcity.gui.HostGui;
 import simcity.interfaces.DCustomer;
 import simcity.interfaces.Host;
 import simcity.interfaces.DWaiter;
-import simcity.DProducerConsumerMonitor;
-import simcity.DHostRole.MyCustomer.CustState;
-import simcity.DHostRole.MyWaiter.MyWaiterState;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;

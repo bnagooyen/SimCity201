@@ -1,11 +1,12 @@
 package simcity.gui.DGui;
 
-import simcity.DCustomerRole;
 import simcity.gui.Gui;
 import simcity.gui.SimCityGui;
 
 import java.awt.*;
 import java.util.Random;
+
+import DRestaurant.DCustomerRole;
 
 
 public class DCustomerGui implements Gui{

@@ -1,17 +1,18 @@
-package simcity;
+package DRestaurant;
 
+import DRestaurant.DCookRole.InventoryOrder.InventoryOrderState;
+import DRestaurant.DOrder.OrderState;
 import agent.Role;
 import simcity.Market.MFoodOrder;
 import simcity.gui.DGui.DCookGui;
 import simcity.interfaces.Cook;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.DCook;
-import simcity.interfaces.Market;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
-import simcity.DCookRole.InventoryOrder.InventoryOrderState;
 //import simcity.DCookRole.InventoryOrder.InventoryOrderState;
-import simcity.DOrder.OrderState;
+
+import simcity.interfaces.RestaurantCashier;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -267,7 +268,7 @@ public class DCookRole extends Role implements DCook, Cook{
 //                }
 //        }
         
-        public void msgShouldIPayThisBill(double amt, Market ma) {
+        public void msgShouldIPayThisBill(double amt, MarketManager ma) {
                 System.out.println("cashier received shouldipaythisbill for "+amt);
                 for(InventoryOrder o: myOrders){
                         if(o.market==ma) {
@@ -647,7 +648,7 @@ public class DCookRole extends Role implements DCook, Cook{
 //                        }
                         //markets.get(0).msgHereIsAnInventoryOrder(orderToMarket, ORDER_ID, myCashier);
                         //myOrders.add(new InventoryOrder(markets.get(0), 1, billAmnt, ORDER_ID));
-                        myMarkets.get(0).msgIAmHere(this, orderToMarket, "DRestaurant", "cook");
+                        myMarkets.get(0).msgIAmHere(this, orderToMarket, "DRestaurant", "cook", (RestaurantCashier)myCashier);
                         
                        myOrders.add(new InventoryOrder(myMarkets.get(0), 1, billAmnt, ORDER_ID));
                        System.out.println("expecting bill for "+ billAmnt);
@@ -690,7 +691,7 @@ public class DCookRole extends Role implements DCook, Cook{
                         System.out.println("Cook sent reorder");
                         //markets.get(reord.mktOrderingFrom-1).msgHereIsAnInventoryOrder(reord.myorder, ORDER_ID, myCashier);
                         //reord.market=markets.get(reord.mktOrderingFrom-1);
-                        myMarkets.get(reord.mktOrderingFrom-1).msgIAmHere(this, orderToMarket, "DRestaurant", "cook");
+                        myMarkets.get(reord.mktOrderingFrom-1).msgIAmHere(this, orderToMarket, "DRestaurant", "cook", (RestaurantCashier)myCashier);
                         reord.billExpected=billAmnt;
                         for(InventoryOrder ord: myOrders) {
                                 if(ord.state==InventoryOrderState.needsPriceUpdate) {
@@ -721,30 +722,30 @@ public class DCookRole extends Role implements DCook, Cook{
                         }
                         waitingForInventory=false;
          
-                        for(InventoryOrder o: myOrders){
-                                if(d.mmanager==o.market) {
-                                		System.out.println("market found.. order expected = "+ o.billExpected +" .. bill received = "+ d.check);
-                                        if(Math.abs(o.billExpected-d.check)<=0.01) {
-                                        		System.out.println("paid bill of "+ o.billExpected);
-                                                myCashier.msgPayThisBill(d.check,d.mcashier);
-                                        }
-                                        else {
-                                                System.out.println("Fradulent bill...");
-                                        }
-                        
-                                        delivery.remove(d);
-                                        myOrders.remove(o);
-                                        if(!RestaurantIsOpen) {
-                                                if(myFood.get("Chicken").getAmount()==initialFoodAmnt && myFood.get("Steak").getAmount()==initialFoodAmnt &&
-                                                                myFood.get("Pizza").getAmount()==initialFoodAmnt && myFood.get("Salad").getAmount()==initialFoodAmnt) {
-                                                        host.msgKitchenIsReady();
-                                                        RestaurantIsOpen=true;
-                                                        //System.out.println("ready!");
-                                                }
-                                        }
-                                        break; //prevent concurrent mod error
-                                }
-                        }
+//                        for(InventoryOrder o: myOrders){
+//                                if(d.mmanager==o.market) {
+//                                		System.out.println("market found.. order expected = "+ o.billExpected +" .. bill received = "+ d.check);
+//                                        if(Math.abs(o.billExpected-d.check)<=0.01) {
+//                                        		System.out.println("paid bill of "+ o.billExpected);
+//                                                myCashier.msgPayThisBill(d.check,d.mcashier);
+//                                        }
+//                                        else {
+//                                                System.out.println("Fradulent bill...");
+//                                        }
+//                        
+//                                        delivery.remove(d);
+//                                        myOrders.remove(o);
+//                                        if(!RestaurantIsOpen) {
+//                                                if(myFood.get("Chicken").getAmount()==initialFoodAmnt && myFood.get("Steak").getAmount()==initialFoodAmnt &&
+//                                                                myFood.get("Pizza").getAmount()==initialFoodAmnt && myFood.get("Salad").getAmount()==initialFoodAmnt) {
+//                                                        host.msgKitchenIsReady();
+//                                                        RestaurantIsOpen=true;
+//                                                        //System.out.println("ready!");
+//                                                }
+//                                        }
+//                                        break; //prevent concurrent mod error
+//                                }
+//                        }
                 }
 
 

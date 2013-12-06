@@ -2,9 +2,9 @@ package simcity.test.mock;
 
 import java.util.ArrayList;
 
+import DRestaurant.DFoodOrder;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.Market;
-import simcity.DFoodOrder;
 
 public class MockMarket extends Mock implements Market {
 

@@ -1,4 +1,4 @@
-package simcity;
+package DRestaurant;
  
 import simcity.gui.SimCityGui;
 import simcity.gui.DGui.DCustomerGui;

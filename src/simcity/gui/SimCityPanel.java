@@ -17,17 +17,18 @@ import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.BankTeller;
 import simcity.interfaces.DCook;
-import simcity.DCashierRole;
-import simcity.DCookRole;
-import simcity.DCustomerRole;
-import simcity.DHostRole;
-import simcity.DMarketAgent;
 import simcity.PersonAgent;
-import simcity.DWaiterNormalRole;
-import simcity.DWaiterRole;
-import simcity.DWaiterSharedDataRole;
 
 import javax.swing.*;
+
+import DRestaurant.DCashierRole;
+import DRestaurant.DCookRole;
+import DRestaurant.DCustomerRole;
+import DRestaurant.DHostRole;
+import DRestaurant.DMarketAgent;
+import DRestaurant.DWaiterNormalRole;
+import DRestaurant.DWaiterRole;
+import DRestaurant.DWaiterSharedDataRole;
 
 import java.awt.*;
 import java.util.Vector;

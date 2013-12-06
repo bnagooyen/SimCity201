@@ -1,10 +1,11 @@
 package simcity.gui;
 
-import simcity.DCustomerRole;
 import simcity.PersonAgent;
 
 import java.awt.*;
 import java.util.HashMap;
+
+import DRestaurant.DCustomerRole;
 
 public class PersonGui implements Gui {
 

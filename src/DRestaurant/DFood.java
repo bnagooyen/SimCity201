@@ -1,4 +1,4 @@
-package simcity;
+package DRestaurant;
 
 public class DFood {
 

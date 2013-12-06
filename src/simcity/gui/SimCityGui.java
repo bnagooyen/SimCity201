@@ -4,10 +4,11 @@ import simcity.gui.CityPanel;
 import simcity.gui.CityView;
 import simcity.gui.TListPanel;
 import simcity.gui.trace.TracePanel;
-import simcity.DCustomerRole;
-import simcity.DWaiterRole;
 
 import javax.swing.*;
+
+import DRestaurant.DCustomerRole;
+import DRestaurant.DWaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;

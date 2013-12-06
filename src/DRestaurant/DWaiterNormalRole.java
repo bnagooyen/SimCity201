@@ -1,7 +1,7 @@
-package simcity;
+package DRestaurant;
 
+import DRestaurant.DOrder.OrderState;
 import simcity.interfaces.DWaiter;
-import simcity.DOrder.OrderState;
 
 public class DWaiterNormalRole extends DWaiterRole implements DWaiter {
 

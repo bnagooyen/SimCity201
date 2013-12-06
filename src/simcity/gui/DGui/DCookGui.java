@@ -4,14 +4,15 @@ package simcity.gui.DGui;
 import simcity.gui.Gui;
 import simcity.gui.SimCityGui;
 import simcity.gui.DGui.DCookGui.CookLabel.LabelState;
-import simcity.DCookRole;
-import simcity.DCustomerRole;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.List;
+
+import DRestaurant.DCookRole;
+import DRestaurant.DCustomerRole;
 
 public class DCookGui implements Gui {
 

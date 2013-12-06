@@ -1,10 +1,11 @@
 package simcity.gui;
 
-import simcity.DCustomerRole;
 import simcity.PersonAgent;
-import simcity.DWaiterRole;
 
 import javax.swing.*;
+
+import DRestaurant.DCustomerRole;
+import DRestaurant.DWaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;
