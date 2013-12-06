@@ -21,23 +21,25 @@ import java.util.concurrent.Semaphore;
 public class PersonAgent extends Agent {
 
 	Timer timer = new Timer();
+	Random generator = new Random();
 	
 	private String name;
-	Role myJob;
+	public Role myJob;
     List<Role> roles= new ArrayList<Role>();
     public double money=0;
 	public String homeAddress;
+	public String BankChoice;
 	
 	//States
 	public int hungerLevel;
-	enum PersonState { doingNothing, gotHungry, atRestaurant };
-	enum LocationState {atHome, atRestaurant};
+	enum PersonState { doingNothing, atRestaurant, workTime, tired, asleep, dead };
+	enum LocationState {atHome, atRestaurant, atBank};
 	enum TravelPreference {walk, bus, car};
 	TravelPreference myTravelPreference;
 	private LocationState myLocation;
 	private PersonState state;
-	//private final int NUM_MARKETS = 3;
-    
+
+	
 	//GUI
 	Semaphore atRestaurant = new Semaphore(0, true);
     Semaphore atLocation = new Semaphore(0, true);
@@ -45,6 +47,8 @@ public class PersonAgent extends Agent {
     //home semaphores
 	private Semaphore atFridge = new Semaphore(0,true);
 	private Semaphore atGrill = new Semaphore(0,true);
+	private Semaphore atBed = new Semaphore(0,true);
+	
     public PersonGui PersonGui = null;
     public ResidentGui residentGui = null; 
 	public TenantGui tenantGui = null;
@@ -65,19 +69,41 @@ public class PersonAgent extends Agent {
 		myLocation=LocationState.atHome;
 		//address="House 1";
 		myTravelPreference=TravelPreference.walk;
+        BankChoice="Bank "+ Integer.toString(generator.nextInt(1));        //CHANGE RANDOM TO 2 TO HAVE people go to both banks
 	}
 
 	// Messages
+	public void msgTimeUpdate(int hr) {
+		Do("got time update. Time is " + hr+" Work Starts at " +myJob.startHour);
+		int hour = hr;
+		if(hr == 6) { 
+			state = PersonState.doingNothing;
+		}
+		if(hr ==24) { 
+			state = PersonState.tired;
+		}
+		if(hr==myJob.startHour-1) {
+			state=PersonState.workTime;
+		}
+		
+		hungerLevel+=10;
+		stateChanged();
+	}
 	
 	
 	//Animation Messages
 	public void msgAnimationArivedAtRestaurant() {
 		atRestaurant.release();
+		Do("JKNDSVJKSBNDVJKBSDJKVBSJFKBNVSJKF MSGANIMATIONAR");
 		stateChanged();
 	}
 	
 	public void msgAtFridge() {
 		atFridge.release();
+		stateChanged();
+	}
+	public void msgAtBed() {
+		atBed.release();
 		stateChanged();
 	}
 	public void msgAtGrill() {
@@ -97,19 +123,43 @@ public class PersonAgent extends Agent {
 	@Override
 	protected boolean pickAndExecuteAnAction() {
 
-//		if(state==PersonState.gotHungry) {
-//			GoToRestaurant();
-//			return true;
-//		}
 		
-/************* hack to test behavior*******************/
+		if(state==PersonState.asleep||state==PersonState.dead){
+			return false;
+		}
+		
+		for(Role r: roles) {
+			boolean hasActiveRole=false;
+			boolean rolePAEAA=false;
+			if (r.isActive) {
+				hasActiveRole=true;
+				rolePAEAA = r.pickAndExecuteAnAction();
+			}
+			else Do("INACTIVE BIATCH"+r.purpose);
+			if(hasActiveRole) return rolePAEAA;
+		}
+		
+		/************* hack to test behavior*******************/
 		if(marketTime) {
 			GoToMarket();
 			return true;
 		}
 		
-		if(bankTime){
-			GoToBank();
+		//if(bankTime){
+			//GoToBank();
+		//}	
+	/******************************************************/
+		
+		if (state==PersonState.tired){
+			GoToBed();
+			state=PersonState.asleep;
+			return true;
+		}
+		
+		
+		if (state==PersonState.workTime){
+			goToWork();
+			return true;
 		}
 		
 		if(hungerLevel>50) {
@@ -122,30 +172,25 @@ public class PersonAgent extends Agent {
 			return true;
 		}
 		
-		for(Role r: roles) {
-			boolean hasActiveRole=false;
-			boolean rolePAEAA=false;
-			if (r.isActive) {
-				hasActiveRole=true;
-				rolePAEAA = r.pickAndExecuteAnAction();
-			}
-			if(hasActiveRole) return rolePAEAA;
-		}
+		if(bankTime){
+			GoToBank();
+		}	
 		
 		if(!(myLocation==LocationState.atHome)) {
 			GoHome();
 			return true;
 		}
-		
 		return false;
-		
-		//return false;
-		//we have tried all our rules and found
-		//nothing to do. So return false to main loop of abstract agent
-		//and wait.
 	}
 
+	
+	
+	
+	
 
+	
+	
+	//ACTIONS
 	private void EatAtHome() {
 		if (homeAddress.equals("House")) {
 			residentGui.goToFridge();
@@ -187,6 +232,7 @@ public class PersonAgent extends Agent {
 	// Actions
 	private void GoToRestaurant() {
 		DoGoTo("Restaurant 3");
+		Do("Going To Restaurant");
 		try {
 			atRestaurant.acquire();
 		} catch (InterruptedException e) {
@@ -196,14 +242,13 @@ public class PersonAgent extends Agent {
 		
 		myLocation=LocationState.atRestaurant;
 		hungerLevel=0;
-		state=PersonState.atRestaurant;
+		state=PersonState.doingNothing;
 		for(Role r: roles) {
 			if(r instanceof DCustomerRole) {
 				r.isActive=true;
 				DMenu myMenu = new DMenu();
 				((DCustomerRole)r).setChoice(myMenu.MostExpensiveICanAfford(money));
 				((DCustomerRole)r).ActivateRole();
-//				((CustomerRole)r).gotHungry();
 			}
 		}
 		
@@ -222,10 +267,20 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void GoToBank() {
+		DoGoTo("Bank 1");
+		Do("Going to Bank");
+		try {
+			atRestaurant.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		myLocation=LocationState.atBank;
 		bankTime = false;
-		Do("here");
+		state=PersonState.doingNothing;
 		for(Role r: roles) {
 			if(r instanceof BankCustomerRole) {
+				Do("YESSER");
 				r.isActive = true;
 				r.purpose="withdraw";
 			}
@@ -233,10 +288,41 @@ public class PersonAgent extends Agent {
 		money=200;
 	}
 	
+	private void goToWork() {
+		state=PersonState.doingNothing;
+		Do("Going to work");
+		myJob.isActive=true;
+	}
+	
 
 	private void GoHome() {
 		DoGoTo(homeAddress);
 		myLocation=LocationState.atHome;
+	}	
+
+	private void GoToBed() {
+		if(myLocation!=LocationState.atHome) DoGoTo(homeAddress);
+		myLocation=LocationState.atHome;
+		
+		
+		if (homeAddress.contains("House")) {
+			residentGui.goToBed();
+			try {
+				atBed.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else{
+			tenantGui.goToBed();
+			try {
+				atBed.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	private void DoGoTo(String dest) {

@@ -58,6 +58,7 @@ public class BankManagerRole extends Role implements BankManager {
 	private double vault = 1000000000;
 	
 	
+	
 	//gui
 	private Semaphore atDest = new Semaphore(0,true);
 	public enum cornerState{ coming, leaving };

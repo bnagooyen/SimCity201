@@ -16,7 +16,8 @@ public abstract class Role {
     Semaphore stateChange = new Semaphore(0, true);//binary semaphore, fair
     public boolean isActive;
     public PersonAgent myPerson;
-    public int startHour=11;
+    public int startHour=9;
+    public String Location;
     public String purpose;
     
 

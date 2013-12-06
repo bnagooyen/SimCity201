@@ -126,7 +126,7 @@ public class SimCityPanel extends JPanel {
         bloanofficerPerson.startThread();
         
         //Hack Bank Customer
-        Bmanager.msgTimeUpdate(8);
+        /*Bmanager.msgTimeUpdate(8);
         PersonAgent bcustomer = new PersonAgent("bcustomer");
         BankCustomerRole bc = new BankCustomerRole(gui);
         bc.myPerson = bcustomer;
@@ -134,10 +134,7 @@ public class SimCityPanel extends JPanel {
         bcustomer.addCustomerRoles(bc);
         bcustomer.bankTime = true;
         bcustomer.hungerLevel = 0;
-        for(int i=0;i<1000;i++){
-        	System.out.println("");
-        }
-        bcustomer.startThread();
+        bcustomer.startThread();*/
         
         
         //Market
@@ -417,6 +414,12 @@ public class SimCityPanel extends JPanel {
 	    		g.setPresent(true);
 	    		p.setGui(g);
 	    		gui.city.addGui(g);
+	    		p.bankTime=false;
+	    		Bmanager.msgTimeUpdate(8);
+	            BankCustomerRole bc = new BankCustomerRole(gui);
+	            bc.myPerson = p;
+	            bc.setManager(Bmanager);
+	            p.addCustomerRoles(bc);
 	    		p.startThread();
 			 
     		people.add(p);

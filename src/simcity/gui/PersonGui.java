@@ -101,7 +101,8 @@ public class PersonGui implements Gui {
         myMap.put("Apartment 11", new Point(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+sidewalkWidth));
         myMap.put("Apartment 12", new Point(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+2*housingLength+ sidewalkWidth+ 2*parkingGap));
         myMap.put("Homeless Shelter", new Point(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
-    
+        myMap.put("Bank 1", new Point(yardSpace+housingWidth+2*sidewalkWidth+streetWidth, streetWidth+sidewalkWidth+3*housingLength+ 3*parkingGap));
+            
     
         String personAddress=agent.homeAddress;
         if(personAddress.contains("Apartment")) {
@@ -183,6 +184,13 @@ public class PersonGui implements Gui {
     
     public void DoGoTo(String destination) {
     	if(destination.contains("Restaurant")) {
+    		Point myDest = myMap.get(destination);
+    		xDestination = myDest.x;
+    		yDestination = myDest.y;
+    		command=Command.GoToRestaurant;
+    	}
+    	
+    	if(destination.contains("Bank")) {
     		Point myDest = myMap.get(destination);
     		xDestination = myDest.x;
     		yDestination = myDest.y;
