@@ -11,10 +11,11 @@ import simcity.LRestaurant.LWaiterRole;
 
 
 import simcity.LRestaurant.LCookRole;
+import simcity.gui.Gui;
 
 import java.awt.*;
 
-public class LCookGui implements LGui {
+public class LCookGui implements Gui {
 
     private LCookRole agent = null;
     private boolean hasFood = false;
@@ -31,21 +32,21 @@ public class LCookGui implements LGui {
 //    private int xDpos = -20, yDpos = -20;
 //    private int xGCpos = -21, yGCpos = -21;
     
-    private int xPos = 125, yPos = 350;//default waiter position
-    private int xDestination = 125, yDestination = 350;//default start position
-    private int xDpos = 125, yDpos = 350;
-    private int xGCpos = 125, yGCpos = 350;
+    private int xPos = 475, yPos = 250;//default cook position
+    private int xDestination = 475, yDestination = 250;//default start position
+    private int xDpos = 475, yDpos = 250;
+    private int xGCpos = 475, yGCpos = 250;
     
     private int rectSize = 10;
 
-    public static final int xCooking = 138;
-    public static final int yCooking = 350;
+    public static final int xCooking = 500;
+    public static final int yCooking = 200;
     
-    public static final int xPlating = 125;
-    public static final int yPlating = 330;
+    public static final int xPlating = 450;
+    public static final int yPlating = 200;
     
-    public static final int xRefrig = 110;
-    public static final int yRefrig = 350;
+    public static final int xRefrig = 450;
+    public static final int yRefrig = 250;
     
     private int tableNum;
 

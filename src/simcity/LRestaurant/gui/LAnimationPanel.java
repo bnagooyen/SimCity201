@@ -2,6 +2,8 @@ package simcity.LRestaurant.gui;
 
 import javax.swing.*;
 
+import simcity.gui.Gui;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,7 +52,7 @@ public class LAnimationPanel extends JPanel implements ActionListener {
     private Image bufferImage;
     private Dimension bufferSize;
 
-    private List<LGui> guis = new ArrayList<LGui>();
+    private List<Gui> guis = new ArrayList<Gui>();
 
     public LAnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
@@ -91,13 +93,13 @@ public class LAnimationPanel extends JPanel implements ActionListener {
         g2.fillRect(CookCookingX+2, CookCookingY+22, CookingW-8, CookingH-25);
 
 
-        for(LGui gui : guis) {
+        for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
 
-        for(LGui gui : guis) {
+        for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
             }

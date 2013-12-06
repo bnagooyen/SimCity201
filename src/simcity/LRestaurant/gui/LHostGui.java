@@ -3,10 +3,11 @@ package simcity.LRestaurant.gui;
 
 import simcity.LRestaurant.LCustomerRole;
 import simcity.LRestaurant.LHostRole;
+import simcity.gui.Gui;
 
 import java.awt.*;
 
-public class LHostGui implements LGui {
+public class LHostGui implements Gui {
 
     private LHostRole agent = null;
 

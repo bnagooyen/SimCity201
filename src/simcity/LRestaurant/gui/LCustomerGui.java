@@ -4,12 +4,14 @@ import simcity.LRestaurant.LCustomerRole;
 import simcity.LRestaurant.LWaiterRole;
 //import restaurant.HostAgent.MyCustomers;
 
+import simcity.gui.Gui;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class LCustomerGui implements LGui{
+public class LCustomerGui implements Gui{
 
 	public static List<LCustomerRole> waitingCustomers = Collections.synchronizedList(new ArrayList<LCustomerRole>());
 	

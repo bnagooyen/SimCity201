@@ -13,43 +13,64 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import simcity.LRestaurant.gui.LCookGui;
+import simcity.LRestaurant.gui.LCustomerGui;
+import simcity.gui.Gui;
+import simcity.LRestaurant.gui.LHostGui;
+import simcity.LRestaurant.gui.LWaiterGui;
+
 public class RestaurantAnimationPanel1 extends BuildingAnimationPanel implements ActionListener {
 
-	 private final int WINDOWX = 575;
+		private final int WINDOWX = 575;
 	    private final int WINDOWY = 325;
-	    public static final int x_Offset = 100;
-	    public static final int BTMX = 0, BTMY=0;
-	    public static final int nTABLES=4;
-	    //public static final int TABLE1x = 50, TABLE1y = 50; // 200, 250 orig
-	    public static final int TABLESZ_xy=50;
-	    public static final int TABLE_gap=50;
-	    public static final int TABLES_perRow = 4;
+	    private final int PANELX = 0;
+	    private final int PANELY = 0;
 	    
-	    public static final int allKitchenItems_x = 570;
+	    private final int TABLEX1 = 300;
+	    private final int TABLEY1 = 250;
 	    
-	    public static final int refrig_y = 300;
-	    public static final int refrig_xsz=40;
-	    public static final int refrig_ysz=60;
-
-	    public static final int grill_xsz= 40;
-	    public static final int grill_ysz = 30;
-	  
-	    public static final int grillPizza_y =260;
-	    public static final int grillChicken_y =220;
-	    public static final int grillSteak_y =180;
-	    public static final int grillSalad_y =140;
-	    public static final int plating_ysz=80;
-	    public static final int plating_x=50;
+	    private final int TABLEX2 = 100;
+	    private final int TABLEY2 = 200;
+	    
+	    private final int TABLEX3 = 350;
+	    private final int TABLEY3 = 100;
+	    
+	    private final int TABLEX4 = 170;
+	    private final int TABLEY4 = 60;
+	    
+	    private final int CookPlatingX = 450;
+	    private final int CookPlatingY = 200;
+	    private final int PlatingW = 70;
+	    private final int PlatingH = 20;
+	    
+	    private final int CookCookingX = 500;
+	    private final int CookCookingY = 200;
+	    private final int CookingW = 20;
+	    private final int CookingH = 70;
+	    
+	    private final int CookRX = 450;
+	    private final int CookRY = 250;
+	    private final int RefrigW = 10;
+	    private final int RefrigH = 10;
+	    
+	    private final int TABLEW = 50;
+	    private final int TABLEH = 50;
 	    
 	    String name;
+	    
+//	    private final int delay = 10;
+//	    
+//	    private Image bufferImage;
+//	    private Dimension bufferSize;
+	    
 	   // boolean isVisible = false;
 	    
-	    private Image bufferImage;
 	    //private Dimension bufferSize;
 
 	    //private CityGui gui;
 	    
-	   // private List<Gui> guis = new ArrayList<Gui>();
+	    private List<Gui> guis = new ArrayList<Gui>();
+
 
 	    public RestaurantAnimationPanel1(SimCityGui restaurantGui, String nm) {
 	    	super(restaurantGui);
@@ -58,61 +79,75 @@ public class RestaurantAnimationPanel1 extends BuildingAnimationPanel implements
 	        //setVisible(true);
 	        
 	        //bufferSize = this.getSize();
-	 
+	// 
 //	    	Timer timer = new Timer(20, this );
 //	    	timer.start();
 //	    	timer.addActionListener(this);
-	    	
 	    	restaurantGui.city.timer.addActionListener(this);
-	    	name = nm;
+	    	//name = nm;
 	    }
+	    
+	    public void actionPerformed(ActionEvent e) {
+			repaint();  //Will have paintComponent called
+		}
 
-	    @Override
-		public void paintComponent(Graphics g) {
+	    public void paintComponent(Graphics g) {
 	        Graphics2D g2 = (Graphics2D)g;
 
-	        
 	        //Clear the screen by painting a rectangle the size of the frame
-	        g2.setColor(getBackground());
-	        g2.fillRect(BTMX, BTMY, WINDOWX, WINDOWY );
-	        g2.setColor(Color.red);
-	        g2.fillRect(520,300,20,20);
-//
-//	        //Here is the table
-//	        g2.setColor(Color.ORANGE);
-//	        for(int i=0; i<nTABLES; i++)
-//	        {
-//	        	int fillx = (i%TABLES_perRow)*TABLESZ_xy*2 + TABLE_gap + x_Offset;
-//	        	int filly = (i/TABLES_perRow)*TABLESZ_xy*2 + TABLE_gap;
-//	        	g2.fillRect(fillx, filly, TABLESZ_xy, TABLESZ_xy);//200 and 250 need to be table params
-//	        
-//	        }
-//	        
-//	        //draw kitchen components
-//	        g2.setColor(Color.cyan);
-//	        g2.fillRect(allKitchenItems_x, refrig_y, refrig_xsz, refrig_ysz);
-//	        g2.setColor(Color.LIGHT_GRAY);
-//	        g2.fillRect(allKitchenItems_x, grillPizza_y, grill_xsz, grill_ysz);
-//	        g2.fillRect(allKitchenItems_x, grillChicken_y, grill_xsz, grill_ysz);
-//	        g2.fillRect(allKitchenItems_x, grillSteak_y, grill_xsz, grill_ysz);
-//	        g2.fillRect(allKitchenItems_x, grillSalad_y, grill_xsz, grill_ysz);
-//
-//	        g2.setColor(Color.pink);
-//	        g2.fillRect(allKitchenItems_x, plating_x, grill_xsz, plating_ysz);
-//	       
-//
-//	        for(Gui gui : guis) {
-//	            if (gui.isPresent()) {
-//	                gui.draw(g2);
-//	            }
-//	        }
+	        g2.setColor(Color.WHITE);
+	        g2.fillRect(PANELX, PANELY, this.getWidth(), this.getHeight() );
+
+	        //Here is the table
+	        g2.setColor(Color.ORANGE);
+	        g2.fillRect(TABLEX1, TABLEY1, TABLEW, TABLEH);//200 and 250 need to be table params
+	        g2.fillRect(TABLEX2, TABLEY2, TABLEW, TABLEH);
+	        g2.fillRect(TABLEX3, TABLEY3, TABLEW, TABLEH);
+	        g2.fillRect(TABLEX4, TABLEY4, TABLEW, TABLEH);
+	        
+	        g2.setColor(Color.RED);
+	        g2.fillRect(CookPlatingX, CookPlatingY, PlatingW, PlatingH);
+	        g2.fillRect(CookCookingX, CookCookingY, CookingW, CookingH);
+	        
+	        g2.setColor(Color.cyan);
+	        g2.fillRect(CookRX, CookRY, RefrigW, RefrigH);
+	        
+	        g2.setColor(Color.GRAY);
+	        g2.fillRect(CookCookingX+2, CookCookingY+22, CookingW-8, CookingH-25);
+
+
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.updatePosition();
+	            }
+	        }
+
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.draw(g2);
+	            }
+	        }
+	    }
+
+	    public void addGui(LCustomerGui gui) {
+	        guis.add(gui);
+	    }
+	    
+		public void addGui(LWaiterGui gui) {
+		    guis.add(gui);
+		}
+	    
+	    public void addGui(LHostGui gui) {
+	        guis.add(gui);
+	    }
+	    public void addGui(LCookGui gui) {
+	        guis.add(gui);
 	    }
 
 		@Override
-		public void addGui(Gui g) {
+		public void addGui(simcity.gui.Gui g) {
 			// TODO Auto-generated method stub
-			guis.add(g);
+			
 		}
-
 
 }

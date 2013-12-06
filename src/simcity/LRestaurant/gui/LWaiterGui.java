@@ -8,9 +8,11 @@ import simcity.LRestaurant.LWaiterRole;
 
 
 
+import simcity.gui.Gui;
+
 import java.awt.*;
 
-public class LWaiterGui implements LGui {
+public class LWaiterGui implements Gui {
 
     private LWaiterRole agent = null;
     private LCookGui cookGui = null;
