@@ -132,8 +132,9 @@ public class PersonGui implements Gui {
 
         else if (xPos == xDestination && yPos == yDestination)
         {
-        		if(command==Command.GoToRestaurant) {
+        		if(command==Command.GoToRestaurant ||command==Command.GoHome) {
         			agent.msgAnimationArivedAtRestaurant();
+        			System.out.println("msgArrivedat");
         		}
         	
         		command=Command.none;

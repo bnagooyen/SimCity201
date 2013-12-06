@@ -52,7 +52,7 @@ public class BankManagerRole extends Role implements BankManager {
 	public Map<Integer, MyAccount> accounts = new HashMap<Integer, MyAccount>();
 	int hour;
 	private boolean bankIsOpen;
-	public enum BankState {open, closed, newDay};
+	public enum BankState {open, closed, arriving, newDay};
 	BankState bankState;
 	private double employeePayPerHour=10;
 	private double vault = 1000000000;
@@ -72,7 +72,7 @@ public class BankManagerRole extends Role implements BankManager {
 		gui=G;
 		// TODO Auto-generated constructor stub
 		startHour=7;
-		bankState=BankState.newDay;
+		bankState=BankState.arriving;
 		hour=0;
 		officers.clear();
 		tellers.clear();
@@ -85,7 +85,7 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	public void msgTimeUpdate(int hr) {
 		hour=hr;
-		if(hr==1) bankState=BankState.newDay;
+		if(hr==1) bankState=BankState.arriving;
 		stateChanged();
 	}
 	
@@ -227,6 +227,11 @@ public class BankManagerRole extends Role implements BankManager {
 			return true;
 		}
 		
+		if(bankState==BankState.arriving) {
+			goToDesk();
+			return true;
+		}
+		
 		if(hour>=8 && bankState==BankState.newDay && officers.size()>=1 && tellers.size()>=1) {
 			OpenBank();
 			return true;
@@ -309,15 +314,6 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	private void OpenBank() {
 		Do("Opening bank");
-		if(bankmanagerGui == null) {
-			bankmanagerGui = new BankManagerGui(this);
-			gui.myPanels.get("Bank 1").panel.addGui(bankmanagerGui);
-		}
-		bankmanagerGui.setPresent(true);
-		bankmanagerGui.goToCorner();
-		finishTask();
-		bankmanagerGui.goToManagerPos();
-		finishTask();
 		bankState=BankState.open;
 	}
 	private void SwapTellers() {
@@ -506,6 +502,19 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	public void setGui(BankManagerGui Bgui){
 		bankmanagerGui = Bgui;
+	}
+	
+	private void goToDesk(){
+		if(bankmanagerGui == null) {
+			bankmanagerGui = new BankManagerGui(this);
+			gui.myPanels.get("Bank 1").panel.addGui(bankmanagerGui);
+		}
+		bankmanagerGui.setPresent(true);
+		bankmanagerGui.goToCorner();
+		finishTask();
+		bankmanagerGui.goToManagerPos();
+		finishTask();
+		bankState=BankState.newDay;
 	}
 	
 	private void finishTask(){			//Semaphore to make waiter finish task before running scheduler

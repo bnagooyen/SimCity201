@@ -69,7 +69,7 @@ public class PersonAgent extends Agent {
 		myLocation=LocationState.atHome;
 		//address="House 1";
 		myTravelPreference=TravelPreference.walk;
-        BankChoice="Bank "+ Integer.toString(generator.nextInt(1));        //CHANGE RANDOM TO 2 TO HAVE people go to both banks
+        BankChoice="Bank "+ Integer.toString(generator.nextInt(1)+1);        //CHANGE RANDOM TO 2 TO HAVE people go to both banks
 	}
 
 	// Messages
@@ -94,7 +94,6 @@ public class PersonAgent extends Agent {
 	//Animation Messages
 	public void msgAnimationArivedAtRestaurant() {
 		atRestaurant.release();
-		Do("JKNDSVJKSBNDVJKBSDJKVBSJFKBNVSJKF MSGANIMATIONAR");
 		stateChanged();
 	}
 	
@@ -192,7 +191,18 @@ public class PersonAgent extends Agent {
 	
 	//ACTIONS
 	private void EatAtHome() {
-		if (homeAddress.equals("House")) {
+		Do("Eating at Home");
+		if(myLocation!=LocationState.atHome) DoGoTo(homeAddress);
+		try {
+			atRestaurant.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		myLocation=LocationState.atHome;
+		
+		if (homeAddress.contains("House")) {
 			residentGui.goToFridge();
 			try {
 				atFridge.acquire();
@@ -208,6 +218,7 @@ public class PersonAgent extends Agent {
 				e.printStackTrace();
 			}
 			residentGui.goToTable();
+			Do("Went to table in house");
 		}
 		else {
 			tenantGui.goToFridge();
@@ -225,6 +236,7 @@ public class PersonAgent extends Agent {
 				e.printStackTrace();
 			}
 			tenantGui.goToTable();
+			Do("Went to table in Apartment");
 		}
 		hungerLevel = 0;
 	}
@@ -267,7 +279,7 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void GoToBank() {
-		DoGoTo("Bank 1");
+		DoGoTo(BankChoice);
 		Do("Going to Bank");
 		try {
 			atRestaurant.acquire();
