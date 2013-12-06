@@ -45,6 +45,10 @@ public class SimCityPanel extends JPanel {
     public int ApartmentsPerLandlord;
     public int aptNumCounter=1;
     public char aptLetCounter='A';
+    
+    
+    //FOR TESTING WORK
+    boolean first=true;
 	
 	//Host, cook, waiters and customers
     private DHostRole host = new DHostRole();
@@ -103,26 +107,26 @@ public class SimCityPanel extends JPanel {
         Bmanager.isActive=true;
         PersonAgent bManagerPerson = new PersonAgent("BankManager");
         bManagerPerson.hungerLevel = 0;
-        bManagerPerson.SetJob(Bmanager);
+        bManagerPerson.SetJob(Bmanager, "Bank 1");
         Bmanager.myPerson = bManagerPerson;
         
-        Bteller.isActive=true;
-        PersonAgent btellerPerson = new PersonAgent("Bankteller");
-        btellerPerson.hungerLevel = 0;
-        btellerPerson.SetJob(Bteller);
+        //Bteller.isActive=true;
+       // PersonAgent btellerPerson = new PersonAgent("Bankteller");     REMEMBER TO START THREAD!!!!
+        //btellerPerson.hungerLevel = 0;
+        //btellerPerson.SetJob(Bteller, "Bank 1");
         Bteller.manager=Bmanager;
-        Bteller.myPerson = btellerPerson;
+        //Bteller.myPerson = btellerPerson;
         
         Bloanofficer.isActive=true;
         PersonAgent bloanofficerPerson = new PersonAgent("Bankloanofficer");
         bloanofficerPerson.hungerLevel = 0;
-        bloanofficerPerson.SetJob(Bloanofficer);
+        bloanofficerPerson.SetJob(Bloanofficer, "Bank 1");
         Bloanofficer.manager=Bmanager;
         Bloanofficer.myPerson = bloanofficerPerson;
         
         //Start Threads
         bManagerPerson.startThread();
-        btellerPerson.startThread();
+        //btellerPerson.startThread();
         bloanofficerPerson.startThread();
         
         //Hack Bank Customer
@@ -145,7 +149,7 @@ public class SimCityPanel extends JPanel {
         manager.isActive = true;
         PersonAgent mManagerPerson = new PersonAgent("Manager");
         mManagerPerson.hungerLevel = 0;
-        mManagerPerson.SetJob(manager);
+        mManagerPerson.SetJob(manager, "Market 1");
         manager.myPerson = mManagerPerson;
         
         cook.msgAddMarket(manager);
@@ -154,13 +158,13 @@ public class SimCityPanel extends JPanel {
         mcashier.isActive = true;
         PersonAgent mCashierPerson = new PersonAgent("mCashier");
         mCashierPerson.hungerLevel = 0;
-        mCashierPerson.SetJob(mcashier);
+        mCashierPerson.SetJob(mcashier, "Market 1");
         mcashier.myPerson = mCashierPerson;
         
         ib.isActive = true;
         PersonAgent ibPerson = new PersonAgent("ib");
         ibPerson.hungerLevel = 0;
-        ibPerson.SetJob(ib);
+        ibPerson.SetJob(ib, "Market 1");
         ib.myPerson = ibPerson;
         
         DeliveryTruckAgent dtruck = new DeliveryTruckAgent(manager);
@@ -192,7 +196,7 @@ public class SimCityPanel extends JPanel {
         host.isActive=true;
         PersonAgent hostPerson = new PersonAgent("Host");
         hostPerson.hungerLevel=0; //hack so won't go to restaurant
-        hostPerson.SetJob(host);
+        hostPerson.SetJob(host, "Restaurant 3");
         host.myPerson=hostPerson;
         hostPerson.startThread();
         
@@ -202,7 +206,7 @@ public class SimCityPanel extends JPanel {
         cashier.isActive=true;
         PersonAgent cashierPerson = new PersonAgent("Cashier");
         cashierPerson.hungerLevel=0; //hack so won't go to restaurant
-        cashierPerson.SetJob(cashier);
+        cashierPerson.SetJob(cashier, "Restaurant 3");
         cashier.myPerson=cashierPerson;
         cashier.AddCook(cook);
         //cashier.startThread();
@@ -218,7 +222,7 @@ public class SimCityPanel extends JPanel {
         cook.isActive=true;
         PersonAgent cookPerson = new PersonAgent("cook");
         cookPerson.hungerLevel=0; //hack so won't go to restaurant
-        cookPerson.SetJob(cook);
+        cookPerson.SetJob(cook, "Restaurant 3");
         cook.myPerson=cookPerson;
         cook.AddHost(host);
         cook.AddCashier(cashier);
@@ -237,7 +241,7 @@ public class SimCityPanel extends JPanel {
         gui.myPanels.get("Restaurant 3").panel.addGui(wGui);
         headWaiter.isActive=true;
         headWaiter.myPerson = nWaiter;
-        nWaiter.SetJob(headWaiter);
+        nWaiter.SetJob(headWaiter, "Restaurant 3");
         host.msgAddWaiter(headWaiter);
 //		w.msgAddCook(cook);
 //      w.msgAddHost(host);
@@ -420,8 +424,22 @@ public class SimCityPanel extends JPanel {
 	            bc.myPerson = p;
 	            bc.setManager(Bmanager);
 	            p.addCustomerRoles(bc);
+	            
+	            
+            	//test going to work
+	            if(first){
+	            	p.bankTime=false;
+	            	p.hungerLevel = 0;
+	            	p.SetJob(Bteller, "Bank 1");
+	            	Bteller.manager=Bmanager;
+	            	Bteller.myPerson = p;
+	            	Bteller.isActive=false;
+	            	first=false;
+	            }
+	            
+	            
 	    		p.startThread();
-	    		p.msgTimeUpdate(24);
+	    		p.msgTimeUpdate(7);
 			 
     		people.add(p);
     	}

@@ -25,6 +25,7 @@ public class PersonAgent extends Agent {
 	
 	private String name;
 	public Role myJob;
+	public String jobLocation;
     List<Role> roles= new ArrayList<Role>();
     public double money=0;
 	public String homeAddress;
@@ -33,7 +34,7 @@ public class PersonAgent extends Agent {
 	//States
 	public int hungerLevel;
 	enum PersonState { doingNothing, atRestaurant, workTime, tired, asleep, dead };
-	enum LocationState {atHome, atRestaurant, atBank};
+	enum LocationState {atHome, atRestaurant, atBank, atWork};
 	enum TravelPreference {walk, bus, car};
 	TravelPreference myTravelPreference;
 	private LocationState myLocation;
@@ -83,7 +84,9 @@ public class PersonAgent extends Agent {
 			state = PersonState.tired;
 		}
 		if(myJob!=null){
+			Do("Employed :)   (IN TIME UPDATE FOR PERSON  "+ myJob.startHour );
 			if(hr==myJob.startHour-1) {
+				Do("ITS WORK TIME!!!!!");
 				state=PersonState.workTime;
 			}
 		}
@@ -294,7 +297,6 @@ public class PersonAgent extends Agent {
 		//state=PersonState.doingNothing;
 		for(Role r: roles) {
 			if(r instanceof BankCustomerRole) {
-				Do("YESSER");
 				r.isActive = true;
 				r.purpose="withdraw";
 			}
@@ -303,9 +305,21 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void goToWork() {
-		//state=PersonState.doingNothing;
-		Do("Going to work");
+		DoGoTo(jobLocation);
+
+		Do("Going to Work at"+ jobLocation);
+		try {
+			atRestaurant.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		myLocation=LocationState.atWork;
 		myJob.isActive=true;
+		
+		state= PersonState.doingNothing;
+		stateChanged();
+		
 	}
 	
 
@@ -380,8 +394,9 @@ public class PersonAgent extends Agent {
 		this.money=money;
 	}
 
-	public void SetJob(Role job) {
+	public void SetJob(Role job, String location) {
 		myJob=job;
+		jobLocation=location;
 		roles.add(myJob);
 		myJob.isActive=true;
 	}

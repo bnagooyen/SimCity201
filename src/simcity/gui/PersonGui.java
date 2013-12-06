@@ -46,7 +46,7 @@ public class PersonGui implements Gui {
     
     //int numPlating=1;
     
-    enum Command {none, GoToRestaurant, GoHome};
+    enum Command {none, GoToRestaurant, GoHome, other};
     Command command= Command.none;
     
     //public String[] foodReady= new String[nTABLES];
@@ -132,7 +132,7 @@ public class PersonGui implements Gui {
 
         else if (xPos == xDestination && yPos == yDestination)
         {
-        		if(command==Command.GoToRestaurant ||command==Command.GoHome) {
+        		if(command==Command.GoToRestaurant ||command==Command.GoHome||command==Command.other) {
         			agent.msgAnimationArivedAtRestaurant();
         			System.out.println("msgArrivedat");
         		}
@@ -207,6 +207,12 @@ public class PersonGui implements Gui {
     		xDestination = myDest.x;
     		yDestination = myDest.y;
     		command=Command.GoHome;
+    	}
+    	else {
+    		Point myDest = myMap.get(destination);
+    		xDestination = myDest.x;
+    		yDestination = myDest.y;
+    		command=Command.other;
     	}
     }
     
