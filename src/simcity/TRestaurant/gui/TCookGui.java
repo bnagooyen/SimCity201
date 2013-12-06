@@ -1,10 +1,10 @@
 package simcity.TRestaurant.gui;
 
 
-import simcity.TTRestaurant.TCookRole;
-import simcity.TTRestaurant.TWaiterRole;
 
 import java.awt.*;
+
+import simcity.TRestaurant.TCookRole;
 
 public class TCookGui implements TGui {
 

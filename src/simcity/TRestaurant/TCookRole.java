@@ -2,8 +2,10 @@ package simcity.TRestaurant;
 
 import agent.Role
 ;
+import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
+import simcity.interfaces.RestaurantCashier;
 import simcity.interfaces.TCook;
 import simcity.interfaces.TWaiter;
 
@@ -18,7 +20,7 @@ import simcity.TRestaurant.gui.TCookGui;
  * Restaurant Cook Agent
  */
 
-public class TCookRole extends Role implements TCook {
+public class TCookRole extends Role implements TCook, Cook {
 	
 	private OrderStand myStand;
 
@@ -37,7 +39,7 @@ public class TCookRole extends Role implements TCook {
 	public List<Market> markets
 	= Collections.synchronizedList(new ArrayList<Market>());
 	enum MarketState  
-	{none, waiting, paying}; 
+	{none, waiting, received, confirming}; 
 	THostRole host;
 	boolean goHome = false;
 	
@@ -86,7 +88,14 @@ public class TCookRole extends Role implements TCook {
 	}
 	
 	public void msgPleaseConfirmBill(MarketCashier mart) {
-		// TODO Auto-generated method stub
+		synchronized(markets) {
+		for (Market m:markets) {
+			if (m.m == mart) {
+				m.state = MarketState.confirming;
+			} 
+		}
+		}
+		stateChanged();
 		
 	}
 	
@@ -119,7 +128,7 @@ public class TCookRole extends Role implements TCook {
 		synchronized(markets) {
 		for (Market m:markets) {
 			if (m.m == manager) {
-				m.state = MarketState.paying;
+				m.state = MarketState.received;
 				m.bill = bill; 
 			} 
 		}
@@ -164,8 +173,8 @@ public class TCookRole extends Role implements TCook {
 		}
 		synchronized(markets) {
 			for (Market m:markets) {
-				if( m.state == MarketState.paying ){
-					sendCheck(m); 
+				if( m.state == MarketState.confirming ){
+					confirmCheck(m); 
 					return true; 
 				}
 			}
@@ -347,7 +356,8 @@ public class TCookRole extends Role implements TCook {
 				neededSupply.add(new MFoodOrder("Salad", 5 - Supply.get("Salad"))); 
 			}
 
-			markets.get(index).m.msgIAmHere((Role)this, neededSupply, "TRestaurant", cashier);
+			markets.get(index).m.msgIAmHere(this, neededSupply, "TRestaurant", "cook", cashier);
+
 			markets.get(index).checked = true;
 			markets.get(index).state = MarketState.waiting;
 				
@@ -357,10 +367,11 @@ public class TCookRole extends Role implements TCook {
 		}	
 	}
 	
-	private void sendCheck(Market m) {
-		cashier.msgPayForSupply(m.c, m.bill); 
-		markets.remove(m); 
+	private void confirmCheck(Market m) {
+		cashier.msgBillIsCorrect(m.c);
+		markets.remove(m);
 	}
+	
 	
 	private void goHome() {
 		Do("Going home");
@@ -435,7 +446,14 @@ public class TCookRole extends Role implements TCook {
 		MarketCashier c;
 		MarketState state;
 		boolean checked;
-		double bill; 
+		double bill;
+		
+		Market(MarketManager mar, MarketCashier c) {
+			m = mar; 
+			this.c = c; 
+			checked = false;
+			state = MarketState.none; 
+		}
 		
 		public List<String> foodChoices = new ArrayList<String>();
 
@@ -449,6 +467,18 @@ public class TCookRole extends Role implements TCook {
 
 	public void setCashier(TCashierRole c){
 		this.cashier = c;
+	}
+
+	@Override
+	public void msgGoToCashier(MarketCashier c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgMarketClosed() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

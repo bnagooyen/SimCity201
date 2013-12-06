@@ -1,8 +1,9 @@
 package simcity.TRestaurant.gui;
 
-import simcity.TTRestaurant.TCustomerRole;
 
 import java.awt.*;
+
+import simcity.TRestaurant.TCustomerRole;
 
 public class TCustomerGui implements TGui{
 
