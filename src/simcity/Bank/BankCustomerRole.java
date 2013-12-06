@@ -22,7 +22,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public BankManager manager; 
 	public BankTeller teller; 
 	public BankLoanOfficer loanOfficer; 
-	public enum bankCustomerState { arrived, waiting, inProgress, done};
+	public enum bankCustomerState { arrived, waiting, inProgress, exiting, done};
 	public bankCustomerState state=bankCustomerState.arrived;
 	//public String purpose;
 	public Integer accountNum=null;
@@ -94,6 +94,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public void msgAnimationFinishedLeaveBank() {
 		atDest.release();
 		state=bankCustomerState.arrived;
+		this.isActive=false;
+		myPerson.msgLeftBuilding();
 	}
 
 	public void msgAtLoanPos() {
@@ -189,8 +191,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	private void leaveBank(){
 		Do("Leaving bank with $"+myPerson.money);
-		this.isActive=false;
 		bankcustomerGui.DoExitBank();
+		state=bankCustomerState.exiting;
 	}
 	
 

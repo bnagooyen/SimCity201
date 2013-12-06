@@ -111,6 +111,10 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 	
+	public void msgLeftBuilding() {
+		stateChanged();
+	}
+	
 //	public void msgLeftLocation() {
 //		atLocation.release();
 //		stateChanged();
@@ -135,7 +139,6 @@ public class PersonAgent extends Agent {
 				hasActiveRole=true;
 				rolePAEAA = r.pickAndExecuteAnAction();
 			}
-			else Do("INACTIVE BIATCH"+r.purpose);
 			if(hasActiveRole) return rolePAEAA;
 		}
 		
@@ -145,9 +148,10 @@ public class PersonAgent extends Agent {
 			return true;
 		}
 		
-		//if(bankTime){
-			//GoToBank();
-		//}	
+		if(bankTime){
+			GoToBank();
+			return true;
+		}	
 	/******************************************************/
 		
 		if (state==PersonState.tired){
@@ -171,10 +175,6 @@ public class PersonAgent extends Agent {
 			}
 			return true;
 		}
-		
-		if(bankTime){
-			GoToBank();
-		}	
 		
 		if(!(myLocation==LocationState.atHome)) {
 			GoHome();
@@ -285,7 +285,7 @@ public class PersonAgent extends Agent {
 				r.purpose="withdraw";
 			}
 		}
-		money=200;
+		stateChanged();
 	}
 	
 	private void goToWork() {

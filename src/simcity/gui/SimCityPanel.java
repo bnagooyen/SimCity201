@@ -414,7 +414,7 @@ public class SimCityPanel extends JPanel {
 	    		g.setPresent(true);
 	    		p.setGui(g);
 	    		gui.city.addGui(g);
-	    		p.bankTime=false;
+	    		p.bankTime=true;
 	    		Bmanager.msgTimeUpdate(8);
 	            BankCustomerRole bc = new BankCustomerRole(gui);
 	            bc.myPerson = p;
