@@ -347,7 +347,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 				state =AgentState.Leaving;
 				event =AgentEvent.doneLeaving;
 				host.leaving(this);
-				customerGui.gui.setCustomerEnabled(this);
+				//customerGui.gui.setCustomerEnabled(this);
 				customerGui.isHungry=false;
 				print("CUSTOMER LEAVING BECAUSE OF WAIT!!!!!!!!CUSTOMER LEAVING BECAUSE OF WAIT!!");
 			}

@@ -716,7 +716,7 @@ public class DCookRole extends Role implements DCook, Cook{
                                 DFood temp = myFood.get(foo.type);
                                 temp.setAmount(temp.getAmount()+foo.amount);
                                 myFood.put(foo.type, temp);
-                                System.out.println("update on " + temp.getChoice() + ": "+ myFood.get(temp.getChoice()).getAmount());
+                                //System.out.println("update on " + temp.getChoice() + ": "+ myFood.get(temp.getChoice()).getAmount());
                                 //myFood.put(f.getFood(), myFood.get(f.getVal()+));
                                 
                         }

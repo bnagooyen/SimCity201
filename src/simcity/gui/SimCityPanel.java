@@ -4,6 +4,8 @@ import simcity.Bank.BankCustomerRole;
 import simcity.Bank.BankLoanOfficerRole;
 import simcity.Bank.BankManagerRole;
 import simcity.Bank.BankTellerRole;
+import simcity.Drew_restaurant.Drew_CustomerRole;
+import simcity.Drew_restaurant.Drew_WaiterRole;
 import simcity.Market.InventoryBoyRole;
 import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCustomerRole;
@@ -72,6 +74,10 @@ public class SimCityPanel extends JPanel {
     private int waiterIndex = 1;
     private Vector<DWaiterRole> waiters = new Vector<DWaiterRole>();
     private Vector<DCustomerRole> customers = new Vector<DCustomerRole>();
+    
+    //Drews Restaurant
+    private Vector<Drew_WaiterRole> Drew_waiters = new Vector<Drew_WaiterRole>();
+    private Vector<Drew_CustomerRole> Drew_customers = new Vector<Drew_CustomerRole>();
     
     private final int numMarkets = 3;
     private Vector<DMarketAgent> markets = new Vector<DMarketAgent>();

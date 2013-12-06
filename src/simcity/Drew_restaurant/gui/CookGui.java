@@ -1,5 +1,6 @@
 package simcity.Drew_restaurant.gui;
 
+import simcity.gui.Gui;
 import simcity.interfaces.Drew_Cook;
 import simcity.Drew_restaurant.Drew_HostRole;
 import simcity.Drew_restaurant.Drew_HostRole.Table;

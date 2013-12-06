@@ -3,6 +3,7 @@ package simcity.Drew_restaurant.gui;
 import simcity.Drew_restaurant.Drew_CustomerRole;
 import simcity.Drew_restaurant.Drew_HostRole;
 import simcity.Drew_restaurant.Drew_HostRole.Table;
+import simcity.gui.Gui;
 
 import java.awt.*;
 
