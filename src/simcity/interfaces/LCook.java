@@ -20,6 +20,6 @@ public interface LCook {
 	public abstract void msgHereIsAnOrder(int table, String choice,
 			LWaiterNormalRole lWaiterNormalRole);
 	
-	
+	public void msgMarketCheck(double check);
 
 }

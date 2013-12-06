@@ -148,6 +148,7 @@ public class LCashierRole extends Role implements LCashier, RestaurantCashier {
 	}
 	
 	private void PayMarket(final Bill b) {
+		cook.msgMarketCheck(b.amount);
 		if(restMoney >= b.amount){
 			Do("Paying Market "+b.amount);
 			restMoney -= b.amount;

@@ -111,6 +111,10 @@ public class LCookRole extends Role implements LCook {
 //			stateChanged();
 //		}
 		
+		public void msgMarketCheck(double check){
+			print("Checked mareket check");
+		}
+		
 		public void msgHereIsDelivery(List<MFoodOrder> delivery, double bill, MarketManager manager, MarketCashier cashier) {
 			print("Got food from "+ manager);
 			
