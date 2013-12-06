@@ -74,7 +74,7 @@ public class PersonAgent extends Agent {
 
 	// Messages
 	public void msgTimeUpdate(int hr) {
-		Do("got time update. Time is " + hr+" Work Starts at " +myJob.startHour);
+		Do("got time update. Time is " + hr);//+" Work Starts at " +myJob.startHour);
 		int hour = hr;
 		if(hr == 6) { 
 			state = PersonState.doingNothing;
@@ -82,8 +82,10 @@ public class PersonAgent extends Agent {
 		if(hr ==24) { 
 			state = PersonState.tired;
 		}
-		if(hr==myJob.startHour-1) {
-			state=PersonState.workTime;
+		if(myJob!=null){
+			if(hr==myJob.startHour-1) {
+				state=PersonState.workTime;
+			}
 		}
 		
 		hungerLevel+=10;
@@ -254,7 +256,7 @@ public class PersonAgent extends Agent {
 		
 		myLocation=LocationState.atRestaurant;
 		hungerLevel=0;
-		state=PersonState.doingNothing;
+		//state=PersonState.doingNothing;
 		for(Role r: roles) {
 			if(r instanceof DCustomerRole) {
 				r.isActive=true;
@@ -289,7 +291,7 @@ public class PersonAgent extends Agent {
 		}	
 		myLocation=LocationState.atBank;
 		bankTime = false;
-		state=PersonState.doingNothing;
+		//state=PersonState.doingNothing;
 		for(Role r: roles) {
 			if(r instanceof BankCustomerRole) {
 				Do("YESSER");
@@ -301,7 +303,7 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void goToWork() {
-		state=PersonState.doingNothing;
+		//state=PersonState.doingNothing;
 		Do("Going to work");
 		myJob.isActive=true;
 	}
@@ -314,6 +316,12 @@ public class PersonAgent extends Agent {
 
 	private void GoToBed() {
 		if(myLocation!=LocationState.atHome) DoGoTo(homeAddress);
+		try {
+			atRestaurant.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		myLocation=LocationState.atHome;
 		
 		

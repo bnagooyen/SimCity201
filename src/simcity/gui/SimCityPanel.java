@@ -421,6 +421,7 @@ public class SimCityPanel extends JPanel {
 	            bc.setManager(Bmanager);
 	            p.addCustomerRoles(bc);
 	    		p.startThread();
+	    		p.msgTimeUpdate(24);
 			 
     		people.add(p);
     	}
