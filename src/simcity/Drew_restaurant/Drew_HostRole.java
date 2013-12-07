@@ -3,11 +3,11 @@ package simcity.Drew_restaurant;
 import agent.Role;
 import simcity.PersonAgent;
 import simcity.Bank.BankManagerRole.BankState;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 //import restaurant.Customer.AgentState;
 //import restaurant.gui.WaiterGui;
 import simcity.interfaces.*;
-import simcity.interfaces.Cook;
-import simcity.interfaces.Host;
 
 import java.util.*;
 
@@ -181,11 +181,13 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 	// Actions
 
 	private void openRestaurant(){
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewHost", "Opening Restaurant");
 		Do("Opening Restaurant");
 		restaurantOpen=true;
 	}
 	
 	private void closeRestaurant(){
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewHost", "Closing Restaurant");
 		Do("Closing Restaurant");
 		restaurantOpen=false;
 		for(MyWaiter w:waiters){
@@ -199,6 +201,7 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 	}
 	
 	private void sendHome(){
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewHost", "We're Closed, Go Home");
 		Do("We're Closed, Go Home");
 		waitingCustomers.get(0).msgGoHome();
 	}
@@ -216,6 +219,7 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 	
 
 	private void DoSeatCustomer(Drew_Customer customer, Table table, MyWaiter MW) {
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewHost", "Telling waiter " + MW.waiter.getName() + " to seat " + customer + " at " + table);
 		print("Telling waiter " + MW.waiter.getName() + " to seat " + customer + " at " + table);   //ADD WHICH WAITER YOUR TELLING		
 		customer.setWaiter(MW.waiter);
 		MW.waiter.sitAtTable(customer, table.tableNumber); 
@@ -230,11 +234,13 @@ public class Drew_HostRole extends Role implements Drew_Host {//Drew_Host{
 		}
 		if (workingWaiters<=1){
 			mw.waiter.breakResponse(false);
+			AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewHost", "You can not go on break right now");
 			print("You can not go on break right now");
 		}
 		else{
 			mw.waiter.breakResponse(true);
 			mw.onBreak=true;
+			AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewHost", "Go on break when you finish with current customers");
 			print("Go on break when you finish with current customers");
 		}
 	}
