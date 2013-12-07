@@ -185,18 +185,6 @@ public class PersonGui implements Gui {
         else if (xPos > xDestination)
             xPos--;
 		*/
-    	if (xPos != xDestination && yPos != yDestination) {
-            if (yPos == 30 || yPos == 335) {
-            	if (xPos < xDestination)
-                    xPos++;
-                else if (xPos > xDestination)
-                    xPos--;
-            }
-            else if (335 - yPos < 0 ) 
-		            yPos++;
-		    else 
-		            yPos--;
-    	}
     	if (xPos == xDestination && yPos != yDestination) {
             if (yPos < yDestination)
                     yPos++;
@@ -204,9 +192,23 @@ public class PersonGui implements Gui {
                     yPos--;
     	}
     	
+    	if (xPos != xDestination && yPos != yDestination) {
+            if (yPos == 30 || yPos == 335) {
+            	if (xPos < xDestination)
+                    xPos++;
+                else if (xPos > xDestination)
+                    xPos--;
+            }
+            else if (335 - yPos < 150 ) 
+		            yPos++;
+		    else 
+		            yPos--;
+    	}
+    	
     	
         if (xPos == xDestination && yPos == yDestination)
         {
+        		isPresent = false;
         		if(command==Command.GoToRestaurant ||command==Command.GoHome||command==Command.other) {
         			agent.msgAnimationArivedAtRestaurant();
         			System.out.println("msgArrivedat");
@@ -236,7 +238,7 @@ public class PersonGui implements Gui {
 
     @Override
 	public boolean isPresent() {
-        return true;
+        return isPresent;
     }
     
   

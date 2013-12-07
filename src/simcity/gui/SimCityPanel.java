@@ -138,35 +138,35 @@ public class SimCityPanel extends JPanel {
     public SimCityPanel(SimCityGui gui) {
         this.gui = gui;
         
-//        //Bank
-//        Bmanager = new BankManagerRole(gui);
-//        Bteller = new BankTellerRole(gui);
-//        Bloanofficer = new BankLoanOfficerRole(gui);
-//        
-//        Bmanager.isActive=true;
-//        PersonAgent bManagerPerson = new PersonAgent("BankManager");
-//        bManagerPerson.hungerLevel = 0;
-//        bManagerPerson.SetJob(Bmanager, "Bank 1");
-//        Bmanager.myPerson = bManagerPerson;
-//        
-//        //Bteller.isActive=true;
-//       // PersonAgent btellerPerson = new PersonAgent("Bankteller");     REMEMBER TO START THREAD!!!!
-//        //btellerPerson.hungerLevel = 0;
-//        //btellerPerson.SetJob(Bteller, "Bank 1");
-//        Bteller.manager=Bmanager;
-//        //Bteller.myPerson = btellerPerson;
-//        
-//        Bloanofficer.isActive=true;
-//        PersonAgent bloanofficerPerson = new PersonAgent("Bankloanofficer");
-//        bloanofficerPerson.hungerLevel = 0;
-//        bloanofficerPerson.SetJob(Bloanofficer, "Bank 1");
-//        Bloanofficer.manager=Bmanager;
-//        Bloanofficer.myPerson = bloanofficerPerson;
-//        
-//        //Start Threads
-//        bManagerPerson.startThread();
-//        //btellerPerson.startThread();
-//        bloanofficerPerson.startThread();
+        //Bank
+        Bmanager = new BankManagerRole(gui);
+        Bteller = new BankTellerRole(gui);
+        Bloanofficer = new BankLoanOfficerRole(gui);
+        
+        Bmanager.isActive=true;
+        PersonAgent bManagerPerson = new PersonAgent("BankManager");
+        bManagerPerson.hungerLevel = 0;
+        bManagerPerson.SetJob(Bmanager, "Bank 1");
+        Bmanager.myPerson = bManagerPerson;
+        
+        //Bteller.isActive=true;
+       // PersonAgent btellerPerson = new PersonAgent("Bankteller");     REMEMBER TO START THREAD!!!!
+        //btellerPerson.hungerLevel = 0;
+        //btellerPerson.SetJob(Bteller, "Bank 1");
+        Bteller.manager=Bmanager;
+        //Bteller.myPerson = btellerPerson;
+        
+        Bloanofficer.isActive=true;
+        PersonAgent bloanofficerPerson = new PersonAgent("Bankloanofficer");
+        bloanofficerPerson.hungerLevel = 0;
+        bloanofficerPerson.SetJob(Bloanofficer, "Bank 1");
+        Bloanofficer.manager=Bmanager;
+        Bloanofficer.myPerson = bloanofficerPerson;
+        
+        //Start Threads
+        bManagerPerson.startThread();
+        //btellerPerson.startThread();
+        bloanofficerPerson.startThread();
         
         //Hack Bank Customer
         /*Bmanager.msgTimeUpdate(8);
@@ -588,23 +588,23 @@ public class SimCityPanel extends JPanel {
 	    		p.bankTime=true;
 	    		
 //	    		Bmanager.msgTimeUpdate(8);
-//	            BankCustomerRole bc = new BankCustomerRole(gui);
-//	            bc.myPerson = p;
-//	            bc.setManager(Bmanager);
-//	            p.addCustomerRoles(bc);
+	            BankCustomerRole bc = new BankCustomerRole(gui);
+	            bc.myPerson = p;
+	            bc.setManager(Bmanager);
+	            p.addCustomerRoles(bc);
 	            
 	            
-//            	//test going to work
-//	            if(first){
-//	            	p.bankTime=false;
-//	            	p.hungerLevel = 0;
-//	            	p.SetJob(Bteller, "Bank 1");
-//	            	Bteller.manager=Bmanager;
-//	            	Bteller.myPerson = p;
-//	            	Bteller.isActive=false;
-//	            	first=false;
-//	            }
-//	            
+            	//test going to work
+	            if(first){
+	            	p.bankTime=false;
+	            	p.hungerLevel = 0;
+	            	p.SetJob(Bteller, "Bank 1");
+	            	Bteller.manager=Bmanager;
+	            	Bteller.myPerson = p;
+	            	Bteller.isActive=false;
+	            	first=false;
+	            }
+	            
 	            
 	    		p.startThread();
 	    		p.msgTimeUpdate(7);
