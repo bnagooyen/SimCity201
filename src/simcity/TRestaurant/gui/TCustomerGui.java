@@ -13,7 +13,7 @@ public class TCustomerGui implements TGui{
 	TWaiterGui waiter1; 
 
 	//private HostAgent host;
-	TRestaurantGui gui;
+	//TRestaurantGui gui;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -23,14 +23,14 @@ public class TCustomerGui implements TGui{
 
 	public static final int yTable = 250;
 
-	public TCustomerGui(TCustomerRole c, TRestaurantGui gui){ //HostAgent m) {
+	public TCustomerGui(TCustomerRole c/*, TRestaurantGui gui*/){ //HostAgent m) {
 		agent = c;
 		xPos = -20;
 		yPos = -20;
 		xDestination = xWait;
 		yDestination = yWait;
 		//maitreD = m;
-		this.gui = gui;
+		//this.gui = gui;
 	}
 
 	public void updatePosition() {
@@ -50,7 +50,7 @@ public class TCustomerGui implements TGui{
 				agent.msgAnimationFinishedLeaveRestaurant();
 				System.out.println("about to call gui.setCustomerEnabled(agent);");
 				isHungry = false;
-				gui.setCustomerEnabled(agent);
+				//gui.setCustomerEnabled(agent);
 			}
 			command=Command.noCommand;
 		}
