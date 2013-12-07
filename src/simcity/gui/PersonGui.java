@@ -112,6 +112,7 @@ public class PersonGui implements Gui {
         	personAddress=personAddress.substring(0, personAddress.length()-1);
 			//System.err.println(personAddress);
         }
+        
         if (personAddress.equals("House 1") || personAddress.equals("House 2") || personAddress.equals("Apartment 1") 
         		|| personAddress.equals("House 3") || personAddress.equals("Apartment 2") ) {
         	xPos = myMap.get(personAddress).x + 30;
@@ -122,13 +123,36 @@ public class PersonGui implements Gui {
         	xPos = myMap.get(personAddress).x - 10;
         	yPos = myMap.get(personAddress).y;
         }
-        else if (personAddress.equals("Market 1") || personAddress.equals("House 4") || personAddress.equals("Apartment 3") 
-        		|| personAddress.equals("House 5") || personAddress.equals("Bank 1") ) {
+        else if (personAddress.equals("Restaurant 1") || personAddress.equals("Aparment 4") || personAddress.equals("Apartment 5") 
+        		|| personAddress.equals("House 6") || personAddress.equals("Restaurant 2") ) {
+        	xPos = myMap.get(personAddress).x + 30;
+        	yPos = myMap.get(personAddress).y;
+        }
+        else if (personAddress.equals("Restaurant 3") || personAddress.equals("House 7") || personAddress.equals("Apartment 6") 
+        		|| personAddress.equals("House 8") || personAddress.equals("Market 2") ) {
         	xPos = myMap.get(personAddress).x - 10;
         	yPos = myMap.get(personAddress).y;
         }
-        else if (personAddress.equals("Market 1") || personAddress.equals("House 4") || personAddress.equals("Apartment 3") 
-        		|| personAddress.equals("House 5") || personAddress.equals("Bank 1") ) {
+        else if (personAddress.equals("Restaurant 4") || personAddress.equals("Apartment 7") || personAddress.equals("House 9") 
+        		|| personAddress.equals("Apartment 8") || personAddress.equals("Restaurant 5") ) {
+        	xPos = myMap.get(personAddress).x + 30;
+        	yPos = myMap.get(personAddress).y;
+        }
+        
+        else if (personAddress.equals("Market 3") || personAddress.equals("House 10") || personAddress.equals("Apartment 9") 
+        		|| personAddress.equals("House 11") || personAddress.equals("Restaurant 6") ) {
+        	xPos = myMap.get(personAddress).x - 10;
+        	yPos = myMap.get(personAddress).y;
+        }
+        
+        else if (personAddress.equals("Bank 2") || personAddress.equals("House 12") || personAddress.equals("Apartment 10") 
+        		|| personAddress.equals("House 13") || personAddress.equals("Market 4") ) {
+        	xPos = myMap.get(personAddress).x + 30;
+        	yPos = myMap.get(personAddress).y;
+        }
+        
+        else if (personAddress.equals("Apartment 11") || personAddress.equals("House 14") || personAddress.equals("Apartment 12") 
+        		|| personAddress.equals("House 15") || personAddress.equals("Homeless Shelter") ) {
         	xPos = myMap.get(personAddress).x - 10;
         	yPos = myMap.get(personAddress).y;
         }
@@ -141,22 +165,26 @@ public class PersonGui implements Gui {
 	public void updatePosition() {
     	//System.out.println("x pos: "+ xPos + " // y pos: "+ yPos+" // xDestination: " + xDestination + " // yDestination: " + yDestination);
 
-       /**
+    	/**
     	if (xPos < xDestination)
             xPos++;
         else if (xPos > xDestination)
             xPos--;
-    	*/
-    	/**
-    	if (yPos == || yPos == || yPos == ) {
-	        if (yPos < yDestination)
+		*/
+    	if (xPos != xDestination) {
+		    if (yPos < yDestination)
+		            yPos++;
+		        else if (yPos > yDestination)
+		            yPos--;
+    	}
+    	else {
+		    if (yPos < yDestination)
 	            yPos++;
 	        else if (yPos > yDestination)
 	            yPos--;
     	}
-    	*/
-        /**
-        if (yPos == yDestination) {
+
+        if (yPos == 30 || yPos == 335) {
         	if (xPos < xDestination)
                 xPos++;
             else if (xPos > xDestination)
@@ -174,7 +202,6 @@ public class PersonGui implements Gui {
         		command=Command.none;
         		
         }
-           */
 
         
     }
