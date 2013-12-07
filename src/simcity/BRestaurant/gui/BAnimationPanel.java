@@ -1,14 +1,10 @@
-package simcity.gui;
+package simcity.BRestaurant.gui;
 
 
 import simcity.PersonAgent;
 import simcity.gui.SimCityGui;
 import simcity.interfaces.*;
 import simcity.BRestaurant.*;
-import simcity.BRestaurant.gui.BCustomerGui;
-import simcity.BRestaurant.gui.BGui;
-import simcity.BRestaurant.gui.BHostGui;
-import simcity.BRestaurant.gui.BRestaurantGui;
 
 import javax.swing.*;
 
@@ -18,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class RestaurantAnimationPanel5 extends BuildingAnimationPanel implements ActionListener {
+public class BAnimationPanel extends JPanel implements ActionListener {
 
     private final int WINDOWX = 575;
     private final int WINDOWY = 325;
@@ -31,7 +27,7 @@ public class RestaurantAnimationPanel5 extends BuildingAnimationPanel implements
     
     private BRestaurantGui gui;
 
-    private List<Gui> guis = new ArrayList<Gui>();
+    private List<BGui> guis = new ArrayList<BGui>();
 
     public RestaurantAnimationPanel5(SimCityGui restaurantGui, String nm) {
     	super(restaurantGui);
@@ -46,7 +42,7 @@ public class RestaurantAnimationPanel5 extends BuildingAnimationPanel implements
 //    	timer.addActionListener(this);
     	
     	restaurantGui.city.timer.addActionListener(this);
-    	//name = nm;
+    	name = nm;
     }
 
     
@@ -89,13 +85,13 @@ public class RestaurantAnimationPanel5 extends BuildingAnimationPanel implements
         
 
 
-        for(Gui gui : guis) {
+        for(BGui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
 
-        for(Gui gui : guis) {
+        for(BGui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
             }
@@ -103,17 +99,10 @@ public class RestaurantAnimationPanel5 extends BuildingAnimationPanel implements
     }
 
     public void addGui(BCustomerGui gui) {
-        guis.add((Gui) gui);
+        guis.add(gui);
     }
 
     public void addGui(BHostGui gui) {
-        guis.add((Gui) gui);
+        guis.add(gui);
     }
-
-
-	@Override
-	public void addGui(Gui g) {
-		guis.add(g);
-		
-	}
 }

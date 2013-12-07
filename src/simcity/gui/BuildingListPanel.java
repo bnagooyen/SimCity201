@@ -18,6 +18,7 @@ public abstract class BuildingListPanel extends JPanel implements ActionListener
             new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                     JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private JPanel view = new JPanel();
+    public JPanel top = new JPanel();
     private List<JCheckBox> list = new ArrayList<JCheckBox>();
     private List<JLabel> pplList = new ArrayList<JLabel>();
     private Object currentPerson;/* Holds the agent that the info is about.
@@ -31,6 +32,8 @@ public abstract class BuildingListPanel extends JPanel implements ActionListener
 		setBackground(Color.darkGray);
 		this.setVisible(true);
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
+		top.setLayout(new BorderLayout());
+		top.setBackground(Color.darkGray);
 		text = new JLabel(txt);
 		//text.setPreferredSize(new Dimension(INFO_WIDTH, 30));
 		text.setForeground(Color.white);
@@ -39,7 +42,8 @@ public abstract class BuildingListPanel extends JPanel implements ActionListener
 		text.setAlignmentX(CENTER_ALIGNMENT);
 		//add(text);
 		setLayout(new BorderLayout());
-		add(text, BorderLayout.NORTH);
+		top.add(text, BorderLayout.CENTER);
+		add(top, BorderLayout.NORTH);
 		
 		 Dimension dim = new Dimension(300, 220);
 	        pane.setSize(dim);
