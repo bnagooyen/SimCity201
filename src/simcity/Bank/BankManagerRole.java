@@ -522,6 +522,9 @@ public class BankManagerRole extends Role implements BankManager {
 	private void goToDesk(){
 		if(bankmanagerGui == null) {
 			bankmanagerGui = new BankManagerGui(this);
+			//System.err.println(gui);
+			//System.err.println(gui.myPanels);
+			//System.err.println(gui.myPanels.get("Bank 1").panel);
 			gui.myPanels.get("Bank 1").panel.addGui(bankmanagerGui);
 		}
 		bankmanagerGui.setPresent(true);

@@ -11,6 +11,8 @@ import java.util.concurrent.Semaphore;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
 //import java.util.Random;
 
@@ -79,6 +81,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 	}
 
 	public void gotHungry() {//from animation
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "I'm hungry" );
 		print("I'm hungry");
 		event = AgentEvent.gotHungry;
 		stateChanged();
@@ -91,6 +94,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 	}
 
 	public void followMeToTable(Menu m) {
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Received msg followMeToTable");
 		print("Received msg followMeToTable");
 		event = AgentEvent.followHost;
 		menu=m;
@@ -126,6 +130,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 		event = AgentEvent.doneLeaving;
 		if(debt>0){
 			Money=20.00;
+			AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "I found $20.00!!!!");
 			print("I found $20.00!!!!");
 		}
 		stateChanged();
@@ -136,6 +141,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 		bill=b;
 		print(""+b);
 		gotBill=true;
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "got the check");
 		print("got the check");
 		stateChanged();
 	}
@@ -144,11 +150,13 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 		if(change>=0){
 			Money=change;
 			debt=0.0;
+			AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Received $"+Money+" of change");
 			print("Received $"+Money+" of change");
 		}
 		else{
 			debt=change*-1;
 			//Money=0.00;
+			AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "I owe $"+debt+" extra next time I eat");
 			print("I owe $"+debt+" extra next time I eat");
 		}
 		event = AgentEvent.donePaying;
@@ -227,6 +235,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 	// Actions
 
 	private void goToRestaurant() {
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Going to restaurant");
 		Do("Going to restaurant");
 		host.whatIsWait(this);
 		//customerGui.DoGetInLine(numberAhead);
@@ -240,11 +249,13 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 	}
 
 	private void SitDown() {
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Being seated. Going to table");
 		Do("Being seated. Going to table");
 		//customerGui.DoGoToSeat();
 	}
 	
 	private void makeChoice() {
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Deciding...");
 		Do("Deciding...");
 		timer.schedule(new TimerTask() {
 			public void run() {
@@ -256,12 +267,14 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 	}
 	
 	private void callWaiter() {
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Ready to order");
 		Do("Ready To Order");
 		waiter.readyToOrder(this);
 		stateChanged();
 	}
 	
 	private void orderFood() {
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Ordering");
 		Do("Ordering");
 		String choice = chooseFood();
 		waiter.heresMyChoice(this, choice);
@@ -272,6 +285,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 			if(name.toLowerCase().equals(menu.getItem(i).toLowerCase())){					//Hack to make cust order specific food
 				String choice=name;
 				if(menu.getPrice(choice)<Money){
+					AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "I would like "+choice);
 					print("I would like "+choice);
 					return choice;
 				}
@@ -280,21 +294,25 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 		String choice="";
 		int rand = (int)(Math.random() * menu.choices.size());
 		if(menu.choices.isEmpty()){					//If cook has no food left
+			AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Out of Food");
 			print("Out of Food");
 			return "";
 		}
 		for(int i=0; i<menu.choices.size();i++){				//Cycles through foods to find affordable
 			choice=menu.getItem((rand+i)%menu.choices.size());
 			if(menu.getPrice(choice)<Money){
+				AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "I would like "+choice);
 				print("I would like "+choice);
 				return choice;
 			}
 		}
 		if(name.toLowerCase().equals("flake")){
 			choice=menu.getItem(rand);
+			AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "I would like "+choice);
 			print("I would like "+choice);
 			return choice;
 		}
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "I can't afford anything, I'm Leaving");
 		print("I can't afford anything, I'm Leaving");
 		state = AgentState.Paying;
 		event = AgentEvent.donePaying;
@@ -322,6 +340,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 	}
 
 	private void leaveTable() {
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Leaving");
 		Do("Leaving.");
 		waiter.DoneEating(this);
 		//customerGui.DoExitRestaurant();
@@ -335,6 +354,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Paid Cashier "+ Money+" dollars for a $"+bill+" bill.");
 		print("Paid Cashier "+ Money+" dollars for a $"+bill+" bill.");
 		cashier.payBill(bill, Money, this);
 		Money=0.0;
@@ -349,6 +369,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 				host.leaving(this);
 				//customerGui.gui.setCustomerEnabled(this);
 				customerGui.isHungry=false;
+				AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "CUSTOMER LEAVING BECAUSE OF WAIT!!!!!!!!CUSTOMER LEAVING BECAUSE OF WAIT!!");
 				print("CUSTOMER LEAVING BECAUSE OF WAIT!!!!!!!!CUSTOMER LEAVING BECAUSE OF WAIT!!");
 			}
 		}

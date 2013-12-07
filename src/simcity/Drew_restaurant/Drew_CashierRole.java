@@ -6,6 +6,8 @@ import simcity.Bank.BankLoanOfficerRole.bankLoanState;
 import simcity.Drew_restaurant.Drew_CashierRole.BillState;
 //import restaurant.WaiterAgent.CustomerState;
 import simcity.Drew_restaurant.gui.Bill;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
 import simcity.test.mock.*;
 import simcity.interfaces.MarketCashier;
@@ -142,6 +144,7 @@ public class Drew_CashierRole extends Role implements Drew_Cashier,RestaurantCas
 
 	private void giveToWaiter(MyBill bill){
 		bill.w.heresBill(bill.b, bill.t);
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCashier", "You Owe: $"+bill.b);
 		print("You Owe: $"+bill.b);
 		bill.s=BillState.givenToWaiter;
 	} 
@@ -158,6 +161,7 @@ public class Drew_CashierRole extends Role implements Drew_Cashier,RestaurantCas
 		Cash-=bill.b;
 		bill.market.msgHereIsPayment(cook, bill.b);
 		bill.s=BillState.done;
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCashier", "Paid market $"+bill.b+". Cash remaining $"+Cash);
 		print("Paid market $"+bill.b+". Cash remaining $"+Cash);
 	}
 	
