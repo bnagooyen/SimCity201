@@ -306,6 +306,7 @@ public class TWaiterRole extends Role implements TWaiter{
 		customer.c.msgSitAtTable(customer.table, menu.foodChoices);
 		customer.state = CustomerState.seated;
 		customer.c.setWaiter(this);
+		customer.c.setCashier(cashier); 
 		//DoSeatCustomer(customer.c, customer.table);
 		try {
 			atTable.acquire();
