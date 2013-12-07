@@ -27,6 +27,13 @@ import simcity.Market.InventoryBoyRole;
 import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCustomerRole;
 import simcity.Market.MarketManagerRole;
+import simcity.TRestaurant.TCashierRole;
+import simcity.TRestaurant.TCookRole;
+import simcity.TRestaurant.TCustomerRole;
+import simcity.TRestaurant.THostRole;
+import simcity.TRestaurant.TWaiterRole;
+import simcity.TRestaurant.TWaiterSharedDataRole;
+import simcity.TRestaurant.gui.TCookGui;
 import simcity.Transportation.DeliveryTruckAgent;
 import simcity.gui.DGui.DCookGui;
 import simcity.gui.DGui.DWaiterGui;
@@ -110,6 +117,17 @@ public class SimCityPanel extends JPanel {
     private LCookRole Lcook = new LCookRole();
     private LCookGui LcookGui = new LCookGui(Lcook, "LcookGui");
     private LHostRole Lhost = new LHostRole();
+    
+    //Tiff's Restaurant
+    private Vector<TWaiterRole> Twaiters = new Vector<TWaiterRole>();
+    private Vector<TCustomerRole> Tcustomers = new Vector<TCustomerRole>();
+    private TCustomerRole tCustomer = new TCustomerRole();
+    private TCashierRole tCashier = new TCashierRole(); 
+    private TWaiterRole tWaiter = new TWaiterRole(); 
+    private TWaiterSharedDataRole tsWaiter = new TWaiterSharedDataRole(); 
+    private TCookRole tCook = new TCookRole();
+    private TCookGui tCookGui = new TCookGui(tCook);
+    private THostRole tHost = new THostRole();
     
     private final int numMarkets = 3;
     //private Vector<DMarketAgent> markets = new Vector<DMarketAgent>();
@@ -424,6 +442,68 @@ public class SimCityPanel extends JPanel {
 //        host.startThread();
 //        cook.startThread();
 //        kcashier.startThread();
+        
+        //tiff's restaurant setup
+        tHost.isActive = true; 
+        PersonAgent THost = new PersonAgent("THost");
+        THost.hungerLevel = 0; 
+        THost.SetJob(tHost, "Restaruant 6");
+        tHost.myPerson = THost; 
+        THost.startThread(); 
+        
+        tCashier.isActive = true; 
+        PersonAgent TCashier = new PersonAgent("TCashier");
+        TCashier.hungerLevel = 0; 
+        TCashier.SetJob(tCashier, "Restaruant 6");
+        tCashier.myPerson = TCashier; 
+        TCashier.startThread();
+        
+        tWaiter.isActive = true; 
+        PersonAgent TWaiter = new PersonAgent("TWaiter");
+        TWaiter.hungerLevel = 0; 
+        TWaiter.SetJob(tWaiter, "Restaruant 6");
+        tWaiter.myPerson = TWaiter; 
+        TWaiter.startThread();
+        Twaiters.add(tWaiter); 
+        
+        tsWaiter.isActive = true; 
+        PersonAgent TSWaiter = new PersonAgent("TSWaiter");
+        TSWaiter.hungerLevel = 0; 
+        TSWaiter.SetJob(tsWaiter, "Restaruant 6");
+        tsWaiter.myPerson = TSWaiter; 
+        TSWaiter.startThread(); 
+        Twaiters.add(tsWaiter); 
+        
+        tCook.isActive = true; 
+        PersonAgent TCook = new PersonAgent("TCook"); 
+        TCook.hungerLevel = 0; 
+        TCook.SetJob(tCook, "Restaurant 6");
+        tCook.myPerson = TCook; 
+        TCookGui tcg = new TCookGui(tCook);
+        tCook.setGui(tcg);
+        TCook.startThread();
+        
+        tHost.setCashier(tCashier);
+        tHost.setCook(tCook);
+        tHost.addWaiter(tWaiter);
+        tHost.addWaiter(tsWaiter); 
+        
+        tWaiter.setCashier(tCashier);
+        tWaiter.setCook(tCook);
+        tWaiter.setHost(tHost);
+        
+        tsWaiter.setCashier(tCashier);
+        tsWaiter.setCook(tCook);
+        tsWaiter.setHost(tHost); 
+        
+        tCook.setCashier(tCashier);
+        tCook.setHost(tHost);
+        
+        tCashier.setCook(tCook);
+        tCashier.setHost(tHost);
+        
+        gui.myPanels.get("Restaurant 6").panel.addGui(tcg);
+        
     }
 
     /**
