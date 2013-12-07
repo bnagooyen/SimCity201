@@ -164,35 +164,34 @@ public class PersonGui implements Gui {
     @Override
 	public void updatePosition() {
     	//System.out.println("x pos: "+ xPos + " // y pos: "+ yPos+" // xDestination: " + xDestination + " // yDestination: " + yDestination);
-
+    	
     	/**
     	if (xPos < xDestination)
             xPos++;
         else if (xPos > xDestination)
             xPos--;
 		*/
-    	if (xPos != xDestination) {
-		    if (yPos < yDestination)
+    	if (xPos != xDestination && yPos != yDestination) {
+            if (yPos == 30 || yPos == 335) {
+            	if (xPos < xDestination)
+                    xPos++;
+                else if (xPos > xDestination)
+                    xPos--;
+            }
+            else if (335 - yPos < 0 ) 
 		            yPos++;
-		        else if (yPos > yDestination)
+		    else 
 		            yPos--;
     	}
-    	else {
-		    if (yPos < yDestination)
-	            yPos++;
-	        else if (yPos > yDestination)
-	            yPos--;
+    	if (xPos == xDestination && yPos != yDestination) {
+            if (yPos < yDestination)
+                    yPos++;
+            else if (yPos > yDestination)
+                    yPos--;
     	}
-
-        if (yPos == 30 || yPos == 335) {
-        	if (xPos < xDestination)
-                xPos++;
-            else if (xPos > xDestination)
-                xPos--;
-        }
-     
-        
-        else if (xPos == xDestination && yPos == yDestination)
+    	
+    	
+        if (xPos == xDestination && yPos == yDestination)
         {
         		if(command==Command.GoToRestaurant ||command==Command.GoHome||command==Command.other) {
         			agent.msgAnimationArivedAtRestaurant();
