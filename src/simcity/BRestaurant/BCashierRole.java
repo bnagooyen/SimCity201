@@ -5,6 +5,8 @@ import simcity.BRestaurant.*;
 import java.util.*;
 
 import simcity.PersonAgent;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
 import simcity.BRestaurant.*;
 
@@ -87,6 +89,7 @@ public class BCashierRole extends Role implements BCashier {
     }  
     
     private void tellHost() {
+    			AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BCashier", "telling manager I'm here at work");
                  Do("telling manager I'm here at work");
                  arrived = false;
                  host.msgIAmHere(this, "cashier");
@@ -101,6 +104,7 @@ public class BCashierRole extends Role implements BCashier {
     }
     
     private void goHome() {
+		AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BCashier", "Going home");
         Do("Going home");
         isActive = false;
         goHome = false;

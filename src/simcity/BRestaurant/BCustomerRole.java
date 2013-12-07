@@ -2,6 +2,8 @@ package simcity.BRestaurant;
 
 import simcity.PersonAgent;
 import simcity.BRestaurant.*;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
 import simcity.BRestaurant.gui.*;
 import simcity.BRestaurant.gui.*;
@@ -82,6 +84,7 @@ public class BCustomerRole extends Role implements BCustomer {
         // Messages
 
         public void gotHungry() {//from animation
+    			AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BCustomer", "I'm hungry");
                 print("I'm hungry");
                 event = AgentEvent.gotHungry;
                 stateChanged();
@@ -93,6 +96,7 @@ public class BCustomerRole extends Role implements BCustomer {
                 this.waiter=waiter;
                 this.menu=menu;
                 mytable=tablenumber;
+        		AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BCustomer", "Received msgSitAtTable");
                 print("Received msgSitAtTable");
                 event = AgentEvent.followHost;
                 stateChanged();
@@ -208,11 +212,13 @@ public class BCustomerRole extends Role implements BCustomer {
         // Actions
 
         private void goToRestaurant() {
+        		AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BCustomer", "Going to restaurant");
                 Do("Going to restaurant");
                 host.msgIWantFood(this);//send our instance, so he can respond to us
         }
 
         private void SitDown(int mytable, BWaiter w) {
+    			AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BCustomer", "Being seated. Going to table");
                 Do("Being seated. Going to table");
                 customerGui.DoGoToSeat(mytable);//hack; only one table
                 w.msgSitCustomerAtTable(this, mytable);
@@ -238,6 +244,7 @@ public class BCustomerRole extends Role implements BCustomer {
 
         //actions
         private void waiterCall(){
+        		AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BCustomer", "I decided!");
                 print("I decided!");
                 waiter.msgReadytoOrder(this);
 
@@ -288,6 +295,7 @@ public class BCustomerRole extends Role implements BCustomer {
                 timer.schedule(new TimerTask() {
                         Object cookie = 1;
                         public void run() {
+                        		AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BCustomer", "Done eating");
                                 print("Done eating, cookie=" + cookie);
                                 event = AgentEvent.doneEating;
                                 //isHungry = false;

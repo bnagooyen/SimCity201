@@ -3,6 +3,8 @@ package simcity.BRestaurant;
 import agent.Agent;
 import agent.Role;
 import simcity.PersonAgent;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
 import simcity.BRestaurant.*;
 import simcity.BRestaurant.gui.BHostGui;
@@ -139,6 +141,7 @@ public abstract class BWaiterRole extends Role implements BWaiter{
         }
 
            public void msgGoHome(double paycheck) {
+        	AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BWaiter", "told to go home");
            Do("told to go home");
            myPerson.money += paycheck;
            mystate = WaiterState.leave;
@@ -329,11 +332,13 @@ public abstract class BWaiterRole extends Role implements BWaiter{
         private void takeBreak(){
                 onBreak=false;
                 host.msgPutMeOnBreak(this);
+            	AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BWaiter", "taking break");
                 print("taking break");
                 
         }
         
          private void tellHost() {
+         AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BWaiter", "telling manager I can work");
          Do("telling manager I can work");
          arrived = false;
          host.msgIAmHere(this, "waiter");
@@ -341,7 +346,7 @@ public abstract class BWaiterRole extends Role implements BWaiter{
         
         private void returnFromBreak(){
                 
-                
+        		AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BWaiter", "done breaking");
                 print("done breaking");
                 host.msgDonewithBreak(this);
         }
@@ -425,6 +430,7 @@ public abstract class BWaiterRole extends Role implements BWaiter{
         private void DoSeatCustomer(BCustomer customer, int tablenumber) {
                 //Notice how we print "customer" directly. It's toString method will do it.
                 //Same with "table"
+        	AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BWaiter", "Seating " + customer + " at " + tablenumber);
                 print("Seating " + customer + " at " + tablenumber);
                 //hostGui.DoGoToWaiting();
                 //hostGui.DoBringToTable(customer, tablenumber); 
