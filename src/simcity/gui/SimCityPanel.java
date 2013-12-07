@@ -12,6 +12,11 @@ import simcity.Drew_restaurant.Drew_WaiterNormalRole;
 import simcity.Drew_restaurant.Drew_WaiterRole;
 import simcity.Drew_restaurant.gui.Drew_CookGui;
 import simcity.Drew_restaurant.gui.Drew_WaiterGui;
+import simcity.LRestaurant.LCashierRole;
+import simcity.LRestaurant.LCookRole;
+import simcity.LRestaurant.LCustomerRole;
+import simcity.LRestaurant.LHostRole;
+import simcity.LRestaurant.LWaiterRole;
 import simcity.Market.InventoryBoyRole;
 import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCustomerRole;
@@ -90,6 +95,13 @@ public class SimCityPanel extends JPanel {
     private Drew_HostRole Drew_host = new Drew_HostRole();
     private Drew_CustomerRole Drew_customer = new Drew_CustomerRole();
     private Drew_CookGui Drewcookgui;
+    
+    //Linda's Restaurant
+    private Vector<LWaiterRole> LWaiters = new Vector<LWaiterRole>();
+    private Vector<LCustomerRole> LCustomers = new Vector<LCustomerRole>();
+    private LCashierRole LCashier = new LCashierRole();
+    private LCookRole LCook = new LCookRole();
+    private LHostRole LHost = new LHostRole();
     
     private final int numMarkets = 3;
     private Vector<DMarketAgent> markets = new Vector<DMarketAgent>();
@@ -211,7 +223,7 @@ public class SimCityPanel extends JPanel {
         //mcustomer.startThread();
         
         
-        
+        //Doreen's Restaurant setup
         host.isActive=true;
         PersonAgent hostPerson = new PersonAgent("Host");
         hostPerson.hungerLevel=0; //hack so won't go to restaurant
@@ -248,7 +260,39 @@ public class SimCityPanel extends JPanel {
         cookPerson.startThread();
         
         
-        //Setting up people for Drew's Restaurant
+        
+        //coding in waiters to test simulation
+        PersonAgent nWaiter = new PersonAgent("Head Waiter");
+        nWaiter.hungerLevel=0; //hack so won't be hungry
+        DWaiterNormalRole headWaiter = new DWaiterNormalRole();
+        headWaiter.msgAddHost(host);
+        headWaiter.msgAddCook(cook);
+        headWaiter.msgAddCashier(cashier);
+        DWaiterGui wGui= new DWaiterGui(headWaiter, gui, waiterIndex);
+        headWaiter.setGui(wGui);
+        nWaiter.startThread();
+        gui.myPanels.get("Restaurant 3").panel.addGui(wGui);
+        headWaiter.isActive=true;
+        headWaiter.myPerson = nWaiter;
+        nWaiter.SetJob(headWaiter, "Restaurant 3");
+        host.msgAddWaiter(headWaiter);
+//		w.msgAddCook(cook);
+//      w.msgAddHost(host);
+//      w.msgAddCashier(cashier);
+//      host.msgAddWaiter(w);
+//      waiters.add(w);
+        
+        
+       // cook.startThread();
+        
+//        personGui=new PersonGui(person, gui);
+//        person.setGui(personGui);
+//        gui.simCityPanel.addGui(personGui);
+//        person.startThread();
+
+       // add(group);
+        
+      //Setting up people for Drew's Restaurant
         Drew_host.isActive=true;
         PersonAgent Drew_hostPerson = new PersonAgent("Drew Host");
         Drew_hostPerson.hungerLevel=0; //hack so won't go to restaurant
@@ -291,37 +335,7 @@ public class SimCityPanel extends JPanel {
         Drew_Waiter.SetJob(Drew_headWaiter, "Restaurant 3");
         Drew_host.addWaiter(Drew_headWaiter);
         
-        
-        //coding in waiters to test simulation
-        PersonAgent nWaiter = new PersonAgent("Head Waiter");
-        nWaiter.hungerLevel=0; //hack so won't be hungry
-        DWaiterNormalRole headWaiter = new DWaiterNormalRole();
-        headWaiter.msgAddHost(host);
-        headWaiter.msgAddCook(cook);
-        headWaiter.msgAddCashier(cashier);
-        DWaiterGui wGui= new DWaiterGui(headWaiter, gui, waiterIndex);
-        headWaiter.setGui(wGui);
-        nWaiter.startThread();
-        gui.myPanels.get("Restaurant 3").panel.addGui(wGui);
-        headWaiter.isActive=true;
-        headWaiter.myPerson = nWaiter;
-        nWaiter.SetJob(headWaiter, "Restaurant 3");
-        host.msgAddWaiter(headWaiter);
-//		w.msgAddCook(cook);
-//      w.msgAddHost(host);
-//      w.msgAddCashier(cashier);
-//      host.msgAddWaiter(w);
-//      waiters.add(w);
-        
-        
-       // cook.startThread();
-        
-//        personGui=new PersonGui(person, gui);
-//        person.setGui(personGui);
-//        gui.simCityPanel.addGui(personGui);
-//        person.startThread();
-
-       // add(group);
+        //Linda's Restaurant setup
     }
 
     /**
