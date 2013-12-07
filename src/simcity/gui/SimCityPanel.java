@@ -463,24 +463,25 @@ public class SimCityPanel extends JPanel {
 //        kcashier.startThread();
         
         //tiff's restaurant setup
+        /**
         tHost.isActive = true; 
         PersonAgent THost = new PersonAgent("THost");
         THost.hungerLevel = 0; 
-        THost.SetJob(tHost, "Restaruant 6");
+        THost.SetJob(tHost, "Restaurant 6");
         tHost.myPerson = THost; 
         THost.startThread(); 
         
         tCashier.isActive = true; 
         PersonAgent TCashier = new PersonAgent("TCashier");
         TCashier.hungerLevel = 0; 
-        TCashier.SetJob(tCashier, "Restaruant 6");
+        TCashier.SetJob(tCashier, "Restaurant 6");
         tCashier.myPerson = TCashier; 
         TCashier.startThread();
         
         tWaiter.isActive = true; 
         PersonAgent TWaiter = new PersonAgent("TWaiter");
         TWaiter.hungerLevel = 0; 
-        TWaiter.SetJob(tWaiter, "Restaruant 6");
+        TWaiter.SetJob(tWaiter, "Restaurant 6");
         tWaiter.myPerson = TWaiter; 
         TWaiter.startThread();
         Twaiters.add(tWaiter); 
@@ -488,7 +489,7 @@ public class SimCityPanel extends JPanel {
         tsWaiter.isActive = true; 
         PersonAgent TSWaiter = new PersonAgent("TSWaiter");
         TSWaiter.hungerLevel = 0; 
-        TSWaiter.SetJob(tsWaiter, "Restaruant 6");
+        TSWaiter.SetJob(tsWaiter, "Restaurant 6");
         tsWaiter.myPerson = TSWaiter; 
         TSWaiter.startThread(); 
         Twaiters.add(tsWaiter); 
@@ -522,7 +523,7 @@ public class SimCityPanel extends JPanel {
         tCashier.setHost(tHost);
         
         gui.myPanels.get("Restaurant 6").panel.addGui(tcg);
-        
+        */
     }
 
     /**
