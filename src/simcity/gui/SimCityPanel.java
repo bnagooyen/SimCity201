@@ -1,5 +1,10 @@
 package simcity.gui;
 
+import simcity.BRestaurant.BCashierRole;
+import simcity.BRestaurant.BCookRole;
+import simcity.BRestaurant.BCustomerRole;
+import simcity.BRestaurant.BHostRole;
+import simcity.BRestaurant.BWaiterRole;
 import simcity.Bank.BankCustomerRole;
 import simcity.Bank.BankLoanOfficerRole;
 import simcity.Bank.BankManagerRole;
@@ -117,6 +122,20 @@ public class SimCityPanel extends JPanel {
     private LCookRole Lcook = new LCookRole();
     private LCookGui LcookGui = new LCookGui(Lcook, "LcookGui");
     private LHostRole Lhost = new LHostRole();
+    
+    
+    //Brian's Restaurant
+    private Vector<BWaiterRole> BWaiters= new Vector <BWaiterRole>();
+    private Vector<BCustomerRole> Bcustomers= new Vector<BCustomerRole>();
+    private BCashierRole Bcashier= new BCashierRole();
+    private BCookRole Bcook=new BCookRole();
+   
+    private BHostRole Bhost=new BHostRole();
+  
+  
+    
+    
+    
     
     //Tiff's Restaurant
     private Vector<TWaiterRole> Twaiters = new Vector<TWaiterRole>();
