@@ -10,6 +10,7 @@ import simcity.interfaces.DeliveryTruck;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.Person;
+import simcity.interfaces.RestaurantCashier;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 import agent.Agent;
@@ -24,6 +25,7 @@ public class DeliveryTruckAgent extends Agent implements DeliveryTruck{
 	public double check;
 	public MarketManager manager;
 	public MarketCashier mc;
+	public RestaurantCashier cashier;
 	public EventLog log;
 	
 	public enum truckState
@@ -47,13 +49,14 @@ public class DeliveryTruckAgent extends Agent implements DeliveryTruck{
 	
 	
 	
-	public void msgGoToDestination(MarketCashier cashier, List<MFoodOrder>deliver, String location, double bill, Cook c) {
+	public void msgGoToDestination(MarketCashier cashier, List<MFoodOrder>deliver, String location, double bill, Cook c, RestaurantCashier rcashier) {
 		mc = cashier;
 		supply = deliver;
 		destination = location;
 		state = truckState.receivedLocation;
 		cook = c;
 		check = bill;
+		this.cashier = rcashier;
 		stateChanged();
 		
 	}
@@ -75,13 +78,11 @@ public class DeliveryTruckAgent extends Agent implements DeliveryTruck{
 				goToLocation();
 				return true;
 			}
-			Do("state is " + state);
 			if(state==truckState.arrived){
 				HaveArrived();
 				state=truckState.parked;
 				return true;
 			}
-			Do("here");
 			return false;
 		}
 		
@@ -103,7 +104,7 @@ public class DeliveryTruckAgent extends Agent implements DeliveryTruck{
 		log.add(e);
 		Do("Arrived at destination");
 		cook.msgHereIsDelivery(supply, check, manager, mc);
-		
+		cashier.msgBillFromMarket(check, mc, manager);
 		//animation to go home
 		manager.msgBackFromDelivery();
 		state = truckState.available;

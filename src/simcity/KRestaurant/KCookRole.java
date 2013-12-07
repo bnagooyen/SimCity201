@@ -93,11 +93,11 @@ public class KCookRole extends Role implements Cook{
 	// Messages
 
 
-	public void msgConfirmCheck(List<MFoodOrder> foods, double check) {
+	public void msgConfirmCheck( double check, MarketManager manager) {
 		Do("got check to confirm");
 		synchronized(marketOrders) {
 				for(MarketOrder m : marketOrders) {
-					if( m.foodGiven.get(0).type == foods.get(0).type) {
+					if( m.m == manager) {
 						m.state = marketOrderState.confirm;
 						m.check = check;
 					}
@@ -239,11 +239,11 @@ public class KCookRole extends Role implements Cook{
 		}
 		if(billShouldBe == m.check) {
 			Do("check is correct");
-			((KCashier) cashier).msgConfirmingMarketCheck(false, m.foodGiven);
+			 ((KCashierRole)cashier).msgConfirmingMarketCheck(false, m.m);
 		}
 		else {
 			Do("market is scamming us");
-			((KCashier) cashier).msgConfirmingMarketCheck(false, m.foodGiven);
+			((KCashier) cashier).msgConfirmingMarketCheck(false, m.m);
 		}
 		m.state = marketOrderState.done;
 	}
@@ -419,8 +419,8 @@ public class KCookRole extends Role implements Cook{
 	public void setInitial(SimCityGui gui) {
 		this.gui = gui;
 	}
-	public void setCashier(KCashier c) {
-		cashier = (RestaurantCashier) c;
+	public void setCashier(RestaurantCashier c) {
+		cashier =  c;
 	}
 	public void setMonitor(ProducerConsumerMonitor m) {
 		theMonitor = m;

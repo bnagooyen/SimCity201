@@ -156,6 +156,14 @@ public class MarketManagerRole extends Role implements MarketManager{
 		truck.check = bill;
 		truck.cook = c;
 		truck.state = workerState.occupied;
+		synchronized(customers) {
+			for(MyCustomer mc : customers) {
+				if(mc.building == location) {
+					Do("here");
+					truck.cashier = mc.cashier;
+				}
+			}
+		}
 		stateChanged();
 	}
 
@@ -185,7 +193,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		
 		if(truck.state.equals(workerState.occupied)){
 			for(MyCustomer cust : customers){
-				if(cust.equals(truck.cook)){
+				if(cust.c ==truck.cook) {
 						if(!cust.restClosed){
 							sendOverTruck();
 						}
@@ -215,7 +223,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	private void sendOverTruck(){
 		truck.state = workerState.out;
 		Do("Sending delivery truck over");
-		truck.d.msgGoToDestination(truck.mc, truck.supply, truck.destination, truck.check, truck.cook);
+		truck.d.msgGoToDestination(truck.mc, truck.supply, truck.destination, truck.check, truck.cook, truck.cashier);
 	}
 	
 	private void closeMarket(){ //pay employees 50
@@ -341,6 +349,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		public String destination;
 		public double check;
 		public Cook cook;//restaurant's cook
+		public RestaurantCashier cashier;
 		
 		public MyDeliveryTruck(DeliveryTruck d){
 			this.d = d;

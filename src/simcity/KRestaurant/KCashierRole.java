@@ -69,15 +69,17 @@ public class KCashierRole extends Role implements RestaurantCashier{
 	}
 
 	// Messages
-	public void msgConfirmingMarketCheck(boolean scammed, List<MFoodOrder> foods) {
+	public void msgConfirmingMarketCheck(boolean scammed, MarketManager m) {
+		Do("check has been confirmed by cook");
 		synchronized(toPay) {
 			for(MarketBill b: toPay) {
-				if(b.foods.get(0).type == foods.get(0).type) {
+				if(b.manager == m) {
 					b.paid = paidState.confirmed;
 					b.scammed = scammed;
 				}
 			}
 		}
+		stateChanged();
 	}
 	
 	public void msgGoHome(double paycheck) {
@@ -128,7 +130,7 @@ public class KCashierRole extends Role implements RestaurantCashier{
 	@Override
 	public void msgBillFromMarket(double check, MarketCashier marketCashier,
 			MarketManager manager) {
-		toPay.add(new MarketBill(m, check, foods));
+		toPay.add(new MarketBill(marketCashier, manager, check));
 		System.out.println(myPerson.getName() + ": " +"got bill from a market $"+check);
 		LoggedEvent e = new LoggedEvent("received bill to pay");
 		log.add(e);
@@ -187,7 +189,7 @@ public class KCashierRole extends Role implements RestaurantCashier{
 
 	private void confirmWithCook(MarketBill b) {
 		b.paid = paidState.inquiring;
-		cook.msgConfirmCheck(b.foods, b.bill);
+		cook.msgConfirmCheck(b.bill, b.manager);
 	}
 
 	private void tellHost() {
@@ -252,7 +254,7 @@ public class KCashierRole extends Role implements RestaurantCashier{
 			Do("we were scammed by market, but still paying them anyways");
 		}
 		if(myMoney>=b.bill) {
-			b.m.msgHereIsPayment(cook, b.bill);
+			b.cashier.msgHereIsPayment(cook, b.bill);
 			myMoney -= b.bill;
 			b.paid = paidState.paid;
 			LoggedEvent e = new LoggedEvent("paid Market");
@@ -260,7 +262,7 @@ public class KCashierRole extends Role implements RestaurantCashier{
 		}
 		else {  // myMoney < b.bill
 			System.out.println(myPerson.getName() + ": " +"Don't have enough money to pay off bill. Will pay the rest when I get more money");
-			b.m.msgHereIsPayment(cook, myMoney);
+			b.cashier.msgHereIsPayment(cook, myMoney);
 			b.bill -= myMoney;
 			myMoney = 0;
 			b.paid = paidState.halfPaid;
@@ -299,17 +301,17 @@ public class KCashierRole extends Role implements RestaurantCashier{
 		}
 	}
 	public class MarketBill{
-		public MarketCashier m;
+		public MarketManager manager;
+		public MarketCashier cashier;
 		public double bill;
 		public paidState paid;
-		List<MFoodOrder> foods;
 		public boolean scammed;
 		
-		public MarketBill(MarketCashier market, double b, List<MFoodOrder> ordered) {
-			m = market;
+		public MarketBill(MarketCashier cashier, MarketManager manager, double b) {
+			this.cashier = cashier;
+			this.manager = manager;
 			bill = b;
 			paid = paidState.notPaid;
-			foods = ordered;
 		}
 	}
 	

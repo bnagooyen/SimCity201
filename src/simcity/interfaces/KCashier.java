@@ -12,6 +12,6 @@ public interface KCashier {
 
 	void msgBill(KCustomer c, KWaiterRole kWaiterRole, String choice);
 
-	public void msgConfirmingMarketCheck(boolean scammed, List<MFoodOrder> foods);
+	public void msgConfirmingMarketCheck(boolean scammed, MarketManager m);
 
 }
