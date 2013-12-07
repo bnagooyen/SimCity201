@@ -12,7 +12,7 @@ import java.awt.*;
 public class Drew_WaiterGui implements Gui {
 
     private Drew_WaiterRole agent = null;
-	public CustomerGui customerGui=null;
+	public Drew_CustomerGui customerGui=null;
 	//public RestaurantGui restGui=null;
 
     private int xPos=0;
@@ -231,11 +231,11 @@ public class Drew_WaiterGui implements Gui {
         return yPos;
     }
     
-	public void setGui(CustomerGui g) {
+	public void setGui(Drew_CustomerGui g) {
 		customerGui = g;
 	}
 
-	public CustomerGui getGui() {
+	public Drew_CustomerGui getGui() {
 		return customerGui;
 	}
 }

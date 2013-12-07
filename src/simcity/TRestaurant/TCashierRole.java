@@ -2,10 +2,11 @@ package simcity.TRestaurant;
 
 import agent.Role;
 import simcity.interfaces.MarketCashier;
+import simcity.interfaces.MarketManager;
+import simcity.interfaces.RestaurantCashier;
 import simcity.interfaces.TCustomer;
 import simcity.interfaces.TWaiter;
 import simcity.interfaces.TCashier;
-
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -16,7 +17,7 @@ import simcity.PersonAgent;
  * Restaurant Cashier Agent
  */
 
-public class TCashierRole extends Role implements TCashier{
+public class TCashierRole extends Role implements TCashier, RestaurantCashier{
 	private String name;
 	public double budget = 100;
 	public double debt = 0; 
@@ -112,7 +113,7 @@ public class TCashierRole extends Role implements TCashier{
 	}
 	
 	
-	public void msgPayForSupply(MarketCashier m, double b) {
+	public void msgBillFromMarket(double b, MarketCashier m, MarketManager manager) {
 		Markets market = new Markets(); 
 		market.mart = m;
 		market.bill = b;
@@ -125,6 +126,15 @@ public class TCashierRole extends Role implements TCashier{
 		myPerson.money += moneys;
 		goHome = true;
 		stateChanged();
+	}
+	
+	public void msgBillIsCorrect (MarketCashier mc) {
+		for (Markets m: markets) {
+			if (m.mart == mc) {
+				m.billState = BillState.paying; 
+			}
+		}
+		stateChanged(); 
 	}
 	
 	
@@ -152,10 +162,13 @@ public class TCashierRole extends Role implements TCashier{
 			for (Markets m: markets) {
 				if (m.billState == BillState.received) {
 					AskForConfirmation(m);
+					return true; 
+				}
+				if (m.billState == BillState.paying) {
+					payForStock(m); 
+					return true; 
 				}
 			}
-			payForStock(); 
-			return true; 
 		}
 		
 		if(goHome) {
@@ -215,23 +228,23 @@ public class TCashierRole extends Role implements TCashier{
 	}
 	
 	
-	private void payForStock() {
-		print("The bill is " + markets.get(0).bill);
-		if (budget < markets.get(0).bill) {
+	private void payForStock(Markets m) {
+		print("The bill is " + m.bill);
+		if (budget < m.bill) {
 			print("Don't have enough money to pay for supplies. Borrowing money from bank.");
-			double x = markets.get(0).bill - budget;
+			double x = m.bill - budget;
 			budget += x; 
 			debt += x; 
 			print("We now owe "+ debt); 
 		}
-		budget -= markets.get(0).bill;
+		budget -= m.bill;
 		if (budget > debt && debt != 0) {
 			budget -= debt;
 			debt = 0; 
 			print("We don't owe money anymore!"); 
 		}
-		markets.get(0).mart.msgHereIsPayment(cook, markets.get(0).bill); 
-		markets.remove(0); 
+		m.mart.msgHereIsPayment(cook, m.bill); 
+		markets.remove(m); 
 		print("Paying for food from the market. Our budget is now $" + budget); 
 		
 	}

@@ -45,11 +45,7 @@ public class DeliveryTruckAgent extends Agent implements DeliveryTruck{
 	
 	//Messages
 	
-	public void msgRestaurantClosed(){
-		//cannot deliver order must wait for the restaurant to open back up
-		//check with a time stamp to try and deliver again in 10 hours? or constantly ask rest if they are back open or idk
-		//note deliver was unsuccessful 
-	}
+	
 	
 	public void msgGoToDestination(MarketCashier cashier, List<MFoodOrder>deliver, String location, double bill, Cook c) {
 		mc = cashier;

@@ -1,7 +1,7 @@
 package simcity.test.mock;
 
 
-import simcity.Drew_restaurant.gui.CustomerGui;
+import simcity.Drew_restaurant.gui.Drew_CustomerGui;
 import simcity.Drew_restaurant.gui.Menu;
 import simcity.Drew_restaurant.interfaces.Drew_Cashier;
 import simcity.Drew_restaurant.interfaces.Drew_Customer;
@@ -26,7 +26,7 @@ public class Drew_MockCustomer extends Mock implements Drew_Customer {
 	public String name;
 	public double debt;
 	public double change=-1.0;
-	public CustomerGui customergui;
+	public Drew_CustomerGui customergui;
 	
 	
 	
@@ -93,7 +93,7 @@ public class Drew_MockCustomer extends Mock implements Drew_Customer {
 		return name;
 	}
 	
-	public CustomerGui getGui(){
+	public Drew_CustomerGui getGui(){
 		return customergui;
 	}
 	

@@ -57,9 +57,9 @@ public class LCookRole extends Role implements LCook {
 		goHome = false;
 	}
 	
-	//	public void addMarket(LMarket m){
-	//	markets.add(new MyMarket(m));
-	//}
+	public void addMarket(MarketManager m){
+		markets.add(m);
+	}
 	
 	public void setCashier(LCashierRole c){
 		cashier = c;
@@ -110,6 +110,10 @@ public class LCookRole extends Role implements LCook {
 	//
 //			stateChanged();
 //		}
+		
+		public void msgMarketCheck(double check){
+			print("Checked market check");
+		}
 		
 		public void msgHereIsDelivery(List<MFoodOrder> delivery, double bill, MarketManager manager, MarketCashier cashier) {
 			print("Got food from "+ manager);
@@ -399,7 +403,7 @@ public class LCookRole extends Role implements LCook {
 			capacity = cap;		
 			threshold = thres;
 //			needMarket = false;
-//			state = MarketState.noOrder;
+			state = MarketState.noOrder;
 			need = 0;
 
 		}

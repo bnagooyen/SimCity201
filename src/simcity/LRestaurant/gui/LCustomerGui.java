@@ -23,7 +23,7 @@ public class LCustomerGui implements Gui{
 	private String food;
 	private String name;
 	private boolean waiting;
-	LRestaurantGui gui;
+//	LRestaurantGui gui;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -45,7 +45,7 @@ public class LCustomerGui implements Gui{
     private int rectSize = 20;
     private int xDpos = 10, yDpos = 20;
 
-	public LCustomerGui(LCustomerRole c, String name, LRestaurantGui gui){ 
+	public LCustomerGui(LCustomerRole c, String name){ //,LRestaurantGui gui){ 
 		this.name = name;
 		agent = c;
 		xPos = xDpos;
@@ -53,7 +53,7 @@ public class LCustomerGui implements Gui{
 		xDestination = xDpos;
 		yDestination = yDpos;
 		//maitreD = m;
-		this.gui = gui;
+//		this.gui = gui;
 	}
 	
 	
@@ -99,7 +99,7 @@ public class LCustomerGui implements Gui{
 				agent.msgAnimationFinishedLeaveRestaurant();
 				//System.out.println("about to call gui.setCustomerEnabled(agent);");
 				isHungry = false;
-				gui.setCustomerEnabled(agent);
+//				gui.setCustomerEnabled(agent);
 			}
 			command=Command.noCommand;
 		}

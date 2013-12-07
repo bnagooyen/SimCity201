@@ -14,7 +14,7 @@ import java.util.concurrent.Semaphore;
 
 //import restaurant.HostAgent.MyWaiter;
 import simcity.interfaces.*;
-import simcity.Drew_restaurant.gui.CookGui;
+import simcity.Drew_restaurant.gui.Drew_CookGui;
 import simcity.Market.MFoodOrder;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
@@ -51,7 +51,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	private  Map<String,Integer> startingFoodAmount = new HashMap<String, Integer>();
 	
 	private Semaphore atDest = new Semaphore(0,true);
-	private CookGui gui= null;
+	private Drew_CookGui gui= null;
 
 
 	private String name;
@@ -66,7 +66,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		markets.add(m);
 	}
 	
-	public CookGui getGui(){
+	public Drew_CookGui getGui(){
 		return gui;
 	}
 		
@@ -108,7 +108,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		return orders;
 	}
 	
-	public void setGui(CookGui CG){
+	public void setGui(Drew_CookGui CG){
 		gui=CG;
 	}
 
@@ -210,7 +210,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		if(!onDuty){
 			leaveBank();
 		}
-		checkRotatingStand();
+		//checkRotatingStand();
 		return false;
 	}
 
@@ -453,6 +453,11 @@ Do("UNCOMMENT 289");//			market.msgIAmHere(this, toOrder, "Drew_restaurant", "co
 			this.bill = bill;
 			cashier = c;
 		}
+	}
+
+	public void setHost(Drew_HostRole drew_host) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

@@ -24,6 +24,7 @@ public class LRestaurantPanel extends JPanel {
 //    private MarketAgent market1 = new MarketAgent("Market1");
 //    private MarketAgent market2 = new MarketAgent("Market2");
 //    private MarketAgent market3 = new MarketAgent("Market3");
+	
 //
 //    private Vector<CustomerRole> customers = new Vector<CustomerRole>();
 //    private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
@@ -40,7 +41,7 @@ public class LRestaurantPanel extends JPanel {
 //
 //    private RestaurantGui gui; //reference to main gui
 
-    public LRestaurantPanel(LRestaurantGui gui) {
+    public LRestaurantPanel(){//LRestaurantGui gui) {
 //        this.gui = gui;
 //
 //        gui.animationPanel.addGui(hostGui);

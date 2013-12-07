@@ -2,9 +2,7 @@ package simcity.gui;
 
 import javax.swing.*;
 
-import simcity.Drew_restaurant.gui.CookGui;
-import simcity.Drew_restaurant.gui.CustomerGui;
-import simcity.Drew_restaurant.gui.Drew_WaiterGui;
+import simcity.Drew_restaurant.gui.*;
 import simcity.gui.SimCityGui;
 
 import java.awt.*;
@@ -112,7 +110,7 @@ public class RestaurantAnimationPanel2 extends BuildingAnimationPanel implements
 
     }
 
-    public void addGui(CustomerGui gui) {
+    public void addGui(Drew_CustomerGui gui) {
         guis.add((Gui) gui);
     }
 
@@ -120,7 +118,7 @@ public class RestaurantAnimationPanel2 extends BuildingAnimationPanel implements
         guis.add((Gui) gui);
     }
     
-    public void addGui(CookGui gui) {
+    public void addGui(Drew_CookGui gui) {
         guis.add((Gui) gui);
     }
 

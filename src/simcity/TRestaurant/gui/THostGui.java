@@ -1,8 +1,9 @@
 package simcity.TRestaurant.gui;
 
-import simcity.TTRestaurant.THostRole;
 
 import java.awt.*;
+
+import simcity.TRestaurant.THostRole;
 
 public class THostGui implements TGui {
 
