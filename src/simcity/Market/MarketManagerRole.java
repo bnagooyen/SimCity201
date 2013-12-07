@@ -31,12 +31,14 @@ public class MarketManagerRole extends Role implements MarketManager{
 	public List<InventoryBoy> inventoryBoys = Collections.synchronizedList(new ArrayList<InventoryBoy>());
 	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	public DeliveryTruck dTruck;
-	public MyDeliveryTruck truck;
+	public List<MyDeliveryOrder> dOrders = Collections.synchronizedList(new ArrayList<MyDeliveryOrder>());
 	
 	public double marketMoney;
 	public int hour;
 	public boolean isClosed;
 	public enum workerState{justArrived, available, occupied, out};
+	public enum orderState{waiting, done};
+	workerState dState;
 	public EventLog log;
 		
 	MManagerGui managerGui;
@@ -56,10 +58,10 @@ public class MarketManagerRole extends Role implements MarketManager{
 	public void msgRestaurantClosed(Role r){
 		//cannot deliver order delete customer order
 		
-		synchronized(customers){
-			for(MyCustomer cust : customers){
-				if(cust.c.equals(r)){
-					cust.restClosed = true;
+		synchronized(dOrders){
+			for(MyDeliveryOrder d : dOrders){
+				if(d.cook.equals(r)){
+					d.restClosed = true;
 				}
 			}
 		}
@@ -75,10 +77,10 @@ public class MarketManagerRole extends Role implements MarketManager{
 	
 	public void msgRestaurantOpen(Role r){
 		
-		synchronized(customers){
-			for(MyCustomer cust : customers){
-				if(cust.c.equals(r)){
-					cust.restClosed = false;
+		synchronized(dOrders){
+			for(MyDeliveryOrder d : dOrders){
+				if(d.cook.equals(r)){
+					d.restClosed = false;
 				}
 			}
 		}
@@ -93,6 +95,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		this.hour = hour;
 	}
 	
+	//Customer is visiting market to set an order
 	public void msgIAmHere(Role r, String type){
 		LoggedEvent e = new LoggedEvent("Received msgIAmHere.");
 		log.add(e);
@@ -124,11 +127,12 @@ public class MarketManagerRole extends Role implements MarketManager{
 		stateChanged();
 	}
 	
+	//Cook is calling in an order
 	public void msgIAmHere(Role r, List<MFoodOrder>need, String building, String type, RestaurantCashier cashier){
 		LoggedEvent e = new LoggedEvent("Received msgIAmHere.");
 		log.add(e);
 		
-		Do("Cook is here");
+		Do("Cook is calling");
 		if(type.equals("cook")) {
 			customers.add(new MyCustomer(r, need, building, "cook", cashier, false));
 		}
@@ -136,7 +140,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	public void msgBackFromDelivery(){
-		truck.state = workerState.available;
+		dState = workerState.available;
 	}
 	
 	public void msgCustomerDone(MarketCashier mc, Role r){
@@ -150,20 +154,18 @@ public class MarketManagerRole extends Role implements MarketManager{
 	
 	public void msgLoadDeliveryTruck(MarketCashier cashier, List<MFoodOrder>deliver, String location, double bill, Cook c){
 		Do("Loading delivery truck");
-		truck.mc = cashier;
-		truck.supply = deliver;
-		truck.destination = location;
-		truck.check = bill;
-		truck.cook = c;
-		truck.state = workerState.occupied;
+		dState = workerState.occupied;
+		
+		
 		synchronized(customers) {
 			for(MyCustomer mc : customers) {
 				if(mc.building == location) {
-					Do("here");
-					truck.cashier = mc.cashier;
+					dOrders.add(new MyDeliveryOrder(cashier, deliver, location, bill, c ,mc.cashier));
 				}
 			}
 		}
+		
+		
 		stateChanged();
 	}
 
@@ -191,16 +193,15 @@ public class MarketManagerRole extends Role implements MarketManager{
 			return true;
 		}
 		
-		if(truck.state.equals(workerState.occupied)){
-			synchronized(customers) {
-			for(MyCustomer cust : customers){
-				if(cust.c ==truck.cook) {
-						if(!cust.restClosed){
-							sendOverTruck();
-						}
+		if(dState.equals(workerState.occupied)){
+			synchronized(dOrders){
+				for(MyDeliveryOrder d : dOrders){
+					if(d.state.equals(orderState.waiting) && !d.restClosed){
+						sendOverTruck(d);
+					}
 				}
 			}
-			}
+			
 			return true;
 		}
 		
@@ -222,10 +223,10 @@ public class MarketManagerRole extends Role implements MarketManager{
 	
 	//Actions
 	
-	private void sendOverTruck(){
-		truck.state = workerState.out;
+	private void sendOverTruck(MyDeliveryOrder d){
+		dState = workerState.out;
 		Do("Sending delivery truck over");
-		truck.d.msgGoToDestination(truck.mc, truck.supply, truck.destination, truck.check, truck.cook, truck.cashier);
+		dTruck.msgGoToDestination(d.mc, d.supply, d.destination, d.check, d.cook, d.cashier);
 	}
 	
 	private void closeMarket(){ //pay employees 50
@@ -332,30 +333,33 @@ public class MarketManagerRole extends Role implements MarketManager{
 			state = w;
 		}
 
-//		public MyMarketCashier find(MarketCashier mc) {
-//			// TODO Auto-generated method stub
-//			return null;
-//		}
 	}
 	
 	public void setDeliveryTruck(DeliveryTruck d){
 		dTruck = d;
-		truck = new MyDeliveryTruck(dTruck);
 	}
 	
-	public class MyDeliveryTruck{
-		public DeliveryTruck d;
-		public workerState state;
+	public class MyDeliveryOrder{
+//		public DeliveryTruck d;
+//		public workerState state;
 		public MarketCashier mc;
 		public List<MFoodOrder>supply;
 		public String destination;
 		public double check;
 		public Cook cook;//restaurant's cook
 		public RestaurantCashier cashier;
+		public orderState state;
+		public boolean restClosed; 
 		
-		public MyDeliveryTruck(DeliveryTruck d){
-			this.d = d;
-			state = workerState.available;
+		MyDeliveryOrder(MarketCashier mCash, List<MFoodOrder>deliver, String loc, double bill, Cook c,RestaurantCashier rc){
+			mc = mCash;
+			supply = deliver;
+			destination = loc;
+			bill = check;
+			cook = c;
+			cashier = rc;
+			state = orderState.waiting;
+			restClosed = false;
 		}
 	}
 	
@@ -366,14 +370,19 @@ public class MarketManagerRole extends Role implements MarketManager{
 		List<MFoodOrder>need;
 		String building;
 		public RestaurantCashier cashier;
-		public boolean restClosed;
+//		public boolean restClosed; 
 		
+		//For the customers who visit the market
 		MyCustomer(Role r, String s){
 			c = r;
-			type = s;
 			waiting = true;
+			type = s;
+			building = null;
+			cashier = null;
+		
 		}
 		
+		//For the cook who calls in an order
 		MyCustomer(Role r, List<MFoodOrder>n, String b, String s, RestaurantCashier cash, boolean closed){
 			c = r;
 			type = s;
@@ -381,7 +390,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 			need = n;
 			building = b;
 			cashier = cash;
-			restClosed = closed;
+//			restClosed = closed;
 		}
 
 	}

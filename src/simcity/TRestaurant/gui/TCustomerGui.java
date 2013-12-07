@@ -4,8 +4,9 @@ package simcity.TRestaurant.gui;
 import java.awt.*;
 
 import simcity.TRestaurant.TCustomerRole;
+import simcity.gui.Gui;
 
-public class TCustomerGui implements TGui{
+public class TCustomerGui implements Gui{
 
 	private TCustomerRole agent = null;
 	private boolean isPresent = false;

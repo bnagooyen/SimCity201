@@ -4,8 +4,9 @@ package simcity.TRestaurant.gui;
 import java.awt.*;
 
 import simcity.TRestaurant.TWaiterRole;
+import simcity.gui.Gui;
 
-public class TWaiterGui implements TGui {
+public class TWaiterGui implements Gui {
 
     private TWaiterRole agent = null;
     

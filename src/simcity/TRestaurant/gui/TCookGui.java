@@ -5,8 +5,9 @@ package simcity.TRestaurant.gui;
 import java.awt.*;
 
 import simcity.TRestaurant.TCookRole;
+import simcity.gui.Gui;
 
-public class TCookGui implements TGui {
+public class TCookGui implements Gui {
 
     private TCookRole agent = null;
     
