@@ -1,6 +1,6 @@
 package simcity.gui;
 
-import simcity.DCustomerRole;
+
 import simcity.PersonAgent;
 import simcity.Transportation.BusAgent;
 
