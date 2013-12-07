@@ -273,6 +273,11 @@ public class LHostRole extends Role implements LHost {
     			restaurantClosed();
     			return true;
     		}
+    		
+    		if(hour == 10 && !isClosed){ //restaurant opens hour
+    			tellOpen();
+    			return true;
+    		}
 
                 synchronized(customers){
                         for(MyCustomers c: customers){
@@ -355,6 +360,14 @@ public class LHostRole extends Role implements LHost {
 
         // Actions
 
+        private void tellOpen(){
+        	synchronized(markets){
+    			for(MarketManager m : markets){
+    				m.msgRestaurantOpen(cook);
+    			}
+    		}
+        }
+        
         private void closeRestaurant(){ //pay employees 50
     		Do("Closing restaurant. It is "+hour);
     		synchronized(waiters){
