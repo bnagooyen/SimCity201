@@ -95,6 +95,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		this.hour = hour;
 	}
 	
+	//Customer is visiting market to set an order
 	public void msgIAmHere(Role r, String type){
 		LoggedEvent e = new LoggedEvent("Received msgIAmHere.");
 		log.add(e);
@@ -126,11 +127,12 @@ public class MarketManagerRole extends Role implements MarketManager{
 		stateChanged();
 	}
 	
+	//Cook is calling in an order
 	public void msgIAmHere(Role r, List<MFoodOrder>need, String building, String type, RestaurantCashier cashier){
 		LoggedEvent e = new LoggedEvent("Received msgIAmHere.");
 		log.add(e);
 		
-		Do("Cook is here");
+		Do("Cook is calling");
 		if(type.equals("cook")) {
 			customers.add(new MyCustomer(r, need, building, "cook", cashier, false));
 		}
@@ -357,6 +359,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 			cook = c;
 			cashier = rc;
 			state = orderState.waiting;
+			restClosed = false;
 		}
 	}
 	

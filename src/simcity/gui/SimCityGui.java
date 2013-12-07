@@ -324,98 +324,207 @@ public class SimCityGui extends JFrame implements ActionListener {
     private class ControlPanel extends JPanel {
 		TracePanel tp;	//Hack so I can easily call showAlertsWithLevel for this demo.
 		
-		JButton enableMessagesButton;		//You could (and probably should) substitute a JToggleButton to replace both
-		JButton disableMessagesButton;		//of these, but I split it into enable and disable for clarity in the demo.
-		JButton enableErrorButton;		
-		JButton disableErrorButton;	
-		JButton enablePersonButton;
-		JButton disablePersonButton;
-		JButton enableKRestaurantButton;
-		JButton disableKRestaurantButton;
-		
+		JToggleButton enableMessagesButton;		//You could (and probably should) substitute a JToggleButton to replace both
+		JToggleButton enableErrorButton;		
+		JToggleButton enablePersonButton;			
+		JToggleButton enableBRestaurantButton;
+		JToggleButton enableDRestaurantButton;
+		JToggleButton enableDrewRestaurantButton;
+		JToggleButton enableKRestaurantButton;
+		JToggleButton enableLRestaurantButton;
+		JToggleButton enableTRestaurantButton;
+		JToggleButton enableMarketButton;
+		JToggleButton enableBankButton;
+
 		public ControlPanel(final TracePanel tracePanel) {
 			this.tp = tracePanel;
-			enableMessagesButton = new JButton("Show Level: MESSAGE");
-			disableMessagesButton = new JButton("Hide Level: MESSAGE");
-			enableErrorButton = new JButton("Show Level: ERROR");
-			disableErrorButton = new JButton("Hide Level: ERROR");
-			enablePersonButton = new JButton("Show Tag: Person");
-			disablePersonButton = new JButton("Hide Tag: Person");
-			enableKRestaurantButton = new JButton("Show Tag: KRestaurant");
-			disableKRestaurantButton = new JButton("Hide Tag: KRestaurant");
+			enableMessagesButton = new 	JToggleButton("MESSAGE");
+			enableErrorButton = new JToggleButton("ERROR");
+			enablePersonButton = new JToggleButton("Person");
+			enableBRestaurantButton = new JToggleButton("BRestaurant");
+			enableDRestaurantButton = new JToggleButton("DRestaurant");
+			enableDrewRestaurantButton = new JToggleButton("DrewRestaurant");
+			enableKRestaurantButton = new JToggleButton("KRestaurant");
+			enableLRestaurantButton = new JToggleButton("LRestaurant");
+			enableTRestaurantButton = new JToggleButton("TRestaurant");
+			enableMarketButton = new JToggleButton("Market");
+			enableBankButton = new JToggleButton("Bank");
 			
+			enableMessagesButton.setSelected(true);
+			enableErrorButton.setSelected(true);
+			enablePersonButton.setSelected(true);
+			enableBRestaurantButton.setSelected(true);
+			enableDRestaurantButton.setSelected(true);
+			enableDrewRestaurantButton.setSelected(true);
+			enableKRestaurantButton.setSelected(true);
+			enableLRestaurantButton.setSelected(true);
+			enableTRestaurantButton.setSelected(true);
+			enableMarketButton.setSelected(true);
+			enableBankButton.setSelected(true);
+
+
 			enableMessagesButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					//============================ TUTORIAL ==========================================
-					//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
-					tracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);
-					//================================================================================
-				}
-			});
-			disableMessagesButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					//============================ TUTORIAL ==========================================
-					//This is how you make messages with a certain Level not show up in the trace panel.
-					tracePanel.hideAlertsWithLevel(AlertLevel.MESSAGE);
-					//================================================================================
+					boolean selected = enableMessagesButton.getModel().isSelected();
+					if(selected) {
+						tracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);
+					}
+					else{
+						tracePanel.hideAlertsWithLevel(AlertLevel.MESSAGE);
+					}
 				}
 			});
 			enableErrorButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					//============================ TUTORIAL ==========================================
-					//This is how you make messages with a level of ERROR show up in the trace panel.
-					tracePanel.showAlertsWithLevel(AlertLevel.ERROR);
-					//================================================================================
+					boolean selected = enableErrorButton.getModel().isSelected();
+					if(selected) {
+						tracePanel.showAlertsWithLevel(AlertLevel.ERROR);
+					}
+					else{
+						tracePanel.hideAlertsWithLevel(AlertLevel.ERROR);
+					}
 				}
 			});
-			disableErrorButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					//============================ TUTORIAL ==========================================
-					//This is how you make messages with a level of ERROR not show up in the trace panel.
-					tracePanel.hideAlertsWithLevel(AlertLevel.ERROR);
-					//================================================================================
-				}
-			});
+
 			enablePersonButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					tracePanel.showAlertsWithTag(AlertTag.PERSON);
+					boolean selected = enablePersonButton.getModel().isSelected();
+					if(selected) {
+						tracePanel.showAlertsWithTag(AlertTag.PERSON);
+					}
+					else{
+						tracePanel.hideAlertsWithTag(AlertTag.PERSON);
+					}
 				}
 			});
-			disablePersonButton.addActionListener(new ActionListener() {
+			enableBRestaurantButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					tracePanel.hideAlertsWithTag(AlertTag.PERSON);
+					boolean selected = enableBRestaurantButton.getModel().isSelected();
+					if(selected) {
+						tracePanel.showAlertsWithTag(AlertTag.BRestaurant);
+					}
+					else{
+						tracePanel.hideAlertsWithTag(AlertTag.BRestaurant);
+					}
+				}
+			});
+			enableDRestaurantButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					boolean selected = enableDRestaurantButton.getModel().isSelected();
+					if(selected) {
+						tracePanel.showAlertsWithTag(AlertTag.DRestaurant);
+					}
+					else{
+						tracePanel.hideAlertsWithTag(AlertTag.DRestaurant);
+					}
+				}
+			});
+			enableDrewRestaurantButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					boolean selected = enableDrewRestaurantButton.getModel().isSelected();
+					if(selected) {
+						tracePanel.showAlertsWithTag(AlertTag.DrewRestaurant);
+					}
+					else{
+						tracePanel.hideAlertsWithTag(AlertTag.DrewRestaurant);
+					}
 				}
 			});
 			enableKRestaurantButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					tracePanel.showAlertsWithTag(AlertTag.KRestaurant);
+					boolean selected = enableKRestaurantButton.getModel().isSelected();
+					if(selected) {
+						tracePanel.showAlertsWithTag(AlertTag.KRestaurant);
+					}
+					else{
+						tracePanel.hideAlertsWithTag(AlertTag.KRestaurant);
+					}
 				}
 			});
-			disableKRestaurantButton.addActionListener(new ActionListener() {
+			enableLRestaurantButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					tracePanel.hideAlertsWithTag(AlertTag.KRestaurant);
+					boolean selected = enableLRestaurantButton.getModel().isSelected();
+					if(selected) {
+						tracePanel.showAlertsWithTag(AlertTag.LRestaurant);
+					}
+					else{
+						tracePanel.hideAlertsWithTag(AlertTag.LRestaurant);
+					}
 				}
 			});
+			enableKRestaurantButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					boolean selected = enableKRestaurantButton.getModel().isSelected();
+					if(selected) {
+						tracePanel.showAlertsWithTag(AlertTag.KRestaurant);
+					}
+					else{
+						tracePanel.hideAlertsWithTag(AlertTag.KRestaurant);
+					}
+				}
+			});
+			enableTRestaurantButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					boolean selected = enableTRestaurantButton.getModel().isSelected();
+					if(selected) {
+						tracePanel.showAlertsWithTag(AlertTag.TRestaurant);
+					}
+					else{
+						tracePanel.hideAlertsWithTag(AlertTag.TRestaurant);
+					}
+				}
+			});
+			enableMarketButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					boolean selected = enableMarketButton.getModel().isSelected();
+					if(selected) {
+						tracePanel.showAlertsWithTag(AlertTag.Market);
+					}
+					else{
+						tracePanel.hideAlertsWithTag(AlertTag.Market);
+					}
+				}
+			});
+			enableBankButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					boolean selected = enableBankButton.getModel().isSelected();
+					if(selected) {
+						tracePanel.showAlertsWithTag(AlertTag.Bank);
+					}
+					else{
+						tracePanel.hideAlertsWithTag(AlertTag.Bank);
+					}
+				}
+			});
+
 			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			this.add(enableMessagesButton);
-			this.add(disableMessagesButton);
 			this.add(enableErrorButton);
-			this.add(disableErrorButton);
 			this.add(enablePersonButton);
-			this.add(disablePersonButton);
+			this.add(enableBRestaurantButton);
+			this.add(enableDRestaurantButton);
+			this.add(enableDrewRestaurantButton);
 			this.add(enableKRestaurantButton);
-			this.add(disableKRestaurantButton);
+			this.add(enableLRestaurantButton);
+			this.add(enableTRestaurantButton);
+			this.add(enableMarketButton);
+			this.add(enableBankButton);
+			
 			this.setMinimumSize(new Dimension(50, 600));
 		}
-	}
+    }
     /**
      * updateInfoPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.
