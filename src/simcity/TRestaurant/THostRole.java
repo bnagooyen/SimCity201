@@ -297,7 +297,6 @@ public class THostRole extends Role implements Host {
 	}
 
 	//utilities
-	
 	public void addWaiter(TWaiterRole wait) {
 		myWaiters waitList = new myWaiters(wait);
 		waiters.add(waitList);

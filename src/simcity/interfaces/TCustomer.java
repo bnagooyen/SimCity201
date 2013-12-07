@@ -2,6 +2,8 @@ package simcity.interfaces;
 
 import java.util.List;
 
+import simcity.TRestaurant.TCashierRole;
+
 
 /**
  * A sample Customer interface built to unit test a CashierAgent.
@@ -25,7 +27,9 @@ public interface TCustomer {
 	
 	public abstract void setWaiter (TWaiter w);
 
-	public abstract void msgRestaurantClosed(); 
+	public abstract void msgRestaurantClosed();
+
+	public abstract void setCashier(TCashierRole cashier); 
 
 
 }
