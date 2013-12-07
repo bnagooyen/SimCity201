@@ -2,9 +2,7 @@ package simcity.gui;
 
 import javax.swing.*;
 
-import simcity.Drew_restaurant.gui.Drew_CookGui;
-import simcity.Drew_restaurant.gui.Drew_CustomerGui;
-import simcity.Drew_restaurant.gui.Drew_WaiterGui;
+import simcity.Drew_restaurant.gui.*;
 import simcity.gui.SimCityGui;
 
 import java.awt.*;
