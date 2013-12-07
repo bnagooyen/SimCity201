@@ -4,6 +4,8 @@ import agent.*;
 import simcity.PersonAgent;
 import simcity.KRestaurant.gui.KWaiterGui;
 import simcity.Market.MFoodOrder;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.KCashier;
 import simcity.interfaces.KCustomer;
 //import restaurant.interfaces.Market;
@@ -70,6 +72,7 @@ public class KCashierRole extends Role implements RestaurantCashier{
 
 	// Messages
 	public void msgConfirmingMarketCheck(boolean scammed, MarketManager m) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "got confirmation from cook");
 		Do("check has been confirmed by cook");
 		synchronized(toPay) {
 			for(MarketBill b: toPay) {
@@ -83,12 +86,14 @@ public class KCashierRole extends Role implements RestaurantCashier{
 	}
 	
 	public void msgGoHome(double paycheck) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "told to go home");
 		myPerson.money += paycheck;
 		goHome = true;
 		stateChanged();
 	}	
 	
 	public void msgPayment(double payment, KCustomerRole c, double check) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "got money from customer $" + payment);
 		System.out.println(myPerson.getName() + ": " +"got money from customer $" + payment);
 		Order current = null;
 		synchronized(bills) {
@@ -131,6 +136,7 @@ public class KCashierRole extends Role implements RestaurantCashier{
 	public void msgBillFromMarket(double check, MarketCashier marketCashier,
 			MarketManager manager) {
 		toPay.add(new MarketBill(marketCashier, manager, check));
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "got bill from a market $"+check);
 		System.out.println(myPerson.getName() + ": " +"got bill from a market $"+check);
 		LoggedEvent e = new LoggedEvent("received bill to pay");
 		log.add(e);
@@ -188,17 +194,21 @@ public class KCashierRole extends Role implements RestaurantCashier{
 	// Actions
 
 	private void confirmWithCook(MarketBill b) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "asking cook to confirm check");
+		System.out.println(myPerson.getName() + ": " +"asking cook to confirm check");
 		b.paid = paidState.inquiring;
 		cook.msgConfirmCheck(b.bill, b.manager);
 	}
 
 	private void tellHost() {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "telling manager I'm here to work");
 		System.out.println(myPerson.getName() + ": " +"telling manager I'm here at work");
 		arrived = false;
 		host.msgIAmHere(this, "cashier");
 	}
 
 	private void goHome() {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "going home");
 		System.out.println(myPerson.getName() + ": " +"Going home");
 		isActive = false;
 		goHome = false;
@@ -212,25 +222,30 @@ public class KCashierRole extends Role implements RestaurantCashier{
 
 	public void compute(final Order o) {
 		o.s = orderState.computed;
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "computing check and giving to waiter");
 		System.out.println(myPerson.getName() + ": " +"computing check and giving to waiter");
 		LoggedEvent e = new LoggedEvent("computing check and giving it to waiter");
 		log.add(e);
 		o.price = prices.get(o.choice) + o.moneyOwed;
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "customer owes $" + o.price);
 		System.out.println(myPerson.getName() + ": " +"customer owes $" + o.price);
 		o.w.msgHereIsCheck(o.c, o.price);
 	}
 	
 	public void processPayment(Order o) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "processing payment");
 		System.out.println(myPerson.getName() + ": " +"processing payment");
 		if ( o.payment >= o.price) {
 			o.c.msgChange(o.payment - o.price);
 			myMoney+=o.price;
 			o.moneyOwed = 0;
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "customer has paid");
 			System.out.println(myPerson.getName() + ": " +"customer has paid");
 			LoggedEvent e = new LoggedEvent("customer has paid");
 			log.add(e);
 		}
 		else if(o.payment < o.price) {
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "didn't give me enough money....");
 			System.out.println(myPerson.getName() + ": " +"didn't give me enough money....");
 			o.owesMoney = true;
 			o.moneyOwed = o.price-o.payment;
@@ -249,8 +264,10 @@ public class KCashierRole extends Role implements RestaurantCashier{
 	}
 	
 	public void payMarket(MarketBill b) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "paying market");
 		System.out.println(myPerson.getName() + ": " +"paying market");
 		if(b.scammed) {
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "we were scammed by market, but still paying them anyways");
 			Do("we were scammed by market, but still paying them anyways");
 		}
 		if(myMoney>=b.bill) {
@@ -261,6 +278,7 @@ public class KCashierRole extends Role implements RestaurantCashier{
 			log.add(e);
 		}
 		else {  // myMoney < b.bill
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "Don't have enough money to pay off bill. Will pay the rest when I get more money");
 			System.out.println(myPerson.getName() + ": " +"Don't have enough money to pay off bill. Will pay the rest when I get more money");
 			b.cashier.msgHereIsPayment(cook, myMoney);
 			b.bill -= myMoney;

@@ -9,6 +9,8 @@ import simcity.Market.MFoodOrder;
 import simcity.Market.gui.IBGui;
 import simcity.gui.Gui;
 import simcity.gui.SimCityGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Cook;
 import simcity.interfaces.KCashier;
 //import simcity.interfaces.Market;
@@ -94,6 +96,7 @@ public class KCookRole extends Role implements Cook{
 
 
 	public void msgConfirmCheck( double check, MarketManager manager) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "got check to confirm");
 		Do("got check to confirm");
 		synchronized(marketOrders) {
 				for(MarketOrder m : marketOrders) {
@@ -112,12 +115,14 @@ public class KCookRole extends Role implements Cook{
 		
 	}
 	public void msgGoHome(double payment) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "told to go home");
 		System.out.println(myPerson.getName() + ": " +"told to go home");
 		myPerson.money += payment;
 		goHome = true;
 		stateChanged();
 	}
 	public void msgHereIsAnOrder(KWaiter w, String choice, int table) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "got order from waiter");
 		System.out.println(myPerson.getName() + ": " +"got order from waiter");
 		LoggedEvent e = new LoggedEvent("got order from waiter");
 		log.add(e);
@@ -128,9 +133,11 @@ public class KCookRole extends Role implements Cook{
 	// from normal waiter
 	public void msgCanGive(List<MFoodOrder> canGiveMe) {
 		for(MFoodOrder f : canGiveMe) {
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "Told they can give me " + f.amount + " of " + f.type);
 			System.out.println(myPerson.getName() + ": " +"Told they can give me " + f.amount + " of " + f.type);
 			Food currentFood = foods.get(f.type);
 			currentFood.stillNeed -= f.amount;
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "amount still need of " + f.type + " is " + foods.get(f.type).stillNeed);
 			System.out.println(myPerson.getName() + ": " +"amount still need of " + f.type + " is " + foods.get(f.type).stillNeed);
 			
 			if(currentFood.stillNeed > 0) {
@@ -141,6 +148,8 @@ public class KCookRole extends Role implements Cook{
 	}
 	
 	public void msgHereIsDelivery(List<MFoodOrder> canGiveMe, double bill, MarketManager manager, MarketCashier cashier) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "got delivery from market");
+		Do("got delivery from market");
 		LoggedEvent e = new LoggedEvent("got delivery from market");
 		log.add(e);
 		synchronized(marketOrders) {
@@ -153,6 +162,7 @@ public class KCookRole extends Role implements Cook{
 		}
 		}
 		for(MFoodOrder f : canGiveMe) {
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "got " + f.amount + " of " + f.type);
 			System.out.println(myPerson.getName() + ": " +"got " + f.amount + " of " + f.type);
 			Food currentFood = foods.get(f.type);
 			currentFood.amount += f.amount;
@@ -230,6 +240,7 @@ public class KCookRole extends Role implements Cook{
 	// Actions
 
 	private void confirmBill(MarketOrder m) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "confirming check");
 		Do("confirming check");
 		double billShouldBe = 0;
 		synchronized(m.foodGiven) {
@@ -238,10 +249,12 @@ public class KCookRole extends Role implements Cook{
 			}
 		}
 		if(billShouldBe == m.check) {
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "check is correct");
 			Do("check is correct");
 			 ((KCashierRole)cashier).msgConfirmingMarketCheck(false, m.m);
 		}
 		else {
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "market is scamming us");
 			Do("market is scamming us");
 			((KCashier) cashier).msgConfirmingMarketCheck(false, m.m);
 		}
@@ -255,12 +268,14 @@ public class KCookRole extends Role implements Cook{
 		}
 		cookGui.setPresent(true);
 		
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "telling manager I'm here to work");
 		System.out.println(myPerson.getName() + ": " +"telling manager I'm here to work");
 		arrived = false;
 		host.msgIAmHere(this, "cook");
 	}
 
 	private void goHome() {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "going home");
 		System.out.println(myPerson.getName() + ": " +"going home");
 		isActive = false;
 		goHome = false;
@@ -297,6 +312,7 @@ public class KCookRole extends Role implements Cook{
 		Food food = foods.get(o.choice);
 		if( food.amount == 0) {
 			o.w.msgOutOf(o.table, o.choice);
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "sent msg to waiter that out of " + food.type);
 			System.out.println(myPerson.getName() + ": " +"sent msg to waiter that out of " + food.type);
 			orders.remove(o);
 			return;
@@ -305,6 +321,7 @@ public class KCookRole extends Role implements Cook{
 		DoCooking(o); 
 		timer.schedule(new TimerTask() {
 			public void run() {
+					AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "Done cooking");
 					print("Done cooking");
 					o.s = orderState.done;
 					grills.set(o.grill, 0);
@@ -316,11 +333,12 @@ public class KCookRole extends Role implements Cook{
 		if ( food.amount == food.low) {
 			LoggedEvent e = new LoggedEvent("need to order food");
 			log.add(e);
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "need to order food");
 			System.out.println(myPerson.getName() + ": " +"need to order food");
 			food.stillNeed = food.capacity - food.low;
 			orderFoodThatIsLow();
 		}
-		
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", food.type + " = " + food.amount);
 		System.out.println(myPerson.getName() + ": " +food.type + " = " + food.amount);
 	}
 	
@@ -338,6 +356,7 @@ public class KCookRole extends Role implements Cook{
 				}
 			}
 		}
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "ordering from a market");
 		System.out.println(myPerson.getName() + ": " +"ordering from a market");
 		MarketManager m = pickAMarket();
 		marketOrders.add(new MarketOrder(m));
@@ -359,6 +378,7 @@ public class KCookRole extends Role implements Cook{
 				break;
 			}
 		}
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "going to fridge to acquire materials");
 		System.out.println(myPerson.getName() + ": " +"going to fridge to acquire materials");
 		cookGui.DoGoToFridge();
 		try{
@@ -367,6 +387,7 @@ public class KCookRole extends Role implements Cook{
 		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "going to grill " +o.grill);
 		System.out.println(myPerson.getName() + ": " +"going to grill " +o.grill);
 		o.gui = new KMovingFoodGui(this, (KWaiterRole) o.w, gui, (o.grill *20) + 5, o.choice);
 		gui.myPanels.get("Restaurant 1").panel.addGui((Gui) o.gui);
@@ -389,6 +410,7 @@ public class KCookRole extends Role implements Cook{
 	}
 
 	public void DoPlating( Order o ) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "plating order "+o.choice);
 		System.out.println(myPerson.getName() + ": " +"plating order "+o.choice);
 		cookGui.DoCookFood(o.grill);
 		try{
