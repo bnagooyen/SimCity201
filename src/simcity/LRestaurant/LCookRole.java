@@ -403,7 +403,7 @@ public class LCookRole extends Role implements LCook {
 			capacity = cap;		
 			threshold = thres;
 //			needMarket = false;
-//			state = MarketState.noOrder;
+			state = MarketState.noOrder;
 			need = 0;
 
 		}

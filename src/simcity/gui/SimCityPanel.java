@@ -337,7 +337,7 @@ public class SimCityPanel extends JPanel {
         Drew_headWaiter.myPerson = Drew_Waiter;
         Drew_Waiter.SetJob(Drew_headWaiter, "Restaurant 2");
         Drew_host.addWaiter(Drew_headWaiter);
-        
+       
         //Linda's Restaurant setup
         Lhost.isActive = true;
         PersonAgent LHostPerson = new PersonAgent("L Host");
