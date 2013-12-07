@@ -3,6 +3,8 @@ import simcity.gui.BuildingPanel;
 import simcity.gui.CityPanel;
 import simcity.gui.CityView;
 import simcity.gui.BuildingListPanel;
+import simcity.gui.trace.AlertLevel;
+import simcity.gui.trace.AlertTag;
 import simcity.gui.trace.TracePanel;
 
 import javax.swing.*;
@@ -33,7 +35,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 	PersonListPanel cityInfo;
 	CityView view;
 	//CityControlPanel CP;
+	
 	TracePanel tracePanel;
+	ControlPanel controlPanel;
+
 	//GridBagConstraints c = new GridBagConstraints();
 	JFrame globalLog = new JFrame("SimCity Log");
 	JFrame innerBuildingFrame = new JFrame("InnerBuilding");
@@ -231,19 +236,21 @@ public class SimCityGui extends JFrame implements ActionListener {
         
         setBounds(20, 0, 875, 444);
 		tracePanel = new TracePanel();
-		//tracePanel.setPreferredSize(new Dimension(CP.getPreferredSize().width, (int)(1.4*CP.getPreferredSize().height)));
+		tracePanel.setPreferredSize(new Dimension(800, 300));
 		tracePanel.showAlertsForAllLevels();
 		tracePanel.showAlertsForAllTags();
 
 		//info = new TListPanel(this);
-		
+		this.controlPanel = new ControlPanel(tracePanel);
 		
 		globalLog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		globalLog.setLayout(new BorderLayout());
 		globalLog.setBounds(900,0,350, 735);
 		globalLog.setResizable(true);
-		globalLog.add(tracePanel);
+		globalLog.add(tracePanel, BorderLayout.CENTER);
+		globalLog.add(controlPanel, BorderLayout.EAST);
 		globalLog.pack();
-		globalLog.setVisible(false);
+		globalLog.setVisible(true);
 		
 		myPanels = new HashMap<String, BuildingPanel>();
 		myPanels.clear();
@@ -314,6 +321,101 @@ public class SimCityGui extends JFrame implements ActionListener {
         
         
     }
+    private class ControlPanel extends JPanel {
+		TracePanel tp;	//Hack so I can easily call showAlertsWithLevel for this demo.
+		
+		JButton enableMessagesButton;		//You could (and probably should) substitute a JToggleButton to replace both
+		JButton disableMessagesButton;		//of these, but I split it into enable and disable for clarity in the demo.
+		JButton enableErrorButton;		
+		JButton disableErrorButton;	
+		JButton enablePersonButton;
+		JButton disablePersonButton;
+		JButton enableKRestaurantButton;
+		JButton disableKRestaurantButton;
+		
+		public ControlPanel(final TracePanel tracePanel) {
+			this.tp = tracePanel;
+			enableMessagesButton = new JButton("Show Level: MESSAGE");
+			disableMessagesButton = new JButton("Hide Level: MESSAGE");
+			enableErrorButton = new JButton("Show Level: ERROR");
+			disableErrorButton = new JButton("Hide Level: ERROR");
+			enablePersonButton = new JButton("Show Tag: Person");
+			disablePersonButton = new JButton("Hide Tag: Person");
+			enableKRestaurantButton = new JButton("Show Tag: KRestaurant");
+			disableKRestaurantButton = new JButton("Hide Tag: KRestaurant");
+			
+			enableMessagesButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					//============================ TUTORIAL ==========================================
+					//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+					tracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);
+					//================================================================================
+				}
+			});
+			disableMessagesButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					//============================ TUTORIAL ==========================================
+					//This is how you make messages with a certain Level not show up in the trace panel.
+					tracePanel.hideAlertsWithLevel(AlertLevel.MESSAGE);
+					//================================================================================
+				}
+			});
+			enableErrorButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					//============================ TUTORIAL ==========================================
+					//This is how you make messages with a level of ERROR show up in the trace panel.
+					tracePanel.showAlertsWithLevel(AlertLevel.ERROR);
+					//================================================================================
+				}
+			});
+			disableErrorButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					//============================ TUTORIAL ==========================================
+					//This is how you make messages with a level of ERROR not show up in the trace panel.
+					tracePanel.hideAlertsWithLevel(AlertLevel.ERROR);
+					//================================================================================
+				}
+			});
+			enablePersonButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					tracePanel.showAlertsWithTag(AlertTag.PERSON);
+				}
+			});
+			disablePersonButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					tracePanel.hideAlertsWithTag(AlertTag.PERSON);
+				}
+			});
+			enableKRestaurantButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					tracePanel.showAlertsWithTag(AlertTag.KRestaurant);
+				}
+			});
+			disableKRestaurantButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					tracePanel.hideAlertsWithTag(AlertTag.KRestaurant);
+				}
+			});
+			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			this.add(enableMessagesButton);
+			this.add(disableMessagesButton);
+			this.add(enableErrorButton);
+			this.add(disableErrorButton);
+			this.add(enablePersonButton);
+			this.add(disablePersonButton);
+			this.add(enableKRestaurantButton);
+			this.add(disableKRestaurantButton);
+			this.setMinimumSize(new Dimension(50, 600));
+		}
+	}
     /**
      * updateInfoPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.
