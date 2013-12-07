@@ -10,6 +10,8 @@ import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 //import simcity.Transportation.CarAgent;
 import simcity.gui.SimCityGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 //import simcity.Transportation.CarAgent;
 import simcity.interfaces.Car;
 import simcity.interfaces.Cook;
@@ -57,24 +59,28 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//Messages
 	public void msgOrder(MarketCustomer c, List<MFoodOrder> foods, String building){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCashierRole", "Received an order");
 		Do("Received an order");
 		orders.add(new MOrder(foods, building, c, orderState.pending));
 		stateChanged();
 	}
 	
 	public void msgCarOrder(MarketCustomer c, String building){ 
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCashierRole", "Received an order");
 		Do("Received an order");
 		orders.add(new MOrder(building, c, orderState.pending));
 		stateChanged();
 	}
 	
 	public void msgOrder(Cook cook, List<MFoodOrder> foods, String building, RestaurantCashier cashier){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCashierRole", "Received an order");
 		Do("Received an order");
 		orders.add(new MOrder(foods, building, cook, orderState.pending, cashier));
 		stateChanged();
 	}
 	
 	public void msgCanGive(MOrder o){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCashierRole", "Received fulfilled order");
 		Do("Received fulfilled order");
 		MOrder current = find(o, orders);
 		current.state = orderState.ready;
@@ -82,6 +88,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	public void msgCanGive(Car car, MOrder o){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCashierRole", "Received fulfilled order");
 		Do("Received fulfilled order");
 		MOrder current = find(o, orders);
 		current.car = car;
@@ -90,6 +97,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	public void msgHereIsPayment(Role r, double payment){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCashierRole", "Receiving payment");
 		Do("Receiving payment");
 		MOrder current = find(r,orders);
 		System.out.println("Current: "+current);
@@ -99,6 +107,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	public void msgGoHome(double paycheck){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCashierRole", "Told to go home");
 		Do("Told to go home");
 //		myPerson.money += paycheck;
 		state = myState.goHome;
@@ -149,12 +158,14 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	
 	//Actions
 	private void tryToFulFillOrder(MOrder o){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCashierRole", "Giving order to inventory boy");
 		Do("Giving order to inventory boy.");
 		ib.msgCheckInventory(o);
 		o.state = orderState.inquiring;
 	}
 	
 	private void giveOrder(MOrder o){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCashierRole", "Giving fulfilled order");
 		Do("Giving fulfilled order");
 		double check = calculateCheck(o);
 		o.state = orderState.given;
@@ -182,6 +193,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	private void goHome(){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCashierRole", "Going home");
 		Do("Going home");
 		state = myState.arrived;
 		DoGoHome();
@@ -196,12 +208,14 @@ public class MarketCashierRole extends Role implements MarketCashier{
 			gui.myPanels.get("Market 1").panel.addGui(cashierGui);
 		}
 		cashierGui.setPresent(true);
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCashierRole", "Telling manager that I can work");
 		Do("Telling manager that I can work");
 		state = myState.working;
 		manager.msgIAmHere(this, "cashier");
 	}
 	
 	private void updateManager(MOrder o){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCashierRole", "Finished order");
 		Do("Finished order");
 		if(o.cook == null) {
 			manager.msgCustomerDone(this, (Role) o.c);
