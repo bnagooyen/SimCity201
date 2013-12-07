@@ -12,6 +12,8 @@ import simcity.LRestaurant.LWaiterRole.WaiterState;
 import simcity.LRestaurant.gui.LWaiterGui;
 import simcity.LRestaurant.gui.LHostGui;
 import simcity.PersonAgent;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Host;
 import simcity.interfaces.LCook;
 import simcity.interfaces.LCustomer;
@@ -128,14 +130,17 @@ public class LHostRole extends Role implements LHost {
         public void msgIAmHere(Role r, String type){
     		
     		if(type.equals("waiter")){
+    			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Waiter is here");
     			Do("Waiter is here");
     			waiters.add(new myWaiter((LWaiterRole) r,0));
     		}
     		else if(type.equals("cook")){
+    			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Cook is here");
     			Do("Cook is here");
     			cook = (LCookRole)r;
     		}
     		else if(type.equals("cashier")){
+    			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Cashier is here");
     			Do("Cashier is here");
     			cashier = (LCashierRole) r;
     		}
@@ -178,6 +183,7 @@ public class LHostRole extends Role implements LHost {
         }
 
         public void msgReadyToWork(LWaiterRole waiterRole){
+        		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Waiter is back");
                 Do("Waiter is back");
                 
                 synchronized(waiters){
@@ -191,6 +197,7 @@ public class LHostRole extends Role implements LHost {
         }
 
         public void msgWantToGoOnBreak(LWaiterRole waiter){
+        		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Waiter ask to go on break");
                 Do("Waiter ask to go on break");
                 
                 synchronized(waiters){
@@ -369,6 +376,7 @@ public class LHostRole extends Role implements LHost {
         }
         
         private void closeRestaurant(){ //pay employees 50
+        	AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Closing restaurant.");
     		Do("Closing restaurant. It is "+hour);
     		synchronized(waiters){
     			for(myWaiter w: waiters){
@@ -393,6 +401,7 @@ public class LHostRole extends Role implements LHost {
     	}
     	
     	private void restaurantClosed() {
+    		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Telling market is closed");
     		Do("Telling market is closed");
     		synchronized(customers){
     			for(MyCustomers c: customers){
@@ -425,11 +434,13 @@ public class LHostRole extends Role implements LHost {
                 }
 
                 if(workingCount > 0){
+                		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Waiter can go on break");
                         Do("Waiter can go on break");
                         w.msgBreakReply(true);
                         mW.state = WaiterState.isOnBreak;
                 }
                 else{ 
+                		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Waiter cannot go on break");
                         Do("Waiter cannot go on break");
                         w.msgBreakReply(false);
                         mW.state = WaiterState.working;
@@ -549,9 +560,4 @@ public class LHostRole extends Role implements LHost {
 			
 		}
 
-		@Override
-		public void msgHereIsMoney(int restMoney) {
-			// TODO Auto-generated method stub
-			
-		}
 }
