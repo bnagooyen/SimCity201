@@ -1,7 +1,7 @@
 package simcity.interfaces;
 
-import DRestaurant.DMenu;
-import DRestaurant.DWaiterRole;
+import simcity.DRestaurant.DMenu;
+import simcity.DRestaurant.DWaiterRole;
 
 public interface DCustomer {
 //	public abstract void gotHungry(); 

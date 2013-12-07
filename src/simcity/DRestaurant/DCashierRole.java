@@ -1,7 +1,8 @@
-package DRestaurant;
+package simcity.DRestaurant;
 
-import DRestaurant.DCashierRole.InventoryBill.InventoryBillState;
-import DRestaurant.DCheck.CheckState;
+import simcity.DRestaurant.DCashierRole.InventoryBill.InventoryBillState;
+import simcity.DRestaurant.DCheck.CheckState;
+import simcity.DRestaurant.DCheck;
 import agent.Role;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.DCook;

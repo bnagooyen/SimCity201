@@ -6,7 +6,7 @@ import simcity.gui.SimCityGui;
 import java.awt.*;
 import java.util.Random;
 
-import DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DCustomerRole;
 
 
 public class DCustomerGui implements Gui{

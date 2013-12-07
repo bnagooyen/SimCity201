@@ -1,6 +1,7 @@
-package DRestaurant;
+package simcity.DRestaurant;
 
-import DRestaurant.DOrder.OrderState;
+import simcity.DRestaurant.DWaiterRole;
+import simcity.DRestaurant.DOrder.OrderState;
 import simcity.interfaces.DWaiter;
 
 public class DWaiterNormalRole extends DWaiterRole implements DWaiter {
@@ -8,6 +9,7 @@ public class DWaiterNormalRole extends DWaiterRole implements DWaiter {
 	public DWaiterNormalRole() {
 		super();
 		// TODO Auto-generated constructor stub
+		type="waiterNormal";
 	}
 
 	@Override

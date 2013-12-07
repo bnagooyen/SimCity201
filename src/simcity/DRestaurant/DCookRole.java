@@ -1,7 +1,7 @@
-package DRestaurant;
+package simcity.DRestaurant;
 
-import DRestaurant.DCookRole.InventoryOrder.InventoryOrderState;
-import DRestaurant.DOrder.OrderState;
+import simcity.DRestaurant.DCookRole.InventoryOrder.InventoryOrderState;
+import simcity.DRestaurant.DOrder.OrderState;
 import agent.Role;
 import simcity.Market.MFoodOrder;
 import simcity.gui.DGui.DCookGui;
@@ -57,7 +57,7 @@ public class DCookRole extends Role implements DCook, Cook{
         ArrayList<MyDelivery> delivery= new ArrayList<MyDelivery>();
         List<DOrder> orders =  Collections.synchronizedList(new ArrayList<DOrder>());
         ArrayList<MarketManager> myMarkets = new ArrayList<MarketManager>();
-        ArrayList<DMarketAgent> markets = new ArrayList<DMarketAgent>();
+        //ArrayList<DMarketAgent> markets = new ArrayList<DMarketAgent>();
         List<InventoryOrder> myOrders =  Collections.synchronizedList(new ArrayList<InventoryOrder>());
         private int ORDER_ID;
         ArrayList<MFoodOrder> orderToMarket = new ArrayList<MFoodOrder>();
@@ -167,10 +167,10 @@ public class DCookRole extends Role implements DCook, Cook{
                 waiter=w;
         }
         
-        public void msgAddMarket(DMarketAgent m) {
-                //System.out.println("added");
-                markets.add(m);
-        }
+//        public void msgAddMarket(DMarketAgent m) {
+//                //System.out.println("added");
+//                markets.add(m);
+//        }
 
         public void msgAddMarket(MarketManager m) {
                 myMarkets.add(m);
@@ -658,11 +658,11 @@ public class DCookRole extends Role implements DCook, Cook{
                 
                 private void ReorderFood(InventoryOrder reord) {
                         DecimalFormat df = new DecimalFormat("###.##");
-                        if(reord.getMarketOrderingFrom()>markets.size()) {
+                        if(reord.getMarketOrderingFrom()>myMarkets.size()) {
                                 for(int i=0; i< reord.myorder.size(); i++) {
                                         System.out.println("all markets are out of "+ reord.myorder.get(i).type);
                                 }
-                                if(!RestaurantIsOpen && reord.getMarketOrderingFrom()>markets.size()) { //markets don't have it.. should just open anyway
+                                if(!RestaurantIsOpen && reord.getMarketOrderingFrom()>myMarkets.size()) { //markets don't have it.. should just open anyway
                                         RestaurantIsOpen=true;
                                         host.msgKitchenIsReady();
                                 }

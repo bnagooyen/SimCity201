@@ -1,8 +1,8 @@
-package DRestaurant;
+package simcity.DRestaurant;
 
-import DRestaurant.DProducerConsumerMonitor;
-import DRestaurant.DHostRole.MyCustomer.CustState;
-import DRestaurant.DHostRole.MyWaiter.MyWaiterState;
+import simcity.DRestaurant.DProducerConsumerMonitor;
+import simcity.DRestaurant.DHostRole.MyCustomer.CustState;
+import simcity.DRestaurant.DHostRole.MyWaiter.MyWaiterState;
 import agent.Agent;
 import agent.Role;
 //import simcity.gui.HostGui;
@@ -34,7 +34,7 @@ public class DHostRole extends Role implements Host {
 	DCustomerRole sendFullMsgTo;
 	
 	DCookRole myCook = null;
-	
+	DCashierRole myCashier=null;
 	//list of waiters
 	public List<MyWaiter> waiters =  Collections.synchronizedList(new ArrayList<MyWaiter>());
 	
@@ -95,6 +95,29 @@ public class DHostRole extends Role implements Host {
 		KitchenReadyForOpen=true;
 		stateChanged();
 	}
+	
+	public void msgIAmHere(Role role, String type) {
+		if(type.equals("cook")) {
+			Do("Cook is here");
+			myCook=(DCookRole)role;
+		}
+		else if(type.equals("cashier")) {
+			Do("Cashier is here");
+			myCashier=(DCashierRole)role;
+		}
+		else if(type.equals("waiterShared")) {
+			waiters.add(new MyWaiter((DWaiterRole)role));
+			System.out.println("waiter "+ ((DWaiterRole)role).getName() +" added to host list");
+				((DWaiterSharedDataRole) role).setMonitor(theMonitor);
+		}
+		else if (type.equals("waiterNormal")) {
+			waiters.add(new MyWaiter((DWaiterRole)role));
+			System.out.println("waiter "+ ((DWaiterRole)role).getName() +" added to host list");
+		}
+			
+		
+	}
+	
 	public void msgIWantFood(DCustomerRole cust) { //telling agent i want food (once seated)
 		//System.err.println("received iwantfood");
 		if(customersInRST<NTABLES) {

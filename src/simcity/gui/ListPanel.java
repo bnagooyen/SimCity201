@@ -4,8 +4,8 @@ import simcity.PersonAgent;
 
 import javax.swing.*;
 
-import DRestaurant.DCustomerRole;
-import DRestaurant.DWaiterRole;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DWaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;

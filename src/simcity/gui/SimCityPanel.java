@@ -23,14 +23,14 @@ import simcity.PersonAgent;
 
 import javax.swing.*;
 
-import DRestaurant.DCashierRole;
-import DRestaurant.DCookRole;
-import DRestaurant.DCustomerRole;
-import DRestaurant.DHostRole;
-import DRestaurant.DMarketAgent;
-import DRestaurant.DWaiterNormalRole;
-import DRestaurant.DWaiterRole;
-import DRestaurant.DWaiterSharedDataRole;
+import simcity.DRestaurant.DCashierRole;
+import simcity.DRestaurant.DCookRole;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DHostRole;
+//import simcity.DRestaurant.DMarketAgent;
+import simcity.DRestaurant.DWaiterNormalRole;
+import simcity.DRestaurant.DWaiterRole;
+import simcity.DRestaurant.DWaiterSharedDataRole;
 
 import java.awt.*;
 import java.util.Vector;
@@ -80,7 +80,7 @@ public class SimCityPanel extends JPanel {
     private Vector<Drew_CustomerRole> Drew_customers = new Vector<Drew_CustomerRole>();
     
     private final int numMarkets = 3;
-    private Vector<DMarketAgent> markets = new Vector<DMarketAgent>();
+    //private Vector<DMarketAgent> markets = new Vector<DMarketAgent>();
     
     private JPanel restLabel = new JPanel();
    //customer drop down!

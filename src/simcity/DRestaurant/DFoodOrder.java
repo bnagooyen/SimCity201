@@ -1,4 +1,4 @@
-package DRestaurant;
+package simcity.DRestaurant;
 
 public class DFoodOrder  {
 	private String food;

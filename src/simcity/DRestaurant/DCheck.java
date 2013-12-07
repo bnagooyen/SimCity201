@@ -1,4 +1,4 @@
-package DRestaurant;
+package simcity.DRestaurant;
 
 import simcity.interfaces.DCustomer;
 import simcity.interfaces.DWaiter;

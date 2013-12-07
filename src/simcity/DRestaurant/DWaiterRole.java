@@ -1,9 +1,9 @@
 //aaaah
 
-package DRestaurant;
+package simcity.DRestaurant;
 
-import DRestaurant.DOrder;
-import DRestaurant.DOrder.OrderState;
+import simcity.DRestaurant.DOrder;
+import simcity.DRestaurant.DOrder.OrderState;
 import agent.Agent;
 import agent.Role;
 import simcity.gui.DGui.DWaiterGui;
@@ -44,7 +44,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	//Later we will see how it is implemented
 
 	//private boolean inMotion = false;
-	
+	protected String type;
 	boolean checksWaiting=false;
 	private MyCustomer takingOrderFrom = null;
 	//private Order orderDelivering = null;
@@ -116,7 +116,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	
 	public void msgHereIsAWaitingCustomer(DCustomer c, int t) {
 		System.out.println("waiter: adding "+c+ " to my customers list");
-		customers.add(new MyCustomer(c, t, DRestaurant.DWaiterRole.MyCustomer.MyCustomerState.waiting));
+		customers.add(new MyCustomer(c, t, simcity.DRestaurant.DWaiterRole.MyCustomer.MyCustomerState.waiting));
 		stateChanged();
 	}
 	
@@ -137,7 +137,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		System.out.println("waiter received ready message");
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
-				customer.state=DRestaurant.DWaiterRole.MyCustomer.MyCustomerState.readyToOrder;
+				customer.state=simcity.DRestaurant.DWaiterRole.MyCustomer.MyCustomerState.readyToOrder;
 				System.out.println("found customer on list!");
 				stateChanged();
 			}
@@ -151,7 +151,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 			if(customer.getCustomer()==cust) {
 				System.out.println(cust + " ordered: "+ choice);
 				customer.setChoice(choice);
-				customer.state=DRestaurant.DWaiterRole.MyCustomer.MyCustomerState.ordered;
+				customer.state=MyCustomer.MyCustomerState.ordered;
 				DOrder newOrder = new DOrder(choice, customer.getTablenum(), this);
 				orders.add(newOrder);
 				System.out.println("waiter added order of "+ choice);
@@ -192,7 +192,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		//System.out.println("received done eating");
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
-				customer.state=DRestaurant.DWaiterRole.MyCustomer.MyCustomerState.gone;
+				customer.state=MyCustomer.MyCustomerState.gone;
 				stateChanged();
 			}
 		}
@@ -205,7 +205,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		//DoGoHangAtTheFront();
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
-				customer.state=DRestaurant.DWaiterRole.MyCustomer.MyCustomerState.couldNotAffordAndLeaving;
+				customer.state=MyCustomer.MyCustomerState.couldNotAffordAndLeaving;
 				stateChanged();
 			}
 		}

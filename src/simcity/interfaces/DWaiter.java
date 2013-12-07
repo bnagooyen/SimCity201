@@ -1,8 +1,8 @@
 package simcity.interfaces;
 
-import DRestaurant.DCheck;
-import DRestaurant.DCustomerRole;
-import DRestaurant.DOrder;
+import simcity.DRestaurant.DCheck;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DOrder;
 
 public interface DWaiter {
 

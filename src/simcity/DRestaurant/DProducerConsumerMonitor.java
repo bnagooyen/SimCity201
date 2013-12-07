@@ -1,4 +1,4 @@
-package DRestaurant;
+package simcity.DRestaurant;
 
 import java.util.Vector;
 

@@ -1,7 +1,8 @@
-package DRestaurant;
+package simcity.DRestaurant;
 
-import DRestaurant.DOrder.OrderState;
-import DRestaurant.DWaiterRole.WaiterState;
+import simcity.DRestaurant.DWaiterRole;
+import simcity.DRestaurant.DOrder.OrderState;
+import simcity.DRestaurant.DWaiterRole.WaiterState;
 import simcity.interfaces.DWaiter;
 
 public class DWaiterSharedDataRole extends DWaiterRole implements DWaiter {
@@ -11,6 +12,7 @@ public class DWaiterSharedDataRole extends DWaiterRole implements DWaiter {
 	public DWaiterSharedDataRole() {
 		super();
 		// TODO Auto-generated constructor stub
+		type = "waiterShared";
 	}
 
 	@Override

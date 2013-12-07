@@ -1,4 +1,4 @@
-package DRestaurant;
+package simcity.DRestaurant;
  
 import simcity.gui.SimCityGui;
 import simcity.gui.DGui.DCustomerGui;
@@ -313,6 +313,7 @@ public class DCustomerRole extends Role implements DCustomer {
 		Do("Going to restaurant");
 		state = AgentState.WaitingInRestaurant;
 		host.msgIWantFood(this);//send our instance, so he can respond to us
+//		host.msgIAmHere(this);
 		//System.err.println("sent iwantfood");
 	}
 	

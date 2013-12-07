@@ -6,8 +6,8 @@ import simcity.gui.SimCityGui;
 
 import java.awt.*;
 
-import DRestaurant.DCustomerRole;
-import DRestaurant.DWaiterRole;
+import simcity.DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DWaiterRole;
 
 public class DWaiterGui implements Gui {
 

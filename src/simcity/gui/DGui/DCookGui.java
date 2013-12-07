@@ -11,8 +11,8 @@ import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 
-import DRestaurant.DCookRole;
-import DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DCookRole;
+import simcity.DRestaurant.DCustomerRole;
 
 public class DCookGui implements Gui {
 
