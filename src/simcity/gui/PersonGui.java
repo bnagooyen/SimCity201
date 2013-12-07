@@ -107,8 +107,16 @@ public class PersonGui implements Gui {
         myMap.put("Apartment 11", new Point(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+sidewalkWidth));
         myMap.put("Apartment 12", new Point(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+2*housingLength+ sidewalkWidth+ 2*parkingGap));
         myMap.put("Homeless Shelter", new Point(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+        
         myMap.put("Bank 1", new Point(yardSpace+housingWidth+2*sidewalkWidth+streetWidth, streetWidth+sidewalkWidth+4*housingLength+ 5*parkingGap));
-    
+        myMap.put("Bank 2", new Point(4*yardSpace+6*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+sidewalkWidth));
+
+        myMap.put("Market 1", new Point(yardSpace+housingWidth+2*sidewalkWidth+streetWidth, streetWidth+sidewalkWidth));
+        myMap.put("Market 2", new Point(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+        myMap.put("Market 3", new Point(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+sidewalkWidth));
+        myMap.put("Market 4", new Point(4*yardSpace+6*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+        
+        myMap.put("Homless Shelter", new Point(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
 
     
         String personAddress=agent.homeAddress;
