@@ -100,11 +100,10 @@ public class SimCityPanel extends JPanel {
 	RestaurantPlace TRestaurant;
 	
 	// make bank
-	BankPlace bank = new BankPlace();
+	BankPlace bank=null;
 	
 	// make market 
-	MarketPlace market = new MarketPlace();
-    
+	MarketPlace market=null;
     //FOR TESTING WORK
     boolean first=true;
 	
@@ -199,6 +198,9 @@ public class SimCityPanel extends JPanel {
 
     public SimCityPanel(SimCityGui gui) {
         this.gui = gui;
+        
+        bank= new BankPlace();
+        market = new MarketPlace();
         
 		DrewRestaurant = new RestaurantPlace(2);
 		BRestaurant = new RestaurantPlace(5);
