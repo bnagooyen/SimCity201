@@ -17,6 +17,13 @@ public enum AlertTag {
 	BUS_STOP,
 	RESTAURANT,		//For the demo code where you make a new restaurant
 	GENERAL_CITY, 
-	KRestaurant
+	KRestaurant, 
+	BRestaurant,
+	DRestaurant, 
+	DrewRestaurant, 
+	LRestaurant,
+	TRestaurant, 
+	Market, 
+	Bank
 	
 }
