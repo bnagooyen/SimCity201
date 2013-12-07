@@ -21,8 +21,8 @@ public class PersonGui implements Gui {
     SimCityGui gui;
     private int tableGoingTo;
     public static final int x_Offset = 100;
-    private int xPos = -20, yPos = -20;//default waiter position
-    private int xDestination = -20, yDestination = -20;//default start position
+    private int xPos = 0, yPos = 0;//default waiter position
+    private int xDestination = 0, yDestination = 0;//default start position
    // private int xFoodDestination, yFoodDestination;
     private boolean cookedLabelVisible=false;
     private boolean foodIsFollowingWaiter=false;
@@ -103,7 +103,8 @@ public class PersonGui implements Gui {
         myMap.put("Apartment 12", new Point(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+2*housingLength+ sidewalkWidth+ 2*parkingGap));
         myMap.put("Homeless Shelter", new Point(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
         myMap.put("Bank 1", new Point(yardSpace+housingWidth+2*sidewalkWidth+streetWidth, streetWidth+sidewalkWidth+4*housingLength+ 5*parkingGap));
-            
+        myMap.put("Restaurant 6", new Point(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+
     
         String personAddress=agent.homeAddress;
         if(personAddress.contains("Apartment")) {
@@ -111,8 +112,26 @@ public class PersonGui implements Gui {
         	personAddress=personAddress.substring(0, personAddress.length()-1);
 			//System.err.println(personAddress);
         }
-        xPos = myMap.get(personAddress).x;
-        yPos = myMap.get(personAddress).y;
+        if (personAddress.equals("House 1") || personAddress.equals("House 2") || personAddress.equals("Apartment 1") 
+        		|| personAddress.equals("House 3") || personAddress.equals("Apartment 2") ) {
+        	xPos = myMap.get(personAddress).x + 30;
+        	yPos = myMap.get(personAddress).y;
+        }
+        else if (personAddress.equals("Market 1") || personAddress.equals("House 4") || personAddress.equals("Apartment 3") 
+        		|| personAddress.equals("House 5") || personAddress.equals("Bank 1") ) {
+        	xPos = myMap.get(personAddress).x - 10;
+        	yPos = myMap.get(personAddress).y;
+        }
+        else if (personAddress.equals("Market 1") || personAddress.equals("House 4") || personAddress.equals("Apartment 3") 
+        		|| personAddress.equals("House 5") || personAddress.equals("Bank 1") ) {
+        	xPos = myMap.get(personAddress).x - 10;
+        	yPos = myMap.get(personAddress).y;
+        }
+        else if (personAddress.equals("Market 1") || personAddress.equals("House 4") || personAddress.equals("Apartment 3") 
+        		|| personAddress.equals("House 5") || personAddress.equals("Bank 1") ) {
+        	xPos = myMap.get(personAddress).x - 10;
+        	yPos = myMap.get(personAddress).y;
+        }
         
         xDestination=xPos;
         yDestination=yPos;
@@ -121,16 +140,30 @@ public class PersonGui implements Gui {
     @Override
 	public void updatePosition() {
     	//System.out.println("x pos: "+ xPos + " // y pos: "+ yPos+" // xDestination: " + xDestination + " // yDestination: " + yDestination);
-        if (xPos < xDestination)
+
+       /**
+    	if (xPos < xDestination)
             xPos++;
         else if (xPos > xDestination)
             xPos--;
-
-        if (yPos < yDestination)
-            yPos++;
-        else if (yPos > yDestination)
-            yPos--;
-
+    	*/
+    	/**
+    	if (yPos == || yPos == || yPos == ) {
+	        if (yPos < yDestination)
+	            yPos++;
+	        else if (yPos > yDestination)
+	            yPos--;
+    	}
+    	*/
+        /**
+        if (yPos == yDestination) {
+        	if (xPos < xDestination)
+                xPos++;
+            else if (xPos > xDestination)
+                xPos--;
+        }
+     
+        
         else if (xPos == xDestination && yPos == yDestination)
         {
         		if(command==Command.GoToRestaurant ||command==Command.GoHome||command==Command.other) {
@@ -141,6 +174,7 @@ public class PersonGui implements Gui {
         		command=Command.none;
         		
         }
+           */
 
         
     }
@@ -185,6 +219,7 @@ public class PersonGui implements Gui {
     }
     
     public void DoGoTo(String destination) {
+    	
     	if(destination.contains("Restaurant")) {
     		Point myDest = myMap.get(destination);
     		xDestination = myDest.x;
@@ -215,6 +250,7 @@ public class PersonGui implements Gui {
     		yDestination = myDest.y;
     		command=Command.other;
     	}
+    	
     }
     
 //   static class CookLabel {

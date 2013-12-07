@@ -13,6 +13,12 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import simcity.TRestaurant.gui.TCookGui;
+import simcity.TRestaurant.gui.TCustomerGui;
+import simcity.TRestaurant.gui.TGui;
+import simcity.TRestaurant.gui.THostGui;
+import simcity.TRestaurant.gui.TWaiterGui;
+
 public class RestaurantAnimationPanel6 extends BuildingAnimationPanel implements ActionListener {
 
 	 private final int WINDOWX = 575;
@@ -71,41 +77,48 @@ public class RestaurantAnimationPanel6 extends BuildingAnimationPanel implements
 		public void paintComponent(Graphics g) {
 	        Graphics2D g2 = (Graphics2D)g;
 
-	        
 	        //Clear the screen by painting a rectangle the size of the frame
+	        int beginX = 0; 
+	        int beginY = 0; 
 	        g2.setColor(getBackground());
-	        g2.fillRect(BTMX, BTMY, WINDOWX, WINDOWY );
-	        g2.setColor(Color.magenta);
-	        g2.fillRect(520,300,20,20);
-//
-//	        //Here is the table
-//	        g2.setColor(Color.ORANGE);
-//	        for(int i=0; i<nTABLES; i++)
-//	        {
-//	        	int fillx = (i%TABLES_perRow)*TABLESZ_xy*2 + TABLE_gap + x_Offset;
-//	        	int filly = (i/TABLES_perRow)*TABLESZ_xy*2 + TABLE_gap;
-//	        	g2.fillRect(fillx, filly, TABLESZ_xy, TABLESZ_xy);//200 and 250 need to be table params
-//	        
-//	        }
-//	        
-//	        //draw kitchen components
-//	        g2.setColor(Color.cyan);
-//	        g2.fillRect(allKitchenItems_x, refrig_y, refrig_xsz, refrig_ysz);
-//	        g2.setColor(Color.LIGHT_GRAY);
-//	        g2.fillRect(allKitchenItems_x, grillPizza_y, grill_xsz, grill_ysz);
-//	        g2.fillRect(allKitchenItems_x, grillChicken_y, grill_xsz, grill_ysz);
-//	        g2.fillRect(allKitchenItems_x, grillSteak_y, grill_xsz, grill_ysz);
-//	        g2.fillRect(allKitchenItems_x, grillSalad_y, grill_xsz, grill_ysz);
-//
-//	        g2.setColor(Color.pink);
-//	        g2.fillRect(allKitchenItems_x, plating_x, grill_xsz, plating_ysz);
-//	       
-//
-//	        for(Gui gui : guis) {
-//	            if (gui.isPresent()) {
-//	                gui.draw(g2);
-//	            }
-//	        }
+	        g2.fillRect(beginX, beginY, WINDOWX, WINDOWY );
+
+	        //Here is the table
+	        int w = 50; 
+	        int h = 50; 
+	        g2.setColor(Color.ORANGE);
+	        g2.fillRect(50, 250, w, h);//200 and 250 need to be table params
+	        g2.setColor(Color.ORANGE);
+	        g2.fillRect(200, 250, w, h);
+	        g2.setColor(Color.ORANGE);
+	        g2.fillRect(350, 250, w, h);
+	        
+	        int kitchenW = 150; 
+	        int kitchenH = 200; 
+	        g2.setColor(Color.lightGray); 
+	        g2.fillRect(370, 0, kitchenW, kitchenH);
+	        
+	        int grillW = 40; 
+	        int grillH = 50; 
+	        g2.setColor(Color.RED);
+	        g2.fillRect(440, 140, grillW, grillH);
+	        
+	        int plateW = 40;
+	        int plateH = 50; 
+	        g2.setColor(Color.BLACK);
+	        g2.fillRect(370, 30, plateW, plateH);
+
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.updatePosition();
+	            }
+	        }
+
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.draw(g2);
+	            }
+	        }
 	    }
 
 		@Override
@@ -113,6 +126,22 @@ public class RestaurantAnimationPanel6 extends BuildingAnimationPanel implements
 			// TODO Auto-generated method stub
 			guis.add(g);
 		}
+		
+	    public void addGui(TCustomerGui gui) {
+	        guis.add((Gui) gui);
+	    }
+
+	    public void addGui(THostGui gui) {
+	        guis.add((Gui) gui);
+	    }
+	    
+	    public void addGui(TWaiterGui gui) {
+	        guis.add((Gui) gui);
+	    }
+	    
+	    public void addGui(TCookGui gui) {
+	        guis.add((Gui) gui);
+	    }
 
 
 }

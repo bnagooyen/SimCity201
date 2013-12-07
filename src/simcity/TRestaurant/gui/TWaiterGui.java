@@ -19,11 +19,11 @@ public class TWaiterGui implements TGui {
     private String food; 
 
     public static final int yTable = 250;
-    TRestaurantGui gui;
+    //TRestaurantGui gui;
     
-    public TWaiterGui(TWaiterRole agent, TRestaurantGui gui) {
+    public TWaiterGui(TWaiterRole agent/*, TRestaurantGui gui*/) {
         this.agent = agent;
-        this.gui = gui; 
+        //this.gui = gui; 
     }
 
     public void updatePosition() {
@@ -114,7 +114,7 @@ public class TWaiterGui implements TGui {
     
     public void offBreak() {
     	onBreak = false;
-        this.gui = gui;
+        //this.gui = gui;
     }
     
 	public boolean onBreak() {
