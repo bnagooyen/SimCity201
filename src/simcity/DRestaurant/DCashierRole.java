@@ -45,7 +45,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	private Semaphore atTable = new Semaphore(0,true);
 	private Map<String, Double> prices = new HashMap<String, Double>();
 	private DWaiter waiterAtRegister=null;
-	private DHost host = null;
+	private DHostRole host = null;
 	private double registerAmnt;
 	//public HostGui hostGui = null;
 	//Map<String, Double> blacklist = new HashMap<String, Double>();
@@ -413,9 +413,9 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	//utilities
 
 
-	public void AddHost(DHost host) {
+	public void AddHost(DHostRole host2) {
 		// TODO Auto-generated method stub
-		this.host=host;
+		this.host=host2;
 	}
 
 
