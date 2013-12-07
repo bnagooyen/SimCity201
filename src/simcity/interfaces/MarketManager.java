@@ -12,6 +12,8 @@ public interface MarketManager {
 
 	public abstract void msgTimeUpdate(int hour);
 	
+	public void msgRestaurantClosed(Role r);
+	
 	public abstract void msgIAmHere(Role r, String type);
 	public abstract void msgIAmHere(Role r, List<MFoodOrder>need, String building, String type, RestaurantCashier cashier);
 	

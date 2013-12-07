@@ -17,6 +17,7 @@ import simcity.interfaces.LCook;
 import simcity.interfaces.LCustomer;
 import simcity.interfaces.LHost;
 import simcity.interfaces.LWaiter;
+import simcity.interfaces.MarketManager;
 
 import java.util.*;
 //import java.util.concurrent.Semaphore;
@@ -34,6 +35,7 @@ public class LHostRole extends Role implements LHost {
         //with List semantics.
         private List<MyCustomers> customers = Collections.synchronizedList(new ArrayList<MyCustomers>());
         private List<myWaiter> waiters = Collections.synchronizedList(new ArrayList<myWaiter>());
+        public List<MarketManager> markets =Collections.synchronizedList( new ArrayList<MarketManager>()); 
         private Collection<Table> tables;
         int count = -1; //lining customers up
         int countW = -1; //lining waiters up
@@ -72,6 +74,10 @@ public class LHostRole extends Role implements LHost {
                 theMonitor = new ProducerConsumerMonitor();
 
         }
+        
+        public void addMarket(MarketManager m){
+    		markets.add(m);
+    	}
 
 //        public void addWaiter(LWaiterRole w){
 //                waiters.add(new myWaiter(w,0));//newly hired waiter 
@@ -357,6 +363,13 @@ public class LHostRole extends Role implements LHost {
     				w.w.msgGoHome(50);
     			}
     		}
+    		
+    		synchronized(markets){
+    			for(MarketManager m : markets){
+    				m.msgRestaurantClosed(cook);
+    			}
+    		}
+    		
     		cashier.msgGoHome(50);
     		cook.msgGoHome(50);
     		

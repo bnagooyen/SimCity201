@@ -53,6 +53,38 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 
 	//Messages
+	public void msgRestaurantClosed(Role r){
+		//cannot deliver order delete customer order
+		
+		synchronized(customers){
+			for(MyCustomer cust : customers){
+				if(cust.c.equals(r)){
+					cust.restClosed = true;
+				}
+			}
+		}
+		
+//		synchronized(customers){
+//			for(MyCustomer cust : customers){
+//				if(cust.c.equals(r)){
+//					customers.remove(r);
+//				}
+//			}
+//		}
+	}
+	
+	public void msgRestaurantOpen(Role r){
+		
+		synchronized(customers){
+			for(MyCustomer cust : customers){
+				if(cust.c.equals(r)){
+					cust.restClosed = false;
+				}
+			}
+		}
+		
+	}
+	
 	public void msgHereIsMoney(double money){
 		marketMoney += money;
 	}
@@ -98,7 +130,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		
 		Do("Cook is here");
 		if(type.equals("cook")) {
-			customers.add(new MyCustomer(r, need, building, "cook", cashier));
+			customers.add(new MyCustomer(r, need, building, "cook", cashier, false));
 		}
 		stateChanged();
 	}
@@ -152,7 +184,13 @@ public class MarketManagerRole extends Role implements MarketManager{
 		}
 		
 		if(truck.state.equals(workerState.occupied)){
-			sendOverTruck();
+			for(MyCustomer cust : customers){
+				if(cust.equals(truck.cook)){
+						if(!cust.restClosed){
+							sendOverTruck();
+						}
+				}
+			}
 			return true;
 		}
 		
@@ -317,6 +355,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		List<MFoodOrder>need;
 		String building;
 		public RestaurantCashier cashier;
+		public boolean restClosed;
 		
 		MyCustomer(Role r, String s){
 			c = r;
@@ -324,13 +363,14 @@ public class MarketManagerRole extends Role implements MarketManager{
 			waiting = true;
 		}
 		
-		MyCustomer(Role r, List<MFoodOrder>n, String b, String s, RestaurantCashier cash){
+		MyCustomer(Role r, List<MFoodOrder>n, String b, String s, RestaurantCashier cash, boolean closed){
 			c = r;
 			type = s;
 			waiting = true;
 			need = n;
 			building = b;
 			cashier = cash;
+			restClosed = closed;
 		}
 
 	}
