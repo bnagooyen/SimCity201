@@ -186,9 +186,9 @@ public class SimCityPanel extends JPanel {
   //Person
 
     // market people workers
-    private MarketManagerRole manager;
-    private MarketCashierRole mcashier;
-    private InventoryBoyRole ib;
+   // private MarketManagerRole manager;
+   // private MarketCashierRole mcashier;
+   // private InventoryBoyRole ib;
     
     //Bank people workers
     private BankManagerRole Bmanager;
@@ -261,39 +261,39 @@ public class SimCityPanel extends JPanel {
 //        bcustomer.startThread();*/
 //        
 //        
-//        //Market
-//        manager = new MarketManagerRole(gui);
-//        mcashier = new MarketCashierRole(gui);
-//        ib = new InventoryBoyRole(gui);
-//        
-//        manager.isActive = true;
-//        PersonAgent mManagerPerson = new PersonAgent("Manager");
-//        mManagerPerson.hungerLevel = 0;
-//        mManagerPerson.SetJob(manager, "Market 1");
-//        manager.myPerson = mManagerPerson;
+        //Market
+       // manager = new MarketManagerRole(gui);
+       // mcashier = new MarketCashierRole(gui);
+       // ib = new InventoryBoyRole(gui);
+        
+        market.mManager.isActive = true;
+        PersonAgent mManagerPerson = new PersonAgent("Manager");
+        mManagerPerson.hungerLevel = 0;
+        mManagerPerson.SetJob(market.mManager, "Market 1");
+        market.mManager.myPerson = mManagerPerson;
 //        
 //        cook.msgAddMarket(manager);
 //        cook.setMonitor(host.getMonitor());
 //        
-//        mcashier.isActive = true;
-//        PersonAgent mCashierPerson = new PersonAgent("mCashier");
-//        mCashierPerson.hungerLevel = 0;
-//        mCashierPerson.SetJob(mcashier, "Market 1");
-//        mcashier.myPerson = mCashierPerson;
-//        
-//        ib.isActive = true;
-//        PersonAgent ibPerson = new PersonAgent("ib");
-//        ibPerson.hungerLevel = 0;
-//        ibPerson.SetJob(ib, "Market 1");
-//        ib.myPerson = ibPerson;
-//        
-//        DeliveryTruckAgent dtruck = new DeliveryTruckAgent(manager);
-//        // set market role pointers
-//        mcashier.setInventoryBoy(ib);
-//        mcashier.setMarketManager(manager);
-//        ib.setMarketManager(manager);
-//        ib.setMarketCashier(mcashier);
-//        manager.setDeliveryTruck(dtruck);
+        market.mCashier.isActive = true;
+        PersonAgent mCashierPerson = new PersonAgent("mCashier");
+        mCashierPerson.hungerLevel = 0;
+        mCashierPerson.SetJob(market.mCashier, "Market 1");
+        market.mCashier.myPerson = mCashierPerson;
+        
+        market.ib.isActive = true;
+        PersonAgent ibPerson = new PersonAgent("ib");
+        ibPerson.hungerLevel = 0;
+        ibPerson.SetJob(market.ib, "Market 1");
+        market.ib.myPerson = ibPerson;
+        
+        DeliveryTruckAgent dtruck = new DeliveryTruckAgent(manager);
+        // set market role pointers
+        mcashier.setInventoryBoy(ib);
+        mcashier.setMarketManager(manager);
+        ib.setMarketManager(manager);
+        ib.setMarketCashier(mcashier);
+        manager.setDeliveryTruck(dtruck);
 //        
 //        // start threads of market stuff
 //        dtruck.startThread();
@@ -749,7 +749,8 @@ public class SimCityPanel extends JPanel {
     
 
 class MarketPlace extends Business {
-        public ArrayList<InventoryBoyRole> ibs;
+       // public ArrayList<InventoryBoyRole> ibs;
+		public InventoryBoyRole ib;
         public MarketManagerRole mManager;
         public MarketCashierRole mCashier;
         ArrayList<MarketCustomer> mCustomers;
@@ -757,7 +758,7 @@ class MarketPlace extends Business {
 
         public MarketPlace() {
         		
-                //ib = new InventoryBoyRole(gui);
+                ib = new InventoryBoyRole(gui);
                 mManager = new MarketManagerRole(gui);
                 mCashier = new MarketCashierRole(gui);
                 mCustomers = new ArrayList<MarketCustomer>();
@@ -765,8 +766,8 @@ class MarketPlace extends Business {
                 
                 mManager.dTruck = (DeliveryTruck)truck;
                 
-                //ib.setMarketCashier(mCashier);
-                //ib.setMarketManager(mManager);
+                ib.setMarketCashier(mCashier);
+                ib.setMarketManager(mManager);
                 
                 mCashier.setInventoryBoy(ib);
                 mCashier.setMarketManager(mManager);
