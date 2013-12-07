@@ -263,7 +263,7 @@ public class PersonAgent extends Agent {
 
 	// Actions
 	private void GoToRestaurant() {
-		DoGoTo("Restaurant 3");
+		DoGoTo("Restaurant 1");
 		Do("Going To Restaurant");
 		try {
 			atRestaurant.acquire();

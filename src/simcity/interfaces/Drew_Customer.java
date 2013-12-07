@@ -3,7 +3,7 @@ package simcity.interfaces;
 //import simcity.Drew_restaurant.Drew_CashierRole;
 //import simcity.Drew_restaurant.Drew_CustomerRole.AgentEvent;
 //import simcity.Drew_restaurant.Drew_CustomerRole.AgentState;
-import simcity.Drew_restaurant.gui.CustomerGui;
+import simcity.Drew_restaurant.gui.Drew_CustomerGui;
 import simcity.Drew_restaurant.gui.Menu;
 
 /**
@@ -45,7 +45,7 @@ public interface Drew_Customer {
 
 	public String getName();
 	
-	public CustomerGui getGui();
+	public Drew_CustomerGui getGui();
 	
 	public double getDebt();
 	

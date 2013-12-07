@@ -4,8 +4,14 @@ import simcity.Bank.BankCustomerRole;
 import simcity.Bank.BankLoanOfficerRole;
 import simcity.Bank.BankManagerRole;
 import simcity.Bank.BankTellerRole;
+import simcity.Drew_restaurant.Drew_CashierRole;
+import simcity.Drew_restaurant.Drew_CookRole;
 import simcity.Drew_restaurant.Drew_CustomerRole;
+import simcity.Drew_restaurant.Drew_HostRole;
+import simcity.Drew_restaurant.Drew_WaiterNormalRole;
 import simcity.Drew_restaurant.Drew_WaiterRole;
+import simcity.Drew_restaurant.gui.Drew_CookGui;
+import simcity.Drew_restaurant.gui.Drew_WaiterGui;
 import simcity.Market.InventoryBoyRole;
 import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCustomerRole;
@@ -78,6 +84,12 @@ public class SimCityPanel extends JPanel {
     //Drews Restaurant
     private Vector<Drew_WaiterRole> Drew_waiters = new Vector<Drew_WaiterRole>();
     private Vector<Drew_CustomerRole> Drew_customers = new Vector<Drew_CustomerRole>();
+    private Drew_CashierRole Drew_cashier = new Drew_CashierRole();
+    private Drew_WaiterRole Drew_waiter = new Drew_WaiterNormalRole();
+    private Drew_CookRole Drew_cook = new Drew_CookRole();
+    private Drew_HostRole Drew_host = new Drew_HostRole();
+    private Drew_CustomerRole Drew_customer = new Drew_CustomerRole();
+    private Drew_CookGui Drewcookgui;
     
     private final int numMarkets = 3;
     private Vector<DMarketAgent> markets = new Vector<DMarketAgent>();
@@ -234,6 +246,51 @@ public class SimCityPanel extends JPanel {
         cook.AddHost(host);
         cook.AddCashier(cashier);
         cookPerson.startThread();
+        
+        
+        //Setting up people for Drew's Restaurant
+        Drew_host.isActive=true;
+        PersonAgent Drew_hostPerson = new PersonAgent("Drew Host");
+        Drew_hostPerson.hungerLevel=0; //hack so won't go to restaurant
+        Drew_hostPerson.SetJob(Drew_host, "Restaurant 3");
+        Drew_host.myPerson=Drew_hostPerson;
+        Drew_hostPerson.startThread();
+        
+        Drew_cashier.isActive=true;
+        PersonAgent Drew_cashierPerson = new PersonAgent("Drew Cashier");
+        Drew_cashierPerson.hungerLevel=0; //hack so won't go to restaurant
+        Drew_cashierPerson.SetJob(Drew_cashier, "Restaurant 3");
+        Drew_cashier.myPerson=Drew_cashierPerson;
+        Drew_cashier.setCook(Drew_cook);
+        cashierPerson.startThread();
+        
+        Drewcookgui= new Drew_CookGui(Drew_cook);
+        Drew_cook.setGui(Drewcookgui);
+        gui.myPanels.get("Restaurant 2").panel.addGui(Drewcookgui);
+        Drew_cook.isActive=true;
+        PersonAgent Drew_cookPerson = new PersonAgent("Drew cook");
+        Drew_cookPerson.hungerLevel=0; //hack so won't go to restaurant
+        Drew_cookPerson.SetJob(Drew_cook, "Restaurant 3");
+        Drew_cook.myPerson=cookPerson;
+        Drew_cook.setHost(Drew_host);
+        Drew_cook.setCashier(Drew_cashier);
+        Drew_cookPerson.startThread();
+        
+        PersonAgent Drew_Waiter = new PersonAgent("Drew's Waiter");
+        Drew_Waiter.hungerLevel=0;
+        Drew_WaiterNormalRole Drew_headWaiter = new Drew_WaiterNormalRole();
+        Drew_headWaiter.setHost(Drew_host);
+        Drew_headWaiter.setCook(Drew_cook);
+        Drew_headWaiter.addCashier(Drew_cashier);
+        Drew_WaiterGui Drew_wgui = new Drew_WaiterGui(Drew_headWaiter,1);
+        Drew_headWaiter.setGui(Drew_wgui);
+        Drew_Waiter.startThread();       
+        gui.myPanels.get("Restaurant 2").panel.addGui(Drew_wgui);
+        Drew_headWaiter.isActive=true;
+        Drew_headWaiter.myPerson = Drew_Waiter;
+        Drew_Waiter.SetJob(Drew_headWaiter, "Restaurant 3");
+        Drew_host.addWaiter(Drew_headWaiter);
+        
         
         //coding in waiters to test simulation
         PersonAgent nWaiter = new PersonAgent("Head Waiter");

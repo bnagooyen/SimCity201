@@ -24,7 +24,7 @@ public interface Drew_Cook {
 	
 	public abstract void msgAtDest();
 	
-	public abstract CookGui getGui();
+	public abstract Drew_CookGui getGui();
 
 	public abstract void setMonitor(ProducerConsumerMonitor theMonitor);
 	
