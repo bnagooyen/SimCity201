@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -13,8 +14,15 @@ import javax.swing.JTextField;
 public class RestaurantListPanel extends BuildingListPanel {
 	JTextField setInventory = new JTextField();
 	JButton setVal = new JButton("Set!");
+	JCheckBox downCB = new JCheckBox("Down?");
 	public RestaurantListPanel(SimCityGui restaurantGui, String txt) {
 		super(restaurantGui, txt);
+		
+		downCB.addActionListener(this);
+		downCB.setForeground(Color.white);
+		top.add(downCB, BorderLayout.EAST);
+		
+		
 		// TODO Auto-generated constructor stub
 		JPanel inventoryPanel = new JPanel();
 		inventoryPanel.setBackground(Color.darkGray);
