@@ -4,6 +4,8 @@ import agent.Agent;
 import agent.Role;
 import simcity.PersonAgent;
 import simcity.BRestaurant.*;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
 import simcity.BRestaurant.gui.*;
 import simcity.KRestaurant.KRestaurantOrder;
@@ -121,6 +123,7 @@ public class BCookRole extends Role implements BCook {
         public void msgHereIsDelivery(List<MFoodOrder> canGiveMe, double bill, MarketManager manager, MarketCashier cashier) {
                 marketOrders.add(new MarketOrder(bill, cashier));
                 for(MFoodOrder f : canGiveMe) {
+            			AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BCook", "got " + f.amount + " of " + f.type);
                         Do("got " + f.amount + " of " + f.type);
                         BFood currentFood = foodStock.get(f.type);
                         currentFood.amount += f.amount;
@@ -203,6 +206,7 @@ public class BCookRole extends Role implements BCook {
         }
         
           private void tellHost() {
+      		  AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BCook", "telling manager I'm here at work");
               Do("telling manager I'm here at work");
               arrived = false;
               host.msgIAmHere(this, "cashier");
@@ -216,6 +220,7 @@ public class BCookRole extends Role implements BCook {
                 timer.schedule(new TimerTask() {
 
                         public void run() {
+                    			AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BCook", "Done cooking");
                                 print("Done cooking");
 
                                 }
@@ -275,6 +280,7 @@ public class BCookRole extends Role implements BCook {
         }
         
     private void goHome() {
+		AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BCook", "going home");
         Do("going home");
         isActive = false;
         goHome = false;

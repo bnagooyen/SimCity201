@@ -3,8 +3,9 @@ package simcity.KRestaurant;
 import agent.Agent;
 import agent.Role;
 import simcity.PersonAgent;
-
 import simcity.KRestaurant.gui.KWaiterGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Cook;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.KCustomer;
@@ -113,14 +114,17 @@ public class KHostRole extends Role implements Host{
 	public void msgIAmHere(Role r, String type){
 		
 		if(type.equals("waiter")){
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KHost", "Waiter is here");
 			System.out.println(myPerson.getName() + ": " + "Waiter is here");
 			waiters.add(new MyWaiter((KWaiterRole) r));
 		}
 		else if(type.equals("cook")){
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KHost", "Cook is here");
 			System.out.println(myPerson.getName() + ": " +"Cook is here");
 			myCook = (KCookRole)r;
 		}
 		else if(type.equals("cashier")){
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KHost", "Cashier is here");
 			System.out.println(myPerson.getName() + ": " +"Cashier is here");
 			myCashier = (KCashierRole) r;
 
@@ -138,12 +142,14 @@ public class KHostRole extends Role implements Host{
 	
 	
 	public void msgIWantFood(KCustomerRole cust) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KHost", "got msg from customer, he's hungry");
 		System.out.println(myPerson.getName() + ": " +"got msg from customer, he's hungry");
 		customers.add(new MyCustomer(cust, state.waiting));
 		stateChanged();
 	}
 
 	public void msgDecideToWait(KCustomerRole cust, boolean decision) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KHost", "customer is telling me if he'll wait");
 		System.out.println(myPerson.getName() + ": " +"customer is telling me if he'll wait");
 		if(!decision) {
 			synchronized(customers) {
@@ -151,12 +157,14 @@ public class KHostRole extends Role implements Host{
 					if(c.c == cust) {
 						c.s = state.done;
 						waitingCustomers.set(c.waitingPos, 0);
+						AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KHost", "customer said he's leaving");
 						System.out.println(myPerson.getName() + ": " +"cust said he's leaving");
 					}
 				}
 			}
 		}
 		else{
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KHost", "customer said he's staying");
 			System.out.println(myPerson.getName() + ": " +"cust said he's staying!");
 		}
 	}
@@ -164,6 +172,7 @@ public class KHostRole extends Role implements Host{
 		synchronized(tables) {
 		for (Table table : tables) {
 			if (table.getOccupant() == cust) {
+				AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KHost", cust + " leaving " + table);
 				print(cust + " leaving " + table);
 				table.setUnoccupied();
 				synchronized(customers) {
@@ -177,6 +186,7 @@ public class KHostRole extends Role implements Host{
 		}
 		}
 		stateChanged();
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KHost", "table is free");
 		System.out.println(myPerson.getName() + ": " +"table is free");
 	}
 
@@ -195,6 +205,7 @@ public class KHostRole extends Role implements Host{
 	}
 	
 	public void msgWouldLikeToGoOnBreak(KWaiterRole w) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KHost", "waiter wants to go on break");
 		System.out.println(myPerson.getName() + ": " +"waiter wants to go on break");
 		synchronized(waiters) {
 			for (MyWaiter currentWaiter : waiters) {
@@ -254,6 +265,7 @@ public class KHostRole extends Role implements Host{
 	
 	// Actions
 	private void closeRestaurant(){ //pay employees 50
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KHost", "Closing restaurant. It is "+hour);
 		System.out.println(myPerson.getName() + ": " +"Closing restaurant. It is "+hour);
 		synchronized(waiters){
 			for(MyWaiter w: waiters){
@@ -329,6 +341,7 @@ public class KHostRole extends Role implements Host{
 	}
 		
 	private void seatCustomer(MyCustomer customer, Table table) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KHost", "sending msg to waiter to seat cust");
 		System.out.println(myPerson.getName() + ": " +"sending msg to waiter to seat cust");
 		if(customer.inWaitingArea) {
 			customer.inWaitingArea = false;

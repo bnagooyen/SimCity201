@@ -2,7 +2,8 @@ package simcity.BRestaurant;
 
 import simcity.PersonAgent;
 import simcity.BRestaurant.*;
-
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.BWaiter;
 import simcity.interfaces.KWaiter;
 import simcity.KRestaurant.KRestaurantOrder;
@@ -17,6 +18,7 @@ public class BWaiterSharedDataRole extends BWaiterRole implements BWaiter{
         }
 
         protected void giveCookOrder(myCustomer c) {
+				AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BWaiter", "sending cook order of " + c.choice);
                 Do(": sending cook order of " + c.choice);
                 c.cusState = customerState.noAction;
                 //waiterGui.DoGoToCook();

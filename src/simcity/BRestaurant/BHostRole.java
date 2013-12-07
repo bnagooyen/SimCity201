@@ -2,6 +2,8 @@ package simcity.BRestaurant;
 
 import agent.Agent;
 import simcity.BRestaurant.*;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
 import simcity.BRestaurant.gui.*;
 
@@ -167,6 +169,7 @@ public class BHostRole extends Role implements BHost{
                 for (myWaiter thisWaiter : waiterList ){
                         if(thisWaiter.w==waiter){
                                 thisWaiter.needBreak=true;
+                    			AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BHost", "Request break in host");
                                 print("request break in host");
                                 stateChanged();
                         }
@@ -177,14 +180,17 @@ public class BHostRole extends Role implements BHost{
         public void msgIAmHere(Role r, String type){
                     
                      if(type.equals("waiter")){
+                    	 AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BHost", "Waiter is here");
                        Do("Waiter is here");
                        waiterList.add(new myWaiter((BWaiterRole) r));
                      }
                      else if(type.equals("cook")){
+              			AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BHost", "Cook is here");
                        Do("Cook is here");
                        mycook = (BCookRole)r;
                      }
                      else if(type.equals("cashier")){
+              			AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BHost", "Cashier is here");
                        Do("Cashier is here");
                        myCashier = (BCashierRole) r;
                      }
@@ -285,6 +291,7 @@ public class BHostRole extends Role implements BHost{
         }
         
          private void closeRestaurant(){ //pay employees 50
+  			AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BHost", "Closing restaurant. It is "+hour);
          Do("Closing restaurant. It is "+hour);
          synchronized(waiterList){
                  for(myWaiter w: waiterList){
@@ -302,6 +309,7 @@ public class BHostRole extends Role implements BHost{
  }
          
          private void restaurantClosed() {
+   			AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BHost", "Telling market is closed");
          Do("Telling market is closed");
         
                  waitingCustomers.clear();
@@ -369,6 +377,7 @@ public class BHostRole extends Role implements BHost{
         private void DoSeatCustomer(BCustomerRole customer, Table table) {
                 //Notice how we print "customer" directly. It's toString method will do it.
                 //Same with "table"
+   			AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BHost", "Seating " + customer + " at " + table);
                 print("Seating " + customer + " at " + table);
                 hostGui.DoBringToTable(customer, table.tableNumber); 
 

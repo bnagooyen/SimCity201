@@ -9,6 +9,7 @@ import simcity.BRestaurant.BWaiterSharedDataRole;
 import simcity.Bank.BankCustomerRole;
 import simcity.Bank.BankLoanOfficerRole;
 import simcity.Bank.BankManagerRole;
+import simcity.Bank.BankRobberRole;
 import simcity.Bank.BankTellerRole;
 import simcity.Drew_restaurant.Drew_CashierRole;
 import simcity.Drew_restaurant.Drew_CookRole;
@@ -88,6 +89,21 @@ public class SimCityPanel extends JPanel {
     public int aptNumCounter=1;
     public char aptLetCounter='A';
     
+	private ArrayList<RestaurantPlace> myRestaurants;
+	
+	// make restaurants w/roles
+	RestaurantPlace DrewRestaurant;
+	RestaurantPlace BRestaurant;
+	RestaurantPlace DRestaurant;
+	RestaurantPlace KRestaurant;
+	RestaurantPlace LRestaurant;
+	RestaurantPlace TRestaurant;
+	
+	// make bank
+	BankPlace bank = new BankPlace();
+	
+	// make market 
+	MarketPlace market = new MarketPlace();
     
     //FOR TESTING WORK
     boolean first=true;
@@ -183,6 +199,21 @@ public class SimCityPanel extends JPanel {
 
     public SimCityPanel(SimCityGui gui) {
         this.gui = gui;
+        
+		DrewRestaurant = new RestaurantPlace(2);
+		BRestaurant = new RestaurantPlace(5);
+		DRestaurant = new RestaurantPlace(3);
+		KRestaurant = new RestaurantPlace(4);
+		LRestaurant = new RestaurantPlace(1);
+		TRestaurant = new RestaurantPlace(6);
+		
+		
+		myRestaurants.add(DrewRestaurant);
+		myRestaurants.add(BRestaurant);
+		myRestaurants.add(DRestaurant);
+		myRestaurants.add(KRestaurant);
+		myRestaurants.add(LRestaurant);
+		myRestaurants.add(TRestaurant);
         
         //Bank
         Bmanager = new BankManagerRole(gui);
@@ -692,6 +723,27 @@ public class SimCityPanel extends JPanel {
 //customer needs hot
 //waiter needs cook setCook(cook)
 
+    
+ private ArrayList<Role> GenerateAllCustomerRoles() {
+	 ArrayList<Role> myCustomerRoles= new ArrayList<Role>();
+	 /*******turn this into a loop to make more efficient*********/
+	 myCustomerRoles.add(bank.addCustomer());
+	 myCustomerRoles.add(market.addCustomer());
+	 myCustomerRoles.add(DrewRestaurant.AddCustomer());
+	 myCustomerRoles.add(BRestaurant.AddCustomer());
+	 myCustomerRoles.add(DRestaurant.AddCustomer());
+	 myCustomerRoles.add(KRestaurant.AddCustomer());
+	 myCustomerRoles.add(LRestaurant.AddCustomer());
+	 myCustomerRoles.add(TRestaurant.AddCustomer());
+
+	 return myCustomerRoles;
+
+
+	 
+	 //return null;
+ }
+    
+
 class MarketPlace extends Business {
         public InventoryBoyRole ib;
         public MarketManagerRole mManager;
@@ -724,6 +776,35 @@ class MarketPlace extends Business {
         }
 }
 
+public class BankPlace extends Business {
+	//JPanel animationPanel = new JPanel();
+	
+	public BankLoanOfficerRole loanOfficer;
+	public BankManagerRole bankManager;
+	public BankTellerRole bankTeller;
+	public BankRobberRole robber;
+	
+	
+	ArrayList<BankCustomerRole> bankCustomers;
+	
+	public BankPlace() {
+		loanOfficer = new BankLoanOfficerRole(gui);
+		bankManager = new BankManagerRole(gui);
+		bankTeller = new BankTellerRole(gui);
+		bankCustomers = new ArrayList<BankCustomerRole>();
+		
+		loanOfficer.setManager(bankManager);
+		bankTeller.setManager(bankManager);
+		
+	}
+	public BankCustomerRole addCustomer() {
+		BankCustomerRole b = new BankCustomerRole(gui);
+		b.setMarketManager(bankManager);
+		bankCustomers.add(b);
+		return b;
+	}
+}
+
 class RestaurantPlace extends Business {
         public int restNum;
         public Role host = null;
@@ -736,12 +817,12 @@ class RestaurantPlace extends Business {
                 switch(restNum) {
                 
 
-                case 1: host = new Drew_HostRole();
+                case 2: host = new Drew_HostRole();
                 cook = new Drew_CookRole();
                 ((Drew_HostRole)host).setCook((Drew_Cook)cook);
                 cashier = new Drew_CashierRole();
                 break;
-				case 2: host = new BHostRole();
+				case 5: host = new BHostRole();
 				                cook = new BCookRole();
 				                ((BHost)host).setCook((BCookRole)cook);
 				                cashier = new BCashierRole();
@@ -765,7 +846,7 @@ class RestaurantPlace extends Business {
 				                ((KCashierRole)cashier).setHost((KHostRole) host);
 				                ((KCashierRole)cashier).setCook((KCookRole) cook);
 				                break;
-				case 5:        host = new LHostRole();
+				case 1:        host = new LHostRole();
 				                cook = new LCookRole();
 				                System.out.println("LCookRole is "+cook);
 				                cashier = new LCashierRole();
@@ -789,7 +870,7 @@ class RestaurantPlace extends Business {
         public Role AddSharedDataWaiter() {
                 switch(restNum) {
                 
-                case 1: Drew_WaiterRole aw = new Drew_WaiterSharedDataRole();
+                case 2: Drew_WaiterRole aw = new Drew_WaiterSharedDataRole();
                                 aw.setCook((Drew_Cook)cook);
                                 aw.addCashier((Drew_Cashier)cashier);
                                 aw.setHost((Drew_Host)host);
@@ -797,7 +878,7 @@ class RestaurantPlace extends Business {
                                 waiters.add(aw);
                                 ((Drew_Host)host).addWaiter(aw);
                                 return aw;
-                case 2: 
+                case 5: 
                                 BWaiterRole bw = new BWaiterSharedDataRole();
                                 bw.setHost((BHostRole)host);
                                 bw.setCook((BCook)cook);
@@ -823,7 +904,7 @@ class RestaurantPlace extends Business {
                                 ((KHostRole)host).addWaiter((KWaiterRole)kw);
                                 return kw;
                                 
-                case 5:        
+                case 1:        
                                 LWaiterRole lw = new LWaiterSharedDataRole();
                                 lw.setCashier((LCashier)cashier);
                                 lw.setCook((LCook)cook);
@@ -874,8 +955,8 @@ class RestaurantPlace extends Business {
                         return bc;
                         
                         case 3: DCustomerRole dc = new DCustomerRole(gui);
-                        dc.setCashier((DCashier)cashier);
-                        dc.setHost((DHost)host);
+                        dc.setCashier((DCashierRole)cashier);
+                        dc.setHost((DHostRole)host);
                         customers.add(dc);
                         return dc;
                         
