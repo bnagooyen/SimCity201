@@ -30,6 +30,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
     private JComboBox roleSelection = new JComboBox();
     private ArrayList<JComboBox> switchRoles = new ArrayList<JComboBox>();
     private JComboBox scenarioSelection = new JComboBox();
+    private JComboBox dayWeekendSelection = new JComboBox();
     private JComboBox houseOrApt = new JComboBox();
     private JComboBox typeTransport = new JComboBox();
     private String type;
@@ -56,7 +57,9 @@ public class PersonListPanel extends JPanel implements ActionListener {
         JPanel scenarioSelector = new JPanel();
         scenarioSelector.setLayout(new GridLayout(2,2));
         scenarioSelector.add(new JLabel("Select a scenario:"));
-        scenarioSelector.add(new JLabel());
+        
+        setScenario.addActionListener(this);
+        scenarioSelector.add(setScenario);
        
         scenarioSelection.addItem("Scenario 1");
         scenarioSelection.addItem("Scenario 2");
@@ -65,8 +68,12 @@ public class PersonListPanel extends JPanel implements ActionListener {
         scenarioSelection.addActionListener(this);
         
         scenarioSelector.add(scenarioSelection);
-        setScenario.addActionListener(this);
-        scenarioSelector.add(setScenario);
+        
+        dayWeekendSelection.addItem("Day");
+        dayWeekendSelection.addItem("Weekend");
+        
+        scenarioSelector.add(dayWeekendSelection);
+
         
         add(scenarioSelector, BorderLayout.NORTH);
         
@@ -83,8 +90,13 @@ public class PersonListPanel extends JPanel implements ActionListener {
         
       	roleSelection.addItem("Role..");
     	roleSelection.addItem("Visitor");
-    	roleSelection.addItem("Visitor");
-    	roleSelection.addItem("Visitor");
+    	roleSelection.addItem("Waiter");
+    	roleSelection.addItem("Inventory Person");
+    	roleSelection.addItem("Bank Teller");
+    	roleSelection.addItem("Bank Loan Officer");
+    	roleSelection.addItem("Bank Robber");
+    	roleSelection.addItem("Repair Man");
+    	
     	
 
     	
@@ -150,6 +162,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
     	if(e.getSource()==setScenario) {
     		scenarioSelection.setEnabled(false);
     		setScenario.setEnabled(false);
+    		dayWeekendSelection.setEnabled(false);
     		//simcityPanel.startTimer();
     		//start execution
     	}
@@ -236,9 +249,16 @@ public class PersonListPanel extends JPanel implements ActionListener {
             Dimension dim3 = new Dimension(120, 24);
             switchRole.setPreferredSize(dim3);
         	switchRole.addItem("Visitor");
-        	switchRole.addItem("Visitor");
-        	switchRole.addItem("Visitor");
+        	switchRole.addItem("Waiter");
+        	switchRole.addItem("InventoryPerson");
+        	switchRole.addItem("Bank Teller");
+        	switchRole.addItem("Bank Loan Officer");
+        	switchRole.addItem("Bank Robber");
+        	switchRole.addItem("Repair Man");
+        	
+        	
         	switchRole.addActionListener(this);
+        	switchRole.setSelectedItem(role);
         	switchRoles.add(switchRole);
 
 	        pplList.add(button);

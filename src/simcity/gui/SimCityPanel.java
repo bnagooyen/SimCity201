@@ -586,24 +586,25 @@ public class SimCityPanel extends JPanel {
 	    		p.setGui(g);
 	    		gui.city.addGui(g);
 	    		p.bankTime=true;
-	    		Bmanager.msgTimeUpdate(8);
-	            BankCustomerRole bc = new BankCustomerRole(gui);
-	            bc.myPerson = p;
-	            bc.setManager(Bmanager);
-	            p.addCustomerRoles(bc);
+	    		
+//	    		Bmanager.msgTimeUpdate(8);
+//	            BankCustomerRole bc = new BankCustomerRole(gui);
+//	            bc.myPerson = p;
+//	            bc.setManager(Bmanager);
+//	            p.addCustomerRoles(bc);
 	            
 	            
-            	//test going to work
-	            if(first){
-	            	p.bankTime=false;
-	            	p.hungerLevel = 0;
-	            	p.SetJob(Bteller, "Bank 1");
-	            	Bteller.manager=Bmanager;
-	            	Bteller.myPerson = p;
-	            	Bteller.isActive=false;
-	            	first=false;
-	            }
-	            
+//            	//test going to work
+//	            if(first){
+//	            	p.bankTime=false;
+//	            	p.hungerLevel = 0;
+//	            	p.SetJob(Bteller, "Bank 1");
+//	            	Bteller.manager=Bmanager;
+//	            	Bteller.myPerson = p;
+//	            	Bteller.isActive=false;
+//	            	first=false;
+//	            }
+//	            
 	            
 	    		p.startThread();
 	    		p.msgTimeUpdate(7);
