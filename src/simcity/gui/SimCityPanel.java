@@ -457,7 +457,7 @@ public class SimCityPanel extends JPanel {
      * @param name name of person
      */
     
-    public void addPerson(String type, String name, double money, String role, String houseOrApt) {
+    public void addPerson(String type, String name, double money, String role, String houseOrApt, String transport) {
 
 //    	if (type.equals("Customers")) {
 //    		CustomerRole c = new CustomerRole(name);	
@@ -503,6 +503,7 @@ public class SimCityPanel extends JPanel {
 //    		System.out.println("added");
     		PersonAgent p = new PersonAgent(name);
     		p.setMoney(money);
+    		p.SetTravelPreference(transport);
     		DCustomerRole restCustomer = new DCustomerRole(gui);
     		restCustomer.host=host;
     		restCustomer.cashier=cashier;
