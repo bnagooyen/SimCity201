@@ -137,7 +137,7 @@ public class PersonGui implements Gui {
         	xPos = myMap.get(personAddress).x;
         	yPos = myMap.get(personAddress).y;
         }
-        else if (personAddress.equals("Restaurant 1") || personAddress.equals("Aparment 4") || personAddress.equals("Apartment 5") 
+        else if (personAddress.equals("Restaurant 1") || personAddress.equals("Apartment 4") || personAddress.equals("Apartment 5") 
         		|| personAddress.equals("House 6") || personAddress.equals("Restaurant 2") ) {
         	xPos = myMap.get(personAddress).x;
         	yPos = myMap.get(personAddress).y;
