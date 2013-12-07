@@ -258,7 +258,7 @@ public class LCustomerRole extends Role implements LCustomer{
         private void goToRestaurant() {
         		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Going to restaurant");
                 Do("Going to restaurant");
-                //customerGui.DoWait();
+                customerGui.DoWait();
                 host.msgIWantToEat(this);//send our instance, so he can respond to us
         }
 
@@ -268,7 +268,7 @@ public class LCustomerRole extends Role implements LCustomer{
                 if(!willStay){
                         Do("Too full, deciding to leave.");
                         host.msgChoseToLeave(this);
-                        //customerGui.DoExitRestaurant();
+                        customerGui.DoExitRestaurant();
                         state = AgentState.DoingNothing;
                 }
                 else{
@@ -284,12 +284,12 @@ public class LCustomerRole extends Role implements LCustomer{
         private void SitDownTable(int tableNum) {
         		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Being seated. Going to table");
                 Do("Being seated. Going to table");
-                //customerGui.DoGoToSeat(tableNum);
+                customerGui.DoGoToSeat(tableNum);
 //                host.msgLeftLine();
         }
 
         private void DecidingOrder() {
-                //customerGui.deciding();
+                customerGui.deciding();
 
                 boolean stillOrdering = true;
                 canOrder = m.affordable(money);
@@ -312,7 +312,7 @@ public class LCustomerRole extends Role implements LCustomer{
                         },
                         1000);
 
-                        //customerGui.setFood(choice);
+                        customerGui.setFood(choice);
                         AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Deciding order");
                         Do("Deciding order " + choice);
                 }
@@ -337,7 +337,7 @@ public class LCustomerRole extends Role implements LCustomer{
         }
 
         private void TellingOrder() {
-                //customerGui.doneDeciding();
+                customerGui.doneDeciding();
         	AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Telling order");
                 Do("Telling order");
 
@@ -360,7 +360,7 @@ public class LCustomerRole extends Role implements LCustomer{
 
 
         private void EatFood() {
-                //customerGui.gotFood();
+                customerGui.gotFood();
         		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Eating food");
                 Do("Eating food");
                 //This next complicated line creates and starts a timer thread.
@@ -406,8 +406,8 @@ public class LCustomerRole extends Role implements LCustomer{
         }
 
         private void leaveTable() {
-                //customerGui.ateFood();
-                //customerGui.DoExitRestaurant();
+                customerGui.ateFood();
+                customerGui.DoExitRestaurant();
 
         		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Left the restauarant");
                 Do("Left the restaurant");
