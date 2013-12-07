@@ -16,6 +16,8 @@ import simcity.LRestaurant.ProducerConsumerMonitor;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
 import simcity.LRestaurant.gui.LCookGui;
 import simcity.Market.MFoodOrder;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.LCashier;
 //import simcity.LRestaurant.interfaces.Market;
 import simcity.interfaces.LCook;
@@ -68,7 +70,8 @@ public class LCookRole extends Role implements LCook {
 	// Messages
 
 		public void msgGoHome(int cash) {
-			Do("told to go home");
+			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Told to go home");
+			Do("Told to go home");
 			myPerson.money += cash;
 			goHome = true;
 			stateChanged();	
@@ -112,11 +115,13 @@ public class LCookRole extends Role implements LCook {
 //		}
 		
 		public void msgMarketCheck(double check){
-			print("Checked market check");
+			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Checked market check");
+			Do("Checked market check");
 		}
 		
 		public void msgHereIsDelivery(List<MFoodOrder> delivery, double bill, MarketManager manager, MarketCashier cashier) {
-			print("Got food from "+ manager);
+			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Got delivery from market");
+			Do("Got food from "+ manager);
 			
 			for(MarketOrder m : marketOrders) {
 				if( m.m == manager) {
@@ -217,6 +222,7 @@ public class LCookRole extends Role implements LCook {
 	// Actions
 
 		private void goHome() {
+			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Going home");
 			Do("going home");
 			isActive = false;
 			goHome = false;
@@ -224,6 +230,7 @@ public class LCookRole extends Role implements LCook {
 		}
 
 		private void checkRotatingStand() {
+			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Checking rotating stand");
 			LRestaurantOrder newOrder = theMonitor.remove();
 			if(newOrder != null) {
 				Order o = new Order(newOrder.table, newOrder.choice,newOrder.w, OrderState.pending);
@@ -241,13 +248,15 @@ public class LCookRole extends Role implements LCook {
 		}
 		
 		private void giveCashierCheck(MarketOrder m) {
-			Do("Handing market check over to cashier");
-			cashier.msgHereIsSupplyCheck(m.check, m.cashier);
-			m.state = MarketState.done;	
+//			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Handing market check over to cashier");
+//			Do("Handing market check over to cashier");
+//			cashier.msgHereIsSupplyCheck(m.check, m.cashier);
+//			m.state = MarketState.done;	
 		}
 
 		private void orderFromMarket(String choice, int orderAmount){
-
+			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Ordering from market");
+			
 			//inserting food that needs to be ordered
 			List<MFoodOrder> needed = new ArrayList<MFoodOrder>();
 			needed.add(new MFoodOrder(choice, orderAmount));
@@ -279,23 +288,6 @@ public class LCookRole extends Role implements LCook {
 			
 			stateChanged();
 		}
-	//
-//		private void reorderFromMarket(String choice, int need){
-//			int orderAmount = need;
-//			foods.get(choice).state = MarketState.noOrder;
-	//
-//			synchronized(markets){	
-//				for(MyMarket m : markets){
-//					if(m.supply.get(choice)){
-//						print("Reordering " +need+ " " +choice+" from market "+ m.market);
-//						m.market.msgNeedFood(orderAmount, choice);
-//						break;
-//					}
-//				}
-//			}
-//			
-//			stateChanged();
-//		}
 		
 
 
@@ -326,8 +318,9 @@ public class LCookRole extends Role implements LCook {
 				orderFromMarket(o.choice,orderAmount);
 
 			}
+			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Cooking order");
 			print("Cooking order");
-			/**
+			
 			cookGui.setFood(o.choice);
 			cookGui.DoGetFood();
 			try {
@@ -343,7 +336,7 @@ public class LCookRole extends Role implements LCook {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			*/
+			
 			timer.schedule(new TimerTask() {
 				public void run() {
 					o.state = OrderState.cooked;
@@ -357,9 +350,11 @@ public class LCookRole extends Role implements LCook {
 		}
 
 		private void FinishAndTellWaiter(Order o) {
+			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Plating food");
 			print("Plating food");
-			print("Finished order.");
-			/*
+			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Finished order");
+			print("Finished order");
+			
 			cookGui.setPlateFood();
 			cookGui.DoPlating();
 			try {
@@ -369,7 +364,7 @@ public class LCookRole extends Role implements LCook {
 				e.printStackTrace();
 			}
 			cookGui.DoHome();
-			*/
+			
 			o.w.msgOrderIsReady(o.table, o.choice);
 			orders.remove(o);
 		}
@@ -409,6 +404,7 @@ public class LCookRole extends Role implements LCook {
 		}
 	}
 	
+	
 	private class MarketOrder {
 		MarketManager m;
 		MarketCashier cashier;
@@ -440,7 +436,6 @@ public class LCookRole extends Role implements LCook {
 		}
 
 	}
-
 
 
 }

@@ -12,6 +12,8 @@ import simcity.PersonAgent;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
 //import simcity.LRestaurant.interfaces.Market;
 import simcity.test.mock.EventLog;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.LCashier;
 import simcity.interfaces.LCook;
 import simcity.interfaces.LCustomer;
@@ -141,6 +143,7 @@ public class LCashierRole extends Role implements LCashier, RestaurantCashier {
 	// Actions
 	
 	private void goHome(){
+		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCashierRole", "Going home");
 		Do("Going home");
 		isActive = false;
 		goHome = false;
@@ -150,6 +153,7 @@ public class LCashierRole extends Role implements LCashier, RestaurantCashier {
 	private void PayMarket(final Bill b) {
 		cook.msgMarketCheck(b.amount);
 		if(restMoney >= b.amount){
+			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCashierRole", "Paying market");
 			Do("Paying Market "+b.amount);
 			restMoney -= b.amount;
 			b.didPay = true;
@@ -157,6 +161,7 @@ public class LCashierRole extends Role implements LCashier, RestaurantCashier {
 			bills.remove(b);
 		}
 		else{
+			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCashierRole", "Need to run to the bank to pay market bill");
 			Do("Need to run to the bank to pay market bill");
 			goToBank();
 			 timer.schedule(new TimerTask() {
@@ -165,6 +170,7 @@ public class LCashierRole extends Role implements LCashier, RestaurantCashier {
                  }
 	         },
 	         5000);
+			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCashierRole", "Paying market");
 			Do("Paying Market "+b.amount);
 			restMoney -= b.amount;
 			b.mc.msgHereIsPayment(this,b.amount);
@@ -173,6 +179,7 @@ public class LCashierRole extends Role implements LCashier, RestaurantCashier {
 	}
 
 	private void CreateCheck(Order o){
+		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCashierRole", "Creating check");
 		Do("Creating Check");
 		o.w.msgHereIsCheck(foods.get(o.choice).price, o.c);
 		Do("Check is "+foods.get(o.choice).price);
@@ -180,9 +187,11 @@ public class LCashierRole extends Role implements LCashier, RestaurantCashier {
 	}
 	
 	private void ChargeAction(Transaction t){
+		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCashierRole", "Charging customer");
 		Do("Charging Customer");
 		
 		if(t.custMoney <= t.check){
+			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCashierRole", "Customer is unable to pay");
 			Do("Customer is unable to pay");
 			t.c.msgHereIsChange(-1);
 			transactions.remove(t);	
@@ -191,6 +200,7 @@ public class LCashierRole extends Role implements LCashier, RestaurantCashier {
 			int giveBack = t.custMoney-t.check;
 			restMoney += t.check;
 			t.c.msgHereIsChange(giveBack);
+			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCashierRole", "Here is customer's change");
 			Do("Customer's change "+giveBack);
 			transactions.remove(t);	
 		}
