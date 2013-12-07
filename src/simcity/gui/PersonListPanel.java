@@ -31,6 +31,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
     private ArrayList<JComboBox> switchRoles = new ArrayList<JComboBox>();
     private JComboBox scenarioSelection = new JComboBox();
     private JComboBox houseOrApt = new JComboBox();
+    private JComboBox typeTransport = new JComboBox();
     private String type;
    
 
@@ -81,9 +82,9 @@ public class PersonListPanel extends JPanel implements ActionListener {
         
         
       	roleSelection.addItem("Role..");
-    	roleSelection.addItem("Visitor_Bus");
-    	roleSelection.addItem("Visitor_Walk");
-    	roleSelection.addItem("Visitor_Car");
+    	roleSelection.addItem("Visitor");
+    	roleSelection.addItem("Visitor");
+    	roleSelection.addItem("Visitor");
     	
 
     	
@@ -92,9 +93,8 @@ public class PersonListPanel extends JPanel implements ActionListener {
     	
     	roleSelection.addActionListener(this);
     	
-    	addPerson.add(new JLabel("<html><u>" + type + "</u></html>"));
-    	addPersonB.addActionListener(this);
-    	addPerson.add(addPersonB);
+    	//addPerson.add(new JLabel("<html><u>" + type + "</u></html>"));
+
     	addPerson.add(new JLabel("Name"));
     	addPerson.add(new JLabel("MoneyValue"));
     	addPerson.add(myPerson);
@@ -103,9 +103,18 @@ public class PersonListPanel extends JPanel implements ActionListener {
 //    	JPanel housingAndStart = new JPanel();
 //    	housingAndStart.setLayout(new GridLayout(1,2));
 //    	houseOrApt.setPreferredSize(new Dimension(70, 10));
+    	
     	houseOrApt.addItem("Apartment");
     	houseOrApt.addItem("House");
     	addPerson.add(houseOrApt);
+    	
+    	typeTransport.addItem("Walk");
+    	typeTransport.addItem("Bus");
+    	typeTransport.addItem("Car");
+    	addPerson.add(typeTransport);
+    	
+    	addPersonB.addActionListener(this);
+    	addPerson.add(addPersonB);
     	
 //    	addPersonB.setPreferredSize(new Dimension(50,10));
     	  
@@ -153,7 +162,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
         	System.out.println((String)roleSelection.getSelectedItem());
         	System.out.println(userInput1);
         	if(!userInput1.isEmpty() && !userInput2.isEmpty() && !((String)roleSelection.getSelectedItem()).equals("Role.."))
-        		addPerson(userInput1, moneyVal, (String)roleSelection.getSelectedItem(), (String)houseOrApt.getSelectedItem());
+        		addPerson(userInput1, moneyVal, (String)roleSelection.getSelectedItem(), (String)houseOrApt.getSelectedItem(), (String)typeTransport.getSelectedItem());
         	else return;
         }
 //        else if(e.getSource() == addPersonAndSetHungryB) {
@@ -216,7 +225,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
      * @param name name of new person
      */
     
-    public void addPerson(String name, double moneyVal, String role, String houseOrApt) {
+    public void addPerson(String name, double moneyVal, String role, String houseOrApt, String typeTransport) {
     		JPanel myPersonControls = new JPanel();
         	JPanel adding = new JPanel();
             JLabel button = new JLabel(name, SwingConstants.CENTER);
@@ -226,9 +235,9 @@ public class PersonListPanel extends JPanel implements ActionListener {
             JComboBox switchRole = new JComboBox();
             Dimension dim3 = new Dimension(120, 24);
             switchRole.setPreferredSize(dim3);
-        	switchRole.addItem("Visitor_Bus");
-        	switchRole.addItem("Visitor_Walk");
-        	switchRole.addItem("Visitor_Car");
+        	switchRole.addItem("Visitor");
+        	switchRole.addItem("Visitor");
+        	switchRole.addItem("Visitor");
         	switchRole.addActionListener(this);
         	switchRoles.add(switchRole);
 
@@ -253,7 +262,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
             adding.add(switchRole, BorderLayout.EAST);
             view.add(adding);
             //simcityPanel.addPerson(name, role, moneyVal, houseOrApt);//puts customer on list
-            gui.restPanel.addPerson("Person", name, moneyVal, role, houseOrApt);
+            gui.restPanel.addPerson("Person", name, moneyVal, role, houseOrApt, typeTransport);
             //restPanel.showInfo(type, name);//puts hungry button on panel
             validate();
         

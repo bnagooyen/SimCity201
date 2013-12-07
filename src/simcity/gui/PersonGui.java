@@ -5,7 +5,7 @@ import simcity.PersonAgent;
 import java.awt.*;
 import java.util.HashMap;
 
-import DRestaurant.DCustomerRole;
+import simcity.DRestaurant.DCustomerRole;
 
 public class PersonGui implements Gui {
 
@@ -72,8 +72,13 @@ public class PersonGui implements Gui {
 //        	labelIsShowing[i]=false;
         
         //coordinates are from citypanel, find the building you want to ppl to go to and copy/paste coordinates to this map
-        
+        myMap.put("Restaurant 1", new Point(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth, streetWidth+sidewalkWidth));
+        myMap.put("Restaurant 2", new Point(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
         myMap.put("Restaurant 3", new Point(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+sidewalkWidth));
+        myMap.put("Restaurant 4", new Point(3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+sidewalkWidth));
+        myMap.put("Restaurant 5", new Point(3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+        myMap.put("Restaurant 6", new Point(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+        
         myMap.put("House 1", new Point(yardSpace, streetWidth+sidewalkWidth));
         myMap.put("House 2", new Point(yardSpace, streetWidth+sidewalkWidth+2*housingLength+ 2*parkingGap));
         myMap.put("House 3", new Point(yardSpace, streetWidth+sidewalkWidth+4*housingLength+ 5*parkingGap));
@@ -102,8 +107,16 @@ public class PersonGui implements Gui {
         myMap.put("Apartment 11", new Point(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+sidewalkWidth));
         myMap.put("Apartment 12", new Point(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+2*housingLength+ sidewalkWidth+ 2*parkingGap));
         myMap.put("Homeless Shelter", new Point(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+        
         myMap.put("Bank 1", new Point(yardSpace+housingWidth+2*sidewalkWidth+streetWidth, streetWidth+sidewalkWidth+4*housingLength+ 5*parkingGap));
-        myMap.put("Restaurant 6", new Point(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+        myMap.put("Bank 2", new Point(4*yardSpace+6*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+sidewalkWidth));
+
+        myMap.put("Market 1", new Point(yardSpace+housingWidth+2*sidewalkWidth+streetWidth, streetWidth+sidewalkWidth));
+        myMap.put("Market 2", new Point(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+        myMap.put("Market 3", new Point(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+sidewalkWidth));
+        myMap.put("Market 4", new Point(4*yardSpace+6*housingWidth+6*sidewalkWidth+3*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+        
+        myMap.put("Homless Shelter", new Point(4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
 
     
         String personAddress=agent.homeAddress;
