@@ -4,8 +4,9 @@ package simcity.TRestaurant.gui;
 import java.awt.*;
 
 import simcity.TRestaurant.THostRole;
+import simcity.gui.Gui;
 
-public class THostGui implements TGui {
+public class THostGui implements Gui {
 
     private THostRole agent = null;
     

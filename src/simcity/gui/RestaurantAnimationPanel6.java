@@ -15,7 +15,6 @@ import javax.swing.Timer;
 
 import simcity.TRestaurant.gui.TCookGui;
 import simcity.TRestaurant.gui.TCustomerGui;
-import simcity.TRestaurant.gui.TGui;
 import simcity.TRestaurant.gui.THostGui;
 import simcity.TRestaurant.gui.TWaiterGui;
 
@@ -93,15 +92,20 @@ public class RestaurantAnimationPanel6 extends BuildingAnimationPanel implements
 	        g2.setColor(Color.ORANGE);
 	        g2.fillRect(350, 250, w, h);
 	        
-	        int kitchenW = 150; 
-	        int kitchenH = 200; 
+	        int kitchenW = 110; 
+	        int kitchenH = 190; 
 	        g2.setColor(Color.lightGray); 
 	        g2.fillRect(370, 0, kitchenW, kitchenH);
 	        
 	        int grillW = 40; 
-	        int grillH = 50; 
-	        g2.setColor(Color.RED);
+	        int grillH = 50;
+	        g2.setColor(Color.BLACK);
 	        g2.fillRect(440, 140, grillW, grillH);
+	        g2.setColor(Color.RED);
+	        g2.fillOval(440, 145, 15, 15);
+	        g2.fillOval(440, 165, 15, 15);
+	        g2.fillOval(460, 145, 15, 15);
+	        g2.fillOval(460, 165, 15, 15);
 	        
 	        int plateW = 40;
 	        int plateH = 50; 
