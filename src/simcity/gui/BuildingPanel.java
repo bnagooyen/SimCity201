@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 public class BuildingPanel extends JPanel {
 
-	TListPanel info;
+	BuildingListPanel info;
 	String name;
 	public BuildingAnimationPanel panel;
 	String type;
@@ -16,7 +16,6 @@ public class BuildingPanel extends JPanel {
 	BuildingPanel(SimCityGui restaurantGui, String nm) {
 		this.gui=restaurantGui;
 		setSize(875, 325);
-		info = new TListPanel(restaurantGui, nm);
 		
 		if(nm.equals("Restaurant 1")) {
 			panel = new RestaurantAnimationPanel1(restaurantGui, nm);
@@ -62,6 +61,20 @@ public class BuildingPanel extends JPanel {
 			panel = new HomelessAnimationPanel(restaurantGui, nm);
 			type = "homelessShelter";
 		}
+		
+		if(nm.contains("Restaurant")) {
+			info = new RestaurantListPanel(restaurantGui, nm);
+		}
+		else if(nm.contains("Market")) {
+			info = new MarketListPanel(restaurantGui, nm);
+		}
+		else if(nm.contains("Bank")) {
+			info = new BankListPanel(restaurantGui, nm);
+		}
+		else {
+			info = new HousingListPanel(restaurantGui,nm);
+		}
+		
 		isVisible = false;
 		name = nm;
 		setLayout(new BorderLayout());

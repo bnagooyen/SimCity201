@@ -106,13 +106,15 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	@Override
 	public void msgAnswerVerificationRequest(boolean yn) {
 		System.out.println("\n cashier received answer verification " + (yn ? "yes" : "no"));
+		synchronized(inventoryBills) {
 		for(InventoryBill i: inventoryBills) {
 			if(i.state==InventoryBillState.pendingResponse) {
 				if(yn) i.state=InventoryBillState.processing;
 				else i.state=InventoryBillState.fraud;
 				stateChanged();
 			}
-		}
+		}}
+		
 	}
 	
 	@Override
@@ -177,26 +179,29 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
             If so seat him at the table.
 		 */
 		//System.out.println('');
-		
+		synchronized(myBills) {
 		for(DCheck b: myBills) {
 			if(b.state==CheckState.processing) {
 				ProcessBill(b);
 				return true;
 			}
 		}
-		
+		}
+		synchronized(myBills) {
 		for(DCheck b: myBills) {
 			if(b.state==CheckState.paid) {
 				ComputeChange(b);
 				return true;
 			}
 		}
+		}
+		
 		
 		if(waiterAtRegister!=null) {
 			GiveCheckToWaiter();
 			return true;
 		}
-		
+		synchronized(inventoryBills) {
 		for(InventoryBill bill: inventoryBills) {
 			if(bill.state==InventoryBillState.justReceived) {
 				System.out.println(bill);
@@ -204,7 +209,8 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 				return true;
 			}
 		}
-		
+		}
+		synchronized(inventoryBills) {
 		for(InventoryBill bill: inventoryBills) {
 			if(bill.state==InventoryBillState.couldNotAfford && bill.amnt<=registerAmnt) {
 				//System.out.println("called proccess");
@@ -212,7 +218,8 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 				return true;	
 			}
 		}
-		
+		}
+		synchronized(inventoryBills) {
 		for(InventoryBill bill: inventoryBills) {
 			if(bill.state==InventoryBillState.fraud) {
 				//System.out.println("called proccess");
@@ -220,7 +227,9 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 				return true;	
 			}
 		}
+		}
 		
+		synchronized(inventoryBills) {
 		for(InventoryBill bill: inventoryBills) {
 			if(bill.state==InventoryBillState.processing) {
 				//System.out.println("called proccess");
@@ -228,7 +237,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 				return true;	
 			}
 		}
-
+		}
 	
 		
 		return false;

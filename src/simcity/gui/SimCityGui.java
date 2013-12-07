@@ -2,7 +2,7 @@ package simcity.gui;
 import simcity.gui.BuildingPanel;
 import simcity.gui.CityPanel;
 import simcity.gui.CityView;
-import simcity.gui.TListPanel;
+import simcity.gui.BuildingListPanel;
 import simcity.gui.trace.TracePanel;
 
 import javax.swing.*;
@@ -29,7 +29,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	ListPanel addPersonPanel = null;
 	
 	CityPanel city;
-	TListPanel info;
+	BuildingListPanel info;
 	PersonListPanel cityInfo;
 	CityView view;
 	//CityControlPanel CP;
@@ -50,7 +50,7 @@ public class SimCityGui extends JFrame implements ActionListener {
      *    in RestaurantPanel()
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
-    public SimCityPanel restPanel;
+    public SimCityPanel simcityPanel;
     //private AnimationPanel myRestaurant = new AnimationPanel(this);
     
     /* infoPanel holds information about the clicked customer, if there is one*/
@@ -310,7 +310,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 //		c.gridwidth = 6; c.gridheight = 6;
 		add(city, BorderLayout.CENTER);
 		
-		 restPanel = new SimCityPanel(this);
+		 simcityPanel = new SimCityPanel(this);
         
         
     }

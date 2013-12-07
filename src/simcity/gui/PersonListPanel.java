@@ -4,6 +4,8 @@ package simcity.gui;
 import simcity.interfaces.Person;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -44,19 +46,25 @@ public class PersonListPanel extends JPanel implements ActionListener {
      */
     public PersonListPanel(SimCityGui rp) {
     	
+		//this.setBackground(Color.black);
+    	
     	gui= rp;
     	
     	//JLabel text= new JLabel(txt);
     	final int INFO_WIDTH = 300;
 		final int INFO_HEIGHT = 150;
     	
-
+		this.setBorder(BorderFactory.createLineBorder(Color.black));
 
         this.setPreferredSize(new Dimension(INFO_WIDTH, INFO_HEIGHT));
         
         JPanel scenarioSelector = new JPanel();
+        //scenarioSelector.setBackground(Color.black);
         scenarioSelector.setLayout(new GridLayout(2,2));
-        scenarioSelector.add(new JLabel("Select a scenario:"));
+        JLabel lbl = new JLabel("Select a scenario:");
+        lbl.setFont(new Font("Arial", Font.BOLD, 12));
+        //lbl.setForeground(Color.white);
+        scenarioSelector.add(lbl);
         
         setScenario.addActionListener(this);
         scenarioSelector.add(setScenario);
@@ -69,7 +77,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
         
         scenarioSelector.add(scenarioSelection);
         
-        dayWeekendSelection.addItem("Day");
+        dayWeekendSelection.addItem("Weekday");
         dayWeekendSelection.addItem("Weekend");
         
         scenarioSelector.add(dayWeekendSelection);
@@ -79,6 +87,12 @@ public class PersonListPanel extends JPanel implements ActionListener {
         
         
         JPanel addPerson = new JPanel();
+        //addPerson.setBackground(Color.black);
+        Border whiteLine = BorderFactory.createLineBorder(Color.white);
+        TitledBorder title = BorderFactory.createTitledBorder(whiteLine, "Add Person");
+        title.setTitleFont(new Font("Arial", Font.BOLD, 10));
+        //title.setTitleColor(Color.white);
+        addPerson.setBorder(title);
         addPerson.setLayout(new GridLayout(4,2));
 
         myPerson.setPreferredSize(new Dimension(100,24));
@@ -106,9 +120,14 @@ public class PersonListPanel extends JPanel implements ActionListener {
     	roleSelection.addActionListener(this);
     	
     	//addPerson.add(new JLabel("<html><u>" + type + "</u></html>"));
-
-    	addPerson.add(new JLabel("Name"));
-    	addPerson.add(new JLabel("MoneyValue"));
+    	JLabel lbl2 = new JLabel("Name");
+    	//lbl2.setForeground(Color.white);
+    	lbl2.setFont(new Font("Arial", Font.BOLD, 12));
+    	addPerson.add(lbl2);
+    	JLabel lbl3 = new JLabel("MoneyValue");
+    	lbl3.setFont(new Font("Arial", Font.BOLD, 12));
+    	//lbl3.setForeground(Color.white);
+    	addPerson.add(lbl3);
     	addPerson.add(myPerson);
     	addPerson.add(myPersonMoneyVal);
     	addPerson.add(roleSelection);
@@ -132,7 +151,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
     	  
     	
 //        
-        Dimension dim = new Dimension(300, 200);
+        Dimension dim = new Dimension(300, 172);
         pane.setSize(dim);
         pane.setPreferredSize(pane.getSize());
         pane.setMinimumSize(pane.getSize());
@@ -239,12 +258,13 @@ public class PersonListPanel extends JPanel implements ActionListener {
      */
     
     public void addPerson(String name, double moneyVal, String role, String houseOrApt, String typeTransport) {
+
     		JPanel myPersonControls = new JPanel();
         	JPanel adding = new JPanel();
             JLabel button = new JLabel(name, SwingConstants.CENTER);
 //            System.err.println("addPerson");
-            button.setBorder(BorderFactory.createLineBorder(Color.black));
-            adding.setBorder(BorderFactory.createLineBorder(Color.black));
+            //button.setBorder(BorderFactory.createLineBorder(Color.black));
+            adding.setBorder(BorderFactory.createRaisedBevelBorder());
             JComboBox switchRole = new JComboBox();
             Dimension dim3 = new Dimension(120, 24);
             switchRole.setPreferredSize(dim3);
@@ -269,7 +289,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
 
             Dimension paneSize = pane.getSize();
             Dimension buttonSize = new Dimension(paneSize.width - 150,
-                    40);
+                    20);
             button.setPreferredSize(buttonSize);
             button.setMinimumSize(buttonSize);
             button.setMaximumSize(buttonSize);
@@ -282,7 +302,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
             adding.add(switchRole, BorderLayout.EAST);
             view.add(adding);
             //simcityPanel.addPerson(name, role, moneyVal, houseOrApt);//puts customer on list
-            gui.restPanel.addPerson("Person", name, moneyVal, role, houseOrApt, typeTransport);
+            gui.simcityPanel.addPerson("Person", name, moneyVal, role, houseOrApt, typeTransport);
             //restPanel.showInfo(type, name);//puts hungry button on panel
             validate();
         
