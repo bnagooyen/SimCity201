@@ -373,6 +373,16 @@ public class DCookRole extends Role implements DCook, Cook{
                         }
                 }
                 }
+                
+                synchronized(myOrders) {
+                    for(int i=0; i<myOrders.size(); i++) {
+                            if(myOrders.get(i).state==InventoryOrderState.approved || myOrders.get(i).state==InventoryOrderState.denied) {
+                                    NotifyCashierOfVerification(myOrders.get(i));
+                                    return true;
+                            }
+                    }
+                    }
+                
                 synchronized(myOrders) {
                 for(int i=0; i<myOrders.size(); i++) {
                         if(myOrders.get(i).state==InventoryOrderState.needsReorder) {
@@ -393,14 +403,7 @@ public class DCookRole extends Role implements DCook, Cook{
                                                 return true;
                                         }
                 }
-                synchronized(myOrders) {
-                for(int i=0; i<myOrders.size(); i++) {
-                        if(myOrders.get(i).state==InventoryOrderState.approved || myOrders.get(i).state==InventoryOrderState.denied) {
-                                NotifyCashierOfVerification(myOrders.get(i));
-                                return true;
-                        }
-                }
-                }
+   
         
                 for(int i=0; i<orders.size(); i++) {
                         if(orders.get(i).state==OrderState.grillInUse && !grillOccupied.get(orders.get(i).getChoice())) {

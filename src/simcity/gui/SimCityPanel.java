@@ -231,41 +231,41 @@ public class SimCityPanel extends JPanel {
 //        //mcustomer.startThread();
 //        
 //        
-//        //Doreen's Restaurant setup
-//        host.isActive=true;
-//        PersonAgent hostPerson = new PersonAgent("Host");
-//        hostPerson.hungerLevel=0; //hack so won't go to restaurant
-//        hostPerson.SetJob(host, "Restaurant 3");
-//        host.myPerson=hostPerson;
-//        hostPerson.startThread();
-//        
-//       // host.setGui(hostGui);
-//        //waiter.setGui(waiterGui);
-//        //System.err.println(cook);
-//        cashier.isActive=true;
-//        PersonAgent cashierPerson = new PersonAgent("Cashier");
-//        cashierPerson.hungerLevel=0; //hack so won't go to restaurant
-//        cashierPerson.SetJob(cashier, "Restaurant 3");
-//        cashier.myPerson=cashierPerson;
-//        cashier.AddCook(cook);
-//        //cashier.startThread();
-//        cashierPerson.startThread();
-//        
-//        
-//        
-//        //need this for checking if kitchen has enough food
-//        cookGui= new DCookGui(cook, gui);
-//        cook.setGui(cookGui);
-//        gui.myPanels.get("Restaurant 3").panel.addGui(cookGui);
-//        
-//        cook.isActive=true;
-//        PersonAgent cookPerson = new PersonAgent("cook");
-//        cookPerson.hungerLevel=0; //hack so won't go to restaurant
-//        cookPerson.SetJob(cook, "Restaurant 3");
-//        cook.myPerson=cookPerson;
-//        cook.AddHost(host);
-//        cook.AddCashier(cashier);
-//        cookPerson.startThread();
+        //Doreen's Restaurant setup
+        host.isActive=true;
+        PersonAgent hostPerson = new PersonAgent("Host");
+        hostPerson.hungerLevel=0; //hack so won't go to restaurant
+        hostPerson.SetJob(host, "Restaurant 3");
+        host.myPerson=hostPerson;
+        hostPerson.startThread();
+        
+       // host.setGui(hostGui);
+        //waiter.setGui(waiterGui);
+        //System.err.println(cook);
+        cashier.isActive=true;
+        PersonAgent cashierPerson = new PersonAgent("Cashier");
+        cashierPerson.hungerLevel=0; //hack so won't go to restaurant
+        cashierPerson.SetJob(cashier, "Restaurant 3");
+        cashier.myPerson=cashierPerson;
+        cashier.AddCook(cook);
+        //cashier.startThread();
+        cashierPerson.startThread();
+        
+        
+        
+        //need this for checking if kitchen has enough food
+        cookGui= new DCookGui(cook, gui);
+        cook.setGui(cookGui);
+        gui.myPanels.get("Restaurant 3").panel.addGui(cookGui);
+        
+        cook.isActive=true;
+        PersonAgent cookPerson = new PersonAgent("cook");
+        cookPerson.hungerLevel=0; //hack so won't go to restaurant
+        cookPerson.SetJob(cook, "Restaurant 3");
+        cook.myPerson=cookPerson;
+        cook.AddHost(host);
+        cook.AddCashier(cashier);
+        cookPerson.startThread();
 //        
 //        
 //        
@@ -389,41 +389,41 @@ public class SimCityPanel extends JPanel {
 //        Lhost.addWaiter(nLwaiter);
 //        
         
-        // check kim's restaurant
-        KHostRole kh = new KHostRole();
-        PersonAgent host = new PersonAgent("host");
-        host.SetJob(kh, "Restaurant 4");
-        kh.myPerson = host;
-        kh.isActive = true;
+//        // check kim's restaurant
+//        KHostRole kh = new KHostRole();
+//        PersonAgent host = new PersonAgent("host");
+//        host.SetJob(kh, "Restaurant 4");
+//        kh.myPerson = host;
+//        kh.isActive = true;
+////        
+////        PersonAgent waiter = new PersonAgent("waiter");
+////        KWaiterNormalRole w = (KWaiterNormalRole) KRestaurant.AddNormalWaiter();;
+////        waiter.SetJob(w);
+////        w.setPerson(waiter);
+////        people.add(waiter);
 //        
-//        PersonAgent waiter = new PersonAgent("waiter");
-//        KWaiterNormalRole w = (KWaiterNormalRole) KRestaurant.AddNormalWaiter();;
-//        waiter.SetJob(w);
-//        w.setPerson(waiter);
-//        people.add(waiter);
-        
-        KCookRole kcook = new KCookRole(gui);
-        PersonAgent cook = new PersonAgent("cook");
-        cook.SetJob(kcook, "Restaurant 4");
-        kcook.myPerson = cook;
-        kcook.isActive = true;
-        
-        KCashierRole kc = new KCashierRole();
-        PersonAgent kcashier = new PersonAgent("cashier");
-        kcashier.SetJob(kc, "Restaurant 4");
-        kc.myPerson = kcashier;
-        kc.isActive = true;
-        
-        kcook.setCashier(kc);
-        kcook.setHost(kh);
-        kcook.addMarket(manager);
-        kc.setCook(kcook);
-        kc.setHost(kh);
-        kh.setCook(kcook);
-        
-        host.startThread();
-        cook.startThread();
-        kcashier.startThread();
+//        KCookRole kcook = new KCookRole(gui);
+//        PersonAgent cook = new PersonAgent("cook");
+//        cook.SetJob(kcook, "Restaurant 4");
+//        kcook.myPerson = cook;
+//        kcook.isActive = true;
+//        
+//        KCashierRole kc = new KCashierRole();
+//        PersonAgent kcashier = new PersonAgent("cashier");
+//        kcashier.SetJob(kc, "Restaurant 4");
+//        kc.myPerson = kcashier;
+//        kc.isActive = true;
+//        
+//        kcook.setCashier(kc);
+//        kcook.setHost(kh);
+//        kcook.addMarket(manager);
+//        kc.setCook(kcook);
+//        kc.setHost(kh);
+//        kh.setCook(kcook);
+//        
+//        host.startThread();
+//        cook.startThread();
+//        kcashier.startThread();
     }
 
     /**

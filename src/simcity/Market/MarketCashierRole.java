@@ -226,6 +226,9 @@ public class MarketCashierRole extends Role implements MarketCashier{
 				else if(o.cook == r){
 					order = o;
 				}
+				else if (o.cashier == r) {
+					order = o;
+				}
 			}
 		}
 		return order;

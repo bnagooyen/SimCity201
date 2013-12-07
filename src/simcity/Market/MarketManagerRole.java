@@ -192,12 +192,14 @@ public class MarketManagerRole extends Role implements MarketManager{
 		}
 		
 		if(truck.state.equals(workerState.occupied)){
+			synchronized(customers) {
 			for(MyCustomer cust : customers){
 				if(cust.c ==truck.cook) {
 						if(!cust.restClosed){
 							sendOverTruck();
 						}
 				}
+			}
 			}
 			return true;
 		}
