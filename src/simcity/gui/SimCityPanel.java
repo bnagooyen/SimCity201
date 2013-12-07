@@ -5,6 +5,7 @@ import simcity.BRestaurant.BCookRole;
 import simcity.BRestaurant.BCustomerRole;
 import simcity.BRestaurant.BHostRole;
 import simcity.BRestaurant.BWaiterRole;
+import simcity.BRestaurant.BWaiterSharedDataRole;
 import simcity.Bank.BankCustomerRole;
 import simcity.Bank.BankLoanOfficerRole;
 import simcity.Bank.BankManagerRole;
@@ -15,12 +16,16 @@ import simcity.Drew_restaurant.Drew_CustomerRole;
 import simcity.Drew_restaurant.Drew_HostRole;
 import simcity.Drew_restaurant.Drew_WaiterNormalRole;
 import simcity.Drew_restaurant.Drew_WaiterRole;
+import simcity.Drew_restaurant.Drew_WaiterSharedDataRole;
 import simcity.Drew_restaurant.gui.Drew_CookGui;
 import simcity.Drew_restaurant.gui.Drew_WaiterGui;
 import simcity.KRestaurant.KCashierRole;
 import simcity.KRestaurant.KCookRole;
+import simcity.KRestaurant.KCustomerRole;
 import simcity.KRestaurant.KHostRole;
 import simcity.KRestaurant.KWaiterNormalRole;
+import simcity.KRestaurant.KWaiterRole;
+import simcity.KRestaurant.KWaiterSharedDataRole;
 import simcity.LRestaurant.LCashierRole;
 import simcity.LRestaurant.LCookRole;
 import simcity.LRestaurant.gui.*;
@@ -28,6 +33,7 @@ import simcity.LRestaurant.LCustomerRole;
 import simcity.LRestaurant.LHostRole;
 import simcity.LRestaurant.LWaiterNormalRole;
 import simcity.LRestaurant.LWaiterRole;
+import simcity.LRestaurant.LWaiterSharedDataRole;
 import simcity.Market.InventoryBoyRole;
 import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCustomerRole;
@@ -53,6 +59,7 @@ import simcity.PersonAgent;
 
 import javax.swing.*;
 
+import agent.Role;
 import simcity.DRestaurant.DCashierRole;
 import simcity.DRestaurant.DCookRole;
 import simcity.DRestaurant.DCustomerRole;
@@ -61,8 +68,10 @@ import simcity.DRestaurant.DHostRole;
 import simcity.DRestaurant.DWaiterNormalRole;
 import simcity.DRestaurant.DWaiterRole;
 import simcity.DRestaurant.DWaiterSharedDataRole;
+import simcity.interfaces.*;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -598,47 +607,6 @@ public class SimCityPanel extends JPanel {
      */
     
     public void addPerson(String type, String name, double money, String role, String houseOrApt, String transport) {
-
-//    	if (type.equals("Customers")) {
-//    		CustomerRole c = new CustomerRole(name);	
-//    		CustomerGui g = new CustomerGui(c, gui);
-//
-//    		gui.myPanels.get("Restaurant 3").panel.addGui(g);// dw
-//    		c.setHost(host);
-//    		c.setCashier(cashier);
-//    		c.setGui(g);
-//    		customers.add(c);
-//    		c.startThread();
-////    		System.out.println("added");
-//    	}
-//    	
-//    	if(type.equals("Waiters")) {
-//    		WaiterRole w;
-//    		if(waiterIndex%2==0) {
-//    			w= new WaiterNormalRole(name);
-//    		}
-//    		else {
-//    			w = new WaiterSharedDataRole(name);
-//    		}
-//    		
-//    		WaiterGui g= new WaiterGui(w, gui, waiterIndex);
-//    		waiterIndex++;
-//    		
-//    		gui.myPanels.get("Restaurant 3").panel.addGui(g);
-//    		w.setGui(g);
-//    		
-//    		w.startThread();
-//    		//System.out.println("called thread start for + " + name);
-//    		
-//    		w.msgAddCook(cook);
-//            w.msgAddHost(host);
-//            w.msgAddCashier(cashier);
-//            host.msgAddWaiter(w);
-//            waiters.add(w);
-//    		
-//    		
-//    	}
-    	
     	if(type.equals("Person")) {
 //    		System.out.println("added");
     		PersonAgent p = new PersonAgent(name);
@@ -712,5 +680,230 @@ public class SimCityPanel extends JPanel {
     	}
     }
 
+    /**************************ROLE FACTORY******************************/
+    
+    class Business {
+        public String name;
+        public int x;
+        public int y;
+}
+//waiter needs host
+//customer needs hot
+//waiter needs cook setCook(cook)
+
+class MarketPlace extends Business {
+        public InventoryBoyRole ib;
+        public MarketManagerRole mManager;
+        public MarketCashierRole mCashier;
+        ArrayList<MarketCustomer> mCustomers;
+        DeliveryTruckAgent truck;
+
+        public MarketPlace() {
+                ib = new InventoryBoyRole(gui);
+                mManager = new MarketManagerRole(gui);
+                mCashier = new MarketCashierRole(gui);
+                mCustomers = new ArrayList<MarketCustomer>();
+                truck = new DeliveryTruckAgent(mManager);
+                
+                mManager.dTruck = (DeliveryTruck)truck;
+                
+                ib.setMarketCashier(mCashier);
+                ib.setMarketManager(mManager);
+                
+                mCashier.setInventoryBoy(ib);
+                mCashier.setMarketManager(mManager);
+        
+        }
+        
+        public MarketCustomerRole addCustomer() {
+                MarketCustomerRole c = new MarketCustomerRole(gui);
+                c.setMarketManager(mManager);
+                mCustomers.add(c);
+                return c;
+        }
+}
+
+class RestaurantPlace extends Business {
+        public int restNum;
+        public Role host = null;
+        public Role cook = null;
+        public Role cashier = null;
+        ArrayList<Role> waiters = new ArrayList<Role>();
+        ArrayList<Role> customers = new ArrayList<Role>();
+        RestaurantPlace(int restNum) {
+                this.restNum = restNum;
+                switch(restNum) {
+                
+
+                case 1: host = new Drew_HostRole();
+                cook = new Drew_CookRole();
+                ((Drew_HostRole)host).setCook((Drew_Cook)cook);
+                cashier = new Drew_CashierRole();
+                break;
+				case 2: host = new BHostRole();
+				                cook = new BCookRole();
+				                ((BHost)host).setCook((BCookRole)cook);
+				                cashier = new BCashierRole();
+				                break;
+				case 3: host = new DHostRole();
+				                cook = new DCookRole();
+				                cashier = new DCashierRole();
+				                ((DHost)host).addCook((DCook)cook);
+				                ((DCookRole) cook).AddHost((DHostRole)host);
+				                ((DCookRole)cook).AddCashier((DCashier)cashier);
+				                ((DCashierRole)cashier).AddCook((DCook)cook);
+				                ((DCashierRole)cashier).AddHost((DHost)host);
+				                break;
+				case 4: host = new KHostRole();
+				                cook = new KCookRole(gui);
+				                cashier = new KCashierRole();
+				                ((KHostRole)host).setCook((KCookRole) cook);
+				                ((KHostRole)host).setCashier((KCashierRole) cashier);
+				                ((KCookRole)cook).setHost((KHostRole) host);
+				                ((KCookRole)cook).setCashier((KCashierRole) cashier);
+				                ((KCashierRole)cashier).setHost((KHostRole) host);
+				                ((KCashierRole)cashier).setCook((KCookRole) cook);
+				                break;
+				case 5:        host = new LHostRole();
+				                cook = new LCookRole();
+				                System.out.println("LCookRole is "+cook);
+				                cashier = new LCashierRole();
+				                ((LHostRole) host).setCook((LCook)cook);
+				                ((LCookRole) cook).setCashier((LCashierRole)cashier);
+				                ((LCookRole) cook).setHost((LHostRole)host);
+				                ((LCashierRole)cashier).setHost((LHostRole)host);
+				                ((LCashierRole)cashier).setCook((LCookRole)cook);
+				                break;
+				case 6: host = new THostRole(); 
+				                cook = new TCookRole();
+				                cashier = new TCashierRole();
+				                ((THostRole) host).setCook((TCookRole)cook);
+				                ((THostRole) host).setCashier((TCashierRole)cashier); 
+				                ((TCashierRole)cashier).setHost((THostRole)host); 
+				                ((TCookRole) cook).setCashier((TCashierRole)cashier);
+//                                
+                }
+        }
+        
+        public Role AddSharedDataWaiter() {
+                switch(restNum) {
+                
+                case 1: Drew_WaiterRole aw = new Drew_WaiterSharedDataRole();
+                                aw.setCook((Drew_Cook)cook);
+                                aw.addCashier((Drew_Cashier)cashier);
+                                aw.setHost((Drew_Host)host);
+                                //Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
+                                waiters.add(aw);
+                                ((Drew_Host)host).addWaiter(aw);
+                                return aw;
+                case 2: 
+                                BWaiterRole bw = new BWaiterSharedDataRole();
+                                bw.setHost((BHostRole)host);
+                                bw.setCook((BCook)cook);
+                                bw.setCashier((BCashier)cashier);
+                                //Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
+                                waiters.add(bw);
+                                ((BHost)host).setWaiter(bw);
+                                return bw;
+                case 3: 
+                                DWaiterRole dw = new DWaiterSharedDataRole();
+                                dw.msgAddCashier((DCashierRole)cashier);
+                                dw.msgAddCook((DCookRole)cook);
+                                dw.msgAddHost((DHostRole)host);
+                                ((DHost)host).msgAddWaiter((DWaiter)dw);
+                                System.out.println("DHost is "+dw);
+                                waiters.add(dw);
+                                return dw;
+                case 4:
+                                KWaiterRole kw = new KWaiterSharedDataRole(gui);
+                                kw.setCook((KCookRole)cook);
+                                kw.setCashier((KCashier)cashier);
+                                kw.setHost((KHostRole)host);
+                                ((KHostRole)host).addWaiter((KWaiterRole)kw);
+                                return kw;
+                                
+                case 5:        
+                                LWaiterRole lw = new LWaiterSharedDataRole();
+                                lw.setCashier((LCashier)cashier);
+                                lw.setCook((LCook)cook);
+                                lw.setHost((LHost)host);
+                                ((LHost)host).addWaiter(lw);
+                                waiters.add(lw);
+                                return lw;
+                
+                case 6:
+                                TWaiterRole tw = new TWaiterSharedDataRole();
+                                tw.setCashier((TCashierRole)cashier); 
+                                tw.setCook((TCookRole)cook);
+                                tw.setHost((THostRole)host);
+                                ((THostRole)host).addWaiter(tw); 
+                                waiters.add(tw);
+                                return tw; 
+                                
+                default: return null;
+                }
+        }
+        public Role AddNormalWaiter() {
+                switch(restNum) {
+              
+                case 1:
+                        KWaiterRole kw = new KWaiterNormalRole(gui);
+                        kw.setCook((KCookRole)cook);
+                        kw.setCashier((KCashier)cashier);
+                        kw.setHost((KHostRole)host);
+                        return kw;
+
+                default: return null;
+
+                }
+
+        }
+        public Role AddCustomer() {
+                switch(restNum) {
+                
+                        case 1: Drew_CustomerRole ac = new Drew_CustomerRole();
+                        ac.setHost((Drew_Host)host);
+                        customers.add(ac);
+                        return ac;
+                        
+                        case 2: BCustomerRole bc = new BCustomerRole();
+                        bc.setCashier((BCashier)cashier);
+                        bc.setHost((BHostRole)host);
+                        customers.add(bc);
+                        return bc;
+                        
+                        case 3: DCustomerRole dc = new DCustomerRole(gui);
+                        dc.setCashier((DCashier)cashier);
+                        dc.setHost((DHost)host);
+                        customers.add(dc);
+                        return dc;
+                        
+                        case 4: KCustomerRole kc = new KCustomerRole(gui);
+                        kc.setHost((KHostRole)host);
+                        kc.setCashier((KCashier)cashier);
+                        customers.add(kc);
+                        return kc;
+                                
+                        case 5:        LCustomerRole lc = new LCustomerRole();
+                        lc.setCashier((LCashier)cashier);
+                        lc.setHost((LHost)host);
+                        customers.add(lc);
+                        return lc;
+                        
+                        case 6:        TCustomerRole tc = new TCustomerRole();
+                        tc.setCashier((TCashierRole)cashier);
+                        tc.setHost((THostRole)host);
+                        customers.add(tc);
+                        return tc;
+                                
+                        
+                        default: return null;
+
+                        
+                }
+        }
+}
+    
+    
 
 }

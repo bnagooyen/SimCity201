@@ -7,10 +7,12 @@ import agent.Role;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.DCook;
 import simcity.interfaces.DCustomer;
+import simcity.interfaces.DHost;
 import simcity.interfaces.DWaiter;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.RestaurantCashier;
+
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -43,6 +45,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	private Semaphore atTable = new Semaphore(0,true);
 	private Map<String, Double> prices = new HashMap<String, Double>();
 	private DWaiter waiterAtRegister=null;
+	private DHost host = null;
 	private double registerAmnt;
 	//public HostGui hostGui = null;
 	//Map<String, Double> blacklist = new HashMap<String, Double>();
@@ -408,6 +411,12 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 		}
 	}
 	//utilities
+
+
+	public void AddHost(DHost host) {
+		// TODO Auto-generated method stub
+		this.host=host;
+	}
 
 
 
