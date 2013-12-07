@@ -16,6 +16,8 @@ import simcity.gui.SimCityGui;
 //=======
 ////import simcity.Transportation.CarAgent;
 
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Car;
 import simcity.interfaces.InventoryBoy;
 import simcity.interfaces.MarketCashier;
@@ -71,6 +73,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 		gettingFood.release();
 	}
 	public void msgCheckInventory(MOrder o) {
+		AlertLog.getInstance().logInfo(AlertTag.Market, "InventoryBoyRole", "Got an order to fulfill");
 		Do("Got an order to fulfill");
 		orders.add(o);
 		LoggedEvent e = new LoggedEvent("got an order to fulfill");
@@ -79,6 +82,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	}
 	
 	public void msgGoHome(double paycheck) {
+		AlertLog.getInstance().logInfo(AlertTag.Market, "InventoryBoyRole", "Told to go home");
 		Do("Told to go home");
 		LoggedEvent e = new LoggedEvent("told to go home");
 		log.add(e);
@@ -117,12 +121,14 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 		}
 		ibGui.setPresent(true);
 		
+		AlertLog.getInstance().logInfo(AlertTag.Market, "InventoryBoyRole", "Telling manager that I can work");
 		Do("Telling manager that I can work");
 		s = state.working;
 		manager.msgIAmHere(this, "inventory boy");
 	}
 	
 	private void getOrder(MOrder o) {
+		AlertLog.getInstance().logInfo(AlertTag.Market, "InventoryBoyRole", "Going to the back. Fulfilling an order");
 		Do("Going to the back. Fulfilling an order.");
 		LoggedEvent ev = new LoggedEvent("fulfilling an order");
 		log.add(ev);
@@ -201,7 +207,9 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 		}
 	}
 	
+	
 	private void goHome() {
+		AlertLog.getInstance().logInfo(AlertTag.Market, "InventoryBoyRole", "Going home");
 		Do("Going home");
 		LoggedEvent e = new LoggedEvent("going home");
 		log.add(e);
