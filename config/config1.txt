@@ -1,0 +1,68 @@
+Population(numPeopleInFile):
+12
+EntryTemplate:
+Name
+	Money
+	Role
+	ModeOfTransport
+	House/Apartment
+Applekimi
+	600
+	BankManager1
+	Walk
+	House
+Drewreen
+	600
+	BankManager2
+	Walk
+	House
+Kimda
+	500
+	MarketManager1
+	Walk
+	House
+Limberly
+	500
+	MarketManager2
+	Walk
+	House
+Santiar
+	500
+	MarketManager3
+	Walk
+	House
+Chartiago
+	500
+	MarketManager4
+	Walk
+	House
+Andrew
+	400
+	Host1
+	Walk
+	House
+Brian
+	400
+	Host2
+	Walk
+	House
+Doreen
+	400
+	Host3
+	Walk
+	House
+Kim
+	400
+	Host4
+	Walk
+	House
+Linda
+	400
+	Host5
+	Walk
+	House
+Tiffany
+	400
+	Host6
+	Walk
+	House
