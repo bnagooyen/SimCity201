@@ -1,7 +1,7 @@
 package simcity.Drew_restaurant;
 
 //import restaurant.Host.Table;
-import simcity.Drew_restaurant.gui.CustomerGui;
+import simcity.Drew_restaurant.gui.Drew_CustomerGui;
 import simcity.Drew_restaurant.gui.Menu;
 import simcity.Drew_restaurant.gui.Bill;
 import agent.Role;
@@ -22,7 +22,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
-	private CustomerGui customerGui;
+	private Drew_CustomerGui customerGui;
 	private Semaphore atCashier = new Semaphore(0,true);
 	private Semaphore inLine = new Semaphore(0,true);
 	
@@ -374,7 +374,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 		return "customer " + getName();
 	}
 
-	public void setGui(CustomerGui g) {
+	public void setGui(Drew_CustomerGui g) {
 		customerGui = g;
 	}
 	
@@ -386,7 +386,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 		return waiter;
 	}
 
-	public CustomerGui getGui() {
+	public Drew_CustomerGui getGui() {
 		return customerGui;
 	}
 	
