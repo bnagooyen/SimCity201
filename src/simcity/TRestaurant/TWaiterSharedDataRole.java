@@ -2,6 +2,8 @@ package simcity.TRestaurant;
 
 import agent.Role;
 import simcity.TRestaurant.gui.TWaiterGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.TCustomer;
 import simcity.interfaces.TWaiter;
 import simcity.PersonAgent;
@@ -128,7 +130,8 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 			while (myCustomers.get(index).c != cust) {
 				index++; 
 			}
-			print("Received check from cashier"); 
+			AlertLog.getInstance().logInfo(AlertTag.Market, "TWaiterSharedDataRole", "Recieved check from cashier");
+			Do("Received check from cashier"); 
 			myCustomers.get(index).check = c; 
 			myCustomers.get(index).state = CustomerState.Paying;
 		}
@@ -149,13 +152,15 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 	}
 
 	public void msgNoBreak() {
-		print("No break for me.");
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TWaiterSharedDataRole", "No break for me.");
+		Do("No break for me.");
 		askingForBreak = false; 
 		stateChanged(); 
 	}
 
 	public void msgOnBreak() {
-		print ("I can have a break! :)");
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TWaiterSharedDataRole", "I can have a break! :)");
+		Do("I can have a break! :)");
 		onBreak = true; 
 		stateChanged(); 
 	}
@@ -294,12 +299,14 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 	// Actions
 	
 	private void tellHost() {
-		Do("telling manager I can work");
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TWaiterSharedDataRole", "Telling manager I can work");
+		Do("Telling manager I can work");
 		arrived = false;
 		host.msgIAmHere(this, "Waiter");
 	}
 	
 	private void goHome() {
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TWaiterSharedDataRole", "Going home");
 		Do("Going home");
 		isActive = false;
 		goHome = false;
@@ -322,7 +329,8 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 	}
 
 	private void goToTable (TCustomer c, int table) throws InterruptedException {
-		print("Going to table " + table + " to take order");
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TWaiterSharedDataRole", "Going to table");
+		Do("Going to table " + table + " to take order");
 		//DoGoToTable(table);
 		//atTable.acquire(); 
 		c.msgWhatWouldYouLike();
@@ -338,11 +346,13 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 			myCustomers.get(index).choice = o;
 		}
 		myCustomers.get(index).state = CustomerState.waitingForOrder;
-		print("Received customer's orders");
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TWaiterSharedDataRole", "Received customer's orders");
+		Do("Received customer's orders");
 	}
 
 	private void callCook(customers c) {
-		print("in callCook");
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TWaiterSharedDataRole", "in callCook");
+		Do("in callCook");
 		/**
 		goToCook(); 
 		try {
@@ -373,7 +383,8 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 			e.printStackTrace();
 		}
 		*/
-		print("Giving customer their order.");
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TWaiterSharedDataRole", "Giving customer their order");
+		Do("Giving customer their order.");
 		c.msgHeresYourOrder(); 
 		//waiterGui.DoLeaveCustomer();
 	}
@@ -394,7 +405,8 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		print("Gave check to customer"); 
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TWaiterSharedDataRole", "Gave check to customer");
+		Do("Gave check to customer"); 
 		c.msgHereIsYourCheck(check); 
 		//waiterGui.DoLeaveCustomer();
 	}
@@ -412,12 +424,14 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 	}
 
 	private void AskForBreak() {
-		print ("Asking host for a break"); 
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TWaiterSharedDataRole", "Asking host for a break");
+		Do("Asking host for a break"); 
 		host.msgBreakPlease(this); 
 	}
 
 	private void takeBreak() {
-		print("Taking my break"); 
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TWaiterSharedDataRole", "Taking my break");
+		Do("Taking my break"); 
 		//waiterGui.DoGoOnBreak();
 		//waiterGui.setBreak();
 		timer.schedule(new TimerTask() {
@@ -429,7 +443,8 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 	}
 
 	public void DoneWithBreak() {
-		print("Done with my break");
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TWaiterSharedDataRole", "Done with my break");
+		Do("Done with my break");
 		//waiterGui.DoLeaveCustomer();
 		//waiterGui.offBreak(); 
 		host.msgOffBreak(this); 

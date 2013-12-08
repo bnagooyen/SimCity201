@@ -1,6 +1,8 @@
 package simcity.TRestaurant;
 
 import agent.Role;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.RestaurantCashier;
@@ -184,13 +186,15 @@ public class TCashierRole extends Role implements TCashier, RestaurantCashier{
 	// Actions
 
 	private void tellHost() {
-		Do("telling manager I can work");
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TCashierRole", "Telling manager I can work");
+		Do("Telling manager I can work");
 		arrived = false;
 		host.msgIAmHere(this, "Cashier");
 	}
 	
 	private void calculateBill(TWaiter wait) {
-		print("Calculating bill for waiter."); 
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TCashierRole", "Calculating bill for waiter");
+		Do("Calculating bill for waiter."); 
 		int index = 0; 
 		while (waiters.get(index).thisWaiter != wait && index < waiters.size()) {
 			index++; 
@@ -200,7 +204,8 @@ public class TCashierRole extends Role implements TCashier, RestaurantCashier{
 	}
 	
 	private void sendChange(TCustomer c) {
-		print("Giving change back to customer"); 
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TCashierRole", "Giving change back to customer");
+		Do("Giving change back to customer"); 
 		int index = 0; 
 		while (payingCustomers.get(index).cust != c && index < payingCustomers.size()) {
 			index++; 
@@ -212,7 +217,8 @@ public class TCashierRole extends Role implements TCashier, RestaurantCashier{
 			budget = budget/100; 
 		}
 		else {
-			print("I'm adding " + budget + " and " + payingCustomers.get(index).custMon); 
+			AlertLog.getInstance().logInfo(AlertTag.Market, "TCashierRole", "Adding to budget");
+			Do("I'm adding " + budget + " and " + payingCustomers.get(index).custMon); 
 			budget += payingCustomers.get(index).custMon; 
 		}
 		print ("The budget is " + budget); 
@@ -231,25 +237,29 @@ public class TCashierRole extends Role implements TCashier, RestaurantCashier{
 	private void payForStock(Markets m) {
 		print("The bill is " + m.bill);
 		if (budget < m.bill) {
-			print("Don't have enough money to pay for supplies. Borrowing money from bank.");
+			AlertLog.getInstance().logInfo(AlertTag.Market, "TCashierRole", "Don't have enough money to pay for supplies. Borrowing money from bank");
+			Do("Don't have enough money to pay for supplies. Borrowing money from bank.");
 			double x = m.bill - budget;
 			budget += x; 
 			debt += x; 
-			print("We now owe "+ debt); 
+			Do("We now owe "+ debt); 
 		}
 		budget -= m.bill;
 		if (budget > debt && debt != 0) {
 			budget -= debt;
 			debt = 0; 
-			print("We don't owe money anymore!"); 
+			AlertLog.getInstance().logInfo(AlertTag.Market, "TCashierRole", "We don't owe money anymore!");
+			Do("We don't owe money anymore!"); 
 		}
 		m.mart.msgHereIsPayment(cook, m.bill); 
 		markets.remove(m); 
-		print("Paying for food from the market. Our budget is now $" + budget); 
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TCashierRole", "Paying for food from the market.");
+		Do("Paying for food from the market. Our budget is now $" + budget); 
 		
 	}
 	
 	private void goHome() {
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TCashierRole", "Going home");
 		Do("Going home");
 		isActive = false;
 		goHome = false;
