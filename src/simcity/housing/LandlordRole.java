@@ -20,7 +20,7 @@ public class LandlordRole extends Role implements Landlord{
 	BankManager bankmanager; 
 	
 	public enum AgentState 
-	{nothing, askingForRent, collectedRent, callMaintanence};
+	{nothing, askingForRent, collectedRent/*, callMaintanence*/};
 	private AgentState state = AgentState.nothing;
 	
 	/**
@@ -85,9 +85,11 @@ public class LandlordRole extends Role implements Landlord{
 		if (hour == 0) {
 			state = AgentState.askingForRent;
 		}
+		/*
 		if (hour == 10) {
 			state = AgentState.callMaintanence; 
 		}
+		*/
 		if (hour == 20) {
 			state = AgentState.collectedRent;
 		}

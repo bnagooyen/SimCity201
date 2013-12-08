@@ -132,7 +132,6 @@ public class PersonAgent extends Agent implements Person {
 
 	public void msgAnimationAtBusStop(){
 		atBusStop.release();
-		transit=TransitState.atBusStop;
 		stateChanged();
 	}
 	public void msgAtStop(String destination){
@@ -345,54 +344,51 @@ public class PersonAgent extends Agent implements Person {
 
 	private void GoToBank() {
 		DoGoTo(BankChoice);
-		Do("Going to Bank");
-		try {
-			atRestaurant.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		myLocation=LocationState.atBank;
-		bankTime = false;
-		//state=PersonState.doingNothing;
-		for(Role r: roles) {
-			if(r instanceof BankCustomerRole) {
-				r.isActive = true;
-				if(money>depositThreshold) r.purpose="deposit";
-				else if(money<withdrawalThreshold) r.purpose="withdraw";
-				else r.purpose="loan";
+		if (myTravelPreference == TravelPreference.walk) {
+			Do("Going to Bank");
+			try {
+				atRestaurant.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+			myLocation=LocationState.atBank;
+			bankTime = false;
+			//state=PersonState.doingNothing;
+			for(Role r: roles) {
+				if(r instanceof BankCustomerRole) {
+					r.isActive = true;
+					if(money>depositThreshold) r.purpose="deposit";
+					else if(money<withdrawalThreshold) r.purpose="withdraw";
+					else r.purpose="loan";
+				}
 			}
+			stateChanged();
 		}
-		stateChanged();
 	}
-	
-	 private void GoToBusStop(){
-
-         
-         transit=TransitState.walkingToBus;
-
-         DoGoTo(nearestStop);
-         
-
-
-
- }
 
 	private void goToWork() {
-		DoGoTo(jobLocation);
-
-		Do("Going to Work at"+ jobLocation);
-		try {
-			atRestaurant.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		myLocation=LocationState.atWork;
-		myJob.isActive=true;
-
-		state= PersonState.doingNothing;
-		stateChanged();
+		if (myTravelPreference == TravelPreference.walk) {
+			DoGoTo(jobLocation); 
+			Do("Going to Work at"+ jobLocation);
+			try {
+				atRestaurant.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+			myLocation=LocationState.atWork;
+			myJob.isActive=true;
+	
+			state= PersonState.doingNothing;
+			stateChanged();
+		}
+		else if (myTravelPreference == TravelPreference.bus) {
+			DoGoTo("Bus Stop"); 
+		}
+		else if (myTravelPreference == TravelPreference.car) {
+			DoGoTo("Car");
+		}
 
 	}
 
@@ -432,11 +428,6 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}
 	}
-	
-	 private void tellBusStop(){
-         busStop.msgWaitingForBus(this);
-         transit=TransitState.waitingAtStop;
- }
 
 	private void getOnBus(){
 		Do("getting on bus");

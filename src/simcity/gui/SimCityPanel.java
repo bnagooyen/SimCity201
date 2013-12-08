@@ -79,6 +79,7 @@ import simcity.interfaces.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -115,6 +116,9 @@ public class SimCityPanel extends JPanel {
     //FOR TESTING WORK
     boolean first=true;
 	
+    
+ /********************** make directory********************/
+    public  Map<String, Business> directory = new HashMap<String, Business>();
 	//Host, cook, waiters and customers
    // private DHostRole host = new DHostRole();
     //private HostGui hostGui = new HostGui(host);
@@ -217,7 +221,11 @@ public class SimCityPanel extends JPanel {
         this.gui = gui;
         
         bank= new BankPlace();
-        market = new MarketPlace();
+        MarketPlace market1 = new MarketPlace();
+        MarketPlace market2 = new MarketPlace();
+        MarketPlace market3 = new MarketPlace();
+        MarketPlace market4 = new MarketPlace();
+
         
 		DrewRestaurant = new RestaurantPlace(2);
 		BRestaurant = new RestaurantPlace(5);
@@ -615,6 +623,28 @@ public class SimCityPanel extends JPanel {
         
         gui.myPanels.get("Restaurant 6").panel.addGui(tcg);
         */
+        
+        /******************* populate directory*******************************/
+        directory.put("Market 1", market1);
+        directory.put("Market 2", market2);
+        directory.put("Market 3", market3);
+        directory.put("Market 4", market4);
+
+        directory.put("Bank", bank);
+        directory.put("Restaurant 5", BRestaurant);
+        directory.put("Restaurant 3", DRestaurant);
+        directory.put("Restaurant 2", DrewRestaurant);
+        directory.put("Restaurant 4", KRestaurant);
+        directory.put("Restaurant 1", LRestaurant);
+        directory.put("Restaurant 6", TRestaurant);
+        
+        // set all market places to not down
+        Iterator it = directory.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pairs = (Map.Entry)it.next();
+            Business b = (Business) pairs.getValue();
+            b.down = false;
+        }
     }
 
     /**
@@ -788,6 +818,7 @@ public class SimCityPanel extends JPanel {
         public String name;
         public int x;
         public int y;
+        public boolean down;
 }
 //waiter needs host
 //customer needs hot
