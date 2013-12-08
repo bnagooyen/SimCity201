@@ -24,7 +24,9 @@ public abstract class Role {
 //    public Role(PersonAgent p) {
 //    	myPerson=p;
 //    }
-    
+    public Role() {
+    	isActive = false;
+    }
     public void timeUpdate(int hr) {
     	hour=hr;
     	stateChanged();
