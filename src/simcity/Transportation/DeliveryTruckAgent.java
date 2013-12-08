@@ -4,6 +4,8 @@ import java.util.List;
 
 import simcity.Market.MFoodOrder;
 import simcity.Transportation.CarAgent.carState;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Car;
 import simcity.interfaces.Cook;
 import simcity.interfaces.DeliveryTruck;
@@ -92,6 +94,7 @@ public class DeliveryTruckAgent extends Agent implements DeliveryTruck{
 		state=truckState.travelling;
 		LoggedEvent e = new LoggedEvent("Going to destination");
 		log.add(e);
+		AlertLog.getInstance().logMessage(AlertTag.Market, "DeliveryTruck", "Going to location");
 		Do("Go To Location");
 		
 /**************************** hack - need to add animation code *****************************************/
@@ -102,6 +105,7 @@ public class DeliveryTruckAgent extends Agent implements DeliveryTruck{
 	private void HaveArrived(){
 		LoggedEvent e = new LoggedEvent("Arrived at destination");
 		log.add(e);
+		AlertLog.getInstance().logMessage(AlertTag.Market, "DeliveryTruck", "Arrived at destination");
 		Do("Arrived at destination");
 		cook.msgHereIsDelivery(supply, check, manager, mc);
 		cashier.msgBillFromMarket(check, mc, manager);
