@@ -1005,13 +1005,13 @@ switch(restNum) {
         public Role AddCustomer() {
                 switch(restNum) {
                 
-                        case 1: Drew_CustomerRole ac = new Drew_CustomerRole();
-                        ac.setHost((Drew_Host)host);
+                        case 2: Drew_CustomerRole ac = new Drew_CustomerRole();
+                        ac.setHost((Drew_HostRole)host);
                         customers.add(ac);
                         return ac;
                         
-                        case 2: BCustomerRole bc = new BCustomerRole();
-                        bc.setCashier((BCashier)cashier);
+                        case 5: BCustomerRole bc = new BCustomerRole();
+                        bc.setCashier((BCashierRole)cashier);
                         bc.setHost((BHostRole)host);
                         customers.add(bc);
                         return bc;
@@ -1024,13 +1024,13 @@ switch(restNum) {
                         
                         case 4: KCustomerRole kc = new KCustomerRole(gui);
                         kc.setHost((KHostRole)host);
-                        kc.setCashier((KCashier)cashier);
+                        kc.setCashier((KCashierRole)cashier);
                         customers.add(kc);
                         return kc;
                                 
-                        case 5:        LCustomerRole lc = new LCustomerRole();
-                        lc.setCashier((LCashier)cashier);
-                        lc.setHost((LHost)host);
+                        case 1:        LCustomerRole lc = new LCustomerRole();
+                        lc.setCashier((LCashierRole)cashier);
+                        lc.setHost((LHostRole)host);
                         customers.add(lc);
                         return lc;
                         

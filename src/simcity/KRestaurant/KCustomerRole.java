@@ -45,7 +45,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	// agent correspondents
 	private KHostRole host;
 	private KWaiterRole waiter = null;
-	private KCashier cashier = null;
+	private KCashierRole cashier = null;
 	
 	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
@@ -479,7 +479,7 @@ public class KCustomerRole extends Role implements KCustomer{
 		return customerGui;
 	}
 
-	public void setCashier(KCashier c) {
+	public void setCashier(KCashierRole c) {
 		cashier = c;
 	}
 	
