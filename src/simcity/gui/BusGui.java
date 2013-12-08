@@ -1,6 +1,6 @@
 package simcity.gui;
 
-import simcity.DCustomerRole;
+
 import simcity.PersonAgent;
 import simcity.Transportation.BusAgent;
 
@@ -60,28 +60,28 @@ public class BusGui implements Gui {
    //f private void setSeatingAt(int t) { seatingAt=t; }
     
     public BusGui(BusAgent agent, SimCityGui g) {
-    	gui=g;
+            gui=g;
         this.agent = agent;
         madeToFront=true;
 //        for(int i=0; i<labelIsShowing.length;i++)
-//        	labelIsShowing[i]=false;
+//                labelIsShowing[i]=false;
         
         //coordinates are from citypanel, find the building you want to ppl to go to and copy/paste coordinates to this map
         
        
-        myMap.put("Stop1", new Point(100,30));
-        myMap.put("Stop2", new Point(400,30));
-        myMap.put("Stop3", new Point(400,345));
-        myMap.put("Stop4", new Point(100,345));
+        myMap.put("Stop1", new Point(75,15));
+        myMap.put("Stop2", new Point(485,15));
+        myMap.put("Stop3", new Point(485,360));
+        myMap.put("Stop4", new Point(75,360));
         
         
         
     
      /*   String personAddress=agent.homeAddress;
         if(personAddress.contains("Apartment")) {
-//        	System.err.println("need to truncate");
-        	personAddress=personAddress.substring(0, personAddress.length()-1);
-			//System.err.println(personAddress);
+//                System.err.println("need to truncate");
+                personAddress=personAddress.substring(0, personAddress.length()-1);
+                        //System.err.println(personAddress);
         }
         xPos = myMap.get(personAddress).x;
         yPos = myMap.get(personAddress).y;*/
@@ -91,8 +91,8 @@ public class BusGui implements Gui {
     }
 
     @Override
-	public void updatePosition() {
-    	//System.out.println("x pos: "+ xPos + " // y pos: "+ yPos+" // xDestination: " + xDestination + " // yDestination: " + yDestination);
+        public void updatePosition() {
+            //System.out.println("x pos: "+ xPos + " // y pos: "+ yPos+" // xDestination: " + xDestination + " // yDestination: " + yDestination);
         if (xPos < xDestination)
             xPos++;
         else if (xPos > xDestination)
@@ -105,60 +105,60 @@ public class BusGui implements Gui {
 
         else if (xPos == xDestination && yPos == yDestination)
         {
-        		
-        		
-        		 if(command==Command.GoToBusStop) {
-        			 if(agent.currentStop=="Stop1"){
-        			agent.msgAtStop("Stop2");
-        			
-        			 }
-        			 else if(agent.currentStop=="Stop2"){
-             			agent.msgAtStop("Stop3");
-             			
-        			 }
-        			 else if(agent.currentStop=="Stop3"){
-             			agent.msgAtStop("Stop4");
-             			
-        			 }
-        			 else if(agent.currentStop=="Stop4"){
-             			agent.msgAtStop("Stop1");
-             			
-        			 }
-        		}
-        	
-        		command=Command.none;
-        		
+                        
+                        
+                         if(command==Command.GoToBusStop) {
+                                 if(agent.currentStop=="Stop1"){
+                                agent.msgAtStop("Stop2");
+                                
+                                 }
+                                 else if(agent.currentStop=="Stop2"){
+                                     agent.msgAtStop("Stop3");
+                                     
+                                 }
+                                 else if(agent.currentStop=="Stop3"){
+                                     agent.msgAtStop("Stop4");
+                                     
+                                 }
+                                 else if(agent.currentStop=="Stop4"){
+                                     agent.msgAtStop("Stop1");
+                                     
+                                 }
+                        }
+                
+                        command=Command.none;
+                        
         }
 
         
     }
 
     @Override
-	public void draw(Graphics2D g) {
+        public void draw(Graphics2D g) {
         g.setColor(Color.yellow);
         g.fillRect(xPos, yPos, 15, 15);
  
 //        if(labelIsShowing) {
-//        	g.setColor(Color.BLACK);
-//        	g.drawString(foodReady.substring(0,2),xFood, yFood);
-//        	
-//        	}
+//                g.setColor(Color.BLACK);
+//                g.drawString(foodReady.substring(0,2),xFood, yFood);
+//                
+//                }
 //       
         
         
     }
 
     @Override
-	public boolean isPresent() {
+        public boolean isPresent() {
         return true;
     }
     
   
     public void setPresent(boolean p) {
-		isPresent = p;
-	}
+                isPresent = p;
+        }
     
-	
+        
     
     public int getXPos() {
         return xPos;
@@ -169,46 +169,46 @@ public class BusGui implements Gui {
     }
     
     public void DoGoTo(String destination) {
-    	if(destination.contains("Restaurant")) {
-    		Point myDest = myMap.get(destination);
-    		xDestination = myDest.x;
-    		yDestination = myDest.y;
-    		command=Command.GoToRestaurant;
-    	}
-    	
-    	if(destination.contains("Stop")) {
-    		Point myDest = myMap.get(destination);
-    		xDestination = myDest.x;
-    		yDestination = myDest.y;
-    		command=Command.GoToBusStop;
-    	}
-    	
-    	if(destination.contains("House") || destination.contains("Apartment")) {
-    		if(destination.contains("Apartment")) {
-    			destination=destination.substring(0, destination.length()-1);
-    			System.err.println(destination);
-    		}
-    		Point myDest = myMap.get(destination);
-    		xDestination = myDest.x;
-    		yDestination = myDest.y;
-    		command=Command.GoHome;
-    	}
+            if(destination.contains("Restaurant")) {
+                    Point myDest = myMap.get(destination);
+                    xDestination = myDest.x;
+                    yDestination = myDest.y;
+                    command=Command.GoToRestaurant;
+            }
+            
+            if(destination.contains("Stop")) {
+                    Point myDest = myMap.get(destination);
+                    xDestination = myDest.x;
+                    yDestination = myDest.y;
+                    command=Command.GoToBusStop;
+            }
+            
+            if(destination.contains("House") || destination.contains("Apartment")) {
+                    if(destination.contains("Apartment")) {
+                            destination=destination.substring(0, destination.length()-1);
+                            System.err.println(destination);
+                    }
+                    Point myDest = myMap.get(destination);
+                    xDestination = myDest.x;
+                    yDestination = myDest.y;
+                    command=Command.GoHome;
+            }
     }
     
 //   static class CookLabel {
-//    	String food;
-//    	int xPos, yPos;
-//    	boolean isFollowing;
-//    	enum LabelState {ingredient, cooking, cooked, plating, plated};
-//    	LabelState state;
-//    	CookLabel(String f, int x, int y) {
-////    		System.err.println(f);
-//    		food=f;
-//    		xPos=x;
-//    		yPos=y;
-//    		isFollowing=true;
-//    		state=LabelState.ingredient;
-////    		System.err.println("added");
-//    	}
+//            String food;
+//            int xPos, yPos;
+//            boolean isFollowing;
+//            enum LabelState {ingredient, cooking, cooked, plating, plated};
+//            LabelState state;
+//            CookLabel(String f, int x, int y) {
+////                    System.err.println(f);
+//                    food=f;
+//                    xPos=x;
+//                    yPos=y;
+//                    isFollowing=true;
+//                    state=LabelState.ingredient;
+////                    System.err.println("added");
+//            }
 //    }
 }

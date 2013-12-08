@@ -180,7 +180,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 						}
 						else if (f.type.equals("Car")) {
 							Car currCar = cars.get(0);
-							ibGui.DoGoToCashier();
+							ibGui.DoGetCar();
 							try {
 								gettingFood.acquire();
 							} catch (InterruptedException e) {

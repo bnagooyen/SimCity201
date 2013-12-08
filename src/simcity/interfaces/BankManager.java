@@ -29,7 +29,7 @@ public interface BankManager {
 	
 	public void msgCheckBalance(BankCustomerRole c, int AN);
 	
-	//abstract public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill);
+	abstract public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill);
 
 	void msgAnimationFinishedGoToCorner();
 
