@@ -47,7 +47,7 @@ public class PersonGui implements Gui {
     
     //int numPlating=1;
     
-    enum Command {none, GoToRestaurant, GoHome, other, GoToBusStop};
+    enum Command {none, GoToRestaurant, GoHome, GoToBusStop, other};
     Command command= Command.none;
     
     //public String[] foodReady= new String[nTABLES];
@@ -116,7 +116,10 @@ public class PersonGui implements Gui {
         myMap.put("Market 3", new Point(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth-10, streetWidth+sidewalkWidth));
         myMap.put("Market 4", new Point(4*yardSpace+6*housingWidth+6*sidewalkWidth+3*streetWidth+30, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
         
-   
+        myMap.put("Stop1", new Point(100,30));
+        myMap.put("Stop2", new Point(400,30));
+        myMap.put("Stop3", new Point(100,345));
+        myMap.put("Stop4", new Point(400,345));
     
         //Figuring out where the person starts off when created
         
@@ -210,11 +213,9 @@ public class PersonGui implements Gui {
         			agent.msgAnimationArivedAtRestaurant();
         			System.out.println("msgArrivedat");
         		}
-        		
-        		 else if(command==Command.GoToBusStop) {
-                     agent.msgAnimationAtBusStop();
-                     
-             }
+        		else {
+        			agent.msgAnimationAtBusStop(); 
+        		}
         	
         		command=Command.none;
         		
@@ -228,8 +229,7 @@ public class PersonGui implements Gui {
         g.setColor(Color.magenta);
         g.fillRect(xPos, yPos, 10, 10);
         g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.PLAIN, 10)); 
-        g.drawString("P", xPos + 2, yPos + 8);	
+        g.drawString("P", xPos + 5, yPos + 15);	
 //        if(labelIsShowing) {
 //        	g.setColor(Color.BLACK);
 //        	g.drawString(foodReady.substring(0,2),xFood, yFood);
@@ -274,13 +274,6 @@ public class PersonGui implements Gui {
     		command=Command.GoToRestaurant;
     	}
     	
-    	 if(destination.contains("Stop")) {
-             Point myDest = myMap.get(destination);
-             xDestination = myDest.x;
-             yDestination = myDest.y;
-             command=Command.GoToBusStop;
-     }
-    	
     	if(destination.contains("Bank")) {
     		Point myDest = myMap.get(destination);
     		xDestination = myDest.x;
@@ -297,6 +290,37 @@ public class PersonGui implements Gui {
     		xDestination = myDest.x;
     		yDestination = myDest.y;
     		command=Command.GoHome;
+    	}
+    	
+    	if (destination.contains("Bus Stop")) {
+    		if (xPos < 300) {
+    			if (yPos < 150) {
+    				Point myDest = myMap.get("Stop1"); 
+    				xDestination = myDest.x; 
+    				yDestination = myDest.y; 
+    				command = Command.GoToBusStop; 	
+    			}
+    			else {
+    				Point myDest = myMap.get("Stop4"); 
+    				xDestination = myDest.x; 
+    				yDestination = myDest.y; 
+    				command = Command.GoToBusStop; 
+    			}
+    		}
+    		else {
+    			if (yPos < 150) {
+    				Point myDest = myMap.get("Stop2"); 
+    				xDestination = myDest.x; 
+    				yDestination = myDest.y; 
+    				command = Command.GoToBusStop; 
+    			}
+    			else {
+    				Point myDest = myMap.get("Stop2"); 
+    				xDestination = myDest.x; 
+    				yDestination = myDest.y; 
+    				command = Command.GoToBusStop; 
+    			}
+    		}
     	}
     	else {
     		Point myDest = myMap.get(destination);
