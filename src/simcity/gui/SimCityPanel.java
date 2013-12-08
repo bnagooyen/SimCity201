@@ -698,7 +698,7 @@ public class SimCityPanel extends JPanel {
 	            
 	            
             	//test going to work
-	            if(first){
+	            /*if(first){
 	            	p.bankTime=false;
 	            	p.hungerLevel = 0;
 	            	p.SetJob(Bteller, "Bank 1");
@@ -706,7 +706,7 @@ public class SimCityPanel extends JPanel {
 	            	Bteller.myPerson = p;
 	            	Bteller.isActive=false;
 	            	first=false;
-	            }
+	            }*/
 	            
 	            
 	    		p.startThread();
