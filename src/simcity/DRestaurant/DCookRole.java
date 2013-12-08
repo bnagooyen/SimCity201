@@ -6,6 +6,8 @@ import agent.Role;
 import simcity.Market.MFoodOrder;
 import simcity.gui.SimCityGui;
 import simcity.gui.DGui.DCookGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Cook;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.DCook;
@@ -209,9 +211,12 @@ public class DCookRole extends Role implements DCook, Cook{
                         myFood.put("Steak", new DFood("Steak", 10, initialFoodAmnt));
                         myFood.put("Salad", new DFood("Salad", 3, initialFoodAmnt));
                         myFood.put("Pizza", new DFood("Pizza", 6, initialFoodAmnt));
+                        
+                        AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Cook kitchen inventory updated");
                         System.out.println("Cook Kitchen Inventory is updated to "+ initialFoodAmnt);
                 }
                 else {
+                		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Kitchen filled to capacity");
                         System.out.println("kitchen filled to capacity!");
                 }
         }
@@ -244,6 +249,7 @@ public class DCookRole extends Role implements DCook, Cook{
                         MarketManager manager, MarketCashier mc) {
                 // TODO Auto-generated method stub
         		MyDelivery dlv = new MyDelivery(canGive, check, mc, manager);
+        		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Received delivery");
         		System.out.println("received delivery with bill = "+ dlv.check);
                 delivery.add(dlv);
                 stateChanged();
@@ -289,6 +295,7 @@ public class DCookRole extends Role implements DCook, Cook{
 //        }
         
         public void msgShouldIPayThisBill(double amt, MarketManager ma) {
+        		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Approving bill to pay");
                 System.out.println("cashier received shouldipaythisbill for "+amt);
                 for(InventoryOrder o: myOrders){
                         if(o.market==ma) {
@@ -304,6 +311,7 @@ public class DCookRole extends Role implements DCook, Cook{
         
         public void msgHereIsAnOrder(DOrder order) {
                 orders.add(new DOrder(order.getChoice(), order.getTablenum(), order.getWaiter()));
+                AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Received order");
                 System.out.println("cook received order of "+ order.getChoice()+ " from table "+order.tablenum);
                 stateChanged();
         }
@@ -504,6 +512,7 @@ public class DCookRole extends Role implements DCook, Cook{
         		}
         		
         		private void goToKitchen() {
+        			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "On duty. Going to kitchen");
         			Do("On duty.. going to kitchen");
         			DoGoToKitchen();
         			try {
@@ -531,6 +540,7 @@ public class DCookRole extends Role implements DCook, Cook{
                         //System.err.println("checking the stand");
                         DOrder o = theMonitor.remove();
                         if(o!=null) {
+                        		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Received order from revolving table");
                                 System.out.println("Order Received from Revolving Table");
                                 DOrder newOrder = new DOrder(o.getChoice(), o.getTablenum(), o.getWaiter());
                                 orders.add(newOrder);
@@ -546,6 +556,7 @@ public class DCookRole extends Role implements DCook, Cook{
                 }
         
                 private void NotifyCashierOfVerification(InventoryOrder o) {
+                		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Notifying cashier");
                         System.out.println("notifying cashier");
                         if(o.state==InventoryOrderState.approved) {
                                 myCashier.msgAnswerVerificationRequest(true);
@@ -570,7 +581,7 @@ public class DCookRole extends Role implements DCook, Cook{
                 }
                 
                 private void CookOrder(final DOrder o) {
-//                        System.out.println("asdfjlaksdjflkasj");
+//                        
                         DFood food=myFood.get(o.getChoice());
                         
                         if(food.getAmount()==0) {
@@ -699,6 +710,7 @@ public class DCookRole extends Role implements DCook, Cook{
                                         
                                 }
                          */
+                		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Need to order");
                         System.out.println("need to order");
                         double billAmnt = 0;
                         orderToMarket.clear(); //restart a new order
@@ -767,7 +779,7 @@ public class DCookRole extends Role implements DCook, Cook{
                         }
                         
                         
-                        
+                        AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Sent a reorder");
                         System.out.println("Cook sent reorder");
                         //markets.get(reord.mktOrderingFrom-1).msgHereIsAnInventoryOrder(reord.myorder, ORDER_ID, myCashier);
                         //reord.market=markets.get(reord.mktOrderingFrom-1);
