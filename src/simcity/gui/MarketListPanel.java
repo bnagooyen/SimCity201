@@ -15,9 +15,13 @@ public class MarketListPanel extends BuildingListPanel {
 	JTextField setInventory = new JTextField();
 	JButton setVal = new JButton("Set!");
 	JCheckBox downCB = new JCheckBox("Down?");
+	String building;
+	
 	public MarketListPanel(SimCityGui restaurantGui, String txt) {
 		super(restaurantGui, txt);
+		
 		// TODO Auto-generated constructor stub
+		building = txt;
 		
 		downCB.addActionListener(this);
 		downCB.setForeground(Color.white);
@@ -50,6 +54,27 @@ public class MarketListPanel extends BuildingListPanel {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
+		
+		if (arg0.getSource() == setVal) {
+			String userInput2 = (setInventory).getText().trim();
+	    	double inventoryVal=Double.parseDouble(userInput2);
+	    	
+	    	System.out.println("Market's starting inventory: "+inventoryVal);
+	    	
+	    	if(building.equals("Market 1")){
+	    		
+	    	}
+	    	else if(building.equals("Market 2")){
+	    		
+	    	}
+	    	else if(building.equals("Market 3")){
+	    		
+	    	}
+	    	else if(building.equals("Market 4")){
+	    		
+	    	}
+	    	
+		}
 		
 	}
 
