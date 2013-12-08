@@ -228,7 +228,8 @@ public class PersonGui implements Gui {
         g.setColor(Color.magenta);
         g.fillRect(xPos, yPos, 10, 10);
         g.setColor(Color.BLACK);
-        g.drawString("P", xPos + 5, yPos + 15);	
+        g.setFont(new Font("Arial", Font.PLAIN, 10)); 
+        g.drawString("P", xPos + 2, yPos + 8);	
 //        if(labelIsShowing) {
 //        	g.setColor(Color.BLACK);
 //        	g.drawString(foodReady.substring(0,2),xFood, yFood);
