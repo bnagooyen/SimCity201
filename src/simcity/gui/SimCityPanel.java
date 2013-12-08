@@ -79,6 +79,7 @@ import simcity.interfaces.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -115,6 +116,9 @@ public class SimCityPanel extends JPanel {
     //FOR TESTING WORK
     boolean first=true;
 	
+    
+ /********************** make directory********************/
+    public  Map<String, Business> directory = new HashMap<String, Business>();
 	//Host, cook, waiters and customers
    // private DHostRole host = new DHostRole();
     //private HostGui hostGui = new HostGui(host);
@@ -615,6 +619,24 @@ public class SimCityPanel extends JPanel {
         
         gui.myPanels.get("Restaurant 6").panel.addGui(tcg);
         */
+        
+        /******************* populate directory*******************************/
+        directory.put("Market", market);
+        directory.put("Bank", bank);
+        directory.put("Restaurant5", BRestaurant);
+        directory.put("Restaurant3", DRestaurant);
+        directory.put("Restaurant2", DrewRestaurant);
+        directory.put("Restaurant4", KRestaurant);
+        directory.put("Restaurant1", LRestaurant);
+        directory.put("Restaurant6", TRestaurant);
+        
+        // set all market places to not down
+        Iterator it = directory.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pairs = (Map.Entry)it.next();
+            Business b = (Business) pairs.getValue();
+            b.down = false;
+        }
     }
 
     /**
@@ -788,6 +810,7 @@ public class SimCityPanel extends JPanel {
         public String name;
         public int x;
         public int y;
+        public boolean down;
 }
 //waiter needs host
 //customer needs hot
