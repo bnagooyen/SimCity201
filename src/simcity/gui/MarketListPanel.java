@@ -11,14 +11,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import simcity.gui.SimCityPanel.MarketPlace;
+import simcity.gui.SimCityPanel.RestaurantPlace;
+
 public class MarketListPanel extends BuildingListPanel {
 	JTextField setInventory = new JTextField();
 	JButton setVal = new JButton("Set!");
 	JCheckBox downCB = new JCheckBox("Down?");
 	String building;
+	SimCityGui gui;
 	
-	public MarketListPanel(SimCityGui restaurantGui, String txt) {
-		super(restaurantGui, txt);
+	public MarketListPanel(SimCityGui marketGui, String txt) {
+		super(marketGui, txt);
 		
 		// TODO Auto-generated constructor stub
 		building = txt;
@@ -56,22 +60,27 @@ public class MarketListPanel extends BuildingListPanel {
 		// TODO Auto-generated method stub
 		
 		if (arg0.getSource() == setVal) {
+			
 			String userInput2 = (setInventory).getText().trim();
-	    	double inventoryVal=Double.parseDouble(userInput2);
+	    	int inventoryVal=Integer.parseInt(userInput2);
 	    	
 	    	System.out.println("Market's starting inventory: "+inventoryVal);
 	    	
 	    	if(building.equals("Market 1")){
-	    		
+	    		((MarketPlace)(city.simcityPanel.directory.get("Market 1"))).ib.msgSetInventory(inventoryVal);
+	    		System.out.println("Changing Market 1's inventory to "+inventoryVal +" for each item");
 	    	}
 	    	else if(building.equals("Market 2")){
-	    		
+	    		((MarketPlace)(city.simcityPanel.directory.get("Market 2"))).ib.msgSetInventory(inventoryVal);
+	    		System.out.println("Changing Market 2's inventory to "+inventoryVal +" for each item");
 	    	}
 	    	else if(building.equals("Market 3")){
-	    		
+	    		((MarketPlace)(city.simcityPanel.directory.get("Market 3"))).ib.msgSetInventory(inventoryVal);
+	    		System.out.println("Changing Market 3's inventory to "+inventoryVal +" for each item");
 	    	}
 	    	else if(building.equals("Market 4")){
-	    		
+	    		((MarketPlace)(city.simcityPanel.directory.get("Market 4"))).ib.msgSetInventory(inventoryVal);
+	    		System.out.println("Changing Market 4's inventory to "+inventoryVal +" for each item");
 	    	}
 	    	
 		}
