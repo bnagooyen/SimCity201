@@ -4,6 +4,7 @@ import simcity.DRestaurant.DCookRole.InventoryOrder.InventoryOrderState;
 import simcity.DRestaurant.DOrder.OrderState;
 import agent.Role;
 import simcity.Market.MFoodOrder;
+import simcity.gui.SimCityGui;
 import simcity.gui.DGui.DCookGui;
 import simcity.interfaces.Cook;
 import simcity.interfaces.DCashier;
@@ -28,7 +29,7 @@ import java.util.concurrent.Semaphore;
 public class DCookRole extends Role implements DCook, Cook{
 
         private DProducerConsumerMonitor theMonitor;
-        
+        SimCityGui gui;
         Timer timer = new Timer();
         private String name;
         private Map<String, DFood> myFood = new HashMap<String, DFood>();
@@ -38,12 +39,12 @@ public class DCookRole extends Role implements DCook, Cook{
         private int threshold = 4;
         //private final int NUM_MARKETS = 3;
     
-    public DCookGui CookGui = null;
+        public DCookGui CookGui = null;
         
         private Semaphore atFridge = new Semaphore(0,true);
         private Semaphore atGrill = new Semaphore(0, true);
         private Semaphore atPlating = new Semaphore(0, true);
-        
+        boolean justArrived;
         DCashier myCashier;
         private DWaiterRole waiter;
         private DHostRole host;
@@ -66,9 +67,9 @@ public class DCookRole extends Role implements DCook, Cook{
         
         boolean RestaurantIsOpen, CheckedAtFirst;// valsAreSet;
         
-        public DCookRole() {
+        public DCookRole(SimCityGui gui) {
                 super();
-        
+                this.gui=gui;
                 
                 //GRADER: CHANGE KITCHEN VALS HERE
                 //myFood.put("Chicken", new Food("Chicken", 5, X));
@@ -100,7 +101,7 @@ public class DCookRole extends Role implements DCook, Cook{
                 ORDER_ID=1;
                 
                 RestaurantIsOpen=false; CheckedAtFirst=false; //valsAreSet=false;
-                
+                justArrived = true;
         }
 
 
@@ -364,7 +365,14 @@ public class DCookRole extends Role implements DCook, Cook{
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
+            
                  */
+        	
+        	if(justArrived) {
+        		tellHost();
+        		return true;
+        	}
+        	
                 synchronized(orders) {
                 for(int i=0; i<orders.size(); i++) {
                         if(orders.get(i).state==OrderState.clearPlating) {
@@ -449,7 +457,12 @@ public class DCookRole extends Role implements DCook, Cook{
 
 
         // Actions
-        
+        		private void tellHost() {
+        			if(CookGui==null) {
+        				CookGui = new DCookGui(this);
+        				gui.myPanels.get
+        			}
+        		}
                 private void CheckRotatingStand() {
                         //System.err.println("checking the stand");
                         DOrder o = theMonitor.remove();

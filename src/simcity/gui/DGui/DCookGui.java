@@ -24,7 +24,7 @@ public class DCookGui implements Gui {
     	else return false;
     }
     
-    SimCityGui gui;
+   // SimCityGui gui;
     private int tableGoingTo;
 
     private int xPos = -20, yPos = -20;//default waiter position
@@ -110,8 +110,8 @@ public class DCookGui implements Gui {
     
    //f private void setSeatingAt(int t) { seatingAt=t; }
     
-    public DCookGui(DCookRole agent, SimCityGui g) {
-    	gui=g;
+    public DCookGui(DCookRole agent) {
+
         this.agent = agent;
         madeToFront=true;
 //        for(int i=0; i<labelIsShowing.length;i++)
