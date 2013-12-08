@@ -89,6 +89,7 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	public void msgTimeUpdate(int hr) {
 		hour=hr;
+		Do("Time is "+hr);
 		if(hr==1) bankState=BankState.arriving;
 		stateChanged();
 	}

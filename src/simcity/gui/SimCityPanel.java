@@ -12,6 +12,7 @@ import simcity.Bank.BankLoanOfficerRole;
 import simcity.Bank.BankManagerRole;
 import simcity.Bank.BankRobberRole;
 import simcity.Bank.BankTellerRole;
+import simcity.Bank.gui.BankTellerGui;
 import simcity.Drew_restaurant.Drew_CashierRole;
 import simcity.Drew_restaurant.Drew_CookRole;
 import simcity.Drew_restaurant.Drew_CustomerRole;
@@ -193,7 +194,7 @@ public class SimCityPanel extends JPanel {
     
     //Bank people workers
     private BankManagerRole Bmanager;
-    private BankTellerRole Bteller;
+    //~~~private BankTellerRole Bteller;
     private BankLoanOfficerRole Bloanofficer;
 
 
@@ -231,10 +232,10 @@ public class SimCityPanel extends JPanel {
         bank.bankManager.myPerson = bManagerPerson;
         
         //Bteller.isActive=true;
-        PersonAgent btellerPerson = new PersonAgent("Bankteller");     //REMEMBER TO START THREAD!!!!
-        btellerPerson.hungerLevel = 0;
-        btellerPerson.SetJob(bank.bankTeller, "Bank 1");
-        bank.bankTeller.myPerson=btellerPerson;
+        //~~~PersonAgent btellerPerson = new PersonAgent("Bankteller");     //REMEMBER TO START THREAD!!!!
+        //~~btellerPerson.hungerLevel = 0;
+        //~~~btellerPerson.SetJob(bank.bankTeller, "Bank 1");
+        //~~~bank.bankTeller.myPerson=btellerPerson;
         //Bteller.manager=Bmanager;
         //Bteller.myPerson = btellerPerson;
         
@@ -247,9 +248,8 @@ public class SimCityPanel extends JPanel {
         
         //Start Threads
         bManagerPerson.startThread();
-        //btellerPerson.startThread();
         bloanofficerPerson.startThread();
-        btellerPerson.startThread();
+        //~~btellerPerson.startThread();
         
 //        //Hack Bank Customer
 //        /*Bmanager.msgTimeUpdate(8);
@@ -691,12 +691,23 @@ public class SimCityPanel extends JPanel {
 	    		gui.city.addGui(g);
 	    		p.bankTime=true;
 	    		
-	    		
+	    		//Add Job
 	    		if(role.equals("Waiter")){
 	    			Drew_WaiterRole DW=(Drew_WaiterRole) DrewRestaurant.AddNormalWaiter();
 	    			DW.myPerson=p;
 	    			p.SetJob(DW,"Restaurant 2");
 	    			p.msgTimeUpdate(8);
+	    		}
+	    		if(role.equals("Bank Teller")){
+	    			BankTellerRole BT= new BankTellerRole(gui);
+	    			BT.setManager(bank.bankManager);
+	    			BT.myPerson=p;
+	    			p.SetJob(BT,"Bank 1");
+	    			p.myJob.isActive=false;
+	    			p.hungerLevel=0;
+	    		}
+	    		if(role.equals("Inventory Person")){
+	    			bank.bankManager.msgTimeUpdate(20);
 	    		}
 //	    		Bmanager.msgTimeUpdate(8);
 	            //BankCustomerRole bc = new BankCustomerRole(gui);
@@ -800,7 +811,7 @@ public class BankPlace extends Business {
 	
 	public BankLoanOfficerRole loanOfficer;
 	public BankManagerRole bankManager;
-	public BankTellerRole bankTeller;
+	//~~~public BankTellerRole bankTeller;
 	public BankRobberRole robber;
 	
 	
@@ -809,11 +820,11 @@ public class BankPlace extends Business {
 	public BankPlace() {
 		loanOfficer = new BankLoanOfficerRole(gui);
 		bankManager = new BankManagerRole(gui);
-		bankTeller = new BankTellerRole(gui);
+		//~~~bankTeller = new BankTellerRole(gui);
 		bankCustomers = new ArrayList<BankCustomerRole>();
 		
 		loanOfficer.setManager(bankManager);
-		bankTeller.setManager(bankManager);
+		//~~~bankTeller.setManager(bankManager);
 		
 	}
 	public BankCustomerRole addCustomer() {

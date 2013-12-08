@@ -118,7 +118,7 @@ public class BankTellerRole extends Role implements BankTeller {
 	public void msgGoHome(double pay){
 		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankTeller", "going home");
 		Do("Going home");
-		//myPerson.money+=pay;
+		myPerson.money+=pay;
 		state=bankTellerState.finished;
 		stateChanged();
 	}
@@ -145,7 +145,7 @@ public class BankTellerRole extends Role implements BankTeller {
 
 	@Override
 	public void msgAnimationFinishedLeaveBank() {
-		//this.isActive=false;
+		this.isActive=false;
 		atDest.release();
 		state=bankTellerState.arrived;
 	}
@@ -244,10 +244,10 @@ public class BankTellerRole extends Role implements BankTeller {
 		}
 		
 		private void leaveBank() {
-//			banktellerGui.goToCorner();
+			banktellerGui.goToCorner();
 			corner=cornerState.leaving;
-//			finishTask();
-			this.isActive=false;
+			finishTask();
+			//this.isActive=false;
 		}
 		private void arriveAtBank() {
 			AlertLog.getInstance().logMessage(AlertTag.Bank, "BankTeller", "Telling Manager I am here");
