@@ -86,7 +86,7 @@ public class TCustomerRole extends Role implements TCustomer {
 	}
 	
 	public void gotHungry() {//from animation
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "I'm hungry");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "I'm hungry");
 		Do("I'm hungry");
 		myMoney = randomOrder.nextInt(20); 
 		event = AgentEvent.gotHungry;
@@ -94,7 +94,7 @@ public class TCustomerRole extends Role implements TCustomer {
 	}
 	
 	public void msgPleaseWait() {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Waiting for a table");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Waiting for a table");
 		Do("Waiting for a table"); 
 		event = AgentEvent.waiting; 
 		stateChanged(); 
@@ -103,14 +103,14 @@ public class TCustomerRole extends Role implements TCustomer {
 	public void msgSitAtTable(int tableNum, List<String> m) {
 		freeTable = tableNum; 
 		myMenu = m; 
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Received msgSitAtTable");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Received msgSitAtTable");
 		Do("Received msgSitAtTable");
 		event = AgentEvent.followHost;
 		stateChanged();
 	}
 
 	public void msgWhatWouldYouLike() {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Telling waiter my order");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Telling waiter my order");
 		Do("Telling waiter my order");
 		state = AgentState.Ordering;
 		event = AgentEvent.givingOrder; 
@@ -118,14 +118,14 @@ public class TCustomerRole extends Role implements TCustomer {
 	}
 
 	public void msgHeresYourOrder() {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Received my order");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Received my order");
 		Do("Received my order."); 
 		event = AgentEvent.receivedOrder;
 		stateChanged(); 
 	}
 	
 	public void msgHereIsYourCheck(double cost) {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Received my check");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Received my check");
 		Do("Received my check"); 
 		event = AgentEvent.givingMoney; 
 		stateChanged(); 
@@ -133,12 +133,12 @@ public class TCustomerRole extends Role implements TCustomer {
 	
 	public void msgChange (double c) {
 		if (c < 0) {
-			AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Didn't have enough money to pay.");
+			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Didn't have enough money to pay.");
 			Do("Didn't have enough money to pay. I owe " + c);
 			myMoney = 0; 
 		}
 		else {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Received change and leaving now!");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Received change and leaving now!");
 		Do("Received change and leaving now!");
 		}
 		event = AgentEvent.donePaying;
@@ -226,7 +226,7 @@ public class TCustomerRole extends Role implements TCustomer {
 	// Actions
 
 	private void goToRestaurant() {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Going to restaurant");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Going to restaurant");
 		Do("Going to restaurant");
 		host.msgIWantFood(this);	//send our instance, so he can respond 
 	}
@@ -240,7 +240,7 @@ public class TCustomerRole extends Role implements TCustomer {
 			print ("I don't want to wait, I'm leaving now."); 
 		}
 		else {
-			AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "I'll wait for a table");
+			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "I'll wait for a table");
 			Do("I'll wait for a table.");
 			//customerGui.DoWaitInLine(); 
 			event = AgentEvent.wantsToWait; 
@@ -248,7 +248,7 @@ public class TCustomerRole extends Role implements TCustomer {
 	}
 
 	private void SitDown() {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Being seated. Going to table");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Being seated. Going to table");
 		Do("Being seated. Going to table");
 		//customerGui.DoGoToSeat(freeTable);
 	}
@@ -263,7 +263,7 @@ public class TCustomerRole extends Role implements TCustomer {
 	}
 
 	private void Order() {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Calling waiter to give my order.");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Calling waiter to give my order.");
 		Do("Calling waiter to give my order.");
 		waiter.msgReadyToOrder(this); 
 	}
@@ -283,7 +283,7 @@ public class TCustomerRole extends Role implements TCustomer {
 				int x = randomOrder.nextInt(myMenu.size());
 				myChoice = myMenu.get(x);
 			}
-			AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Giving waiter my order");
+			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Giving waiter my order");
 			Do("Giving waiter my order");
 			timeOrdered++; 
 			Ordered.add(myChoice);
@@ -301,7 +301,7 @@ public class TCustomerRole extends Role implements TCustomer {
 				break; 
 				}
 				}
-				AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Giving waiter my order");
+				AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Giving waiter my order");
 				Do("Giving waiter my order");
 				timeOrdered++; 
 				Ordered.add(myChoice);
@@ -316,7 +316,7 @@ public class TCustomerRole extends Role implements TCustomer {
 				case 2: myChoice = "Pizza";
 				break; 
 				}
-				AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Giving waiter my order");
+				AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Giving waiter my order");
 				Do("Giving waiter my order");
 				timeOrdered++; 
 				Ordered.add(myChoice);
@@ -334,7 +334,7 @@ public class TCustomerRole extends Role implements TCustomer {
 				break;
 				}
 				}
-				AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Giving waiter my order");
+				AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Giving waiter my order");
 				Do("Giving waiter my order");
 				timeOrdered++; 
 				Ordered.add(myChoice);
@@ -348,7 +348,7 @@ public class TCustomerRole extends Role implements TCustomer {
 				case 1: myChoice = "Pizza"; 
 				break;
 				}
-				AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Giving waiter my order");
+				AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Giving waiter my order");
 				Do("Giving waiter my order");
 				timeOrdered++; 
 				Ordered.add(myChoice);
@@ -358,7 +358,7 @@ public class TCustomerRole extends Role implements TCustomer {
 		else if (myMoney >= 5.99) {
 			myChoice = "Salad";
 			if (Ordered.contains(myChoice)) {
-				AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Can't order anything else");
+				AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Can't order anything else");
 				Do("Can't order anything else.");
 				waiter.msgLeavingTable(this);
 				//customerGui.DoExitRestaurant();
@@ -366,7 +366,7 @@ public class TCustomerRole extends Role implements TCustomer {
 				event = AgentEvent.none; 
 			}
 			else {
-				AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Giving waiter my order");
+				AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Giving waiter my order");
 				Do("Giving waiter my order");
 				timeOrdered++; 
 				Ordered.add(myChoice);
@@ -378,7 +378,7 @@ public class TCustomerRole extends Role implements TCustomer {
 			if (x < 2) {
 				myChoice = "Salad";
 				if (Ordered.contains(myChoice)) {
-					AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Can't order anything else");
+					AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Can't order anything else");
 					Do("Can't order anything else.");
 					waiter.msgLeavingTable(this);
 					//customerGui.DoExitRestaurant();
@@ -386,7 +386,7 @@ public class TCustomerRole extends Role implements TCustomer {
 					event = AgentEvent.none; 
 				}
 				else {
-					AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Giving waiter my order");
+					AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Giving waiter my order");
 					Do("Giving waiter my order");
 					timeOrdered++; 
 					Ordered.add(myChoice);
@@ -394,7 +394,7 @@ public class TCustomerRole extends Role implements TCustomer {
 				}
 			}
 			else if (x >= 2){
-				AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Don't have enough money. Leaving now.");
+				AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Don't have enough money. Leaving now.");
 				print("Don't have enough money. Leaving now.");
 				waiter.msgLeavingTable(this);
 				//customerGui.DoExitRestaurant();
@@ -417,7 +417,7 @@ public class TCustomerRole extends Role implements TCustomer {
 		//anonymous inner class that has the public method run() in it.
 		timer.schedule(new TimerTask() {
 			public void run() {
-				AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Done eating");
+				AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Done eating");
 				Do("Done eating");
 				event = AgentEvent.doneEating;
 				//isHungry = false;
@@ -433,18 +433,18 @@ public class TCustomerRole extends Role implements TCustomer {
 	
 	private void PayForFood() {
 		if (check > myMoney + moneyOwed) {
-			AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "I can't pay for my food");
+			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "I can't pay for my food");
 			Do("I can't pay for my food!"); 
 		}
 		else {
-			AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Paying for my food now");
+			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Paying for my food now");
 			Do("Paying for my food now"); 
 		}
 		cashier.msgHereIsMyMoney(this, myMoney, check); 
 	}
 
 	private void leaveTable() {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCustomerRole", "Leaving.");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Leaving.");
 		Do("Leaving.");
 		waiter.msgLeavingTable(this);
 		//customerGui.DoExitRestaurant();

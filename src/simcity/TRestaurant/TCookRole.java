@@ -86,7 +86,7 @@ public class TCookRole extends Role implements TCook, Cook {
 		o.setTable(t);
 		o.setOrder(choice);
 		orders.add(o); 
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCookRole", "Cook has received customer orders");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCookRole", "Cook has received customer orders");
 		Do("Cook has received customer orders.");
 		stateChanged(); 
 	}
@@ -151,7 +151,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	public void msgUnfulfilledStock() {
 		buyingFood = false;
 		unFullfilled = true;
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCookRole", "Buying stock from different market");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCookRole", "Buying stock from different market");
 		Do("Buying stock from different market"); 
 		stateChanged(); 
 	}
@@ -263,7 +263,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	// Actions
 
 	private void tellHost() {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCookRole", "Telling manager I can work");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCookRole", "Telling manager I can work");
 		Do("Telling manager I can work");
 		arrived = false;
 		host.msgIAmHere(this, "Cook");
@@ -273,7 +273,7 @@ public class TCookRole extends Role implements TCook, Cook {
 		//goToFridge(); 
 		timer.schedule(new TimerTask() {
 			public void run() {
-				AlertLog.getInstance().logInfo(AlertTag.Market, "TCookRole", "Done cooking food");
+				AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCookRole", "Done cooking food");
 				Do("Done cooking food.");
 				orders.get(orderNumber).status = OrderStatus.cooked; 
 				if (orders.get(orderNumber).order == "Steak") {
@@ -311,7 +311,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	}
 	
 	private void callWaiter(int orderNumber) {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCookRole", "Out of food");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCookRole", "Out of food");
 		Do("Out of food");
 		orders.get(orderNumber).thisWaiter.msgOutOfFood(orders.get(orderNumber).table); 
 	}
@@ -333,7 +333,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	private void BuyFood() {
 		
 		if (buyingFood == false) {
-			AlertLog.getInstance().logInfo(AlertTag.Market, "TCookRole", "Buying food from market");
+			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCookRole", "Buying food from market");
 			Do("Buying food from market."); 
 			buyingFood = true;
 			int index = 0;
@@ -384,7 +384,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	
 	
 	private void goHome() {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "TCookRole", "Going home");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCookRole", "Going home");
 		Do("Going home");
 		isActive = false;
 		goHome = false;

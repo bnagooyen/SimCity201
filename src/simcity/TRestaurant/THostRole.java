@@ -68,17 +68,17 @@ public class THostRole extends Role implements Host {
 	public void msgIAmHere(Role r, String type){
 		
 		if(type.equals("Waiter")){
-			AlertLog.getInstance().logInfo(AlertTag.Market, "THostRole", "Waiter is here");
+			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Waiter is here");
 			Do("Waiter is here");
 			waiters.add(new myWaiters((TWaiter) r));
 		}
 		else if(type.equals("Cook")){
-			AlertLog.getInstance().logInfo(AlertTag.Market, "THostRole", "Cook is here");
+			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Cook is here");
 			Do("Cook is here");
 			cook = (TCookRole)r;
 		}
 		else if(type.equals("cashier")){
-			AlertLog.getInstance().logInfo(AlertTag.Market, "THostRole", "Cashier is here");
+			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Cashier is here");
 			Do("Cashier is here");
 			cashier = (TCashierRole) r;
 		}
@@ -95,7 +95,7 @@ public class THostRole extends Role implements Host {
 
 	public void msgIWantFood(TCustomer cust) {
 		waitingCustomers.add(cust);
-		AlertLog.getInstance().logInfo(AlertTag.Market, "THostRole", "Adding new customer");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Adding new customer");
 		Do("Adding new customer"); 
 		stateChanged();
 	}
@@ -128,7 +128,7 @@ public class THostRole extends Role implements Host {
 	
 	
 	public void msgBreakPlease(TWaiter waiter) {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "THostRole", "Waiter asking for break");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Waiter asking for break");
 		Do("Waiter asking for break");
 		int index = 0; 
 		while (waiters.get(index).w != waiter) {
@@ -140,7 +140,7 @@ public class THostRole extends Role implements Host {
 	}
 	
 	public void msgOffBreak(TWaiter waiter) {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "THostRole", "Waiter is off break");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Waiter is off break");
 		Do("Waiter is off break");
 		int index = 0; 
 		while (waiters.get(index).w != waiter) {
@@ -228,7 +228,7 @@ public class THostRole extends Role implements Host {
 	// Actions
 	
 	private void closeRestaurant(){ //pay employees 50
-		AlertLog.getInstance().logInfo(AlertTag.Market, "THostRole", "Closing restaurant.");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Closing restaurant.");
 		Do("Closing restaurant. It is "+hour);
 		synchronized(waiters){
 			for(myWaiters w: waiters){
@@ -246,7 +246,7 @@ public class THostRole extends Role implements Host {
 	}
 	
 	private void restaurantClosed() {
-		AlertLog.getInstance().logInfo(AlertTag.Market, "THostRole", "Telling market is closed.");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Telling market is closed.");
 		Do("Telling market is closed");
 		synchronized(waitingCustomers){
 			for(TCustomer c: waitingCustomers){
@@ -259,7 +259,7 @@ public class THostRole extends Role implements Host {
 	
 	private void callWaiter(int table, int index) { 
 		waiters.get(index).w.msgSeatAtTable(waitingCustomers.get(0), table); //messaging waiter to seat customer;
-		AlertLog.getInstance().logInfo(AlertTag.Market, "THostRole", "Telling waiter to seat customer");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Telling waiter to seat customer");
 		Do("Telling waiter to seat customer."); 
 		waitingCustomers.remove(0);
 	}
