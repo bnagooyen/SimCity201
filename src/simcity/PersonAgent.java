@@ -2,6 +2,7 @@ package simcity;
 
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DMenu;
+import simcity.Drew_restaurant.Drew_CustomerRole;
 import agent.Agent;
 import agent.Role;
 import simcity.Bank.BankCustomerRole;
@@ -30,7 +31,7 @@ public class PersonAgent extends Agent {
 	private String name;
 	public Role myJob;
 	public String jobLocation;
-	List<Role> roles= new ArrayList<Role>();
+	public List<Role> roles= new ArrayList<Role>();
 	public double money=0;
 	public String homeAddress;
 	public String BankChoice;
@@ -282,7 +283,7 @@ public class PersonAgent extends Agent {
 
 	// Actions
 	private void GoToRestaurant() {
-		DoGoTo("Restaurant 1");
+		DoGoTo("Restaurant 2");
 		Do("Going To Restaurant");
 		try {
 			atRestaurant.acquire();
@@ -295,11 +296,11 @@ public class PersonAgent extends Agent {
 		hungerLevel=0;
 		//state=PersonState.doingNothing;
 		for(Role r: roles) {
-			if(r instanceof DCustomerRole) {
+			if(r instanceof Drew_CustomerRole) {
 				r.isActive=true;
 				DMenu myMenu = new DMenu();
-				((DCustomerRole)r).setChoice(myMenu.MostExpensiveICanAfford(money));
-				((DCustomerRole)r).ActivateRole();
+				//((DCustomerRole)r).setChoice(myMenu.MostExpensiveICanAfford(money));
+				//((DCustomerRole)r).ActivateRole();
 			}
 		}
 
