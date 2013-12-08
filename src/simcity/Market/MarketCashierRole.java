@@ -205,7 +205,9 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	private void tellManager(){
 		if(cashierGui == null) {
 			cashierGui = new MCashierGui(this);
-			gui.myPanels.get("Market 1").panel.addGui(cashierGui);
+			if(gui != null) {
+				gui.myPanels.get("Market 1").panel.addGui(cashierGui);
+			}
 		}
 		cashierGui.setPresent(true);
 		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCashierRole", "Telling manager that I can work");
@@ -295,7 +297,9 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	}
 	
 	private void DoGoHome() {
-		cashierGui.DoGoHome();
+		if(gui!=null) {
+			cashierGui.DoGoHome();
+		}
 	}
 	
 	// utilities
