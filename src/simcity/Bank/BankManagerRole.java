@@ -22,10 +22,10 @@ import simcity.interfaces.BankCustomer;
 import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.BankTeller;
+import simcity.interfaces.Landlord;
 //import simcity.interfaces.Landlord;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
-import agent.Agent;
 import agent.Role;
 
 public class BankManagerRole extends Role implements BankManager {
@@ -50,7 +50,7 @@ public class BankManagerRole extends Role implements BankManager {
 	private List<MyTeller> tellers = Collections.synchronizedList(new ArrayList<MyTeller>());
 	private List<MyLoanOfficer> officers = Collections.synchronizedList(new ArrayList<MyLoanOfficer>());
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
-	//public List<MyClient> clients = Collections.synchronizedList(new ArrayList<MyClient>()); 
+	public List<MyClient> clients = Collections.synchronizedList(new ArrayList<MyClient>()); 
 	public Map<Integer, MyAccount> accounts = new HashMap<Integer, MyAccount>();
 	int hour;
 	int checkAccount;
@@ -224,11 +224,11 @@ public class BankManagerRole extends Role implements BankManager {
 		atDest.release();
 	}
 	
-	/*public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill) {				//COMMENTED OUT
+	public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill) {				
 		Do("Receiving rent bill");
 		clients.add(new MyClient((Landlord) l, account, rentBill));
 		stateChanged(); 
-	}*/
+	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
@@ -622,7 +622,7 @@ public class BankManagerRole extends Role implements BankManager {
 		
 	}
 	
-	/*class MyClient {
+	class MyClient {
 		public MyClient(Landlord l, Integer account, double rentBill) {
 			client = l; 
 			AN = account; 
@@ -633,7 +633,7 @@ public class BankManagerRole extends Role implements BankManager {
 		Integer AN; 
 		double bill; 	
 		
-	}*/
+	}
 	
 	public class MyAccount{
 	

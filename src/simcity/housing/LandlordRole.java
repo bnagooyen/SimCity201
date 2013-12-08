@@ -194,7 +194,7 @@ public class LandlordRole extends Role implements Landlord{
 		for(Tenant t:myTenants) {
 			if (t.isOccupied == true) {
 				if (t.account == 0) {
-					t.person.msgHereIsYourRentBill(this, rentBill); 
+					((PersonAgent) t.person).msgHereIsYourRentBill(this, rentBill); 
 				}
 				else {
 					bankmanager.msgHereIsYourRentBill(this, t.account, rentBill);
