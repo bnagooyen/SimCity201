@@ -8,6 +8,8 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 //import simcity.Transportation.CarAgent;
 import simcity.gui.SimCityGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 //import simcity.Transportation.CarAgent;
 import simcity.interfaces.Car;
 import simcity.interfaces.MarketCashier;
@@ -55,6 +57,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         }
         
         public void msgGoToCashier(MarketCashier c) {
+        		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Told to go to cashier");
         		Do("Told to go to cashier");
                 LoggedEvent e = new LoggedEvent("told to go to cashier");
                 log.add(e);
@@ -64,6 +67,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         }
         
         public void msgHereIsOrder(List<MFoodOrder> canGive) {
+        	AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Got food and check");
     		Do("Got food and check");
             LoggedEvent e = new LoggedEvent("got food and check");
             log.add(e);
@@ -76,6 +80,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
     
         
         public void msgHereIsOrderAndCheck(List<MFoodOrder> canGive, double check) {
+        		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Got food and check");
         		Do("Got food and check");
                 LoggedEvent e = new LoggedEvent("got food and check");
                 log.add(e);
@@ -87,6 +92,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         }
         
         public void msgHereIsCarAndCheck(Car car, double check){
+        	AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Got car and check");
         	Do("Got car and check");
         	
         	LoggedEvent e = new LoggedEvent("got car and check");
@@ -98,6 +104,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         }
 
         public void msgMarketClosed() {
+        		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Told market is closed");
         		Do("Told market is closed");
                 LoggedEvent e = new LoggedEvent("told market is closed");
                 log.add(e);
@@ -137,8 +144,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         private void goToManager() {
         		customerGui = new MCustomerGui(this);
         		customerGui.setPresent(true);
-    			gui.myPanels.get("Market 1").panel.addGui(customerGui);
-
+        		if(gui!=null) {
+        			gui.myPanels.get("Market 1").panel.addGui(customerGui);
+        		}
+    			AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Telling manager I'm here");
         		Do("Telling manager I'm here");
                 LoggedEvent e = new LoggedEvent("telling manager I'm here");
                 log.add(e);
@@ -149,6 +158,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         
         private void orderFood() {
         		customerGui.DoGoToCashier();
+        		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Going to cashier");
         		Do("going to cashier");
         		try {
 					atCashier.acquire();
@@ -156,6 +166,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+        		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Telling cashier my order");
         		Do("Telling cashier my order");
                 state = customerState.waiting;
                 LoggedEvent e = new LoggedEvent("telling cashier my order");
@@ -166,6 +177,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         }
         
         private void orderCar(){
+        	AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Telling cashier my car order");
         	Do("Telling cashier my car order");
         	state = customerState.waiting;
             LoggedEvent e = new LoggedEvent("telling cashier my car order");
@@ -176,6 +188,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         }
 
         private void payCheck() {
+        		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Paying check");
         		Do("Paying check");
                 LoggedEvent e = new LoggedEvent("paying check");
                 log.add(e);
@@ -189,10 +202,11 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         }
         
         private void leaveStore() {
+        		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Leaving market");
         		Do("Leaving market");
                 LoggedEvent e = new LoggedEvent("leaving market");
                 log.add(e);
-                state = customerState.talkToManager;
+                state = customerState.done;
                 isActive = false;
                 DoGoHome();
         }

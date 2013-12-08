@@ -49,7 +49,7 @@ public class KCookGui implements Gui{
      
      public KCookGui(KCookRole c, SimCityGui gui){ //HostAgent m) {
  		agent = c;
- 		xPos = 500;
+ 		xPos = 0;
  		yPos = 0;
  		xDestination = 500;
  		yDestination = 0;
@@ -160,7 +160,13 @@ public class KCookGui implements Gui{
      }
 	public void DoLeaveRestaurant() {
 		xDestination = -20;
- 		 yDestination = -20;		
+ 		 yDestination = 0;		
+	}
+	public void DoGoToWork() {
+		xPos = -5;
+		yPos = -5;
+		xDestination = 500;
+		yDestination = 0;
 	}
 	public void setPresent(boolean b) {
 		isPresent = b;

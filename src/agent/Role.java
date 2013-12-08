@@ -19,14 +19,15 @@ public abstract class Role {
     public int startHour=9;
     public String Location;
     public String purpose;
-    
+    public int hour;
 
 //    public Role(PersonAgent p) {
 //    	myPerson=p;
 //    }
     
     public void timeUpdate(int hr) {
-    	
+    	hour=hr;
+    	stateChanged();
     }
 
     /**

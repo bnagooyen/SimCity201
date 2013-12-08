@@ -6,6 +6,8 @@ import simcity.KRestaurant.gui.KCustomerGui;
 import simcity.KRestaurant.gui.KFoodGui;
 import simcity.KRestaurant.gui.KCustomerGui;
 import simcity.gui.SimCityGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.KCashier;
 import simcity.interfaces.KCustomer;
 import agent.Agent;
@@ -43,7 +45,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	// agent correspondents
 	private KHostRole host;
 	private KWaiterRole waiter = null;
-	private KCashier cashier = null;
+	private KCashierRole cashier = null;
 	
 	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
@@ -131,6 +133,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	// Messages
 
 	public void gotHungry() {//from animation
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "I'm hungry");
 		print("I'm hungry");
 		event = AgentEvent.gotHungry;
 		
@@ -143,6 +146,7 @@ public class KCustomerRole extends Role implements KCustomer{
 		stateChanged();
 	}
 	public void msgRestaurantFull(int waitingSpot) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "host said restaurant is full :(");
 		System.out.println(myPerson.getName() + ": " +"host said restaurant is full :(");
 		event = AgentEvent.restaurantFull;
 		waitingPos = waitingSpot;
@@ -155,6 +159,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	}
 	
 	public void msgSitAtTable(int tableNum, KWaiterRole w, KMenu m) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "Recived msgSitAtTable");
 		print( "Received msgSitAtTable");
 		event = AgentEvent.followHost;
 		table = tableNum;
@@ -170,6 +175,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	
 	public void msgWhatWouldYouLike() {
 		event = AgentEvent.hostBack;
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "Asked what I want to order");
 		System.out.println(this.name+": Asked what I want to order");
 		stateChanged();
 	}
@@ -202,6 +208,7 @@ public class KCustomerRole extends Role implements KCustomer{
 			}
 			else if( myCash < secondCheapest && myCash >= cheapestFood) {
 				choice = menu.foods.get(indexCheapest).type;
+				AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "My choice is " + choice +" because I don't have money for anything else");
 				System.out.println(myPerson.getName() + ": " +"My choice is " + choice +" because I don't have money for anything else");
 			}
 		}
@@ -209,6 +216,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	}
 	
 	public void msgHereIsYourFood() {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "got my food!");
 		System.out.println(this.name+": got my food!");
 		event = AgentEvent.foodHere;
 		stateChanged();
@@ -221,19 +229,19 @@ public class KCustomerRole extends Role implements KCustomer{
 
 	public void msgHereIsCheck( double check) {
 		this.check = check;
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "got the check");
 		System.out.println(myPerson.getName() + ": " +"got the check");
 	}
 	
 	public void msgChange(double change) {
 		myCash += change;
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "got change back " + change);
 		System.out.println(myPerson.getName() + ": " +"got change back " + change);
 	}
 	
 	public void msgOrderChoiceTimerDone() {
 		state = AgentState.readytoOrder;
 		event = AgentEvent.seated;
-		System.out.println(myPerson.getName() + ": " +"my state is "+state);
-		System.out.println(myPerson.getName() + ": " +"my event is "+event);
 		stateChanged();
 	}
 	
@@ -315,6 +323,7 @@ public class KCustomerRole extends Role implements KCustomer{
 			gui.myPanels.get("Restaurant 1").panel.addGui(customerGui);
 		}
 		customerGui.setPresent(true);
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "Going to restaurant");
 		System.out.println(myPerson.getName() + ": " +"Going to restaurant");
 		customerGui.DoGoToRestaurant();
 		host.msgIWantFood(this);
@@ -325,6 +334,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	}
 
 	private void tellHostIfWaiting() {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "telling host if I'll wait");
 		System.out.println(myPerson.getName() + ": " +"telling host if i'll wait");
 		host.msgDecideToWait(this, willWait);
 		if(willWait) {
@@ -333,6 +343,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	}
 	
 	private void SitDown(int tableNum) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "Being seated. Going to table");
 		System.out.println(myPerson.getName() + ": " +"Being seated. Going to table");
 		customerGui.DoGoToSeat(tableNum);
 		if(choice == null) {
@@ -360,11 +371,13 @@ public class KCustomerRole extends Role implements KCustomer{
 			}
 			else if( myCash < secondCheapest && myCash >= cheapestFood) {
 				choice = menu.foods.get(indexCheapest).type;
+				AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "My choice is " + choice +" because I don't have money for anything else");
 				System.out.println(myPerson.getName() + ": " +"My choice is " + choice +" because I don't have money for anything else");
 			}
 		}
 		timer.schedule(new TimerTask() {
 			public void run() {
+				AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "Done deciding");
 				print("Done deciding");
 				msgOrderChoiceTimerDone();
 				
@@ -378,6 +391,7 @@ public class KCustomerRole extends Role implements KCustomer{
 		timer.schedule(new TimerTask() {
 			public void run() {
 				print("Done deciding");
+				AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "Done deciding");
 				state = AgentState.readytoOrder;
 				event = AgentEvent.seated;
 				stateChanged();
@@ -387,6 +401,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	}
 	
 	private void callWaiter() {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "telling waiter my order");
 		System.out.println(myPerson.getName() + ": " +"telling waiter my order");
 		waiter.msgReadytoOrder(this);
 		
@@ -394,10 +409,12 @@ public class KCustomerRole extends Role implements KCustomer{
 
 	private void orderFood() {
 		if(choice.equals("TooExpensive")) {
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "telling waiter food is too expensive");
 			System.out.println(myPerson.getName() + ": " +"Telling waiter food is too expensive");
 			waiter.msgTooExpensiveLeaving(this);
 		}
 		else{
+			AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "told waiter my order is " + choice);
 			System.out.println(this.name+": told waiter my order is " + choice);
 			waiter.msgHereIsChoice(this, choice);
 			orderGui = new KFoodGui(choice, gui, table);
@@ -408,6 +425,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	
 	private void EatFood() {
 		orderGui.gotFood();
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "Eating food");
 		System.out.println(myPerson.getName() + ": " +"Eating Food");
 		timer.schedule(new TimerTask() {
 			public void run() {
@@ -419,6 +437,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	}
 
 	private void leaveTable() {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "Leaving");
 		System.out.println(myPerson.getName() + ": " + "Leaving.");
 		waiter.msgLeavingTable(this);
 		customerGui.DoExitRestaurant();
@@ -460,7 +479,7 @@ public class KCustomerRole extends Role implements KCustomer{
 		return customerGui;
 	}
 
-	public void setCashier(KCashier c) {
+	public void setCashier(KCashierRole c) {
 		cashier = c;
 	}
 	

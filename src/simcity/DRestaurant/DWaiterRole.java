@@ -3,9 +3,11 @@
 package simcity.DRestaurant;
 
 import simcity.DRestaurant.DOrder;
+import simcity.DRestaurant.DCookRole.CookState;
 import simcity.DRestaurant.DOrder.OrderState;
 import agent.Agent;
 import agent.Role;
+import simcity.gui.SimCityGui;
 import simcity.gui.DGui.DWaiterGui;
 import simcity.interfaces.DCustomer;
 import simcity.interfaces.DWaiter;
@@ -48,17 +50,18 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	boolean checksWaiting=false;
 	private MyCustomer takingOrderFrom = null;
 	//private Order orderDelivering = null;
-	
+	private int startPos;
 	private String name;
 	private Semaphore atTable = new Semaphore(0,true);
 	private Semaphore atFront = new Semaphore(0,true);
+	private Semaphore atTheDoor = new Semaphore(0, true);
 	private Semaphore customerArrived = new Semaphore(0,true);
 	private Semaphore atCashier = new Semaphore(0,true);
 	private Semaphore atCook = new Semaphore(0, true);
 	public DWaiterGui WaiterGui = null;
 
-	public enum WaiterState {working, takingOrder, 
-			goingToCook, servingFood, onBreak};
+	public enum WaiterState {arrived, working, takingOrder, 
+			goingToCook, servingFood, onBreak, onDuty, waitingForOnDuty, offDuty};
 	
 	public boolean onBreak;
 	//public boolean requestedBreak; // for host to respond to break request
@@ -70,12 +73,13 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	private boolean disableBoxTillBreak;
 	
 	public WaiterState state;
+	SimCityGui gui;
 	
-	public DWaiterRole() {
+	public DWaiterRole(SimCityGui gui) {
 		super();
-	
+		this.gui=gui;
 		
-		state = WaiterState.working;
+		state = WaiterState.arrived;
 		onBreak=false;
 		wantBreakChecked=false;
 		//requestedBreak=false;
@@ -113,6 +117,18 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	public void msgAddHost(DHostRole h) {
 		host=h;
 	}
+	
+	public void msgPosition(int pos) {
+		startPos=pos;
+		state=WaiterState.onDuty;
+		stateChanged();
+	}
+	
+    public void msgOffDuty(double money){
+    	myPerson.money+=money;
+    	state=WaiterState.offDuty;
+    	stateChanged();
+    }
 	
 	public void msgHereIsAWaitingCustomer(DCustomer c, int t) {
 		System.out.println("waiter: adding "+c+ " to my customers list");
@@ -264,6 +280,10 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 			stateChanged();
 	}
 	
+	public void msgAnimationLeftRestaurant() {
+		atTheDoor.release();
+		stateChanged();
+	}
 	
 	public void msgAnimationArrivedAtFront() {
 //		System.out.println("made it");
@@ -313,6 +333,21 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		//`System.out.println("in watier scheduler");
 		if(!onBreak)
 		{
+			
+			if(state==WaiterState.arrived) {
+				tellHost();
+				return true;
+			}
+			
+			if(state==WaiterState.onDuty) {
+				goToPosition();
+				return true;
+			}
+			if(state==WaiterState.offDuty) {
+				leaveRestaurant();
+				return true;
+			}
+			
 			//System.out.println("waiter is on duty!");
 			//if gui is still seating a customer, cannot schedule any other task
 			
@@ -437,8 +472,29 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		//nothing to do. So return false to main loop of abstract agent
 		//and wait.
 	}
-
 	// Actions
+	
+	protected abstract void tellHost();
+	
+	private void goToPosition() {
+		DoGoToWaiterPosition();
+		state=WaiterState.working;
+	}
+	
+	private void leaveRestaurant() {
+		Do("Off duty... leaving restaurant");
+		DoLeaveRestaurant();
+		try {
+			atTheDoor.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		state=WaiterState.arrived;
+		isActive=false;
+		
+	}
+	
 	private void GoToCashier() {
 		checksWaiting=false;
 		DoGoToCashier();
@@ -699,6 +755,12 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	// The animation DoXYZ() routines
 	private void DoGoHangAtTheFront() {
 		WaiterGui.DoGoToHangout();
+	}
+	private void DoGoToWaiterPosition() {
+		WaiterGui.DoGoToWaiterPosition(startPos);
+	}
+	private void DoLeaveRestaurant() {
+		WaiterGui.DoLeaveRestaurant();
 	}
 	private void DoGoToCashier() {
 		Do("going to cashier to get bill..");

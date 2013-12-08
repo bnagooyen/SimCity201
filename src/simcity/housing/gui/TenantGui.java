@@ -42,7 +42,7 @@ public class TenantGui implements Gui {
                xTable = 30; 
                yTable = 60; 
            }
-           else if (index == "B") {
+           else if (index.equals("B")) {
                homeposx = 270; 
                homeposy = 100;
                
@@ -59,7 +59,7 @@ public class TenantGui implements Gui {
                yTable = 100; 
                
            }
-           else if (index == "C") {
+           else if (index.equals("C")) {
                homeposx = 440; 
                homeposy = 100;
              

@@ -15,7 +15,6 @@ import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.RestaurantCashier;
 import simcity.mockrole.MockRoleMarketCashier;
-import simcity.restaurant.interfaces.Cashier;
 
 public class MockMarketCashier extends Mock implements MarketCashier {
 	
@@ -80,8 +79,16 @@ public class MockMarketCashier extends Mock implements MarketCashier {
 
 	@Override
 	public void msgCarOrder(MarketCustomer c, String building) {
+		System.out.println("here");
 		LoggedEvent e = new LoggedEvent("got customer's car order");
 		log.add(e);
+		
+	}
+
+	@Override
+	public void msgOrder(Cook cook, List<MFoodOrder> foods, String building,
+			RestaurantCashier cashier) {
+		// TODO Auto-generated method stub
 		
 	}
 

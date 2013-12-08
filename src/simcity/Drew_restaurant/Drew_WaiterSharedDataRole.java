@@ -1,5 +1,7 @@
 package simcity.Drew_restaurant;
 
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Drew_Waiter;
 
 
@@ -16,6 +18,7 @@ public class Drew_WaiterSharedDataRole extends Drew_WaiterRole implements Drew_W
 	}
 
 	protected void putInOrder(MyCustomer c) {
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewWaiter", "sending cook order of " + c.choice);
 		Do(": sending cook order of " + c.choice);
 		c.s = CustomerState.waitingForFood;
 		//LoggedEvent e = new LoggedEvent("putting order on rotating stand");

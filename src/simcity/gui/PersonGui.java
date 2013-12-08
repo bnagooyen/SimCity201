@@ -178,33 +178,30 @@ public class PersonGui implements Gui {
     @Override
 	public void updatePosition() {
     	//System.out.println("x pos: "+ xPos + " // y pos: "+ yPos+" // xDestination: " + xDestination + " // yDestination: " + yDestination);
+
     	
-    	/**
-    	if (xPos < xDestination)
-            xPos++;
-        else if (xPos > xDestination)
-            xPos--;
-		*/
-    	if (xPos == xDestination && yPos != yDestination) {
-            if (yPos < yDestination)
-                    yPos++;
-            else if (yPos > yDestination)
-                    yPos--;
-    	}
-    	
-    	if (xPos != xDestination && yPos != yDestination) {
-            if (yPos == 30 || yPos == 335) {
-            	if (xPos < xDestination)
-                    xPos++;
-                else if (xPos > xDestination)
-                    xPos--;
-            }
-            else if (335 - yPos < 150 ) 
+    	if (xPos != xDestination) {
+	       if (yPos == 40 || yPos == 335) {
+	            if (xPos < xDestination)
+	                 xPos++;
+	            else if (xPos > xDestination)
+	                    xPos--;
+	       }
+            
+            else 
+    		if (335 - yDestination <= 150 && yPos >= 40) 
 		            yPos++;
-		    else 
+		    else if (335 - yDestination > 150 && yPos <= 335)
 		            yPos--;
-    	}
+	    }
     	
+    	if (xPos == xDestination && yPos != yDestination) {
+        	if (yPos < yDestination)
+                yPos++;
+            else if (yPos > yDestination)
+                yPos--;
+    	}
+   
     	
         if (xPos == xDestination && yPos == yDestination)
         {
@@ -225,7 +222,8 @@ public class PersonGui implements Gui {
 	public void draw(Graphics2D g) {
         g.setColor(Color.magenta);
         g.fillRect(xPos, yPos, 10, 10);
- 
+        g.setColor(Color.BLACK);
+        g.drawString("P", xPos + 5, yPos + 15);	
 //        if(labelIsShowing) {
 //        	g.setColor(Color.BLACK);
 //        	g.drawString(foodReady.substring(0,2),xFood, yFood);
@@ -261,7 +259,8 @@ public class PersonGui implements Gui {
     }
     
     public void DoGoTo(String destination) {
-    	
+    	System.out.print("Going to " + destination);
+    	isPresent = true; 
     	if(destination.contains("Restaurant")) {
     		Point myDest = myMap.get(destination);
     		xDestination = myDest.x;

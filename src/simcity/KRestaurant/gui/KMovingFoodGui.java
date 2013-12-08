@@ -6,12 +6,13 @@ import simcity.KRestaurant.KHostRole;
 import simcity.KRestaurant.KWaiterRole;
 import simcity.gui.Gui;
 import simcity.gui.SimCityGui;
+import simcity.interfaces.KWaiter;
 
 import java.awt.*;
 
 public class KMovingFoodGui implements Gui{
 
-	private KWaiterRole agent = null;
+	private KWaiter agent = null;
 	private boolean isPresent = false;
 
 	SimCityGui gui;
@@ -46,7 +47,7 @@ public class KMovingFoodGui implements Gui{
 	public int table;
 	public String type;
 	
-	public KMovingFoodGui(KCookRole c, KWaiterRole w, SimCityGui gui2, int ypos, String s){ //HostAgent m) {
+	public KMovingFoodGui(KCookRole c, KWaiter w, SimCityGui gui2, int ypos, String s){ //HostAgent m) {
 		cook = c;
 		agent = w;
 		xPos = 500;

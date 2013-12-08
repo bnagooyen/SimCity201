@@ -24,7 +24,7 @@ public class DCookGui implements Gui {
     	else return false;
     }
     
-    SimCityGui gui;
+   // SimCityGui gui;
     private int tableGoingTo;
 
     private int xPos = -20, yPos = -20;//default waiter position
@@ -59,7 +59,9 @@ public class DCookGui implements Gui {
 
     public static final int grill_xsz= 40;
     public static final int grill_ysz = 30;
-  
+    
+    public static final int theDoor = -40;
+   
     public static final int grillPizza_y =220;
     public static final int grillChicken_y =180;
     public static final int grillSteak_y =140;
@@ -93,7 +95,7 @@ public class DCookGui implements Gui {
     
     //int numPlating=1;
     
-    enum Command {none, GoToFridge, GoToPizzaGrill, GoToSteakGrill, GoToChickenGrill, GoToSaladGrill, GoToPlating};
+    enum Command {none, GoToFridge, GoToPizzaGrill, GoToSteakGrill, GoToChickenGrill, GoToSaladGrill, GoToPlating, GoToKitchen, GoHome};
     Command command= Command.none;
     
     //public String[] foodReady= new String[nTABLES];
@@ -110,18 +112,18 @@ public class DCookGui implements Gui {
     
    //f private void setSeatingAt(int t) { seatingAt=t; }
     
-    public DCookGui(DCookRole agent, SimCityGui g) {
-    	gui=g;
+    public DCookGui(DCookRole agent) {
+
         this.agent = agent;
         madeToFront=true;
 //        for(int i=0; i<labelIsShowing.length;i++)
 //        	labelIsShowing[i]=false;
         
-        xPos = hangout_x;
-        yPos = hangout_y;
+        xPos = -40;
+        yPos = -40;
         
-        xDestination=xPos;
-        yDestination=yPos;
+        xDestination=-40;
+        yDestination=-40;
     }
 
     @Override
@@ -139,7 +141,13 @@ public class DCookGui implements Gui {
 
         else if (xPos == xDestination && yPos == yDestination)
         {
-        		if (command==Command.GoToFridge) {
+        		if(command==Command.GoToKitchen) {
+        			agent.msgAnimationArrivedAtKitchen();
+        		}
+        		else if(command==Command.GoHome) {
+        			agent.msgAnimationLeftRestaurant();
+        		}
+        		else if (command==Command.GoToFridge) {
         			agent.msgAnimationArrivedAtFridge();
         			
         			//DoGoToHangout();
@@ -299,6 +307,16 @@ public class DCookGui implements Gui {
         return true;
     }
     
+    public void DoGoToKitchen() {
+    	command=Command.GoToKitchen;
+    	xDestination=hangout_x;
+    	yDestination=hangout_y;
+    }
+    public void DoLeaveRestaurant() {
+    	command=Command.GoHome;
+    	xDestination=theDoor;
+    	yDestination=theDoor;
+    }
    public static void DoClearPlating(String foo) {
 //    	System.err.println(foo);
 //    	System.err.println("called");
@@ -319,7 +337,13 @@ public class DCookGui implements Gui {
     	
     	numPlated--;
     }
-    
+   
+   public void DoGoToHangout() {
+	   xDestination = hangout_x;
+	   yDestination = hangout_y;
+	   command=Command.GoToKitchen;
+   }
+   
     public void DoGoToRefrigerator() {
     	command=Command.GoToFridge;
     	xDestination=allKitchenItems_x;

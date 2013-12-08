@@ -5,6 +5,7 @@ import simcity.KRestaurant.KCashierRole;
 import simcity.KRestaurant.KCashierRole.Order;
 import simcity.KRestaurant.KCashierRole.orderState;
 import simcity.KRestaurant.KCashierRole.paidState;
+import simcity.interfaces.KCashier;
 import simcity.test.mock.MockCustomer;
 //import restaurant.CashierAgent.cashierBillState;
 //import restaurant.WaiterAgent.Bill;
@@ -39,6 +40,7 @@ public class KCashierTest extends TestCase
 		cashier.myPerson = p;
 		customer = new MockKRestaurantCustomer("mockcustomer");		
 		waiter = new MockKRestaurantWaiter("mockwaiter");
+		cashier.arrived = false;
 //		market1 = new MockMarket("mockMarket1");
 //		market2 = new MockMarket("mockMarket2");
 	}	
@@ -133,7 +135,7 @@ public class KCashierTest extends TestCase
 	 */
 	public void testCustomerNeedsChange()
 	{
-		customer.cashier = cashier;
+		customer.cashier =  cashier;
 		
 		// check preconditions
 		assertEquals("cashier should have zero bills", cashier.bills.size(), 0);

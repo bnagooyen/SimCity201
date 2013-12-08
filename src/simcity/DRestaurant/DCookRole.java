@@ -4,7 +4,10 @@ import simcity.DRestaurant.DCookRole.InventoryOrder.InventoryOrderState;
 import simcity.DRestaurant.DOrder.OrderState;
 import agent.Role;
 import simcity.Market.MFoodOrder;
+import simcity.gui.SimCityGui;
 import simcity.gui.DGui.DCookGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Cook;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.DCook;
@@ -28,7 +31,7 @@ import java.util.concurrent.Semaphore;
 public class DCookRole extends Role implements DCook, Cook{
 
         private DProducerConsumerMonitor theMonitor;
-        
+        SimCityGui gui;
         Timer timer = new Timer();
         private String name;
         private Map<String, DFood> myFood = new HashMap<String, DFood>();
@@ -38,12 +41,15 @@ public class DCookRole extends Role implements DCook, Cook{
         private int threshold = 4;
         //private final int NUM_MARKETS = 3;
     
-    public DCookGui CookGui = null;
+        public DCookGui CookGui = null;
         
         private Semaphore atFridge = new Semaphore(0,true);
         private Semaphore atGrill = new Semaphore(0, true);
         private Semaphore atPlating = new Semaphore(0, true);
+        private Semaphore atKitchen = new Semaphore(0, true);
+        private Semaphore atTheDoor = new Semaphore(0, true);
         
+        //boolean justArrived;
         DCashier myCashier;
         private DWaiterRole waiter;
         private DHostRole host;
@@ -62,13 +68,14 @@ public class DCookRole extends Role implements DCook, Cook{
         private int ORDER_ID;
         ArrayList<MFoodOrder> orderToMarket = new ArrayList<MFoodOrder>();
         //private int marketToSendOrdersTo;
-
-        
+        enum CookState {justArrived, atKitchen, offDuty, onDuty};
+        CookState state;
+        //boolean goingToKitchen=false, inKitchen =false;
         boolean RestaurantIsOpen, CheckedAtFirst;// valsAreSet;
         
-        public DCookRole() {
+        public DCookRole(SimCityGui gui) {
                 super();
-        
+                this.gui=gui;
                 
                 //GRADER: CHANGE KITCHEN VALS HERE
                 //myFood.put("Chicken", new Food("Chicken", 5, X));
@@ -79,9 +86,9 @@ public class DCookRole extends Role implements DCook, Cook{
                 myFood.put("Steak", new DFood("Steak", 10, initialFoodAmnt));
                 myFood.put("Salad", new DFood("Salad", 3, initialFoodAmnt));
                 myFood.put("Pizza", new DFood("Pizza", 6, initialFoodAmnt));
-                System.out.println("INITALIZE VALUES OF KITCHEN AND HIT 'SET' IN ORDER FOR COOK TO BEGIN CHECKING IF READY FOR OPEN");
-                System.out.println("Cook Kitchen Inventory is initialized to "+ initialFoodAmnt+ " and threshold is "+ threshold);
-                System.out.println("Maximum capacity in kitchen is 10");
+               // System.out.println("INITALIZE VALUES OF KITCHEN AND HIT 'SET' IN ORDER FOR COOK TO BEGIN CHECKING IF READY FOR OPEN");
+                //System.out.println("Cook Kitchen Inventory is initialized to "+ initialFoodAmnt+ " and threshold is "+ threshold);
+               // System.out.println("Maximum capacity in kitchen is 10");
         
                 grillOccupied.put("Pizza", false);
                 grillOccupied.put("Steak", false);
@@ -98,14 +105,19 @@ public class DCookRole extends Role implements DCook, Cook{
                 //marketToSendOrdersTo=1;
                 
                 ORDER_ID=1;
-                
+                state=CookState.justArrived;
                 RestaurantIsOpen=false; CheckedAtFirst=false; //valsAreSet=false;
-                
+                //justArrived = true;
         }
 
 
         // The animation DoXYZ() routines
-        
+        private void DoGoToKitchen() {
+        	CookGui.DoGoToKitchen();
+        }
+        private void DoLeaveRestaurant() {
+        	CookGui.DoLeaveRestaurant();
+        }
         private void DoClearPlating(String foo) {
                 simcity.gui.DGui.DCookGui.DoClearPlating(foo);
         }
@@ -167,6 +179,7 @@ public class DCookRole extends Role implements DCook, Cook{
                 waiter=w;
         }
         
+        
 //        public void msgAddMarket(DMarketAgent m) {
 //                //System.out.println("added");
 //                markets.add(m);
@@ -198,9 +211,12 @@ public class DCookRole extends Role implements DCook, Cook{
                         myFood.put("Steak", new DFood("Steak", 10, initialFoodAmnt));
                         myFood.put("Salad", new DFood("Salad", 3, initialFoodAmnt));
                         myFood.put("Pizza", new DFood("Pizza", 6, initialFoodAmnt));
+                        
+                        AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Cook kitchen inventory updated");
                         System.out.println("Cook Kitchen Inventory is updated to "+ initialFoodAmnt);
                 }
                 else {
+                		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Kitchen filled to capacity");
                         System.out.println("kitchen filled to capacity!");
                 }
         }
@@ -223,16 +239,26 @@ public class DCookRole extends Role implements DCook, Cook{
         
         /********help me please!!!*********/
 
+        public void msgOffDuty(double money){
+        	myPerson.money+=money;
+        	state=CookState.offDuty;
+        	stateChanged();
+        }
         @Override
         public void msgHereIsDelivery(List<MFoodOrder> canGive, double check,
                         MarketManager manager, MarketCashier mc) {
                 // TODO Auto-generated method stub
         		MyDelivery dlv = new MyDelivery(canGive, check, mc, manager);
+        		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Received delivery");
         		System.out.println("received delivery with bill = "+ dlv.check);
                 delivery.add(dlv);
                 stateChanged();
         }
 
+        public void msgOnDuty() {
+        	state=CookState.onDuty;
+        	stateChanged();
+        }
 
         @Override
         public void msgGoToCashier(MarketCashier c) {
@@ -269,6 +295,7 @@ public class DCookRole extends Role implements DCook, Cook{
 //        }
         
         public void msgShouldIPayThisBill(double amt, MarketManager ma) {
+        		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Approving bill to pay");
                 System.out.println("cashier received shouldipaythisbill for "+amt);
                 for(InventoryOrder o: myOrders){
                         if(o.market==ma) {
@@ -284,6 +311,7 @@ public class DCookRole extends Role implements DCook, Cook{
         
         public void msgHereIsAnOrder(DOrder order) {
                 orders.add(new DOrder(order.getChoice(), order.getTablenum(), order.getWaiter()));
+                AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Received order");
                 System.out.println("cook received order of "+ order.getChoice()+ " from table "+order.tablenum);
                 stateChanged();
         }
@@ -330,6 +358,14 @@ public class DCookRole extends Role implements DCook, Cook{
 //                
 //        }
         
+        public void msgAnimationArrivedAtKitchen() {
+        	atKitchen.release();
+        	stateChanged();
+        }
+        public void msgAnimationLeftRestaurant() {
+        	atTheDoor.release();
+        	stateChanged();
+        }
         public void msgAnimationArrivedAtFridge() {
                 atFridge.release();
                 stateChanged();
@@ -364,7 +400,23 @@ public class DCookRole extends Role implements DCook, Cook{
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
+            
                  */
+        	
+        	if(state==CookState.justArrived) {
+        		tellHost();
+        		return true;
+        	}
+        	
+        	if(state==CookState.onDuty) {
+        		goToKitchen();
+        		return true;
+        	}
+        	
+        	if(state==CookState.offDuty) {
+        		leaveRestaurant();
+        		return true;
+        	}
                 synchronized(orders) {
                 for(int i=0; i<orders.size(); i++) {
                         if(orders.get(i).state==OrderState.clearPlating) {
@@ -434,12 +486,14 @@ public class DCookRole extends Role implements DCook, Cook{
 
                 
                 
-                if(!RestaurantIsOpen && !waitingForInventory) {
+                if(!RestaurantIsOpen && !waitingForInventory && state==CookState.atKitchen) {
                         CheckIfFullyStocked(); 
                         return true;
                 }
                 
+                if(state==CookState.atKitchen) {
                 CheckRotatingStand();
+                }
                 
                 return false;
                 //we have tried all our rules and found
@@ -449,11 +503,44 @@ public class DCookRole extends Role implements DCook, Cook{
 
 
         // Actions
-        
+        		private void tellHost() {
+        			if(CookGui==null) {
+        				CookGui = new DCookGui(this);
+        				gui.myPanels.get("Restaurant 3").panel.addGui(CookGui);
+        				host.msgIAmHere(this, "cook");
+        			}
+        		}
+        		
+        		private void goToKitchen() {
+        			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "On duty. Going to kitchen");
+        			Do("On duty.. going to kitchen");
+        			DoGoToKitchen();
+        			try {
+						atKitchen.acquire();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        			//goingToKitchen=false;
+        			//inKitchen=true;
+        			state=CookState.atKitchen;
+        		}
+        		private void leaveRestaurant() {
+        			DoLeaveRestaurant();
+        			try {
+						atTheDoor.acquire();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        			state=CookState.justArrived;
+        			isActive=false;
+        		}
                 private void CheckRotatingStand() {
                         //System.err.println("checking the stand");
                         DOrder o = theMonitor.remove();
                         if(o!=null) {
+                        		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Received order from revolving table");
                                 System.out.println("Order Received from Revolving Table");
                                 DOrder newOrder = new DOrder(o.getChoice(), o.getTablenum(), o.getWaiter());
                                 orders.add(newOrder);
@@ -469,6 +556,7 @@ public class DCookRole extends Role implements DCook, Cook{
                 }
         
                 private void NotifyCashierOfVerification(InventoryOrder o) {
+                		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Notifying cashier");
                         System.out.println("notifying cashier");
                         if(o.state==InventoryOrderState.approved) {
                                 myCashier.msgAnswerVerificationRequest(true);
@@ -493,7 +581,7 @@ public class DCookRole extends Role implements DCook, Cook{
                 }
                 
                 private void CookOrder(final DOrder o) {
-//                        System.out.println("asdfjlaksdjflkasj");
+//                        
                         DFood food=myFood.get(o.getChoice());
                         
                         if(food.getAmount()==0) {
@@ -622,6 +710,7 @@ public class DCookRole extends Role implements DCook, Cook{
                                         
                                 }
                          */
+                		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Need to order");
                         System.out.println("need to order");
                         double billAmnt = 0;
                         orderToMarket.clear(); //restart a new order
@@ -690,7 +779,7 @@ public class DCookRole extends Role implements DCook, Cook{
                         }
                         
                         
-                        
+                        AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "Sent a reorder");
                         System.out.println("Cook sent reorder");
                         //markets.get(reord.mktOrderingFrom-1).msgHereIsAnInventoryOrder(reord.myorder, ORDER_ID, myCashier);
                         //reord.market=markets.get(reord.mktOrderingFrom-1);

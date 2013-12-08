@@ -4,6 +4,8 @@ import simcity.DRestaurant.DCashierRole.InventoryBill.InventoryBillState;
 import simcity.DRestaurant.DCheck.CheckState;
 import simcity.DRestaurant.DCheck;
 import agent.Role;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.DCook;
 import simcity.interfaces.DCustomer;
@@ -34,7 +36,8 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	//list of waiters
 	//public List<WaiterAgent> waiters = new ArrayList<WaiterAgent>();
 	DCook myCook = null;
-	
+	enum CashierState {arrived, working, offDuty};
+	CashierState state;
 	public static final double MKT_interestRate=0.10;
 	
 	//public Collection<Table> tables;
@@ -45,7 +48,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	private Semaphore atTable = new Semaphore(0,true);
 	private Map<String, Double> prices = new HashMap<String, Double>();
 	private DWaiter waiterAtRegister=null;
-	private DHost host = null;
+	private DHostRole host = null;
 	private double registerAmnt;
 	//public HostGui hostGui = null;
 	//Map<String, Double> blacklist = new HashMap<String, Double>();
@@ -70,6 +73,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 		
 		registerAmnt=300;
 		//inventoryBills.clear();
+		state=CashierState.arrived;
 
 	}
 
@@ -99,13 +103,32 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	
 
 	// Messages
+	
+	//utilities
+
+
+	public void AddHost(DHostRole host2) {
+		// TODO Auto-generated method stub
+		this.host=host2;
+	}
 	public void AddCook(DCook tba) {
 		myCook = tba;
 	}
+
 //	public void msgMadeInventoryOrder(int ORDER_ID, double billAmt, Market m) {
 //		inventoryBills.add(new InventoryBill(billAmt, m));
 //	}
 	
+	public void msgOffDuty(double pay) {
+		myPerson.money+=pay;
+		state=CashierState.offDuty;
+		stateChanged();
+	}
+	public void msgRegisterAmount(double amt) {
+		registerAmnt=amt;
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCashierRole", "Register is loaded");
+		Do("Register is loaded: "+registerAmnt);
+	}
 	@Override
 	public void msgAnswerVerificationRequest(boolean yn) {
 		System.out.println("\n cashier received answer verification " + (yn ? "yes" : "no"));
@@ -123,6 +146,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	@Override
 	public void msgBillFromMarket(double check, MarketCashier marketCashier, MarketManager manager) {
 		// TODO Auto-generated method stub
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCashierRole", "Received bill from market");
 			System.out.print("received bill from "+ marketCashier+" for "+ check);
 	//	inventoryBills.add(new InventoryBill(amnt, market1));
 		//log.add(new LoggedEvent("Received msgHereIsAnInventoryBill"));
@@ -148,7 +172,8 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	public void msgComputeBill(String choice, DCustomer cust, String name, int tnum, DWaiter wa) {
 		//System.out.println("received request for bill for table "+ (char)tnum);
 		myBills.add(new DCheck(choice, cust, name, tnum, wa)); // is that ok?
-		System.out.println("bill reqest added for customer "+ cust+ " at table"+ tnum);
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCashierRole", "Bill request added for customer");
+		System.out.println("bill request added for customer "+ cust+ " at table"+ tnum);
 		stateChanged();
 	}
 	
@@ -182,6 +207,14 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
             If so seat him at the table.
 		 */
 		//System.out.println('');
+		if(state==CashierState.arrived) {
+			tellHost();
+			return true;
+		}
+		if(state==CashierState.offDuty) {
+			leaveRestaurant();
+			return true;
+		}
 		synchronized(myBills) {
 		for(DCheck b: myBills) {
 			if(b.state==CheckState.processing) {
@@ -250,7 +283,16 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	}
 
 	// Actions
-	 
+	private void tellHost(){
+		host.msgIAmHere(this, "cashier");
+		state=CashierState.working;
+	}
+	private void leaveRestaurant() {
+		host.msgRegisterMoney(registerAmnt);
+		registerAmnt=0;
+		state=CashierState.arrived;
+		isActive=false;
+	}
 	private void RemoveFraudulentBill(InventoryBill bi) {
 		inventoryBills.remove(bi);
 	}
@@ -267,6 +309,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 			bi.state=InventoryBillState.couldNotAfford;
 			bi.amnt=Double.parseDouble(df.format((1+ MKT_interestRate)*bi.amnt));
 //			System.err.println(bi.amnt);
+			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCashierRole", "Could not afford this inventory bill");
 			Do("Could not afford this inventory bill, bill value updated to "+ bi.amnt);
 			return;
 		}
@@ -324,6 +367,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 				for(DCheck findDebt: myBills) {
 					if (findDebt.state==CheckState.debt && findDebt.getCustomer()== bill.getCustomer()) {
 						//found some debt!
+						AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCashierRole", "Found debt");
 						System.out.println("found debt of "+findDebt.debt+" for this customer");
 						bill.BillAmnt+=findDebt.debt;
 						bill.BillAmnt=Double.parseDouble(df.format(bill.BillAmnt));
@@ -331,6 +375,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 				}
 				
 				waiterAtRegister.msgHereIsABill(bill);
+				AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCashierRole", "Bill added");
 				System.out.println("bill added");
 				bill.state=CheckState.sent;
 				//myBills.remove(bill);
@@ -344,6 +389,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	}
 	
 	private void ComputeChange(DCheck bi) {
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCashierRole", "Computing change");
 		Do("computing change");
 		
 		
@@ -410,13 +456,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 			return amnt;
 		}
 	}
-	//utilities
 
-
-	public void AddHost(DHost host) {
-		// TODO Auto-generated method stub
-		this.host=host;
-	}
 
 
 

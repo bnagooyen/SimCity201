@@ -8,6 +8,7 @@ import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
+import simcity.interfaces.RestaurantCashier;
 
 public class MockMarketManager extends Mock implements MarketManager{
 
@@ -39,12 +40,6 @@ public class MockMarketManager extends Mock implements MarketManager{
 		log.add(e);
 	}
 
-	@Override
-	public void msgIAmHere(Role r, List<MFoodOrder> need, String building,
-			String type) {
-		LoggedEvent e = new LoggedEvent("got order from cook");
-		log.add(e);
-	}
 
 	@Override
 	public void msgLoadDeliveryTruck(MarketCashier cashier,
@@ -63,6 +58,26 @@ public class MockMarketManager extends Mock implements MarketManager{
 	public void msgHereIsMoney(double money) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void msgRestaurantClosed(Role r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgRestaurantOpen(Role r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgIAmHere(Role r, List<MFoodOrder> need, String building,
+			String type, RestaurantCashier cashier) {
+		LoggedEvent e = new LoggedEvent("got order from cook");
+		log.add(e);
+			
 	}
 
 }

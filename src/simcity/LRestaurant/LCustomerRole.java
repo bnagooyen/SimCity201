@@ -6,6 +6,8 @@ import simcity.LRestaurant.gui.LCustomerGui;
 import simcity.LRestaurant.LMenu;
 import simcity.PersonAgent;
 import simcity.LRestaurant.LMenu;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.LCashier;
 import simcity.interfaces.LCustomer;
 import simcity.interfaces.LHost;
@@ -58,51 +60,19 @@ public class LCustomerRole extends Role implements LCustomer{
         public LCustomerRole(){
                 //super(p);
                 needToPay = 0;
-//                givenName = p.getName();
-//                name = givenName.split("-"); //name-money-choice-behavior
-//
-//                m = new LMenu();
-//
-//                if(name.length != 4){ //cases just in case user fails to input everything
-//                        name = new String[] {"Default","20","S","wait"};
-//                }
-//
-//                if(isNumeric(name[1])){
-//                        money = Integer.parseInt(name[1]);
-//                }
-//                else{
-//                        //name = new String[] {"Default","20","S","wait"};
-//                		money = 20;
-//                }
-//                
-//                        
-//                //use name input as the choice
-//                if(name[2].equals("S") || name[2].equals("Ch")  || name[2].equals("St")  || name[2].equals("P") ){
-//                        choice = name[2];
-//                }
-//                else{
-//                        //name = new String[] {"Default","20","S","wait"};
-//                		choice = "S";
-//                }
-//
-//                if(name[3].equals("leave")){
-//                        willStay = false;
-//                }
-//                else{
-//                        willStay = true;
-//                }
+
         }
 
-        private boolean isNumeric(String string) {
-                try{
-                        @SuppressWarnings("unused")
-                        int num = Integer.parseInt(string);
-                }
-                catch(NumberFormatException error){
-                        return false;
-                }
-                return true;
-        }
+//        private boolean isNumeric(String string) {
+//                try{
+//                        @SuppressWarnings("unused")
+//                        int num = Integer.parseInt(string);
+//                }
+//                catch(NumberFormatException error){
+//                        return false;
+//                }
+//                return true;
+//        }
 
         /**
          * hack to establish connection to Host agent.
@@ -133,7 +103,8 @@ public class LCustomerRole extends Role implements LCustomer{
 		}
         
         public void gotHungry() {//from animation
-                print("I'm hungry");
+        		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "I'm hungry");
+        		Do("I'm hungry");
                 event = AgentEvent.gotHungry;
                 stateChanged();
         }
@@ -147,6 +118,7 @@ public class LCustomerRole extends Role implements LCustomer{
                 this.waiter = w;
                 this.m = m;
                 table = tableNumber;
+                AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Received msgSitAtTable");
                 print("Received msgSitAtTable");
                 event = AgentEvent.followWaiter;
                 //canOrder = m.affordable(money);
@@ -160,18 +132,19 @@ public class LCustomerRole extends Role implements LCustomer{
         }
 
         public void msgWhatWouldYouLike() {
-                //print("Received msgSitAtTable");
+            
                 event = AgentEvent.orderFood;
                 stateChanged();
         }
 
         public void msgHereIsFood() {
-                //print("Received msgSitAtTable");
+               
                 event = AgentEvent.gotFood;
                 stateChanged();
         }
 
         public void msgHereIsCheck(int check){
+        		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Received check from waiter");
                 Do("Received check from waiter");
                 this.check = check;
                 event = AgentEvent.gettingWallet;
@@ -283,8 +256,9 @@ public class LCustomerRole extends Role implements LCustomer{
         // Actions
 
         private void goToRestaurant() {
+        		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Going to restaurant");
                 Do("Going to restaurant");
-                //customerGui.DoWait();
+                customerGui.DoWait();
                 host.msgIWantToEat(this);//send our instance, so he can respond to us
         }
 
@@ -294,7 +268,7 @@ public class LCustomerRole extends Role implements LCustomer{
                 if(!willStay){
                         Do("Too full, deciding to leave.");
                         host.msgChoseToLeave(this);
-                        //customerGui.DoExitRestaurant();
+                        customerGui.DoExitRestaurant();
                         state = AgentState.DoingNothing;
                 }
                 else{
@@ -308,13 +282,14 @@ public class LCustomerRole extends Role implements LCustomer{
         }
 
         private void SitDownTable(int tableNum) {
+        		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Being seated. Going to table");
                 Do("Being seated. Going to table");
-                //customerGui.DoGoToSeat(tableNum);
+                customerGui.DoGoToSeat(tableNum);
 //                host.msgLeftLine();
         }
 
         private void DecidingOrder() {
-                //customerGui.deciding();
+                customerGui.deciding();
 
                 boolean stillOrdering = true;
                 canOrder = m.affordable(money);
@@ -337,13 +312,15 @@ public class LCustomerRole extends Role implements LCustomer{
                         },
                         1000);
 
-                        //customerGui.setFood(choice);
+                        customerGui.setFood(choice);
+                        AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Deciding order");
                         Do("Deciding order " + choice);
                 }
                 else{
                         timer.schedule(new TimerTask() {
                         public void run() {
-                                        Do("Cannot afford. Leaving.");
+                        				AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Cannot afford. Leaving");
+                                    	Do("Cannot afford. Leaving.");
                                         state = AgentState.noOrder;
                                         event = AgentEvent.noMoney; //leaving table
                                         stateChanged();
@@ -354,12 +331,14 @@ public class LCustomerRole extends Role implements LCustomer{
         }
 
         private void ReadyToOrder() {
-                print("Ready to Order.");
+        		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Ready to Order");
+                Do("Ready to Order.");
                 waiter.msgReadyToOrder(this);
         }
 
         private void TellingOrder() {
-                //customerGui.doneDeciding();
+                customerGui.doneDeciding();
+        	AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Telling order");
                 Do("Telling order");
 
                 timer.schedule(new TimerTask() {
@@ -374,15 +353,16 @@ public class LCustomerRole extends Role implements LCustomer{
         }
 
         private void GiveOrder() {
+        		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Ordering");
                 Do("Ordering");
                 waiter.msgHereIsMyChoice(this,choice);
         }
 
 
         private void EatFood() {
-                //customerGui.gotFood();
-
-                Do("Eating Food");
+                customerGui.gotFood();
+        		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Eating food");
+                Do("Eating food");
                 //This next complicated line creates and starts a timer thread.
                 //We schedule a deadline of getHungerLevel()*1000 milliseconds.
                 //When that time elapses, it will call back to the run routine
@@ -393,6 +373,7 @@ public class LCustomerRole extends Role implements LCustomer{
                 //anonymous inner class that has the public method run() in it.
                 timer.schedule(new TimerTask() {
                         public void run() {
+                        		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Done eating");
                                 print("Done eating, " + choice);
                                 event = AgentEvent.doneEating;
                                 //isHungry = false;
@@ -403,6 +384,7 @@ public class LCustomerRole extends Role implements LCustomer{
         }
 
         private void askForCheck(){
+        		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Asking waiter for check");
                 Do("Asking waiter for check");
                 waiter.msgReadyForCheck(this);
                 event = AgentEvent.askedForCheck;
@@ -416,6 +398,7 @@ public class LCustomerRole extends Role implements LCustomer{
 
                 Do("needToPay = "+needToPay);
                 Do("Money = "+money);
+                AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Leaving and heading to cashier");
                 Do("Leaving and heading to cashier");
                 cashier.msgHereIsPayment(this,money,needToPay);
                 event = AgentEvent.paying;
@@ -423,12 +406,14 @@ public class LCustomerRole extends Role implements LCustomer{
         }
 
         private void leaveTable() {
-                //customerGui.ateFood();
-                //customerGui.DoExitRestaurant();
+                customerGui.ateFood();
+                customerGui.DoExitRestaurant();
 
+        		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Left the restauarant");
                 Do("Left the restaurant");
                 waiter.msgDoneEatingAndLeaving(this);
                 if(money == 0){
+                		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Heading to bank");
                         goToBank();
                 }
         }

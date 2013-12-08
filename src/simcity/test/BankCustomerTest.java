@@ -5,6 +5,7 @@ import simcity.PersonAgent;
 import simcity.mockrole.MockRole;
 import simcity.Bank.BankCustomerRole;
 import simcity.Bank.BankCustomerRole.bankCustomerState;
+import simcity.Bank.gui.BankCustomerGui;
 import simcity.test.mock.MockBankManager;
 import simcity.test.mock.MockBankTeller;
 import simcity.test.mock.MockBankLoanOfficer;
@@ -25,7 +26,7 @@ public class BankCustomerTest extends TestCase{
 		
 		p = new PersonAgent("BankCustomer");
 		//mockrole=new MockRole("mockrole");
-		customer = new BankCustomerRole();
+		customer = new BankCustomerRole(null);
 		customer.myPerson=p;
 		p.addRole(customer);
 		mgr = new MockBankManager("MockBankManager");

@@ -1,5 +1,7 @@
 package simcity.interfaces;
 
+import simcity.TRestaurant.THostRole;
+
 
 /**
  * A sample Customer interface built to unit test a CashierAgent.
@@ -33,7 +35,11 @@ public interface TWaiter {
 
 	public abstract void msgOnBreak();
 	
-	public abstract void msgGoHome(double moneys); 
+	public abstract void msgGoHome(double moneys);
+
+	public abstract void setHost(THostRole tHostRole);
+
+	public abstract void setHomePosition(int i); 
 
 
 }

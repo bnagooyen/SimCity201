@@ -2,6 +2,8 @@ package simcity.TRestaurant;
 
 import agent.Role
 ;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
@@ -46,7 +48,8 @@ public class TCookRole extends Role implements TCook, Cook {
 	public TCookRole() {
 		super();
 		this.name = name;
-		addFood(); 
+		addFood();
+		arrived = true; 
 	}
 	
 	class Orders {
@@ -83,7 +86,8 @@ public class TCookRole extends Role implements TCook, Cook {
 		o.setTable(t);
 		o.setOrder(choice);
 		orders.add(o); 
-		print("Cook has received customer orders.");
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TCookRole", "Cook has received customer orders");
+		Do("Cook has received customer orders.");
 		stateChanged(); 
 	}
 	
@@ -130,6 +134,7 @@ public class TCookRole extends Role implements TCook, Cook {
 			if (m.m == manager) {
 				m.state = MarketState.received;
 				m.bill = bill; 
+				m.c = cashier; 
 			} 
 		}
 		}
@@ -146,7 +151,8 @@ public class TCookRole extends Role implements TCook, Cook {
 	public void msgUnfulfilledStock() {
 		buyingFood = false;
 		unFullfilled = true;
-		print ("Buying stock from different market"); 
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TCookRole", "Buying stock from different market");
+		Do("Buying stock from different market"); 
 		stateChanged(); 
 	}
 	
@@ -257,7 +263,8 @@ public class TCookRole extends Role implements TCook, Cook {
 	// Actions
 
 	private void tellHost() {
-		Do("telling manager I can work");
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TCookRole", "Telling manager I can work");
+		Do("Telling manager I can work");
 		arrived = false;
 		host.msgIAmHere(this, "Cook");
 	}
@@ -266,23 +273,24 @@ public class TCookRole extends Role implements TCook, Cook {
 		//goToFridge(); 
 		timer.schedule(new TimerTask() {
 			public void run() {
-				print("Done cooking food.");
+				AlertLog.getInstance().logInfo(AlertTag.Market, "TCookRole", "Done cooking food");
+				Do("Done cooking food.");
 				orders.get(orderNumber).status = OrderStatus.cooked; 
 				if (orders.get(orderNumber).order == "Steak") {
 					Supply.put("Steak", Supply.get("Steak") - 1);
-					print ("There are " + Supply.get("Steak") + " steaks left"); 
+					Do("There are " + Supply.get("Steak") + " steaks left"); 
 				}
 				if (orders.get(orderNumber).order == "Chicken") {
 					Supply.put("Chicken", Supply.get("Chicken") - 1); 
-					print ("There are " + Supply.get("Chicken") + " chickens left"); 
+					Do("There are " + Supply.get("Chicken") + " chickens left"); 
 				}
 				if (orders.get(orderNumber).order == "Salad") {
 					Supply.put("Salad", Supply.get("Salad") - 1); 
-					print ("There are " + Supply.get("Salad") + " salads left"); 
+					Do("There are " + Supply.get("Salad") + " salads left"); 
 				}
 				if (orders.get(orderNumber).order == "Pizza") {
 					Supply.put("Pizza", Supply.get("Pizza") - 1); 
-					print ("There are " + Supply.get("Pizza") + " pizzas left"); 
+					Do("There are " + Supply.get("Pizza") + " pizzas left"); 
 				}
 				/**
 				leaveFood();
@@ -303,7 +311,8 @@ public class TCookRole extends Role implements TCook, Cook {
 	}
 	
 	private void callWaiter(int orderNumber) {
-		print("Out of food");
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TCookRole", "Out of food");
+		Do("Out of food");
 		orders.get(orderNumber).thisWaiter.msgOutOfFood(orders.get(orderNumber).table); 
 	}
 	
@@ -324,7 +333,8 @@ public class TCookRole extends Role implements TCook, Cook {
 	private void BuyFood() {
 		
 		if (buyingFood == false) {
-			print("Buying food from market."); 
+			AlertLog.getInstance().logInfo(AlertTag.Market, "TCookRole", "Buying food from market");
+			Do("Buying food from market."); 
 			buyingFood = true;
 			int index = 0;
 			int checkedMarkets = 0; 
@@ -374,6 +384,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	
 	
 	private void goHome() {
+		AlertLog.getInstance().logInfo(AlertTag.Market, "TCookRole", "Going home");
 		Do("Going home");
 		isActive = false;
 		goHome = false;
@@ -397,14 +408,13 @@ public class TCookRole extends Role implements TCook, Cook {
 	}
 	*/
 	
-	/**
+	
 	//utilities 
-	public void addMarket(MarketAgent mart) {
-		Market m = new Market();
-		m.setMarket(mart);
+	public void addMarket(MarketManager manager) {
+		Market m = new Market(manager);
 		markets.add(m);
 	}
-	*/
+
 	
 	public void setHost(THostRole h) {
 		host = h;
@@ -448,9 +458,8 @@ public class TCookRole extends Role implements TCook, Cook {
 		boolean checked;
 		double bill;
 		
-		Market(MarketManager mar, MarketCashier c) {
+		Market(MarketManager mar) {
 			m = mar; 
-			this.c = c; 
 			checked = false;
 			state = MarketState.none; 
 		}

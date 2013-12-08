@@ -8,7 +8,6 @@ import simcity.PersonAgent;
 import simcity.Market.InventoryBoyRole;
 import simcity.Market.MFoodOrder;
 import simcity.Market.MOrder;
-import simcity.housing.LandlordRole;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.Person;
 import simcity.mockrole.MockRoleCook;
@@ -16,6 +15,7 @@ import simcity.mockrole.MockRoleMarketCashier;
 import simcity.mockrole.MockRoleMarketManager;
 import simcity.test.mock.MockBus;
 import simcity.test.mock.MockBusStop;
+import simcity.test.mock.MockCashier;
 import simcity.test.mock.MockCook;
 import simcity.test.mock.MockMarketCashier;
 import simcity.test.mock.MockMarketCustomer;
@@ -40,6 +40,7 @@ public class DeliveryTruckTest extends TestCase{
 	MockRoleMarketCashier cashier;
 	List<MFoodOrder>supply = Collections.synchronizedList(new ArrayList<MFoodOrder>());
 	MockRoleCook cook;
+	MockCashier restaurantCashier;
 	PersonAgent p;
 	
 
@@ -51,7 +52,7 @@ public class DeliveryTruckTest extends TestCase{
 		manager = new MockRoleMarketManager("mockManager");
 		cashier = new MockRoleMarketCashier("mockMarketCashier");
 		cook = new MockRoleCook("mockCook");
-
+		restaurantCashier = new MockCashier("mockCashier");
 	}
 	
 	
@@ -66,7 +67,7 @@ public class DeliveryTruckTest extends TestCase{
 		
 		//Ordered by manager to go to restaurant destination
 		supply.add(new MFoodOrder("Chicken", 2));
-		truck.msgGoToDestination(cashier, supply, "r1", 20.0, cook);
+		truck.msgGoToDestination(cashier, supply, "r1", 20.0, cook, restaurantCashier);
 		assertEquals("Truck state is receivedLocation", truck.state, truckState.receivedLocation);
 		assertEquals("Destination is set", truck.destination, "r1");
 		

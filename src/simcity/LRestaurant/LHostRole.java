@@ -12,6 +12,8 @@ import simcity.LRestaurant.LWaiterRole.WaiterState;
 import simcity.LRestaurant.gui.LWaiterGui;
 import simcity.LRestaurant.gui.LHostGui;
 import simcity.PersonAgent;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Host;
 import simcity.interfaces.LCook;
 import simcity.interfaces.LCustomer;
@@ -35,7 +37,7 @@ public class LHostRole extends Role implements LHost {
         //with List semantics.
         private List<MyCustomers> customers = Collections.synchronizedList(new ArrayList<MyCustomers>());
         private List<myWaiter> waiters = Collections.synchronizedList(new ArrayList<myWaiter>());
-        public List<MarketManager> markets =Collections.synchronizedList( new ArrayList<MarketManager>()); 
+//      public List<MarketManager> markets =Collections.synchronizedList( new ArrayList<MarketManager>()); 
         private Collection<Table> tables;
         int count = -1; //lining customers up
         int countW = -1; //lining waiters up
@@ -75,9 +77,9 @@ public class LHostRole extends Role implements LHost {
 
         }
         
-        public void addMarket(MarketManager m){
-    		markets.add(m);
-    	}
+//        public void addMarket(MarketManager m){
+//    		markets.add(m);
+//    	}
 
 //        public void addWaiter(LWaiterRole w){
 //                waiters.add(new myWaiter(w,0));//newly hired waiter 
@@ -128,14 +130,17 @@ public class LHostRole extends Role implements LHost {
         public void msgIAmHere(Role r, String type){
     		
     		if(type.equals("waiter")){
+    			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Waiter is here");
     			Do("Waiter is here");
     			waiters.add(new myWaiter((LWaiterRole) r,0));
     		}
     		else if(type.equals("cook")){
+    			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Cook is here");
     			Do("Cook is here");
     			cook = (LCookRole)r;
     		}
     		else if(type.equals("cashier")){
+    			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Cashier is here");
     			Do("Cashier is here");
     			cashier = (LCashierRole) r;
     		}
@@ -178,6 +183,7 @@ public class LHostRole extends Role implements LHost {
         }
 
         public void msgReadyToWork(LWaiterRole waiterRole){
+        		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Waiter is back");
                 Do("Waiter is back");
                 
                 synchronized(waiters){
@@ -191,6 +197,7 @@ public class LHostRole extends Role implements LHost {
         }
 
         public void msgWantToGoOnBreak(LWaiterRole waiter){
+        		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Waiter ask to go on break");
                 Do("Waiter ask to go on break");
                 
                 synchronized(waiters){
@@ -274,10 +281,10 @@ public class LHostRole extends Role implements LHost {
     			return true;
     		}
     		
-    		if(hour == 11 && !isClosed){ //restaurant opens hour
-    			tellOpen();
-    			return true;
-    		}
+//    		if(hour == 11 && !isClosed){ //restaurant opens hour
+//    			tellOpen();
+//    			return true;
+//    		}
 
                 synchronized(customers){
                         for(MyCustomers c: customers){
@@ -360,15 +367,16 @@ public class LHostRole extends Role implements LHost {
 
         // Actions
 
-        private void tellOpen(){
-        	synchronized(markets){
-    			for(MarketManager m : markets){
-    				m.msgRestaurantOpen(cook);
-    			}
-    		}
-        }
+//        private void tellOpen(){
+//        	synchronized(markets){
+//    			for(MarketManager m : markets){
+//    				m.msgRestaurantOpen(cook);
+//    			}
+//    		}
+//        }
         
         private void closeRestaurant(){ //pay employees 50
+        	AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Closing restaurant.");
     		Do("Closing restaurant. It is "+hour);
     		synchronized(waiters){
     			for(myWaiter w: waiters){
@@ -377,11 +385,11 @@ public class LHostRole extends Role implements LHost {
     			}
     		}
     		
-    		synchronized(markets){
-    			for(MarketManager m : markets){
-    				m.msgRestaurantClosed(cook);
-    			}
-    		}
+//    		synchronized(markets){
+//    			for(MarketManager m : markets){
+//    				m.msgRestaurantClosed(cook);
+//    			}
+//    		}
     		
     		cashier.msgGoHome(50);
     		cook.msgGoHome(50);
@@ -390,9 +398,11 @@ public class LHostRole extends Role implements LHost {
     		cashier = null;
     		cook = null;
     		isClosed = true;
+    		
     	}
     	
     	private void restaurantClosed() {
+    		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Telling market is closed");
     		Do("Telling market is closed");
     		synchronized(customers){
     			for(MyCustomers c: customers){
@@ -425,11 +435,13 @@ public class LHostRole extends Role implements LHost {
                 }
 
                 if(workingCount > 0){
+                		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Waiter can go on break");
                         Do("Waiter can go on break");
                         w.msgBreakReply(true);
                         mW.state = WaiterState.isOnBreak;
                 }
                 else{ 
+                		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Waiter cannot go on break");
                         Do("Waiter cannot go on break");
                         w.msgBreakReply(false);
                         mW.state = WaiterState.working;
@@ -549,9 +561,4 @@ public class LHostRole extends Role implements LHost {
 			
 		}
 
-		@Override
-		public void msgHereIsMoney(int restMoney) {
-			// TODO Auto-generated method stub
-			
-		}
 }

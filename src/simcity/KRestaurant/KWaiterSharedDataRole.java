@@ -3,6 +3,8 @@ package simcity.KRestaurant;
 import simcity.PersonAgent;
 import simcity.KRestaurant.KWaiterRole.customerstate;
 import simcity.gui.SimCityGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.KWaiter;
 import simcity.test.mock.LoggedEvent;
 import simcity.KRestaurant.KRestaurantOrder;
@@ -17,6 +19,7 @@ public class KWaiterSharedDataRole extends KWaiterRole implements KWaiter{
 	}
 
 	protected void giveCookOrder(MyCustomer c) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter", "sending cook order of " + c.choice);
 		Do(": sending cook order of " + c.choice);
 		c.s = customerstate.waitingForFood;
 		LoggedEvent e = new LoggedEvent("putting order on rotating stand");

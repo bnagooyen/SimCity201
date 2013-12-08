@@ -4,10 +4,11 @@ import simcity.KRestaurant.gui.KMovingFoodGui;
 import simcity.interfaces.KCashier;
 import simcity.interfaces.KCustomer;
 import simcity.interfaces.KWaiter;
+import simcity.interfaces.RestaurantCashier;
 
 public class MockKRestaurantWaiter extends Mock implements KWaiter{
 
-	public KCashier cashier; 
+	public RestaurantCashier cashier; 
 	public EventLog log;
 	
 	public MockKRestaurantWaiter(String name) {

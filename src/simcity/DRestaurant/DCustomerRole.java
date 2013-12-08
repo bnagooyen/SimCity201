@@ -2,6 +2,8 @@ package simcity.DRestaurant;
  
 import simcity.gui.SimCityGui;
 import simcity.gui.DGui.DCustomerGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.DCustomer;
 import agent.Agent;
 import agent.Role;
@@ -52,7 +54,7 @@ public class DCustomerRole extends Role implements DCustomer {
 	private AgentState state = AgentState.DoingNothing;//The start state
 
 	public enum AgentEvent 
-	{none, gotHungry, followHost, seated, iKnowWhatIWant, waiterIsHere, waiterIsHereForReorder, foodIsHere, doneEating, doneLeaving, arrivedAtCashier, gotReceipt, restaurantIsFull, goToHangout, tableReady};
+	{none, gotHungry, followHost, seated, iKnowWhatIWant, waiterIsHere, waiterIsHereForReorder, foodIsHere, doneEating, doneLeaving, arrivedAtCashier, gotReceipt, restaurantIsFull, goToHangout, tableReady, restaurantIsClosed};
 	AgentEvent event = AgentEvent.none; //initialized to none
 
 	/**
@@ -120,14 +122,20 @@ public class DCustomerRole extends Role implements DCustomer {
 	
 	public void ActivateRole() {
 		// TODO Auto-generated method stub
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCustomerRole", "I'm hungry");
 		print("I'm hungry");
 		event = AgentEvent.gotHungry; //event is the state change
 		stateChanged();
 	}
 	
+	public void msgRestaurantIsClosed() {
+		event=AgentEvent.restaurantIsClosed;
+		stateChanged();
+	}
 	@Override
 	public void msgNoRoomForYou() {
-		System.out.println("no room for me!");
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCustomerRole", "No room for me.");
+		Do("no room for me!");
 		event=AgentEvent.restaurantIsFull;
 		stateChanged();
 	}
@@ -158,6 +166,7 @@ public class DCustomerRole extends Role implements DCustomer {
 	@Override
 	public void msgHereIsYourBill(int tnum, double d) {
 		//System.out.println(tnum);
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCustomerRole", "Cust received bill");
 		System.out.println("cust received bill");
 		myBill = new DCheck(this, choice, tnum, d);
 //		System.err.println(myBill);
@@ -171,6 +180,7 @@ public class DCustomerRole extends Role implements DCustomer {
 	@Override
 	public void msgAnimationFinishedGoToSeat() {
 		//from animation
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCustomerRole", "I got to my seat.");
 		Do("I got to my seat!");
 		event=AgentEvent.seated;
 		stateChanged();
@@ -198,6 +208,7 @@ public class DCustomerRole extends Role implements DCustomer {
 	@Override
 	public void msgHereIsYourReceiptAndChange(double num) {
 		if(num>=0) {
+			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCustomerRole", "Customer received change");
 			System.out.println("customer received change of "+ num);
 			myPerson.money+=num;
 			//System.out.print("wallet now = "+ wallet);
@@ -237,6 +248,11 @@ public class DCustomerRole extends Role implements DCustomer {
 		
 		if (state == AgentState.WaitingInRestaurant && event == AgentEvent.restaurantIsFull ){
 			ShouldIStayOrShouldIGo();
+			return true;
+		}
+		
+		if(state==AgentState.WaitingInRestaurant && event == AgentEvent.restaurantIsClosed) {
+			LeaveRestaurant();
 			return true;
 		}
 		
@@ -310,13 +326,17 @@ public class DCustomerRole extends Role implements DCustomer {
 		customerGui = new DCustomerGui(this, rGui);
 		customerGui.setPresent(true);
 		rGui.myPanels.get("Restaurant 3").panel.addGui(customerGui);
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCustomerRole", "Going to restaurant");
 		Do("Going to restaurant");
 		state = AgentState.WaitingInRestaurant;
 		host.msgIWantFood(this);//send our instance, so he can respond to us
 //		host.msgIAmHere(this);
 		//System.err.println("sent iwantfood");
 	}
-	
+	private void LeaveRestaurant() {
+		DoLeaveRestaurant();
+		state=AgentState.Leaving;
+	}
 	private void ShouldIStayOrShouldIGo() {
 		//System.out.println("in shouldistay");
 		if(!stayOrLeave) {
@@ -347,6 +367,7 @@ public class DCustomerRole extends Role implements DCustomer {
 		host.msgHereToGetSeated(this);
 	}
 	private void SitDown() {
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCustomerRole", "Being seated. Going to table");
 		Do("Being seated. Going to table");
 		state = AgentState.BeingSeated;
 		DoGoToSeat();
@@ -372,6 +393,7 @@ public class DCustomerRole extends Role implements DCustomer {
 			@Override
 			public void run() {
 				
+				AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCustomerRole", "I know what I want");
 				Do("I know what I want!");
 				event = AgentEvent.iKnowWhatIWant;
 				//isHungry = false;
@@ -389,6 +411,7 @@ public class DCustomerRole extends Role implements DCustomer {
 	}
 	
 	private void GiveOrder() {
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCustomerRole", "Giving waiter order");
 		System.out.println("giving waiter order");
 		state = AgentState.Ordered;
 		if(myMenu.getPrice(choice)>myPerson.money) { //means can't afford what I ordered!
@@ -403,6 +426,8 @@ public class DCustomerRole extends Role implements DCustomer {
 				}
 			}
 			else {
+				
+				AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCustomerRole", "Made new choice");
 				System.out.println("made new choice");
 				choice = ch;
 			}
@@ -424,6 +449,8 @@ public class DCustomerRole extends Role implements DCustomer {
 			DoHideOrderCard();
 			return;
 		}
+		
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCustomerRole", "Giving waiter new order");
 		System.out.println("giving waiter new order");
 		String ch=myMenu.OutOf(choice, myPerson.money);
 		System.out.println("menu recommended " + ch);
@@ -463,7 +490,7 @@ public class DCustomerRole extends Role implements DCustomer {
 			Object cookie = 1;
 			@Override
 			public void run() {
-				print("Done eating, cookie=" + cookie);
+			
 				event = AgentEvent.doneEating;
 				DoHideOrderCard();
 				//isHungry = false;
@@ -474,7 +501,9 @@ public class DCustomerRole extends Role implements DCustomer {
 	}
 
 	private void leaveTable() {
+
 		System.out.println("In Customer action: Leave Table..");
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCustomerRole", "Leaving");
 		Do("Leaving.");
 		//state = AgentState.Leaving;
 		state = AgentState.GoingToCashier;
@@ -523,6 +552,7 @@ public class DCustomerRole extends Role implements DCustomer {
 	
 	private void clearState() {
 		state = AgentState.DoingNothing;
+		isActive=false;
 	}
 
 	//DoXYZ commands

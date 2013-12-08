@@ -15,15 +15,17 @@ import simcity.Bank.BankManagerRole.MyTeller.MyTellerState;
 import simcity.Bank.gui.BankManagerGui;
 import simcity.Bank.gui.BankTellerGui;
 import simcity.gui.SimCityGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 //import simcity.housing.LandlordRole;
 import simcity.interfaces.BankCustomer;
 import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.BankTeller;
+import simcity.interfaces.Landlord;
 //import simcity.interfaces.Landlord;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
-import agent.Agent;
 import agent.Role;
 
 public class BankManagerRole extends Role implements BankManager {
@@ -48,7 +50,7 @@ public class BankManagerRole extends Role implements BankManager {
 	private List<MyTeller> tellers = Collections.synchronizedList(new ArrayList<MyTeller>());
 	private List<MyLoanOfficer> officers = Collections.synchronizedList(new ArrayList<MyLoanOfficer>());
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
-	//public List<MyClient> clients = Collections.synchronizedList(new ArrayList<MyClient>()); 
+	public List<MyClient> clients = Collections.synchronizedList(new ArrayList<MyClient>()); 
 	public Map<Integer, MyAccount> accounts = new HashMap<Integer, MyAccount>();
 	int hour;
 	int checkAccount;
@@ -87,6 +89,7 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	public void msgTimeUpdate(int hr) {
 		hour=hr;
+		Do("Time is "+hr);
 		if(hr==1) bankState=BankState.arriving;
 		stateChanged();
 	}
@@ -100,21 +103,25 @@ public class BankManagerRole extends Role implements BankManager {
 	public void msgIAmHere(Role person, String type) {
 		//if(person.instanceof(BankTeller))
 		if(type.equals("BankTeller")) {
+			AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "BankTeller is here");
 			Do("BankTeller is here");
 			tellers.add(new MyTeller((BankTeller)person));
 			stateChanged();
 		}
 		else if (type.equals("BankLoanOfficer")) {
+			AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "BankLoanOfficer is here");
 			Do("BankLoanOfficer is here");
 			officers.add(new MyLoanOfficer((BankLoanOfficer)person));
 			stateChanged();
 		}
 		else if(type.equals("loan")) {
+			AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Customer with a loan is here");
 			Do("Customer with a loan is here");
 			customers.add(new MyCustomer((BankCustomer)person, MyCustomer.MyCustomerState.loan));
 			stateChanged();
 		}
 		else if(type.equals("transaction")) {
+			AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Customer with a transaction is here");
 			Do("Customer with a transaction is here");
 			customers.add(new MyCustomer((BankCustomer)person, MyCustomer.MyCustomerState.transaction));
 			stateChanged();
@@ -125,18 +132,21 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	public void msgAvailable(BankTeller t) {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "BankTeller available");
 		Do("BankTeller available");
 		tellers.get(0).state=MyTeller.MyTellerState.available;
 		stateChanged();	
 	}
 
 	public void msgAvailable(BankLoanOfficer t) {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "BankLoanOfficer available");
 		Do("BankLoanOfficer available");
 		officers.get(0).state=MyLoanOfficer.MyOfficerState.available;
 		stateChanged();		
 	}
 	
 	public void msgCreateAccount(String type) {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Going to create an account");
 		Do("Going to create account");
 		if(type.equals("BankTeller")) {
 			tellers.get(0).needsAccount=true;
@@ -148,6 +158,7 @@ public class BankManagerRole extends Role implements BankManager {
 		}
 	}
 	public void msgProcessTransaction(int AN, double amount) {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Processing transaction");
 		Do("Processing transaction");
 		tellers.get(0).requested=amount;
 		tellers.get(0).accountNum=AN;
@@ -155,6 +166,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	public void msgNewLoan(int AN, double amount) {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "New loan request");
 		Do("New loan request");
 		officers.get(0).requested=amount;
 		officers.get(0).accountNum=AN;
@@ -163,6 +175,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	public void msgGaveALoan(double cash) {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Gave loan");
 		Do("Gave loan");
 		vault -= cash;
 		stateChanged();
@@ -211,11 +224,11 @@ public class BankManagerRole extends Role implements BankManager {
 		atDest.release();
 	}
 	
-	/*public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill) {				//COMMENTED OUT
+	public void msgHereIsYourRentBill(Landlord l, Integer account, double rentBill) {				
 		Do("Receiving rent bill");
 		clients.add(new MyClient((Landlord) l, account, rentBill));
 		stateChanged(); 
-	}*/
+	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
@@ -328,10 +341,12 @@ public class BankManagerRole extends Role implements BankManager {
 	//actions
 	
 	private void OpenBank() {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Opening bank");
 		Do("Opening bank");
 		bankState=BankState.open;
 	}
 	private void SwapTellers() {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Switching out tellers");
 		Do("Switching out tellers");
 		bankmanagerGui.goToTellerPos();
 		finishTask();
@@ -345,6 +360,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void SwapLoanOfficers() {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Switching out loan officers");
 		Do("Switching out loan officers");
 //		bankManagerGui.goToLoanPos();
 //		finishTask();
@@ -358,6 +374,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void AddTeller() {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Adding teller");
 		Do("Adding teller");
 		tellers.get(0).emp.msgGoToTellerPosition();
 		tellers.get(0).state=MyTellerState.available;
@@ -365,6 +382,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void AddLoanOfficer() {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Adding loan officer");
 		Do("Adding loan officer");
 		officers.get(0).emp.msgGoToLoanOfficerPosition();
 		officers.get(0).state=MyOfficerState.available;
@@ -372,6 +390,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void SendCustomerToTeller(MyCustomer c) {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Telling customer to go to teller");
 		Do("Telling customer to go to teller");
 		tellers.get(0).state=MyTellerState.occupied;
 		c.customer.msgGoToTeller(tellers.get(0).emp);
@@ -379,6 +398,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void SendCustomerToLoanOfficer(MyCustomer c) {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Telling customer to go to loan officer");
 		Do("Telling customer to go to loan officer");
 		officers.get(0).state=MyOfficerState.occupied;
 		c.customer.msgGoToLoanOfficer(officers.get(0).emp);
@@ -398,6 +418,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}*/
 	
 	private void BankIsClosed() {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Telling customer bank is closed");
 		Do("Telling customer bank is closed");
 //		System.out.println("bankisclosed");
 		synchronized(customers) {
@@ -409,17 +430,20 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void CloseBank() {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Closing bank");
 		Do("Closing bank");
-		bankmanagerGui.goToTellerPos();
-		finishTask();		
-		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
-		tellers.clear();
+		bankState=BankState.closed;
 		bankmanagerGui.goToLoanPos();
 		finishTask();
 		officers.get(0).emp.msgGoHome((hour-officers.get(0).startHr)*employeePayPerHour);
 		officers.clear();
-		bankState=BankState.closed;
-		bankmanagerGui.goToCorner();;
+		bankmanagerGui.goToTellerPos();
+		finishTask();		
+		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
+		tellers.clear();
+		bankmanagerGui.goToManagerPos();
+		finishTask();
+		bankmanagerGui.goToCorner();
 		finishTask();
 		bankmanagerGui.DoExitBank();
 		finishTask();
@@ -428,6 +452,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void NewAccountForTeller() {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Making new account");
 		Do("Making new account");
 		accounts.put(accounts.size()+1, new MyAccount(0,0));
 		tellers.get(0).needsAccount=false;
@@ -435,6 +460,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void NewAccountForOfficer() {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Making new account");
 		Do("Making new account");
 		accounts.put(accounts.size()+1, new MyAccount(0,0));
 		officers.get(0).needsAccount=false;
@@ -442,6 +468,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void CompleteTransaction() {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Doing and completing transaction");
 		Do("Doing and completing transaction");
 		if(accounts.get(tellers.get(0).accountNum)==null) { // customer doesn't exist
 //			tellers.get(0).msgAccountInexistant();
@@ -452,8 +479,10 @@ public class BankManagerRole extends Role implements BankManager {
 			tellers.get(0).requested=-1*(accounts.get(tellers.get(0).accountNum).balance);
 		}
 		MyAccount update = accounts.get(tellers.get(0).accountNum);
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager","Account=$"+update.balance);
 		Do("Account=$"+update.balance);
 		update.balance+=tellers.get(0).requested;
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager","Account=$"+update.balance);
 		Do("Account=$"+update.balance);
 		vault-=tellers.get(0).requested;
 		accounts.put(tellers.get(0).accountNum, update);
@@ -464,6 +493,7 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 	
 	private void CompleteLoan() {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Doing and completing loan");
 		Do("Doing and completing loan");
 //		System.err.println(accounts.get(officers.get(0).accountNum));
 		if(accounts.get(officers.get(0).accountNum)==null) { //means account doesn't exist
@@ -522,6 +552,9 @@ public class BankManagerRole extends Role implements BankManager {
 	private void goToDesk(){
 		if(bankmanagerGui == null) {
 			bankmanagerGui = new BankManagerGui(this);
+			//System.err.println(gui);
+			//System.err.println(gui.myPanels);
+			//System.err.println(gui.myPanels.get("Bank 1").panel);
 			gui.myPanels.get("Bank 1").panel.addGui(bankmanagerGui);
 		}
 		bankmanagerGui.setPresent(true);
@@ -589,7 +622,7 @@ public class BankManagerRole extends Role implements BankManager {
 		
 	}
 	
-	/*class MyClient {
+	class MyClient {
 		public MyClient(Landlord l, Integer account, double rentBill) {
 			client = l; 
 			AN = account; 
@@ -600,7 +633,7 @@ public class BankManagerRole extends Role implements BankManager {
 		Integer AN; 
 		double bill; 	
 		
-	}*/
+	}
 	
 	public class MyAccount{
 	
