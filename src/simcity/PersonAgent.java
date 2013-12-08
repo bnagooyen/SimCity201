@@ -11,6 +11,7 @@ import simcity.Transportation.BusStopAgent;
 import simcity.gui.PersonGui;
 import simcity.housing.gui.ResidentGui;
 import simcity.housing.gui.TenantGui;
+import simcity.interfaces.Landlord;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -49,6 +50,11 @@ public class PersonAgent extends Agent {
 	public MoneyState moneystate;
 	private TransitState transit;
 	private BusAgent bus;
+	
+	//housing information
+	private Landlord myLandlord; 
+	private boolean needToPayRent = false; 
+	private double rentBill; 
 
 
 	//GUI
@@ -122,6 +128,14 @@ public class PersonAgent extends Agent {
 		//mydestination=destination;
 		transit = TransitState.getOffBus;
 		stateChanged();
+	}
+	
+	public void msgHereIsYourRentBill(Landlord l, double rentBill) {
+		Do("Receiving rent bill");
+		myLandlord = l;
+		this.rentBill = rentBill; 
+		needToPayRent = true; 
+		stateChanged(); 
 	}
 
 	//Animation Messages

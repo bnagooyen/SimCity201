@@ -259,6 +259,7 @@ public class PersonGui implements Gui {
     
     public void DoGoTo(String destination) {
     	System.out.print("Going to " + destination);
+    	isPresent = true; 
     	if(destination.contains("Restaurant")) {
     		Point myDest = myMap.get(destination);
     		xDestination = myDest.x;
