@@ -30,9 +30,7 @@ public class MockDeliveryTruck extends MockRole implements DeliveryTruck{
 	}
 
 	@Override
-	public void msgGoToDestination(MarketCashier cashier,
-			List<MFoodOrder> deliver, String location, double bill, Cook c,
-			RestaurantCashier rcashier) {
+	public void msgGoToDestination(MarketCashier cashier,List<MFoodOrder> deliver, String location, double bill, Cook c,RestaurantCashier rcashier) {
 		LoggedEvent e = new LoggedEvent("Received msgGoToDestination");
 		log.add(e);		
 	}
