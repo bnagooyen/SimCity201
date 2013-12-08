@@ -133,6 +133,7 @@ public class TCookRole extends Role implements TCook, Cook {
 			if (m.m == manager) {
 				m.state = MarketState.received;
 				m.bill = bill; 
+				m.c = cashier; 
 			} 
 		}
 		}
@@ -406,14 +407,13 @@ public class TCookRole extends Role implements TCook, Cook {
 	}
 	*/
 	
-	/**
+	
 	//utilities 
-	public void addMarket(MarketAgent mart) {
-		Market m = new Market();
-		m.setMarket(mart);
+	public void addMarket(MarketManager manager) {
+		Market m = new Market(manager);
 		markets.add(m);
 	}
-	*/
+
 	
 	public void setHost(THostRole h) {
 		host = h;
@@ -457,9 +457,8 @@ public class TCookRole extends Role implements TCook, Cook {
 		boolean checked;
 		double bill;
 		
-		Market(MarketManager mar, MarketCashier c) {
+		Market(MarketManager mar) {
 			m = mar; 
-			this.c = c; 
 			checked = false;
 			state = MarketState.none; 
 		}

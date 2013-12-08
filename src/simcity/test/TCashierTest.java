@@ -1,10 +1,10 @@
 package simcity.test;
 
+import simcity.TRestaurant.TCashierRole;
 import simcity.test.mock.MockCustomer;
 import simcity.test.mock.MockWaiter;
 import simcity.test.mock.TMockCustomer;
 import simcity.test.mock.TMockWaiter;
-import simcity.TTRestaurant.TCashierRole;
 import junit.framework.*;
 
 /**
@@ -34,7 +34,7 @@ public class TCashierTest extends TestCase
 
 	public void setUp() throws Exception{
 		super.setUp();		
-		//cashier = new CashierRoleTT("cashier");		
+		cashier = new TCashierRole();		
 		customer = new TMockCustomer("mockcustomer");
 		secondCustomer = new TMockCustomer("secondCustomer"); 
 		waiter = new TMockWaiter("mockwaiter");
