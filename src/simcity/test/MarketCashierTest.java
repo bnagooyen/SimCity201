@@ -38,7 +38,7 @@ public class MarketCashierTest extends TestCase{
         public void setUp() throws Exception{
                 super.setUp();
                 p = new PersonAgent("MarketCashier");
-                mc = new MarketCashierRole();
+                mc = new MarketCashierRole(null);
                 mc.myPerson = p;
                 ib = new MockInventoryBoy("mockInventoryBoy");
                 c = new MockMarketCustomer("mockCustomer");
@@ -182,7 +182,7 @@ public class MarketCashierTest extends TestCase{
         
         
         //give mc adding an order
-        mc.msgOrder(cook, foods, "b1");
+        mc.msgOrder(cook, foods, "b1", restaurantC);
         assertEquals("MarketCashier should have one order", mc.orders.size(), 1);
         assertTrue("MarketCashier is giving order to ib.", mc.pickAndExecuteAnAction());
         assertEquals("Order state is inquiring.", mc.orders.get(0).state, orderState.pending);
@@ -219,7 +219,7 @@ public class MarketCashierTest extends TestCase{
         
                 
       //give mc adding an order
-        mc.msgOrder(cook, foods, "b1");
+        mc.msgOrder(cook, foods, "b1", restaurantC);
 //        mc.orders.get(0).cashier = restaurantC; 
         assertEquals("MarketCashier should have one order", mc.orders.size(), 1);
         mc.msgCanGive(mc.orders.get(0));
@@ -255,7 +255,7 @@ public class MarketCashierTest extends TestCase{
         
                 
       //give mc adding an order
-        mc.msgOrder(cook, foods, "b1");
+        mc.msgOrder(cook, foods, "b1", restaurantC);
         mc.orders.get(0).cook = cook; 
         assertEquals("MarketCashier should have one order", mc.orders.size(), 1);
         mc.msgHereIsPayment((Role)mc.orders.get(0).cook, 10.0);
@@ -295,7 +295,7 @@ public class MarketCashierTest extends TestCase{
         
         //in action
         assertEquals("MarketCashier's state is unavailable.", mc.state, myState.unavailable);
-        assertEquals("MarketCashier's not active.", mc.active,false);
+        assertEquals("MarketCashier's not active.", mc.isActive,false);
         assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + mc.log.toString(), 0, mc.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
                 + ib.log.toString(), 0, ib.log.size());

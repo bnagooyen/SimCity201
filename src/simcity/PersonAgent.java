@@ -458,10 +458,11 @@ public class PersonAgent extends Agent {
 		}
 	}
 
-	public void addCustomerRoles(Role r) {
+	public void addCustomerRoles(ArrayList<Role> arrayList) {
 		//for (Role r: roles) {
-		r.myPerson=this;
-		roles.add(r);
+		for(Role r: arrayList) {
+			roles.add(r);
+		}
 		//}
 	}
 

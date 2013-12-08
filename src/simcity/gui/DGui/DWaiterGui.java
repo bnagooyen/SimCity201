@@ -12,14 +12,13 @@ import simcity.DRestaurant.DWaiterRole;
 public class DWaiterGui implements Gui {
 
     private DWaiterRole agent = null;
-
+    private boolean isPresent;
     public boolean waiterAtFront()
     {
     	if(xPos==-20 && yPos==-20) return true;
     	else return false;
     }
     
-    SimCityGui gui;
     private int tableGoingTo;
     public static final int x_Offset = 25;
     private int xPos = -20, yPos = -20;//default waiter position
@@ -70,20 +69,28 @@ public class DWaiterGui implements Gui {
     
    //f private void setSeatingAt(int t) { seatingAt=t; }
     
-    public DWaiterGui(DWaiterRole agent, SimCityGui g, int startPos) {
-    	gui=g;
+    public DWaiterGui(DWaiterRole agent) {
+
         this.agent = agent;
         madeToFront=true;
 //        for(int i=0; i<labelIsShowing.length;i++)
 //        	labelIsShowing[i]=false;
         
-        hangout_x=40*startPos+x_Offset;
+       // hangout_x=40*startPos+x_Offset;
         
-        xPos = hangout_x;
-        yPos = hangout_y;
+//        xPos = hangout_x;
+//        yPos = hangout_y;
+//        
+//        xDestination=xPos;
+//        yDestination=yPos;
         
-        xDestination=xPos;
-        yDestination=yPos;
+      xPos = -20;
+      yPos = -20;
+      
+      xDestination=-20;
+      yDestination=-20;
+        
+        
     }
 
     @Override
@@ -246,4 +253,8 @@ public class DWaiterGui implements Gui {
     public int getYPos() {
         return yPos;
     }
+
+	public void setPresent(boolean p) {
+		isPresent = p;
+	}
 }
