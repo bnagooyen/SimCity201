@@ -53,6 +53,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		marketMoney = 50000.0; //***********threshold all the rest deposit to the bank
 		log = new EventLog();
 		startHour = 10;
+		hour = 12;
 
 	}
 
@@ -171,15 +172,17 @@ public class MarketManagerRole extends Role implements MarketManager{
 		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Loading delivery truck");
 		Do("Loading delivery truck");
 		dState = workerState.occupied;
-		
-		
+				
 		synchronized(customers) {
 			for(MyCustomer mc : customers) {
 				if(mc.building == location) {
-					dOrders.add(new MyDeliveryOrder(cashier, deliver, location, bill, c ,mc.cashier));
+					MyDeliveryOrder o = new MyDeliveryOrder(cashier, deliver, location, bill, c ,mc.cashier);
+					o.check = bill;
+					dOrders.add(o);
 				}
 			}
 		}
+			
 		
 		
 		stateChanged();

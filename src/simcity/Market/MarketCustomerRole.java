@@ -144,8 +144,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         private void goToManager() {
         		customerGui = new MCustomerGui(this);
         		customerGui.setPresent(true);
-    			gui.myPanels.get("Market 1").panel.addGui(customerGui);
-
+        		if(gui!=null) {
+        			gui.myPanels.get("Market 1").panel.addGui(customerGui);
+        		}
     			AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Telling manager I'm here");
         		Do("Telling manager I'm here");
                 LoggedEvent e = new LoggedEvent("telling manager I'm here");
@@ -165,7 +166,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-        		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Telling cahiser my order");
+        		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Telling cashier my order");
         		Do("Telling cashier my order");
                 state = customerState.waiting;
                 LoggedEvent e = new LoggedEvent("telling cashier my order");
@@ -205,7 +206,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         		Do("Leaving market");
                 LoggedEvent e = new LoggedEvent("leaving market");
                 log.add(e);
-                state = customerState.talkToManager;
+                state = customerState.done;
                 isActive = false;
                 DoGoHome();
         }

@@ -179,7 +179,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		else if(o.cook == null){
 			//phone order from customer
 			o.c.msgHereIsOrder(o.canGive);
-			o.cashier.msgBillFromMarket(check, this, manager);
+//			o.cashier.msgBillFromMarket(check, this, manager);
 		}
 		else if(o.foodsNeeded == null){
 			o.c.msgHereIsCarAndCheck(o.car, check);
