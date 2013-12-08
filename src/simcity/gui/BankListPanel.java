@@ -11,6 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
+
 public class BankListPanel extends BuildingListPanel {
 	JTextField setInventory = new JTextField();
 	JButton setVal = new JButton("Set!");
@@ -50,13 +53,22 @@ public class BankListPanel extends BuildingListPanel {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==downCB){ 
+		
+        if(e.getSource() == downCB){ 
         	if(downCB.isSelected()){
         		city.simcityPanel.directory.get(name).down = true;
+        		AlertLog.getInstance().logInfo(AlertTag.Gui, name, "set to down");
         	}
         	else{
         		city.simcityPanel.directory.get(name).down = false;
+        		AlertLog.getInstance().logInfo(AlertTag.Gui, name, "down checkbox unchecked");
         	}
         }
+        
+        if(e.getSource() == setInventory){
+        	System.out.println("Silly Rabbit, our city has an unlimited amount of money");
+        	AlertLog.getInstance().logInfo(AlertTag.Gui, name, "Silly Rabbit, our city has an unlimited amount of money");
+        }
+        
 	}
 }
