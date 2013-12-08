@@ -8,33 +8,145 @@ import simcity.Market.InventoryBoyRole;
 
 public class IBGui implements Gui {
 	
-	private InventoryBoyRole role = null;
+private InventoryBoyRole role = null;
 	
 	private boolean isPresent;
-	private int xPos = -20, yPos = -20;
+	private int xPos = -20, yPos = 0;
     private int xDestination = 270, yDestination = 100;
     
-    boolean gettingFood = false;
+    private String food = "";
+    
+    State state;
+    
+    enum State { goingToWork, leavingWork, gettingFood, gettingMoreFood, gotFood, goingToCashier, waiting, gone}
+    
 	public IBGui(InventoryBoyRole r) {
 		this.role = r;
+		state = State.goingToWork;
 		DoGoToWaitingPos();
 	}
 	
 	public void updatePosition() {
-		if (xPos < xDestination)
-            xPos++;
-        else if (xPos > xDestination)
-            xPos--;		
-		if (yPos < yDestination)
-	        yPos++;
-	    else if (yPos > yDestination)
-	        yPos--;
-		
-		if(yPos == yDestination && xPos == xDestination){
-			if(gettingFood) {
-				role.msgGotFood();
-				gettingFood = false;
+		// going to work
+		if(state == State.goingToWork) {
+			if(xPos < 170) {
+				if (xPos < xDestination)
+		            xPos++;	
+				if(yPos < 30) {
+			        if (yPos < yDestination)
+				        yPos++;
+				}
 			}
+			else{
+				if (xPos < xDestination)
+		            xPos++;	
+				if (yPos < yDestination)
+			        yPos++;
+			    else if (yPos > yDestination)
+			        yPos--;
+				if(yPos == yDestination && xPos == xDestination)
+					state = State.waiting;
+			}
+			
+		
+		}
+		
+		// leaving work
+		else if(state == State.leavingWork) {
+			if(xPos > 150) {
+				if(yPos > 30) {
+			        if (yPos > yDestination)
+				        yPos--;
+				}
+				if (xPos > xDestination)
+			            xPos--;	
+			}
+			else{
+				if (xPos > xDestination)
+		            xPos--;	
+				if (yPos < yDestination)
+			        yPos++;
+			    else if (yPos > yDestination)
+			        yPos--;
+			}
+			if(yPos == yDestination && xPos == xDestination)
+				state = State.gone;
+		}
+		
+		// getting food
+		else if(state == State.gettingFood) {
+			if(xPos < 380) {
+				if (xPos < xDestination)
+		            xPos++;	
+				if (yPos < yDestination)
+			        yPos++;
+			    else if (yPos > yDestination)
+			        yPos--;
+			}
+			else {
+				if (xPos < xDestination)
+		            xPos++;
+				if (yPos < yDestination)
+			        yPos++;
+			    else if (yPos > yDestination)
+			        yPos--;
+			}
+			if(yPos == yDestination && xPos == xDestination){
+				role.msgGotFood();
+				state = State.gotFood;	
+			}
+		}
+		// get more than one food in an order
+		else if(state == State.gettingMoreFood) {
+			if (xPos >380 && yPos != yDestination){
+				if(xPos > 380) 
+			           xPos--;	
+			}
+			else if( yPos != yDestination) {
+				if (yPos < yDestination)
+			        yPos++;
+			    else if (yPos > yDestination)
+			        yPos--;
+			}
+			else {
+				if (xPos < xDestination)
+		            xPos++;
+			}
+			if(yPos == yDestination && xPos == xDestination){
+				role.msgGotFood();
+				state = State.gotFood;	
+			}
+		}
+		// going to cashier
+		else if(state == State.goingToCashier){
+			if(xPos > 380) {
+				if (xPos > xDestination)
+		            xPos--;	
+			}
+			else {
+				if (xPos > xDestination)
+		            xPos--;
+				if (yPos < yDestination)
+			        yPos++;
+			    else if (yPos > yDestination)
+			        yPos--;
+			}
+			if(yPos == yDestination && xPos == xDestination){
+				role.msgGotFood();
+				state = State.waiting;	
+			}
+		}
+		
+		// if going back to waiting pos
+		else{
+			if (xPos < xDestination)
+	            xPos++;
+	        else if (xPos > xDestination)
+	            xPos--;		
+			if (yPos < yDestination)
+		        yPos++;
+		    else if (yPos > yDestination)
+		        yPos--;
 		}
 	}
 
@@ -50,44 +162,76 @@ public class IBGui implements Gui {
 	}
 	
 	public void DoGoHome() {
+		state = State.leavingWork;
 		xDestination = -20;
-		yDestination = -20;
+		yDestination = 00;
 	}
 	public void DoGoToWaitingPos() {
-		xDestination = 250;
+		xDestination = 270;
 		yDestination = 100;
 	}
 	
 	public void DoGoToCashier() {
-		gettingFood = true;
+		state = State.goingToCashier;
 		xDestination = 190;
 		yDestination = 100;
 	}
 	
 	public void DoGetSteak() {
-		gettingFood = true;
+		food = "Steak";
+		if(state == State.gotFood) {
+			state = State.gettingMoreFood;
+		}
+		else {
+			state = State.gettingFood;
+		}
 		xDestination = 450;
-		yDestination = 40;
+		yDestination = 45;
 	}
 	
 	public void DoGetChicken() {
-		gettingFood = true;
+		food = "Chicken";
+		if(state == State.gotFood) {
+			state = State.gettingMoreFood;
+		}
+		else {
+			state = State.gettingFood;
+		}
 		xDestination = 450;
-		yDestination = 115;
+		yDestination = 120;
 	}
 	
 	public void DoGetSalad() {
-		gettingFood = true;
+		food = "Salad";
+		if(state == State.gotFood) {
+			state = State.gettingMoreFood;
+		}
+		else {
+			state = State.gettingFood;
+		}
 		xDestination = 450;
-		yDestination = 190;
+		yDestination = 195;
 	}
 	
 	public void DoGetPizza() {
-		gettingFood = true;
+		food = "Salad";
+		if(state == State.gotFood) {
+			state = State.gettingMoreFood;
+		}
+		else {
+			state = State.gettingFood;
+		}
 		xDestination = 450;
-		yDestination = 235;
+		yDestination = 230;
 	}
 
+	public void DoGetCar() {
+		food = "Car";
+		state = State.gettingFood;
+		xDestination = 600;
+		yDestination = 235;
+	}
+	
 	public void setPresent(boolean b) {
 		isPresent = b;
 	}

@@ -11,24 +11,72 @@ public class MCashierGui implements Gui{
 	private MarketCashierRole role = null;
 	private boolean isPresent = false;
 
-	int homeposx = 170;
-	int homeposy = 100;
-    private int xPos = -20, yPos = -20;
+	private int xPos = -45, yPos = 0;
     private int xDestination = 170, yDestination = 100;
+    
+    State state;
+    
+    enum State { goingToWork, leavingWork, atPosition, gone}
+
 
 	public MCashierGui(MarketCashierRole r) {
 		this.role = r;
+		state = State.goingToWork;
 	}
 	
 	public void updatePosition() {
-		if (xPos < xDestination)
-            xPos++;
-        else if (xPos > xDestination)
-            xPos--;		
-		if (yPos < yDestination)
-	        yPos++;
-	    else if (yPos > yDestination)
-	        yPos--;
+		if(state == State.goingToWork) {
+			if(xPos < 170) {
+				if (xPos < xDestination)
+		            xPos++;	
+				if(yPos < 30) {
+			        if (yPos < yDestination)
+				        yPos++;
+				}
+			}
+			else{
+				if (xPos < xDestination)
+		            xPos++;	
+				if (yPos < yDestination)
+			        yPos++;
+			    else if (yPos > yDestination)
+			        yPos--;
+				if(yPos == yDestination && xPos == xDestination)
+					state = State.atPosition;
+			}
+		}
+		else if(state == State.leavingWork) {
+			if(xPos > 150) {
+				if(yPos > 30) {
+			        if (yPos > yDestination)
+				        yPos--;
+				}
+				else {
+					if (xPos > xDestination)
+			            xPos--;	
+				}
+			}
+			else{
+				if (xPos > xDestination)
+		            xPos--;	
+				if (yPos < yDestination)
+			        yPos++;
+			    else if (yPos > yDestination)
+			        yPos--;
+			}
+			if(yPos == yDestination && xPos == xDestination)
+				state = State.gone;
+		}
+		else{
+			if (xPos < xDestination)
+	            xPos++;
+	        else if (xPos > xDestination)
+	            xPos--;		
+			if (yPos < yDestination)
+		        yPos++;
+		    else if (yPos > yDestination)
+		        yPos--;
+		}
 	}
 
 	
@@ -49,11 +97,13 @@ public class MCashierGui implements Gui{
 	}
 	
 	public void DoGoHome() {
-		xDestination = -20;
-		yDestination = -20;
+		state = State.leavingWork;
+		xDestination = -45;
+		yDestination = 0;
 	}
 	
 	public void DoGoToCounter() {
+		state = State.goingToWork;
 		xDestination = 170;
 		yDestination = 100;
 	}
