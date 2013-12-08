@@ -112,7 +112,7 @@ public class SimCityPanel extends JPanel {
 	BankPlace bank=null;
 	
 	// make market 
-	MarketPlace market=null;
+	MarketPlace market1=null;
     //FOR TESTING WORK
     boolean first=true;
 	
@@ -221,7 +221,7 @@ public class SimCityPanel extends JPanel {
         this.gui = gui;
         
         bank= new BankPlace();
-        MarketPlace market1 = new MarketPlace();
+        market1 = new MarketPlace();
         MarketPlace market2 = new MarketPlace();
         MarketPlace market3 = new MarketPlace();
         MarketPlace market4 = new MarketPlace();
@@ -313,26 +313,26 @@ public class SimCityPanel extends JPanel {
        // mcashier = new MarketCashierRole(gui);
        // ib = new InventoryBoyRole(gui);
         
-        market.mManager.isActive = true;
+        market1.mManager.isActive = true;
         PersonAgent mManagerPerson = new PersonAgent("Manager");
         mManagerPerson.hungerLevel = 0;
-        mManagerPerson.SetJob(market.mManager, "Market 1");
-        market.mManager.myPerson = mManagerPerson;
+        mManagerPerson.SetJob(market1.mManager, "Market 1");
+        market1.mManager.myPerson = mManagerPerson;
 //        
 //        cook.msgAddMarket(manager);
 //        cook.setMonitor(host.getMonitor());
 //        
-        market.mCashier.isActive = true;
+        market1.mCashier.isActive = true;
         PersonAgent mCashierPerson = new PersonAgent("mCashier");
         mCashierPerson.hungerLevel = 0;
-        mCashierPerson.SetJob(market.mCashier, "Market 1");
-        market.mCashier.myPerson = mCashierPerson;
+        mCashierPerson.SetJob(market1.mCashier, "Market 1");
+        market1.mCashier.myPerson = mCashierPerson;
         
-        market.ib.isActive = true;
+        market1.ib.isActive = true;
         PersonAgent ibPerson = new PersonAgent("ib");
         ibPerson.hungerLevel = 0;
-        ibPerson.SetJob(market.ib, "Market 1");
-        market.ib.myPerson = ibPerson;
+        ibPerson.SetJob(market1.ib, "Market 1");
+        market1.ib.myPerson = ibPerson;
         
         //DeliveryTruckAgent dtruck = new DeliveryTruckAgent(manager);
         // set market role pointers
@@ -829,7 +829,7 @@ public class SimCityPanel extends JPanel {
 	 ArrayList<Role> myCustomerRoles= new ArrayList<Role>();
 	 /*******turn this into a loop to make more efficient*********/
 	 myCustomerRoles.add(bank.addCustomer());
-	 myCustomerRoles.add(market.addCustomer());
+	 myCustomerRoles.add(market1.addCustomer());
 	 myCustomerRoles.add(DrewRestaurant.AddCustomer());
 	 myCustomerRoles.add(BRestaurant.AddCustomer());
 	 myCustomerRoles.add(DRestaurant.AddCustomer());
@@ -927,7 +927,7 @@ class RestaurantPlace extends Business {
 
                 case 2: host = new Drew_HostRole();
                 cook = new Drew_CookRole();
-                ((Drew_CookRole)cook).addMarket(market.mManager);
+                ((Drew_CookRole)cook).addMarket(market1.mManager);
                 ((Drew_HostRole)host).setCook((Drew_Cook)cook);
                 cashier = new Drew_CashierRole();
                 break;
@@ -939,7 +939,7 @@ class RestaurantPlace extends Business {
 				                break;
 				case 3: host = new DHostRole();
 				                cook = new DCookRole(gui);
-				                ((DCookRole)cook).msgAddMarket(market.mManager);
+				                ((DCookRole)cook).msgAddMarket(market1.mManager);
 				                cashier = new DCashierRole();
 				                ((DHostRole)host).addCook((DCookRole)cook);
 				                ((DCookRole) cook).AddHost((DHostRole)host);
@@ -949,7 +949,7 @@ class RestaurantPlace extends Business {
 				                break;
 				case 4: host = new KHostRole();
 				                cook = new KCookRole(gui);
-				                ((KCookRole)cook).addMarket(market.mManager);
+				                ((KCookRole)cook).addMarket(market1.mManager);
 				                cashier = new KCashierRole();
 				                ((KHostRole)host).setCook((KCookRole) cook);
 				                ((KHostRole)host).setCashier((KCashierRole) cashier);
@@ -960,7 +960,7 @@ class RestaurantPlace extends Business {
 				                break;
 				case 1:        host = new LHostRole();
 				                cook = new LCookRole();
-				                ((LCookRole)cook).addMarket(market.mManager);
+				                ((LCookRole)cook).addMarket(market1.mManager);
 				                System.out.println("LCookRole is "+cook);
 				                cashier = new LCashierRole();
 				                ((LHostRole) host).setCook((LCook)cook);
