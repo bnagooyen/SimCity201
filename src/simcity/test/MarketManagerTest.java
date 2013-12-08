@@ -14,6 +14,11 @@ import simcity.Market.MarketCashierRole.myState;
 import simcity.Market.MarketManagerRole;
 import simcity.Market.MarketManagerRole.workerState;
 import simcity.interfaces.MarketCashier;
+import simcity.mockrole.MockRoleCook;
+import simcity.mockrole.MockRoleInventoryBoy;
+import simcity.mockrole.MockRoleMarketCashier;
+import simcity.mockrole.MockRoleMarketCustomer;
+import simcity.test.mock.MockCashier;
 import simcity.test.mock.MockCook;
 import simcity.test.mock.MockMarketCashier;
 //import simcity.test.mock.MockMarketCustomer;
@@ -35,6 +40,7 @@ public class MarketManagerTest extends TestCase{
 	MockRoleCook cook;
 	MarketManagerRole m;
 	MockDeliveryTruck dTruck;
+	MockCashier mcash;
 	
 	//List<MOrder> orders =Collections.synchronizedList(new ArrayList<MOrder>());
 	List<MFoodOrder> foods =Collections.synchronizedList(new ArrayList<MFoodOrder>());
@@ -48,7 +54,8 @@ public class MarketManagerTest extends TestCase{
 		ib = new MockRoleInventoryBoy("mockInventoryBoy");
 		c = new MockRoleMarketCustomer("mockCustomer");
 		cook = new MockRoleCook("mockCook");
-		m = new MarketManagerRole();
+		mcash = new MockCashier("mockCashier");
+		m = new MarketManagerRole(null);
 		m.myPerson = p;
 		dTruck = new MockDeliveryTruck("mockDeliveryTruck");
 	}
@@ -164,6 +171,7 @@ public class MarketManagerTest extends TestCase{
 		f1 = new MFoodOrder("Ch", 2);
 		foods.add(f1);
 		m.setDeliveryTruck(dTruck);
+		m.hour = 12;
 
 		
 		// preconditions
@@ -219,7 +227,7 @@ public class MarketManagerTest extends TestCase{
                 + dTruck.log.toString(), 0, dTruck.log.size());
         
         //adding customer
-        m.msgIAmHere(cook,foods, "r1","cook");
+        m.msgIAmHere(cook,foods, "r1","cook", mcash); 
         assertEquals("MarketManager should have one customer", m.customers.size(), 1);
         assertTrue("MarketManager logged: " + m.log.getLastLoggedEvent().toString(), m.log.containsString("Received msgIAmHere."));
         assertTrue("MarketManager is checking to open.", m.pickAndExecuteAnAction());
@@ -235,10 +243,10 @@ public class MarketManagerTest extends TestCase{
                 + dTruck.log.toString(), 0, dTruck.log.size());
       
         //Load delivery truck
-        m.msgLoadDeliveryTruck(mc, foods, "r1", 20.0, cook);
-        assertEquals("MockDeliveryTruck is working", m.truck.state, workerState.occupied);
-        assertEquals("Check value is correct", m.truck.check, 20.0);
-        assertEquals("Check value is correct", m.truck.cook, cook);
+        m.msgLoadDeliveryTruck(mc, foods, "r1", 20.0, cook); 
+        assertEquals("MockDeliveryTruck is working", m.dState, workerState.occupied);
+        assertEquals("Check value is correct", m.dOrders.get(0).check, 20.0);
+        assertEquals("Cook is correct", m.dOrders.get(0).cook, cook);
         m.pickAndExecuteAnAction();
         assertTrue("MockDeliveryTruck logged: " + dTruck.log.getLastLoggedEvent().toString(), dTruck.log.containsString("Received msgGoToDestination"));
         assertTrue("MockCashier logged: " + mc.log.getLastLoggedEvent().toString(), mc.log.containsString("Recieved cook's order"));
@@ -253,7 +261,7 @@ public class MarketManagerTest extends TestCase{
         
         //Delivery Truck is back
         m.msgBackFromDelivery();
-        assertEquals("MockDeliveryTruck is available", m.truck.state, workerState.available);
+        assertEquals("MockDeliveryTruck is available", m.dState, workerState.available);
         assertTrue("MockCashier logged: " + mc.log.getLastLoggedEvent().toString(), mc.log.containsString("Recieved cook's order"));
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "
                 + ib.log.toString(), 0, ib.log.size());

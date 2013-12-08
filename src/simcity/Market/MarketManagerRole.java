@@ -40,7 +40,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	public boolean isClosed;
 	public enum workerState{justArrived, available, occupied, out};
 	public enum orderState{waiting, done};
-	workerState dState;
+	public workerState dState;
 	public EventLog log;
 		
 	MManagerGui managerGui;
@@ -268,7 +268,10 @@ public class MarketManagerRole extends Role implements MarketManager{
 		cashiers.clear();
 		inventoryBoys.clear();
 		isClosed = true;
-		managerGui.DoGoHome();
+		
+		if(gui != null){
+			managerGui.DoGoHome();
+		}
 		
 		isActive = false;
 //		myPerson.energyState = EnergyState.tired;
@@ -380,7 +383,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 			mc = mCash;
 			supply = deliver;
 			destination = loc;
-			bill = check;
+			check = bill;
 			cook = c;
 			cashier = rc;
 			state = orderState.waiting;
