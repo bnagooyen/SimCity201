@@ -9,10 +9,12 @@ import simcity.Bank.BankCustomerRole;
 import simcity.Market.MarketCustomerRole;
 import simcity.Transportation.BusAgent;
 import simcity.Transportation.BusStopAgent;
+import simcity.Transportation.CarAgent;
 import simcity.gui.PersonGui;
 import simcity.housing.gui.ResidentGui;
 import simcity.housing.gui.TenantGui;
 import simcity.interfaces.Landlord;
+import simcity.interfaces.Person;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -24,7 +26,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class PersonAgent extends Agent {
+public class PersonAgent extends Agent implements Person {
 
 	Timer timer = new Timer();
 	Random generator = new Random();
@@ -41,7 +43,7 @@ public class PersonAgent extends Agent {
 	//States
 	public int hungerLevel;
 	enum PersonState { doingNothing, atRestaurant, workTime, tired, asleep, dead };
-	 public enum TransitState {justLeaving, walkingToBus, onBus, goToCar, inCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
+	public enum TransitState {justLeaving, walkingToBus, onBus, goToCar, inCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
 	enum LocationState {atHome, atRestaurant, atBank, atWork};
 	public enum MoneyState {poor, middle, rich};
 	enum TravelPreference {walk, bus, car};
@@ -51,7 +53,11 @@ public class PersonAgent extends Agent {
 	public MoneyState moneystate;
 	private TransitState transit;
 	private BusAgent bus;
-	
+	private CarAgent myCar;
+
+	public String nearestStop="Stop4";
+	public String destStop="House 9";
+
 	//housing information
 	private Landlord myLandlord; 
 	private boolean needToPayRent = false; 
@@ -66,6 +72,7 @@ public class PersonAgent extends Agent {
 	private Semaphore atFridge = new Semaphore(0,true);
 	private Semaphore atGrill = new Semaphore(0,true);
 	private Semaphore atBed = new Semaphore(0,true);
+	Semaphore atBusStop= new Semaphore(0, true);
 
 	public PersonGui PersonGui = null;
 	public ResidentGui residentGui = null; 
@@ -123,14 +130,17 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 
-
+	public void msgAnimationAtBusStop(){
+		atBusStop.release();
+		stateChanged();
+	}
 	public void msgAtStop(String destination){
 		System.out.println("getting off message");
 		//mydestination=destination;
 		transit = TransitState.getOffBus;
 		stateChanged();
 	}
-	
+
 	public void msgHereIsYourRentBill(Landlord l, double rentBill) {
 		Do("Receiving rent bill");
 		myLandlord = l;
@@ -409,27 +419,27 @@ public class PersonAgent extends Agent {
 			}
 		}
 	}
-	
-	private void getOnBus(){
-        Do("getting on bus");
-        
-        //PersonGui.DoGoTo(destStop);
-        PersonGui.setPresent(false);
-        //bus.msgGettingOn(this, destStop);
-        transit=TransitState.onBus;
-}
 
-	 private void getOffBusAndWalk(){
-         //gui to get off
-         Do("Walk to Destination");
-         transit=TransitState.atDestination;
-         PersonGui.setPresent(true);
-         
-         
-       /*  if (mydestination != "home") {
+	private void getOnBus(){
+		Do("getting on bus");
+
+		PersonGui.DoGoTo(destStop);
+		PersonGui.setPresent(false);
+		bus.msgGettingOn(this, destStop);
+		transit=TransitState.onBus;
+	}
+
+	private void getOffBusAndWalk(){
+		//gui to get off
+		Do("Walk to Destination");
+		transit=TransitState.atDestination;
+		PersonGui.setPresent(true);
+
+
+		/*  if (mydestination != "home") {
                  boolean haveRole=false;
                  neededRole=possibleRoles.get(mydestination);
- 
+
                  if(needToGoToWork){
                          myJob.isActive=true;
                          needToGoToWork=false;
@@ -446,9 +456,21 @@ public class PersonAgent extends Agent {
                                  neededRole.isActive=true;
                          }
                  }*/
-         }
-	 
-	 
+	}
+
+	private void goToCar(){
+		Do("Do go To car");//gui?
+
+		PersonGui.setPresent(false);
+		myCar.msgGoToDestination(destStop, this);
+		DoGoTo(destStop);
+		transit=TransitState.inCar;
+	}
+
+	private void getOutCar(){
+		PersonGui.setPresent(true);
+	}
+
 	private void DoGoTo(String dest) {
 		PersonGui.DoGoTo(dest);
 	}
@@ -517,13 +539,46 @@ public class PersonAgent extends Agent {
 		return PersonGui;
 	}
 
-	   public void setBus(BusAgent b){
-	         bus=b;
-	 }
-	   
-	   public void setStops(Map<String, BusStopAgent> stops){
-           busStops=stops;
-   }
+	public void setBus(BusAgent b){
+		bus=b;
+	}
+
+	public void setCar(CarAgent c){
+		myCar=c;
+	}
+	public void setStops(Map<String, BusStopAgent> stops){
+		busStops=stops;
+	}
+
+	@Override
+	public void gotHungry() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void msgAtDestination(String destination) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int getHouseNum() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getAptNum() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public char getAptLet() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
 
 
