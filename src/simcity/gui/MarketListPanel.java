@@ -61,14 +61,6 @@ public class MarketListPanel extends BuildingListPanel {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		
-		if(arg0.getSource()==downCB){ 
-        	if(downCB.isSelected()){
-        		city.simcityPanel.directory.get(building).down = true;
-        	}
-        	else{
-        		city.simcityPanel.directory.get(building).down = false;
-        	}
-        }
 		
 		if (arg0.getSource() == setVal) {
 			
@@ -80,18 +72,22 @@ public class MarketListPanel extends BuildingListPanel {
 	    	if(building.equals("Market 1")){
 	    		((MarketPlace)(city.simcityPanel.directory.get("Market 1"))).ib.msgSetInventory(inventoryVal);
 	    		System.out.println("Changing Market 1's inventory to "+inventoryVal +" for each item");
+	    		AlertLog.getInstance().logInfo(AlertTag.Gui, building, "Changing Market 1's inventory");
 	    	}
 	    	else if(building.equals("Market 2")){
 	    		((MarketPlace)(city.simcityPanel.directory.get("Market 2"))).ib.msgSetInventory(inventoryVal);
 	    		System.out.println("Changing Market 2's inventory to "+inventoryVal +" for each item");
+	    		AlertLog.getInstance().logInfo(AlertTag.Gui, building, "Changing Market 2's inventory");
 	    	}
 	    	else if(building.equals("Market 3")){
 	    		((MarketPlace)(city.simcityPanel.directory.get("Market 3"))).ib.msgSetInventory(inventoryVal);
 	    		System.out.println("Changing Market 3's inventory to "+inventoryVal +" for each item");
+	    		AlertLog.getInstance().logInfo(AlertTag.Gui, building, "Changing Market 3's inventory");
 	    	}
 	    	else if(building.equals("Market 4")){
 	    		((MarketPlace)(city.simcityPanel.directory.get("Market 4"))).ib.msgSetInventory(inventoryVal);
 	    		System.out.println("Changing Market 4's inventory to "+inventoryVal +" for each item");
+	    		AlertLog.getInstance().logInfo(AlertTag.Gui, building, "Changing Market 4's inventory");
 	    	}
 	    	
 		}
