@@ -132,10 +132,12 @@ public class BankTellerRole extends Role implements BankTeller {
 
 	@Override
 	public void msgAnimationFinishedGoToCorner() {
+		Do("ATCORNER");
 		if(corner==cornerState.coming){
 			banktellerGui.goToTellerPos();
 		}
 		else if(corner==cornerState.leaving){
+			Do("DOEXIT");
 			banktellerGui.DoExitBank();
 		}
 		atDest.release();
