@@ -651,6 +651,7 @@ public class SimCityPanel extends JPanel {
     		ArrayList<Role> tempRoles = GenerateAllCustomerRoles();
     		for(Role r: tempRoles) {
     			r.myPerson=p;
+    			r.isActive=false;
     		}
     		p.addCustomerRoles(tempRoles);
 //    		System.err.println("**** "+ name);
@@ -706,6 +707,7 @@ public class SimCityPanel extends JPanel {
 	    			p.myJob.isActive=false;
 	    			p.hungerLevel=0;
 	    		}
+	    		//HACK FOR TESTING CLOSE BANK
 	    		if(role.equals("Inventory Person")){
 	    			bank.bankManager.msgTimeUpdate(20);
 	    		}
@@ -860,7 +862,7 @@ class RestaurantPlace extends Business {
 				                cashier = new BCashierRole();
 				                break;
 				case 3: host = new DHostRole();
-				                cook = new DCookRole();
+				                cook = new DCookRole(gui);
 				                ((DCookRole)cook).msgAddMarket(market.mManager);
 				                cashier = new DCashierRole();
 				                ((DHostRole)host).addCook((DCookRole)cook);
