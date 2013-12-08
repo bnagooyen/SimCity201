@@ -37,7 +37,7 @@ public class LHostRole extends Role implements LHost {
         //with List semantics.
         private List<MyCustomers> customers = Collections.synchronizedList(new ArrayList<MyCustomers>());
         private List<myWaiter> waiters = Collections.synchronizedList(new ArrayList<myWaiter>());
-        public List<MarketManager> markets =Collections.synchronizedList( new ArrayList<MarketManager>()); 
+//      public List<MarketManager> markets =Collections.synchronizedList( new ArrayList<MarketManager>()); 
         private Collection<Table> tables;
         int count = -1; //lining customers up
         int countW = -1; //lining waiters up
@@ -77,9 +77,9 @@ public class LHostRole extends Role implements LHost {
 
         }
         
-        public void addMarket(MarketManager m){
-    		markets.add(m);
-    	}
+//        public void addMarket(MarketManager m){
+//    		markets.add(m);
+//    	}
 
 //        public void addWaiter(LWaiterRole w){
 //                waiters.add(new myWaiter(w,0));//newly hired waiter 
@@ -281,10 +281,10 @@ public class LHostRole extends Role implements LHost {
     			return true;
     		}
     		
-    		if(hour == 11 && !isClosed){ //restaurant opens hour
-    			tellOpen();
-    			return true;
-    		}
+//    		if(hour == 11 && !isClosed){ //restaurant opens hour
+//    			tellOpen();
+//    			return true;
+//    		}
 
                 synchronized(customers){
                         for(MyCustomers c: customers){
@@ -367,13 +367,13 @@ public class LHostRole extends Role implements LHost {
 
         // Actions
 
-        private void tellOpen(){
-        	synchronized(markets){
-    			for(MarketManager m : markets){
-    				m.msgRestaurantOpen(cook);
-    			}
-    		}
-        }
+//        private void tellOpen(){
+//        	synchronized(markets){
+//    			for(MarketManager m : markets){
+//    				m.msgRestaurantOpen(cook);
+//    			}
+//    		}
+//        }
         
         private void closeRestaurant(){ //pay employees 50
         	AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Closing restaurant.");
@@ -385,11 +385,11 @@ public class LHostRole extends Role implements LHost {
     			}
     		}
     		
-    		synchronized(markets){
-    			for(MarketManager m : markets){
-    				m.msgRestaurantClosed(cook);
-    			}
-    		}
+//    		synchronized(markets){
+//    			for(MarketManager m : markets){
+//    				m.msgRestaurantClosed(cook);
+//    			}
+//    		}
     		
     		cashier.msgGoHome(50);
     		cook.msgGoHome(50);
@@ -398,6 +398,7 @@ public class LHostRole extends Role implements LHost {
     		cashier = null;
     		cook = null;
     		isClosed = true;
+    		
     	}
     	
     	private void restaurantClosed() {

@@ -53,22 +53,23 @@ public class MarketManagerRole extends Role implements MarketManager{
 		marketMoney = 50000.0; //***********threshold all the rest deposit to the bank
 		log = new EventLog();
 		startHour = 10;
+		hour = 12;
 
 	}
 
 	//Messages
-	public void msgRestaurantClosed(Role r){
-		//cannot deliver order delete customer order
-		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Told market is closed");
-		Do(r+"'s restaurant is closed");
-		
-		synchronized(dOrders){
-			for(MyDeliveryOrder d : dOrders){
-				if(d.cook.equals(r)){
-					d.restClosed = true;
-				}
-			}
-		}
+//	public void msgRestaurantClosed(Role r){
+//		//cannot deliver order delete customer order
+//		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Told market is closed");
+//		Do(r+"'s restaurant is closed");
+//		
+//		synchronized(dOrders){
+//			for(MyDeliveryOrder d : dOrders){
+//				if(d.cook.equals(r)){
+//					d.restClosed = true;
+//				}
+//			}
+//		}
 		
 //		synchronized(customers){
 //			for(MyCustomer cust : customers){
@@ -77,22 +78,22 @@ public class MarketManagerRole extends Role implements MarketManager{
 //				}
 //			}
 //		}
-	}
+//	}
 	
-	public void msgRestaurantOpen(Role r){
-		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Told market is open");
-		Do(r+"'s restaurant is open");
-		
-		
-		synchronized(dOrders){
-			for(MyDeliveryOrder d : dOrders){
-				if(d.cook.equals(r)){
-					d.restClosed = false;
-				}
-			}
-		}
-		
-	}
+//	public void msgRestaurantOpen(Role r){
+//		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Told market is open");
+//		Do(r+"'s restaurant is open");
+//		
+//		
+//		synchronized(dOrders){
+//			for(MyDeliveryOrder d : dOrders){
+//				if(d.cook.equals(r)){
+//					d.restClosed = false;
+//				}
+//			}
+//		}
+//		
+//	}
 	
 	public void msgHereIsMoney(double money){
 		marketMoney += money;
@@ -171,15 +172,17 @@ public class MarketManagerRole extends Role implements MarketManager{
 		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Loading delivery truck");
 		Do("Loading delivery truck");
 		dState = workerState.occupied;
-		
-		
+				
 		synchronized(customers) {
 			for(MyCustomer mc : customers) {
 				if(mc.building == location) {
-					dOrders.add(new MyDeliveryOrder(cashier, deliver, location, bill, c ,mc.cashier));
+					MyDeliveryOrder o = new MyDeliveryOrder(cashier, deliver, location, bill, c ,mc.cashier);
+					o.check = bill;
+					dOrders.add(o);
 				}
 			}
 		}
+			
 		
 		
 		stateChanged();
@@ -212,7 +215,8 @@ public class MarketManagerRole extends Role implements MarketManager{
 		if(dState==workerState.occupied){
 			synchronized(dOrders){
 				for(MyDeliveryOrder d : dOrders){
-					if(d.state.equals(orderState.waiting) && !d.restClosed){
+					//if(d.state.equals(orderState.waiting) && !d.restClosed){
+					if( hour > 10 && hour < 20 ){
 						sendOverTruck(d);
 					}
 				}
@@ -370,7 +374,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		public Cook cook;//restaurant's cook
 		public RestaurantCashier cashier;
 		public orderState state;
-		public boolean restClosed; 
+//		public boolean restClosed; 
 		
 		MyDeliveryOrder(MarketCashier mCash, List<MFoodOrder>deliver, String loc, double bill, Cook c,RestaurantCashier rc){
 			mc = mCash;
@@ -380,7 +384,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 			cook = c;
 			cashier = rc;
 			state = orderState.waiting;
-			restClosed = false;
+//			restClosed = false;
 		}
 	}
 	
@@ -391,7 +395,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		List<MFoodOrder>need;
 		String building;
 		public RestaurantCashier cashier;
-//		public boolean restClosed; 
+
 		
 		//For the customers who visit the market
 		MyCustomer(Role r, String s){
@@ -411,7 +415,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 			need = n;
 			building = b;
 			cashier = cash;
-//			restClosed = closed;
+
 		}
 
 	}
