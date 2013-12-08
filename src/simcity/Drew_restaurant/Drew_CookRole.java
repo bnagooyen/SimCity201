@@ -6,16 +6,8 @@ import simcity.PersonAgent;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-
-
-
-
-
-
-
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
-//import restaurant.HostAgent.MyWaiter;
 import simcity.interfaces.*;
 import simcity.Drew_restaurant.gui.Drew_CookGui;
 import simcity.Market.MFoodOrder;
@@ -43,6 +35,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	private Timer timer= new Timer();
 	
 	Drew_CashierRole cashier;
+	Drew_HostRole host;
 	
 	//Foods
 	Food chicken;
@@ -58,7 +51,8 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 
 
 	private String name;
-	private boolean onDuty;
+	private enum CookState {arrived, working, leave};
+	private CookState cookstate;
 	
 	public List<MarketManager> markets
 	= new ArrayList<MarketManager>();
@@ -79,7 +73,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	public Drew_CookRole() {
 		super();
 		this.name = name;
-		onDuty=true;
+		cookstate=CookState.arrived;
 		
 		
 		//Initialize food amount
@@ -120,7 +114,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	@Override
 	public void msgGoHome(double pay) {
 		myPerson.money+=pay;
-		onDuty=false;
+		cookstate=CookState.leave;
 		stateChanged();
 	}
 	
@@ -176,6 +170,9 @@ public class Drew_CookRole extends Role implements Drew_Cook {
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
+		if(cookstate==CookState.arrived){
+			tellHostIAmHere();
+		}
 		synchronized(orders) {
 		for (Order order : orders) {
 			if(order.getState()==State.done){
@@ -211,10 +208,10 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 			giveCashierBill(b);
 		}
 		}
-		if(!onDuty){
+		if(cookstate==CookState.leave){
 			leaveBank();
 		}
-		//checkRotatingStand();
+		checkRotatingStand();
 		return false;
 	}
 
@@ -226,11 +223,11 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	}
 
 	private void plateIt(Order O){
-		//gui.goToGrill();
+		gui.goToGrill();
 		finishTask();
 		gui.onGrill--;
 		gui.windowCount++;
-		//gui.goToWindow();
+		gui.goToWindow();
 		finishTask();
 		gui.onWindow++;
 		O.w.orderDone(O.t, O.choice.toLowerCase());
@@ -349,9 +346,15 @@ Do("UNCOMMENT 289");//			market.msgIAmHere(this, toOrder, "Drew_restaurant", "co
 		}
 	}
 	
+	private void tellHostIAmHere(){
+		host.msgIAmHere(this);
+		cookstate=CookState.working;
+	}
+	
 	private void leaveBank(){
-		//gui.goOffScreen();
+		gui.goOffScreen();
 		this.isActive=false;
+		cookstate=CookState.arrived;
 	}
 
 
@@ -465,7 +468,7 @@ Do("UNCOMMENT 289");//			market.msgIAmHere(this, toOrder, "Drew_restaurant", "co
 
 	public void setHost(Drew_HostRole drew_host) {
 		// TODO Auto-generated method stub
-		
+		host=drew_host;
 	}
 }
 

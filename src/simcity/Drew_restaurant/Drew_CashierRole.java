@@ -44,13 +44,14 @@ public class Drew_CashierRole extends Role implements Drew_Cashier,RestaurantCas
 	private  Map<String,Double> prices = new HashMap<String, Double>();
 
 	private Drew_CookRole cook;
-	private boolean onDuty;
+	private Drew_HostRole host;
+	private enum CashierState {arrived, working, leave};
+	private CashierState cashierstate;
 	
 	public EventLog log;
 	public Drew_CashierRole() {
 		this.name = name;
-		
-		onDuty=true;
+		cashierstate=CashierState.arrived;
 		
 		//Initialize price list
 		prices.put("chicken", 10.99);
@@ -71,7 +72,7 @@ public class Drew_CashierRole extends Role implements Drew_Cashier,RestaurantCas
 	
 	public void msgGoHome(double pay){
 		myPerson.money+=pay;
-		onDuty=false;
+		cashierstate=CashierState.leave;
 		stateChanged();
 	}
 	
@@ -110,6 +111,9 @@ public class Drew_CashierRole extends Role implements Drew_Cashier,RestaurantCas
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
+		if(cashierstate==CashierState.arrived){
+			tellHostIAmHere();
+		}
 		synchronized(owedBills) {
 		for (owedBill bill : owedBills) {
 			if(bill.getState()==BillState.calculated){
@@ -134,7 +138,7 @@ public class Drew_CashierRole extends Role implements Drew_Cashier,RestaurantCas
 			}
 		}
 		}
-		if(!onDuty){
+		if(cashierstate==CashierState.leave){
 			leaveBank();
 		}
 		return false;
@@ -165,9 +169,14 @@ public class Drew_CashierRole extends Role implements Drew_Cashier,RestaurantCas
 		print("Paid market $"+bill.b+". Cash remaining $"+Cash);
 	}
 	
+	private void tellHostIAmHere(){
+		host.msgIAmHere(this);
+		cashierstate=CashierState.working;
+	}
+	
 	private void leaveBank(){
-		//GUI
 		this.isActive=false;
+		cashierstate=CashierState.arrived;
 	}
 
 

@@ -238,7 +238,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Going to restaurant");
 		Do("Going to restaurant");
 		host.whatIsWait(this);
-		//customerGui.DoGetInLine(numberAhead);
+		customerGui.DoGetInLine(numberAhead);
 		try {
 			inLine.acquire();
 		} catch (InterruptedException e) {
@@ -251,7 +251,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 	private void SitDown() {
 		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Being seated. Going to table");
 		Do("Being seated. Going to table");
-		//customerGui.DoGoToSeat();
+		customerGui.DoGoToSeat();
 	}
 	
 	private void makeChoice() {
@@ -343,11 +343,11 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Leaving");
 		Do("Leaving.");
 		waiter.DoneEating(this);
-		//customerGui.DoExitRestaurant();
+		customerGui.DoExitRestaurant();
 	}
 	
 	private void payCashier(){
-		//customerGui.goToCashier();
+		customerGui.goToCashier();
 		try {
 			atCashier.acquire();
 		} catch (InterruptedException e) {

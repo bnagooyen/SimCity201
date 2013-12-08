@@ -1,5 +1,6 @@
 package simcity.interfaces;
 
+import agent.Role;
 import simcity.Drew_restaurant.Drew_WaiterRole;
 
 
@@ -15,6 +16,8 @@ public interface Drew_Host {
 	public abstract void whatIsWait(Drew_Customer cust);
 	
 	public abstract void msgIWantFood(Drew_Customer cust);
+	
+	public abstract void msgIAmHere(Role person);
 
 	public abstract void tableIsFree(int table);
 	

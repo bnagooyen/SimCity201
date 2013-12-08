@@ -23,7 +23,8 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 	public List<MyCustomer> customers
 	= new ArrayList<MyCustomer>();
 	
-	private boolean onDuty;
+	private enum WaiterState {arrived, working, leave};
+	private WaiterState waiterstate=WaiterState.arrived;
 	
 	private String name;
 	private Semaphore atDest = new Semaphore(-1,true);
@@ -66,7 +67,7 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 	
 	public void msgGoHome(double pay){
 		myPerson.money+=pay;
-		onDuty=false;
+		waiterstate=WaiterState.leave;
 		stateChanged();
 	}
 	
@@ -173,6 +174,9 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 	 */
 	public boolean pickAndExecuteAnAction() {
 		waitergui.idle=false;
+		if(waiterstate==WaiterState.arrived){
+			tellHostIAmHere();
+		}
 		try{
 		//synchronized(customers){
 			for (MyCustomer customer : customers) {
@@ -268,7 +272,7 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 		catch(ConcurrentModificationException e) {
 			return false;
 		}
-		if(!onDuty){
+		if(waiterstate==WaiterState.leave){
 			leaveBank();
 		}
 		return false;
@@ -377,9 +381,15 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 		waitergui.dropOff();
 	}
 	
+	private void tellHostIAmHere(){
+		host.msgIAmHere(this);
+		waiterstate=WaiterState.working;
+	}
+	
 	private void leaveBank(){
 		waitergui.goHome();
 		this.isActive=false;
+		waiterstate=WaiterState.arrived;
 	}
 
 	//utilities
