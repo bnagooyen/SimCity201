@@ -522,5 +522,10 @@ public class DHostRole extends Role implements Host {
 			return "table " + tableNumber;
 		}
 	}
+
+	public void addCook(DCookRole cook) {
+		// TODO Auto-generated method stub
+		myCook=cook;
+	}
 }
 
