@@ -2,7 +2,6 @@ package simcity.BRestaurant.gui;
 
 
 import simcity.PersonAgent;
-import simcity.gui.SimCityGui;
 import simcity.interfaces.*;
 import simcity.BRestaurant.*;
 
@@ -29,20 +28,15 @@ public class BAnimationPanel extends JPanel implements ActionListener {
 
     private List<BGui> guis = new ArrayList<BGui>();
 
-    public RestaurantAnimationPanel5(SimCityGui restaurantGui, String nm) {
-    	super(restaurantGui);
-    	//this.gui=gui;
-    	setSize(WINDOWX, WINDOWY);
-        //setVisible(true);
+    public BAnimationPanel() {
+            this.gui=gui;
+            setSize(WINDOWX, WINDOWY);
+        setVisible(true);
         
-        //bufferSize = this.getSize();
-// 
-//    	Timer timer = new Timer(20, this );
-//    	timer.start();
-//    	timer.addActionListener(this);
-    	
-    	restaurantGui.city.timer.addActionListener(this);
-    	name = nm;
+        bufferSize = this.getSize();
+ 
+            Timer timer = new Timer(5, this );
+            timer.start();
     }
 
     

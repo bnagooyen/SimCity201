@@ -11,6 +11,8 @@ import simcity.Market.gui.MManagerGui;
 //import simcity.test.mock.MockMarketCustomer;
 import simcity.Transportation.DeliveryTruckAgent;
 import simcity.gui.SimCityGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 //import simcity.Transportation.DeliveryTruckAgent;
 import simcity.interfaces.Cook;
 import simcity.interfaces.DeliveryTruck;
@@ -57,6 +59,8 @@ public class MarketManagerRole extends Role implements MarketManager{
 	//Messages
 	public void msgRestaurantClosed(Role r){
 		//cannot deliver order delete customer order
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Told market is closed");
+		Do(r+"'s restaurant is closed");
 		
 		synchronized(dOrders){
 			for(MyDeliveryOrder d : dOrders){
@@ -76,6 +80,9 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	public void msgRestaurantOpen(Role r){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Told market is open");
+		Do(r+"'s restaurant is open");
+		
 		
 		synchronized(dOrders){
 			for(MyDeliveryOrder d : dOrders){
@@ -101,18 +108,22 @@ public class MarketManagerRole extends Role implements MarketManager{
 		log.add(e);
 		
 		if(type.equals("cashier")){
+			AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Cashier is here");
 			Do("Cashier is here");
 			cashiers.add(new MyMarketCashier(r, workerState.available));
 		}
 		else if(type.equals("inventory boy")){
+			AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Inventory boy is here");
 			Do("Inventory boy is here");
 			inventoryBoys.add((InventoryBoy) r);
 		}
 		else if(type.equals("customer")){
+			AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Customer is here");
 			Do("Customer is here");
 			customers.add(new MyCustomer(r, "customer"));
 		}
 		else if(type.equals("cook")) {
+			AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Cook is here");
 			Do("Cook is here");
 			customers.add(new MyCustomer(r, "cook"));
 		}
@@ -132,6 +143,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		LoggedEvent e = new LoggedEvent("Received msgIAmHere.");
 		log.add(e);
 		
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Cook is calling");
 		Do("Cook is calling");
 		if(type.equals("cook")) {
 			customers.add(new MyCustomer(r, need, building, "cook", cashier, false));
@@ -140,10 +152,13 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	public void msgBackFromDelivery(){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Delivery truck back from delivery");
+		Do("Delivery truck back from delivery");
 		dState = workerState.available;
 	}
 	
 	public void msgCustomerDone(MarketCashier mc, Role r){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Cashier finished order");
 		Do("Cashier finished order");
 		MyMarketCashier current = find(mc, cashiers);
 		current.state = workerState.available;
@@ -153,6 +168,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	public void msgLoadDeliveryTruck(MarketCashier cashier, List<MFoodOrder>deliver, String location, double bill, Cook c){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Loading delivery truck");
 		Do("Loading delivery truck");
 		dState = workerState.occupied;
 		
@@ -225,11 +241,13 @@ public class MarketManagerRole extends Role implements MarketManager{
 	
 	private void sendOverTruck(MyDeliveryOrder d){
 		dState = workerState.out;
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Sending delivery truck over");
 		Do("Sending delivery truck over");
 		dTruck.msgGoToDestination(d.mc, d.supply, d.destination, d.check, d.cook, d.cashier);
 	}
 	
 	private void closeMarket(){ //pay employees 50
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Closing market");
 		Do("Closing market. It is "+hour);
 		synchronized(cashiers){
 			for(MyMarketCashier c: cashiers){
@@ -271,6 +289,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	private void swapCashiers(){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Switching out cashiers");
 		Do("Switching out cashiers");
 		marketMoney -= 50;
 		cashiers.get(0).c.msgGoHome(50);
@@ -279,6 +298,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	private void swapInventoryBoys(){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Switching out inventory boys");
 		Do("Switching out inventory boys");
 		marketMoney -= 50;
 		inventoryBoys.get(0).msgGoHome(50);
@@ -286,6 +306,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 	
 	private void handleCustomer(MyCustomer c, MyMarketCashier mc){
+		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Assigning order to cashier");
 		Do("Assigning order to cashier");
 		c.waiting = false;
 		mc.state = workerState.occupied;

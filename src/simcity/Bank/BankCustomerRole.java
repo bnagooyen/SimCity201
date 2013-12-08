@@ -12,6 +12,8 @@ import simcity.Bank.gui.BankCustomerGui;
 import simcity.Bank.gui.BankManagerGui;
 import simcity.PersonAgent.MoneyState;
 import simcity.gui.SimCityGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.BankCustomer;
 import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;
@@ -36,18 +38,22 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	//messages
 	public void msgGoToLoanOfficer(BankLoanOfficer BL){
-		Do("Told to go to load officer");
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Told to go to loan officer");
+
+		Do("Told to go to loan officer");
 		loanOfficer=BL;
 		stateChanged();
 	}
 	
 	public void msgGoToTeller(BankTeller BT){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Told to go to teller");
 		Do("Told to go to teller");
 		teller=BT;
 		stateChanged();
 	}
 	
 	public void msgTransactionComplete(double amount){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Finished transaction");
 		Do("Finished transaction");
 		myPerson.money-=amount;
 		state=bankCustomerState.done;
@@ -55,18 +61,21 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	public void msgHeresLoan(double amount){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Received loan");
 		Do("Received loan");
 		myPerson.money+=amount;
 		stateChanged();
 	}
 	
 	public void msgLoanDenied(){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Denied loan");
 		Do("Denied loan");
 		state=bankCustomerState.done;
 		stateChanged();
 	}
 	
 	public void msgBalance(Double Balance){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Got my balance");
 		Do("Got my balance");
 		if(Balance<1.0) myPerson.moneystate=MoneyState.poor;
 		else if(Balance>1000) myPerson.moneystate=MoneyState.rich;
@@ -74,6 +83,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	public void msgAccountMade(int AN){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Got an account");
 		Do("Got an account");
 		accountNum=AN;
 		state=bankCustomerState.waiting;
@@ -82,6 +92,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	@Override
 	public void msgLeaveBank() {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Going to leave");
 		Do("Going to leave");
 		state=bankCustomerState.done;
 		stateChanged();
@@ -139,6 +150,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	//actions
 	private void tellManagerArrived(){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Arriving at bank with $"+ myPerson.money);
 		Do("Arriving at bank with $"+ myPerson.money);
 		if(bankcustomerGui == null) {
 			bankcustomerGui = new BankCustomerGui(this, manager);
@@ -160,6 +172,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	private void makeAccount(){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Making account");
 		Do("Making account");
 		if(loanOfficer!=null){
 			loanOfficer.msgMakeAccount(this);
@@ -171,6 +184,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	private void requestLoan(){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Requesting for loan");
 		Do("Requesting for loan");
 		String job=jobString();
 		loanOfficer.msgINeedALoan(this, accountNum, 1000, job);		//Need a way to decide how much $$ to request  
@@ -184,6 +198,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	private void makeTransaction(){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Making a transaction");
 		Do("Making a transaction");
 		
 		//HACK TO TEST
@@ -198,6 +213,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	private void leaveBank(){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Leaving bank with $"+myPerson.money);
 		Do("Leaving bank with $"+myPerson.money);
 		manager.msgCheckBalance(this, accountNum);
 		bankcustomerGui.DoExitBank();

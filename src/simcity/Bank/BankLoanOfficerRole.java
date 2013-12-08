@@ -10,6 +10,8 @@ import simcity.Bank.BankTellerRole.accountState;
 import simcity.Bank.BankTellerRole.bankTellerState;
 import simcity.Bank.gui.BankLoanGui;
 import simcity.gui.SimCityGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 //import simcity.Bank.BankManagerRole.MyEmployee;
 import simcity.interfaces.*;
 import agent.Role;
@@ -68,18 +70,21 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	
 	//Messages
 	public void msgMakeAccount(BankCustomer BC){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankLoanOfficer", "Request to make an account");
 		Do("Request to make an account");
 		customer=new MyCustomer(BC);
 		customer.state=accountState.none;
 		stateChanged();
 	}
 	public void msgAccountCreated(int num){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankLoanOfficer", "Received created account");
 		Do("Received created account");
 		customer.accountNumber=num;
 		customer.state=accountState.created;
 		stateChanged();
 	}
 	public void msgINeedALoan(BankCustomer BC, Integer AN, double amt, String J){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankLoanOfficer", "Request for a loan");
 		Do("Request for a loan");
 		if(customer==null) customer=new MyCustomer(BC);
 		customer.accountNumber=AN;
@@ -89,12 +94,14 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		stateChanged();
 	}
 	public void msgLoanDenied(){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankLoanOfficer", "Request for loan was denied");
 		Do("Request for loan was denied");
 		state=bankLoanState.recieved;
 		customer.accepted=false;
 		stateChanged();
 	}
 	public void msgLoanComplete(){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankLoanOfficer", "Request for loan was completed");
 		Do("Request for loan was completed");
 		state=bankLoanState.recieved;
 		customer.accepted=true;
@@ -103,6 +110,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	
 	@Override
 	public void msgGoHome(double pay) {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankLoanOfficer", "going home");
 		Do("Going home");
 		myPerson.money+=pay;
 		state=bankLoanState.finished;
@@ -174,12 +182,14 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	//ACTIONS
 	
 	private void createNewAccount(){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankLoanOfficer", "Creating a new account");
 		Do("Creating a new account");
 		manager.msgCreateAccount("BankLoanOfficer");
 		customer.state=accountState.requested;
 		state=bankLoanState.atManager;
     }
 	private void hereIsYourAccount(){
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankLoanOfficer", "Giving customer account");
 		Do("Giving customer account");
 		customer.BC.msgAccountMade(customer.accountNumber);
 		customer.state=accountState.exists;
@@ -194,12 +204,14 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 			}
 		}
 		if(customer.accepted){
+			AlertLog.getInstance().logMessage(AlertTag.Bank, "BankLoanOfficer", "Analyzed loan. Accepted");
 			Do("Analyzed loan. Accepted");
 			manager.msgNewLoan(customer.accountNumber,customer.amount);
 			state=bankLoanState.atManager;
 			customer.state=accountState.loanRequestSent;
 		}
 		else{
+			AlertLog.getInstance().logMessage(AlertTag.Bank, "BankLoanOfficer", "Analyzed loan. Denied");
 			Do("Analzyed loan. Denied");
 			customer.BC.msgLoanDenied();
 			customer=null;
@@ -210,10 +222,12 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	
 	private void completeLoan(){
 		if(customer.accepted){
+			AlertLog.getInstance().logMessage(AlertTag.Bank, "BankLoanOfficer", "Giving completed loan");
 			Do("Giving completed loan");
 			customer.BC.msgHeresLoan(customer.amount);
 		}
 		else{
+			AlertLog.getInstance().logMessage(AlertTag.Bank, "BankLoanOfficer", "Loan was denied");
 			Do("Loan was denied");
 			customer.BC.msgLoanDenied();
 		}
@@ -228,6 +242,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		finishTask();
 	}
 	private void arriveAtBank() {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankLoanOfficer", "Telling Manager I am Here");
 		Do("Telling Manager I am Here");
 		if(bankloanGui == null) {
 			bankloanGui = new BankLoanGui(this, manager);

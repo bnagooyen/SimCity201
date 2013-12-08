@@ -8,6 +8,8 @@ import simcity.PersonAgent;
 import simcity.KRestaurant.gui.KMovingFoodGui;
 import simcity.KRestaurant.gui.KWaiterGui;
 import simcity.gui.SimCityGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.KCashier;
 import simcity.interfaces.Cook;
 import simcity.interfaces.KCustomer;
@@ -80,6 +82,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	
 	// Messages
 	public void msgGoHome(double paycheck) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter", "told to go home");
 		System.out.println(myPerson.getName() + ": " +"told to go home");
 		myPerson.money += paycheck;
 		mystate = WaiterState.leave;
@@ -99,6 +102,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 		else {
 			c.s = customerstate.waiting;
 		}
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter", "got msg from host to seat customer");
 		System.out.println(myPerson.getName() + ": " +": got msg from host to seat customer");
 		LoggedEvent e = new LoggedEvent("got msg to seat customer");
 		log.add(e);
@@ -115,6 +119,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 				c.s = customerstate.leaving;
 			}
 		}
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter", "customer said he's leaving");
 		System.out.println(myPerson.getName() + ": " +": customer said he's leaving");
 		stateChanged();
 	}
@@ -137,6 +142,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 				c.s = customerstate.readyToOrder;
 			}
 		}
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter", "customer says he's ready to order");
 		System.out.println(myPerson.getName() + ": " + ": customer says he's ready to order");
 		stateChanged();
 	}
@@ -149,11 +155,13 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 			}
 		}
 		c.s = customerstate.needToOrderAgain;
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","cook said we're out of " + choice);
 		System.out.println(myPerson.getName() + ": " +"cook said we're out of " + choice);
 		stateChanged();
 	}
 	
 	public void msgHereIsChoice(KCustomer cust, String choice) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","customer is ready to order");
 		LoggedEvent e = new LoggedEvent("customer is ready to order");
 		log.add(e);
 		for(MyCustomer c : customers) {
@@ -167,6 +175,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	}
 	
 	public void msgOrderIsReady(String choice, int table, KMovingFoodGui g, int place) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","cook said order is ready");
 		System.out.println(myPerson.getName() + ": " +": cook said order is ready");
 		for(MyCustomer c : customers) {
 			if(c.table == table && c.s == customerstate.waitingForFood) {
@@ -179,6 +188,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	}
 
 	public void msgHereIsCheck(KCustomer c, double price) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","got check from cashier");
 		System.out.println(myPerson.getName() + ": " +"got check from cashier");
 		for ( MyCustomer cust: customers) {
 			if ( cust.c == c) {
@@ -208,6 +218,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 			if ( cust.c == customer) {
 				cust.s =customerstate.cantPay;
 				cust.choice = "TooExpensive";
+				AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","Customer is leaving because food's too expensive");
 				System.out.println(myPerson.getName() + ": " +"Customer is leaving cuz food's too expensive");
 			}
 		}
@@ -310,7 +321,6 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 		try{
 			for(MyCustomer c : customers) {
 				if ( c.s == customerstate.cantPay) {
-					System.out.println(myPerson.getName() + ": " +"in scheduler and cantPay");
 					tellCustomerToLeave(c);
 				}
 			}
@@ -333,13 +343,14 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 			gui.myPanels.get("Restaurant 1").panel.addGui(waiterGui);
 		}
 		waiterGui.setPresent(true);
-		
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","telling manager I can work");
 		System.out.println(myPerson.getName() + ": " +"telling manager I can work");
 		arrived = false;
 		host.msgIAmHere(this, "waiter");
 	}
 
 	private void goHome() {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","going home");
 		System.out.println(myPerson.getName() + ": " +"going home");
 		isActive = false;
 		mystate = WaiterState.unavailable;
@@ -358,16 +369,19 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	private void askToGoOnBreak() {
 		mystate = WaiterState.askingToGoOnBreak;
 		host.msgWouldLikeToGoOnBreak(this);
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","asked to go on break");
 		System.out.println(myPerson.getName() + ": " +"asked to go on break");
 	}
 	
 	private void tellHostICanWorkAgain() {
 		mystate = WaiterState.working;
 		host.msgBackFromBreak(this);
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","told host i'm back from break");
 		System.out.println(myPerson.getName() + ": " +"told host I'm back from break");
 	}
 	
 	private void serveFood(MyCustomer c) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","going to cook to get order");
 		System.out.println(myPerson.getName() + ": " +"going to cook to get order");
 		DoGetFood(c.foodPickup);
 		try {
@@ -376,7 +390,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 			e.printStackTrace();
 		}
 		c.f.DoGoToSeat(c.table);
-		
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","got food, going to table");
 		System.out.println(myPerson.getName() + ": " +"got food, going to table");
 		DoGoToTable(c.table);
 		try {
@@ -386,6 +400,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 		}
 		c.c.msgHereIsYourFood();
 		c.s = customerstate.eating;
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","gave food to customer");
 		System.out.println(myPerson.getName() + ": " +": gave food to customer");
 		waiterGui.DoLeaveCustomer();
 		cashier.msgBill(c.c, this, c.choice);
@@ -414,6 +429,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	}
 	
 	private void seatCustomer(MyCustomer customer, int table) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter", "seating customer");
 		System.out.println(myPerson.getName() + ": " +"seating customer");
 		LoggedEvent ee = new LoggedEvent("seating customer");
 		log.add(ee);
@@ -436,15 +452,18 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 
 	private void DoPickUpCustomer() {
 		waiterGui.DoGetCustomer();
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter", "getting customer");
 		System.out.println(myPerson.getName() + ": " +"getting customer");
 	}
 	
 	private void DoSeatCustomer(KCustomer customer, int table) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","Seating " + customer + " at " + table);
 		print("Seating " + customer + " at " + table);
 		waiterGui.DoBringToTable(table); 
 	}
 	
 	private void takeOrder(MyCustomer c) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter", "going to table to ask for his order");
 		System.out.println(myPerson.getName() + ": " +": going to table to ask for his order");
 		;
 		DoGoToTable(c.table);
@@ -488,6 +507,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter", "Gave customer check");
 		System.out.println(myPerson.getName() + ": " +"Gave customer check");
 		c.c.msgHereIsCheck(c.check);
 		c.s = customerstate.givenCheck;
@@ -495,6 +515,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	}
 	
 	private void cleanTable(MyCustomer c, int table) {
+		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter", "customer told me he's leaving. telling host");
 		System.out.println(myPerson.getName() + ": " +": customer told me he's leaving. telling host");
 		c.s = customerstate.gone;
 		host.msgLeavingTable(c.c);

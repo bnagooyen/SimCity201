@@ -12,6 +12,9 @@ import java.util.concurrent.Semaphore;
 
 
 
+
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 //import restaurant.HostAgent.MyWaiter;
 import simcity.interfaces.*;
 import simcity.Drew_restaurant.gui.Drew_CookGui;
@@ -123,6 +126,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	
 	public void hereIsOrder(Drew_Waiter w, String choice, int table){
 		orders.add(new Order(w, choice,table));
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCook", "Got Order");
 		print("Got Order");
 		stateChanged();
 	}
@@ -247,6 +251,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		gui.onGrill++;
 		O.s=State.cooking;
 		f.amount--;
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCook", "Cooking " + O.choice+ "-------"+f.amount+" Left" );
 		print("Cooking " + O.choice+ "-------"+f.amount+" Left" );
 		/*if(f.amount<=1 && !f.ordered){					//Cook constantly keeps track of inventory
 			marketorders.add(new marketOrder(f.type, startingFoodAmount.get(f.type)-f.amount,true));
@@ -255,6 +260,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		checkInventory();
 		O.timer.schedule(new TimerTask() {
 			public void run() {
+				AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCook", "Done Cooking "+ O.choice );
 				print("Done Cooking "+ O.choice);
 				TimerDone(O);
 				stateChanged();				
@@ -307,6 +313,8 @@ Do("UNCOMMENT 289");//			market.msgIAmHere(this, toOrder, "Drew_restaurant", "co
 		if(D.fullDelivery) food.ordered=false;
 		food.amount=food.amount+D.quantity;
 		D.stored=true;
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCook", "Delivery Stocked" );
+		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCook", "Current "+ food.type+ " inventory: "+food.amount );
 		print("Delivery Stocked");
 		print("Current "+ food.type+ " inventory: "+food.amount);
 		
