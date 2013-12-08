@@ -335,6 +335,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		JToggleButton enableTRestaurantButton;
 		JToggleButton enableMarketButton;
 		JToggleButton enableBankButton;
+		JToggleButton enableGuiButton;
 
 		public ControlPanel(final TracePanel tracePanel) {
 			this.tp = tracePanel;
@@ -349,6 +350,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			enableTRestaurantButton = new JToggleButton("TRestaurant");
 			enableMarketButton = new JToggleButton("Market");
 			enableBankButton = new JToggleButton("Bank");
+			enableGuiButton = new JToggleButton("Gui");
 			
 			enableMessagesButton.setSelected(true);
 			enableErrorButton.setSelected(true);
@@ -361,7 +363,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			enableTRestaurantButton.setSelected(true);
 			enableMarketButton.setSelected(true);
 			enableBankButton.setSelected(true);
-
+			enableGuiButton.setSelected(true);
 
 			enableMessagesButton.addActionListener(new ActionListener() {
 				@Override
@@ -508,7 +510,18 @@ public class SimCityGui extends JFrame implements ActionListener {
 					}
 				}
 			});
-
+			enableGuiButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					boolean selected = enableGuiButton.getModel().isSelected();
+					if(selected) {
+						tracePanel.showAlertsWithTag(AlertTag.Gui);
+					}
+					else{
+						tracePanel.hideAlertsWithTag(AlertTag.Gui);
+					}
+				}
+			});
 			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			this.add(enableMessagesButton);
 			this.add(enableErrorButton);
@@ -521,7 +534,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 			this.add(enableTRestaurantButton);
 			this.add(enableMarketButton);
 			this.add(enableBankButton);
-			
+			this.add(enableGuiButton);
 			this.setMinimumSize(new Dimension(50, 600));
 		}
     }

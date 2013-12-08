@@ -24,6 +24,7 @@ public enum AlertTag {
 	LRestaurant,
 	TRestaurant, 
 	Market, 
-	Bank
+	Bank, 
+	Gui
 	
 }

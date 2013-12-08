@@ -13,6 +13,8 @@ import javax.swing.JTextField;
 
 import simcity.gui.SimCityPanel.MarketPlace;
 import simcity.gui.SimCityPanel.RestaurantPlace;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 
 public class MarketListPanel extends BuildingListPanel {
 	JTextField setInventory = new JTextField();
@@ -96,9 +98,11 @@ public class MarketListPanel extends BuildingListPanel {
 		if(arg0.getSource()==downCB){ 
         	if(downCB.isSelected()){
         		city.simcityPanel.directory.get(building).down = true;
+        		AlertLog.getInstance().logInfo(AlertTag.Gui, building, "set to down");
         	}
         	else{
         		city.simcityPanel.directory.get(building).down = false;
+        		AlertLog.getInstance().logInfo(AlertTag.Gui, building, "down checkbox unchecked");
         	}
         }		
 	}
