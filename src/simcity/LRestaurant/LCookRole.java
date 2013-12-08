@@ -47,6 +47,7 @@ public class LCookRole extends Role implements LCook {
 	private ProducerConsumerMonitor theMonitor;
 	public List<MarketOrder> marketOrders =Collections.synchronizedList( new ArrayList<MarketOrder>()); 
 	public List<MarketManager> markets =Collections.synchronizedList( new ArrayList<MarketManager>()); 
+	boolean here;
 	
 	
 	public LCookRole(){
@@ -57,6 +58,7 @@ public class LCookRole extends Role implements LCook {
 		foods.put("S", new Food("S", 500, 1, 5, 2));
 		foods.put("Ch", new Food("Ch", 900, 2, 5, 2));
 		goHome = false;
+		here = true;
 	}
 	
 	public void addMarket(MarketManager m){
@@ -161,6 +163,11 @@ public class LCookRole extends Role implements LCook {
 	
 	@Override
 	public boolean pickAndExecuteAnAction() {
+		if(here){
+			tellHost();
+			return true;
+		}
+		
 //		synchronized(foods){
 //		for(Food choice : foods.values()){
 //			if(choice.state.equals(MarketState.reOrder)){
@@ -220,11 +227,17 @@ public class LCookRole extends Role implements LCook {
 	}
 	
 	// Actions
+	
+	private void tellHost(){
+		host.msgIAmHere(this, "cashier");
+		here = false;
+	}
 
 		private void goHome() {
 			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Going home");
 			Do("going home");
 			isActive = false;
+			here = true;
 			goHome = false;
 			cookGui.DoLeaveRestaurant();		
 		}

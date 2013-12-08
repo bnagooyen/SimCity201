@@ -36,6 +36,7 @@ public class LCashierRole extends Role implements LCashier, RestaurantCashier {
 	int restMoney;
 	public EventLog log = new EventLog();
 	boolean goHome = false;
+	boolean here;
 	
 	LHost host;
 	LCook cook;
@@ -51,6 +52,7 @@ public class LCashierRole extends Role implements LCashier, RestaurantCashier {
 	public LCashierRole(){
 		super();
 		//this.name = p.getName();
+		here = true;
 		restMoney = 100;
 		foods.put("P", new Food("P", 8)); //choice, cookTime, amount, capacity, threshold
 		foods.put("St", new Food("St", 15));
@@ -100,6 +102,11 @@ public class LCashierRole extends Role implements LCashier, RestaurantCashier {
 	 */
 	public boolean pickAndExecuteAnAction() {
 	
+		if(here){
+			tellHost();
+			return true;
+		}
+		
 		synchronized(orders){
 			for (Order order : orders) {
 				if(order.state == OrderState.pending){
@@ -142,10 +149,16 @@ public class LCashierRole extends Role implements LCashier, RestaurantCashier {
 	
 	// Actions
 	
+	private void tellHost(){
+		host.msgIAmHere(this, "cashier");
+		here = false;
+	}
+	
 	private void goHome(){
 		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCashierRole", "Going home");
 		Do("Going home");
 		isActive = false;
+		here = true;
 		goHome = false;
 		host.msgHereIsMoney(restMoney);
 	}

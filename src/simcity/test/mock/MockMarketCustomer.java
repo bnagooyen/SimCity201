@@ -50,8 +50,8 @@ public class MockMarketCustomer extends Mock implements MarketCustomer{
 
 	@Override
 	public void msgHereIsOrder(List<MFoodOrder> canGive) {
-		// TODO Auto-generated method stub
-		
+		LoggedEvent e = new LoggedEvent("Received msgHereIsOrderAndCheck from market cashier.");
+		log.add(e);		
 	}
 
 }

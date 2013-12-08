@@ -2,6 +2,7 @@ package simcity;
 
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DMenu;
+import simcity.Drew_restaurant.Drew_CustomerRole;
 import agent.Agent;
 import agent.Role;
 import simcity.Bank.BankCustomerRole;
@@ -11,6 +12,7 @@ import simcity.Transportation.BusStopAgent;
 import simcity.gui.PersonGui;
 import simcity.housing.gui.ResidentGui;
 import simcity.housing.gui.TenantGui;
+import simcity.interfaces.Landlord;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -30,7 +32,7 @@ public class PersonAgent extends Agent {
 	private String name;
 	public Role myJob;
 	public String jobLocation;
-	List<Role> roles= new ArrayList<Role>();
+	public List<Role> roles= new ArrayList<Role>();
 	public double money=0;
 	public String homeAddress;
 	public String BankChoice;
@@ -49,6 +51,11 @@ public class PersonAgent extends Agent {
 	public MoneyState moneystate;
 	private TransitState transit;
 	private BusAgent bus;
+	
+	//housing information
+	private Landlord myLandlord; 
+	private boolean needToPayRent = false; 
+	private double rentBill; 
 
 
 	//GUI
@@ -122,6 +129,14 @@ public class PersonAgent extends Agent {
 		//mydestination=destination;
 		transit = TransitState.getOffBus;
 		stateChanged();
+	}
+	
+	public void msgHereIsYourRentBill(Landlord l, double rentBill) {
+		Do("Receiving rent bill");
+		myLandlord = l;
+		this.rentBill = rentBill; 
+		needToPayRent = true; 
+		stateChanged(); 
 	}
 
 	//Animation Messages
@@ -282,7 +297,7 @@ public class PersonAgent extends Agent {
 
 	// Actions
 	private void GoToRestaurant() {
-		DoGoTo("Restaurant 1");
+		DoGoTo("Restaurant 2");
 		Do("Going To Restaurant");
 		try {
 			atRestaurant.acquire();
@@ -295,11 +310,11 @@ public class PersonAgent extends Agent {
 		hungerLevel=0;
 		//state=PersonState.doingNothing;
 		for(Role r: roles) {
-			if(r instanceof DCustomerRole) {
+			if(r instanceof Drew_CustomerRole) {
 				r.isActive=true;
 				DMenu myMenu = new DMenu();
-				((DCustomerRole)r).setChoice(myMenu.MostExpensiveICanAfford(money));
-				((DCustomerRole)r).ActivateRole();
+				//((DCustomerRole)r).setChoice(myMenu.MostExpensiveICanAfford(money));
+				//((DCustomerRole)r).ActivateRole();
 			}
 		}
 

@@ -89,6 +89,7 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	public void msgTimeUpdate(int hr) {
 		hour=hr;
+		Do("Time is "+hr);
 		if(hr==1) bankState=BankState.arriving;
 		stateChanged();
 	}
@@ -431,16 +432,18 @@ public class BankManagerRole extends Role implements BankManager {
 	private void CloseBank() {
 		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Closing bank");
 		Do("Closing bank");
-		bankmanagerGui.goToTellerPos();
-		finishTask();		
-		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
-		tellers.clear();
+		bankState=BankState.closed;
 		bankmanagerGui.goToLoanPos();
 		finishTask();
 		officers.get(0).emp.msgGoHome((hour-officers.get(0).startHr)*employeePayPerHour);
 		officers.clear();
-		bankState=BankState.closed;
-		bankmanagerGui.goToCorner();;
+		bankmanagerGui.goToTellerPos();
+		finishTask();		
+		tellers.get(0).emp.msgGoHome((hour-tellers.get(0).startHr)*employeePayPerHour);
+		tellers.clear();
+		bankmanagerGui.goToManagerPos();
+		finishTask();
+		bankmanagerGui.goToCorner();
 		finishTask();
 		bankmanagerGui.DoExitBank();
 		finishTask();

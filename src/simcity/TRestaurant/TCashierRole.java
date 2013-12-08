@@ -23,7 +23,7 @@ public class TCashierRole extends Role implements TCashier, RestaurantCashier{
 	private String name;
 	public double budget = 100;
 	public double debt = 0; 
-    boolean arrived;
+	boolean arrived; 	
 	public List<Customers> payingCustomers
 	= Collections.synchronizedList(new ArrayList<Customers>());
 	public List<Waiters> waiters
@@ -93,6 +93,7 @@ public class TCashierRole extends Role implements TCashier, RestaurantCashier{
 	public TCashierRole(){
 		super();
 		this.name = name;
+		arrived = true; 
 	}
 
 	public void msgComputeBill(TWaiter w, TCustomer c, String order) {
@@ -261,6 +262,7 @@ public class TCashierRole extends Role implements TCashier, RestaurantCashier{
 	private void goHome() {
 		AlertLog.getInstance().logInfo(AlertTag.Market, "TCashierRole", "Going home");
 		Do("Going home");
+		arrived = true; 
 		isActive = false;
 		goHome = false;
 	}

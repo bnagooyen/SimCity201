@@ -12,6 +12,7 @@ import simcity.Bank.BankLoanOfficerRole;
 import simcity.Bank.BankManagerRole;
 import simcity.Bank.BankRobberRole;
 import simcity.Bank.BankTellerRole;
+import simcity.Bank.gui.BankTellerGui;
 import simcity.Drew_restaurant.Drew_CashierRole;
 import simcity.Drew_restaurant.Drew_CookRole;
 import simcity.Drew_restaurant.Drew_CustomerRole;
@@ -193,7 +194,7 @@ public class SimCityPanel extends JPanel {
     
     //Bank people workers
     private BankManagerRole Bmanager;
-    private BankTellerRole Bteller;
+    //~~~private BankTellerRole Bteller;
     private BankLoanOfficerRole Bloanofficer;
 
 
@@ -217,6 +218,7 @@ public class SimCityPanel extends JPanel {
 		myRestaurants.add(KRestaurant);
 		myRestaurants.add(LRestaurant);
 		myRestaurants.add(TRestaurant);
+
         
         //Bank
         //Bmanager = new BankManagerRole(gui);
@@ -230,10 +232,10 @@ public class SimCityPanel extends JPanel {
         bank.bankManager.myPerson = bManagerPerson;
         
         //Bteller.isActive=true;
-        PersonAgent btellerPerson = new PersonAgent("Bankteller");     //REMEMBER TO START THREAD!!!!
-        btellerPerson.hungerLevel = 0;
-        btellerPerson.SetJob(bank.bankTeller, "Bank 1");
-        bank.bankTeller.myPerson=btellerPerson;
+        //~~~PersonAgent btellerPerson = new PersonAgent("Bankteller");     //REMEMBER TO START THREAD!!!!
+        //~~btellerPerson.hungerLevel = 0;
+        //~~~btellerPerson.SetJob(bank.bankTeller, "Bank 1");
+        //~~~bank.bankTeller.myPerson=btellerPerson;
         //Bteller.manager=Bmanager;
         //Bteller.myPerson = btellerPerson;
         
@@ -246,9 +248,8 @@ public class SimCityPanel extends JPanel {
         
         //Start Threads
         bManagerPerson.startThread();
-        //btellerPerson.startThread();
         bloanofficerPerson.startThread();
-        btellerPerson.startThread();
+        //~~btellerPerson.startThread();
         
 //        //Hack Bank Customer
 //        /*Bmanager.msgTimeUpdate(8);
@@ -651,7 +652,7 @@ public class SimCityPanel extends JPanel {
     		for(Role r: tempRoles) {
     			r.myPerson=p;
     		}
-    		p.addCustomerRoles(GenerateAllCustomerRoles());
+    		p.addCustomerRoles(tempRoles);
 //    		System.err.println("**** "+ name);
     		
 			 if(houseOrApt.equals("House") && houseNumCounter<=NUMHOUSES) {
@@ -690,6 +691,24 @@ public class SimCityPanel extends JPanel {
 	    		gui.city.addGui(g);
 	    		p.bankTime=true;
 	    		
+	    		//Add Job
+	    		if(role.equals("Waiter")){
+	    			Drew_WaiterRole DW=(Drew_WaiterRole) DrewRestaurant.AddNormalWaiter();
+	    			DW.myPerson=p;
+	    			p.SetJob(DW,"Restaurant 2");
+	    			p.msgTimeUpdate(8);
+	    		}
+	    		if(role.equals("Bank Teller")){
+	    			BankTellerRole BT= new BankTellerRole(gui);
+	    			BT.setManager(bank.bankManager);
+	    			BT.myPerson=p;
+	    			p.SetJob(BT,"Bank 1");
+	    			p.myJob.isActive=false;
+	    			p.hungerLevel=0;
+	    		}
+	    		if(role.equals("Inventory Person")){
+	    			bank.bankManager.msgTimeUpdate(20);
+	    		}
 //	    		Bmanager.msgTimeUpdate(8);
 	            //BankCustomerRole bc = new BankCustomerRole(gui);
 	            //bc.myPerson = p;
@@ -698,7 +717,7 @@ public class SimCityPanel extends JPanel {
 	            
 	            
             	//test going to work
-	            if(first){
+	            /*if(first){
 	            	p.bankTime=false;
 	            	p.hungerLevel = 0;
 	            	p.SetJob(Bteller, "Bank 1");
@@ -706,7 +725,7 @@ public class SimCityPanel extends JPanel {
 	            	Bteller.myPerson = p;
 	            	Bteller.isActive=false;
 	            	first=false;
-	            }
+	            }*/
 	            
 	            
 	    		p.startThread();
@@ -792,7 +811,7 @@ public class BankPlace extends Business {
 	
 	public BankLoanOfficerRole loanOfficer;
 	public BankManagerRole bankManager;
-	public BankTellerRole bankTeller;
+	//~~~public BankTellerRole bankTeller;
 	public BankRobberRole robber;
 	
 	
@@ -801,16 +820,16 @@ public class BankPlace extends Business {
 	public BankPlace() {
 		loanOfficer = new BankLoanOfficerRole(gui);
 		bankManager = new BankManagerRole(gui);
-		bankTeller = new BankTellerRole(gui);
+		//~~~bankTeller = new BankTellerRole(gui);
 		bankCustomers = new ArrayList<BankCustomerRole>();
 		
 		loanOfficer.setManager(bankManager);
-		bankTeller.setManager(bankManager);
+		//~~~bankTeller.setManager(bankManager);
 		
 	}
 	public BankCustomerRole addCustomer() {
 		BankCustomerRole b = new BankCustomerRole(gui);
-		b.setMarketManager(bankManager);
+		b.setManager(bankManager);
 		bankCustomers.add(b);
 		return b;
 	}
@@ -891,7 +910,8 @@ class RestaurantPlace extends Business {
                                 aw.setCook((Drew_Cook)cook);
                                 aw.addCashier((Drew_Cashier)cashier);
                                 aw.setHost((Drew_Host)host);
-                                //Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
+                                Drew_WaiterGui g = new Drew_WaiterGui(aw, 1);
+                                aw.setGui(g);
                                 waiters.add(aw);
                                 ((Drew_Host)host).addWaiter(aw);
                                 return aw;
@@ -949,6 +969,8 @@ switch(restNum) {
 					aw.setCook((Drew_Cook)cook);
 					aw.addCashier((Drew_Cashier)cashier);
 					aw.setHost((Drew_Host)host);
+                    Drew_WaiterGui g = new Drew_WaiterGui(aw, 1);
+                    aw.setGui(g);
 					//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
 					waiters.add(aw);
 					((Drew_Host)host).addWaiter(aw);
@@ -1005,13 +1027,13 @@ switch(restNum) {
         public Role AddCustomer() {
                 switch(restNum) {
                 
-                        case 1: Drew_CustomerRole ac = new Drew_CustomerRole();
-                        ac.setHost((Drew_Host)host);
+                        case 2: Drew_CustomerRole ac = new Drew_CustomerRole();
+                        ac.setHost((Drew_HostRole)host);
                         customers.add(ac);
                         return ac;
                         
-                        case 2: BCustomerRole bc = new BCustomerRole();
-                        bc.setCashier((BCashier)cashier);
+                        case 5: BCustomerRole bc = new BCustomerRole();
+                        bc.setCashier((BCashierRole)cashier);
                         bc.setHost((BHostRole)host);
                         customers.add(bc);
                         return bc;
@@ -1024,13 +1046,13 @@ switch(restNum) {
                         
                         case 4: KCustomerRole kc = new KCustomerRole(gui);
                         kc.setHost((KHostRole)host);
-                        kc.setCashier((KCashier)cashier);
+                        kc.setCashier((KCashierRole)cashier);
                         customers.add(kc);
                         return kc;
                                 
-                        case 5:        LCustomerRole lc = new LCustomerRole();
-                        lc.setCashier((LCashier)cashier);
-                        lc.setHost((LHost)host);
+                        case 1:        LCustomerRole lc = new LCustomerRole();
+                        lc.setCashier((LCashierRole)cashier);
+                        lc.setHost((LHostRole)host);
                         customers.add(lc);
                         return lc;
                         

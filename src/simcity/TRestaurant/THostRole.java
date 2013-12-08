@@ -70,7 +70,7 @@ public class THostRole extends Role implements Host {
 		if(type.equals("Waiter")){
 			AlertLog.getInstance().logInfo(AlertTag.Market, "THostRole", "Waiter is here");
 			Do("Waiter is here");
-			waiters.add(new myWaiters((TWaiterRole) r));
+			waiters.add(new myWaiters((TWaiter) r));
 		}
 		else if(type.equals("Cook")){
 			AlertLog.getInstance().logInfo(AlertTag.Market, "THostRole", "Cook is here");
@@ -131,7 +131,7 @@ public class THostRole extends Role implements Host {
 		AlertLog.getInstance().logInfo(AlertTag.Market, "THostRole", "Waiter asking for break");
 		Do("Waiter asking for break");
 		int index = 0; 
-		while (waiters.get(index).hw != waiter) {
+		while (waiters.get(index).w != waiter) {
 			index++; 
 			}
 		waiters.get(index).state = WaiterState.wantsBreak;
@@ -293,7 +293,7 @@ public class THostRole extends Role implements Host {
 	}
 
 	//utilities
-	public void addWaiter(TWaiterRole wait) {
+	public void addWaiter(TWaiter wait) {
 		myWaiters waitList = new myWaiters(wait);
 		waiters.add(waitList);
 		wait.setHomePosition(waiters.size() - 1);
@@ -319,19 +319,12 @@ public class THostRole extends Role implements Host {
 	}
 	
 	class myWaiters {
-		TWaiterRole w;
-		TWaiterSharedDataRole hw; 
+		TWaiter w;
 		WaiterState state;
 		
-		public myWaiters(TWaiterRole r) {
+		public myWaiters(TWaiter r) {
 			w = r;
 			state = WaiterState.ready; 		
-		}
-
-		
-		public void setHeadWaiter(TWaiterSharedDataRole wait) {
-			hw = wait;
-			state = WaiterState.ready; 
 		}
 		
 	}

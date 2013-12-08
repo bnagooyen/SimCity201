@@ -343,6 +343,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 			gui.myPanels.get("Restaurant 1").panel.addGui(waiterGui);
 		}
 		waiterGui.setPresent(true);
+		waiterGui.DoGoToWork();
 		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","telling manager I can work");
 		System.out.println(myPerson.getName() + ": " +"telling manager I can work");
 		arrived = false;

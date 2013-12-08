@@ -267,7 +267,8 @@ public class KCookRole extends Role implements Cook{
 			gui.myPanels.get("Restaurant 1").panel.addGui(cookGui);
 		}
 		cookGui.setPresent(true);
-		
+		cookGui.DoGoToWork();
+
 		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "telling manager I'm here to work");
 		System.out.println(myPerson.getName() + ": " +"telling manager I'm here to work");
 		arrived = false;

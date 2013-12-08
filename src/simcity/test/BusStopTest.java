@@ -7,7 +7,6 @@ import simcity.PersonAgent;
 import simcity.Market.InventoryBoyRole;
 import simcity.Market.MFoodOrder;
 import simcity.Market.MOrder;
-import simcity.housing.LandlordRole;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.Person;
 import simcity.mockrole.MockRole;

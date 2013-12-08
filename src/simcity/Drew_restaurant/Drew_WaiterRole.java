@@ -30,6 +30,7 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 	private Drew_Host host;
 	protected Drew_Cook cook;
 	private Drew_Cashier cashier; 
+	public int startHour=9;
 	
 	public enum CustomerState 
 	{waiting, seated,readyToOrder,askedToOrder, ordered, waitingForFood, foodReady, eating, billReady,paying, done};
@@ -128,7 +129,7 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 			}
 		}
 		mc.s=CustomerState.done;
-		//waitergui.clearTable(mc.t);
+		waitergui.clearTable(mc.t);
 		stateChanged();
 	}  
 	
@@ -286,18 +287,18 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 		}
 		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewWaiter", "Seating " + customer.c + " at " + customer.getTable());
 		print("Seating " + customer.c + " at " + customer.getTable());
-		//waitergui.getCustomer();
+		waitergui.getCustomer();
 		finishTask();
 		waitergui.setGui(customer.c.getGui());	//Tells WaiterGui which customerGui it needs
-		//waitergui.DoBringToTable(customer.getTable());	//WaiterGui sends Location to CustomerGui
+		waitergui.DoBringToTable(customer.getTable());	//WaiterGui sends Location to CustomerGui
 		customer.getCustomer().followMeToTable(new Menu()); 
 		finishTask();		//Utilizes AtDest semaphore to allow waiter to complete task
-		//customer.getCustomer().followMeToTaxble(new Menu()); 
+		customer.getCustomer().followMeToTable(new Menu()); 
 		customer.s=CustomerState.seated;
 	} 
 	
 	private void tellCustomerOutOfFood(MyCustomer mc, String choice){
-		//waitergui.goToTable(mc.t);
+		waitergui.goToTable(mc.t);
 		finishTask();
 		mc.s=CustomerState.seated;
 		mc.c.outOfChoice(choice);
@@ -307,7 +308,7 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 	}
 	
 	private void takeOrder(MyCustomer customer){
-		//waitergui.goToTable(customer.getTable());
+		waitergui.goToTable(customer.getTable());
 		finishTask();
 		customer.c.whatWouldYouLike();
 		customer.s=CustomerState.askedToOrder;
@@ -324,11 +325,11 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 	}*/
 	
 	private void deliverFood(MyCustomer c){
-		//waitergui.goToKitchen();
+		waitergui.goToKitchen();
 		finishTask();
 		cook.getGui().onWindow--;
-		//waitergui.pickUpFood(c.choice);
-		//waitergui.goToTable(c.t);
+		waitergui.pickUpFood(c.choice);
+		waitergui.goToTable(c.t);
 		finishTask();
 		waitergui.dropOffFood(c.t, c.choice);
 		c.c.hereIsYourFood();
@@ -339,7 +340,7 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 		host.tableIsFree(tablenumber);
 		customers.remove(customer);
 		if(customers.isEmpty()){
-			//waitergui.goHome();
+			waitergui.goHome();
 			finishTask();
 		}
 	}
@@ -373,7 +374,7 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewWaiter", "Customer Has been given the Bill "+ c.b);
 		print("Customer Has been given the Bill "+ c.b);
 		c.s=CustomerState.paying;
-		//waitergui.dropOff();
+		waitergui.dropOff();
 	}
 	
 	private void leaveBank(){

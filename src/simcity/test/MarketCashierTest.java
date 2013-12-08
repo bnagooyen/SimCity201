@@ -294,7 +294,7 @@ public class MarketCashierTest extends TestCase{
         assertTrue("MarketCashier going home.", mc.pickAndExecuteAnAction());
         
         //in action
-        assertEquals("MarketCashier's state is unavailable.", mc.state, myState.unavailable);
+        assertEquals("MarketCashier's state is arrived.", mc.state, myState.arrived);
         assertEquals("MarketCashier's not active.", mc.isActive,false);
         assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + mc.log.toString(), 0, mc.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "

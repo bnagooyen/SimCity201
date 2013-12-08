@@ -41,8 +41,8 @@ public class KWaiterGui implements Gui {
     public KWaiterGui(KWaiterRole agent, int pos) {
         this.agent = agent;
         homeposx += pos*22;
-        xPos = homeposx;
-        yPos = 0;
+        xPos = -20;
+        yPos = -20;
         xDestination = homeposx;
         yDestination = homeposy;
     }
@@ -162,7 +162,14 @@ public class KWaiterGui implements Gui {
         xDestination = homeposx;
         yDestination = homeposy;
     }
-
+    
+    public void DoGoToWork() {
+		xPos = -20;
+		yPos = -20;
+		xDestination = homeposx;
+		yDestination = homeposy;
+	}
+    
     public void DoGoToTable(int tableNumber) {
     	table = tableNumber;
     	System.out.println("going to table");
@@ -207,7 +214,7 @@ public class KWaiterGui implements Gui {
 
 	public void DoGoHome() {
 		xDestination = -20;
-    	yDestination = -20;
+    	yDestination = 0;
 	}
 
 	public void setPresent(boolean b) {

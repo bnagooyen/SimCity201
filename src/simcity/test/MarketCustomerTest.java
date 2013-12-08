@@ -22,7 +22,7 @@ public class MarketCustomerTest extends TestCase{
 	public void setUp() throws Exception {
 		super.setUp();
 		p = new PersonAgent("customer");
-		c = new MarketCustomerRole();
+		c = new MarketCustomerRole(null);
 		c.myPerson = p;
 		mc = new MockMarketCashier("mockMarketCashier");
 		manager = new MockMarketManager("mockManager");
@@ -36,7 +36,7 @@ public class MarketCustomerTest extends TestCase{
 		mc.m = manager;
 		c.setMarketManager(manager);
 		manager.open = true;
-		c.purpose = "food";
+		//c.purpose = "food";
 		
 		// preconditions
         assertEquals("MarketCustomer should have an empty event log. Instead, the customer's event log reads: " + c.log.toString(), c.log.size(), 0);
@@ -110,8 +110,8 @@ public class MarketCustomerTest extends TestCase{
      	
      	// check postconditions
      	assertTrue("Customer shouldn't be active anymore but is", c.isActive == false);
-		assertTrue("Customer's state should be done",c.state == customerState.done);
-        assertEquals("customer's scheduler should return false but doesn't", c.pickAndExecuteAnAction(), false);
+		assertTrue("Customer's state should be done",c.state == customerState.talkToManager);
+        assertEquals("customer's scheduler should return false but doesn't", c.pickAndExecuteAnAction(), true);
         assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
 
 	}
@@ -122,6 +122,7 @@ public class MarketCustomerTest extends TestCase{
 		c.setMarketManager(manager);
 		manager.open = true;
 		c.purpose = "car";
+		 c.order.add(new MFoodOrder("Car", 1));
 		
 		// preconditions
         assertEquals("MarketCustomer should have an empty event log. Instead, the customer's event log reads: " + c.log.toString(), c.log.size(), 0);
