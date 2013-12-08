@@ -50,7 +50,8 @@ public class BankListPanel extends BuildingListPanel {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==downCB){ 
+		
+        if(e.getSource() == downCB){ 
         	if(downCB.isSelected()){
         		city.simcityPanel.directory.get(name).down = true;
         	}
@@ -58,5 +59,10 @@ public class BankListPanel extends BuildingListPanel {
         		city.simcityPanel.directory.get(name).down = false;
         	}
         }
+        
+        if(e.getSource() == setInventory){
+        	System.out.println("Silly Billy, our city has an unlimited amount of money");
+        }
+        
 	}
 }

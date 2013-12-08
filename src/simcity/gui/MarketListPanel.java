@@ -59,12 +59,21 @@ public class MarketListPanel extends BuildingListPanel {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		
+		if(arg0.getSource()==downCB){ 
+        	if(downCB.isSelected()){
+        		city.simcityPanel.directory.get(building).down = true;
+        	}
+        	else{
+        		city.simcityPanel.directory.get(building).down = false;
+        	}
+        }
+		
 		if (arg0.getSource() == setVal) {
 			
 			String userInput2 = (setInventory).getText().trim();
 	    	int inventoryVal=Integer.parseInt(userInput2);
 	    	
-	    	System.out.println("Market's starting inventory: "+inventoryVal);
+	    	System.out.println("Market's inventory: "+inventoryVal);
 	    	
 	    	if(building.equals("Market 1")){
 	    		((MarketPlace)(city.simcityPanel.directory.get("Market 1"))).ib.msgSetInventory(inventoryVal);
