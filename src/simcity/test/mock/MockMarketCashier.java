@@ -79,6 +79,7 @@ public class MockMarketCashier extends Mock implements MarketCashier {
 
 	@Override
 	public void msgCarOrder(MarketCustomer c, String building) {
+		System.out.println("here");
 		LoggedEvent e = new LoggedEvent("got customer's car order");
 		log.add(e);
 		
