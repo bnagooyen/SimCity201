@@ -6,6 +6,7 @@ import simcity.DRestaurant.DOrder;
 import simcity.DRestaurant.DOrder.OrderState;
 import agent.Agent;
 import agent.Role;
+import simcity.gui.SimCityGui;
 import simcity.gui.DGui.DWaiterGui;
 import simcity.interfaces.DCustomer;
 import simcity.interfaces.DWaiter;
@@ -57,7 +58,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	private Semaphore atCook = new Semaphore(0, true);
 	public DWaiterGui WaiterGui = null;
 
-	public enum WaiterState {working, takingOrder, 
+	public enum WaiterState {arrived, working, takingOrder, 
 			goingToCook, servingFood, onBreak};
 	
 	public boolean onBreak;
@@ -70,12 +71,13 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	private boolean disableBoxTillBreak;
 	
 	public WaiterState state;
+	SimCityGui gui;
 	
-	public DWaiterRole() {
+	public DWaiterRole(SimCityGui gui) {
 		super();
-	
+		this.gui=gui;
 		
-		state = WaiterState.working;
+		state = WaiterState.arrived;
 		onBreak=false;
 		wantBreakChecked=false;
 		//requestedBreak=false;
@@ -313,6 +315,12 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		//`System.out.println("in watier scheduler");
 		if(!onBreak)
 		{
+			
+			if(state==WaiterState.arrived) {
+				tellHost();
+				return true;
+			}
+			
 			//System.out.println("waiter is on duty!");
 			//if gui is still seating a customer, cannot schedule any other task
 			
@@ -437,8 +445,10 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		//nothing to do. So return false to main loop of abstract agent
 		//and wait.
 	}
-
 	// Actions
+	
+	protected abstract void tellHost();
+	
 	private void GoToCashier() {
 		checksWaiting=false;
 		DoGoToCashier();

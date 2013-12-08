@@ -209,7 +209,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 			return true;
 		}
 		
-		if(dState.equals(workerState.occupied)){
+		if(dState==workerState.occupied){
 			synchronized(dOrders){
 				for(MyDeliveryOrder d : dOrders){
 					if(d.state.equals(orderState.waiting) && !d.restClosed){
