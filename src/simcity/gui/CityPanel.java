@@ -299,11 +299,17 @@ public class CityPanel extends JPanel implements ActionListener {
 			g2.fillRect(0, 0, CITY_WIDTH, streetWidth);
 			g2.fillRect(0, streetWidth+5*housingLength+ sidewalkWidth+ 5*parkingGap+sidewalkWidth, CITY_WIDTH, streetWidth);
 			
+			//Stops
+			g2.setColor(Color.BLUE);
+            g2.fillRect(90, 30, 10, 10);
+            g2.fillRect(475, 30, 10, 10);
+            g2.fillRect(90, 345, 10, 10);
+            g2.fillRect(475, 345, 10, 10);
 		
 			//GUIS (ADJUST ORDER LATER)
 			
 			  for(Gui gui : guis) {
-		            if (gui.isPresent()) {
+		            if (gui.isPresent() || !gui.isPresent()) {
 		                gui.updatePosition();
 		            }
 		        }
