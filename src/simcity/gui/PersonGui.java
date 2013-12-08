@@ -47,7 +47,7 @@ public class PersonGui implements Gui {
     
     //int numPlating=1;
     
-    enum Command {none, GoToRestaurant, GoHome, GoToBusStop, other};
+    enum Command {none, GoToRestaurant, GoHome, other, GoToBusStop};
     Command command= Command.none;
     
     //public String[] foodReady= new String[nTABLES];
@@ -117,9 +117,10 @@ public class PersonGui implements Gui {
         myMap.put("Market 4", new Point(4*yardSpace+6*housingWidth+6*sidewalkWidth+3*streetWidth+30, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
         
         myMap.put("Stop1", new Point(100,30));
-        myMap.put("Stop2", new Point(400,30));
-        myMap.put("Stop3", new Point(100,345));
-        myMap.put("Stop4", new Point(400,345));
+        myMap.put("Stop2", new Point(475,30));
+        myMap.put("Stop3", new Point(475,345));
+        myMap.put("Stop4", new Point(100,345));
+   
     
         //Figuring out where the person starts off when created
         
@@ -208,14 +209,17 @@ public class PersonGui implements Gui {
     	
         if (xPos == xDestination && yPos == yDestination)
         {
-        		isPresent = false;
+        		
         		if(command==Command.GoToRestaurant ||command==Command.GoHome||command==Command.other) {
         			agent.msgAnimationArivedAtRestaurant();
-        			System.out.println("msgArrivedat");
+        			System.out.println(command);
         		}
-        		else {
-        			agent.msgAnimationAtBusStop(); 
-        		}
+        		
+        		  if(command==Command.GoToBusStop) {
+                     agent.msgAnimationAtBusStop();
+                     
+                     
+             }
         	
         		command=Command.none;
         		
@@ -274,6 +278,13 @@ public class PersonGui implements Gui {
     		command=Command.GoToRestaurant;
     	}
     	
+    	 if(destination.contains("Stop")) {
+             Point myDest = myMap.get(destination);
+             xDestination = myDest.x;
+             yDestination = myDest.y;
+             command=Command.GoToBusStop;
+     }
+    	
     	if(destination.contains("Bank")) {
     		Point myDest = myMap.get(destination);
     		xDestination = myDest.x;
@@ -292,42 +303,6 @@ public class PersonGui implements Gui {
     		command=Command.GoHome;
     	}
     	
-    	if (destination.contains("Bus Stop")) {
-    		if (xPos < 300) {
-    			if (yPos < 150) {
-    				Point myDest = myMap.get("Stop1"); 
-    				xDestination = myDest.x; 
-    				yDestination = myDest.y; 
-    				command = Command.GoToBusStop; 	
-    			}
-    			else {
-    				Point myDest = myMap.get("Stop4"); 
-    				xDestination = myDest.x; 
-    				yDestination = myDest.y; 
-    				command = Command.GoToBusStop; 
-    			}
-    		}
-    		else {
-    			if (yPos < 150) {
-    				Point myDest = myMap.get("Stop2"); 
-    				xDestination = myDest.x; 
-    				yDestination = myDest.y; 
-    				command = Command.GoToBusStop; 
-    			}
-    			else {
-    				Point myDest = myMap.get("Stop2"); 
-    				xDestination = myDest.x; 
-    				yDestination = myDest.y; 
-    				command = Command.GoToBusStop; 
-    			}
-    		}
-    	}
-    	else {
-    		Point myDest = myMap.get(destination);
-    		xDestination = myDest.x;
-    		yDestination = myDest.y;
-    		command=Command.other;
-    	}
     	
     }
     
@@ -348,3 +323,4 @@ public class PersonGui implements Gui {
 //    	}
 //    }
 }
+
