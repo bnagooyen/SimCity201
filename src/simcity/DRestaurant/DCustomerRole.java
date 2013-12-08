@@ -52,7 +52,7 @@ public class DCustomerRole extends Role implements DCustomer {
 	private AgentState state = AgentState.DoingNothing;//The start state
 
 	public enum AgentEvent 
-	{none, gotHungry, followHost, seated, iKnowWhatIWant, waiterIsHere, waiterIsHereForReorder, foodIsHere, doneEating, doneLeaving, arrivedAtCashier, gotReceipt, restaurantIsFull, goToHangout, tableReady};
+	{none, gotHungry, followHost, seated, iKnowWhatIWant, waiterIsHere, waiterIsHereForReorder, foodIsHere, doneEating, doneLeaving, arrivedAtCashier, gotReceipt, restaurantIsFull, goToHangout, tableReady, restaurantIsClosed};
 	AgentEvent event = AgentEvent.none; //initialized to none
 
 	/**
@@ -125,9 +125,13 @@ public class DCustomerRole extends Role implements DCustomer {
 		stateChanged();
 	}
 	
+	public void msgRestaurantIsClosed() {
+		event=AgentEvent.restaurantIsClosed;
+		stateChanged();
+	}
 	@Override
 	public void msgNoRoomForYou() {
-		System.out.println("no room for me!");
+		Do("no room for me!");
 		event=AgentEvent.restaurantIsFull;
 		stateChanged();
 	}
@@ -240,6 +244,11 @@ public class DCustomerRole extends Role implements DCustomer {
 			return true;
 		}
 		
+		if(state==AgentState.WaitingInRestaurant && event == AgentEvent.restaurantIsClosed) {
+			LeaveRestaurant();
+			return true;
+		}
+		
 		if (state == AgentState.WaitingInRestaurant && event == AgentEvent.goToHangout ){
 			GoToHangout();
 			return true;
@@ -316,7 +325,10 @@ public class DCustomerRole extends Role implements DCustomer {
 //		host.msgIAmHere(this);
 		//System.err.println("sent iwantfood");
 	}
-	
+	private void LeaveRestaurant() {
+		DoLeaveRestaurant();
+		state=AgentState.Leaving;
+	}
 	private void ShouldIStayOrShouldIGo() {
 		//System.out.println("in shouldistay");
 		if(!stayOrLeave) {
@@ -523,6 +535,7 @@ public class DCustomerRole extends Role implements DCustomer {
 	
 	private void clearState() {
 		state = AgentState.DoingNothing;
+		isActive=false;
 	}
 
 	//DoXYZ commands

@@ -36,7 +36,7 @@ public class DWaiterNormalRole extends DWaiterRole implements DWaiter {
 			WaiterGui.setPresent(true);
 			
 			Do("Telling manager that I can work");
-			state=WaiterState.working;
+			state=WaiterState.waitingForOnDuty;
 			host.msgIAmHere(this, "waiterNormal");
 		
 	}

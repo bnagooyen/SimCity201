@@ -29,9 +29,12 @@ public class DHostRole extends Role implements Host {
 	//with List semantics.
 	public List<MyCustomer> waitingCustomers
 	=  Collections.synchronizedList(new ArrayList<MyCustomer>());
-
+	private double register;
 	DCustomerRole custLeavingWaitlist;
 	DCustomerRole sendFullMsgTo;
+
+	boolean cookArrived =false;
+	boolean cashierArrived = false;
 	
 	DCookRole myCook = null;
 	DCashierRole myCashier=null;
@@ -41,13 +44,17 @@ public class DHostRole extends Role implements Host {
 	public Collection<Table> tables;
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
-
+	public static final double cashierPay = 90;
+	public static final double waiterPay = 120;
+	public static final double cookPay= 100;
+	public static final double hostPay = 130;
 	private int customersInRST;
 	private String name;
 	private Semaphore atTable = new Semaphore(0,true);
 	private Semaphore customerAtFront = new Semaphore(0,true);
+	private Semaphore registerRestocked = new Semaphore(0, true);
 	//public HostGui hostGui = null;
-
+	boolean waitingForNoCustomers=false;
 	boolean KitchenReadyForOpen;
 
 	public DHostRole() {
@@ -59,7 +66,7 @@ public class DHostRole extends Role implements Host {
 		for (int ix = 1; ix <= NTABLES; ix++) {
 			tables.add(new Table(ix));//how you add to a collections
 		}
-		
+		register=300;
 		KitchenReadyForOpen=false;
 		//adding one waiter.. to be changed
 		//waiters.add(new WaiterAgent("Joe"));
@@ -95,15 +102,25 @@ public class DHostRole extends Role implements Host {
 		KitchenReadyForOpen=true;
 		stateChanged();
 	}
-	
+	public void msgRegisterMoney(double amt) {
+		register=amt;
+		System.out.println("host received update in register amount: "+ register);
+		registerRestocked.release();
+	}
+	public void msgTimeUpdate(int hr) {
+		hour = hr;
+		stateChanged();
+	}
 	public void msgIAmHere(Role role, String type) {
 		if(type.equals("cook")) {
 			Do("Cook is here");
 			myCook=(DCookRole)role;
+			cookArrived=true;
 		}
 		else if(type.equals("cashier")) {
 			Do("Cashier is here");
 			myCashier=(DCashierRole)role;
+			cashierArrived=true;
 		}
 		else if(type.equals("waiterShared")) {
 			waiters.add(new MyWaiter((DWaiterRole)role));
@@ -115,7 +132,7 @@ public class DHostRole extends Role implements Host {
 			System.out.println("waiter "+ ((DWaiterRole)role).getName() +" added to host list");
 		}
 			
-		
+		stateChanged();
 	}
 	
 	public void msgIWantFood(DCustomerRole cust) { //telling agent i want food (once seated)
@@ -205,6 +222,37 @@ public class DHostRole extends Role implements Host {
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
+		if(hour==23 && !waitingForNoCustomers) {
+			RestaurantIsClosed();
+		}
+		if(waitingForNoCustomers) {
+			boolean restaurantEmpty=true;
+			for(MyWaiter w: waiters) {
+				if(w.numCustomers!=0) {
+					restaurantEmpty=false;
+				}
+			}
+			if(restaurantEmpty) {
+				CloseRestaurant();
+				return true;
+			}
+		}
+		if(cookArrived){
+			CookOnDuty();
+			return true;
+		}
+		if(cashierArrived) {
+			CashierOnDuty();
+			return true;
+		}
+		synchronized(waiters) {
+		for(int i=1; i<=waiters.size(); i++) {
+			if(waiters.get(i).state==MyWaiterState.justArrived) {
+				TellWaiterPosition(waiters.get(i), i);
+				return true;
+			}
+		}
+		}
 		if(custLeavingWaitlist!=null) {
 			RemoveCustomerFromList();
 			return true;
@@ -269,6 +317,46 @@ public class DHostRole extends Role implements Host {
 	}
 
 	// Actions
+	private void CloseRestaurant() {
+		
+		myCashier.msgOffDuty(cashierPay);
+		try {
+			registerRestocked.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		myCook.msgOffDuty(cookPay);
+		int numWaitersPaid=0;
+		for(MyWaiter w: waiters) {
+			w.w.msgOffDuty(waiterPay);
+			numWaitersPaid++;
+		}
+		waiters.clear();
+		myPerson.money+=hostPay;
+		register-=(cookPay+cashierPay+hostPay+numWaitersPaid*waiterPay);
+		waitingForNoCustomers=false;
+		isActive=false;
+	}
+	private void RestaurantIsClosed() {
+		for(MyCustomer c: waitingCustomers) {
+			c.c.msgRestaurantIsClosed();
+		}
+		waitingForNoCustomers=true;
+	}
+	private void CookOnDuty() {
+		myCook.msgOnDuty();
+		cookArrived=false;
+	}
+	private void CashierOnDuty() {
+		myCashier.msgRegisterAmount(register);
+		register=0;
+		cashierArrived=false;
+	}
+	private void TellWaiterPosition(MyWaiter w, int pos) {
+		w.w.msgPosition(pos);
+		w.state=MyWaiterState.working;
+	}
 	
 	private void TellCustomerToHangout(MyCustomer cu) {
 		customersInRST++;
@@ -371,21 +459,22 @@ public class DHostRole extends Role implements Host {
 		
 	}
 	
-	public void addCook(DCookRole c) {
-		myCook = c;
-		c.setMonitor(theMonitor);
-	}
+//	public void addCook(DCookRole c) {
+//		myCook = c;
+//		c.setMonitor(theMonitor);
+//		cookArrived=true;
+//	}
 	
 	static public class MyWaiter {
 		
 		DWaiterRole w;
-		enum MyWaiterState {working, onBreak, atFront, requestedBreak};
+		enum MyWaiterState {justArrived, working, onBreak, atFront, requestedBreak};
 		MyWaiterState state;
 		int numCustomers;
 		public MyWaiter(DWaiterRole w2) {
 			// TODO Auto-generated constructor stub
 			w=w2;
-			state=MyWaiterState.working;
+			state=MyWaiterState.justArrived;
 			numCustomers=0;
 		}
 	}

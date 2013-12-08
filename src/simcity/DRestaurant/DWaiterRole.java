@@ -3,6 +3,7 @@
 package simcity.DRestaurant;
 
 import simcity.DRestaurant.DOrder;
+import simcity.DRestaurant.DCookRole.CookState;
 import simcity.DRestaurant.DOrder.OrderState;
 import agent.Agent;
 import agent.Role;
@@ -49,17 +50,18 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	boolean checksWaiting=false;
 	private MyCustomer takingOrderFrom = null;
 	//private Order orderDelivering = null;
-	
+	private int startPos;
 	private String name;
 	private Semaphore atTable = new Semaphore(0,true);
 	private Semaphore atFront = new Semaphore(0,true);
+	private Semaphore atTheDoor = new Semaphore(0, true);
 	private Semaphore customerArrived = new Semaphore(0,true);
 	private Semaphore atCashier = new Semaphore(0,true);
 	private Semaphore atCook = new Semaphore(0, true);
 	public DWaiterGui WaiterGui = null;
 
 	public enum WaiterState {arrived, working, takingOrder, 
-			goingToCook, servingFood, onBreak};
+			goingToCook, servingFood, onBreak, onDuty, waitingForOnDuty, offDuty};
 	
 	public boolean onBreak;
 	//public boolean requestedBreak; // for host to respond to break request
@@ -115,6 +117,18 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	public void msgAddHost(DHostRole h) {
 		host=h;
 	}
+	
+	public void msgPosition(int pos) {
+		startPos=pos;
+		state=WaiterState.onDuty;
+		stateChanged();
+	}
+	
+    public void msgOffDuty(double money){
+    	myPerson.money+=money;
+    	state=WaiterState.offDuty;
+    	stateChanged();
+    }
 	
 	public void msgHereIsAWaitingCustomer(DCustomer c, int t) {
 		System.out.println("waiter: adding "+c+ " to my customers list");
@@ -266,6 +280,10 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 			stateChanged();
 	}
 	
+	public void msgAnimationLeftRestaurant() {
+		atTheDoor.release();
+		stateChanged();
+	}
 	
 	public void msgAnimationArrivedAtFront() {
 //		System.out.println("made it");
@@ -318,6 +336,15 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 			
 			if(state==WaiterState.arrived) {
 				tellHost();
+				return true;
+			}
+			
+			if(state==WaiterState.onDuty) {
+				goToPosition();
+				return true;
+			}
+			if(state==WaiterState.offDuty) {
+				leaveRestaurant();
 				return true;
 			}
 			
@@ -448,6 +475,25 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	// Actions
 	
 	protected abstract void tellHost();
+	
+	private void goToPosition() {
+		DoGoToWaiterPosition();
+		state=WaiterState.working;
+	}
+	
+	private void leaveRestaurant() {
+		Do("Off duty... leaving restaurant");
+		DoLeaveRestaurant();
+		try {
+			atTheDoor.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		state=WaiterState.arrived;
+		isActive=false;
+		
+	}
 	
 	private void GoToCashier() {
 		checksWaiting=false;
@@ -709,6 +755,12 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	// The animation DoXYZ() routines
 	private void DoGoHangAtTheFront() {
 		WaiterGui.DoGoToHangout();
+	}
+	private void DoGoToWaiterPosition() {
+		WaiterGui.DoGoToWaiterPosition(startPos);
+	}
+	private void DoLeaveRestaurant() {
+		WaiterGui.DoLeaveRestaurant();
 	}
 	private void DoGoToCashier() {
 		Do("going to cashier to get bill..");

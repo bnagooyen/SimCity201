@@ -24,4 +24,6 @@ public interface DCustomer {
 	public abstract void msgGoToHangout();
 	public abstract void msgYourTableIsReady();
 	void ActivateRole();
+
+	public void msgRestaurantIsClosed();
 }

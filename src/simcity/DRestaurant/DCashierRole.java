@@ -34,7 +34,8 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	//list of waiters
 	//public List<WaiterAgent> waiters = new ArrayList<WaiterAgent>();
 	DCook myCook = null;
-	
+	enum CashierState {arrived, working, offDuty};
+	CashierState state;
 	public static final double MKT_interestRate=0.10;
 	
 	//public Collection<Table> tables;
@@ -70,6 +71,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 		
 		registerAmnt=300;
 		//inventoryBills.clear();
+		state=CashierState.arrived;
 
 	}
 
@@ -99,13 +101,31 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	
 
 	// Messages
+	
+	//utilities
+
+
+	public void AddHost(DHostRole host2) {
+		// TODO Auto-generated method stub
+		this.host=host2;
+	}
 	public void AddCook(DCook tba) {
 		myCook = tba;
 	}
+
 //	public void msgMadeInventoryOrder(int ORDER_ID, double billAmt, Market m) {
 //		inventoryBills.add(new InventoryBill(billAmt, m));
 //	}
 	
+	public void msgOffDuty(double pay) {
+		myPerson.money+=pay;
+		state=CashierState.offDuty;
+		stateChanged();
+	}
+	public void msgRegisterAmount(double amt) {
+		registerAmnt=amt;
+		Do("Register is loaded: "+registerAmnt);
+	}
 	@Override
 	public void msgAnswerVerificationRequest(boolean yn) {
 		System.out.println("\n cashier received answer verification " + (yn ? "yes" : "no"));
@@ -182,6 +202,14 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
             If so seat him at the table.
 		 */
 		//System.out.println('');
+		if(state==CashierState.arrived) {
+			tellHost();
+			return true;
+		}
+		if(state==CashierState.offDuty) {
+			leaveRestaurant();
+			return true;
+		}
 		synchronized(myBills) {
 		for(DCheck b: myBills) {
 			if(b.state==CheckState.processing) {
@@ -250,7 +278,16 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	}
 
 	// Actions
-	 
+	private void tellHost(){
+		host.msgIAmHere(this, "cashier");
+		state=CashierState.working;
+	}
+	private void leaveRestaurant() {
+		host.msgRegisterMoney(registerAmnt);
+		registerAmnt=0;
+		state=CashierState.arrived;
+		isActive=false;
+	}
 	private void RemoveFraudulentBill(InventoryBill bi) {
 		inventoryBills.remove(bi);
 	}
@@ -410,13 +447,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 			return amnt;
 		}
 	}
-	//utilities
 
-
-	public void AddHost(DHostRole host2) {
-		// TODO Auto-generated method stub
-		this.host=host2;
-	}
 
 
 

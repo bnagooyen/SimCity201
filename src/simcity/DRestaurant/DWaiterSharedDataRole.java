@@ -41,7 +41,7 @@ public class DWaiterSharedDataRole extends DWaiterRole implements DWaiter {
 			WaiterGui.setPresent(true);
 			
 			Do("Telling manager that I can work");
-			state=WaiterState.working;
+			state=WaiterState.waitingForOnDuty;
 			host.msgIAmHere(this, "waiterShared");
 		
 	}

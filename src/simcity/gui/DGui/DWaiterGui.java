@@ -34,7 +34,7 @@ public class DWaiterGui implements Gui {
     public static final int TABLE_gap=30;
     
     public static final int TABLESZ_xy = 50;
-    
+    public static final int theDoor=-40;
     public static final int restaurantFront_x = -20;
     public static final int restaurantFront_y = -20;
     
@@ -52,7 +52,7 @@ public class DWaiterGui implements Gui {
     public static final int nTABLES = 4;
     public static final int TABLES_perRow = 4;
     
-    enum Command {none, GoToFront, GoSeatCustomer, GoToTable, GoToCook, GoToCashier, GoToHangout};
+    enum Command {none, GoToFront, GoSeatCustomer, GoToTable, GoToCook, GoToCashier, GoToHangout, GoHome};
     Command command= Command.none;
     
     //public String[] foodReady= new String[nTABLES];
@@ -84,11 +84,11 @@ public class DWaiterGui implements Gui {
 //        xDestination=xPos;
 //        yDestination=yPos;
         
-      xPos = -20;
-      yPos = -20;
+      xPos = -40;
+      yPos = -40;
       
-      xDestination=-20;
-      yDestination=-20;
+      xDestination=-40;
+      yDestination=-40;
         
         
     }
@@ -114,7 +114,10 @@ public class DWaiterGui implements Gui {
         }
         else if (xPos == xDestination && yPos == yDestination)
         {
-        		if (command==Command.GoSeatCustomer) {
+        		if(command==Command.GoHome) {
+        			agent.msgAnimationLeftRestaurant();
+        		}
+        		else if (command==Command.GoSeatCustomer) {
         			agent.msgAnimationDoneSeating(); 
         			//DoGoToHangout();
         		}
@@ -170,7 +173,18 @@ public class DWaiterGui implements Gui {
     	xDestination=frontline_x;
     	yDestination=frontline_y;
     }
+    
+    public void DoGoToWaiterPosition(int startPos) {
+    	 hangout_x=40*startPos+x_Offset;
+    	 xDestination=hangout_x;
+    	 yDestination=hangout_y;
+    }
 
+    public void DoLeaveRestaurant() {
+    	command=Command.GoHome;
+    	xDestination=theDoor;
+    	yDestination=theDoor;
+    }
     public void DoBringToTable(DCustomerRole customer, int table) {
         //seatingAt=table;
     	command=Command.GoSeatCustomer;
