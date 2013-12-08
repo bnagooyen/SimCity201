@@ -15,8 +15,11 @@ public class BankListPanel extends BuildingListPanel {
 	JTextField setInventory = new JTextField();
 	JButton setVal = new JButton("Set!");
 	JCheckBox downCB = new JCheckBox("Down?");
-	public BankListPanel(SimCityGui restaurantGui, String txt) {
-		super(restaurantGui, txt);
+	String name;
+	
+	public BankListPanel(SimCityGui gui, String txt) {
+		super(gui, txt);
+		name = txt;
 		// TODO Auto-generated constructor stub
 		JPanel inventoryPanel = new JPanel();
 		inventoryPanel.setBackground(Color.darkGray);
@@ -47,8 +50,13 @@ public class BankListPanel extends BuildingListPanel {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+        if(e.getSource()==downCB){ 
+        	if(downCB.isSelected()){
+        		city.simcityPanel.directory.get(name).down = true;
+        	}
+        	else{
+        		city.simcityPanel.directory.get(name).down = false;
+        	}
+        }
 	}
-
 }

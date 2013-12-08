@@ -84,7 +84,15 @@ public class MarketListPanel extends BuildingListPanel {
 	    	}
 	    	
 		}
-		
+		if(arg0.getSource()==downCB){ 
+        	if(downCB.isSelected()){
+        		city.simcityPanel.directory.get(building).down = true;
+        	}
+        	else{
+        		city.simcityPanel.directory.get(building).down = false;
+        	}
+        }		
 	}
+	
 
 }

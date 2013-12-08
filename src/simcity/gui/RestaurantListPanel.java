@@ -15,9 +15,11 @@ public class RestaurantListPanel extends BuildingListPanel {
 	JTextField setInventory = new JTextField();
 	JButton setVal = new JButton("Set!");
 	JCheckBox downCB = new JCheckBox("Down?");
+	String name;
+	
 	public RestaurantListPanel(SimCityGui restaurantGui, String txt) {
 		super(restaurantGui, txt);
-		
+		name = txt;
 		downCB.addActionListener(this);
 		downCB.setForeground(Color.white);
 		top.add(downCB, BorderLayout.EAST);
@@ -49,8 +51,13 @@ public class RestaurantListPanel extends BuildingListPanel {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		if(e.getSource()==downCB){ 
+        	if(downCB.isSelected()){
+        		city.simcityPanel.directory.get(name).down = true;
+        	}
+        	else{
+        		city.simcityPanel.directory.get(name).down = false;
+        	}
+        }		
 	}
-
 }
