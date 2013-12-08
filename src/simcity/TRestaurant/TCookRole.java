@@ -48,7 +48,8 @@ public class TCookRole extends Role implements TCook, Cook {
 	public TCookRole() {
 		super();
 		this.name = name;
-		addFood(); 
+		addFood();
+		arrived = true; 
 	}
 	
 	class Orders {

@@ -217,6 +217,7 @@ public class SimCityPanel extends JPanel {
 		myRestaurants.add(KRestaurant);
 		myRestaurants.add(LRestaurant);
 		myRestaurants.add(TRestaurant);
+
         
         //Bank
         //Bmanager = new BankManagerRole(gui);
@@ -651,7 +652,7 @@ public class SimCityPanel extends JPanel {
     		for(Role r: tempRoles) {
     			r.myPerson=p;
     		}
-    		p.addCustomerRoles(GenerateAllCustomerRoles());
+    		p.addCustomerRoles(tempRoles);
 //    		System.err.println("**** "+ name);
     		
 			 if(houseOrApt.equals("House") && houseNumCounter<=NUMHOUSES) {
@@ -690,6 +691,13 @@ public class SimCityPanel extends JPanel {
 	    		gui.city.addGui(g);
 	    		p.bankTime=true;
 	    		
+	    		
+	    		if(role.equals("Waiter")){
+	    			Drew_WaiterRole DW=(Drew_WaiterRole) DrewRestaurant.AddNormalWaiter();
+	    			DW.myPerson=p;
+	    			p.SetJob(DW,"Restaurant 2");
+	    			p.msgTimeUpdate(8);
+	    		}
 //	    		Bmanager.msgTimeUpdate(8);
 	            //BankCustomerRole bc = new BankCustomerRole(gui);
 	            //bc.myPerson = p;
@@ -810,7 +818,7 @@ public class BankPlace extends Business {
 	}
 	public BankCustomerRole addCustomer() {
 		BankCustomerRole b = new BankCustomerRole(gui);
-		b.setMarketManager(bankManager);
+		b.setManager(bankManager);
 		bankCustomers.add(b);
 		return b;
 	}
@@ -891,7 +899,8 @@ class RestaurantPlace extends Business {
                                 aw.setCook((Drew_Cook)cook);
                                 aw.addCashier((Drew_Cashier)cashier);
                                 aw.setHost((Drew_Host)host);
-                                //Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
+                                Drew_WaiterGui g = new Drew_WaiterGui(aw, 1);
+                                aw.setGui(g);
                                 waiters.add(aw);
                                 ((Drew_Host)host).addWaiter(aw);
                                 return aw;
@@ -949,6 +958,8 @@ switch(restNum) {
 					aw.setCook((Drew_Cook)cook);
 					aw.addCashier((Drew_Cashier)cashier);
 					aw.setHost((Drew_Host)host);
+                    Drew_WaiterGui g = new Drew_WaiterGui(aw, 1);
+                    aw.setGui(g);
 					//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
 					waiters.add(aw);
 					((Drew_Host)host).addWaiter(aw);
