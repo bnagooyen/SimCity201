@@ -48,6 +48,9 @@ import simcity.TRestaurant.THostRole;
 import simcity.TRestaurant.TWaiterRole;
 import simcity.TRestaurant.TWaiterSharedDataRole;
 import simcity.TRestaurant.gui.TCookGui;
+import simcity.Transportation.BusAgent;
+import simcity.Transportation.BusStopAgent;
+import simcity.Transportation.CarAgent;
 import simcity.Transportation.DeliveryTruckAgent;
 import simcity.gui.DGui.DCookGui;
 import simcity.gui.DGui.DWaiterGui;
@@ -75,6 +78,8 @@ import simcity.interfaces.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 /**
@@ -92,6 +97,7 @@ public class SimCityPanel extends JPanel {
     public char aptLetCounter='A';
     
 	private ArrayList<RestaurantPlace> myRestaurants=new ArrayList<RestaurantPlace>();
+	public Map<String, BusStopAgent> busStops=new HashMap<String, BusStopAgent>();
 	
 	// make restaurants w/roles
 	RestaurantPlace DrewRestaurant;
@@ -185,7 +191,16 @@ public class SimCityPanel extends JPanel {
 
     private SimCityGui gui; //reference to main gui
     
-  //Person
+    
+    //Transport
+    BusAgent bus=new BusAgent();
+    BusGui bgui=new BusGui(bus, gui);
+    BusStopAgent bs1;
+    BusStopAgent bs2;
+    BusStopAgent bs3;
+    BusStopAgent bs4;
+  
+    //Person
 
     // market people workers
    // private MarketManagerRole manager;
@@ -262,7 +277,29 @@ public class SimCityPanel extends JPanel {
 //        bcustomer.hungerLevel = 0;
 //        bcustomer.startThread();*/
 //        
-//        
+//       
+        //Transport
+        bs1=new BusStopAgent();
+        bs2=new BusStopAgent();
+        bs3=new BusStopAgent();
+        bs4=new BusStopAgent();
+        
+        bs1.startThread();
+        bs2.startThread();
+        bs3.startThread();
+        bs4.startThread();
+        
+        busStops.put("Stop1", bs1);
+        busStops.put("Stop2", bs2);
+        busStops.put("Stop3", bs3);
+        busStops.put("Stop4", bs4);
+        
+        bus.startThread();
+        bus.setGui(bgui);
+        gui.city.addGui(bgui);
+        bus.setStops(busStops);
+        
+        
         //Market
        // manager = new MarketManagerRole(gui);
        // mcashier = new MarketCashierRole(gui);
@@ -645,6 +682,14 @@ public class SimCityPanel extends JPanel {
     		PersonAgent p = new PersonAgent(name);
     		p.setMoney(money);
     		p.SetTravelPreference(transport);
+    		CarAgent car=new CarAgent();
+            CarGui cgui=new CarGui(car, gui);
+            car.setGui(cgui);
+            car.startThread();
+            gui.city.addGui(cgui);
+            p.setCar(car);
+            p.setStops(busStops);
+            
     		//DCustomerRole restCustomer = new DCustomerRole(gui);
     		//restCustomer.host=host;
     		//restCustomer.cashier=cashier;
