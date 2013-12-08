@@ -5,6 +5,8 @@ import simcity.DRestaurant.DHostRole.MyCustomer.CustState;
 import simcity.DRestaurant.DHostRole.MyWaiter.MyWaiterState;
 import agent.Agent;
 import agent.Role;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 //import simcity.gui.HostGui;
 import simcity.interfaces.DCustomer;
 import simcity.interfaces.Host;
@@ -56,7 +58,9 @@ public class DHostRole extends Role implements Host {
 	//public HostGui hostGui = null;
 	boolean waitingForNoCustomers=false;
 	boolean KitchenReadyForOpen;
-
+	int hour;
+	
+	
 	public DHostRole() {
 		super();
 
@@ -98,12 +102,14 @@ public class DHostRole extends Role implements Host {
 	// Messages
 
 	public void msgKitchenIsReady() {
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DHostRole", "Received msg kitchen is fully stocked");
 		System.out.println("received msg from cook that kitchen is fully stocked!");
 		KitchenReadyForOpen=true;
 		stateChanged();
 	}
 	public void msgRegisterMoney(double amt) {
 		register=amt;
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DHostRole", "Received register amount");
 		System.out.println("host received update in register amount: "+ register);
 		registerRestocked.release();
 	}
@@ -113,22 +119,26 @@ public class DHostRole extends Role implements Host {
 	}
 	public void msgIAmHere(Role role, String type) {
 		if(type.equals("cook")) {
+			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DHostRole", "Cook is here");
 			Do("Cook is here");
 			myCook=(DCookRole)role;
 			cookArrived=true;
 		}
 		else if(type.equals("cashier")) {
+			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DHostRole", "Cashier is here");
 			Do("Cashier is here");
 			myCashier=(DCashierRole)role;
 			cashierArrived=true;
 		}
 		else if(type.equals("waiterShared")) {
 			waiters.add(new MyWaiter((DWaiterRole)role));
+			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DHostRole", "Waiter is added");
 			System.out.println("waiter "+ ((DWaiterRole)role).getName() +" added to host list");
 				((DWaiterSharedDataRole) role).setMonitor(theMonitor);
 		}
 		else if (type.equals("waiterNormal")) {
 			waiters.add(new MyWaiter((DWaiterRole)role));
+			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DHostRole", "Waiter is added");
 			System.out.println("waiter "+ ((DWaiterRole)role).getName() +" added to host list");
 		}
 			
@@ -138,6 +148,7 @@ public class DHostRole extends Role implements Host {
 	public void msgIWantFood(DCustomerRole cust) { //telling agent i want food (once seated)
 		//System.err.println("received iwantfood");
 		if(customersInRST<NTABLES) {
+			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DHostRole", "Adding customer to list");
 			System.out.println("adding "+cust+" to host customer list");
 			waitingCustomers.add(new MyCustomer(cust));
 			
@@ -145,6 +156,7 @@ public class DHostRole extends Role implements Host {
 		}
 		else {
 			sendFullMsgTo = cust;
+			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DHostRole", "Customer list is full");
 			System.out.println("adding "+cust+" to host customer list and telling them is full");
 			waitingCustomers.add(new MyCustomer(cust));
 			stateChanged();
@@ -171,6 +183,7 @@ public class DHostRole extends Role implements Host {
 	}
 
 	public void msgHereToGetSeated(DCustomer c) {
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DHostRole", "Customer wants to be seated");
 		System.out.println("received here to get seated from customer");
 		customerAtFront.release();
 		stateChanged();
@@ -423,12 +436,14 @@ public class DHostRole extends Role implements Host {
 		}
 		//System.out.println("num waiters :: " + waitersOnDuty );
 		if(waitersOnDuty>=1) {
+			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DHostRole", "Waiter can take a break");
 			Do("yes "+ w.w.getName()+", you can take a break!");
 			w.w.msgBreakReply(true);
 			w.state=MyWaiterState.onBreak;
 			//w.requestedBreak=false;
 		}
 		else {
+			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DHostRole", "Waiter cannot take a break");
 			Do("no "+ w.w.getName()+", you can't take a break!");
 			w.w.msgBreakReply(false);
 			w.state=MyWaiterState.working;

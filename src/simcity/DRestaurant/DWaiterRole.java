@@ -9,6 +9,8 @@ import agent.Agent;
 import agent.Role;
 import simcity.gui.SimCityGui;
 import simcity.gui.DGui.DWaiterGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.DCustomer;
 import simcity.interfaces.DWaiter;
 
@@ -137,6 +139,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	}
 	
 	public void msgYourCustomerHasArrived() {
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DWaiterRole", "Customer arrived");
 		System.out.println("received cust arrive");
 		customerArrived.release();
 		stateChanged();
@@ -150,6 +153,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	
 	@Override
 	public void msgImReadyToOrder(DCustomerRole cust) {
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DWaiterRole", "Customer is ready to order");
 		System.out.println("waiter received ready message");
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
@@ -188,6 +192,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 				o.state=OrderState.needsReOrder;
 			}
 		}
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DWaiterRole", "Out of food");
 		System.out.println("out of food");
 		stateChanged();
 	}
@@ -237,6 +242,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	
 	@Override
 	public void msgIWantABreak() { // from GUI
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DWaiterRole", "I want a break");
 		Do("I want break!");
 		wantBreakChecked=true;
 		stateChanged();
@@ -267,6 +273,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	
 	@Override
 	public void msgCheckIsReady() {
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DWaiterRole", "Check is ready");
 		System.out.println("received check ready");
 		checksWaiting=true;
 		stateChanged();
@@ -275,6 +282,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	@Override
 	public void msgHereIsABill(DCheck bill) {
 			myChecks.add(new DCheck(bill.getCustomer(), bill.getTablenum(), bill.getBillAmnt()));
+			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DWaiterRole", "Got bill");
 			System.out.println("waiter added bill for " + bill.getCustomer()+ " at table "+bill.getTablenum()+ "!");	
 	
 			stateChanged();
@@ -482,6 +490,8 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	}
 	
 	private void leaveRestaurant() {
+		
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DWaiterRole", "Off duty. Leaving restaurant.");
 		Do("Off duty... leaving restaurant");
 		DoLeaveRestaurant();
 		try {
@@ -510,6 +520,8 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	}
 
 	private void AskHostForBreak() {
+		
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DWaiterRole", "Asked host for break");
 		System.out.println("asked host for break");
 		host.msgGoOnBreakPlease(this);
 		wantBreakChecked=false; //so doesn't call this message again
@@ -589,6 +601,8 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	}
 	
 	private void GoToCustomer(MyCustomer cust) {
+		
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DWaiterRole", "Going to customer");
 		Do("Going to customer");
 		//takingOrderFrom=cust;
 		//state=WaiterState.goingToTakeOrder;
@@ -659,6 +673,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	
 	private void ServeCustomer(DOrder o) {
 		DoDisplayCookedLabel(o.getChoice(), o.tablenum);
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DWaiterRole", "Serving customer");
 		Do("serving customer");
 		o.state=DOrder.OrderState.serving;
 		for(MyCustomer customer: customers) {
@@ -746,6 +761,8 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 			if(customer.tablenum==bill.tablenum)
 				bill.customer=customer.getCustomer();
 		}
+		
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DWaiterRole", "Giving customer bill");
 		System.out.println("Distributing the following bill: \n"+ bill.customer+"  "+ bill.tablenum + "  " + bill.getBillAmnt());
 		bill.customer.msgHereIsYourBill(bill.tablenum, bill.getBillAmnt());
 		myChecks.remove(bill);

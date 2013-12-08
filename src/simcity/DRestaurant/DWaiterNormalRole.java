@@ -5,6 +5,8 @@ import simcity.DRestaurant.DOrder.OrderState;
 import simcity.DRestaurant.DWaiterRole.WaiterState;
 import simcity.gui.SimCityGui;
 import simcity.gui.DGui.DWaiterGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.DWaiter;
 
 public class DWaiterNormalRole extends DWaiterRole implements DWaiter {
@@ -18,6 +20,7 @@ public class DWaiterNormalRole extends DWaiterRole implements DWaiter {
 	@Override
 	protected void GiveCookOrder(DOrder o) {
 		
+		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DWaiterNormalRole", "Giving order to cook");
 		Do("giving order to cook");
 		cook.msgHereIsAnOrder(o);
 		
@@ -35,6 +38,7 @@ public class DWaiterNormalRole extends DWaiterRole implements DWaiter {
 			}
 			WaiterGui.setPresent(true);
 			
+			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DWaiterNormalRole", "Telling manager that I can work");
 			Do("Telling manager that I can work");
 			state=WaiterState.waitingForOnDuty;
 			host.msgIAmHere(this, "waiterNormal");
