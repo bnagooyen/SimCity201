@@ -1,5 +1,8 @@
 package simcity.interfaces;
 
+import agent.Role;
+import simcity.LRestaurant.LCashierRole;
+import simcity.LRestaurant.LCookRole;
 import simcity.LRestaurant.LMenu;
 import simcity.LRestaurant.LWaiterRole;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
@@ -8,6 +11,8 @@ import simcity.LRestaurant.LHostRole.MyCustomers;
 import simcity.LRestaurant.LHostRole.Table;
 import simcity.LRestaurant.LHostRole.WaiterState;
 import simcity.LRestaurant.LHostRole.myWaiter;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 
 /**
  * A sample Customer interface built to unit test a CashierAgent.
@@ -16,7 +21,8 @@ import simcity.LRestaurant.LHostRole.myWaiter;
  *
  */
 public interface LHost extends Host {
-	 public abstract void msgLeftLine();
+	public abstract void msgLeftLine();
+	 public void msgIAmHere(Role r, String type);
  
  public abstract void msgChoseToLeave(LCustomer c);
 

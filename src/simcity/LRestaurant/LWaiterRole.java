@@ -40,6 +40,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         Timer timer = new Timer();
         private boolean onBreak;
         public EventLog log;
+        public boolean here;
 
 
         protected Semaphore task = new Semaphore(0,true);
@@ -64,6 +65,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                 onBreak = false;
                 waiterState = WaiterState.working;
                 log = new EventLog();
+                here = true;
         }
 
 //        public WaiterRole() {
@@ -116,6 +118,8 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         public void msgGoHome(int cash) {
         	AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LWaiterRole", "Told to go home");
 			Do("Told to go home");
+			isActive = false;
+			here = true;
 			myPerson.money += cash;
 			waiterState = WaiterState.leaving;
 		}
@@ -234,6 +238,11 @@ public abstract class LWaiterRole extends Role implements LWaiter{
          * Scheduler.  Determine what action is called for, and do it.
          */
         public boolean pickAndExecuteAnAction() {
+        	if(here){
+    			tellHost();
+    			return true;
+    		}
+        	
         		if(waiterState.equals(WaiterState.leaving)){
         			goHome();
         			return true;
@@ -315,6 +324,11 @@ public abstract class LWaiterRole extends Role implements LWaiter{
 
         // Actions
 
+        private void tellHost(){
+    		host.msgIAmHere(this, "cashier");
+    		here = false;
+    	}
+        
         private void goHome(){
         	AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LWaiterRole", "Going back home");
         	Do("Going back home");
