@@ -5,13 +5,14 @@ import simcity.KRestaurant.KMenu;
 import simcity.KRestaurant.KWaiterRole;
 import simcity.interfaces.KCashier;
 import simcity.interfaces.KCustomer;
+import simcity.interfaces.RestaurantCashier;
 
 public class MockKRestaurantCustomer extends Mock implements KCustomer {
 	
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.
 	 */
-	public KCashier cashier;
+	public RestaurantCashier cashier;
 	public EventLog log;
 	
 	public MockKRestaurantCustomer(String name) {

@@ -20,7 +20,7 @@ public class MockMarketCustomer extends Mock implements MarketCustomer{
 		super(name);
 		p = null;
 		log = new EventLog();
-		cr = new MarketCustomerRole();
+		cr = new MarketCustomerRole(null);
 	}
 
 	@Override
@@ -44,6 +44,12 @@ public class MockMarketCustomer extends Mock implements MarketCustomer{
 
 	@Override
 	public void msgHereIsCarAndCheck(Car car, double check) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgHereIsOrder(List<MFoodOrder> canGive) {
 		// TODO Auto-generated method stub
 		
 	}

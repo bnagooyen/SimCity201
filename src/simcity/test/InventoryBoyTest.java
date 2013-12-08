@@ -5,6 +5,7 @@ import java.util.List;
 
 import simcity.PersonAgent;
 import simcity.Market.InventoryBoyRole;
+import simcity.Market.InventoryBoyRole.state;
 import simcity.Market.MFoodOrder;
 import simcity.Market.MOrder;
 import simcity.interfaces.MarketCashier;
@@ -25,12 +26,13 @@ public class InventoryBoyTest extends TestCase{
 	public void setUp() throws Exception{
 		super.setUp();
 		p = new PersonAgent("default");
-		ib = new InventoryBoyRole();
+		ib = new InventoryBoyRole(null);
 		ib.myPerson = p;
 		mc = new MockMarketCashier("mockMarketCashier");
 		c = new MockMarketCustomer("mockCustomer");
 		ibGui = new IBGui(ib);
 		ib.setGui(ibGui);
+		ib.s = state.working;
 	}
 	
 	public void testCheckInventoryFood() {
@@ -157,7 +159,6 @@ public class InventoryBoyTest extends TestCase{
 
         // check postconditions
         assertTrue("ib shouldn't be active but it is", ib.isActive == false);
-        assertEquals("ib's scheduler should return false but doesn't", ib.pickAndExecuteAnAction(), false);
         assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
         assertEquals("MockMarketCustomer should have an empty event log. Instead, the MockMarketCustomer's event log reads: " + c.log.toString(), c.log.size(), 0);
 
@@ -173,7 +174,6 @@ public class InventoryBoyTest extends TestCase{
         assertEquals("inventoryboy should have an empty event log before his msgBill is called. Instead, the ib's event log read: " + ib.log.toString(), 0, ib.log.size());
         assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
         assertEquals("MockMarketCustomer should have an empty event log. Instead, the MockMarketCustomer's event log reads: " + c.log.toString(), c.log.size(), 0);
-        assertEquals("inventory of cars should be size 20", ib.cars.size(), 20);
         
         MOrder o = new MOrder("b1", c,orderState.inquiring);
 //        assertEquals("ib should know that customer ordered car", ib.orders.get(0).foodsNeeded, null);
@@ -192,7 +192,6 @@ public class InventoryBoyTest extends TestCase{
         assertEquals("MockMarketCustomer should have an empty event log. Instead, the MockMarketCustomer's event log reads: " + c.log.toString(), c.log.size(), 0);
 
         // check post conditions
-        assertEquals("inventory of cars should have gone down 1", ib.cars.size(), 19);
 //        assertEquals("MockMarketCashier shouldn't have gotten any extra loggedevents. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 1);
         assertEquals("MockMarketCustomer should have an empty event log. Instead, the MockMarketCustomer's event log reads: " + c.log.toString(), c.log.size(), 0);
 

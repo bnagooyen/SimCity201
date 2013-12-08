@@ -8,7 +8,9 @@ import simcity.KRestaurant.KCookRole;
 import simcity.KRestaurant.KCookRole.Food;
 import simcity.KRestaurant.KCookRole.Food;
 import simcity.KRestaurant.KCookRole.marketOrderState;
+import simcity.KRestaurant.gui.KCookGui;
 import simcity.Market.MFoodOrder;
+import simcity.gui.SimCityGui;
 import simcity.test.mock.MockKRestaurantWaiter;
 import simcity.test.mock.MockMarketManager;
 import junit.framework.TestCase;
@@ -19,18 +21,23 @@ public class KCookTest extends TestCase {
 		KCookRole cook;
 		MockMarketManager manager;
 		MockKRestaurantWaiter waiter;
+		SimCityGui gui;
+
 		
 		public void setUp() throws Exception {
 			super.setUp();
 			p = new PersonAgent("person");
-			cook = new KCookRole();
+			cook = new KCookRole(null);
 			manager = new MockMarketManager("mockmanager");
 			waiter = new MockKRestaurantWaiter("mockwaiter");
 			cook.myPerson = p;
 			cook.markets.add(manager);
+			cook.setGui(new KCookGui(cook, null));
+			cook.arrived = false;
 		}
 		
 		public void testOrderingFromMarket() {
+			cook.setCashier(null);
 			
 			// preconditions
 			assertTrue("cook's log should be empty but isn't", cook.log.size() == 0);
@@ -48,6 +55,9 @@ public class KCookTest extends TestCase {
 			assertTrue("manager's log should be empty but isn't", manager.log.size() == 0);	
 			assertTrue("waiter's log should be empty but isn't", waiter.log.size() == 0);	
 			
+			cook.msgAtFridge();
+			cook.msgAtGrill();
+			cook.msgAtPlating();
 			cook.pickAndExecuteAnAction();
 			assertTrue("cook's log say got an order but doesn't", cook.log.containsString("need to order food"));
 			assertTrue("waiter's log should be empty but isn't", waiter.log.size() == 0);	

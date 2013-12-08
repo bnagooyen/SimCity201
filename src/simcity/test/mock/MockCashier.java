@@ -8,16 +8,14 @@ import simcity.Market.MarketCashierRole;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
 import simcity.interfaces.MarketManager;
-import simcity.restaurant.interfaces.Cashier;
-import simcity.restaurant.interfaces.Customer;
-import simcity.restaurant.interfaces.Waiter;
+import simcity.interfaces.RestaurantCashier;
 
 
-public class MockCashier extends Mock implements Cashier {
+public class MockCashier extends Mock implements RestaurantCashier {
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.
 	 */
-	public Cashier cashier;
+	public MarketCashier cashier;
 	public EventLog log = new EventLog();
 	public PersonAgent p;
 	public DCashierRole cr;
@@ -62,6 +60,13 @@ public class MockCashier extends Mock implements Cashier {
 
 	@Override
 	public void msgBillFromMarket(double check, MarketCashier cashier) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgBillFromMarket(double check, MarketCashier marketCashier,
+			MarketManager manager) {
 		// TODO Auto-generated method stub
 		
 	}
