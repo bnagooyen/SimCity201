@@ -47,7 +47,7 @@ public class PersonGui implements Gui {
     
     //int numPlating=1;
     
-    enum Command {none, GoToRestaurant, GoHome, other};
+    enum Command {none, GoToRestaurant, GoHome, other, GoToBusStop};
     Command command= Command.none;
     
     //public String[] foodReady= new String[nTABLES];
@@ -210,6 +210,11 @@ public class PersonGui implements Gui {
         			agent.msgAnimationArivedAtRestaurant();
         			System.out.println("msgArrivedat");
         		}
+        		
+        		 else if(command==Command.GoToBusStop) {
+                     agent.msgAnimationAtBusStop();
+                     
+             }
         	
         		command=Command.none;
         		
@@ -223,7 +228,8 @@ public class PersonGui implements Gui {
         g.setColor(Color.magenta);
         g.fillRect(xPos, yPos, 10, 10);
         g.setColor(Color.BLACK);
-        g.drawString("P", xPos + 5, yPos + 15);	
+        g.setFont(new Font("Arial", Font.PLAIN, 10)); 
+        g.drawString("P", xPos + 2, yPos + 8);	
 //        if(labelIsShowing) {
 //        	g.setColor(Color.BLACK);
 //        	g.drawString(foodReady.substring(0,2),xFood, yFood);
@@ -267,6 +273,13 @@ public class PersonGui implements Gui {
     		yDestination = myDest.y;
     		command=Command.GoToRestaurant;
     	}
+    	
+    	 if(destination.contains("Stop")) {
+             Point myDest = myMap.get(destination);
+             xDestination = myDest.x;
+             yDestination = myDest.y;
+             command=Command.GoToBusStop;
+     }
     	
     	if(destination.contains("Bank")) {
     		Point myDest = myMap.get(destination);

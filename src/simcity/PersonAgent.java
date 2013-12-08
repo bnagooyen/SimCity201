@@ -132,6 +132,7 @@ public class PersonAgent extends Agent implements Person {
 
 	public void msgAnimationAtBusStop(){
 		atBusStop.release();
+		transit=TransitState.atBusStop;
 		stateChanged();
 	}
 	public void msgAtStop(String destination){
@@ -364,6 +365,18 @@ public class PersonAgent extends Agent implements Person {
 		}
 		stateChanged();
 	}
+	
+	 private void GoToBusStop(){
+
+         
+         transit=TransitState.walkingToBus;
+
+         DoGoTo(nearestStop);
+         
+
+
+
+ }
 
 	private void goToWork() {
 		DoGoTo(jobLocation);
@@ -419,6 +432,11 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}
 	}
+	
+	 private void tellBusStop(){
+         busStop.msgWaitingForBus(this);
+         transit=TransitState.waitingAtStop;
+ }
 
 	private void getOnBus(){
 		Do("getting on bus");
