@@ -129,10 +129,14 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	
 	private void getOrder(MOrder o) {
 		AlertLog.getInstance().logInfo(AlertTag.Market, "InventoryBoyRole", "Going to the back. Fulfilling an order");
-		Do("Going to the back. Fulfilling an order.");
+		Do("Going to the back to fulfill an order.");
 		LoggedEvent ev = new LoggedEvent("fulfilling an order");
 		log.add(ev);
 		
+		Do("We have "+inventory.get("Steak")+ " steak");
+		Do("We have "+inventory.get("Chicken")+ " chicken");
+		Do("We have "+inventory.get("Salad")+ " salad");
+		Do("We have "+inventory.get("Pizza")+ " pizza");
 
 			//animation for car
 		
