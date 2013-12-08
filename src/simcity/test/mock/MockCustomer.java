@@ -3,9 +3,6 @@ package simcity.test.mock;
 
 import simcity.DRestaurant.DMenu;
 import simcity.DRestaurant.DWaiterRole;
-import simcity.interfaces.Landlord;
-import simcity.restaurant.interfaces.Cashier;
-import simcity.restaurant.interfaces.Customer;
 
 public class MockCustomer extends Mock implements Customer {
 

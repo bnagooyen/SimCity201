@@ -18,7 +18,7 @@ public class MockInventoryBoy extends Mock implements InventoryBoy{
 		super(name);
 		p = new PersonAgent("default");
 		log = new EventLog();
-		ib = new InventoryBoyRole();
+		ib = new InventoryBoyRole(null);
 	}
 	
 	public void msgCheckInventory(MOrder o){

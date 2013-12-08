@@ -92,7 +92,7 @@ public class KCashierRole extends Role implements RestaurantCashier{
 		stateChanged();
 	}	
 	
-	public void msgPayment(double payment, KCustomerRole c, double check) {
+	public void msgPayment(double payment, KCustomer c, double check) {
 		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCashier", "got money from customer $" + payment);
 		System.out.println(myPerson.getName() + ": " +"got money from customer $" + payment);
 		Order current = null;
@@ -113,7 +113,7 @@ public class KCashierRole extends Role implements RestaurantCashier{
 		stateChanged();		
 	}
 
-	public void msgBill(KCustomer c, KWaiterRole w, String choice) {
+	public void msgBill(KCustomer c, KWaiter w, String choice) {
 		System.out.println(myPerson.getName() + ": " +"got bill order from waiter");
 		synchronized(bills) {
 			for(Order o: bills) {

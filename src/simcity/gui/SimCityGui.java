@@ -236,7 +236,7 @@ public class SimCityGui extends JFrame implements ActionListener {
         
         setBounds(20, 0, 875, 444);
 		tracePanel = new TracePanel();
-		tracePanel.setPreferredSize(new Dimension(800, 300));
+		tracePanel.setPreferredSize(new Dimension(400, 730));
 		tracePanel.showAlertsForAllLevels();
 		tracePanel.showAlertsForAllTags();
 

@@ -31,7 +31,7 @@ import agent.Role;
 public class InventoryBoyRole extends Role implements InventoryBoy{
 	public List<MOrder> orders = Collections.synchronizedList(new ArrayList<MOrder>());
 	public Map<String, Integer> inventory =Collections.synchronizedMap( new HashMap<String, Integer>());
-	public List<Car> cars = Collections.synchronizedList(new ArrayList<Car>());
+	public List<Car> cars = Collections.synchronizedList(new ArrayList<Car>(20));
 	
 	private Semaphore gettingFood = new Semaphore(0, true);
 

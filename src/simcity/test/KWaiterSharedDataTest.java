@@ -30,7 +30,7 @@ public class KWaiterSharedDataTest extends TestCase
 		super.setUp();	
 		p = new PersonAgent("person");
 		customer = new MockKRestaurantCustomer("mockcustomer");	
-		sWaiter = new KWaiterSharedDataRole();
+		sWaiter = new KWaiterSharedDataRole(null);
 		sWaiter.myPerson = p;
 		ProducerConsumerMonitor m = new ProducerConsumerMonitor();
 		sWaiter.setMonitor(m);
