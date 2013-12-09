@@ -72,11 +72,11 @@ public class BankAnimationPanel extends BuildingAnimationPanel implements Action
 	        g2.setColor(Color.DARK_GRAY);
 	        g2.fillRect(xDesk, yDesk, deskLength, deskSize);
 
-	        for(Gui gui : guis) {
-	            if (gui.isPresent()) {
-	                gui.updatePosition();
-	            }
-	        }
+//	        for(Gui gui : guis) {
+//	            if (gui.isPresent()) {
+//	                gui.updatePosition();
+//	            }
+//	        }
 
 	        for(Gui gui : guis) {
 	            if (gui.isPresent()) {
