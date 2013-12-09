@@ -10,8 +10,8 @@ import simcity.BRestaurant.*;
 
 public class BWaiterNormalRole extends BWaiterRole implements BWaiter{
 
-        public BWaiterNormalRole() {
-//                super(g);
+        public BWaiterNormalRole(SimCityGui g) {
+                super(g);
         }
 
         

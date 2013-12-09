@@ -23,7 +23,7 @@ import simcity.interfaces.MarketManager;
 public class Drew_CookRole extends Role implements Drew_Cook {
 	
 	//Data
-	private ProducerConsumerMonitor theMonitor=new ProducerConsumerMonitor();
+	private ProducerConsumerMonitor theMonitor;//=new ProducerConsumerMonitor();
 	
 	public List<Order> orders
 	= Collections.synchronizedList(new ArrayList<Order>());
@@ -97,6 +97,8 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		foods.put("salad", salad);
 		foods.put("pizza", pizza);
 		
+		
+		theMonitor=new ProducerConsumerMonitor();
 		checkInventory();
 	}
 

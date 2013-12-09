@@ -222,6 +222,11 @@ public class Drew_CashierRole extends Role implements Drew_Cashier,RestaurantCas
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void setHost(Role H) {
+		// TODO Auto-generated method stub
+		host=(Drew_HostRole) H;
+	}
 }
 	
 	 class owedBill {

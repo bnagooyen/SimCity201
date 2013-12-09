@@ -53,8 +53,9 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 		this.cook = cook;
 	}
 	
-	public Drew_WaiterRole(SimCityGui gui) {
+	public Drew_WaiterRole(SimCityGui G) {
 		super();
+		gui=G;
 		//this.name = name;
 	}
 
