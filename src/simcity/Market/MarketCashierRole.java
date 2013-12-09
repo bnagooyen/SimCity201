@@ -37,6 +37,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 	public MarketManager manager; 
 	
 	public PersonAgent p;
+	public int instance; //paints in correct frame
 	
 	public enum orderState{pending, inquiring, ready, given, paid, done};
 	public enum myState{arrived, working, goHome, unavailable};
@@ -47,9 +48,10 @@ public class MarketCashierRole extends Role implements MarketCashier{
 
 	private SimCityGui gui;
 	
-	public MarketCashierRole(SimCityGui gui) {
+	public MarketCashierRole(SimCityGui gui, int num) {
 		super();
 		this.gui = gui;
+		instance=num;
 		//this.p = p;
 
 		log = new EventLog();
@@ -206,7 +208,7 @@ public class MarketCashierRole extends Role implements MarketCashier{
 		if(cashierGui == null) {
 			cashierGui = new MCashierGui(this);
 			if(gui != null) {
-				gui.myPanels.get("Market 1").panel.addGui(cashierGui);
+				gui.myPanels.get("Market "+instance).panel.addGui(cashierGui);
 			}
 		}
 		cashierGui.setPresent(true);

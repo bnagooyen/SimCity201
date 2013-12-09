@@ -1209,9 +1209,9 @@ class MarketPlace extends Business {
         int num;
         public MarketPlace(int num) {
         		this.num = num;
-                ib = new InventoryBoyRole(gui);
+                ib = new InventoryBoyRole(gui, num);
                 mManager = new MarketManagerRole(gui);
-                mCashier = new MarketCashierRole(gui);
+                mCashier = new MarketCashierRole(gui,num);
                 mCustomers = new ArrayList<MarketCustomer>();
                 truck = new DeliveryTruckAgent(mManager);
                 
@@ -1230,7 +1230,7 @@ class MarketPlace extends Business {
         }
         
         public MarketCustomerRole addCustomer() {
-                MarketCustomerRole c = new MarketCustomerRole(gui);
+                MarketCustomerRole c = new MarketCustomerRole(gui, num);
                 c.setMarketManager(mManager);
                 c.num = num;
                 mCustomers.add(c);

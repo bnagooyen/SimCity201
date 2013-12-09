@@ -32,6 +32,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	public List<MOrder> orders = Collections.synchronizedList(new ArrayList<MOrder>());
 	public Map<String, Integer> inventory =Collections.synchronizedMap( new HashMap<String, Integer>());
 	public List<Car> cars = Collections.synchronizedList(new ArrayList<Car>(20));
+	public int instance;
 	
 	private Semaphore gettingFood = new Semaphore(0, true);
 
@@ -48,9 +49,10 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 
 	private SimCityGui gui;
 	
-	public InventoryBoyRole(SimCityGui gui) {
+	public InventoryBoyRole(SimCityGui gui, int num) {
 		super();
 		this.gui = gui;
+		instance=num;
 		//this.p = p;
 		log = new EventLog();
 		
@@ -124,7 +126,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	private void tellManager() {
 		if(ibGui == null) {
 			ibGui = new IBGui(this);
-			gui.myPanels.get("Market 1").panel.addGui(ibGui);
+			gui.myPanels.get("Market "+instance).panel.addGui(ibGui);
 		}
 		ibGui.setPresent(true);
 		

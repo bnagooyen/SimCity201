@@ -105,7 +105,7 @@ public class PersonAgent extends Agent implements Person {
 		super();
 
 		this.name = name;
-		transit=TransitState.goToBus;
+		//transit=TransitState.goToBus;
 		state=PersonState.doingNothing;
 		hungerLevel=70;
 		myLocation=LocationState.atHome;
