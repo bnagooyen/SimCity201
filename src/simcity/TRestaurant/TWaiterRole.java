@@ -309,7 +309,6 @@ public class TWaiterRole extends Role implements TWaiter{
 		if (waiterGui == null) {
 			waiterGui = new TWaiterGui(this);
 			gui.myPanels.get("Restaurant 6").panel.addGui(waiterGui);
-			print("Made a waiter gui?"); 
 		}
 		host.msgIAmHere(this, "Waiter");
 	}
@@ -460,6 +459,7 @@ public class TWaiterRole extends Role implements TWaiter{
 	private void goHome() {
 		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "Going home");
 		Do("Going home");
+		waiterGui.LeaveRestaurant();
 		isActive = false;
 		goHome = false;
 	}

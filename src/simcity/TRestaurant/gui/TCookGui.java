@@ -52,6 +52,11 @@ public class TCookGui implements Gui {
     	xDestination = 420; 
     	yDestination = 5; 
     }
+    
+    public void LeaveRestaurant() {
+    	xDestination = -20; 
+    	yDestination = 5; 
+    }
 
     public void draw(Graphics2D g) {
         g.setColor(Color.WHITE);

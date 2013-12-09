@@ -107,7 +107,6 @@ public class TWaiterGui implements Gui {
     }
     
     public void setHome(int l) {
-    	System.out.print("Setting home position for waiter"); 
     	xHome = 20; 
     	yHome = (l+2)*30; 
     	DoLeaveCustomer(); 
@@ -116,6 +115,11 @@ public class TWaiterGui implements Gui {
     public void setBreak() {
 		onBreak = true;
 	}
+    
+    public void LeaveRestaurant() {
+    	xDestination = -20; 
+    	yDestination = 5; 
+    }
     
     public void offBreak() {
     	onBreak = false;
