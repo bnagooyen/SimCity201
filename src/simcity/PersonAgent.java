@@ -93,7 +93,7 @@ public class PersonAgent extends Agent implements Person {
 		super();
 
 		this.name = name;
-		transit=TransitState.goToBus;
+		//transit=TransitState.goToBus;
 		state=PersonState.doingNothing;
 		hungerLevel=70;
 		myLocation=LocationState.atHome;
@@ -218,7 +218,6 @@ public class PersonAgent extends Agent implements Person {
 			boolean hasActiveRole=false;
 			boolean rolePAEAA=false;
 			if (r.isActive) {
-				if(name.equals("doreenHost")) Do("YAYAYAYAYAYAYYAYAYAYAYAYAYAYAYYA (Sched of personagent)"+r);
 				hasActiveRole=true;
 				rolePAEAA = r.pickAndExecuteAnAction();
 			}
