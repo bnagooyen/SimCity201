@@ -61,6 +61,7 @@ import simcity.interfaces.BankManager;
 import simcity.interfaces.BankTeller;
 import simcity.interfaces.DCook;
 import simcity.interfaces.KCashier;
+import simcity.interfaces.RestaurantCashier;
 import simcity.PersonAgent;
 
 import javax.swing.*;
@@ -274,10 +275,10 @@ public class SimCityPanel extends JPanel {
 		addPerson("Person", "Mman2", 100.0, "Market Manager", "Apartment", "Walk"); 
 		addPerson("Person", "Dhost", 100.0, "Doreen Host", "Apartment", "Walk"); 
 		addPerson("Person", "Drewhost", 100.0, "Drew Host", "Apartment", "Walk"); 
-		addPerson("Person", "Thost", 100.0, "Tiffany host", "Apartment", "Walk"); 
-		addPerson("Person", "BHost", 100.0, "Brian host", "Apartment", "Walk"); 
-		addPerson("Person", "LHost", 100.0, "Linda host", "Apartment", "Walk"); 
-		addPerson("Person", "KHost", 100.0, "Kim host", "Apartment", "Walk"); 
+		addPerson("Person", "Thost", 100.0, "Tiffany Host", "Apartment", "Walk"); 
+		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
+		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
+		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
 
 		/*PersonAgent bManagerPerson = new PersonAgent("BankManager");
         bManagerPerson.hungerLevel = 0;
@@ -916,6 +917,10 @@ public class SimCityPanel extends JPanel {
 			}
 			if(role.equals("Kim Host")){
 				p.SetJob(myRestaurants.get(3).host, "Restaurant 4");
+				//p.SetJob(((RestaurantPlace)directory.get("Restaurant 4")).host, "Restaurant 4");
+				//((RestaurantPlace)directory.get("Restaurant 4")).host.myPerson = p;
+				//System.out.println("Restaurant 4's host's person is "+ ((RestaurantPlace)directory.get("Restaurant 4")).host);
+				//System.out.println("it should be "+p.getName());
 				myRestaurants.get(3).host.myPerson=p;
 			}
 			if(role.equals("Brian Host")){
@@ -1062,6 +1067,8 @@ public class SimCityPanel extends JPanel {
 			if(role.equals("Cook4")){
 				KCookRole KC= (KCookRole) KRestaurant.cook;
 				KC.myPerson=p;
+				KC.setHost((KHostRole) KRestaurant.host);
+				KC.setCashier((RestaurantCashier) KRestaurant.cashier);
 				p.SetJob(KC, "Restaurant 4");
 			}
 			if(role.equals("Cook5")){
@@ -1190,6 +1197,9 @@ public class SimCityPanel extends JPanel {
 
 			//TAKE THIS TIME UPDATE AWAY, JUST FOR TESTING 
 			if(p.myJob!=null)p.msgTimeUpdate(p.myJob.startHour-1);
+			else{
+				System.out.println(role+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			}
 
 
 			people.add(p);
@@ -1328,6 +1338,7 @@ public class SimCityPanel extends JPanel {
 
 			case 2: host = new Drew_HostRole();
 			cook = new Drew_CookRole();
+			((Drew_CookRole) cook).setHost((Drew_HostRole) host);
 			for(MarketPlace m: myMarkets) {
 				((Drew_CookRole)cook).addMarket(m.mManager);
 			}
@@ -1386,9 +1397,10 @@ public class SimCityPanel extends JPanel {
 			cashier = new TCashierRole();
 			((THostRole) host).setCook((TCookRole)cook);
 			((THostRole) host).setCashier((TCashierRole)cashier); 
-			((TCashierRole)cashier).setHost((THostRole)host); 
+			((TCashierRole)cashier).setHost((THostRole)host);
+			((TCashierRole)cashier).setCook((TCookRole)cook);
 			((TCookRole) cook).setCashier((TCashierRole)cashier);
-			//                                
+			((TCookRole) cook).setHost((THostRole)host);                          
 			}
 		}
 

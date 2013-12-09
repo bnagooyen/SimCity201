@@ -25,8 +25,8 @@ public class THostRole extends Role implements Host {
 	public Collection<Table> tables;
 	public List<myWaiters> waiters
 	= Collections.synchronizedList(new ArrayList<myWaiters>());
-	TCashierRole cashier = new TCashierRole();
-	TCookRole cook = new TCookRole(); 
+	TCashierRole cashier;
+	TCookRole cook; 
 
 	enum WaiterState 
 	{ready, wantsBreak, onBreak};

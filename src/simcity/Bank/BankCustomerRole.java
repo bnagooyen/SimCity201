@@ -217,6 +217,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	private void leaveBank(){
 		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Leaving bank with $"+myPerson.money);
 		Do("Leaving bank with $"+myPerson.money);
+		//System.err.println(manager);
 		manager.msgCheckBalance(this, accountNum);
 		bankcustomerGui.DoExitBank();
 		state=bankCustomerState.exiting;

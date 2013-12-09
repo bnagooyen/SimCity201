@@ -567,7 +567,7 @@ public class PersonAgent extends Agent implements Person {
 	private void GoToBank() {
 
 		DoGoTo(BankChoice);
-		int bCustomerNum = Integer.parseInt(BankChoice.substring(MarketChoice.length()-1));
+		int bCustomerNum = Integer.parseInt(BankChoice.substring(BankChoice.length()-1));
 
 		if (myTravelPreference == TravelPreference.walk) {
 			Do("Going to "+BankChoice);
