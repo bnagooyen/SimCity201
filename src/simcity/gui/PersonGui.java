@@ -252,7 +252,7 @@ public class PersonGui implements Gui {
         g.drawImage(image, xPos, yPos-3, null); 
 
         
-//        g.drawString(name.substring(0, 1), xPos + 2, yPos + 8); //        if(labelIsShowing) {
+        g.drawString(name.substring(0, 1), xPos + 4, yPos-4); //        if(labelIsShowing) {
 //        	g.setColor(Color.BLACK);
 //        	g.drawString(foodReady.substring(0,2),xFood, yFood);
 //        	
