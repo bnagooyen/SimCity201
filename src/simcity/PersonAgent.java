@@ -335,7 +335,7 @@ public class PersonAgent extends Agent implements Person {
 
 	// Actions
 	private void GoToRestaurant() {
-		DoGoTo("Restaurant 2");
+		DoGoTo("Restaurant 1");
 		Do("Going To Restaurant");
 		try {
 			atRestaurant.acquire();
@@ -488,7 +488,7 @@ public class PersonAgent extends Agent implements Person {
 		
 		Do("Walk to Destination");
 		PersonGui.setPresent(true);
-		//GoToRestaurant();
+		GoToRestaurant();
 		
 		transit=TransitState.nothing;
 		
