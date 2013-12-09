@@ -3,9 +3,7 @@
 package simcity.DRestaurant;
 
 import simcity.DRestaurant.DOrder;
-import simcity.DRestaurant.DCookRole.CookState;
 import simcity.DRestaurant.DOrder.OrderState;
-import agent.Agent;
 import agent.Role;
 import simcity.gui.SimCityGui;
 import simcity.gui.DGui.DWaiterGui;
