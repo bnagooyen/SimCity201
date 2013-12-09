@@ -179,8 +179,9 @@ public class SimCityPanel extends JPanel {
 	private Vector<BCustomerRole> Bcustomers= new Vector<BCustomerRole>();
 	private BCashierRole Bcashier= new BCashierRole();
 	private BCookRole Bcook=new BCookRole();
+	private BHostRole BHost=new BHostRole();
 
-	private BHostRole Bhost=new BHostRole();
+	
 
 
 
@@ -1353,9 +1354,20 @@ public class SimCityPanel extends JPanel {
 			break;
 			case 5: host = new BHostRole();
 			cook = new BCookRole();
-			((BHost)host).setCook((BCookRole)cook);
-			// ((BCookRole)cook).addMarket(market.mManager);
+			((BHostRole)host).setCook((BCookRole)cook);
+			
+			
 			cashier = new BCashierRole();
+			((BHostRole)host).setCashier((BCashierRole)cashier);
+			((BCookRole) cook).setHost((BHostRole)host);
+			((BCookRole)cook).setCashier((BCashierRole)cashier);
+			for(MarketPlace m: myMarkets) {
+				((BCookRole)cook).addMarket(m.mManager);
+			}
+			
+			((BCashierRole)cashier).setHost((BHostRole)host);
+			((BCashierRole)cashier).setCook((BCookRole)cook);
+			
 			break;
 			case 3: host = new DHostRole();
 			cook = new DCookRole(gui);
@@ -1422,6 +1434,7 @@ public class SimCityPanel extends JPanel {
 			waiters.add(aw);
 			((Drew_Host)host).addWaiter(aw);
 			return aw;
+			
 			case 5: 
 				BWaiterRole bw = new BWaiterSharedDataRole();
 				bw.setHost((BHostRole)host);
@@ -1482,11 +1495,13 @@ public class SimCityPanel extends JPanel {
 			waiters.add(aw);
 			((Drew_Host)host).addWaiter(aw);
 			return aw;
+			
 			case 5: 
 				BWaiterRole bw = new BWaiterNormalRole();
 				bw.setHost((BHostRole)host);
 				bw.setCook((BCook)cook);
 				bw.setCashier((BCashier)cashier);
+				
 				//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
 				waiters.add(bw);
 				((BHost)host).setWaiter(bw);
