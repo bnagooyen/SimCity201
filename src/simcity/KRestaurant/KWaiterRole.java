@@ -341,7 +341,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	private void tellHost() {
 		if(waiterGui == null) {
 			waiterGui = new KWaiterGui(this, 1);
-			gui.myPanels.get("Restaurant 1").panel.addGui(waiterGui);
+			gui.myPanels.get("Restaurant 4").panel.addGui(waiterGui);
 		}
 		waiterGui.setPresent(true);
 		waiterGui.DoGoToWork();

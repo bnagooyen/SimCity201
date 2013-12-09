@@ -126,7 +126,7 @@ public class Drew_WaiterGui implements Gui {
     	int xWaiterTextOffset=5;
     	int yWaiterTextOffset=12;    	
     	
-        g.setColor(Color.MAGENTA);
+        g.setColor(Color.YELLOW);
         g.fillRect(xPos, yPos, hostSize, hostSize);
         
         g.setColor(Color.WHITE);

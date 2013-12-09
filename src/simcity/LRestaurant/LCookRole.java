@@ -63,6 +63,7 @@ public class LCookRole extends Role implements LCook, Cook {
 		goHome = false;
 		here = true;
 		gui = g;
+		theMonitor = new ProducerConsumerMonitor();
 	}
 	
 	public void addMarket(MarketManager m){
@@ -248,11 +249,12 @@ public class LCookRole extends Role implements LCook, Cook {
 	// Actions
 	
 	private void tellHost(){
-		host.msgIAmHere(this, "cashier");
 		if(cookGui == null){
+			System.out.println("GOT IN HERE TO GUI");
 			cookGui = new LCookGui(this, "LCookGui");
 			gui.myPanels.get("Restaurant 1").panel.addGui(cookGui);
 		}
+		host.msgIAmHere(this, "cook");
 		here = false;
 	}
 
@@ -281,6 +283,7 @@ public class LCookRole extends Role implements LCook, Cook {
 					},
 					2000);
 			}
+			
 		}
 		
 		private void giveCashierCheck(MarketOrder m) {

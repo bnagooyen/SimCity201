@@ -145,9 +145,9 @@ public class RestaurantAnimationPanel1 extends BuildingAnimationPanel implements
 	    }
 
 		@Override
-		public void addGui(simcity.gui.Gui g) {
+		public void addGui(Gui g) {
 			// TODO Auto-generated method stub
-			
+			guis.add(g);
 		}
 
 }

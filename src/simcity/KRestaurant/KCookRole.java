@@ -273,7 +273,7 @@ public class KCookRole extends Role implements Cook{
 	private void tellHost() {
 		if(cookGui == null) {
 			cookGui = new KCookGui(this, gui);
-			gui.myPanels.get("Restaurant 1").panel.addGui(cookGui);
+			gui.myPanels.get("Restaurant 4").panel.addGui(cookGui);
 		}
 		cookGui.setPresent(true);
 		cookGui.DoGoToWork();

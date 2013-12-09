@@ -333,7 +333,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
     			waiterGui = new LWaiterGui(this, "LWaiterGui");
     			gui.myPanels.get("Restaurant 1").panel.addGui(waiterGui);
     		}
-    		host.msgIAmHere(this, "cashier");
+    		host.msgIAmHere(this, "waiter");
     		here = false;
     	}
         
