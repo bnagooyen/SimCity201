@@ -164,12 +164,12 @@ public class THostRole extends Role implements Host {
             If so seat him at the table.
 		 */
 		
-		if(hour == 21 && !isClosed){
+		if(hour == 20 && !isClosed){
 			closeRestaurant();
 			return true;
 		}
 		
-		if(hour == 20){
+		if(hour == 21){
 			restaurantClosed();
 			return true;
 		}
