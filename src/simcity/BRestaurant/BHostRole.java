@@ -18,6 +18,7 @@ import simcity.BRestaurant.*;
 import simcity.KRestaurant.KCookRole;
 import simcity.KRestaurant.KWaiterSharedDataRole;
 import simcity.KRestaurant.ProducerConsumerMonitor;
+import simcity.TRestaurant.TCashierRole;
 
 
 /**
@@ -404,6 +405,10 @@ public class BHostRole extends Role implements BHost, Host{
         public BHostGui getGui() {
                 return hostGui;
         }
+        
+        public void setCashier(BCashierRole c) {
+    		myCashier = c;
+    	}
 
         public void setWaiter(BWaiterRole w){
                         
