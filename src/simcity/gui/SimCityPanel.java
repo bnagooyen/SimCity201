@@ -61,6 +61,7 @@ import simcity.interfaces.BankManager;
 import simcity.interfaces.BankTeller;
 import simcity.interfaces.DCook;
 import simcity.interfaces.KCashier;
+import simcity.interfaces.RestaurantCashier;
 import simcity.PersonAgent;
 
 import javax.swing.*;
@@ -915,8 +916,12 @@ public class SimCityPanel extends JPanel {
 				myRestaurants.get(0).host.myPerson=p;
 			}
 			if(role.equals("Kim Host")){
-				p.SetJob(myRestaurants.get(3).host, "Restaurant 4");
-				myRestaurants.get(3).host.myPerson=p;
+				//p.SetJob(myRestaurants.get(3).host, "Restaurant 4");
+				p.SetJob(((RestaurantPlace)directory.get("Restaurant 4")).host, "Restaurant 4");
+				((RestaurantPlace)directory.get("Restaurant 4")).host.myPerson = p;
+				System.out.println("Restaurant 4's host's person is "+ ((RestaurantPlace)directory.get("Restaurant 4")).host);
+				System.out.println("it should be "+p.getName());
+				//myRestaurants.get(3).host.myPerson=p;
 			}
 			if(role.equals("Brian Host")){
 				p.SetJob(myRestaurants.get(4).host, "Restaurant 5");
@@ -1062,6 +1067,8 @@ public class SimCityPanel extends JPanel {
 			if(role.equals("Cook4")){
 				KCookRole KC= (KCookRole) KRestaurant.cook;
 				KC.myPerson=p;
+				KC.setHost((KHostRole) KRestaurant.host);
+				KC.setCashier((RestaurantCashier) KRestaurant.cashier);
 				p.SetJob(KC, "Restaurant 4");
 			}
 			if(role.equals("Cook5")){
