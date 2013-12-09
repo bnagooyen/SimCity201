@@ -252,7 +252,7 @@ public class LCookRole extends Role implements LCook, Cook {
 
 
 		if(cookGui == null){
-			System.out.println("GOT IN HERE TO GUI");
+			
 			cookGui = new LCookGui(this, "LCookGui");
 			gui.myPanels.get("Restaurant 1").panel.addGui(cookGui);
 		}
@@ -272,7 +272,7 @@ public class LCookRole extends Role implements LCook, Cook {
 		}
 
 		private void checkRotatingStand() {
-			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Checking rotating stand");
+			
 			LRestaurantOrder newOrder = theMonitor.remove();
 			if(newOrder != null) {
 				Order o = new Order(newOrder.table, newOrder.choice,newOrder.w, OrderState.pending);
