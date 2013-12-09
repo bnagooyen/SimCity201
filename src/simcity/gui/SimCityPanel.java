@@ -152,7 +152,7 @@ public class SimCityPanel extends JPanel {
 
 	private DCashierRole cashier = new DCashierRole();
 	private int waiterIndex = 1;
-	private Vector<DWaiterRole> waiters = new Vector<DWaiterRole>();
+	//private Vector<DWaiterRole> waiters = new Vector<DWaiterRole>();
 	private Vector<DCustomerRole> customers = new Vector<DCustomerRole>();
 
 	//Drews Restaurant
@@ -261,11 +261,11 @@ public class SimCityPanel extends JPanel {
 		TRestaurant = new RestaurantPlace(6);
 
 
+		myRestaurants.add(LRestaurant);
 		myRestaurants.add(DrewRestaurant);
-		myRestaurants.add(BRestaurant);
 		myRestaurants.add(DRestaurant);
 		myRestaurants.add(KRestaurant);
-		myRestaurants.add(LRestaurant);
+		myRestaurants.add(BRestaurant);
 		myRestaurants.add(TRestaurant);
 
 
@@ -279,6 +279,8 @@ public class SimCityPanel extends JPanel {
 		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
 		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
 		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
+		
+		//this.LoadScenario("config1");
 
 		/*PersonAgent bManagerPerson = new PersonAgent("BankManager");
         bManagerPerson.hungerLevel = 0;
@@ -740,7 +742,7 @@ public class SimCityPanel extends JPanel {
 	 * @param type indicates whether the person is a customer or waiter
 	 * @param name name of person
 	 */
-	public Object showInfo(String type, String name) {
+	/*public Object showInfo(String type, String name) {
 
 		if (type.equals("Customers")) {
 
@@ -775,7 +777,7 @@ public class SimCityPanel extends JPanel {
 
 
 		return new Object();
-	}
+	}*/
 
 
 
@@ -889,6 +891,9 @@ public class SimCityPanel extends JPanel {
 			//Add Job 
 
 			//Managers&Hosts
+			if(role.equals("Inventory Person")){
+				this.LoadScenario("config1");
+			}
 			if(role.equals("Bank Manager")){
 				Integer bankChoice;
 				bankChoice=(storebalance.get(role)%2);

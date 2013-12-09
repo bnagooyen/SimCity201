@@ -373,6 +373,7 @@ public class PersonAgent extends Agent implements Person {
 
 		if(money>depositThreshold||(money<withdrawalThreshold && moneystate!=MoneyState.poor)||(moneystate==MoneyState.rich)){
 			GoToBank(); //going to have to choose which bank
+			if(state==PersonState.workTime)Do("1234567890"+myJob);
 			return true;
 		}
 
