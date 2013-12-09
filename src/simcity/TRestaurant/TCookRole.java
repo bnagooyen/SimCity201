@@ -27,7 +27,7 @@ import simcity.TRestaurant.gui.TWaiterGui;
 
 public class TCookRole extends Role implements TCook, Cook {
 	
-	private OrderStand myStand = new OrderStand();
+	private OrderStand myStand;
 
 	Timer timer = new Timer();
 	private String name; 
@@ -55,6 +55,7 @@ public class TCookRole extends Role implements TCook, Cook {
 		addFood();
 		arrived = true;
 		this.gui = gui; 
+		myStand = new OrderStand();
 	}
 	
 	class Orders {
@@ -72,8 +73,8 @@ public class TCookRole extends Role implements TCook, Cook {
 			status = OrderStatus.pending; 
 		}
 		
-		public void setWaiter (TWaiter headWaiterRoleTT) {
-			thisWaiter = headWaiterRoleTT; 
+		public void setWaiter (TWaiter w) {
+			thisWaiter = w; 
 		}
 	}
 
@@ -98,9 +99,9 @@ public class TCookRole extends Role implements TCook, Cook {
 		
 	}
 	
-	public void msgHereIsAnOrder(int t, String choice, TWaiter headWaiterRoleTT) {
+	public void msgHereIsAnOrder(int t, String choice, TWaiter w) {
 		Orders o = new Orders(); 
-		o.setWaiter(headWaiterRoleTT); 
+		o.setWaiter(w); 
 		o.setTable(t);
 		o.setOrder(choice);
 		orders.add(o); 
@@ -292,7 +293,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	}
 
 	private void cookFood(final int orderNumber) {
-		//goToFridge(); 
+		goToFridge(); 
 		timer.schedule(new TimerTask() {
 			public void run() {
 				AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCookRole", "Done cooking food");
@@ -314,7 +315,7 @@ public class TCookRole extends Role implements TCook, Cook {
 					Supply.put("Pizza", Supply.get("Pizza") - 1); 
 					Do("There are " + Supply.get("Pizza") + " pizzas left"); 
 				}
-				/**
+				
 				leaveFood();
 				try {
 					atCounter.acquire();
@@ -322,9 +323,9 @@ public class TCookRole extends Role implements TCook, Cook {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				*/
+				
 				orders.get(orderNumber).thisWaiter.msgOrderIsReady(orders.get(orderNumber).table);
-				//waitForOrder(); 
+				waitForOrder(); 
 				stateChanged(); 
 			}
 		},
@@ -423,7 +424,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	
 	
 	//animations
-	/**
+	
 	private void goToFridge() {
 		cookGui.makeFood(); 
 	}
@@ -435,7 +436,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	private void waitForOrder() {
 		cookGui.goHome(); 
 	}
-	*/
+
 	
 	
 	//utilities 
