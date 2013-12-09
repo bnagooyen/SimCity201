@@ -1356,7 +1356,10 @@ public class SimCityPanel extends JPanel {
 			((BHostRole)host).setCashier((BCashierRole)cashier);
 			((BCookRole) cook).setHost((BHostRole)host);
 			((BCookRole)cook).setCashier((BCashierRole)cashier);
-			// ((BCookRole)cook).addMarket(market.mManager);
+			for(MarketPlace m: myMarkets) {
+				((BCookRole)cook).addMarket(m.mManager);
+			}
+			
 			((BCashierRole)cashier).setHost((BHostRole)host);
 			((BCashierRole)cashier).setCook((BCookRole)cook);
 			

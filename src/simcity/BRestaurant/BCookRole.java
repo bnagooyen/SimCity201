@@ -11,6 +11,7 @@ import simcity.BRestaurant.gui.*;
 import simcity.Market.MFoodOrder;
 
 
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -309,6 +310,10 @@ public class BCookRole extends Role implements BCook, Cook {
                         this.cashier = cashier;
                 }
         }
+        
+        public void addMarket(MarketManager m) {
+    		markets.add(m);
+    	}
         
         public void setCashier(BCashierRole c) {
                 this.cashier = c;
