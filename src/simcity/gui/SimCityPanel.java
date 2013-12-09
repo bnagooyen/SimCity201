@@ -1425,7 +1425,7 @@ public class SimCityPanel extends JPanel {
 			case 4:
 				KWaiterRole kw = new KWaiterSharedDataRole(gui);
 				kw.setCook((KCookRole)cook);
-				kw.setCashier((KCashier)cashier);
+				kw.setCashier((RestaurantCashier)cashier);
 				kw.setHost((KHostRole)host);
 				((KHostRole)host).addWaiter((KWaiterRole)kw);
 				return kw;
@@ -1485,7 +1485,7 @@ public class SimCityPanel extends JPanel {
 			case 4:
 				KWaiterRole kw = new KWaiterNormalRole(gui);
 				kw.setCook((KCookRole)cook);
-				kw.setCashier((KCashier)cashier);
+				kw.setCashier((RestaurantCashier)cashier);
 				kw.setHost((KHostRole)host);
 				((KHostRole)host).addWaiter((KWaiterRole)kw);
 				return kw;
