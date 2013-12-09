@@ -758,12 +758,35 @@ public class SimCityPanel extends JPanel {
 
     
     public void LoadScenario(String type){
-		people.clear();
+		String name, role, transport, houseOrApt; double money; 
+    	people.clear();
 		houseNumCounter=1;
 		aptNumCounter=1;
 		aptLetCounter='A';
 		try {	
+			
 			in  = new Scanner(new FileReader("config"+File.separator+type+".txt"));
+			
+			in.next();
+			int numItems = in.nextInt();
+			//clear input template;
+			in.next();
+			in.next();
+			in.next();
+			in.next();
+			in.next();
+			in.next();
+			for(int i=0; i<numItems; i++) {
+				name = in.next();
+				money = in.nextDouble();
+				role = in.next().trim();
+				transport = in.next().trim();
+				houseOrApt = in.next().trim();
+						
+				addPerson("Person", name, money, role, houseOrApt, transport);
+			}
+			gui.AddPeople(people);
+		
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
