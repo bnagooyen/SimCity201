@@ -1477,7 +1477,7 @@ public class SimCityPanel extends JPanel {
 				tw.setHost((THostRole)host);
 				//((THostRole)host).addWaiter(tw); 
 				waiters.add(tw);
-				return tw; 
+				return (tw); 
 
 			default: return null;
 			}

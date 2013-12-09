@@ -1,5 +1,7 @@
 package simcity.interfaces;
 
+import simcity.TRestaurant.TCashierRole;
+import simcity.TRestaurant.TCookRole;
 import simcity.TRestaurant.THostRole;
 
 
@@ -39,7 +41,11 @@ public interface TWaiter {
 
 	public abstract void setHost(THostRole tHostRole);
 
-	public abstract void setHomePosition(int i); 
+	public abstract void setHomePosition(int i);
+
+	public abstract void setCashier(TCashierRole cashier);
+
+	public abstract void setCook(TCookRole cook); 
 
 
 }
