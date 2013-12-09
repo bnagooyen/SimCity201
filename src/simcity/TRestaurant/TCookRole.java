@@ -55,7 +55,6 @@ public class TCookRole extends Role implements TCook, Cook {
 		addFood();
 		arrived = true;
 		this.gui = gui; 
-		myStand = new OrderStand();
 	}
 	
 	class Orders {
@@ -341,6 +340,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	
 	private void checkOrders() {
 		RotatingOrders newOrder = myStand.remove();
+
 		print("Checking order stand.");
 		if (newOrder != null) {
 			Orders o = new Orders(); 
@@ -452,6 +452,11 @@ public class TCookRole extends Role implements TCook, Cook {
 	public void setHost(THostRole h) {
 		host = h;
 	}
+	
+	public void setMonitor(OrderStand o) {
+		myStand = o; 
+	}
+
 	
 	public void addFood() {
 		/**

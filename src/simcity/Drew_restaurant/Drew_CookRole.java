@@ -75,7 +75,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 
 	public Drew_CookRole(SimCityGui G) {
 		super();
-		theMonitor=new ProducerConsumerMonitor();
+		theMonitor = new ProducerConsumerMonitor();
 		//this.name = name;
 		cookstate=CookState.arrived;
 		simGui=G;

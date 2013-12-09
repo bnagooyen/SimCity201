@@ -510,6 +510,10 @@ public class TWaiterRole extends Role implements TWaiter{
 	public void setCashier (TCashierRole c) {
 		cashier = c; 
 	}
+	
+	public void setMonitor(OrderStand o) {
+		
+	}
 
 
 
