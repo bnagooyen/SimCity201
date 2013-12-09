@@ -65,6 +65,7 @@ public class BankAnimationPanel extends BuildingAnimationPanel implements Action
 
 	        for(Gui gui : guis) {
 	            if (gui.isPresent()) {
+	            	System.err.println("updating");
 	                gui.updatePosition();
 	            }
 	        }
@@ -86,6 +87,11 @@ public class BankAnimationPanel extends BuildingAnimationPanel implements Action
 	        }
 
 	    }
+	    
+		public void actionPerformed(ActionEvent e) {
+			//System.err.println("painting");
+			repaint();  //Will have paintComponent called
+		}
 
 	    public void addGui(BankTellerGui gui) {
 	        guis.add(gui);
