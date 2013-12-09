@@ -3,7 +3,11 @@ package simcity.gui;
 import simcity.PersonAgent;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+
+import javax.imageio.ImageIO;
 
 import simcity.DRestaurant.DCustomerRole;
 
@@ -232,11 +236,23 @@ public class PersonGui implements Gui {
 
     @Override
 	public void draw(Graphics2D g) {
-        g.setColor(Color.magenta);
-        g.fillRect(xPos, yPos, 10, 10);
+//        g.setColor(Color.magenta);
+//        g.fillRect(xPos, yPos, 10, 10);
         g.setColor(Color.BLACK);
-        g.drawString("P", xPos + 5, yPos + 15);	
-//        if(labelIsShowing) {
+        g.setFont(new Font("Arial", Font.PLAIN, 10)); 
+        String name = agent.getName();
+        
+        Image image = null;
+        try {
+			image = ImageIO.read(new File("images/person.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        g.drawImage(image, xPos, yPos-3, null); 
+
+        
+        g.drawString(name.substring(0, 1), xPos + 4, yPos-4); //        if(labelIsShowing) {
 //        	g.setColor(Color.BLACK);
 //        	g.drawString(foodReady.substring(0,2),xFood, yFood);
 //        	

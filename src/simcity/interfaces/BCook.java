@@ -18,9 +18,13 @@ import java.util.*;
  */
 public interface BCook {
        
+		
         public abstract void setWaiter(BWaiter waiter);
+        
         public abstract void msgHereisanOrder(BWaiter w, String choice, int tablenumber);
+        
         public abstract void msgHereisCompletedOrder(List<BFood> foodOrder);
+        
         public abstract void msgCannotCompleteOrder();
         
 }

@@ -218,6 +218,7 @@ public class PersonAgent extends Agent implements Person {
 			boolean hasActiveRole=false;
 			boolean rolePAEAA=false;
 			if (r.isActive) {
+				if(name.equals("doreenHost")) Do("YAYAYAYAYAYAYYAYAYAYAYAYAYAYAYYA (Sched of personagent)"+r);
 				hasActiveRole=true;
 				rolePAEAA = r.pickAndExecuteAnAction();
 			}

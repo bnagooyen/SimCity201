@@ -80,6 +80,19 @@ public class TCookRole extends Role implements TCook, Cook {
 	TWaiterRole waiter;
 	TCashierRole cashier; 
 	
+	//Messages
+	
+	@Override
+	public void msgSetInventory(int val) {
+		// TODO Auto-generated method stub
+		
+		Supply.put("Steak", val); 
+		Supply.put("Pizza", val); 
+		Supply.put("Salad", val); 
+		Supply.put("Chicken", val);
+		
+	}
+	
 	public void msgHereIsAnOrder(int t, String choice, TWaiter headWaiterRoleTT) {
 		Orders o = new Orders(); 
 		o.setWaiter(headWaiterRoleTT); 
@@ -489,6 +502,7 @@ public class TCookRole extends Role implements TCook, Cook {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }
 
