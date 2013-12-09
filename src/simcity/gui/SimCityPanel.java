@@ -12,7 +12,6 @@ import simcity.Bank.BankLoanOfficerRole;
 import simcity.Bank.BankManagerRole;
 import simcity.Bank.BankRobberRole;
 import simcity.Bank.BankTellerRole;
-import simcity.Bank.BankManagerRole.MyAccount;
 import simcity.Bank.gui.BankTellerGui;
 import simcity.Drew_restaurant.Drew_CashierRole;
 import simcity.Drew_restaurant.Drew_CookRole;
@@ -93,11 +92,6 @@ public class SimCityPanel extends JPanel {
    
     public static final int NUMAPTS = 12;
     public static final int NUMHOUSES = 15;
-    public static final int BANKMOD = 2;
-    public static final int MARKETMOD = 4;
-	
-    //Map To make sure that roles are alternating which bank/market/whatever they are going to
-    public Map<String, Integer> storebalance = new HashMap<String, Integer>();
     public int houseNumCounter=1;
     public int ApartmentsPerLandlord;
     public int aptNumCounter=1;
@@ -118,8 +112,8 @@ public class SimCityPanel extends JPanel {
 	RestaurantPlace TRestaurant;
 	
 	// make bank
-	BankPlace bank=null;
-	
+	BankPlace bank1=null;
+	BankPlace bank2 = null;
 	// make market 
 	MarketPlace market1=null;
     //FOR TESTING WORK
@@ -128,6 +122,7 @@ public class SimCityPanel extends JPanel {
     
  /********************** make directory********************/
     public  Map<String, Business> directory = new HashMap<String, Business>();
+    public Map<String, Integer> storebalance = new HashMap<String, Integer>();
 	//Host, cook, waiters and customers
    // private DHostRole host = new DHostRole();
     //private HostGui hostGui = new HostGui(host);
@@ -205,6 +200,7 @@ public class SimCityPanel extends JPanel {
 
     private SimCityGui gui; //reference to main gui
     
+  
     
     //Transport
     BusAgent bus=new BusAgent();
@@ -230,6 +226,7 @@ public class SimCityPanel extends JPanel {
     public SimCityPanel(SimCityGui gui) {
         this.gui = gui;
         
+
         //Populate the map for balancing people
         storebalance.put("Bank Manager", 0);
         storebalance.put("Bank Teller", 0);
@@ -248,9 +245,17 @@ public class SimCityPanel extends JPanel {
         //MarketPlace market2 = new MarketPlace();
         //MarketPlace market3 = new MarketPlace();
         //MarketPlace market4 = new MarketPlace();
-        for(int i=1; i<=numBanks; i++) {
+        for(int i=1; i<=numMarkets; i++) {
         	myMarkets.add(new MarketPlace(i));
         }
+
+//        bank1= new BankPlace();
+//        bank2 = new BankPlace();
+//        market1 = new MarketPlace();
+//        MarketPlace market2 = new MarketPlace();
+//        MarketPlace market3 = new MarketPlace();
+//        MarketPlace market4 = new MarketPlace();
+//
 
         
 		DrewRestaurant = new RestaurantPlace(2);
@@ -260,11 +265,12 @@ public class SimCityPanel extends JPanel {
 		LRestaurant = new RestaurantPlace(1);
 		TRestaurant = new RestaurantPlace(6);
 		
-		myRestaurants.add(LRestaurant);
+		
 		myRestaurants.add(DrewRestaurant);
-		myRestaurants.add(DRestaurant);		
-		myRestaurants.add(KRestaurant);
 		myRestaurants.add(BRestaurant);
+		myRestaurants.add(DRestaurant);
+		myRestaurants.add(KRestaurant);
+		myRestaurants.add(LRestaurant);
 		myRestaurants.add(TRestaurant);
 
         
@@ -274,12 +280,10 @@ public class SimCityPanel extends JPanel {
         //Bloanofficer = new BankLoanOfficerRole(gui);
         
         //Bmanager.isActive=true;
-       // PersonAgent bManagerPerson = new PersonAgent("BankManager");
-        //bManagerPerson.hungerLevel = 0;
-        //bManagerPerson.SetJob(bank.bankManager, "Bank 1");
-        //bank.bankManager.myPerson = bManagerPerson;
-        addPerson("Person", "bankManager",100.00, "Bank Manager", "House", "Walk" );
-        addPerson("Person", "marketManager",100.00, "Market Manager", "House", "Walk" );
+        PersonAgent bManagerPerson = new PersonAgent("BankManager");
+        bManagerPerson.hungerLevel = 0;
+        bManagerPerson.SetJob(myBanks.get(0).bankManager, "Bank 1");
+        myBanks.get(0).bankManager.myPerson = bManagerPerson;
         
         //Bteller.isActive=true;
         //~~~PersonAgent btellerPerson = new PersonAgent("Bankteller");     //REMEMBER TO START THREAD!!!!
@@ -292,12 +296,12 @@ public class SimCityPanel extends JPanel {
         //Bloanofficer.isActive=true;
         PersonAgent bloanofficerPerson = new PersonAgent("Bankloanofficer");
         bloanofficerPerson.hungerLevel = 0;
-        bloanofficerPerson.SetJob(bank.loanOfficer, "Bank 1");
+        bloanofficerPerson.SetJob(myBanks.get(0).loanOfficer, "Bank 1");
         //Bloanofficer.manager=Bmanager;
-        bank.loanOfficer.myPerson = bloanofficerPerson;
+        myBanks.get(0).loanOfficer.myPerson = bloanofficerPerson;
         
         //Start Threads
-        //bManagerPerson.startThread();
+        bManagerPerson.startThread();
         bloanofficerPerson.startThread();
         //~~btellerPerson.startThread();
         
@@ -340,28 +344,26 @@ public class SimCityPanel extends JPanel {
        // mcashier = new MarketCashierRole(gui);
        // ib = new InventoryBoyRole(gui);
         
-
-       /* market.mManager.isActive = true;
+        myMarkets.get(0).mManager.isActive = true;
         PersonAgent mManagerPerson = new PersonAgent("Manager");
         mManagerPerson.hungerLevel = 0;
-        mManagerPerson.SetJob(market.mManager, "Market 1");
-        market.mManager.myPerson = mManagerPerson;*/
-
+        mManagerPerson.SetJob(myMarkets.get(0).mManager, "Market 1");
+        myMarkets.get(0).mManager.myPerson = mManagerPerson;
 //        
 //        cook.msgAddMarket(manager);
 //        cook.setMonitor(host.getMonitor());
 //        
-        market1.mCashier.isActive = true;
+        myMarkets.get(0).mCashier.isActive = true;
         PersonAgent mCashierPerson = new PersonAgent("mCashier");
         mCashierPerson.hungerLevel = 0;
-        mCashierPerson.SetJob(market1.mCashier, "Market 1");
-        market1.mCashier.myPerson = mCashierPerson;
+        mCashierPerson.SetJob(myMarkets.get(0).mCashier, "Market 1");
+        myMarkets.get(0).mCashier.myPerson = mCashierPerson;
         
-        market1.ib.isActive = true;
+        myMarkets.get(0).ib.isActive = true;
         PersonAgent ibPerson = new PersonAgent("ib");
         ibPerson.hungerLevel = 0;
-        ibPerson.SetJob(market1.ib, "Market 1");
-        market1.ib.myPerson = ibPerson;
+        ibPerson.SetJob(myMarkets.get(0).ib, "Market 1");
+        myMarkets.get(0).ib.myPerson = ibPerson;
         
         //DeliveryTruckAgent dtruck = new DeliveryTruckAgent(manager);
         // set market role pointers
@@ -373,7 +375,7 @@ public class SimCityPanel extends JPanel {
 //        
 //        // start threads of market stuff
 //        dtruck.startThread();
-      //mManagerPerson.startThread();
+      mManagerPerson.startThread();
       mCashierPerson.startThread();
       ibPerson.startThread();
 //
@@ -392,8 +394,12 @@ public class SimCityPanel extends JPanel {
         //host.isActive=true;
         for(RestaurantPlace r: myRestaurants) {
         	if(r.restNum==3) {
-                addPerson("Person", "doreenHost",100.00, "Doreen Host", "House", "Walk" );
-                r.host.isActive=false;
+        		r.host.isActive=true;
+        		 PersonAgent hostPerson = new PersonAgent("Host");
+        		 hostPerson.hungerLevel=0; //hack so won't go to restaurant
+        	        hostPerson.SetJob(r.host, "Restaurant 3");
+        	        r.host.myPerson=hostPerson;
+        	        hostPerson.startThread();
         	        // host.setGui(hostGui);
         	        //waiter.setGui(waiterGui);
         	        //System.err.println(cook);
@@ -655,20 +661,42 @@ public class SimCityPanel extends JPanel {
         directory.put("Market 2", market2);
         directory.put("Market 3", market3);
         directory.put("Market 4", market4);
-		*/
+         */
+        
         for(MarketPlace m: myMarkets) {
         	directory.put("Market "+ Integer.toString(m.num), m);
+        	//System.err.println("Market "+ Integer.toString(m.num));
         }
         //directory.put("Bank", bank);
         for(BankPlace b: myBanks) {
         	directory.put("Bank "+ Integer.toString(b.num), b);
         }
+
+        /*
+        directory.put("Bank 1", bank1);
+        directory.put("Bank 2", bank2);
+        */
+        
         directory.put("Restaurant 5", BRestaurant);
         directory.put("Restaurant 3", DRestaurant);
         directory.put("Restaurant 2", DrewRestaurant);
         directory.put("Restaurant 4", KRestaurant);
         directory.put("Restaurant 1", LRestaurant);
         directory.put("Restaurant 6", TRestaurant);
+        
+        // set nearest bus stop of all the buildings
+        directory.get("Market 1").nearestBusStop = bs1;
+        directory.get("Market 2").nearestBusStop = bs4;
+        directory.get("Market 3").nearestBusStop = bs2;
+        directory.get("Market 4").nearestBusStop = bs3;
+        directory.get("Bank 1").nearestBusStop = bs4;
+        directory.get("Bank 2").nearestBusStop = bs2;
+        directory.get("Restaurant 1").nearestBusStop = bs1;
+        directory.get("Restaurant 3").nearestBusStop = bs1;
+        directory.get("Restaurant 4").nearestBusStop = bs2;
+        directory.get("Restaurant 5").nearestBusStop = bs3;
+        directory.get("Restaurant 6").nearestBusStop = bs3;
+        directory.get("Restaurant 2").nearestBusStop = bs4;
         
         // set all market places to not down
         Iterator it = directory.entrySet().iterator();
@@ -765,7 +793,6 @@ public class SimCityPanel extends JPanel {
     		
 			 if(houseOrApt.equals("House") && houseNumCounter<=NUMHOUSES) {
 	             p.SetHomeAddress("House "+ Integer.toString(houseNumCounter));
-	             System.out.println("House "+ Integer.toString(houseNumCounter));
 	             houseNumCounter++;
 	             
 			 }
@@ -798,49 +825,9 @@ public class SimCityPanel extends JPanel {
 	    		g.setPresent(true);
 	    		p.setGui(g);
 	    		gui.city.addGui(g);
-	    		p.bankTime=true;
+	    	
 	    		
 	    		//Add Job
-	    		
-	    		//Managers&Hosts
-	    		if(role.equals("Bank Manager")){
-	    			Integer bankChoice;
-	    			bankChoice=(storebalance.get(role)%2)+1;
-	    			storebalance.put(role, storebalance.get(role)+1);
-	    	        p.SetJob(bank.bankManager, "Bank "+Integer.toString(bankChoice));
-	    	        bank.bankManager.myPerson = p;
-	    		}
-	    		if(role.equals("Market Manager")){
-	    			Integer marketChoice;
-	    			marketChoice=(storebalance.get(role)%2)+1;
-	    			storebalance.put(role, storebalance.get(role)+1);
-	    	        p.SetJob(market1.mManager, "Market "+Integer.toString(marketChoice));
-	    	        market1.mManager.myPerson = p;
-	    		}
-	    		if(role.equals("Doreen Host")){
-        	        p.SetJob(myRestaurants.get(2).host, "Restaurant 3");
-        	        myRestaurants.get(2).host.myPerson=p;
-	    		}
-	    		if(role.equals("Drew Host")){
-        	        p.SetJob(myRestaurants.get(1).host, "Restaurant 2");
-        	        myRestaurants.get(1).host.myPerson=p;
-	    		}
-	    		if(role.equals("Linda Host")){
-        	        p.SetJob(myRestaurants.get(0).host, "Restaurant 1");
-        	        myRestaurants.get(0).host.myPerson=p;
-	    		}
-	    		if(role.equals("Kim Host")){
-        	        p.SetJob(myRestaurants.get(3).host, "Restaurant 4");
-        	        myRestaurants.get(3).host.myPerson=p;
-	    		}
-	    		if(role.equals("Brian Host")){
-        	        p.SetJob(myRestaurants.get(4).host, "Restaurant 5");
-        	        myRestaurants.get(4).host.myPerson=p;
-	    		}
-	    		if(role.equals("Tiffany Host")){
-        	        p.SetJob(myRestaurants.get(5).host, "Restaurant 6");
-        	        myRestaurants.get(5).host.myPerson=p;
-	    		}
 	    		if(role.equals("Waiter")){
 	    			Drew_WaiterRole DW=(Drew_WaiterRole) DrewRestaurant.AddNormalWaiter();
 	    			DW.myPerson=p;
@@ -849,16 +836,15 @@ public class SimCityPanel extends JPanel {
 	    		}
 	    		if(role.equals("Bank Teller")){
 	    			BankTellerRole BT= new BankTellerRole(gui);
-	    			BT.setManager(bank.bankManager);
+	    			BT.setManager(bank1.bankManager);
 	    			BT.myPerson=p;
 	    			p.SetJob(BT,"Bank 1");
 	    			p.myJob.isActive=false;
 	    			p.hungerLevel=0;
 	    		}
-	    		//if(role.equals())
 	    		//HACK FOR TESTING CLOSE BANK
 	    		if(role.equals("Inventory Person")){
-	    			bank.bankManager.msgTimeUpdate(20);
+	    			bank1.bankManager.msgTimeUpdate(20);
 	    		}
 //	    		Bmanager.msgTimeUpdate(8);
 	            //BankCustomerRole bc = new BankCustomerRole(gui);
@@ -880,8 +866,7 @@ public class SimCityPanel extends JPanel {
 	            
 	            
 	    		p.startThread();
-	    		//TAKE THIS AWAY, JUST FOR TESTING 
-	    		p.msgTimeUpdate(8);
+	    		p.msgTimeUpdate(7);
 			 
     		people.add(p);
     	}
@@ -889,7 +874,7 @@ public class SimCityPanel extends JPanel {
 
     /**************************ROLE FACTORY******************************/
     
-    class Business {
+   public class Business {
         public String name;
         public int x;
         public int y;
@@ -905,6 +890,7 @@ public class SimCityPanel extends JPanel {
  private ArrayList<Role> GenerateAllCustomerRoles() {
 	 ArrayList<Role> myCustomerRoles= new ArrayList<Role>();
 	 /*******turn this into a loop to make more efficient*********/
+
 	 //myCustomerRoles.add(bank.addCustomer());
 	 //myCustomerRoles.add(market1.addCustomer());
 	 for(BankPlace b: myBanks) {
@@ -913,6 +899,10 @@ public class SimCityPanel extends JPanel {
 	 for(MarketPlace m: myMarkets) {
 		 myCustomerRoles.add(m.addCustomer());
 	 }
+
+	// myCustomerRoles.add(bank1.addCustomer());
+	// myCustomerRoles.add(market1.addCustomer());
+
 	 myCustomerRoles.add(DrewRestaurant.AddCustomer());
 	 myCustomerRoles.add(BRestaurant.AddCustomer());
 	 myCustomerRoles.add(DRestaurant.AddCustomer());
@@ -1014,7 +1004,9 @@ class RestaurantPlace extends Business {
 
                 case 2: host = new Drew_HostRole();
                 cook = new Drew_CookRole();
-                ((Drew_CookRole)cook).addMarket(market1.mManager);
+                for(MarketPlace m: myMarkets) {
+                	  ((Drew_CookRole)cook).addMarket(m.mManager);
+                }
                 ((Drew_HostRole)host).setCook((Drew_Cook)cook);
                 cashier = new Drew_CashierRole();
                 break;
@@ -1026,7 +1018,9 @@ class RestaurantPlace extends Business {
 				                break;
 				case 3: host = new DHostRole();
 				                cook = new DCookRole(gui);
-				                ((DCookRole)cook).msgAddMarket(market1.mManager);
+				                for(MarketPlace m: myMarkets) {
+				                ((DCookRole)cook).msgAddMarket(m.mManager);
+				                }
 				                cashier = new DCashierRole();
 				                ((DHostRole)host).addCook((DCookRole)cook);
 				                ((DCookRole) cook).AddHost((DHostRole)host);
@@ -1036,7 +1030,9 @@ class RestaurantPlace extends Business {
 				                break;
 				case 4: host = new KHostRole();
 				                cook = new KCookRole(gui);
-				                ((KCookRole)cook).addMarket(market1.mManager);
+				                for(MarketPlace m: myMarkets) {
+				                	 ((KCookRole)cook).addMarket(m.mManager);
+				                }
 				                cashier = new KCashierRole();
 				                ((KHostRole)host).setCook((KCookRole) cook);
 				                ((KHostRole)host).setCashier((KCashierRole) cashier);
@@ -1047,7 +1043,9 @@ class RestaurantPlace extends Business {
 				                break;
 				case 1:        host = new LHostRole();
 				                cook = new LCookRole();
-				                ((LCookRole)cook).addMarket(market1.mManager);
+				                for(MarketPlace m: myMarkets) {
+				                	((LCookRole)cook).addMarket(m.mManager);
+				                }
 				                System.out.println("LCookRole is "+cook);
 				                cashier = new LCashierRole();
 				                ((LHostRole) host).setCook((LCook)cook);
@@ -1058,7 +1056,9 @@ class RestaurantPlace extends Business {
 				                break;
 				case 6: host = new THostRole(); 
 				                cook = new TCookRole();
-				                //((TCookRole)cook).addMarket(market.mManager);
+				                for(MarketPlace m: myMarkets) {
+				                	 ((TCookRole)cook).addMarket(m.mManager);
+				                }
 				                cashier = new TCashierRole();
 				                ((THostRole) host).setCook((TCookRole)cook);
 				                ((THostRole) host).setCashier((TCashierRole)cashier); 

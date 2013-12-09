@@ -8,32 +8,32 @@ Name
 	House/Apartment
 Applekimi
 	600
-	Waiter1
+	Waiter
 	Walk
 	Apartment
 Drewreen
 	600
-	Waiter2
+	Waiter
 	Walk
 	Apartment
 Kimda
 	500
-	Waiter3
+	Waiter
 	Walk
 	Apartment
 Limberly
 	500
-	Waiter4
+	Waiter
 	Walk
 	Apartment
 Santiar
 	500
-	Waiter5
+	Waiter
 	Walk
 	Apartment
 Chartiago
 	500
-	Waiter6
+	Waiter
 	Walk
 	House
 Andrew
@@ -68,32 +68,32 @@ Tiffany
 	House
 LinLin
 	400
-	Cashier1
+	RestaurantCashier1
 	Walk
 	Apartment
 DrewDrew
 	400
-	Cashier2
+	RestaurantCashier2
 	Walk
 	Apartment
 DorDor
 	400
-	Cashier3
+	RestaurantCashier3
 	Walk
 	Apartment
 KimKim
 	400
-	Cashier4
+	RestaurantCashier4
 	Walk
 	Apartment
 BriBri
 	400
-	Cashier5
+	RestaurantCashier5
 	Walk
 	Apartment
 TifTif
 	400
-	Cashier6
+	RestaurantCashier6
 	Walk
 	Apartment
 AInventory
