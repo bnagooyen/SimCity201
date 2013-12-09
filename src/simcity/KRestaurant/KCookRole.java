@@ -95,6 +95,15 @@ public class KCookRole extends Role implements Cook{
 	// Messages
 
 
+	@Override
+	public void msgSetInventory(int val) {
+		foods.put("Steak", new Food("Steak", 5000, val, 3, 1, 10));
+		foods.put("Chicken", new Food("Chicken", 4500, val, 3, 1, 7));
+		foods.put("Salad", new Food("Salad", 2000, val, 3, 1,3));
+		foods.put("Pizza", new Food("Pizza", 4000, val, 3, 1, 5)); 
+
+	}
+	
 	public void msgConfirmCheck( double check, MarketManager manager) {
 		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCook", "got check to confirm");
 		Do("got check to confirm");
@@ -515,6 +524,7 @@ public class KCookRole extends Role implements Cook{
 		// TODO Auto-generated method stub
 		
 	}
+
 
 	
 	
