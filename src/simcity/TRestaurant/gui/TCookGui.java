@@ -12,7 +12,7 @@ public class TCookGui implements Gui {
 
     private TCookRole agent = null;
     
-    private int xPos = 420, yPos = 5;//default cook position
+    private int xPos = -20, yPos = 5;//default cook position
     private int xDestination = 420, yDestination = 5;//default start position
 
     public static final int yTable = 250;
@@ -56,6 +56,8 @@ public class TCookGui implements Gui {
     public void draw(Graphics2D g) {
         g.setColor(Color.WHITE);
         g.fillRect(xPos, yPos, 20, 20);
+        g.setColor(Color.BLACK);
+        g.drawString("C", xPos + 5, yPos + 13);
     }
 
     public boolean isPresent() {

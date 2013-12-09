@@ -305,11 +305,11 @@ public class TWaiterRole extends Role implements TWaiter{
 		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "Telling manager I can work");
 		Do("Telling manager I can work");
 		arrived = false;
-		host.msgIAmHere(this, "Waiter");
 		if (waiterGui == null) {
 			waiterGui = new TWaiterGui(this);
 			gui.myPanels.get("Restaurant 6").panel.addGui(waiterGui);
 		}
+		host.msgIAmHere(this, "Waiter");
 	}
 
 	private void seatCustomer(customers customer) {

@@ -285,7 +285,7 @@ public class LCookRole extends Role implements LCook, Cook {
 							msgTimeToCheckStand();
 						}
 					},
-					2000);
+					20000);
 			}
 			
 		}
