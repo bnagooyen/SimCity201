@@ -243,7 +243,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//info = new TListPanel(this);
 		this.controlPanel = new ControlPanel(tracePanel);
 		
-		globalLog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//globalLog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		globalLog.setLayout(new BorderLayout());
 		globalLog.setBounds(900,0,350, 735);
 		globalLog.setResizable(true);
