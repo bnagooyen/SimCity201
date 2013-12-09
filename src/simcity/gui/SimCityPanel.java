@@ -1198,7 +1198,7 @@ public class SimCityPanel extends JPanel {
 	            }*/
 
 			if(p.myJob!=null)p.myJob.isActive=false;
-			p.startThread();
+		
 
 
 			//TAKE THIS TIME UPDATE AWAY, JUST FOR TESTING 
@@ -1207,7 +1207,7 @@ public class SimCityPanel extends JPanel {
 				System.out.println(role+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			}
 
-
+			p.startThread();
 			people.add(p);
 		}
 	}
