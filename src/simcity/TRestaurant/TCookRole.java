@@ -19,6 +19,7 @@ import simcity.PersonAgent;
 import simcity.Drew_restaurant.Drew_CookRole.Order;
 import simcity.Market.MFoodOrder;
 import simcity.TRestaurant.gui.TCookGui;
+import simcity.TRestaurant.gui.TWaiterGui;
 
 /**
  * Restaurant Cook Agent
@@ -285,7 +286,8 @@ public class TCookRole extends Role implements TCook, Cook {
 		arrived = false;
 		host.msgIAmHere(this, "Cook");
 		if (cookGui == null) {
-			TCookGui c = new TCookGui(this); 
+			TCookGui c = new TCookGui(this);
+			gui.myPanels.get("Restaurant 6").panel.addGui(c);
 			cookGui = c; 
 		}
 	}

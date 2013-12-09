@@ -1,6 +1,7 @@
 package simcity.Drew_restaurant;
 
 //import restaurant.Host.Table;
+import simcity.Drew_restaurant.gui.Drew_CookGui;
 import simcity.Drew_restaurant.gui.Drew_CustomerGui;
 import simcity.Drew_restaurant.gui.Menu;
 import simcity.Drew_restaurant.gui.Bill;
@@ -11,6 +12,8 @@ import java.util.concurrent.Semaphore;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import simcity.gui.Gui;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
@@ -25,6 +28,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
 	private Drew_CustomerGui customerGui;
+	private SimCityGui gui;
 	private Semaphore atCashier = new Semaphore(0,true);
 	private Semaphore inLine = new Semaphore(0,true);
 	
@@ -53,12 +57,14 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 	
 	/**
 	 * Constructor for CustomerAgent class
+	 * @param gui 
 	 *
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public Drew_CustomerRole(){
+	public Drew_CustomerRole(SimCityGui G){
 		super();
+		gui=G;
 		//this.name = name;
 	}
 
@@ -238,6 +244,10 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Going to restaurant");
 		Do("Going to restaurant");
 		host.whatIsWait(this);
+		if(gui == null) {
+			customerGui = new Drew_CustomerGui(this, (Drew_HostRole) host);
+			gui.myPanels.get("Restaurant 2").panel.addGui(customerGui);
+		}
 		customerGui.DoGetInLine(numberAhead);
 		try {
 			inLine.acquire();

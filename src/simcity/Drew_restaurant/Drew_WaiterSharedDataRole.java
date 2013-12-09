@@ -1,5 +1,6 @@
 package simcity.Drew_restaurant;
 
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Drew_Waiter;
@@ -13,8 +14,8 @@ public class Drew_WaiterSharedDataRole extends Drew_WaiterRole implements Drew_W
     private ProducerConsumerMonitor theMonitor;
 
 	
-	public Drew_WaiterSharedDataRole() {
-		super();
+	public Drew_WaiterSharedDataRole(SimCityGui gui) {
+		super(gui);
 	}
 
 	protected void putInOrder(MyCustomer c) {
