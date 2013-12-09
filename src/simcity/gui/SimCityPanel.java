@@ -1393,9 +1393,10 @@ public class SimCityPanel extends JPanel {
 			cashier = new TCashierRole();
 			((THostRole) host).setCook((TCookRole)cook);
 			((THostRole) host).setCashier((TCashierRole)cashier); 
-			((TCashierRole)cashier).setHost((THostRole)host); 
+			((TCashierRole)cashier).setHost((THostRole)host);
+			((TCashierRole)cashier).setCook((TCookRole)cook);
 			((TCookRole) cook).setCashier((TCashierRole)cashier);
-			//                                
+			((TCookRole) cook).setHost((THostRole)host);                          
 			}
 		}
 

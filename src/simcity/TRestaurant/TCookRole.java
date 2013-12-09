@@ -24,7 +24,7 @@ import simcity.TRestaurant.gui.TCookGui;
 
 public class TCookRole extends Role implements TCook, Cook {
 	
-	private OrderStand myStand;
+	private OrderStand myStand = new OrderStand();
 
 	Timer timer = new Timer();
 	private String name; 
