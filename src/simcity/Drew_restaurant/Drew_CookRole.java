@@ -21,7 +21,7 @@ import simcity.interfaces.MarketManager;
 public class Drew_CookRole extends Role implements Drew_Cook {
 	
 	//Data
-	private ProducerConsumerMonitor theMonitor;
+	private ProducerConsumerMonitor theMonitor=new ProducerConsumerMonitor();
 	
 	public List<Order> orders
 	= Collections.synchronizedList(new ArrayList<Order>());

@@ -169,7 +169,7 @@ public class THostRole extends Role implements Host {
 			return true;
 		}
 		
-		if(isClosed){
+		if(hour == 21){
 			restaurantClosed();
 			return true;
 		}

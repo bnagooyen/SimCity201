@@ -145,7 +145,7 @@ public class ListPanel extends JPanel implements ActionListener {
                 if (e.getSource() == list.get(i)) {
 //                	System.out.println("yup");
 //                	System.err.println(pplList.get(i).getText());
-                    currentPerson=restPanel.showInfo(type, pplList.get(i).getText());
+                    //currentPerson=restPanel.showInfo(type, pplList.get(i).getText());
 //                    System.err.println(currentPerson);
                     if (currentPerson instanceof DCustomerRole) {
                     	list.get(i).setEnabled(false);
@@ -226,7 +226,7 @@ public class ListPanel extends JPanel implements ActionListener {
 	                 //restPanel.showInfo(type, name);//puts hungry button on panel
 	                 validate();
 	                 
-	                 currentPerson=restPanel.showInfo(type, button.getText());
+	                 //currentPerson=restPanel.showInfo(type, button.getText());
 	               
                 	//list.get(i).setEnabled(false);
                     DCustomerRole c = (DCustomerRole) currentPerson;
@@ -270,7 +270,7 @@ public class ListPanel extends JPanel implements ActionListener {
 	                 //restPanel.showInfo(type, name);//puts hungry button on panel
 	                 validate();
 	                 
-	                 currentPerson=restPanel.showInfo(type, button.getText());
+	                 //currentPerson=restPanel.showInfo(type, button.getText());
 	               
                 	//list.get(i).setEnabled(false);
                     PersonAgent c = (PersonAgent) currentPerson;

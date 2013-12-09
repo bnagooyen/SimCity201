@@ -276,7 +276,7 @@ public class LHostRole extends Role implements LHost, Host {
     			return true;
     		}
     		
-    		if(hour == 20 || isClosed){
+    		if(hour == 20){
     			restaurantClosed();
     			return true;
     		}

@@ -152,7 +152,7 @@ public class SimCityPanel extends JPanel {
 
 	private DCashierRole cashier = new DCashierRole();
 	private int waiterIndex = 1;
-	private Vector<DWaiterRole> waiters = new Vector<DWaiterRole>();
+	//private Vector<DWaiterRole> waiters = new Vector<DWaiterRole>();
 	private Vector<DCustomerRole> customers = new Vector<DCustomerRole>();
 
 	//Drews Restaurant
@@ -179,8 +179,9 @@ public class SimCityPanel extends JPanel {
 	private Vector<BCustomerRole> Bcustomers= new Vector<BCustomerRole>();
 	private BCashierRole Bcashier= new BCashierRole();
 	private BCookRole Bcook=new BCookRole();
+	private BHostRole BHost=new BHostRole();
 
-	private BHostRole Bhost=new BHostRole();
+	
 
 
 
@@ -261,11 +262,11 @@ public class SimCityPanel extends JPanel {
 		TRestaurant = new RestaurantPlace(6);
 
 
+		myRestaurants.add(LRestaurant);
 		myRestaurants.add(DrewRestaurant);
-		myRestaurants.add(BRestaurant);
 		myRestaurants.add(DRestaurant);
 		myRestaurants.add(KRestaurant);
-		myRestaurants.add(LRestaurant);
+		myRestaurants.add(BRestaurant);
 		myRestaurants.add(TRestaurant);
 
 
@@ -279,6 +280,8 @@ public class SimCityPanel extends JPanel {
 		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
 		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
 		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
+		
+		//this.LoadScenario("config1");
 
 		/*PersonAgent bManagerPerson = new PersonAgent("BankManager");
         bManagerPerson.hungerLevel = 0;
@@ -740,7 +743,7 @@ public class SimCityPanel extends JPanel {
 	 * @param type indicates whether the person is a customer or waiter
 	 * @param name name of person
 	 */
-	public Object showInfo(String type, String name) {
+	/*public Object showInfo(String type, String name) {
 
 		if (type.equals("Customers")) {
 
@@ -775,7 +778,7 @@ public class SimCityPanel extends JPanel {
 
 
 		return new Object();
-	}
+	}*/
 
 
 
@@ -889,6 +892,9 @@ public class SimCityPanel extends JPanel {
 			//Add Job 
 
 			//Managers&Hosts
+			if(role.equals("Inventory Person")){
+				this.LoadScenario("config1");
+			}
 			if(role.equals("Bank Manager")){
 				Integer bankChoice;
 				bankChoice=(storebalance.get(role)%2);
@@ -1348,9 +1354,20 @@ public class SimCityPanel extends JPanel {
 			break;
 			case 5: host = new BHostRole();
 			cook = new BCookRole();
-			((BHost)host).setCook((BCookRole)cook);
-			// ((BCookRole)cook).addMarket(market.mManager);
+			((BHostRole)host).setCook((BCookRole)cook);
+			
+			
 			cashier = new BCashierRole();
+			((BHostRole)host).setCashier((BCashierRole)cashier);
+			((BCookRole) cook).setHost((BHostRole)host);
+			((BCookRole)cook).setCashier((BCashierRole)cashier);
+			for(MarketPlace m: myMarkets) {
+				((BCookRole)cook).addMarket(m.mManager);
+			}
+			
+			((BCashierRole)cashier).setHost((BHostRole)host);
+			((BCashierRole)cashier).setCook((BCookRole)cook);
+			
 			break;
 			case 3: host = new DHostRole();
 			cook = new DCookRole(gui);
@@ -1417,6 +1434,7 @@ public class SimCityPanel extends JPanel {
 			waiters.add(aw);
 			((Drew_Host)host).addWaiter(aw);
 			return aw;
+			
 			case 5: 
 				BWaiterRole bw = new BWaiterSharedDataRole();
 				bw.setHost((BHostRole)host);
@@ -1477,11 +1495,13 @@ public class SimCityPanel extends JPanel {
 			waiters.add(aw);
 			((Drew_Host)host).addWaiter(aw);
 			return aw;
+			
 			case 5: 
 				BWaiterRole bw = new BWaiterNormalRole();
 				bw.setHost((BHostRole)host);
 				bw.setCook((BCook)cook);
 				bw.setCashier((BCashier)cashier);
+				
 				//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
 				waiters.add(bw);
 				((BHost)host).setWaiter(bw);

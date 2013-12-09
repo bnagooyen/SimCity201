@@ -228,9 +228,11 @@ public class MarketManagerRole extends Role implements MarketManager{
 		synchronized(customers){
 			for(MyCustomer c: customers){
 				if(c.waiting == true){
-					for(MyMarketCashier mc: cashiers){
-						if(mc.state == workerState.available){
-							handleCustomer(c,mc);
+					synchronized(cashiers){
+						for(MyMarketCashier mc: cashiers){
+							if(mc.state == workerState.available){
+								handleCustomer(c,mc);
+							}
 						}
 					}
 				}
