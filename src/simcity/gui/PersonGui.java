@@ -190,7 +190,7 @@ public class PersonGui implements Gui {
 
     	
     	  if (xPos != xDestination) {
-              if (yPos == 20 || yPos == 375) {
+              if (yPos == 40 || yPos == 350) {
                    if (xPos < xDestination)
                         xPos++;
                    else if (xPos > xDestination)
@@ -198,9 +198,9 @@ public class PersonGui implements Gui {
               }
            
            else 
-                   if (375 - yDestination <= 150 && yPos >= 20) 
+                   if (350 - yDestination <= 150 && yPos >= 40) 
                            yPos++;
-                   else if (375 - yDestination > 150 && yPos <= 375)
+                   else if (350 - yDestination > 150 && yPos <= 350)
                            yPos--;
            }
            
