@@ -60,6 +60,7 @@ import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;
 import simcity.interfaces.BankTeller;
 import simcity.interfaces.DCook;
+import simcity.interfaces.Drew_Cook;
 import simcity.interfaces.KCashier;
 import simcity.interfaces.RestaurantCashier;
 import simcity.PersonAgent;
@@ -1428,6 +1429,7 @@ public class SimCityPanel extends JPanel {
 
 			case 2: Drew_WaiterRole aw = new Drew_WaiterSharedDataRole(gui);
 			aw.setCook((Drew_Cook)cook);
+			((Drew_WaiterSharedDataRole)aw).setMonitor(Drew_Cook.theMonitor);
 			aw.addCashier((Drew_Cashier)cashier);
 			aw.setHost((Drew_Host)host);
 			//Drew_WaiterGui g = new Drew_WaiterGui(aw, 1);

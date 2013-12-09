@@ -27,12 +27,7 @@ public class ProducerConsumerMonitor extends Object{
 	    
 	    synchronized public Drew_RestaurantOrder remove() {
 	        Drew_RestaurantOrder data;
-//	        while(count == 0)
-//	            try{ 
-//	                System.out.println("\tEmpty, waiting");
-//	                wait(5000);                         // Empty, wait to consume
-//	            } catch (InterruptedException ex) {};
-//	 
+	 
 	        data = remove_Drew_RestaurantOrder();
 	        count--;
 	        if(count == N-1){ 

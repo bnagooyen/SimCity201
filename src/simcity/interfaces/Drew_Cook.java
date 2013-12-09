@@ -14,6 +14,8 @@ import simcity.Drew_restaurant.gui.*;
  *
  */
 public interface Drew_Cook {
+	
+	public ProducerConsumerMonitor theMonitor=new ProducerConsumerMonitor();
 
 	public abstract void msgSetInventory(int val);
 	

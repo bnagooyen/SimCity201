@@ -180,6 +180,7 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 		waitergui.idle=false;
 		if(waiterstate==WaiterState.arrived){
 			tellHostIAmHere();
+			Do("TOLD HOST IM HERE (P&E DREW_WAITERROLE)");
 		}
 		try{
 		//synchronized(customers){

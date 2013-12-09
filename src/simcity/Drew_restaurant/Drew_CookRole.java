@@ -23,7 +23,7 @@ import simcity.interfaces.MarketManager;
 public class Drew_CookRole extends Role implements Drew_Cook {
 	
 	//Data
-	private ProducerConsumerMonitor theMonitor;//=new ProducerConsumerMonitor();
+	public ProducerConsumerMonitor theMonitor;
 	
 	public List<Order> orders
 	= Collections.synchronizedList(new ArrayList<Order>());
@@ -75,7 +75,8 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 
 	public Drew_CookRole(SimCityGui G) {
 		super();
-		this.name = name;
+		theMonitor=new ProducerConsumerMonitor();
+		//this.name = name;
 		cookstate=CookState.arrived;
 		simGui=G;
 		
@@ -97,8 +98,6 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		foods.put("salad", salad);
 		foods.put("pizza", pizza);
 		
-		
-		theMonitor=new ProducerConsumerMonitor();
 		checkInventory();
 	}
 
@@ -348,7 +347,7 @@ Do("UNCOMMENT 289");//			market.msgIAmHere(this, toOrder, "Drew_restaurant", "co
 
 	
 	private void checkRotatingStand() {
-		Do("Checking Stand");
+		Do("Checking Stand "+myPerson.getName());
 		Drew_RestaurantOrder newOrder = theMonitor.remove();
 		if(newOrder != null) {
 			Order o = new Order(newOrder.w, newOrder.choice, newOrder.table);
