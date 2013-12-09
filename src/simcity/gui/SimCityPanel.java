@@ -1296,9 +1296,9 @@ public class SimCityPanel extends JPanel {
 
 		public BankPlace(int num) {
 			this.num = num;
-			loanOfficer = new BankLoanOfficerRole(gui);
+			loanOfficer = new BankLoanOfficerRole(gui,num);
 			bankManager = new BankManagerRole(gui, num);
-			bankTeller = new BankTellerRole(gui);
+			bankTeller = new BankTellerRole(gui,num);
 			bankCustomers = new ArrayList<BankCustomerRole>();
 
 			loanOfficer.setManager(bankManager);
@@ -1306,7 +1306,7 @@ public class SimCityPanel extends JPanel {
 
 		}
 		public BankCustomerRole addCustomer() {
-			BankCustomerRole b = new BankCustomerRole(gui);
+			BankCustomerRole b = new BankCustomerRole(gui,num);
 			b.setManager(bankManager);
 			b.num=num;
 			bankCustomers.add(b);

@@ -99,8 +99,9 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		stateChanged();
 	}
 	
-	public BankCustomerRole(SimCityGui G) {
+	public BankCustomerRole(SimCityGui G, int N) {
 		super();
+		num=N;
 		gui=G;
 		state=bankCustomerState.arrived;		
 		//purpose="transaction";						//NEED A GOOD WAY FOR PERSON TO DECIDE
@@ -155,7 +156,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		Do("Arriving at bank with $"+ myPerson.money);
 		if(bankcustomerGui == null) {
 			bankcustomerGui = new BankCustomerGui(this, manager);
-			gui.myPanels.get("Bank 1").panel.addGui(bankcustomerGui);
+			gui.myPanels.get("Bank "+num).panel.addGui(bankcustomerGui);
 		}
 		bankcustomerGui.setPresent(true);
 		
