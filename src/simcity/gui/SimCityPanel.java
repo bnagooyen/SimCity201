@@ -1432,10 +1432,7 @@ public class SimCityPanel extends JPanel {
 			((Drew_WaiterSharedDataRole)aw).setMonitor(Drew_Cook.theMonitor);
 			aw.addCashier((Drew_Cashier)cashier);
 			aw.setHost((Drew_Host)host);
-			//Drew_WaiterGui g = new Drew_WaiterGui(aw, 1);
-			//aw.setGui(g);
 			waiters.add(aw);
-			//((Drew_Host)host).addWaiter(aw);
 			System.out.println("zxcvbnm"+host);
 			return aw;
 			
@@ -1444,16 +1441,15 @@ public class SimCityPanel extends JPanel {
 				bw.setHost((BHostRole)host);
 				bw.setCook((BCook)cook);
 				bw.setCashier((BCashier)cashier);
-				//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
 				waiters.add(bw);
-				((BHost)host).setWaiter(bw);
+				//((BHost)host).setWaiter(bw);
 				return bw;
 			case 3: 
 				DWaiterRole dw = new DWaiterSharedDataRole(gui);
 				dw.msgAddCashier((DCashierRole)cashier);
 				dw.msgAddCook((DCookRole)cook);
 				dw.msgAddHost((DHostRole)host);
-				((DHostRole)host).msgAddWaiter((DWaiterRole)dw);
+				//((DHostRole)host).msgAddWaiter((DWaiterRole)dw);
 				System.out.println("DHost is "+dw);
 				waiters.add(dw);
 				return dw;
@@ -1462,7 +1458,7 @@ public class SimCityPanel extends JPanel {
 				kw.setCook((KCookRole)cook);
 				kw.setCashier((RestaurantCashier)cashier);
 				kw.setHost((KHostRole)host);
-				((KHostRole)host).addWaiter((KWaiterRole)kw);
+				//((KHostRole)host).addWaiter((KWaiterRole)kw);
 				return kw;
 
 			case 1:        
@@ -1470,7 +1466,7 @@ public class SimCityPanel extends JPanel {
 				lw.setCashier((LCashier)cashier);
 				lw.setCook((LCook)cook);
 				lw.setHost((LHost)host);
-				((LHost)host).addWaiter(lw);
+				//((LHost)host).addWaiter(lw);
 				waiters.add(lw);
 				return lw;
 
@@ -1479,7 +1475,7 @@ public class SimCityPanel extends JPanel {
 				tw.setCashier((TCashierRole)cashier); 
 				tw.setCook((TCookRole)cook);
 				tw.setHost((THostRole)host);
-				((THostRole)host).addWaiter(tw); 
+				//((THostRole)host).addWaiter(tw); 
 				waiters.add(tw);
 				return tw; 
 
@@ -1493,11 +1489,7 @@ public class SimCityPanel extends JPanel {
 			aw.setCook((Drew_Cook)cook);
 			aw.addCashier((Drew_Cashier)cashier);
 			aw.setHost((Drew_Host)host);
-			//Drew_WaiterGui g = new Drew_WaiterGui(aw, 1);
-			//aw.setGui(g);
-			//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
 			waiters.add(aw);
-			//((Drew_Host)host).addWaiter(aw);
 			return aw;
 			
 			case 5: 
@@ -1505,17 +1497,15 @@ public class SimCityPanel extends JPanel {
 				bw.setHost((BHostRole)host);
 				bw.setCook((BCook)cook);
 				bw.setCashier((BCashier)cashier);
-				
-				//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
 				waiters.add(bw);
-				((BHost)host).setWaiter(bw);
+				//((BHost)host).setWaiter(bw);
 				return bw;
 			case 3: 
 				DWaiterRole dw = new DWaiterNormalRole(gui);
 				dw.msgAddCashier((DCashierRole)cashier);
 				dw.msgAddCook((DCookRole)cook);
 				dw.msgAddHost((DHostRole)host);
-				((DHostRole)host).msgAddWaiter((DWaiterRole)dw);
+				//((DHostRole)host).msgAddWaiter((DWaiterRole)dw);
 				System.out.println("DHost is "+dw);
 				waiters.add(dw);
 				return dw;
@@ -1524,7 +1514,7 @@ public class SimCityPanel extends JPanel {
 				kw.setCook((KCookRole)cook);
 				kw.setCashier((RestaurantCashier)cashier);
 				kw.setHost((KHostRole)host);
-				((KHostRole)host).addWaiter((KWaiterRole)kw);
+				//((KHostRole)host).addWaiter((KWaiterRole)kw);
 				return kw;
 
 			case 1:	
@@ -1532,7 +1522,7 @@ public class SimCityPanel extends JPanel {
 				lw.setCashier((LCashier)cashier);
 				lw.setCook((LCook)cook);
 				lw.setHost((LHost)host);
-				((LHost)host).addWaiter(lw);
+				//((LHost)host).addWaiter(lw);
 				waiters.add(lw);
 				return lw;
 
@@ -1541,7 +1531,7 @@ public class SimCityPanel extends JPanel {
 				tw.setCashier((TCashierRole)cashier); 
 				tw.setCook((TCookRole)cook);
 				tw.setHost((THostRole)host);
-				((THostRole)host).addWaiter(tw); 
+				//((THostRole)host).addWaiter(tw); 
 				waiters.add(tw);
 				return tw; 
 
