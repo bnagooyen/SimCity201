@@ -7,9 +7,11 @@ import agent.Agent;
 import agent.Role;
 import simcity.BRestaurant.BCustomerRole;
 import simcity.Bank.BankCustomerRole;
+import simcity.Bank.BankManagerRole;
 import simcity.KRestaurant.KCustomerRole;
 import simcity.LRestaurant.LCustomerRole;
 import simcity.Market.MarketCustomerRole;
+import simcity.Market.MarketManagerRole;
 import simcity.TRestaurant.TCustomerRole;
 import simcity.Transportation.BusAgent;
 import simcity.Transportation.BusStopAgent;
@@ -18,9 +20,13 @@ import simcity.gui.PersonGui;
 import simcity.gui.SimCityPanel.Business;
 import simcity.housing.gui.ResidentGui;
 import simcity.housing.gui.TenantGui;
+import simcity.interfaces.Host;
 import simcity.interfaces.Landlord;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.Person;
+
+
+
 
 
 
@@ -137,6 +143,12 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}
 
+		// if job is a manager/host, send timeupdate
+		if(myJob instanceof BankManagerRole || myJob instanceof MarketManagerRole || myJob instanceof Host) {
+			if(myJob.isActive) {
+				myJob.msgTimeUpdate(hr);
+			}
+		}
 		hungerLevel+=10;
 		stateChanged();
 	}

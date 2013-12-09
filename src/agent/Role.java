@@ -27,7 +27,7 @@ public abstract class Role {
     public Role() {
     	isActive = false;
     }
-    public void timeUpdate(int hr) {
+    public void msgTimeUpdate(int hr) {
     	hour=hr;
     	stateChanged();
     }
