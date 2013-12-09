@@ -3,6 +3,7 @@ package simcity.TRestaurant.gui;
 
 import java.awt.*;
 
+import agent.Role;
 import simcity.TRestaurant.TWaiterRole;
 import simcity.gui.Gui;
 
@@ -22,8 +23,8 @@ public class TWaiterGui implements Gui {
     public static final int yTable = 250;
     //TRestaurantGui gui;
     
-    public TWaiterGui(TWaiterRole agent/*, TRestaurantGui gui*/) {
-        this.agent = agent;
+    public TWaiterGui(Role r) {
+        this.agent = (TWaiterRole) r;
         //this.gui = gui; 
     }
 

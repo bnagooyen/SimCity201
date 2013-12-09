@@ -1,7 +1,9 @@
 package simcity.TRestaurant;
 
 import agent.Role;
+import simcity.TRestaurant.gui.TCookGui;
 import simcity.TRestaurant.gui.THostGui;
+import simcity.TRestaurant.gui.TWaiterGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Host;
