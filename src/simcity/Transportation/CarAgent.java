@@ -84,6 +84,7 @@ public boolean pickAndExecuteAnAction(){
                 Do("Arrived at destination");
                 driver.msgAtDestination(destination);
                 cgui.setPresent(false);
+                
         }
         
         //utilities

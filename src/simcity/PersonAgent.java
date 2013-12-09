@@ -65,9 +65,9 @@ public class PersonAgent extends Agent implements Person {
 	private BusAgent bus;
 	private CarAgent myCar;
 
-	public String nearestStop="Stop4";
-	public String destStop="Stop3";
-
+	public String nearestStop="Stop1";
+	public String destStop="Stop2";
+	public String myDestination="House 5";
 	//housing information
 	private Landlord myLandlord; 
 	private boolean needToPayRent = false; 
@@ -109,7 +109,7 @@ public class PersonAgent extends Agent implements Person {
 		super();
 
 		this.name = name;
-		//transit=TransitState.goToBus;
+		//transit=TransitState.goToCar;
 		state=PersonState.doingNothing;
 		hungerLevel=70;
 		myLocation=LocationState.atHome;
@@ -656,10 +656,11 @@ public class PersonAgent extends Agent implements Person {
 
 	private void getOffBusAndWalk(){
 		//gui to get off
-		Do("Walk to Destination");
-		DoGoTo("Restaurant 1");
-		transit=TransitState.atDestination;
 		PersonGui.setPresent(true);
+		DoGoTo("Restaurant 2");
+		
+		transit=TransitState.atDestination;
+		
 
 
 		/*  if (mydestination != "home") {
@@ -688,13 +689,14 @@ public class PersonAgent extends Agent implements Person {
 		Do("Do go To car");//gui?
 
 		PersonGui.setPresent(false);
-		myCar.msgGoToDestination(destStop, this);
-		DoGoTo(destStop);
+		myCar.msgGoToDestination(myDestination, this);
+		DoGoTo(myDestination);
 		transit=TransitState.inCar;
 	}
 
 	private void getOutCar(){
 		PersonGui.setPresent(true);
+		
 	}
 
 	private void DoGoTo(String dest) {
@@ -788,7 +790,9 @@ public class PersonAgent extends Agent implements Person {
 
 	@Override
 	public void msgAtDestination(String destination) {
-		// TODO Auto-generated method stub
+		transit=TransitState.getOutCar;
+        
+        stateChanged();
 
 	}
 

@@ -159,6 +159,7 @@ public class CarGui implements Gui {
                          else if(command==Command.GoHome) {
                                  agent.msgAtDestination();
                                  
+                                 
                         }
                          else if(command==Command.GoToRestaurant) {
                                  agent.msgAtDestination();

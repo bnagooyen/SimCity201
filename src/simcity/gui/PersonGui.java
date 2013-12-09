@@ -289,8 +289,9 @@ public class PersonGui implements Gui {
 
 	public void DoGoTo(String destination) {
 		System.out.print("Going to " + destination);
-		isPresent = true; 
+		
 		if(destination.contains("Restaurant")) {
+			
 			Point myDest = myMap.get(destination);
 			xDestination = myDest.x;
 			yDestination = myDest.y;
@@ -298,12 +299,14 @@ public class PersonGui implements Gui {
 		}
 
 		if(destination.contains("Stop")) {
+			
 			Point myDest = myMap.get(destination);
 			xDestination = myDest.x;
 			yDestination = myDest.y;
 			if (busStop == 0) {
 				command=Command.GoToBusStop;
 				busStop++; 
+				//isPresent = true; 
 			}
 			else if (busStop > 0){
 				busStop = 0;
@@ -312,6 +315,7 @@ public class PersonGui implements Gui {
 			}
 		}
 		if(destination.contains("Market")) {
+			
 			Point myDest = myMap.get(destination);
 			xDestination = myDest.x;
 			yDestination = myDest.y;
@@ -319,6 +323,7 @@ public class PersonGui implements Gui {
 		}
 
 		if(destination.contains("Bank")) {
+			
 			Point myDest = myMap.get(destination);
 			xDestination = myDest.x;
 			yDestination = myDest.y;
@@ -330,6 +335,7 @@ public class PersonGui implements Gui {
 				destination=destination.substring(0, destination.length()-1);
 				//System.err.println(destination);
 			}
+			
 			Point myDest = myMap.get(destination);
 			xDestination = myDest.x;
 			yDestination = myDest.y;
