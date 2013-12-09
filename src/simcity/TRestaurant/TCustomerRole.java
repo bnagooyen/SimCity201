@@ -1,6 +1,7 @@
 package simcity.TRestaurant;
 
 import simcity.TRestaurant.gui.TCustomerGui;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.TCustomer;
@@ -33,7 +34,7 @@ public class TCustomerRole extends Role implements TCustomer {
 	= new ArrayList<String>(); 
 	private int timeOrdered = 0; 
 	Random randomOrder = new Random();
-
+	SimCityGui gui;
 	// agent correspondents
 	private THostRole host;
 	private TCashierRole cashier; 
@@ -50,13 +51,15 @@ public class TCustomerRole extends Role implements TCustomer {
 
 	/**
 	 * Constructor for CustomerAgent class
+	 * @param gui 
 	 *
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public TCustomerRole(){
+	public TCustomerRole(SimCityGui gui){
 //		super(p);
 		//this.name = name;
+		this.gui = gui; 
 	}
 
 	/**

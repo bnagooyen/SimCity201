@@ -1,7 +1,9 @@
 package simcity.TRestaurant;
 
 import agent.Role;
+import simcity.TRestaurant.gui.TCookGui;
 import simcity.TRestaurant.gui.TWaiterGui;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.TCustomer;
@@ -35,7 +37,7 @@ public class TWaiterRole extends Role implements TWaiter{
 	Timer timer = new Timer();
 	private Menu menu = new Menu();
 	private OrderStand orders; 
-	
+	SimCityGui gui;
     boolean arrived;
 
 
@@ -43,9 +45,9 @@ public class TWaiterRole extends Role implements TWaiter{
 	public TWaiterGui waiterGui = null;
 
 
-	public TWaiterRole() {
+	public TWaiterRole(SimCityGui gui) {
 		super();
-
+		this.gui = gui; 
 		this.name = name;
 	}
 
@@ -304,6 +306,10 @@ public class TWaiterRole extends Role implements TWaiter{
 		Do("Telling manager I can work");
 		arrived = false;
 		host.msgIAmHere(this, "Waiter");
+		if (waiterGui == null) {
+			waiterGui = new TWaiterGui(this);
+			gui.myPanels.get("Restaurant 6").panel.addGui(waiterGui);
+		}
 	}
 
 	private void seatCustomer(customers customer) {

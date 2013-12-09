@@ -2,6 +2,7 @@ package simcity.TRestaurant;
 
 import agent.Role
 ;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Cook;
@@ -15,8 +16,10 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
+import simcity.Drew_restaurant.Drew_CookRole.Order;
 import simcity.Market.MFoodOrder;
 import simcity.TRestaurant.gui.TCookGui;
+import simcity.TRestaurant.gui.TWaiterGui;
 
 /**
  * Restaurant Cook Agent
@@ -36,6 +39,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	= Collections.synchronizedList(new ArrayList<Orders>());
 
 	Random randomQuan = new Random();
+	SimCityGui gui; 
 	private Semaphore atCounter = new Semaphore(0,true);
 	Map<String, Integer> Supply = new HashMap<String, Integer>(4);
 	public List<Market> markets
@@ -45,11 +49,12 @@ public class TCookRole extends Role implements TCook, Cook {
 	THostRole host;
 	boolean goHome = false;
 	
-	public TCookRole() {
+	public TCookRole(SimCityGui gui) {
 		super();
 		this.name = name;
 		addFood();
-		arrived = true; 
+		arrived = true;
+		this.gui = gui; 
 	}
 	
 	class Orders {
@@ -266,7 +271,7 @@ public class TCookRole extends Role implements TCook, Cook {
 			return true; 
 		}
 		else {
-			checkOrders(); 
+			checkOrders();
 		}
 
      return false; 
@@ -280,6 +285,10 @@ public class TCookRole extends Role implements TCook, Cook {
 		Do("Telling manager I can work");
 		arrived = false;
 		host.msgIAmHere(this, "Cook");
+		if (cookGui == null) {
+			cookGui = new TCookGui(this);
+			gui.myPanels.get("Restaurant 6").panel.addGui(cookGui);
+		}
 	}
 
 	private void cookFood(final int orderNumber) {
@@ -332,7 +341,14 @@ public class TCookRole extends Role implements TCook, Cook {
 	private void checkOrders() {
 		RotatingOrders newOrder = myStand.remove();
 		if (newOrder != null) {
-			
+			Orders o = new Orders(); 
+			o.setWaiter(newOrder.w); 
+			o.setTable(newOrder.table);
+			o.setOrder(newOrder.choice);
+			orders.add(o); 
+			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCookRole", "Cook has received customer orders");
+			Do("Cook has received customer orders.");
+			stateChanged();
 		}
 		else {
 			timer.schedule(new TimerTask() {

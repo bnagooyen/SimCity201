@@ -2,10 +2,12 @@ package simcity.LRestaurant;
 
 //import restaurant.gui.RestaurantGui;
 import agent.Role;
+import simcity.LRestaurant.gui.LCookGui;
 import simcity.LRestaurant.gui.LCustomerGui;
 import simcity.LRestaurant.LMenu;
 import simcity.PersonAgent;
 import simcity.LRestaurant.LMenu;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.LCashier;
@@ -35,6 +37,7 @@ public class LCustomerRole extends Role implements LCustomer{
         private LMenu m;
         private boolean willStay;
         private String givenName;
+        SimCityGui gui;
 
         // agent correspondents
         private LWaiter waiter;
@@ -57,9 +60,10 @@ public class LCustomerRole extends Role implements LCustomer{
          * @param name name of the customer
          * @param gui  reference to the customergui so the customer can send it messages
          */
-        public LCustomerRole(){
+        public LCustomerRole(SimCityGui g){
                 //super(p);
                 needToPay = 0;
+                gui = g;
 
         }
 
@@ -258,6 +262,10 @@ public class LCustomerRole extends Role implements LCustomer{
         private void goToRestaurant() {
         		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Going to restaurant");
                 Do("Going to restaurant");
+                if(customerGui == null){
+        			customerGui = new LCustomerGui(this, "LCustomerGui");
+        			gui.myPanels.get("Restaurant 1").panel.addGui(customerGui);
+        		}
                 customerGui.DoWait();
                 host.msgIWantToEat(this);//send our instance, so he can respond to us
         }

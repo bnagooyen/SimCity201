@@ -2,6 +2,7 @@ package simcity.BRestaurant;
 
 import simcity.PersonAgent;
 import simcity.BRestaurant.*;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.BWaiter;
@@ -14,7 +15,7 @@ public class BWaiterSharedDataRole extends BWaiterRole implements BWaiter{
 
         
         public BWaiterSharedDataRole() {
-                super();
+                //super(g);
         }
 
         protected void giveCookOrder(myCustomer c) {

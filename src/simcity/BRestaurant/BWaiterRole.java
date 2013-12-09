@@ -3,11 +3,13 @@ package simcity.BRestaurant;
 import agent.Agent;
 import agent.Role;
 import simcity.PersonAgent;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
 import simcity.BRestaurant.*;
 import simcity.BRestaurant.gui.BHostGui;
+import simcity.LRestaurant.gui.LCookGui;
 import simcity.PersonAgent;
 
 import java.util.*;
@@ -34,6 +36,8 @@ public abstract class BWaiterRole extends Role implements BWaiter{
         private boolean requestBreak;
         private boolean onBreak=false;
         Timer timer= new Timer();
+        SimCityGui gui;
+//        BWaiterGui waitergui; MAKE BWAITERGUI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
         public enum customerState{
@@ -82,7 +86,8 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 
         public BWaiterRole() {
                 //super(p);
-
+        	
+        		//gui =g;
                 this.name = name;
                 // make some tables
                 tables = new ArrayList<Table>(NTABLES);
@@ -127,6 +132,10 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 
         public void msgIWantFood(BCustomer cust) {
                 waitingCustomers.add(cust);
+//                if(waiterGui == null){
+//        			waiterGui = new BWaiterGui(this, "BWaiterGui");
+//        			gui.myPanels.get("Restaurant 5").panel.addGui(waiterGui);
+//        		}
                 stateChanged();
         }
         

@@ -2,6 +2,7 @@ package simcity.BRestaurant;
 
 import simcity.PersonAgent;
 import simcity.BRestaurant.gui.BRestaurantGui;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.BWaiter;
@@ -10,7 +11,7 @@ import simcity.BRestaurant.*;
 public class BWaiterNormalRole extends BWaiterRole implements BWaiter{
 
         public BWaiterNormalRole() {
-                //super(p);
+//                super(g);
         }
 
         
