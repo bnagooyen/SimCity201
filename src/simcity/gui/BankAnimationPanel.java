@@ -63,12 +63,6 @@ public class BankAnimationPanel extends BuildingAnimationPanel implements Action
 	        g2.setColor(getBackground());
 	        g2.fillRect(0, 0, WINDOWX, WINDOWY );
 
-	        for(Gui gui : guis) {
-	            if (gui.isPresent()) {
-	                gui.updatePosition();
-	            }
-	        }
-	        
 
 	        //Bank Counter
 	        g2.setColor(Color.DARK_GRAY);
@@ -77,7 +71,12 @@ public class BankAnimationPanel extends BuildingAnimationPanel implements Action
 	        //Manager Desk
 	        g2.setColor(Color.DARK_GRAY);
 	        g2.fillRect(xDesk, yDesk, deskLength, deskSize);
-	      
+
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.updatePosition();
+	            }
+	        }
 
 	        for(Gui gui : guis) {
 	            if (gui.isPresent()) {
@@ -85,7 +84,20 @@ public class BankAnimationPanel extends BuildingAnimationPanel implements Action
 	            }
 	        }
 
+	        
 	    }
+	    
+		public void actionPerformed(ActionEvent e) {
+			//System.err.println("painting");
+			
+		      for(Gui gui : guis) {
+		            if (gui.isPresent()) {
+		                gui.updatePosition();
+		            }
+		        }
+			
+			repaint();  //Will have paintComponent called
+		}
 
 	    public void addGui(BankTellerGui gui) {
 	        guis.add(gui);

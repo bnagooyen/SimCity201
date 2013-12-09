@@ -410,12 +410,14 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 					}
 				}
 				}
+				synchronized(customers) {
 				for (MyCustomer customer : customers) {
 					if (customer.state==DWaiterRole.MyCustomer.MyCustomerState.waiting) {
 						//GoToFront();
 						SeatCustomer(customer);
 						return true;
 					}
+				}
 				}
 				synchronized(customers) {
 				for (MyCustomer customer : customers) {
