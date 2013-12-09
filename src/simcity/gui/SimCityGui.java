@@ -449,7 +449,7 @@ public class SimCityGui extends JFrame implements ActionListener {
         SimCityGui gui = new SimCityGui();
         gui.setTitle("csci201 Restaurant");
         gui.setResizable(false);
-        //gui.simcityPanel.LoadScenario("config1");
+        gui.simcityPanel.LoadScenario("config1");
         gui.pack();
         gui.setVisible(true);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

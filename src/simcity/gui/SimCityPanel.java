@@ -271,18 +271,18 @@ public class SimCityPanel extends JPanel {
 		myRestaurants.add(TRestaurant);
 
 
-		addPerson("Person", "Bman1", 100.0, "Bank Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Bman2", 100.0, "Bank Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman1", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman2", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman3", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman4", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Dhost", 100.0, "Doreen Host", "Apartment", "Walk"); 
-		addPerson("Person", "Drewhost", 100.0, "Drew Host", "Apartment", "Walk"); 
-		addPerson("Person", "Thost", 100.0, "Tiffany Host", "Apartment", "Walk"); 
-		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
-		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
-		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
+//		addPerson("Person", "Bman1", 100.0, "Bank Manager", "Apartment", "Walk"); 
+//		addPerson("Person", "Bman2", 100.0, "Bank Manager", "Apartment", "Walk"); 
+//		addPerson("Person", "Mman1", 100.0, "Market Manager", "Apartment", "Walk"); 
+//		addPerson("Person", "Mman2", 100.0, "Market Manager", "Apartment", "Walk"); 
+//		addPerson("Person", "Mman3", 100.0, "Market Manager", "Apartment", "Walk"); 
+//		addPerson("Person", "Mman4", 100.0, "Market Manager", "Apartment", "Walk"); 
+//		addPerson("Person", "Dhost", 100.0, "Doreen Host", "Apartment", "Walk"); 
+//		addPerson("Person", "Drewhost", 100.0, "Drew Host", "Apartment", "Walk"); 
+//		addPerson("Person", "Thost", 100.0, "Tiffany Host", "Apartment", "Walk"); 
+//		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
+//		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
+//		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
 		
 		//this.LoadScenario("config1");
 
@@ -783,10 +783,24 @@ public class SimCityPanel extends JPanel {
 		return new Object();
 	}*/
 
-
+	public  void AddManagers() {
+		addPerson("Person", "Bman1", 100.0, "Bank Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Bman2", 100.0, "Bank Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman1", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman2", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman3", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman4", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Dhost", 100.0, "Doreen Host", "Apartment", "Walk"); 
+		addPerson("Person", "Drewhost", 100.0, "Drew Host", "Apartment", "Walk"); 
+		addPerson("Person", "Thost", 100.0, "Tiffany Host", "Apartment", "Walk"); 
+		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
+		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
+		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
+	}
 
 	public void LoadScenario(String type){
 		people.clear();
+		AddManagers();
 		String name, role, transport, houseOrApt; double money;
 		houseNumCounter=1;
 		aptNumCounter=1;
@@ -875,7 +889,7 @@ public class SimCityPanel extends JPanel {
 				p.SetHomeAddress("Homeless Shelter");
 			}
 
-			PersonGui g = new PersonGui(p, gui);
+			
 			if(houseOrApt.equals("House")) {
 				ResidentGui rg = new ResidentGui(p);
 				p.setGui(rg);
@@ -887,16 +901,14 @@ public class SimCityPanel extends JPanel {
 				String tempAddress = p.homeAddress.substring(0, p.homeAddress.length()-1);
 				gui.myPanels.get(tempAddress).panel.addGui(tg);
 			}
-			g.setPresent(true);
-			p.setGui(g);
-			gui.city.addGui(g);
+
 
 
 			//Add Job 
 
 			//Managers&Hosts
 			if(role.equals("Inventory Person")){
-				this.LoadScenario("config1");
+				//this.LoadScenario("config1");
 			}
 			if(role.equals("Bank Manager")){
 				Integer bankChoice;
@@ -1215,7 +1227,7 @@ public class SimCityPanel extends JPanel {
 				System.out.println(role+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			}
 
-			p.startThread();
+			//p.startThread(); TRYING TO START THREADS ON START BUTTON.. LOOK AT STARTTIMER
 			people.add(p);
 		}
 	}
@@ -1597,6 +1609,14 @@ public class SimCityPanel extends JPanel {
 	public void startTimer() {
 		Timer timer;
 
+		for(PersonAgent p: people) {
+			PersonGui g = new PersonGui(p, gui);
+			g.setPresent(true);
+			p.setGui(g);
+			gui.city.addGui(g);
+			p.startThread();
+		}
+		
 		class RemindTask extends TimerTask {
 			int counter= 0;
 			@Override

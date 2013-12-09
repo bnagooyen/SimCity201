@@ -71,6 +71,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
         setScenario.addActionListener(this);
         scenarioSelector.add(setScenario);
        
+        //scenarioSelection.addItem("Choose Scenario..");
         scenarioSelection.addItem("Scenario 1");
         scenarioSelection.addItem("Scenario 2");
         scenarioSelection.addItem("Scenario 3");
@@ -178,12 +179,13 @@ public class PersonListPanel extends JPanel implements ActionListener {
         if(e.getSource() == scenarioSelection){
 //        	System.err.println("changed to "+ scenarioSelection.getSelectedItem());
 //        	System.out.println((String)scenarioSelection.getSelectedItem());
-        	//UpdateToScenario((String)scenarioSelection.getSelectedItem());
+        	UpdateToScenario((String)scenarioSelection.getSelectedItem());
         }
     	if(e.getSource()==setScenario) {
     		scenarioSelection.setEnabled(false);
     		setScenario.setEnabled(false);
     		dayWeekendSelection.setEnabled(false);
+    		gui.simcityPanel.startTimer();
     		//simcityPanel.startTimer();
     		//start execution
     	}
@@ -347,16 +349,18 @@ public class PersonListPanel extends JPanel implements ActionListener {
     	validate();
     }
     
-//    public void UpdateToScenario(String type) {
-//    		//add load scenario method here
-//    	if(type.equals("Scenario 1"))
-//    		simcityPanel.LoadScenario("config1");
-//    	else if(type.equals("Scenario 2"))
-//    		simcityPanel.LoadScenario("config2");
-//    	else if(type.equals("Scenario 3"))
-//    		simcityPanel.LoadScenario("config3");
-//    }
+    public void UpdateToScenario(String type) {
+    		//add load scenario method here
+    	if(type.equals("Scenario 1"))
+    		gui.simcityPanel.LoadScenario("config1");
+    	else if(type.equals("Scenario 2"))
+    		gui.simcityPanel.LoadScenario("config2");
+    	else if(type.equals("Scenario 3"))
+    		gui.simcityPanel.LoadScenario("config3");
+    }
+    
 //    
+
 //    public void setCustomerEnabled(String old, String n) {
 //    	for(int i=0; i<pplList.size(); i++) {
 //    		if(pplList.get(i).getText()==old) {
