@@ -23,7 +23,7 @@ public interface DCustomer {
 	public abstract void msgAnimationFinishedLeaveRestaurant();
 	public abstract void msgGoToHangout();
 	public abstract void msgYourTableIsReady();
-	void ActivateRole();
+	void gotHungry();
 
 	public void msgRestaurantIsClosed();
 }

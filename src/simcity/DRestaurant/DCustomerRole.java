@@ -120,7 +120,7 @@ public class DCustomerRole extends Role implements DCustomer {
 //		stateChanged();
 //	}
 	
-	public void ActivateRole() {
+	public void gotHungry() {
 		// TODO Auto-generated method stub
 		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCustomerRole", "I'm hungry");
 		print("I'm hungry");

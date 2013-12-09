@@ -5,8 +5,12 @@ import simcity.DRestaurant.DMenu;
 import simcity.Drew_restaurant.Drew_CustomerRole;
 import agent.Agent;
 import agent.Role;
+import simcity.BRestaurant.BCustomerRole;
 import simcity.Bank.BankCustomerRole;
+import simcity.KRestaurant.KCustomerRole;
+import simcity.LRestaurant.LCustomerRole;
 import simcity.Market.MarketCustomerRole;
+import simcity.TRestaurant.TCustomerRole;
 import simcity.Transportation.BusAgent;
 import simcity.Transportation.BusStopAgent;
 import simcity.Transportation.CarAgent;
@@ -17,6 +21,10 @@ import simcity.housing.gui.TenantGui;
 import simcity.interfaces.Landlord;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.Person;
+
+
+
+
 
 //import java.nio.file.DirectoryIteratorException;
 import java.util.*;
@@ -46,7 +54,7 @@ public class PersonAgent extends Agent implements Person {
 	public int hungerLevel;
 	enum PersonState { doingNothing, atRestaurant, workTime, tired, asleep, dead };
 	public enum TransitState {justLeaving, goToBus, walkingToBus, onBus, goToCar, inCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
-	enum LocationState {atHome, atRestaurant, atBank, atWork};
+	enum LocationState {atHome, atRestaurant, atBank, atWork, atMarket};
 	public enum MoneyState {poor, middle, rich};
 	enum TravelPreference {walk, bus, car};
 	TravelPreference myTravelPreference;
@@ -343,7 +351,7 @@ public class PersonAgent extends Agent implements Person {
 
 
 		if(money>depositThreshold||(money<withdrawalThreshold && moneystate!=MoneyState.poor)||(moneystate==MoneyState.rich)){
-			GoToBank();
+			GoToBank(); //going to have to choose which bank
 			return true;
 		}
 
@@ -416,30 +424,77 @@ public class PersonAgent extends Agent implements Person {
 
 	// Actions
 	private void GoToRestaurant() {
-		DoGoTo("Restaurant 2");
-		Do("Going To Restaurant");
-		try {
-			atRestaurant.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		DoGoTo(RestChoice);
 		
+		int restCustomerNum = Integer.parseInt(RestChoice.substring(RestChoice.length()-1));
+ 		
+ 		if (myTravelPreference == TravelPreference.walk) {
+			Do("Going to "+RestChoice);
+			try {
+				atRestaurant.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
 		
 
 		myLocation=LocationState.atRestaurant;
 		hungerLevel=0;
 		//state=PersonState.doingNothing;
 		for(Role r: roles) {
-			if(r instanceof Drew_CustomerRole) {
-				r.isActive=true;
-				DMenu myMenu = new DMenu();
-				//((DCustomerRole)r).setChoice(myMenu.MostExpensiveICanAfford(money));
-				//((DCustomerRole)r).ActivateRole();
-			}
+			
+				if(restCustomerNum ==1){
+					if(r instanceof LCustomerRole) {
+							r.isActive=true;
+							((LCustomerRole) r).gotHungry();
+							//((DCustomerRole)r).setChoice(myMenu.MostExpensiveICanAfford(money));
+							//((DCustomerRole)r).ActivateRole();
+					}
+				}
+				else if(restCustomerNum ==2){
+					if(r instanceof Drew_CustomerRole) {
+						r.isActive=true;
+						((Drew_CustomerRole) r).gotHungry();
+						//((DCustomerRole)r).setChoice(myMenu.MostExpensiveICanAfford(money));
+						//((DCustomerRole)r).ActivateRole();
+					}
+				}
+				else if(restCustomerNum ==3){
+					if(r instanceof DCustomerRole) {
+						r.isActive=true;
+						((DCustomerRole) r).gotHungry();
+						//((DCustomerRole)r).setChoice(myMenu.MostExpensiveICanAfford(money));
+						//((DCustomerRole)r).ActivateRole();
+					}
+				}
+				else if(restCustomerNum ==4){
+					if(r instanceof KCustomerRole) {
+						r.isActive=true;
+						((KCustomerRole) r).gotHungry();
+						//((DCustomerRole)r).setChoice(myMenu.MostExpensiveICanAfford(money));
+						//((DCustomerRole)r).ActivateRole();
+					}
+				}
+				else if(restCustomerNum ==5){
+					if(r instanceof BCustomerRole) {
+						r.isActive=true;
+						((BCustomerRole) r).gotHungry();
+						//((DCustomerRole)r).setChoice(myMenu.MostExpensiveICanAfford(money));
+						//((DCustomerRole)r).ActivateRole();
+					}
+				}
+				else if(restCustomerNum ==6){
+					if(r instanceof TCustomerRole) {
+						r.isActive=true;
+						((TCustomerRole) r).gotHungry();
+						//((DCustomerRole)r).setChoice(myMenu.MostExpensiveICanAfford(money));
+						//((DCustomerRole)r).ActivateRole();
+					}
+				}
 		}
-
 	}
+
+}
 	
 	 private void GoToBusStop(){
 
@@ -462,10 +517,20 @@ public class PersonAgent extends Agent implements Person {
  		DoGoTo(MarketChoice);
  		int mktCustomerNum = Integer.parseInt(MarketChoice.substring(MarketChoice.length()-1));
  		
-		Do("here");
+ 		if (myTravelPreference == TravelPreference.walk) {
+			Do("Going to "+MarketChoice);
+			try {
+				atRestaurant.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+			myLocation=LocationState.atMarket;
+ 		
+		//Do("here");
 		for(Role r: roles) {
 			if(r instanceof MarketCustomerRole) {
-				if(r.num == mktCustomerNum) {
+				if(((MarketCustomerRole)(r)).num == mktCustomerNum) {
 					r.isActive = true;
 					((MarketCustomerRole) r).populateOrderList("Steak", 1);
 				
@@ -473,8 +538,10 @@ public class PersonAgent extends Agent implements Person {
 				break;
 			}
 		}
-
+		stateChanged();
  	}
+
+ }
 
 	private void GoToBank() {
 		
@@ -482,7 +549,7 @@ public class PersonAgent extends Agent implements Person {
 		int bCustomerNum = Integer.parseInt(BankChoice.substring(MarketChoice.length()-1));
 		
 		if (myTravelPreference == TravelPreference.walk) {
-			Do("Going to Bank");
+			Do("Going to "+BankChoice);
 			try {
 				atRestaurant.acquire();
 			} catch (InterruptedException e) {
@@ -494,12 +561,13 @@ public class PersonAgent extends Agent implements Person {
 			//state=PersonState.doingNothing;
 			for(Role r: roles) {
 				if(r instanceof BankCustomerRole) {
-					if(r.num == bCustomerNum){
+					if(((BankCustomerRole)(r)).num == bCustomerNum){
 						r.isActive = true;
 						if(money>depositThreshold) r.purpose="deposit";
 						else if(money<withdrawalThreshold) r.purpose="withdraw";
 						else r.purpose="loan";
 					}
+					break;
 				}
 			}
 			stateChanged();
