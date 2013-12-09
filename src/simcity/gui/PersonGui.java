@@ -189,41 +189,28 @@ public class PersonGui implements Gui {
     	//System.out.println("x pos: "+ xPos + " // y pos: "+ yPos+" // xDestination: " + xDestination + " // yDestination: " + yDestination);
 
     	
-    	if (xPos != xDestination) {
-	       if (yPos == 40 || yPos == 335) {
-	            if (xPos < xDestination)
-	                 xPos++;
-	            else if (xPos > xDestination)
-	                 xPos--;
-	       }
-            
-            else if (375 - yDestination <= 200) {
-    	//		if (yPos > 25 && yPos < 150) {
-    				yPos--;/** 
-    			}
-    			else {
-    				yPos--;*/
-    			}
-    			
-    		}
-		    else if (355 - yDestination > 200){
-//		    	if (yPos < 355 && yPos > 150) {
-		    		yPos++; /**
-		    	}
-		    	else {
-		    		yPos++; 
-		    	}*/
-		    }
-	    
-
-    	
-    	if (xPos == xDestination && yPos != yDestination) {
-        	if (yPos < yDestination)
-                yPos++;
-            else if (yPos > yDestination)
-                yPos--;
-    	}
-   
+    	  if (xPos != xDestination) {
+              if (yPos == 20 || yPos == 375) {
+                   if (xPos < xDestination)
+                        xPos++;
+                   else if (xPos > xDestination)
+                           xPos--;
+              }
+           
+           else 
+                   if (375 - yDestination <= 150 && yPos >= 20) 
+                           yPos++;
+                   else if (375 - yDestination > 150 && yPos <= 375)
+                           yPos--;
+           }
+           
+           if (xPos == xDestination && yPos != yDestination) {
+               if (yPos < yDestination)
+               yPos++;
+           else if (yPos > yDestination)
+               yPos--;
+           }
+  
     	
         if (xPos == xDestination && yPos == yDestination)
         {
