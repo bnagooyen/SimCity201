@@ -1190,6 +1190,9 @@ public class SimCityPanel extends JPanel {
 
 			//TAKE THIS TIME UPDATE AWAY, JUST FOR TESTING 
 			if(p.myJob!=null)p.msgTimeUpdate(p.myJob.startHour-1);
+			else{
+				System.out.println(role+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			}
 
 
 			people.add(p);
@@ -1328,6 +1331,7 @@ public class SimCityPanel extends JPanel {
 
 			case 2: host = new Drew_HostRole();
 			cook = new Drew_CookRole();
+			((Drew_CookRole) cook).setHost((Drew_HostRole) host);
 			for(MarketPlace m: myMarkets) {
 				((Drew_CookRole)cook).addMarket(m.mManager);
 			}
