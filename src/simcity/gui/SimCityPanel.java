@@ -275,6 +275,8 @@ public class SimCityPanel extends JPanel {
 		addPerson("Person", "Bman2", 100.0, "Bank Manager", "Apartment", "Walk"); 
 		addPerson("Person", "Mman1", 100.0, "Market Manager", "Apartment", "Walk"); 
 		addPerson("Person", "Mman2", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman3", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman4", 100.0, "Market Manager", "Apartment", "Walk"); 
 		addPerson("Person", "Dhost", 100.0, "Doreen Host", "Apartment", "Walk"); 
 		addPerson("Person", "Drewhost", 100.0, "Drew Host", "Apartment", "Walk"); 
 		addPerson("Person", "Thost", 100.0, "Tiffany Host", "Apartment", "Walk"); 
@@ -905,10 +907,13 @@ public class SimCityPanel extends JPanel {
 			}
 			if(role.equals("Market Manager")){
 				Integer marketChoice;
-				marketChoice=(storebalance.get(role)%2);
+				marketChoice=(storebalance.get(role)%4);
 				storebalance.put(role, storebalance.get(role)+1);
 				p.SetJob(myMarkets.get(marketChoice).mManager, "Market "+Integer.toString(marketChoice+1));
 				myMarkets.get(marketChoice).mManager.myPerson = p;
+				for(MarketPlace m:myMarkets){
+					if(m.mManager.myPerson==null) System.out.println("(in role.equals(Market Manager) Simcity Pnale) NO PERSON IN "+m.num);
+				}
 			}
 			if(role.equals("Doreen Host")){
 				p.SetJob(myRestaurants.get(2).host, "Restaurant 3");

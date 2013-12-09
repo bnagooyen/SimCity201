@@ -78,6 +78,7 @@ public abstract class Role {
      */
     protected void print(String msg, Throwable e) {
         StringBuffer sb = new StringBuffer();
+        if(myPerson==null) System.out.println("THIS ROLE HAS NO PERSON: (Role.jave print");
         sb.append(myPerson.getName());
         sb.append(": ");
         sb.append(msg);
