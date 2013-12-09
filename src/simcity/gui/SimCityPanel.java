@@ -1554,7 +1554,7 @@ public class SimCityPanel extends JPanel {
 			customers.add(ac);
 			return ac;
 
-			case 5: BCustomerRole bc = new BCustomerRole();
+			case 5: BCustomerRole bc = new BCustomerRole(gui);
 			bc.setCashier((BCashierRole)cashier);
 			bc.setHost((BHostRole)host);
 			customers.add(bc);
