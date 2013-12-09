@@ -11,13 +11,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import simcity.gui.SimCityPanel.MarketPlace;
+import simcity.gui.SimCityPanel.RestaurantPlace;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
+import simcity.interfaces.Cook;
+
 public class RestaurantListPanel extends BuildingListPanel {
 	JTextField setInventory = new JTextField();
 	JButton setVal = new JButton("Set!");
 	JCheckBox downCB = new JCheckBox("Down?");
+	String name;
+	
 	public RestaurantListPanel(SimCityGui restaurantGui, String txt) {
 		super(restaurantGui, txt);
-		
+		name = txt;
 		downCB.addActionListener(this);
 		downCB.setForeground(Color.white);
 		top.add(downCB, BorderLayout.EAST);
@@ -49,8 +57,57 @@ public class RestaurantListPanel extends BuildingListPanel {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if(e.getSource() == downCB){ 
+        	if(downCB.isSelected()){
+        		city.simcityPanel.directory.get(name).down = true;
+        		AlertLog.getInstance().logInfo(AlertTag.Gui, name, "set to down");
+        	}
+        	else{
+        		city.simcityPanel.directory.get(name).down = false;
+        		AlertLog.getInstance().logInfo(AlertTag.Gui, name, "down checkbox unchecked");
+        	}
+        }
+		
+		if(e.getSource() == setInventory){
+
+			String userInput2 = (setInventory).getText().trim();
+	    	int inventoryVal=Integer.parseInt(userInput2);
+	    	
+	    	System.out.println("Restaurant's inventory: "+inventoryVal);
+	    	
+	    	if(name.equals("Restaurant 1")){
+	    		((Cook) ((RestaurantPlace)(city.simcityPanel.directory.get("Restaurant 1"))).cook).msgSetInventory(inventoryVal);
+	    		System.out.println("Changing Restaurant 1's inventory to "+inventoryVal +" for each item");
+	    		AlertLog.getInstance().logInfo(AlertTag.Gui, name, "Changing inventory");
+	    	}
+	    	else if(name.equals("Restaurant 2")){
+	    		((Cook) ((RestaurantPlace)(city.simcityPanel.directory.get("Restaurant 2"))).cook).msgSetInventory(inventoryVal);
+	    		System.out.println("Changing Restaurant 2's inventory to "+inventoryVal +" for each item");
+	    		AlertLog.getInstance().logInfo(AlertTag.Gui, name, "Changing inventory");
+	    	}
+	    	else if(name.equals("Restaurant 3")){
+	    		((Cook) ((RestaurantPlace)(city.simcityPanel.directory.get("Restaurant 3"))).cook).msgSetInventory(inventoryVal);
+	    		System.out.println("Changing Restaurant 3's inventory to "+inventoryVal +" for each item");
+	    		AlertLog.getInstance().logInfo(AlertTag.Gui, name, "Changing inventory");
+	    	}
+	    	else if(name.equals("Restaurant 4")){
+	    		((Cook) ((RestaurantPlace)(city.simcityPanel.directory.get("Restaurant 4"))).cook).msgSetInventory(inventoryVal);
+	    		System.out.println("Changing Restaurant 4's inventory to "+inventoryVal +" for each item");
+	    		AlertLog.getInstance().logInfo(AlertTag.Gui, name, "Changing inventory");
+	    	}
+	    	else if(name.equals("Restaurant 5")){
+	    		((Cook) ((RestaurantPlace)(city.simcityPanel.directory.get("Restaurant 5"))).cook).msgSetInventory(inventoryVal);
+	    		System.out.println("Changing Restaurant 5's inventory to "+inventoryVal +" for each item");
+	    		AlertLog.getInstance().logInfo(AlertTag.Gui, name, "Changing inventory");
+	    	}
+	    	else if(name.equals("Restaurant 6")){
+	    		((Cook) ((RestaurantPlace)(city.simcityPanel.directory.get("Restaurant 6"))).cook).msgSetInventory(inventoryVal);
+	    		System.out.println("Changing Restaurant 6's inventory to "+inventoryVal +" for each item");
+	    		AlertLog.getInstance().logInfo(AlertTag.Gui, name, "Changing inventory");
+	    	}
+	    	
+		}
 		
 	}
-
+	
 }

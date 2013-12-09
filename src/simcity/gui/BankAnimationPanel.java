@@ -20,7 +20,7 @@ import simcity.Bank.gui.BankTellerGui;
 
 public class BankAnimationPanel extends BuildingAnimationPanel implements ActionListener {
 
-
+	String name;
     private final int WINDOWX = 575;
     private final int WINDOWY = 325;
     
@@ -41,8 +41,9 @@ public class BankAnimationPanel extends BuildingAnimationPanel implements Action
 	    public BankAnimationPanel(SimCityGui restaurantGui, String nm) {
 	    	super(restaurantGui);
 	    	//this.gui=gui;
+	    	name = nm;
 	    	setSize(WINDOWX, WINDOWY);
-	        //setVisible(true);
+	        setVisible(true);
 	        
 	        //bufferSize = this.getSize();
 	 

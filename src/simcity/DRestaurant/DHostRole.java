@@ -122,6 +122,7 @@ public class DHostRole extends Role implements Host {
 			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DHostRole", "Cook is here");
 			Do("Cook is here");
 			myCook=(DCookRole)role;
+			((DCookRole)role).setMonitor(theMonitor);
 			cookArrived=true;
 		}
 		else if(type.equals("cashier")) {
@@ -259,9 +260,9 @@ public class DHostRole extends Role implements Host {
 			return true;
 		}
 		synchronized(waiters) {
-		for(int i=1; i<=waiters.size(); i++) {
+		for(int i=0; i<waiters.size(); i++) {
 			if(waiters.get(i).state==MyWaiterState.justArrived) {
-				TellWaiterPosition(waiters.get(i), i);
+				TellWaiterPosition(waiters.get(i), i+1);
 				return true;
 			}
 		}
@@ -275,25 +276,28 @@ public class DHostRole extends Role implements Host {
 			RestaurantIsFull();
 			return true;
 		}
-		
+		synchronized(waitingCustomers) {
 		for(MyCustomer cust: waitingCustomers) {
 			if(cust.state==CustState.justArrived) {
 				TellCustomerToHangout(cust);
 				return true;
 			}
 		}
-		
+		}
+		synchronized(waitingCustomers) {
 		for(MyCustomer cust: waitingCustomers) {
 			if(cust.state==CustState.assignedWaiter && cust.w.state==MyWaiterState.atFront) {
 				CallCustomerToFront(cust);
 				return true;
 			}
 		}
+		}
 		
 		if(!waiters.isEmpty())
 		{
 		
 			MyWaiter w=waiters.get(0); int minCustomers=waiters.get(0).numCustomers; //dummy value for initialization.. theoretically if only 1 waiter will be the one at the top
+			synchronized(waiters) {
 			for(MyWaiter waiter: waiters)
 			{
 				//System.out.println("checking waiter "+ waiter.getName());
@@ -302,6 +306,7 @@ public class DHostRole extends Role implements Host {
 						{ w=waiter; minCustomers=waiter.numCustomers; }
 			}
 //			System.err.println("chose waiter "+ w);
+			}
 			for (Table table : tables) {
 				for(MyCustomer cust: waitingCustomers) {
 					if (!(table.isOccupied()) && cust.state==CustState.waiting) {
@@ -310,12 +315,13 @@ public class DHostRole extends Role implements Host {
 					}
 				}
 			}
-			
+			synchronized(waiters) {
 			for(MyWaiter waiter: waiters) {
 				if(waiter.state==MyWaiterState.requestedBreak) {
 					AnswerWaiterBreakRequest(waiter);
 					return true;
 				}
+			}
 			}
 				
 			

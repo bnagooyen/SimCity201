@@ -376,7 +376,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 //				return true;
 //			}
 			
-			
+			synchronized(customers) {
 			for (MyCustomer customer : customers) {
 				if(customer.state==DWaiterRole.MyCustomer.MyCustomerState.gone) {
 					//System.out.println("customer " + customer.getCustomer() +" gone");
@@ -384,7 +384,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 					return true;
 				}
 			}
-		
+			}
 			
 			if(!myChecks.isEmpty()) {
 				DistributeCheck(myChecks.get(0));
@@ -392,13 +392,14 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 			}
 			
 			
-			
+			synchronized(customers) {
 			for (MyCustomer customer : customers) {
 				if(customer.state==DWaiterRole.MyCustomer.MyCustomerState.couldNotAffordAndLeaving) {
 					//System.out.println("customer " + customer.getCustomer() +" gone");
 					UpdateHostOnClearTableAndLeave(customer);
 					return true;
 				}
+			}
 			}
 				synchronized(customers) {
 				for(MyCustomer customer: customers) {
@@ -416,6 +417,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 						return true;
 					}
 				}
+				synchronized(customers) {
 				for (MyCustomer customer : customers) {
 					if(customer.state==DWaiterRole.MyCustomer.MyCustomerState.readyToOrder) {
 						//temp comment out until fix everything else
@@ -424,6 +426,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 						return true;
 						//return false;
 					}
+				}
 				}
 				/*
 				for (MyCustomer customer : customers) {
@@ -434,7 +437,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 						return true;
 					}
 				}*/
-			
+				synchronized(customers) {
 				for (MyCustomer customer : customers) {
 					if(customer.state==DWaiterRole.MyCustomer.MyCustomerState.gone) {
 						//System.out.println("customer " + customer.getCustomer() +" gone");
@@ -442,18 +445,21 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 						return true;
 					}
 				}
+				}
 					
 				if(checksWaiting) {
 					GoToCashier();
 					return true;
 					
 				}
+				synchronized(orders) {
 				for(DOrder order: orders) {
 					if(order.state==DOrder.OrderState.cooked || order.state==OrderState.pending) {
 						System.out.println("going to cook");
 						GoToCook();
 						return true;
 					}
+				}
 				}
 //				
 //				
@@ -774,6 +780,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		WaiterGui.DoGoToHangout();
 	}
 	private void DoGoToWaiterPosition() {
+		//System.err.println(WaiterGui);
 		WaiterGui.DoGoToWaiterPosition(startPos);
 	}
 	private void DoLeaveRestaurant() {

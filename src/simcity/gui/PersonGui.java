@@ -116,6 +116,10 @@ public class PersonGui implements Gui {
         myMap.put("Market 3", new Point(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth-10, streetWidth+sidewalkWidth));
         myMap.put("Market 4", new Point(4*yardSpace+6*housingWidth+6*sidewalkWidth+3*streetWidth+30, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
         
+        myMap.put("Stop1", new Point(100,30));
+        myMap.put("Stop2", new Point(475,30));
+        myMap.put("Stop3", new Point(475,345));
+        myMap.put("Stop4", new Point(100,345));
    
     
         //Figuring out where the person starts off when created
@@ -205,14 +209,17 @@ public class PersonGui implements Gui {
     	
         if (xPos == xDestination && yPos == yDestination)
         {
-        		isPresent = false;
+        		
         		if(command==Command.GoToRestaurant ||command==Command.GoHome||command==Command.other) {
         			agent.msgAnimationArivedAtRestaurant();
-        			System.out.println("msgArrivedat");
+        			
+        			isPresent=false;
+        			
         		}
         		
-        		 else if(command==Command.GoToBusStop) {
+        		  if(command==Command.GoToBusStop) {
                      agent.msgAnimationAtBusStop();
+                     
                      
              }
         	
@@ -229,8 +236,9 @@ public class PersonGui implements Gui {
         g.fillRect(xPos, yPos, 10, 10);
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 10)); 
-        g.drawString("P", xPos + 2, yPos + 8);	
-//        if(labelIsShowing) {
+        String name = agent.getName();
+        
+        g.drawString(name.substring(0, 1), xPos + 2, yPos + 8); //        if(labelIsShowing) {
 //        	g.setColor(Color.BLACK);
 //        	g.drawString(foodReady.substring(0,2),xFood, yFood);
 //        	
@@ -298,12 +306,7 @@ public class PersonGui implements Gui {
     		yDestination = myDest.y;
     		command=Command.GoHome;
     	}
-    	else {
-    		Point myDest = myMap.get(destination);
-    		xDestination = myDest.x;
-    		yDestination = myDest.y;
-    		command=Command.other;
-    	}
+    	
     	
     }
     
@@ -324,3 +327,4 @@ public class PersonGui implements Gui {
 //    	}
 //    }
 }
+

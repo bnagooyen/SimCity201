@@ -18,6 +18,7 @@ import simcity.LRestaurant.gui.LCookGui;
 import simcity.Market.MFoodOrder;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
+import simcity.interfaces.Cook;
 import simcity.interfaces.LCashier;
 //import simcity.LRestaurant.interfaces.Market;
 import simcity.interfaces.LCook;
@@ -31,7 +32,7 @@ import simcity.interfaces.MarketManager;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class LCookRole extends Role implements LCook {
+public class LCookRole extends Role implements LCook, Cook {
 	
 	String name;
 	Timer timer = new Timer();
@@ -69,8 +70,18 @@ public class LCookRole extends Role implements LCook {
 		cashier = c;
 	}
 	
+	
 	// Messages
 
+		@Override
+		public void msgSetInventory(int val) {
+			// TODO Auto-generated method stub
+			foods.put("P", new Food("P", 700, val, 5, 2)); //choice, cookTime, amount, capacity, threshold
+			foods.put("St", new Food("St", 1000, val, 5, 2));
+			foods.put("S", new Food("S", 500, val, 5, 2));
+			foods.put("Ch", new Food("Ch", 900, val, 5, 2));
+		}
+	
 		public void msgGoHome(int cash) {
 			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Told to go home");
 			Do("Told to go home");
@@ -448,6 +459,18 @@ public class LCookRole extends Role implements LCook {
 
 		}
 
+	}
+
+	@Override
+	public void msgGoToCashier(MarketCashier c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgMarketClosed() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

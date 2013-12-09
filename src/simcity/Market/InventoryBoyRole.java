@@ -54,7 +54,7 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 		//this.p = p;
 		log = new EventLog();
 		
-		// populate inventory
+		// default populate inventory
         inventory.put("Steak", 20);
         inventory.put("Chicken", 20);
         inventory.put("Salad", 20);
@@ -69,6 +69,13 @@ public class InventoryBoyRole extends Role implements InventoryBoy{
 	}
 
 	// messages
+	public void msgSetInventory(int val){
+		inventory.put("Steak", val);
+        inventory.put("Chicken", val);
+        inventory.put("Salad", val);
+        inventory.put("Pizza", val);
+	}
+	
 	public void msgGotFood() {
 		gettingFood.release();
 	}
