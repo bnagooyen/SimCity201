@@ -1344,7 +1344,7 @@ public class SimCityPanel extends JPanel {
 
 
 			case 2: host = new Drew_HostRole();
-			cook = new Drew_CookRole();
+			cook = new Drew_CookRole(gui);
 			((Drew_CookRole) cook).setHost((Drew_HostRole) host);
 			for(MarketPlace m: myMarkets) {
 				((Drew_CookRole)cook).addMarket(m.mManager);
@@ -1395,7 +1395,7 @@ public class SimCityPanel extends JPanel {
 			((KCashierRole)cashier).setCook((KCookRole) cook);
 			break;
 			case 1:        host = new LHostRole();
-			cook = new LCookRole();
+			cook = new LCookRole(gui);
 			for(MarketPlace m: myMarkets) {
 				((LCookRole)cook).addMarket(m.mManager);
 			}
@@ -1408,7 +1408,7 @@ public class SimCityPanel extends JPanel {
 			((LCashierRole)cashier).setCook((LCookRole)cook);
 			break;
 			case 6: host = new THostRole(); 
-			cook = new TCookRole();
+			cook = new TCookRole(gui);
 			for(MarketPlace m: myMarkets) {
 				((TCookRole)cook).addMarket(m.mManager);
 			}
@@ -1425,7 +1425,7 @@ public class SimCityPanel extends JPanel {
 		public Role AddSharedDataWaiter() {
 			switch(restNum) {
 
-			case 2: Drew_WaiterRole aw = new Drew_WaiterSharedDataRole();
+			case 2: Drew_WaiterRole aw = new Drew_WaiterSharedDataRole(gui);
 			aw.setCook((Drew_Cook)cook);
 			aw.addCashier((Drew_Cashier)cashier);
 			aw.setHost((Drew_Host)host);
@@ -1436,7 +1436,7 @@ public class SimCityPanel extends JPanel {
 			return aw;
 			
 			case 5: 
-				BWaiterRole bw = new BWaiterSharedDataRole();
+				BWaiterRole bw = new BWaiterSharedDataRole(gui);
 				bw.setHost((BHostRole)host);
 				bw.setCook((BCook)cook);
 				bw.setCashier((BCashier)cashier);
@@ -1462,7 +1462,7 @@ public class SimCityPanel extends JPanel {
 				return kw;
 
 			case 1:        
-				LWaiterRole lw = new LWaiterSharedDataRole();
+				LWaiterRole lw = new LWaiterSharedDataRole(gui);
 				lw.setCashier((LCashier)cashier);
 				lw.setCook((LCook)cook);
 				lw.setHost((LHost)host);
@@ -1471,7 +1471,7 @@ public class SimCityPanel extends JPanel {
 				return lw;
 
 			case 6:
-				TWaiterRole tw = new TWaiterSharedDataRole();
+				TWaiterRole tw = new TWaiterSharedDataRole(gui);
 				tw.setCashier((TCashierRole)cashier); 
 				tw.setCook((TCookRole)cook);
 				tw.setHost((THostRole)host);
@@ -1485,7 +1485,7 @@ public class SimCityPanel extends JPanel {
 		public Role AddNormalWaiter() {
 			switch(restNum) {
 
-			case 2: Drew_WaiterRole aw = new Drew_WaiterNormalRole();
+			case 2: Drew_WaiterRole aw = new Drew_WaiterNormalRole(gui);
 			aw.setCook((Drew_Cook)cook);
 			aw.addCashier((Drew_Cashier)cashier);
 			aw.setHost((Drew_Host)host);
@@ -1497,7 +1497,7 @@ public class SimCityPanel extends JPanel {
 			return aw;
 			
 			case 5: 
-				BWaiterRole bw = new BWaiterNormalRole();
+				BWaiterRole bw = new BWaiterNormalRole(gui);
 				bw.setHost((BHostRole)host);
 				bw.setCook((BCook)cook);
 				bw.setCashier((BCashier)cashier);
@@ -1524,7 +1524,7 @@ public class SimCityPanel extends JPanel {
 				return kw;
 
 			case 1:	
-				LWaiterRole lw = new LWaiterNormalRole();
+				LWaiterRole lw = new LWaiterNormalRole(gui);
 				lw.setCashier((LCashier)cashier);
 				lw.setCook((LCook)cook);
 				lw.setHost((LHost)host);
@@ -1533,7 +1533,7 @@ public class SimCityPanel extends JPanel {
 				return lw;
 
 			case 6:
-				TWaiterRole tw = new TWaiterRole();
+				TWaiterRole tw = new TWaiterRole(gui);
 				tw.setCashier((TCashierRole)cashier); 
 				tw.setCook((TCookRole)cook);
 				tw.setHost((THostRole)host);
@@ -1549,12 +1549,12 @@ public class SimCityPanel extends JPanel {
 		public Role AddCustomer() {
 			switch(restNum) {
 
-			case 2: Drew_CustomerRole ac = new Drew_CustomerRole();
+			case 2: Drew_CustomerRole ac = new Drew_CustomerRole(gui);
 			ac.setHost((Drew_HostRole)host);
 			customers.add(ac);
 			return ac;
 
-			case 5: BCustomerRole bc = new BCustomerRole();
+			case 5: BCustomerRole bc = new BCustomerRole(gui);
 			bc.setCashier((BCashierRole)cashier);
 			bc.setHost((BHostRole)host);
 			customers.add(bc);
@@ -1572,13 +1572,13 @@ public class SimCityPanel extends JPanel {
 			customers.add(kc);
 			return kc;
 
-			case 1:        LCustomerRole lc = new LCustomerRole();
+			case 1:        LCustomerRole lc = new LCustomerRole(gui);
 			lc.setCashier((LCashierRole)cashier);
 			lc.setHost((LHostRole)host);
 			customers.add(lc);
 			return lc;
 
-			case 6:        TCustomerRole tc = new TCustomerRole();
+			case 6:        TCustomerRole tc = new TCustomerRole(gui);
 			tc.setCashier((TCashierRole)cashier);
 			tc.setHost((THostRole)host);
 			customers.add(tc);
