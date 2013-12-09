@@ -65,6 +65,11 @@ import simcity.PersonAgent;
 
 import javax.swing.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+
 import agent.Role;
 import simcity.DRestaurant.DCashierRole;
 import simcity.DRestaurant.DCookRole;
@@ -77,6 +82,8 @@ import simcity.DRestaurant.DWaiterSharedDataRole;
 import simcity.interfaces.*;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -89,7 +96,7 @@ import java.util.Vector;
  */
 public class SimCityPanel extends JPanel {
 
-   
+    Scanner in;
     public static final int NUMAPTS = 12;
     public static final int NUMHOUSES = 15;
     public int houseNumCounter=1;
@@ -749,6 +756,22 @@ public class SimCityPanel extends JPanel {
     }
 
 
+    
+    public void LoadScenario(String type){
+		people.clear();
+		houseNumCounter=1;
+		aptNumCounter=1;
+		aptLetCounter='A';
+		try {	
+			in  = new Scanner(new FileReader("config"+File.separator+type+".txt"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    
+    
     /**
      * Adds a customer or waiter to the appropriate list
      *
@@ -756,6 +779,7 @@ public class SimCityPanel extends JPanel {
      * @param name name of person
      */
     
+   
     public void addPerson(String type, String name, double money, String role, String houseOrApt, String transport) {
     	if(type.equals("Person")) {
 //    		System.out.println("added");

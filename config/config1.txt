@@ -148,11 +148,11 @@ Aplimi
 	House
 Kimiman
 	400
-	LoanOfficer1
+	BankLoanOfficer1
 	Walk
 	House
 Andreen
 	400
-	LoanOfficer2
+	BankLoanOfficer2
 	Walk
 	House
