@@ -2,11 +2,13 @@ package simcity.BRestaurant;
 
 import simcity.PersonAgent;
 import simcity.BRestaurant.*;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
 import simcity.BRestaurant.gui.*;
 import simcity.BRestaurant.gui.*;
+import simcity.LRestaurant.gui.LCookGui;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,6 +36,7 @@ public class BCustomerRole extends Role implements BCustomer {
         private BMenu menu;
         private BCheck mycheck;
         boolean goHome = false;
+        SimCityGui gui;
         
 
         
@@ -55,13 +58,14 @@ public class BCustomerRole extends Role implements BCustomer {
          */
         
 
-        public BCustomerRole(){
+        public BCustomerRole(SimCityGui g){
                 //super(p);
 //                host = (BHostRole) r;
                 //name = p.getName();
 
                 state=AgentState.DoingNothing;
-                event = AgentEvent.gotHungry; //event is the state change                
+                event = AgentEvent.gotHungry; //event is the state change  
+                gui = g;
         }
         /**
          * hack to establish connection to Host agent.
@@ -214,6 +218,10 @@ public class BCustomerRole extends Role implements BCustomer {
         private void goToRestaurant() {
         		AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BCustomer", "Going to restaurant");
                 Do("Going to restaurant");
+                if(customerGui == null){
+        			customerGui = new BCustomerGui(this, "BCustomerGui");
+        			gui.myPanels.get("Restaurant 5").panel.addGui(customerGui);
+        		}
                 host.msgIWantFood(this);//send our instance, so he can respond to us
         }
 

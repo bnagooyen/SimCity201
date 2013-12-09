@@ -3,19 +3,21 @@ package simcity.BRestaurant.gui;
 
 
 import simcity.PersonAgent;
+import simcity.gui.Gui;
 import simcity.interfaces.*;
 import simcity.BRestaurant.*;
 
 import java.awt.*;
 
-public class BCustomerGui implements BGui{
+public class BCustomerGui implements BGui,Gui{
 
         private BCustomerRole agent = null;
         private boolean isPresent = false;
         private boolean isHungry = false;
 
+        private String name;
         //private HostAgent host;
-        BRestaurantGui gui;
+//        BRestaurantGui gui;
 
         private int xPos, yPos;
         private int xDestination, yDestination;
@@ -29,14 +31,15 @@ public class BCustomerGui implements BGui{
         public static final int xTable2 = 350;
         public static final int yTable2 = 150;
 
-        public BCustomerGui(BCustomerRole c, BRestaurantGui gui){ //HostAgent m) {
+        public BCustomerGui(BCustomerRole c, String string){ //HostAgent m) {
                 agent = c;
                 xPos = 220;
                 yPos = 10;
                 xDestination = 220;
                 yDestination = 10;
+                name = string;
                 //maitreD = m;
-                this.gui = gui;
+//                this.gui = string;
         }
 
         public void updatePosition() {
@@ -56,7 +59,7 @@ public class BCustomerGui implements BGui{
                                 agent.msgAnimationFinishedLeaveRestaurant();
                                 System.out.println("about to call gui.setCustomerEnabled(agent);");
                                 isHungry = true;
-                                gui.setCustomerEnabled(agent);
+//                                gui.setCustomerEnabled(agent);
                         }
                         command=Command.noCommand;
                 }
