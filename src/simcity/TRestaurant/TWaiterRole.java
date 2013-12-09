@@ -49,6 +49,7 @@ public class TWaiterRole extends Role implements TWaiter{
 		super();
 		this.gui = gui; 
 		this.name = name;
+		arrived = true; 
 	}
 
 	public String getMaitreDName() {

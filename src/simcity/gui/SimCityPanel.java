@@ -958,6 +958,7 @@ public class SimCityPanel extends JPanel {
 						rest=r;
 					}
 				}
+				System.out.println("QWERTYUI ------ "+rest.restNum);
 
 				if(rest.restNum==1){
 					LWaiterRole LW;
@@ -1015,6 +1016,7 @@ public class SimCityPanel extends JPanel {
 					p.SetJob(BW,"Restaurant 5");
 				}
 				else if(rest.restNum==6){
+					System.out.println("qwertyuiop");
 					TWaiterRole TW;
 					if(rest.waiters.size()==0){
 						TW=(TWaiterRole) TRestaurant.AddNormalWaiter();
@@ -1463,6 +1465,7 @@ public class SimCityPanel extends JPanel {
 				kw.setCook((KCookRole)cook);
 				kw.setCashier((RestaurantCashier)cashier);
 				kw.setHost((KHostRole)host);
+				waiters.add(kw);
 				//((KHostRole)host).addWaiter((KWaiterRole)kw);
 				return kw;
 
@@ -1519,6 +1522,7 @@ public class SimCityPanel extends JPanel {
 				kw.setCook((KCookRole)cook);
 				kw.setCashier((RestaurantCashier)cashier);
 				kw.setHost((KHostRole)host);
+				waiters.add(kw);
 				//((KHostRole)host).addWaiter((KWaiterRole)kw);
 				return kw;
 
