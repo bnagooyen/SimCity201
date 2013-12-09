@@ -146,7 +146,7 @@ public class PersonAgent extends Agent implements Person {
 		// if job is a manager/host, send timeupdate
 		if(myJob instanceof BankManagerRole || myJob instanceof MarketManagerRole || myJob instanceof Host) {
 			if(myJob.isActive) {
-				myJob.msgTimeUpdate(hr);
+				myJob.timeUpdate(hr);
 			}
 		}
 		hungerLevel+=10;
@@ -567,7 +567,7 @@ public class PersonAgent extends Agent implements Person {
 	private void GoToBank() {
 
 		DoGoTo(BankChoice);
-		int bCustomerNum = Integer.parseInt(BankChoice.substring(MarketChoice.length()-1));
+		int bCustomerNum = Integer.parseInt(BankChoice.substring(BankChoice.length()-1));
 
 		if (myTravelPreference == TravelPreference.walk) {
 			Do("Going to "+BankChoice);
