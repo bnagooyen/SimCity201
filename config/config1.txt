@@ -8,61 +8,151 @@ Name
 	House/Apartment
 Applekimi
 	600
-	BankManager1
+	Waiter1
 	Walk
-	House
+	Apartment
 Drewreen
 	600
-	BankManager2
+	Waiter2
 	Walk
-	House
+	Apartment
 Kimda
 	500
-	MarketManager1
+	Waiter3
 	Walk
-	House
+	Apartment
 Limberly
 	500
-	MarketManager2
+	Waiter4
 	Walk
-	House
+	Apartment
 Santiar
 	500
-	MarketManager3
+	Waiter5
 	Walk
-	House
+	Apartment
 Chartiago
 	500
-	MarketManager4
+	Waiter6
 	Walk
 	House
 Andrew
 	400
-	Host1
+	Cook1
 	Walk
-	House
+	Apartment
 Brian
 	400
-	Host2
+	Cook2
 	Walk
-	House
+	Apartment
 Doreen
 	400
-	Host3
+	Cook3
 	Walk
-	House
+	Apartment
 Kim
 	400
-	Host4
+	Cook4
 	Walk
-	House
+	Apartment
 Linda
 	400
-	Host5
+	Cook5
 	Walk
-	House
+	Apartment
 Tiffany
 	400
-	Host6
+	Cook6
+	Walk
+	House
+LinLin
+	400
+	Cashier1
+	Walk
+	Apartment
+DrewDrew
+	400
+	Cashier2
+	Walk
+	Apartment
+DorDor
+	400
+	Cashier3
+	Walk
+	Apartment
+KimKim
+	400
+	Cashier4
+	Walk
+	Apartment
+BriBri
+	400
+	Cashier5
+	Walk
+	Apartment
+TifTif
+	400
+	Cashier6
+	Walk
+	Apartment
+AInventory
+	200
+	InventoryBoy1
+	Walk
+	Apartment
+BInventory
+	200
+	InventoryBoy2
+	Walk
+	Apartment
+CInventory
+	200
+	InventoryBoy3
+	Walk
+	Apartment
+DInventory
+	200
+	InventoryBoy4
+	Walk
+	Apartment
+AMCashier
+	300
+	MarketCashier1
+	Walk
+	Apartment
+BMCashier
+	300
+	MarketCashier2
+	Walk
+	Apartment
+CMCashier
+	300
+	MarketCashier3
+	Walk
+	Apartment
+DMCashier
+	300
+	MarketCashier4
+	Walk
+	Apartment
+DrewDor
+	400
+	BankTeller1
+	Walk
+	House
+Aplimi
+	400
+	BankTeller2
+	Walk
+	House
+Kimiman
+	400
+	LoanOfficer1
+	Walk
+	House
+Andreen
+	400
+	LoanOfficer2
 	Walk
 	House

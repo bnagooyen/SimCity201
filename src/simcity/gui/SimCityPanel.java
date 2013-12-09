@@ -106,6 +106,9 @@ public class SimCityPanel extends JPanel {
 	private ArrayList<RestaurantPlace> myRestaurants=new ArrayList<RestaurantPlace>();
 	public Map<String, BusStopAgent> busStops=new HashMap<String, BusStopAgent>();
 	
+	public ArrayList<BankPlace> myBanks = new ArrayList<BankPlace>();
+	public ArrayList<MarketPlace> myMarkets = new ArrayList<MarketPlace>();
+	
 	// make restaurants w/roles
 	RestaurantPlace DrewRestaurant;
 	RestaurantPlace BRestaurant;
@@ -190,7 +193,8 @@ public class SimCityPanel extends JPanel {
     private TCookGui tCookGui = new TCookGui(tCook);
     private THostRole tHost = new THostRole();
     
-    private final int numMarkets = 3;
+    private final int numMarkets = 4;
+    private final int numBanks = 2;
     //private Vector<DMarketAgent> markets = new Vector<DMarketAgent>();
     
     private JPanel restLabel = new JPanel();
@@ -234,11 +238,19 @@ public class SimCityPanel extends JPanel {
         storebalance.put("Inventory Person", 0);
         storebalance.put("Market Cashier", 0);
         
-        bank= new BankPlace();
-        market1 = new MarketPlace();
-        MarketPlace market2 = new MarketPlace();
-        MarketPlace market3 = new MarketPlace();
-        MarketPlace market4 = new MarketPlace();
+        //bank= new BankPlace();
+        
+        for(int i=1; i<=numBanks; i++ ) {
+        	myBanks.add(new BankPlace(i));
+        }
+        
+        //market1 = new MarketPlace();
+        //MarketPlace market2 = new MarketPlace();
+        //MarketPlace market3 = new MarketPlace();
+        //MarketPlace market4 = new MarketPlace();
+        for(int i=1; i<=numBanks; i++) {
+        	myMarkets.add(new MarketPlace(i));
+        }
 
         
 		DrewRestaurant = new RestaurantPlace(2);
@@ -638,12 +650,19 @@ public class SimCityPanel extends JPanel {
         */
         
         /******************* populate directory*******************************/
+        /*
         directory.put("Market 1", market1);
         directory.put("Market 2", market2);
         directory.put("Market 3", market3);
         directory.put("Market 4", market4);
-
-        directory.put("Bank", bank);
+		*/
+        for(MarketPlace m: myMarkets) {
+        	directory.put("Market "+ Integer.toString(m.num), m);
+        }
+        //directory.put("Bank", bank);
+        for(BankPlace b: myBanks) {
+        	directory.put("Bank "+ Integer.toString(b.num), b);
+        }
         directory.put("Restaurant 5", BRestaurant);
         directory.put("Restaurant 3", DRestaurant);
         directory.put("Restaurant 2", DrewRestaurant);
@@ -886,8 +905,14 @@ public class SimCityPanel extends JPanel {
  private ArrayList<Role> GenerateAllCustomerRoles() {
 	 ArrayList<Role> myCustomerRoles= new ArrayList<Role>();
 	 /*******turn this into a loop to make more efficient*********/
-	 myCustomerRoles.add(bank.addCustomer());
-	 myCustomerRoles.add(market1.addCustomer());
+	 //myCustomerRoles.add(bank.addCustomer());
+	 //myCustomerRoles.add(market1.addCustomer());
+	 for(BankPlace b: myBanks) {
+		 myCustomerRoles.add(b.addCustomer());
+	 }
+	 for(MarketPlace m: myMarkets) {
+		 myCustomerRoles.add(m.addCustomer());
+	 }
 	 myCustomerRoles.add(DrewRestaurant.AddCustomer());
 	 myCustomerRoles.add(BRestaurant.AddCustomer());
 	 myCustomerRoles.add(DRestaurant.AddCustomer());
@@ -911,9 +936,9 @@ class MarketPlace extends Business {
         public MarketCashierRole mCashier;
         ArrayList<MarketCustomer> mCustomers;
         DeliveryTruckAgent truck;
-
-        public MarketPlace() {
-        		
+        int num;
+        public MarketPlace(int num) {
+        		this.num = num;
                 ib = new InventoryBoyRole(gui);
                 mManager = new MarketManagerRole(gui);
                 mCashier = new MarketCashierRole(gui);
@@ -937,6 +962,7 @@ class MarketPlace extends Business {
         public MarketCustomerRole addCustomer() {
                 MarketCustomerRole c = new MarketCustomerRole(gui);
                 c.setMarketManager(mManager);
+                c.num = num;
                 mCustomers.add(c);
                 return c;
         }
@@ -949,11 +975,13 @@ public class BankPlace extends Business {
 	public BankManagerRole bankManager;
 	//~~~public BankTellerRole bankTeller;
 	public BankRobberRole robber;
+	int num;
 	
 	
 	ArrayList<BankCustomerRole> bankCustomers;
 	
-	public BankPlace() {
+	public BankPlace(int num) {
+		this.num = num;
 		loanOfficer = new BankLoanOfficerRole(gui);
 		bankManager = new BankManagerRole(gui);
 		//~~~bankTeller = new BankTellerRole(gui);
@@ -966,6 +994,7 @@ public class BankPlace extends Business {
 	public BankCustomerRole addCustomer() {
 		BankCustomerRole b = new BankCustomerRole(gui);
 		b.setManager(bankManager);
+		b.num=num;
 		bankCustomers.add(b);
 		return b;
 	}

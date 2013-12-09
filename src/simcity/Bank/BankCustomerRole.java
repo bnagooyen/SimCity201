@@ -22,6 +22,7 @@ import agent.Role;
 
 public class BankCustomerRole extends Role implements BankCustomer {
 	//data
+	public int num;
 	public BankManager manager; 
 	public BankTeller teller; 
 	public BankLoanOfficer loanOfficer; 
