@@ -819,6 +819,8 @@ public class SimCityPanel extends JPanel {
         public int x;
         public int y;
         public boolean down;
+        public BusStop nearestBusStop;
+
 }
 //waiter needs host
 //customer needs hot
