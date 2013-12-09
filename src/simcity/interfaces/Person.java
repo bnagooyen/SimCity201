@@ -38,6 +38,8 @@ public interface Person {
 
 	public abstract char getAptLet();
 
+	public abstract String getJob();
+
 	//public abstract void msgSetBuildingDirectory(
 		///	Map<String, List<Location>> buildings);
 

@@ -300,6 +300,10 @@ public class PersonListPanel extends JPanel implements ActionListener {
             //button.addActionListener(this);
             //stateCB.addActionListener(this);
             //list.add(stateCB);
+            
+            
+            
+            
             pplList.add(button);
             
             adding.add(button, BorderLayout.CENTER);
@@ -319,12 +323,43 @@ public class PersonListPanel extends JPanel implements ActionListener {
     		view.remove(c);
     	}
     	view.validate();
+    	
+    	
+    	
     	for(Person p: people) {
     		  JLabel button = new JLabel(p.getName(), SwingConstants.CENTER);
     		  JPanel adding = new JPanel();
+    		  adding.setBorder(BorderFactory.createRaisedBevelBorder());
 //            System.err.println("addPerson");
             button.setBorder(BorderFactory.createLineBorder(Color.black));
 
+            
+            JComboBox switchRole = new JComboBox();
+            Dimension dim3 = new Dimension(120, 24);
+            switchRole.setPreferredSize(dim3);
+        	switchRole.addItem("Visitor");
+        	switchRole.addItem("Waiter");
+        	switchRole.addItem("MCashier");
+        	switchRole.addItem("RCashier");
+        	switchRole.addItem("Cook");
+        	switchRole.addItem("InventoryPerson");
+        	switchRole.addItem("Bank Teller");
+        	switchRole.addItem("Bank Loan Officer");
+        	switchRole.addItem("Bank Robber");
+        	switchRole.addItem("Repair Man");
+        	
+        	
+        	switchRole.addActionListener(this);
+        	String myJob = p.getJob();
+        	if (myJob.contains("Host") || myJob.contains("Manager")) {
+        		switchRole.addItem(myJob);
+        		switchRole.setSelectedItem(myJob);
+        		switchRole.setEnabled(false);
+        	}
+        	else {
+        	switchRole.setSelectedItem(p.getJob());
+        	}
+        	switchRoles.add(switchRole);
 
 	        pplList.add(button);
 	           
@@ -333,8 +368,8 @@ public class PersonListPanel extends JPanel implements ActionListener {
             button.setBackground(Color.white);
 
             Dimension paneSize = pane.getSize();
-            Dimension buttonSize = new Dimension(paneSize.width-50,
-                    40);
+            Dimension buttonSize = new Dimension(paneSize.width - 150,
+                    20);
             button.setPreferredSize(buttonSize);
             button.setMinimumSize(buttonSize);
             button.setMaximumSize(buttonSize);
@@ -342,8 +377,8 @@ public class PersonListPanel extends JPanel implements ActionListener {
             //stateCB.addActionListener(this);
             //list.add(stateCB);
             pplList.add(button);
-            
             adding.add(button, BorderLayout.CENTER);
+            adding.add(switchRole, BorderLayout.EAST);
             view.add(adding);
     	}
     	validate();
