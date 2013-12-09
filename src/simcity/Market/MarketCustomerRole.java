@@ -40,10 +40,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
 
         private SimCityGui gui;
         
-        public MarketCustomerRole(SimCityGui gui) {
+        public MarketCustomerRole(SimCityGui gui, int instance) {
                 super(); 
                // this.p = p;
-                
+                num=instance;
                 this.gui = gui;
                 log = new EventLog();
                 state = customerState.talkToManager;
@@ -145,7 +145,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         		customerGui = new MCustomerGui(this);
         		customerGui.setPresent(true);
         		if(gui!=null) {
-        			gui.myPanels.get("Market 1").panel.addGui(customerGui);
+        			gui.myPanels.get("Market "+num).panel.addGui(customerGui);
         		}
     			AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Telling manager I'm here");
         		Do("Telling manager I'm here");
