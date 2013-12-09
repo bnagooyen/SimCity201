@@ -1276,6 +1276,7 @@ public class SimCityPanel extends JPanel {
 
 			mCashier.setInventoryBoy(ib);
 			mCashier.setMarketManager(mManager);
+			mCashier.setMarketManager(mManager);
 
 			dtruck = new DeliveryTruckAgent(mManager);
 			mManager.setDeliveryTruck(dtruck);
