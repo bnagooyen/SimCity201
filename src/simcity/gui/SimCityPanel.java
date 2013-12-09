@@ -156,30 +156,30 @@ public class SimCityPanel extends JPanel {
 	private Vector<DCustomerRole> customers = new Vector<DCustomerRole>();
 
 	//Drews Restaurant
-	private Vector<Drew_WaiterRole> Drew_waiters = new Vector<Drew_WaiterRole>();
+	/*private Vector<Drew_WaiterRole> Drew_waiters = new Vector<Drew_WaiterRole>();
 	private Vector<Drew_CustomerRole> Drew_customers = new Vector<Drew_CustomerRole>();
 	private Drew_CashierRole Drew_cashier = new Drew_CashierRole();
 	private Drew_WaiterRole Drew_waiter = new Drew_WaiterNormalRole();
 	private Drew_CookRole Drew_cook = new Drew_CookRole();
 	private Drew_HostRole Drew_host = new Drew_HostRole();
 	private Drew_CustomerRole Drew_customer = new Drew_CustomerRole();
-	private Drew_CookGui Drewcookgui;
+	private Drew_CookGui Drewcookgui;*/
 
 	//Linda's Restaurant
-	private Vector<LWaiterRole> Lwaiters = new Vector<LWaiterRole>();
+	/*private Vector<LWaiterRole> Lwaiters = new Vector<LWaiterRole>();
 	private Vector<LCustomerRole> Lcustomers = new Vector<LCustomerRole>();
 	private LCashierRole Lcashier = new LCashierRole();
 	private LCookRole Lcook = new LCookRole();
 	private LCookGui LcookGui = new LCookGui(Lcook, "LcookGui");
-	private LHostRole Lhost = new LHostRole();
+	private LHostRole Lhost = new LHostRole();*/
 
 
 	//Brian's Restaurant
-	private Vector<BWaiterRole> BWaiters= new Vector <BWaiterRole>();
+	/*private Vector<BWaiterRole> BWaiters= new Vector <BWaiterRole>();
 	private Vector<BCustomerRole> Bcustomers= new Vector<BCustomerRole>();
 	private BCashierRole Bcashier= new BCashierRole();
 	private BCookRole Bcook=new BCookRole();
-	private BHostRole BHost=new BHostRole();
+	private BHostRole BHost=new BHostRole();*/
 
 	
 
@@ -189,7 +189,7 @@ public class SimCityPanel extends JPanel {
 
 
 	//Tiff's Restaurant
-	private Vector<TWaiterRole> Twaiters = new Vector<TWaiterRole>();
+	/*private Vector<TWaiterRole> Twaiters = new Vector<TWaiterRole>();
 	private Vector<TCustomerRole> Tcustomers = new Vector<TCustomerRole>();
 	private TCustomerRole tCustomer = new TCustomerRole();
 	private TCashierRole tCashier = new TCashierRole(); 
@@ -197,7 +197,7 @@ public class SimCityPanel extends JPanel {
 	private TWaiterSharedDataRole tsWaiter = new TWaiterSharedDataRole(); 
 	private TCookRole tCook = new TCookRole();
 	private TCookGui tCookGui = new TCookGui(tCook);
-	private THostRole tHost = new THostRole();
+	private THostRole tHost = new THostRole();*/
 
 	private final int numMarkets = 4;
 	private final int numBanks = 2;
@@ -1436,7 +1436,7 @@ public class SimCityPanel extends JPanel {
 			return aw;
 			
 			case 5: 
-				BWaiterRole bw = new BWaiterSharedDataRole(gui);
+				BWaiterRole bw = new BWaiterSharedDataRole();
 				bw.setHost((BHostRole)host);
 				bw.setCook((BCook)cook);
 				bw.setCashier((BCashier)cashier);
@@ -1497,7 +1497,7 @@ public class SimCityPanel extends JPanel {
 			return aw;
 			
 			case 5: 
-				BWaiterRole bw = new BWaiterNormalRole(gui);
+				BWaiterRole bw = new BWaiterNormalRole();
 				bw.setHost((BHostRole)host);
 				bw.setCook((BCook)cook);
 				bw.setCashier((BCashier)cashier);
@@ -1554,7 +1554,7 @@ public class SimCityPanel extends JPanel {
 			customers.add(ac);
 			return ac;
 
-			case 5: BCustomerRole bc = new BCustomerRole(gui);
+			case 5: BCustomerRole bc = new BCustomerRole();
 			bc.setCashier((BCashierRole)cashier);
 			bc.setHost((BHostRole)host);
 			customers.add(bc);
