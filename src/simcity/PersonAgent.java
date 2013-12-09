@@ -61,7 +61,7 @@ public class PersonAgent extends Agent implements Person {
 
 	public String nearestStop="Stop2";
 	public String destStop="Stop4";
-
+	public String myDestination="House 5";
 	//housing information
 	private Landlord myLandlord; 
 	private boolean needToPayRent = false; 
@@ -226,6 +226,16 @@ public class PersonAgent extends Agent implements Person {
            
             return true;
     }
+    
+    if(transit==TransitState.goToCar){
+		goToCar();
+
+	}
+
+	if(transit==TransitState.getOutCar){
+		getOutCar();
+	}
+
 
 		for(Role r: roles) {
 			boolean hasActiveRole=false;
@@ -692,8 +702,8 @@ public class PersonAgent extends Agent implements Person {
 		Do("Do go To car");//gui?
 
 		PersonGui.setPresent(false);
-		myCar.msgGoToDestination(destStop, this);
-		DoGoTo(destStop);
+		myCar.msgGoToDestination(myDestination, this);
+		DoGoTo(myDestination);
 		transit=TransitState.inCar;
 	}
 
