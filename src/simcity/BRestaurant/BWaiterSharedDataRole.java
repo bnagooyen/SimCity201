@@ -14,8 +14,8 @@ public class BWaiterSharedDataRole extends BWaiterRole implements BWaiter{
     private BOrderStand theMonitor;
 
         
-        public BWaiterSharedDataRole() {
-                //super(g);
+        public BWaiterSharedDataRole(SimCityGui g) {
+                super(g);
         }
 
         protected void giveCookOrder(myCustomer c) {

@@ -72,7 +72,7 @@ public class PersonAgent extends Agent implements Person {
 	private CarAgent myCar;
 
 	public String nearestStop="Stop1";
-	public String destStop="Stop2";
+	public String destStop="Stop3";
 	public String myDestination="House 5";
 	//housing information
 	private Landlord myLandlord; 
@@ -115,7 +115,7 @@ public class PersonAgent extends Agent implements Person {
 		super();
 
 		this.name = name;
-		//transit=TransitState.goToCar;
+		//transit=TransitState.goToBus;
 		state=PersonState.doingNothing;
 		hungerLevel=70;
 		myLocation=LocationState.atHome;

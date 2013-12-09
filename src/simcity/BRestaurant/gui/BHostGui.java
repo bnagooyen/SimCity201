@@ -4,13 +4,13 @@ package simcity.BRestaurant.gui;
 
 
 import simcity.PersonAgent;
+import simcity.gui.Gui;
 import simcity.interfaces.*;
 import simcity.BRestaurant.*;
 
-
 import java.awt.*;
 
-public class BHostGui implements BGui {
+public class BHostGui implements Gui {
 
 
         private BWaiterRole agent = null;

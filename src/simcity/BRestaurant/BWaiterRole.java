@@ -37,7 +37,7 @@ public abstract class BWaiterRole extends Role implements BWaiter{
         private boolean onBreak=false;
         Timer timer= new Timer();
         SimCityGui gui;
-//        BWaiterGui waitergui; MAKE BWAITERGUI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        BHostGui waitergui; 
 
 
         public enum customerState{
@@ -84,10 +84,10 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 
         
 
-        public BWaiterRole() {
+        public BWaiterRole(SimCityGui g) {
                 //super(p);
         	
-        		//gui =g;
+        		gui =g;
                 this.name = name;
                 // make some tables
                 tables = new ArrayList<Table>(NTABLES);
@@ -132,10 +132,10 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 
         public void msgIWantFood(BCustomer cust) {
                 waitingCustomers.add(cust);
-//                if(waiterGui == null){
-//        			waiterGui = new BWaiterGui(this, "BWaiterGui");
-//        			gui.myPanels.get("Restaurant 5").panel.addGui(waiterGui);
-//        		}
+               if(hostGui == null){
+        			hostGui = new BHostGui(this);
+        			gui.myPanels.get("Restaurant 5").panel.addGui(hostGui);
+        		}
                 stateChanged();
         }
         
