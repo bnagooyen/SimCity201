@@ -2,6 +2,7 @@ package simcity.TRestaurant;
 
 import agent.Role
 ;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Cook;
@@ -37,6 +38,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	= Collections.synchronizedList(new ArrayList<Orders>());
 
 	Random randomQuan = new Random();
+	SimCityGui gui; 
 	private Semaphore atCounter = new Semaphore(0,true);
 	Map<String, Integer> Supply = new HashMap<String, Integer>(4);
 	public List<Market> markets
@@ -46,11 +48,12 @@ public class TCookRole extends Role implements TCook, Cook {
 	THostRole host;
 	boolean goHome = false;
 	
-	public TCookRole() {
+	public TCookRole(SimCityGui gui) {
 		super();
 		this.name = name;
 		addFood();
-		arrived = true; 
+		arrived = true;
+		this.gui = gui; 
 	}
 	
 	class Orders {
@@ -281,6 +284,10 @@ public class TCookRole extends Role implements TCook, Cook {
 		Do("Telling manager I can work");
 		arrived = false;
 		host.msgIAmHere(this, "Cook");
+		if (cookGui == null) {
+			TCookGui c = new TCookGui(this); 
+			cookGui = c; 
+		}
 	}
 
 	private void cookFood(final int orderNumber) {

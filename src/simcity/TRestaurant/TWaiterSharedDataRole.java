@@ -2,6 +2,7 @@ package simcity.TRestaurant;
 
 import agent.Role;
 import simcity.TRestaurant.gui.TWaiterGui;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.TCustomer;
@@ -34,7 +35,7 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 	boolean goHome = false;
 	Timer timer = new Timer();
 	private Menu menu = new Menu();
-	
+	SimCityGui gui; 
     boolean arrived;
 
 
@@ -42,9 +43,9 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 	public TWaiterGui waiterGui = null;
 
 
-	public TWaiterSharedDataRole() {
+	public TWaiterSharedDataRole(SimCityGui gui) {
 		super();
-
+		this.gui = gui; 
 		this.name = name;
 	}
 
@@ -303,6 +304,10 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 		Do("Telling manager I can work");
 		arrived = false;
 		host.msgIAmHere(this, "Waiter");
+		if (waiterGui == null) {
+			TWaiterGui w = new TWaiterGui(this); 
+			waiterGui = w; 
+		}
 	}
 	
 	private void goHome() {
