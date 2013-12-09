@@ -16,7 +16,7 @@ import java.util.concurrent.Semaphore;
  * Restaurant Waiter Agent
  */
 
-public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
+public class TWaiterSharedDataRole extends Role implements TWaiter{
 	public List<customers> myCustomers
 	= new ArrayList<customers>(); 
 
@@ -44,7 +44,7 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 
 
 	public TWaiterSharedDataRole(SimCityGui gui) {
-		super(gui);
+		super();
 		this.gui = gui; 
 		this.name = name;
 	}
@@ -303,11 +303,11 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "Telling manager I can work");
 		Do("Telling manager I can work");
 		arrived = false;
-		host.msgIAmHere(this, "Waiter");
 		if (waiterGui == null) {
 			waiterGui = new TWaiterGui(this);
 			gui.myPanels.get("Restaurant 6").panel.addGui(waiterGui);
 		}
+		host.msgIAmHere(this, "Waiter");
 	}
 	
 	private void goHome() {

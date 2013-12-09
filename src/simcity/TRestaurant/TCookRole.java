@@ -205,7 +205,7 @@ public class TCookRole extends Role implements TCook, Cook {
 			}
 		}
 		if (unFullfilled == true) {
-			//BuyFood(); 
+			BuyFood(); 
 		}
 		if (!orders.isEmpty()){
 			synchronized(orders) {
@@ -215,7 +215,7 @@ public class TCookRole extends Role implements TCook, Cook {
 						if (Supply.get("Steak") <= 0) {
 							orders.get(index).status = OrderStatus.removed; 
 							callWaiter(index);
-							//BuyFood(); 
+							BuyFood(); 
 							return true; 
 						}
 						else {
@@ -228,7 +228,7 @@ public class TCookRole extends Role implements TCook, Cook {
 						if (Supply.get("Chicken") <= 0) {
 							orders.get(index).status = OrderStatus.removed; 
 							callWaiter(index);
-							//BuyFood(); 
+							BuyFood(); 
 							return true; 
 						}
 						else {
@@ -240,7 +240,7 @@ public class TCookRole extends Role implements TCook, Cook {
 					if (orders.get(index).order == "Salad") {
 						if (Supply.get("Salad") <= 0) {
 							orders.get(index).status = OrderStatus.removed;
-							//BuyFood(); 
+							BuyFood(); 
 							callWaiter(index);
 							return true; 
 						}
@@ -341,6 +341,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	
 	private void checkOrders() {
 		RotatingOrders newOrder = myStand.remove();
+		print("Checking order stand.");
 		if (newOrder != null) {
 			Orders o = new Orders(); 
 			o.setWaiter(newOrder.w); 
@@ -409,6 +410,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	
 	private void confirmCheck(Market m) {
 		cashier.msgBillIsCorrect(m.c);
+		print("Checking the bill for the cashier.");
 		markets.remove(m);
 	}
 	
