@@ -70,10 +70,12 @@ public class BankManagerRole extends Role implements BankManager {
 	private BankManagerGui bankmanagerGui;
 	private SimCityGui gui; 
 	private Timer timer=new Timer();
+	private int instance; //which bank to paint in
 	
-	public BankManagerRole(SimCityGui G) {
+	public BankManagerRole(SimCityGui G, int num) {
 		super();
 		gui=G;
+		instance=num;
 		// TODO Auto-generated constructor stub
 		startHour=7;
 		bankState=BankState.arriving;
@@ -555,7 +557,7 @@ public class BankManagerRole extends Role implements BankManager {
 			//System.err.println(gui);
 			//System.err.println(gui.myPanels);
 			//System.err.println(gui.myPanels.get("Bank 1").panel);
-			gui.myPanels.get("Bank 1").panel.addGui(bankmanagerGui);
+			gui.myPanels.get("Bank "+instance).panel.addGui(bankmanagerGui);
 		}
 		bankmanagerGui.setPresent(true);
 		bankmanagerGui.goToCorner();

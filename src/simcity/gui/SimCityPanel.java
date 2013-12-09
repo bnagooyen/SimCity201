@@ -219,7 +219,7 @@ public class SimCityPanel extends JPanel {
     
     //Bank people workers
     private BankManagerRole Bmanager;
-    //~~~private BankTellerRole Bteller;
+    private BankTellerRole Bteller;
     private BankLoanOfficerRole Bloanofficer;
 
 
@@ -235,28 +235,13 @@ public class SimCityPanel extends JPanel {
         storebalance.put("Inventory Person", 0);
         storebalance.put("Market Cashier", 0);
         
-        //bank= new BankPlace();
-        
         for(int i=1; i<=numBanks; i++ ) {
         	myBanks.add(new BankPlace(i));
         }
         
-        //market1 = new MarketPlace();
-        //MarketPlace market2 = new MarketPlace();
-        //MarketPlace market3 = new MarketPlace();
-        //MarketPlace market4 = new MarketPlace();
         for(int i=1; i<=numMarkets; i++) {
         	myMarkets.add(new MarketPlace(i));
         }
-
-//        bank1= new BankPlace();
-//        bank2 = new BankPlace();
-//        market1 = new MarketPlace();
-//        MarketPlace market2 = new MarketPlace();
-//        MarketPlace market3 = new MarketPlace();
-//        MarketPlace market4 = new MarketPlace();
-//
-
         
 		DrewRestaurant = new RestaurantPlace(2);
 		BRestaurant = new RestaurantPlace(5);
@@ -273,17 +258,22 @@ public class SimCityPanel extends JPanel {
 		myRestaurants.add(LRestaurant);
 		myRestaurants.add(TRestaurant);
 
-        
-        //Bank
-        //Bmanager = new BankManagerRole(gui);
-        //Bteller = new BankTellerRole(gui);
-        //Bloanofficer = new BankLoanOfficerRole(gui);
-        
-        //Bmanager.isActive=true;
-        PersonAgent bManagerPerson = new PersonAgent("BankManager");
+		
+		addPerson("Person", "Bman1", 100.0, "Bank Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Bman2", 100.0, "Bank Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman1", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman2", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Dhost", 100.0, "Doreen Host", "Apartment", "Walk"); 
+		addPerson("Person", "Drewhost", 100.0, "Drew Host", "Apartment", "Walk"); 
+		addPerson("Person", "Thost", 100.0, "Tiffany host", "Apartment", "Walk"); 
+		addPerson("Person", "BHost", 100.0, "Brian host", "Apartment", "Walk"); 
+		addPerson("Person", "LHost", 100.0, "Linda host", "Apartment", "Walk"); 
+		addPerson("Person", "KHost", 100.0, "Kim host", "Apartment", "Walk"); 
+		
+        /*PersonAgent bManagerPerson = new PersonAgent("BankManager");
         bManagerPerson.hungerLevel = 0;
         bManagerPerson.SetJob(myBanks.get(0).bankManager, "Bank 1");
-        myBanks.get(0).bankManager.myPerson = bManagerPerson;
+        myBanks.get(0).bankManager.myPerson = bManagerPerson;*/
         
         //Bteller.isActive=true;
         //~~~PersonAgent btellerPerson = new PersonAgent("Bankteller");     //REMEMBER TO START THREAD!!!!
@@ -294,15 +284,15 @@ public class SimCityPanel extends JPanel {
         //Bteller.myPerson = btellerPerson;
         
         //Bloanofficer.isActive=true;
-        PersonAgent bloanofficerPerson = new PersonAgent("Bankloanofficer");
+       /* PersonAgent bloanofficerPerson = new PersonAgent("Bankloanofficer");
         bloanofficerPerson.hungerLevel = 0;
         bloanofficerPerson.SetJob(myBanks.get(0).loanOfficer, "Bank 1");
         //Bloanofficer.manager=Bmanager;
-        myBanks.get(0).loanOfficer.myPerson = bloanofficerPerson;
+        myBanks.get(0).loanOfficer.myPerson = bloanofficerPerson;*/
         
         //Start Threads
-        bManagerPerson.startThread();
-        bloanofficerPerson.startThread();
+        //bManagerPerson.startThread();
+        //bloanofficerPerson.startThread();
         //~~btellerPerson.startThread();
         
 //        //Hack Bank Customer
@@ -344,26 +334,26 @@ public class SimCityPanel extends JPanel {
        // mcashier = new MarketCashierRole(gui);
        // ib = new InventoryBoyRole(gui);
         
-        myMarkets.get(0).mManager.isActive = true;
+        /*myMarkets.get(0).mManager.isActive = true;
         PersonAgent mManagerPerson = new PersonAgent("Manager");
         mManagerPerson.hungerLevel = 0;
         mManagerPerson.SetJob(myMarkets.get(0).mManager, "Market 1");
-        myMarkets.get(0).mManager.myPerson = mManagerPerson;
+        myMarkets.get(0).mManager.myPerson = mManagerPerson;*/
 //        
 //        cook.msgAddMarket(manager);
 //        cook.setMonitor(host.getMonitor());
 //        
-        myMarkets.get(0).mCashier.isActive = true;
+       /* myMarkets.get(0).mCashier.isActive = true;
         PersonAgent mCashierPerson = new PersonAgent("mCashier");
         mCashierPerson.hungerLevel = 0;
         mCashierPerson.SetJob(myMarkets.get(0).mCashier, "Market 1");
-        myMarkets.get(0).mCashier.myPerson = mCashierPerson;
+        myMarkets.get(0).mCashier.myPerson = mCashierPerson;*/
         
-        myMarkets.get(0).ib.isActive = true;
+        /*myMarkets.get(0).ib.isActive = true;
         PersonAgent ibPerson = new PersonAgent("ib");
         ibPerson.hungerLevel = 0;
         ibPerson.SetJob(myMarkets.get(0).ib, "Market 1");
-        myMarkets.get(0).ib.myPerson = ibPerson;
+        myMarkets.get(0).ib.myPerson = ibPerson;*/
         
         //DeliveryTruckAgent dtruck = new DeliveryTruckAgent(manager);
         // set market role pointers
@@ -375,9 +365,9 @@ public class SimCityPanel extends JPanel {
 //        
 //        // start threads of market stuff
 //        dtruck.startThread();
-      mManagerPerson.startThread();
-      mCashierPerson.startThread();
-      ibPerson.startThread();
+   //   mManagerPerson.startThread();
+   //   mCashierPerson.startThread();
+   //   ibPerson.startThread();
 //
 ////        // hack market customer
 ////        PersonAgent mcustomer = new PersonAgent("mcustomer");
@@ -392,7 +382,7 @@ public class SimCityPanel extends JPanel {
 ////        
         //Doreen's Restaurant setup
         //host.isActive=true;
-        for(RestaurantPlace r: myRestaurants) {
+      /*  for(RestaurantPlace r: myRestaurants) {
         	if(r.restNum==3) {
         		r.host.isActive=true;
         		 PersonAgent hostPerson = new PersonAgent("Host");
@@ -451,7 +441,7 @@ public class SimCityPanel extends JPanel {
 //        	      host.msgAddWaiter(w);
 //        	      waiters.add(w);
         	}
-        }
+        }*/
        
        
         
@@ -1131,9 +1121,7 @@ public class SimCityPanel extends JPanel {
 
 	    		
 	    		//TAKE THIS TIME UPDATE AWAY, JUST FOR TESTING 
-	    		p.msgTimeUpdate(8);
-
-	    		p.msgTimeUpdate(7);
+	    		if(p.myJob!=null)p.msgTimeUpdate(p.myJob.startHour-1);
 
 			 
     		people.add(p);
@@ -1241,7 +1229,7 @@ public class BankPlace extends Business {
 	public BankPlace(int num) {
 		this.num = num;
 		loanOfficer = new BankLoanOfficerRole(gui);
-		bankManager = new BankManagerRole(gui);
+		bankManager = new BankManagerRole(gui, num);
 		bankTeller = new BankTellerRole(gui);
 		bankCustomers = new ArrayList<BankCustomerRole>();
 		
@@ -1506,3 +1494,4 @@ switch(restNum) {
     
 
 }
+
