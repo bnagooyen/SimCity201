@@ -11,11 +11,14 @@ import simcity.Transportation.BusAgent;
 import simcity.Transportation.BusStopAgent;
 import simcity.Transportation.CarAgent;
 import simcity.gui.PersonGui;
+import simcity.gui.SimCityPanel.Business;
 import simcity.housing.gui.ResidentGui;
 import simcity.housing.gui.TenantGui;
 import simcity.interfaces.Landlord;
+import simcity.interfaces.MarketManager;
 import simcity.interfaces.Person;
 
+//import java.nio.file.DirectoryIteratorException;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -37,7 +40,6 @@ public class PersonAgent extends Agent implements Person {
 	public List<Role> roles= new ArrayList<Role>();
 	public double money=0;
 	public String homeAddress;
-	public String BankChoice;
 	BusStopAgent busStop;
 	public Map<String, BusStopAgent> busStops=new HashMap<String, BusStopAgent>(); 
 	//States
@@ -84,9 +86,15 @@ public class PersonAgent extends Agent implements Person {
 	public double withdrawalThreshold=50;
 
 	//Hacks for testing
-	public boolean marketTime = false;
-	public boolean bankTime=false;
+	public enum NextLoc {m1, r1, r3, r4, m3, b2, m4, r6, r5, m2, r2, b1, home, done };
+	NextLoc tourState;
+	public  Map<String, Business> directory = new HashMap<String, Business>();
+	public String BankChoice;
+	public String MarketChoice;
+	public String RestChoice;
 
+	//visitor boolean
+	boolean goToAll;
 
 	//Constructor
 	public PersonAgent(String name) {
@@ -224,18 +232,93 @@ public class PersonAgent extends Agent implements Person {
 			if(hasActiveRole) return rolePAEAA;
 		}
 
-		//************* hack to test behavior*******************//*
-	/*	if(marketTime) {
-			GoToMarket();
-			return true;
-		}
+	//GOING TO ALL PLACES
+	   if(goToAll){ //boolean that is set for visitors
+		   
+		  if(tourState.equals(NextLoc.m1)){
+			  MarketChoice = "Market 1";
+			  tourState = NextLoc.r1;
+			  GoToMarket();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.m2)){
+			  MarketChoice = "Market 2";
+			  tourState = NextLoc.r2;
+			  GoToMarket();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.m3)){
+			  MarketChoice = "Market 3";
+			  tourState = NextLoc.b2;
+			  GoToMarket();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.m4)){
+			  MarketChoice = "Market 4";
+			  tourState = NextLoc.r6;
+			  GoToMarket();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.b1)){
+			  BankChoice = "Bank 1";
+			  money = 1000;
+			  tourState = NextLoc.home;
+			  GoToBank();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.b2)){
+			  BankChoice = "Bank 2";
+			  money = 1000;
+			  tourState = NextLoc.m4;
+			  GoToBank();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.r1)){
+			  RestChoice = "Restaurant 1";
+			  tourState = NextLoc.r3;
+			  GoToRestaurant();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.r2)){
+			  RestChoice = "Restaurant 2";
+			  tourState = NextLoc.b1;
+			  GoToRestaurant();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.r3)){
+			  RestChoice = "Restaurant 3";
+			  tourState = NextLoc.r4;
+			  GoToRestaurant();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.r4)){
+			  RestChoice = "Restaurant 4";
+			  tourState = NextLoc.m3;
+			  GoToRestaurant();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.r5)){
+			  RestChoice = "Restaurant 5";
+			  tourState = NextLoc.m2;
+			  GoToRestaurant();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.r6)){
+			  RestChoice = "Restaurant 6";
+			  tourState = NextLoc.r5;
+			  GoToRestaurant();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.home)){
+			  tourState = NextLoc.done;
+			  GoHome();
+			  return true;
+		  }
+		  
+		  	
+	   }
 
-		if(bankTime){
-			GoToBank();
-			return true;
-		}	*/
-		//******************************************************//*
-
+	   
 		if (state==PersonState.tired){
 			GoToBed();
 			state=PersonState.asleep;
@@ -366,27 +449,38 @@ public class PersonAgent extends Agent implements Person {
 
 
 
- }
- private void tellBusStop(){
+	 }
+	 
+	private void tellBusStop(){
 	 	System.out.println("telling bus test");
 	 	busStops.get(nearestStop).msgWaitingForBus(this);
 		transit=TransitState.waitingAtStop;
-		  }
+	}
  
-	private void GoToMarket() {
-		marketTime = false;
+ 	private void GoToMarket() {
+		
+ 		DoGoTo(MarketChoice);
+ 		int mktCustomerNum = Integer.parseInt(MarketChoice.substring(MarketChoice.length()-1));
+ 		
 		Do("here");
 		for(Role r: roles) {
 			if(r instanceof MarketCustomerRole) {
-				r.isActive = true;
-				((MarketCustomerRole) r).populateOrderList("Steak", 1);
+				if(r.num == mktCustomerNum) {
+					r.isActive = true;
+					((MarketCustomerRole) r).populateOrderList("Steak", 1);
+				
+				}
+				break;
 			}
 		}
 
-	}
+ 	}
 
 	private void GoToBank() {
+		
 		DoGoTo(BankChoice);
+		int bCustomerNum = Integer.parseInt(BankChoice.substring(MarketChoice.length()-1));
+		
 		if (myTravelPreference == TravelPreference.walk) {
 			Do("Going to Bank");
 			try {
@@ -396,14 +490,16 @@ public class PersonAgent extends Agent implements Person {
 				e.printStackTrace();
 			}	
 			myLocation=LocationState.atBank;
-			bankTime = false;
+			
 			//state=PersonState.doingNothing;
 			for(Role r: roles) {
 				if(r instanceof BankCustomerRole) {
-					r.isActive = true;
-					if(money>depositThreshold) r.purpose="deposit";
-					else if(money<withdrawalThreshold) r.purpose="withdraw";
-					else r.purpose="loan";
+					if(r.num == bCustomerNum){
+						r.isActive = true;
+						if(money>depositThreshold) r.purpose="deposit";
+						else if(money<withdrawalThreshold) r.purpose="withdraw";
+						else r.purpose="loan";
+					}
 				}
 			}
 			stateChanged();
@@ -575,6 +671,10 @@ public class PersonAgent extends Agent implements Person {
 
 	//utilities
 
+	public void setDirectory(Map<String, Business>direc){
+		directory = direc;
+	}
+	
 	public void setGui(PersonGui gui) {
 		PersonGui = gui;
 	}

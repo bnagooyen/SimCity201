@@ -26,7 +26,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
 
         public List<MFoodOrder> order = Collections.synchronizedList(new ArrayList<MFoodOrder>());
         private double myCheck;
-        
+        public int num;
         public enum customerState { talkToManager, timeToOrder, waiting, paying, done, storeClosed, pending }
         public customerState state;
         
