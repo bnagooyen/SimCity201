@@ -11,11 +11,14 @@ import simcity.Transportation.BusAgent;
 import simcity.Transportation.BusStopAgent;
 import simcity.Transportation.CarAgent;
 import simcity.gui.PersonGui;
+import simcity.gui.SimCityPanel.Business;
 import simcity.housing.gui.ResidentGui;
 import simcity.housing.gui.TenantGui;
 import simcity.interfaces.Landlord;
+import simcity.interfaces.MarketManager;
 import simcity.interfaces.Person;
 
+import java.nio.file.DirectoryIteratorException;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -84,8 +87,9 @@ public class PersonAgent extends Agent implements Person {
 	public double withdrawalThreshold=50;
 
 	//Hacks for testing
-	public boolean marketTime = false;
-	public boolean bankTime=false;
+	public enum NextLoc {m1, r1, r3, r4, m3, b2, m4, r6, r5, m2, r2, b1 };
+	NextLoc tourState;
+	public  Map<String, Business> directory = new HashMap<String, Business>();
 
 
 	//Constructor
@@ -224,18 +228,62 @@ public class PersonAgent extends Agent implements Person {
 			if(hasActiveRole) return rolePAEAA;
 		}
 
-		//************* hack to test behavior*******************//*
-	/*	if(marketTime) {
-			GoToMarket();
-			return true;
-		}
+	//GOING TO ALL PLACES
+	   if(goToAll){ //boolean that is set for visitors
+		   
+		  if(tourState.equals(NextLoc.m1)){
+			  GoToMarket();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.m2)){
+			  GoToMarket();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.m3)){
+			  GoToMarket();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.m4)){
+			  GoToMarket();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.b1)){
+			  GoToBank();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.b2)){
+			  GoToBank();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.r1)){
+			  GoToRestaurant();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.r2)){
+			  GoToRestaurant();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.r3)){
+			  GoToRestaurant();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.r4)){
+			  GoToRestaurant();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.r5)){
+			  GoToRestaurant();
+			  return true;
+		  }
+		  else if(tourState.equals(NextLoc.r6)){
+			  GoToRestaurant();
+			  return true;
+		  }
+		  
+		  	
+	   }
 
-		if(bankTime){
-			GoToBank();
-			return true;
-		}	*/
-		//******************************************************//*
-
+	   
 		if (state==PersonState.tired){
 			GoToBed();
 			state=PersonState.asleep;
@@ -374,11 +422,14 @@ public class PersonAgent extends Agent implements Person {
 		  }
  
 	private void GoToMarket() {
-		marketTime = false;
+		
+		MarketManager marketName;
+		
 		Do("here");
 		for(Role r: roles) {
 			if(r instanceof MarketCustomerRole) {
 				r.isActive = true;
+			
 				((MarketCustomerRole) r).populateOrderList("Steak", 1);
 			}
 		}
@@ -386,6 +437,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	private void GoToBank() {
+		
 		DoGoTo(BankChoice);
 		if (myTravelPreference == TravelPreference.walk) {
 			Do("Going to Bank");
@@ -396,7 +448,7 @@ public class PersonAgent extends Agent implements Person {
 				e.printStackTrace();
 			}	
 			myLocation=LocationState.atBank;
-			bankTime = false;
+			
 			//state=PersonState.doingNothing;
 			for(Role r: roles) {
 				if(r instanceof BankCustomerRole) {
@@ -575,6 +627,10 @@ public class PersonAgent extends Agent implements Person {
 
 	//utilities
 
+	public void setDirectory(Map<String, Business>direc){
+		directory = direc;
+	}
+	
 	public void setGui(PersonGui gui) {
 		PersonGui = gui;
 	}

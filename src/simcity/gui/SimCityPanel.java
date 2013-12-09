@@ -870,7 +870,7 @@ public class SimCityPanel extends JPanel {
 
     /**************************ROLE FACTORY******************************/
     
-    class Business {
+   public class Business {
         public String name;
         public int x;
         public int y;
