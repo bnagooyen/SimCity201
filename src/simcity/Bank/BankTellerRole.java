@@ -35,6 +35,7 @@ public class BankTellerRole extends Role implements BankTeller {
 	public enum bankTellerState { arrived, working, success, error, finished };
 	public bankTellerState state;
 	private Semaphore atDest = new Semaphore(0,true);
+	private int instance;
 	
 	public enum accountState {none,requested,justMade,existing};
 	
@@ -51,8 +52,9 @@ public class BankTellerRole extends Role implements BankTeller {
 		}
 	}
 		
-	public BankTellerRole(SimCityGui G) {
+	public BankTellerRole(SimCityGui G, int num) {
 		super();
+		instance=num;
 		startHour=8;
 		log=new EventLog();
 		//print("BankTeller Created");
@@ -256,7 +258,7 @@ public class BankTellerRole extends Role implements BankTeller {
 			Do("Telling Manager I am Here");
 			if(banktellerGui == null) {
 				banktellerGui = new BankTellerGui(this, manager);
-				gui.myPanels.get("Bank 1").panel.addGui(banktellerGui);
+				gui.myPanels.get("Bank "+instance).panel.addGui(banktellerGui);
 			}
 			banktellerGui.setPresent(true);
 			state=bankTellerState.working;
