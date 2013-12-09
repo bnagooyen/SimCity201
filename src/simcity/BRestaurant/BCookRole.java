@@ -8,6 +8,7 @@ import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
 import simcity.BRestaurant.gui.*;
+import simcity.Drew_restaurant.Drew_CookRole.Food;
 import simcity.KRestaurant.KRestaurantOrder;
 import simcity.KRestaurant.ProducerConsumerMonitor;
 import simcity.KRestaurant.KCookRole.marketOrderState;
@@ -24,7 +25,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class BCookRole extends Role implements BCook {
+public class BCookRole extends Role implements BCook, Cook {
 
         private int nextMarket=0;
         int amountNeeded;
@@ -86,6 +87,20 @@ public class BCookRole extends Role implements BCook {
         
 
         //messages
+        
+        @Override
+		public void msgSetInventory(int val) {
+			// TODO Auto-generated method stub
+        	
+        	Iterator it = foodStock.entrySet().iterator();
+    		
+    		while(it.hasNext()){
+    			Map.Entry obj = (Map.Entry)it.next();
+    			BFood f = (BFood) obj.getValue();
+    			f.quantity = val;
+    		}
+    		
+		}
 
         public void msgHereisanOrder(BWaiter w, String choice, int tablenumber){
 
@@ -310,4 +325,20 @@ public class BCookRole extends Role implements BCook {
         private void msgTimeToCheckStand() {
                 stateChanged();
         }
+
+
+
+
+		@Override
+		public void msgGoToCashier(MarketCashier c) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void msgMarketClosed() {
+			// TODO Auto-generated method stub
+			
+		}
 }

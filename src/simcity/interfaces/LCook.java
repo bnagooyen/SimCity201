@@ -17,8 +17,7 @@ import simcity.LRestaurant.LCookRole.OrderState;
  */
 public interface LCook {
 
-	public abstract void msgHereIsAnOrder(int table, String choice,
-			LWaiterNormalRole lWaiterNormalRole);
+	public abstract void msgHereIsAnOrder(int table, String choice,LWaiterNormalRole lWaiterNormalRole);
 	
 	public void msgMarketCheck(double check);
 
