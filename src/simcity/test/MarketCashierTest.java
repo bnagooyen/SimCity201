@@ -38,7 +38,7 @@ public class MarketCashierTest extends TestCase{
         public void setUp() throws Exception{
                 super.setUp();
                 p = new PersonAgent("MarketCashier");
-                mc = new MarketCashierRole(null);
+                mc = new MarketCashierRole(null,0);
                 mc.myPerson = p;
                 ib = new MockInventoryBoy("mockInventoryBoy");
                 c = new MockMarketCustomer("mockCustomer");

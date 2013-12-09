@@ -20,7 +20,7 @@ public class MockMarketCustomer extends Mock implements MarketCustomer{
 		super(name);
 		p = null;
 		log = new EventLog();
-		cr = new MarketCustomerRole(null);
+		cr = new MarketCustomerRole(null,0);
 	}
 
 	@Override

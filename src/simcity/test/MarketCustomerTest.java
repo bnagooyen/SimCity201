@@ -22,7 +22,7 @@ public class MarketCustomerTest extends TestCase{
 	public void setUp() throws Exception {
 		super.setUp();
 		p = new PersonAgent("customer");
-		c = new MarketCustomerRole(null);
+		c = new MarketCustomerRole(null,0);
 		c.myPerson = p;
 		mc = new MockMarketCashier("mockMarketCashier");
 		manager = new MockMarketManager("mockManager");
@@ -110,8 +110,8 @@ public class MarketCustomerTest extends TestCase{
      	
      	// check postconditions
      	assertTrue("Customer shouldn't be active anymore but is", c.isActive == false);
-		assertTrue("Customer's state should be done",c.state == customerState.talkToManager);
-        assertEquals("customer's scheduler should return false but doesn't", c.pickAndExecuteAnAction(), true);
+		assertTrue("Customer's state should be done",c.state == customerState.done);
+        assertEquals("customer's scheduler should return false but doesn't", c.pickAndExecuteAnAction(), false);
         assertEquals("MockMarketCashier should have an empty event log. Instead, the MockMarketCashier's event log reads: " + mc.log.toString(), mc.log.size(), 0);
 
 	}
@@ -143,7 +143,7 @@ public class MarketCustomerTest extends TestCase{
         c.msgAtCashier();
         c.msgGoToCashier(mc);
 		c.pickAndExecuteAnAction();
-		assertTrue("MarketCustomer should tell cashier his order but didn't", c.log.containsString("telling cashier my car order"));
+		assertTrue("MarketCustomer should tell cashier his order but didn't", c.log.containsString("telling cashier my order"));
 		assertTrue("MockMarketCashier should have gotten order but didn't", mc.log.containsString("got customer's car order"));
 		
 		c.msgHereIsCarAndCheck(car, 1000.0);

@@ -173,18 +173,23 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
                 log.add(e);
                 
 /************fix this message when figure out where person lives******************************************/
-                mc.msgOrder(this, order, "");
+                if(order.get(0).type.equals("Car")){
+                	mc.msgCarOrder(this, "");
+                }
+                else{
+                	mc.msgOrder(this, order, "");
+                }
         }
         
         private void orderCar(){
-        	AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Telling cashier my car order");
-        	Do("Telling cashier my car order");
-        	state = customerState.waiting;
-            LoggedEvent e = new LoggedEvent("telling cashier my car order");
-            log.add(e);
-            
-           // **********fix this message when figure out where person lives******************************************/
-            mc.msgCarOrder(this, "");
+//        	AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Telling cashier my car order");
+//        	Do("Telling cashier my car order");
+//        	state = customerState.waiting;
+//            LoggedEvent e = new LoggedEvent("telling cashier my car order");
+//            log.add(e);
+//            
+//           // **********fix this message when figure out where person lives******************************************/
+//            mc.msgCarOrder(this, "");
         }
 
         private void payCheck() {
