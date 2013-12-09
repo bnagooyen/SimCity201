@@ -286,9 +286,8 @@ public class TCookRole extends Role implements TCook, Cook {
 		arrived = false;
 		host.msgIAmHere(this, "Cook");
 		if (cookGui == null) {
-			TCookGui c = new TCookGui(this);
-			gui.myPanels.get("Restaurant 6").panel.addGui(c);
-			cookGui = c; 
+			cookGui = new TCookGui(this);
+			gui.myPanels.get("Restaurant 6").panel.addGui(cookGui);
 		}
 	}
 
