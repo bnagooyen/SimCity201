@@ -8,13 +8,8 @@ import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
 import simcity.BRestaurant.gui.*;
-import simcity.Drew_restaurant.Drew_CookRole.Food;
-import simcity.KRestaurant.KRestaurantOrder;
-import simcity.KRestaurant.ProducerConsumerMonitor;
-import simcity.KRestaurant.KCookRole.marketOrderState;
-import simcity.KRestaurant.KCookRole.orderState;
 import simcity.Market.MFoodOrder;
-import simcity.TRestaurant.THostRole;
+
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
