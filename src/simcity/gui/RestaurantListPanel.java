@@ -68,7 +68,7 @@ public class RestaurantListPanel extends BuildingListPanel {
         	}
         }
 		
-		if(e.getSource() == setInventory){
+		if(e.getSource() == setVal){
 
 			String userInput2 = (setInventory).getText().trim();
 	    	int inventoryVal=Integer.parseInt(userInput2);

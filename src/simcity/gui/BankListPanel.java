@@ -65,7 +65,7 @@ public class BankListPanel extends BuildingListPanel {
         	}
         }
         
-        if(e.getSource() == setInventory){
+        if(e.getSource() == setVal){
         	System.out.println("Silly Rabbit, our city has an unlimited amount of money");
         	AlertLog.getInstance().logInfo(AlertTag.Gui, name, "Silly Rabbit, our city has an unlimited amount of money");
         }
