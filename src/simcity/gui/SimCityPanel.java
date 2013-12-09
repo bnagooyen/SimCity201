@@ -827,25 +827,287 @@ public class SimCityPanel extends JPanel {
 	    		gui.city.addGui(g);
 	    	
 	    		
-	    		//Add Job
-	    		if(role.equals("Waiter")){
-	    			Drew_WaiterRole DW=(Drew_WaiterRole) DrewRestaurant.AddNormalWaiter();
-	    			DW.myPerson=p;
-	    			p.SetJob(DW,"Restaurant 2");
-	    			p.msgTimeUpdate(8);
+	    		//Add Job 
+	    		
+	    		//Managers&Hosts
+	    		if(role.equals("Bank Manager")){
+	    			Integer bankChoice;
+	    			bankChoice=(storebalance.get(role)%2);
+	    			storebalance.put(role, storebalance.get(role)+1);
+	    	        p.SetJob(myBanks.get(bankChoice).bankManager, "Bank "+Integer.toString(bankChoice+1));
+	    	        myBanks.get(bankChoice).bankManager.myPerson = p;
 	    		}
-	    		if(role.equals("Bank Teller")){
+	    		if(role.equals("Market Manager")){
+	    			Integer marketChoice;
+	    			marketChoice=(storebalance.get(role)%2);
+	    			storebalance.put(role, storebalance.get(role)+1);
+	    	        p.SetJob(myMarkets.get(marketChoice).mManager, "Market "+Integer.toString(marketChoice+1));
+	    	        myMarkets.get(marketChoice).mManager.myPerson = p;
+	    		}
+	    		if(role.equals("Doreen Host")){
+        	        p.SetJob(myRestaurants.get(2).host, "Restaurant 3");
+        	        myRestaurants.get(2).host.myPerson=p;
+	    		}
+	    		if(role.equals("Drew Host")){
+        	        p.SetJob(myRestaurants.get(1).host, "Restaurant 2");
+        	        myRestaurants.get(1).host.myPerson=p;
+	    		}
+	    		if(role.equals("Linda Host")){
+        	        p.SetJob(myRestaurants.get(0).host, "Restaurant 1");
+        	        myRestaurants.get(0).host.myPerson=p;
+	    		}
+	    		if(role.equals("Kim Host")){
+        	        p.SetJob(myRestaurants.get(3).host, "Restaurant 4");
+        	        myRestaurants.get(3).host.myPerson=p;
+	    		}
+	    		if(role.equals("Brian Host")){
+        	        p.SetJob(myRestaurants.get(4).host, "Restaurant 5");
+        	        myRestaurants.get(4).host.myPerson=p;
+	    		}
+	    		if(role.equals("Tiffany Host")){
+        	        p.SetJob(myRestaurants.get(5).host, "Restaurant 6");
+        	        myRestaurants.get(5).host.myPerson=p;
+	    		}
+	    		
+	    		//All other people
+	    		
+	    		//This adds waiters to city. Adds waiter to restaurant with fewest waiters
+	    		//First one is a normal waiter, subsequent waiters are shared data
+
+	    		if(role.equals("Waiter")){
+	    			
+	    			//Load balances waiters, rest is restaurant with fewest waiters
+	    			RestaurantPlace rest=myRestaurants.get(0);
+	    			for(RestaurantPlace r:myRestaurants){
+	    				if(r.waiters.size()<rest.waiters.size()){
+	    					rest=r;
+	    				}
+	    			}
+	    			
+	    			if(rest.restNum==1){
+	    				LWaiterRole LW;
+	    				if(rest.waiters.size()==0){
+	    					LW=(LWaiterRole) LRestaurant.AddNormalWaiter();
+	    				}
+	    				else{
+	    					LW=(LWaiterRole) LRestaurant.AddSharedDataWaiter();
+	    				}
+	    				LW.myPerson=p;
+	    				p.SetJob(LW, "Restaurant 1");
+	    			}
+	    			else if(rest.restNum==2){
+	    				Drew_WaiterRole DW;
+	    				if(rest.waiters.size()==0){
+	    					DW=(Drew_WaiterRole) DrewRestaurant.AddNormalWaiter();
+	    				}
+	    				else{
+	    					DW=(Drew_WaiterRole) DrewRestaurant.AddNormalWaiter();
+	    				}
+	    				DW.myPerson=p;
+	    				p.SetJob(DW,"Restaurant 2");
+	    			}
+	    			else if(rest.restNum==3){
+	    				DWaiterRole DW;
+	    				if(rest.waiters.size()==0){
+	    					DW=(DWaiterRole) DRestaurant.AddNormalWaiter();
+	    				}
+	    				else{
+	    					DW=(DWaiterRole) DRestaurant.AddSharedDataWaiter();
+	    				}
+	    				DW.myPerson=p;
+	    				p.SetJob(DW,"Restaurant 3");
+	    			}
+	    			else if(rest.restNum==4){
+	    				KWaiterRole KW;
+	    				if(rest.waiters.size()==0){
+	    					KW=(KWaiterRole) KRestaurant.AddNormalWaiter();
+	    				}
+	    				else{
+	    					KW=(KWaiterRole) KRestaurant.AddSharedDataWaiter();
+	    				}
+	    				KW.myPerson=p;
+	    				p.SetJob(KW,"Restaurant 4");
+	    			}
+	    			else if(rest.restNum==5){
+	    				BWaiterRole BW;
+	    				if(rest.waiters.size()==0){
+	    					BW=(BWaiterRole) BRestaurant.AddNormalWaiter();
+	    				}
+	    				else{
+	    					BW=(BWaiterRole) BRestaurant.AddSharedDataWaiter();
+	    				}
+	    				BW.myPerson=p;
+	    				p.SetJob(BW,"Restaurant 5");
+	    			}
+	    			else if(rest.restNum==6){
+	    				TWaiterRole TW;
+	    				if(rest.waiters.size()==0){
+	    					TW=(TWaiterRole) TRestaurant.AddNormalWaiter();
+	    				}
+	    				else{
+	    					TW=(TWaiterRole) TRestaurant.AddSharedDataWaiter();
+	    				}
+	    				TW.myPerson=p;
+	    				p.SetJob(TW,"Restaurant 6");
+	    			}
+	    		}
+	    		
+	    		
+	    		//Add Restaurant Cashiers
+	    		if(role.equals("RestaurantCashier1")){
+	    			LCashierRole LC= (LCashierRole) LRestaurant.cashier;
+	    			LC.myPerson=p;
+	    			p.SetJob(LC, "Restaurant 1");
+	    		}
+	    		if(role.equals("RestaurantCashier2")){
+	    			Drew_CashierRole DC= (Drew_CashierRole) DrewRestaurant.cashier;
+	    			DC.myPerson=p;
+	    			p.SetJob(DC, "Restaurant 2");
+	    		}
+	    		if(role.equals("RestaurantCashier3")){
+	    			DCashierRole DC= (DCashierRole) DRestaurant.cashier;
+	    			DC.myPerson=p;
+	    			p.SetJob(DC, "Restaurant 3");
+	    		}
+	    		if(role.equals("RestaurantCashier4")){
+	    			KCashierRole KC= (KCashierRole) KRestaurant.cashier;
+	    			KC.myPerson=p;
+	    			p.SetJob(KC, "Restaurant 4");
+	    		}
+	    		if(role.equals("RestaurantCashier5")){
+	    			BCashierRole BC= (BCashierRole) BRestaurant.cashier;
+	    			BC.myPerson=p;
+	    			p.SetJob(BC, "Restaurant 5");
+	    		}
+	    		if(role.equals("RestaurantCashier6")){
+	    			TCashierRole TC= (TCashierRole) TRestaurant.cashier;
+	    			TC.myPerson=p;
+	    			p.SetJob(TC, "Restaurant 6");
+	    		}
+	    		
+	    		//Add Cooks
+	    		if(role.equals("Cook1")){
+	    			LCookRole LC= (LCookRole) LRestaurant.cook;
+	    			LC.myPerson=p;
+	    			p.SetJob(LC, "Restaurant 1");
+	    		}
+	    		if(role.equals("Cook2")){
+	    			Drew_CookRole DC= (Drew_CookRole) DrewRestaurant.cook;
+	    			DC.myPerson=p;
+	    			p.SetJob(DC, "Restaurant 2");
+	    		}
+	    		if(role.equals("Cook3")){
+	    			DCookRole DC= (DCookRole) DRestaurant.cook;
+	    			DC.myPerson=p;
+	    			p.SetJob(DC, "Restaurant 3");
+	    		}
+	    		if(role.equals("Cook4")){
+	    			KCookRole KC= (KCookRole) KRestaurant.cook;
+	    			KC.myPerson=p;
+	    			p.SetJob(KC, "Restaurant 4");
+	    		}
+	    		if(role.equals("Cook5")){
+	    			BCookRole BC= (BCookRole) BRestaurant.cook;
+	    			BC.myPerson=p;
+	    			p.SetJob(BC, "Restaurant 5");
+	    		}
+	    		if(role.equals("Cook6")){
+	    			TCookRole TC= (TCookRole) TRestaurant.cook;
+	    			TC.myPerson=p;
+	    			p.SetJob(TC, "Restaurant 6");
+	    		}
+	    		
+	    		
+	    		
+	    		
+	    		//Add Market Cashiers
+	    		if(role.equals("MarketCashier1")){
+	    			MarketCashierRole LC= (MarketCashierRole) myMarkets.get(0).mCashier;
+	    			LC.myPerson=p;
+	    			p.SetJob(LC, "Market 1");
+	    		}
+	    		if(role.equals("MarketCashier2")){
+	    			MarketCashierRole LC= (MarketCashierRole) myMarkets.get(1).mCashier;
+	    			LC.myPerson=p;
+	    			p.SetJob(LC, "Market 2");
+	    		}
+	    		if(role.equals("MarketCashier3")){
+	    			MarketCashierRole LC= (MarketCashierRole) myMarkets.get(2).mCashier;
+	    			LC.myPerson=p;
+	    			p.SetJob(LC, "Market 3");
+	    		}
+	    		if(role.equals("MarketCashier4")){
+	    			MarketCashierRole LC= (MarketCashierRole) myMarkets.get(3).mCashier;
+	    			LC.myPerson=p;
+	    			p.SetJob(LC, "Market 4");
+	    		}
+	    		
+	    		
+	    		
+	    		
+	    		//Add Inventory Boys
+	    		if(role.equals("InventoryBoy1")){
+	    			InventoryBoyRole LC= (InventoryBoyRole) myMarkets.get(0).ib;
+	    			LC.myPerson=p;
+	    			p.SetJob(LC, "Market 1");
+	    		}
+	    		if(role.equals("InventoryBoy2")){
+	    			InventoryBoyRole LC= (InventoryBoyRole) myMarkets.get(1).ib;
+	    			LC.myPerson=p;
+	    			p.SetJob(LC, "Market 2");
+	    		}
+	    		if(role.equals("InventoryBoy3")){
+	    			InventoryBoyRole LC= (InventoryBoyRole) myMarkets.get(2).ib;
+	    			LC.myPerson=p;
+	    			p.SetJob(LC, "Market 3");
+	    		}
+	    		if(role.equals("InventoryBoy4")){
+	    			InventoryBoyRole LC= (InventoryBoyRole) myMarkets.get(3).ib;
+	    			LC.myPerson=p;
+	    			p.SetJob(LC, "Market 4");
+	    		}
+	    		
+	    		
+	    		//Add Bank Tellers
+	    		/*if(role.equals("Bank Teller")){
 	    			BankTellerRole BT= new BankTellerRole(gui);
 	    			BT.setManager(bank1.bankManager);
 	    			BT.myPerson=p;
 	    			p.SetJob(BT,"Bank 1");
 	    			p.myJob.isActive=false;
 	    			p.hungerLevel=0;
+	    		}*/
+	    		if(role.equals("BankTeller1")){
+	    			BankTellerRole BT=  myBanks.get(0).bankTeller;
+	    			BT.myPerson=p;
+	    			p.SetJob(BT,"Bank 1");
 	    		}
-	    		//HACK FOR TESTING CLOSE BANK
-	    		if(role.equals("Inventory Person")){
-	    			bank1.bankManager.msgTimeUpdate(20);
+	    		if(role.equals("BankTeller2")){
+	    			BankTellerRole BT=  myBanks.get(1).bankTeller;
+	    			BT.myPerson=p;
+	    			p.SetJob(BT,"Bank 2");
 	    		}
+	    		
+	    		//Add Bank Loan Officers
+	    		/*if(role.equals("Bank Loan Officer")){
+	    			BankTellerRole BT= new BankTellerRole(gui);
+	    			BT.setManager(bank1.bankManager);
+	    			BT.myPerson=p;
+	    			p.SetJob(BT,"Bank 1");
+	    			p.myJob.isActive=false;
+	    			p.hungerLevel=0;
+	    		}*/
+	    		if(role.equals("BankLoanOfficer1")){
+	    			BankLoanOfficerRole BT=  myBanks.get(0).loanOfficer;
+	    			BT.myPerson=p;
+	    			p.SetJob(BT,"Bank 1");
+	    		}
+	    		if(role.equals("BankLoanOfficer2")){
+	    			BankLoanOfficerRole BT=  myBanks.get(1).loanOfficer;
+	    			BT.myPerson=p;
+	    			p.SetJob(BT,"Bank 2");
+	    		}
+
 //	    		Bmanager.msgTimeUpdate(8);
 	            //BankCustomerRole bc = new BankCustomerRole(gui);
 	            //bc.myPerson = p;
@@ -864,9 +1126,15 @@ public class SimCityPanel extends JPanel {
 	            	first=false;
 	            }*/
 	            
-	            
+	            p.myJob.isActive=false;
 	    		p.startThread();
+
+	    		
+	    		//TAKE THIS TIME UPDATE AWAY, JUST FOR TESTING 
+	    		p.msgTimeUpdate(8);
+
 	    		p.msgTimeUpdate(7);
+
 			 
     		people.add(p);
     	}
@@ -963,7 +1231,7 @@ public class BankPlace extends Business {
 	
 	public BankLoanOfficerRole loanOfficer;
 	public BankManagerRole bankManager;
-	//~~~public BankTellerRole bankTeller;
+	public BankTellerRole bankTeller;
 	public BankRobberRole robber;
 	int num;
 	
@@ -974,11 +1242,11 @@ public class BankPlace extends Business {
 		this.num = num;
 		loanOfficer = new BankLoanOfficerRole(gui);
 		bankManager = new BankManagerRole(gui);
-		//~~~bankTeller = new BankTellerRole(gui);
+		bankTeller = new BankTellerRole(gui);
 		bankCustomers = new ArrayList<BankCustomerRole>();
 		
 		loanOfficer.setManager(bankManager);
-		//~~~bankTeller.setManager(bankManager);
+		bankTeller.setManager(bankManager);
 		
 	}
 	public BankCustomerRole addCustomer() {
@@ -995,7 +1263,7 @@ class RestaurantPlace extends Business {
         public Role host = null;
         public Role cook = null;
         public Role cashier = null;
-        ArrayList<Role> waiters = new ArrayList<Role>();
+        public ArrayList<Role> waiters = new ArrayList<Role>();
         ArrayList<Role> customers = new ArrayList<Role>();
         RestaurantPlace(int restNum) {
                 this.restNum = restNum;
