@@ -97,6 +97,6 @@ public class BAnimationPanel extends JPanel implements ActionListener {
     }
 
     public void addGui(BHostGui gui) {
-        guis.add(gui);
+        guis.add((BGui) gui);
     }
 }

@@ -47,6 +47,7 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 		super(gui);
 		this.gui = gui; 
 		this.name = name;
+		arrived = true; 
 	}
 
 	public String getMaitreDName() {

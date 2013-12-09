@@ -72,7 +72,8 @@ public class THostRole extends Role implements Host {
 		if(type.equals("Waiter")){
 			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Waiter is here");
 			Do("Waiter is here");
-			waiters.add(new myWaiters((TWaiter) r));
+			addWaiter((TWaiter) r); 
+			//waiters.add(new myWaiters((TWaiter) r));
 		}
 		else if(type.equals("Cook")){
 			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Cook is here");

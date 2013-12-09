@@ -11,7 +11,7 @@ public class TWaiterGui implements Gui {
 
     private TWaiterRole agent = null;
     
-    private int xPos = 5, yPos = 0;//default waiter position
+    private int xPos = -20, yPos = -20;//default waiter position
     private int xDestination = -20, yDestination = -20;//default start position
     private int xHome, yHome; 
     private int xCust, yCust; 
@@ -61,6 +61,8 @@ public class TWaiterGui implements Gui {
     public void draw(Graphics2D g) {
         g.setColor(Color.CYAN);
         g.fillRect(xPos, yPos, 20, 20);
+        g.setColor(Color.BLACK);
+        g.drawString("W", xPos + 5, yPos + 13);
         if (holdingFood) {
         	g.drawString(food, xPos, yPos);
         }
@@ -105,6 +107,7 @@ public class TWaiterGui implements Gui {
     }
     
     public void setHome(int l) {
+    	System.out.print("Setting home position for waiter"); 
     	xHome = 20; 
     	yHome = (l+2)*30; 
     	DoLeaveCustomer(); 
