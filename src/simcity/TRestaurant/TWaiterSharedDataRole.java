@@ -314,6 +314,7 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 	private void goHome() {
 		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "Going home");
 		Do("Going home");
+		waiterGui.LeaveRestaurant();
 		isActive = false;
 		goHome = false;
 	}

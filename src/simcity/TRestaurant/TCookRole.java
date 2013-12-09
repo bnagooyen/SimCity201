@@ -418,6 +418,7 @@ public class TCookRole extends Role implements TCook, Cook {
 	private void goHome() {
 		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCookRole", "Going home");
 		Do("Going home");
+		cookGui.LeaveRestaurant();
 		isActive = false;
 		goHome = false;
 	}
