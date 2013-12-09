@@ -1,6 +1,7 @@
 package simcity.LRestaurant;
 
 import simcity.PersonAgent;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.LWaiter;
@@ -8,8 +9,8 @@ import simcity.test.mock.LoggedEvent;
 
 public class LWaiterNormalRole extends LWaiterRole implements LWaiter{
 
-	public LWaiterNormalRole() {
-		super();
+	public LWaiterNormalRole(SimCityGui gui) {
+		super(gui);
 		// TODO Auto-generated constructor stub
 	}
 

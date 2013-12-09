@@ -16,6 +16,7 @@ import simcity.LRestaurant.ProducerConsumerMonitor;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
 import simcity.LRestaurant.gui.LCookGui;
 import simcity.Market.MFoodOrder;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Cook;
@@ -38,6 +39,7 @@ public class LCookRole extends Role implements LCook, Cook {
 	Timer timer = new Timer();
 	LCashierRole cashier;
 	LHostRole host;
+	SimCityGui gui;
 	public LCookGui cookGui;
 	private Map<String, Food> foods = Collections.synchronizedMap(new HashMap<String, Food>());
 	public enum MarketState{noOrder, order, firstOrder, reOrder, waiting, arrived, done};
@@ -51,7 +53,7 @@ public class LCookRole extends Role implements LCook, Cook {
 	boolean here;
 	
 	
-	public LCookRole(){
+	public LCookRole(SimCityGui g){
 		super();
 		//this.name = p.getName();
 		foods.put("P", new Food("P", 700, 2, 5, 2)); //choice, cookTime, amount, capacity, threshold
@@ -60,6 +62,7 @@ public class LCookRole extends Role implements LCook, Cook {
 		foods.put("Ch", new Food("Ch", 900, 2, 5, 2));
 		goHome = false;
 		here = true;
+		gui = g;
 	}
 	
 	public void addMarket(MarketManager m){
@@ -70,9 +73,14 @@ public class LCookRole extends Role implements LCook, Cook {
 		cashier = c;
 	}
 	
+	public void setSimCityGui(SimCityGui g){
+		gui = g;
+	}
+	
 	
 	// Messages
-
+	
+	
 		@Override
 		public void msgSetInventory(int val) {
 			// TODO Auto-generated method stub
@@ -241,6 +249,10 @@ public class LCookRole extends Role implements LCook, Cook {
 	
 	private void tellHost(){
 		host.msgIAmHere(this, "cashier");
+		if(cookGui == null){
+			cookGui = new LCookGui(this, "LCookGui");
+			gui.myPanels.get("Restaurant 1").panel.addGui(cookGui);
+		}
 		here = false;
 	}
 
