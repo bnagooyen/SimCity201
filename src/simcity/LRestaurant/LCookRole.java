@@ -240,7 +240,7 @@ public class LCookRole extends Role implements LCook, Cook {
 	// Actions
 	
 	private void tellHost(){
-		host.msgIAmHere(this, "cashier");
+		host.msgIAmHere(this, "cook");
 		here = false;
 	}
 
