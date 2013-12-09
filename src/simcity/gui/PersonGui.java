@@ -22,6 +22,7 @@ public class PersonGui implements Gui {
     }
     private boolean isPresent = false;
     private boolean isHungry = false;
+    private int busStop = 0; 
     SimCityGui gui;
     private int tableGoingTo;
     public static final int x_Offset = 100;
@@ -193,15 +194,28 @@ public class PersonGui implements Gui {
 	            if (xPos < xDestination)
 	                 xPos++;
 	            else if (xPos > xDestination)
-	                    xPos--;
+	                 xPos--;
 	       }
             
-            else 
-    		if (350 - yDestination <= 200 && yPos >= 10) 
-		            yPos--;
-		    else if (350 - yDestination > 200 && yPos <= 350)
-		            yPos++;
-	    }
+            else if (375 - yDestination <= 200) {
+    	//		if (yPos > 25 && yPos < 150) {
+    				yPos--;/** 
+    			}
+    			else {
+    				yPos--;*/
+    			}
+    			
+    		}
+		    else if (355 - yDestination > 200){
+//		    	if (yPos < 355 && yPos > 150) {
+		    		yPos++; /**
+		    	}
+		    	else {
+		    		yPos++; 
+		    	}*/
+		    }
+	    
+
     	
     	if (xPos == xDestination && yPos != yDestination) {
         	if (yPos < yDestination)
@@ -217,16 +231,16 @@ public class PersonGui implements Gui {
         		if(command==Command.GoToRestaurant ||command==Command.GoHome||command==Command.other) {
         			agent.msgAnimationArivedAtRestaurant();
         			
-        			isPresent=false;
+        			
         			
         		}
         		
-        		  if(command==Command.GoToBusStop) {
+        		else if(command==Command.GoToBusStop) {
                      agent.msgAnimationAtBusStop();
                      
                      
              }
-        	
+        		
         		command=Command.none;
         		
         }
@@ -300,7 +314,15 @@ public class PersonGui implements Gui {
              Point myDest = myMap.get(destination);
              xDestination = myDest.x;
              yDestination = myDest.y;
+             if (busStop == 0) {
              command=Command.GoToBusStop;
+             busStop++; 
+             }
+             else if (busStop > 0){
+            	 busStop = 0;
+            	 command = Command.none; 
+            	 
+             }
      }
     	
     	if(destination.contains("Bank")) {
@@ -341,4 +363,6 @@ public class PersonGui implements Gui {
 //    	}
 //    }
 }
+
+
 
