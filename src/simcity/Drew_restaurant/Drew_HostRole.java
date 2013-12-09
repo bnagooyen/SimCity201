@@ -38,6 +38,7 @@ public class Drew_HostRole extends Role implements Drew_Host, Host {//Drew_Host{
 	public Drew_Cook cook;
 	public Drew_Cashier cashier;
 	
+	
 	public Collection<Table> tables;
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
@@ -55,6 +56,7 @@ public class Drew_HostRole extends Role implements Drew_Host, Host {//Drew_Host{
 			Table t = new Table(ix);			
 			tables.add(t);//how you add to a collections
 		}
+		theMonitor=new ProducerConsumerMonitor();
 	}
 	
 	public void timeUpdate(int hr) {
@@ -70,9 +72,13 @@ public class Drew_HostRole extends Role implements Drew_Host, Host {//Drew_Host{
 	public void msgIAmHere(Role person){
 		if(person instanceof Drew_Waiter){
 			waiters.add(new MyWaiter((Drew_Waiter) person));
+			if(person instanceof Drew_WaiterSharedDataRole){
+				((Drew_WaiterSharedDataRole) person).setMonitor(theMonitor);
+			}
 		}
 		else if(person instanceof Drew_Cook){
 			cook=(Drew_Cook) person;
+			cook.setMonitor(theMonitor);
 		}
 		else if(person instanceof Drew_Cashier){
 			cashier=(Drew_Cashier)person;
