@@ -1126,7 +1126,7 @@ public class SimCityPanel extends JPanel {
 	            	first=false;
 	            }*/
 	            
-	            p.myJob.isActive=false;
+	            if(p.myJob!=null)p.myJob.isActive=false;
 	    		p.startThread();
 
 	    		
