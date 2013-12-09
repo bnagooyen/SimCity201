@@ -305,9 +305,8 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 		arrived = false;
 		host.msgIAmHere(this, "Waiter");
 		if (waiterGui == null) {
-			TWaiterGui w = new TWaiterGui(this);
-			gui.myPanels.get("Restaurant 6").panel.addGui(w);
-			waiterGui = w; 
+			waiterGui = new TWaiterGui(this);
+			gui.myPanels.get("Restaurant 6").panel.addGui(waiterGui);
 		}
 	}
 	
