@@ -56,7 +56,7 @@ public class PersonAgent extends Agent implements Person {
 	private CarAgent myCar;
 
 	public String nearestStop="Stop4";
-	public String destStop="Stop1";
+	public String destStop="Stop3";
 
 	//housing information
 	private Landlord myLandlord; 
@@ -93,7 +93,7 @@ public class PersonAgent extends Agent implements Person {
 		super();
 
 		this.name = name;
-		transit=TransitState.goToBus;
+		//transit=TransitState.goToBus;
 		state=PersonState.doingNothing;
 		hungerLevel=70;
 		myLocation=LocationState.atHome;
@@ -141,7 +141,7 @@ public class PersonAgent extends Agent implements Person {
 	public void msgAtStop(String destination){
 		System.out.println("getting off message");
 		//mydestination=destination;
-		transit = TransitState.getOffBus;
+		transit = TransitState.walkingtoDestination;
 		stateChanged();
 	}
 
@@ -208,7 +208,7 @@ public class PersonAgent extends Agent implements Person {
             return true;
     }
 
-    if(transit==TransitState.getOffBus){
+    if(transit==TransitState.walkingtoDestination){
 
             getOffBusAndWalk();
             return true;
@@ -218,7 +218,6 @@ public class PersonAgent extends Agent implements Person {
 			boolean hasActiveRole=false;
 			boolean rolePAEAA=false;
 			if (r.isActive) {
-				if(name.equals("doreenHost")) Do("YAYAYAYAYAYAYYAYAYAYAYAYAYAYAYYA (Sched of personagent)"+r);
 				hasActiveRole=true;
 				rolePAEAA = r.pickAndExecuteAnAction();
 			}
@@ -249,7 +248,7 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}
 
-		if(hungerLevel>50) {
+		if(hungerLevel>50 && transit==TransitState.walkingtoDestination) {
 			if (money >= 40) {
 				GoToRestaurant();
 			}
@@ -485,6 +484,7 @@ public class PersonAgent extends Agent implements Person {
 	private void getOffBusAndWalk(){
 		//gui to get off
 		Do("Walk to Destination");
+		DoGoTo("Restaurant 1");
 		transit=TransitState.atDestination;
 		PersonGui.setPresent(true);
 

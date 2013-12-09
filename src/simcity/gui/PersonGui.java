@@ -197,10 +197,10 @@ public class PersonGui implements Gui {
 	       }
             
             else 
-    		if (335 - yDestination <= 150 && yPos >= 40) 
-		            yPos++;
-		    else if (335 - yDestination > 150 && yPos <= 335)
+    		if (350 - yDestination <= 200 && yPos >= 10) 
 		            yPos--;
+		    else if (350 - yDestination > 200 && yPos <= 350)
+		            yPos++;
 	    }
     	
     	if (xPos == xDestination && yPos != yDestination) {
