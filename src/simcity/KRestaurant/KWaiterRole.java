@@ -14,6 +14,7 @@ import simcity.interfaces.KCashier;
 import simcity.interfaces.Cook;
 import simcity.interfaces.KCustomer;
 import simcity.interfaces.KWaiter;
+import simcity.interfaces.RestaurantCashier;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -41,7 +42,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	public KWaiterGui waiterGui = null;
 	public KHostRole host = null;
 	public KCookRole cook = null;
-	public KCashier cashier = null;
+	public RestaurantCashier cashier = null;
 	public KMenu menu = null;
 	private SimCityGui gui;
 
@@ -404,7 +405,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KWaiter","gave food to customer");
 		System.out.println(myPerson.getName() + ": " +": gave food to customer");
 		waiterGui.DoLeaveCustomer();
-		cashier.msgBill(c.c, this, c.choice);
+		((KCashier) cashier).msgBill(c.c, this, c.choice);
 	}
 	
 	private void DoGetFood(int place){
@@ -554,7 +555,7 @@ public abstract class KWaiterRole extends Role implements KWaiter{
 	public void setHost(KHostRole h) {
 		host = h;
 	}
-	public void setCashier(KCashier cashier) {
+	public void setCashier(RestaurantCashier cashier) {
 		this.cashier = cashier;
 	}
 	public boolean onBreak() {

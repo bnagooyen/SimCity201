@@ -674,37 +674,56 @@ public class SimCityPanel extends JPanel {
 		/*
         directory.put("Bank 1", bank1);
         directory.put("Bank 2", bank2);
-		 */
+<<<<<<< HEAD
+        */
+        
+        directory.put("Restaurant 5", BRestaurant);
+        directory.put("Restaurant 3", DRestaurant);
+        directory.put("Restaurant 2", DrewRestaurant);
+        directory.put("Restaurant 4", KRestaurant);
+        directory.put("Restaurant 1", LRestaurant);
+        directory.put("Restaurant 6", TRestaurant);
+        
+        // set nearest bus stop of all the buildings
+        directory.get("Market 1").nearestBusStop = bs1;
+        directory.get("Market 2").nearestBusStop = bs4;
+        directory.get("Market 3").nearestBusStop = bs2;
+        directory.get("Market 4").nearestBusStop = bs3;
+        directory.get("Bank 1").nearestBusStop = bs4;
+        directory.get("Bank 2").nearestBusStop = bs2;
+        directory.get("Restaurant 1").nearestBusStop = bs1;
+        directory.get("Restaurant 3").nearestBusStop = bs1;
+        directory.get("Restaurant 4").nearestBusStop = bs2;
+        directory.get("Restaurant 5").nearestBusStop = bs3;
+        directory.get("Restaurant 6").nearestBusStop = bs3;
+        directory.get("Restaurant 2").nearestBusStop = bs4;
+        
+        // set all market places to not down
+        Iterator it = directory.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pairs = (Map.Entry)it.next();
+            Business b = (Business) pairs.getValue();
+            b.down = false;
+        }
+    }
 
-		directory.put("Restaurant 5", BRestaurant);
-		directory.put("Restaurant 3", DRestaurant);
-		directory.put("Restaurant 2", DrewRestaurant);
-		directory.put("Restaurant 4", KRestaurant);
-		directory.put("Restaurant 1", LRestaurant);
-		directory.put("Restaurant 6", TRestaurant);
+    /**
+     * Sets up the restaurant label that includes the menu,
+     * and host and cook information
+     */
 
-		// set nearest bus stop of all the buildings
-		directory.get("Market 1").nearestBusStop = bs1;
-		directory.get("Market 2").nearestBusStop = bs4;
-		directory.get("Market 3").nearestBusStop = bs2;
-		directory.get("Market 4").nearestBusStop = bs3;
-		directory.get("Bank 1").nearestBusStop = bs4;
-		directory.get("Bank 2").nearestBusStop = bs2;
-		directory.get("Restaurant 1").nearestBusStop = bs1;
-		directory.get("Restaurant 3").nearestBusStop = bs1;
-		directory.get("Restaurant 4").nearestBusStop = bs2;
-		directory.get("Restaurant 5").nearestBusStop = bs3;
-		directory.get("Restaurant 6").nearestBusStop = bs3;
-		directory.get("Restaurant 2").nearestBusStop = bs4;
 
-		// set all market places to not down
-		Iterator it = directory.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry pairs = (Map.Entry)it.next();
-			Business b = (Business) pairs.getValue();
-			b.down = false;
-		}
-	}
+    /**
+     * When a customer or waiter is clicked, this function calls
+     * updatedInfoPanel() from the main gui so that person's information
+     * will be shown
+     *
+     * @param type indicates whether the person is a customer or waiter
+     * @param name name of person
+     */
+
+   
+
 
 	/**
 	 * Sets up the restaurant label that includes the menu,
@@ -761,11 +780,34 @@ public class SimCityPanel extends JPanel {
 
 	public void LoadScenario(String type){
 		people.clear();
+		String name, role, transport, houseOrApt; double money;
 		houseNumCounter=1;
 		aptNumCounter=1;
 		aptLetCounter='A';
 		try {	
+			
 			in  = new Scanner(new FileReader("config"+File.separator+type+".txt"));
+			
+			in.next();
+			int numItems = in.nextInt();
+			//clear input template;
+			in.next();
+			in.next();
+			in.next();
+			in.next();
+			in.next();
+			in.next();
+			for(int i=0; i<numItems; i++) {
+				name = in.next();
+				money = in.nextDouble();
+				role = in.next().trim();
+				transport = in.next().trim();
+				houseOrApt = in.next().trim();
+						
+				addPerson("Person", name, money, role, houseOrApt, transport);
+			}
+			gui.AddPeople(people);
+		
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1254,9 +1296,9 @@ public class SimCityPanel extends JPanel {
 
 		public BankPlace(int num) {
 			this.num = num;
-			loanOfficer = new BankLoanOfficerRole(gui);
+			loanOfficer = new BankLoanOfficerRole(gui,num);
 			bankManager = new BankManagerRole(gui, num);
-			bankTeller = new BankTellerRole(gui);
+			bankTeller = new BankTellerRole(gui,num);
 			bankCustomers = new ArrayList<BankCustomerRole>();
 
 			loanOfficer.setManager(bankManager);
@@ -1264,7 +1306,7 @@ public class SimCityPanel extends JPanel {
 
 		}
 		public BankCustomerRole addCustomer() {
-			BankCustomerRole b = new BankCustomerRole(gui);
+			BankCustomerRole b = new BankCustomerRole(gui,num);
 			b.setManager(bankManager);
 			b.num=num;
 			bankCustomers.add(b);
@@ -1383,7 +1425,7 @@ public class SimCityPanel extends JPanel {
 			case 4:
 				KWaiterRole kw = new KWaiterSharedDataRole(gui);
 				kw.setCook((KCookRole)cook);
-				kw.setCashier((KCashier)cashier);
+				kw.setCashier((RestaurantCashier)cashier);
 				kw.setHost((KHostRole)host);
 				((KHostRole)host).addWaiter((KWaiterRole)kw);
 				return kw;
@@ -1443,7 +1485,7 @@ public class SimCityPanel extends JPanel {
 			case 4:
 				KWaiterRole kw = new KWaiterNormalRole(gui);
 				kw.setCook((KCookRole)cook);
-				kw.setCashier((KCashier)cashier);
+				kw.setCashier((RestaurantCashier)cashier);
 				kw.setHost((KHostRole)host);
 				((KHostRole)host).addWaiter((KWaiterRole)kw);
 				return kw;

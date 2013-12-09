@@ -1,4 +1,5 @@
 package simcity.gui;
+import simcity.PersonAgent;
 import simcity.gui.BuildingPanel;
 import simcity.gui.CityPanel;
 import simcity.gui.CityView;
@@ -17,6 +18,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 /**
  * Main GUI class.
  * Contains the main frame and subsequent panels
@@ -436,8 +438,8 @@ public class SimCityGui extends JFrame implements ActionListener {
         
     }
 
-    public void AddPeople(ArrayList<Person> p) {
-    	cityInfo.AddPeople(p);
+    public void AddPeople(Vector<PersonAgent> people) {
+    	cityInfo.AddPeople(people);
     }
 
     /**
@@ -447,6 +449,7 @@ public class SimCityGui extends JFrame implements ActionListener {
         SimCityGui gui = new SimCityGui();
         gui.setTitle("csci201 Restaurant");
         gui.setResizable(false);
+        gui.simcityPanel.LoadScenario("config1");
         gui.pack();
         gui.setVisible(true);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

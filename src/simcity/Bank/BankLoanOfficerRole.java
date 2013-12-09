@@ -33,6 +33,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	public cornerState corner=cornerState.coming;
 	private BankLoanGui bankloanGui;
 	private SimCityGui gui; 
+	private int instance;
 
 	public class MyCustomer{
 		BankCustomer BC;
@@ -51,12 +52,12 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		}
 	}
 
-	public BankLoanOfficerRole(SimCityGui G) {
+	public BankLoanOfficerRole(SimCityGui G, int num) {
 		super();
 		startHour=8;
 		gui=G;
 		// TODO Auto-generated constructor stub
-		
+		instance=num;
 		state=bankLoanState.arrived;
 		
 		//Populate List of jobs to which we loan
@@ -246,7 +247,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 		Do("Telling Manager I am Here");
 		if(bankloanGui == null) {
 			bankloanGui = new BankLoanGui(this, manager);
-			gui.myPanels.get("Bank 1").panel.addGui(bankloanGui);
+			gui.myPanels.get("Bank "+instance).panel.addGui(bankloanGui);
 		}
 		bankloanGui.setPresent(true);
 		manager.msgIAmHere(this, "BankLoanOfficer");
