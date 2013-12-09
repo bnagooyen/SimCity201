@@ -249,22 +249,16 @@ public class LCookRole extends Role implements LCook, Cook {
 	// Actions
 	
 	private void tellHost(){
-<<<<<<< HEAD
-=======
 
-		host.msgIAmHere(this, "cook");
-		//host.msgIAmHere(this, "cashier");
->>>>>>> 9c6bc9c57668bf775aeb9b82657c3cf93c504b0f
+
 		if(cookGui == null){
 			System.out.println("GOT IN HERE TO GUI");
 			cookGui = new LCookGui(this, "LCookGui");
 			gui.myPanels.get("Restaurant 1").panel.addGui(cookGui);
 		}
-<<<<<<< HEAD
-		host.msgIAmHere(this, "cook");
-=======
 
->>>>>>> 9c6bc9c57668bf775aeb9b82657c3cf93c504b0f
+		host.msgIAmHere(this, "cook");
+
 		here = false;
 	}
 
