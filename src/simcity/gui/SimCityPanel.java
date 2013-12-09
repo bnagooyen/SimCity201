@@ -275,10 +275,10 @@ public class SimCityPanel extends JPanel {
 		addPerson("Person", "Mman2", 100.0, "Market Manager", "Apartment", "Walk"); 
 		addPerson("Person", "Dhost", 100.0, "Doreen Host", "Apartment", "Walk"); 
 		addPerson("Person", "Drewhost", 100.0, "Drew Host", "Apartment", "Walk"); 
-		addPerson("Person", "Thost", 100.0, "Tiffany host", "Apartment", "Walk"); 
-		addPerson("Person", "BHost", 100.0, "Brian host", "Apartment", "Walk"); 
-		addPerson("Person", "LHost", 100.0, "Linda host", "Apartment", "Walk"); 
-		addPerson("Person", "KHost", 100.0, "Kim host", "Apartment", "Walk"); 
+		addPerson("Person", "Thost", 100.0, "Tiffany Host", "Apartment", "Walk"); 
+		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
+		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
+		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
 
 		/*PersonAgent bManagerPerson = new PersonAgent("BankManager");
         bManagerPerson.hungerLevel = 0;
@@ -916,12 +916,12 @@ public class SimCityPanel extends JPanel {
 				myRestaurants.get(0).host.myPerson=p;
 			}
 			if(role.equals("Kim Host")){
-				//p.SetJob(myRestaurants.get(3).host, "Restaurant 4");
-				p.SetJob(((RestaurantPlace)directory.get("Restaurant 4")).host, "Restaurant 4");
-				((RestaurantPlace)directory.get("Restaurant 4")).host.myPerson = p;
-				System.out.println("Restaurant 4's host's person is "+ ((RestaurantPlace)directory.get("Restaurant 4")).host);
-				System.out.println("it should be "+p.getName());
-				//myRestaurants.get(3).host.myPerson=p;
+				p.SetJob(myRestaurants.get(3).host, "Restaurant 4");
+				//p.SetJob(((RestaurantPlace)directory.get("Restaurant 4")).host, "Restaurant 4");
+				//((RestaurantPlace)directory.get("Restaurant 4")).host.myPerson = p;
+				//System.out.println("Restaurant 4's host's person is "+ ((RestaurantPlace)directory.get("Restaurant 4")).host);
+				//System.out.println("it should be "+p.getName());
+				myRestaurants.get(3).host.myPerson=p;
 			}
 			if(role.equals("Brian Host")){
 				p.SetJob(myRestaurants.get(4).host, "Restaurant 5");
