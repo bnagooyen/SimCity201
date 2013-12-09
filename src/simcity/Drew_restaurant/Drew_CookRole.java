@@ -112,6 +112,20 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	// Messages
 	
 	@Override
+	public void msgSetInventory(int val) {
+		// TODO Auto-generated method stub
+		
+		Iterator it = foods.entrySet().iterator();
+		
+		while(it.hasNext()){
+			Map.Entry obj = (Map.Entry)it.next();
+			Food f = (Food) obj.getValue();
+			f.changeAmt(val);
+		}
+		
+	}
+	
+	@Override
 	public void msgGoHome(double pay) {
 		myPerson.money+=pay;
 		cookstate=CookState.leave;
@@ -146,6 +160,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 		stateChanged();
 	}
 
+	
 	public void msgHereIsDelivery(List<MFoodOrder> canGiveMe, double bill, MarketManager manager, MarketCashier cashier) {
 		for(MFoodOrder o: canGiveMe) {
 		/********************************** just put true for now for bool fullOrder ***************/
@@ -454,6 +469,10 @@ Do("UNCOMMENT 289");//			market.msgIAmHere(this, toOrder, "Drew_restaurant", "co
 			amount=3;
 			ordered=false;
 		}
+		
+		public void changeAmt(int val){
+			amount = val;
+		}
 	}
 
 	public class MarketBill {
@@ -470,6 +489,7 @@ Do("UNCOMMENT 289");//			market.msgIAmHere(this, toOrder, "Drew_restaurant", "co
 		// TODO Auto-generated method stub
 		host=drew_host;
 	}
+
 }
 
 

@@ -6,6 +6,8 @@ import simcity.Market.MFoodOrder;
 
 public interface Cook {
 
+	public abstract void msgSetInventory(int val);
+	
 	public abstract void msgHereIsDelivery(List<MFoodOrder> canGive, double check, MarketManager manager, MarketCashier mc);
 
 	public abstract void msgGoToCashier(MarketCashier c);

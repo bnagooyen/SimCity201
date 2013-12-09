@@ -1,5 +1,6 @@
 package simcity.DRestaurant;
 
+import simcity.BRestaurant.BFood;
 import simcity.DRestaurant.DCookRole.InventoryOrder.InventoryOrderState;
 import simcity.DRestaurant.DOrder.OrderState;
 import agent.Role;
@@ -165,6 +166,19 @@ public class DCookRole extends Role implements DCook, Cook{
 
         //hack!
         
+        @Override
+		public void msgSetInventory(int val) {
+			// TODO Auto-generated method stub
+        	Iterator it = myFood.entrySet().iterator();
+    		
+    		while(it.hasNext()){
+    			Map.Entry obj = (Map.Entry)it.next();
+    			DFood f = (DFood) obj.getValue();
+    			f.setAmount(val);
+    		}
+    		
+		}
+        
         public void AddHost(DHostRole h) {
                 //System.out.println("host added to cook");
                 host=h;
@@ -174,6 +188,7 @@ public class DCookRole extends Role implements DCook, Cook{
                 //System.out.println("host added to cook");
                 myCashier=h;
         }
+        
         
         public void msgAddWaiter(DWaiterRole w) {
                 waiter=w;
@@ -894,6 +909,7 @@ public class DCookRole extends Role implements DCook, Cook{
                         
         
                 }
+
 
 
 }

@@ -43,7 +43,7 @@ public class PersonAgent extends Agent implements Person {
 	//States
 	public int hungerLevel;
 	enum PersonState { doingNothing, atRestaurant, workTime, tired, asleep, dead };
-	public enum TransitState {justLeaving, walkingToBus, onBus, goToCar, inCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
+	public enum TransitState {justLeaving, goToBus, walkingToBus, onBus, goToCar, inCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
 	enum LocationState {atHome, atRestaurant, atBank, atWork};
 	public enum MoneyState {poor, middle, rich};
 	enum TravelPreference {walk, bus, car};
@@ -56,7 +56,7 @@ public class PersonAgent extends Agent implements Person {
 	private CarAgent myCar;
 
 	public String nearestStop="Stop4";
-	public String destStop="House 9";
+	public String destStop="Stop1";
 
 	//housing information
 	private Landlord myLandlord; 
@@ -93,6 +93,7 @@ public class PersonAgent extends Agent implements Person {
 		super();
 
 		this.name = name;
+		transit=TransitState.goToBus;
 		state=PersonState.doingNothing;
 		hungerLevel=70;
 		myLocation=LocationState.atHome;
@@ -130,10 +131,13 @@ public class PersonAgent extends Agent implements Person {
 		stateChanged();
 	}
 
-	public void msgAnimationAtBusStop(){
-		atBusStop.release();
-		stateChanged();
-	}
+	 public void msgAnimationAtBusStop(){
+		
+         atBusStop.release();
+         transit=TransitState.atBusStop;
+         stateChanged();
+ }
+	 
 	public void msgAtStop(String destination){
 		System.out.println("getting off message");
 		//mydestination=destination;
@@ -187,28 +191,51 @@ public class PersonAgent extends Agent implements Person {
 		if(state==PersonState.asleep||state==PersonState.dead){
 			return false;
 		}
+		
+		if(transit==TransitState.goToBus) {
+			
+            GoToBusStop();
+            return true;
+		}
+		
+		if(transit==TransitState.atBusStop){
+			tellBusStop();
+			return true;
+		}
+		
+    if(transit==TransitState.getOnBus){
+            getOnBus();
+            return true;
+    }
+
+    if(transit==TransitState.getOffBus){
+
+            getOffBusAndWalk();
+            return true;
+    }
 
 		for(Role r: roles) {
 			boolean hasActiveRole=false;
 			boolean rolePAEAA=false;
 			if (r.isActive) {
+				if(name.equals("doreenHost")) Do("YAYAYAYAYAYAYYAYAYAYAYAYAYAYAYYA (Sched of personagent)"+r);
 				hasActiveRole=true;
 				rolePAEAA = r.pickAndExecuteAnAction();
 			}
 			if(hasActiveRole) return rolePAEAA;
 		}
 
-		/************* hack to test behavior*******************/
-		if(marketTime) {
+		//************* hack to test behavior*******************//*
+	/*	if(marketTime) {
 			GoToMarket();
 			return true;
 		}
 
-		/*if(bankTime){
+		if(bankTime){
 			GoToBank();
 			return true;
-		}*/	
-		/******************************************************/
+		}	*/
+		//******************************************************//*
 
 		if (state==PersonState.tired){
 			GoToBed();
@@ -315,6 +342,8 @@ public class PersonAgent extends Agent implements Person {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
 
 		myLocation=LocationState.atRestaurant;
 		hungerLevel=0;
@@ -329,7 +358,22 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 	}
+	
+	 private void GoToBusStop(){
 
+		 
+		 transit=TransitState.walkingToBus;
+		 DoGoTo(nearestStop);
+
+
+
+ }
+ private void tellBusStop(){
+	 	System.out.println("telling bus test");
+	 	busStops.get(nearestStop).msgWaitingForBus(this);
+		transit=TransitState.waitingAtStop;
+		  }
+ 
 	private void GoToMarket() {
 		marketTime = false;
 		Do("here");
@@ -589,6 +633,7 @@ public class PersonAgent extends Agent implements Person {
 		return 0;
 	}
 }
+
 
 
 

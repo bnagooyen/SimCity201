@@ -14,6 +14,8 @@ import simcity.Drew_restaurant.gui.*;
  */
 public interface Drew_Cook {
 
+	public abstract void msgSetInventory(int val);
+	
 	public abstract void hereIsOrder(Drew_Waiter w, String choice, int table);
 	
 	public abstract void TimerDone(Order O);
