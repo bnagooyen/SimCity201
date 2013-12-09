@@ -4,6 +4,7 @@ package simcity.TRestaurant.gui;
 
 import java.awt.*;
 
+import agent.Role;
 import simcity.TRestaurant.TCookRole;
 import simcity.gui.Gui;
 
@@ -16,8 +17,8 @@ public class TCookGui implements Gui {
 
     public static final int yTable = 250;
 
-    public TCookGui(TCookRole agent) {
-        this.agent = agent;
+    public TCookGui(Role r) {
+        this.agent = (TCookRole) r;
     }
 
     public void updatePosition() {
