@@ -31,7 +31,7 @@ import java.util.*;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class LHostRole extends Role implements LHost {
+public class LHostRole extends Role implements LHost, Host {
         static final int NTABLES = 4;//a global for the number of tables.
         //Notice that we implement waitingCustomers using ArrayList, but type it
         //with List semantics.

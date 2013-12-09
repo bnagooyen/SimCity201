@@ -1,6 +1,7 @@
 package simcity.gui;
 
 
+import simcity.PersonAgent;
 import simcity.interfaces.Person;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * Subpanel of restaurantPanel.
@@ -308,7 +310,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
         
     }
     
-    public void AddPeople(ArrayList<Person> people) {
+    public void AddPeople(Vector<PersonAgent> people) {
     	pplList.clear();
     	for(Component c: view.getComponents())
     	{

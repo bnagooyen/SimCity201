@@ -1,5 +1,5 @@
 Population(numPeopleInFile):
-12
+30
 EntryTemplate:
 Name
 	Money
