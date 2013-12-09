@@ -9,6 +9,7 @@ import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
 import simcity.BRestaurant.*;
+import simcity.TRestaurant.THostRole;
 
 
 
@@ -177,5 +178,8 @@ public class BCashierRole extends Role implements BCashier {
             cook = c;
     }
 
+    public void setHost(BHostRole h) {
+		host = h;
+	}
         
 }    

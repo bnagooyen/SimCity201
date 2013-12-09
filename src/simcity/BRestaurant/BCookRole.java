@@ -14,6 +14,7 @@ import simcity.KRestaurant.ProducerConsumerMonitor;
 import simcity.KRestaurant.KCookRole.marketOrderState;
 import simcity.KRestaurant.KCookRole.orderState;
 import simcity.Market.MFoodOrder;
+import simcity.TRestaurant.THostRole;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -325,6 +326,10 @@ public class BCookRole extends Role implements BCook, Cook {
         private void msgTimeToCheckStand() {
                 stateChanged();
         }
+        
+        public void setHost(BHostRole h) {
+    		host = h;
+    	}
 
 
 
