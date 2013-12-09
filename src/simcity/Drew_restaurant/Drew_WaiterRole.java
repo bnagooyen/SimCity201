@@ -2,12 +2,14 @@ package simcity.Drew_restaurant;
 
 import agent.Role;
 import simcity.PersonAgent;
+import simcity.Drew_restaurant.gui.Drew_CookGui;
 import simcity.Drew_restaurant.gui.Drew_WaiterGui;
 import simcity.Drew_restaurant.gui.Menu;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
@@ -37,6 +39,7 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 	{waiting, seated,readyToOrder,askedToOrder, ordered, waitingForFood, foodReady, eating, billReady,paying, done};
 
 	public Drew_WaiterGui waitergui=null;
+	public SimCityGui gui=null;
 	
 	public void addCashier(Drew_Cashier c){
 		cashier=c;
@@ -50,7 +53,7 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 		this.cook = cook;
 	}
 	
-	public Drew_WaiterRole() {
+	public Drew_WaiterRole(SimCityGui gui) {
 		super();
 		//this.name = name;
 	}
@@ -384,6 +387,10 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 	private void tellHostIAmHere(){
 		host.msgIAmHere(this);
 		waiterstate=WaiterState.working;
+		if(gui == null) {
+			waitergui = new Drew_WaiterGui(this,1);
+			gui.myPanels.get("Restaurant 2").panel.addGui(waitergui);
+		}
 	}
 	
 	private void leaveBank(){

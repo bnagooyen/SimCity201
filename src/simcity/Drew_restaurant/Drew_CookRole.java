@@ -6,9 +6,11 @@ import simcity.PersonAgent;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
+import simcity.Bank.gui.BankManagerGui;
 import simcity.Drew_restaurant.gui.Drew_CookGui;
 import simcity.Market.MFoodOrder;
 import simcity.interfaces.MarketCashier;
@@ -48,6 +50,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	
 	private Semaphore atDest = new Semaphore(0,true);
 	private Drew_CookGui gui= null;
+	private SimCityGui simGui = null;
 
 
 	private String name;
@@ -70,11 +73,11 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	public enum State 
 	{pending, cooking, done, finished};
 
-	public Drew_CookRole() {
+	public Drew_CookRole(SimCityGui G) {
 		super();
 		this.name = name;
 		cookstate=CookState.arrived;
-		
+		simGui=G;
 		
 		//Initialize food amount
 		startingFoodAmount.put("chicken", 5);
@@ -364,6 +367,10 @@ Do("UNCOMMENT 289");//			market.msgIAmHere(this, toOrder, "Drew_restaurant", "co
 	private void tellHostIAmHere(){
 		host.msgIAmHere(this);
 		cookstate=CookState.working;
+		if(gui == null) {
+			gui = new Drew_CookGui(this);
+			simGui.myPanels.get("Restaurant 2").panel.addGui(gui);
+		}
 	}
 	
 	private void leaveBank(){

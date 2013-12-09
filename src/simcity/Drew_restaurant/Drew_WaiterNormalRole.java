@@ -1,14 +1,15 @@
 package simcity.Drew_restaurant;
 
 import simcity.PersonAgent;
+import simcity.gui.SimCityGui;
 import simcity.interfaces.*;
 
 
 
 public class Drew_WaiterNormalRole extends Drew_WaiterRole implements Drew_Waiter{
 
-	public Drew_WaiterNormalRole() {
-		super();
+	public Drew_WaiterNormalRole(SimCityGui gui) {
+		super(gui);
 	}
 
 	@Override
