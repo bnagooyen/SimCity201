@@ -217,7 +217,7 @@ public class PersonGui implements Gui {
 
 			if(command==Command.GoToRestaurant ||command==Command.GoHome||command==Command.other) {
 				agent.msgAnimationArivedAtRestaurant();
-
+				isPresent = false; 
 
 
 			}
