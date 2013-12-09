@@ -146,7 +146,7 @@ public class PersonAgent extends Agent implements Person {
 		// if job is a manager/host, send timeupdate
 		if(myJob instanceof BankManagerRole || myJob instanceof MarketManagerRole || myJob instanceof Host) {
 			if(myJob.isActive) {
-				myJob.timeUpdate(hr);
+				myJob.msgTimeUpdate(hr);
 			}
 		}
 		hungerLevel+=10;
