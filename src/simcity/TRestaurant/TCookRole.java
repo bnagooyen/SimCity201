@@ -15,6 +15,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
+import simcity.Drew_restaurant.Drew_CookRole.Order;
 import simcity.Market.MFoodOrder;
 import simcity.TRestaurant.gui.TCookGui;
 
@@ -266,7 +267,7 @@ public class TCookRole extends Role implements TCook, Cook {
 			return true; 
 		}
 		else {
-			checkOrders(); 
+			checkOrders();
 		}
 
      return false; 
@@ -332,7 +333,14 @@ public class TCookRole extends Role implements TCook, Cook {
 	private void checkOrders() {
 		RotatingOrders newOrder = myStand.remove();
 		if (newOrder != null) {
-			
+			Orders o = new Orders(); 
+			o.setWaiter(newOrder.w); 
+			o.setTable(newOrder.table);
+			o.setOrder(newOrder.choice);
+			orders.add(o); 
+			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCookRole", "Cook has received customer orders");
+			Do("Cook has received customer orders.");
+			stateChanged();
 		}
 		else {
 			timer.schedule(new TimerTask() {
