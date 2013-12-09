@@ -4,6 +4,7 @@ import simcity.PersonAgent;
 import simcity.LRestaurant.LRestaurantOrder;
 import simcity.LRestaurant.ProducerConsumerMonitor;
 import simcity.LRestaurant.LWaiterRole.CustomerState;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.LWaiter;
@@ -13,9 +14,14 @@ public class LWaiterSharedDataRole extends LWaiterRole implements LWaiter{
 
 	private ProducerConsumerMonitor theMonitor;
 	
-	public LWaiterSharedDataRole() {
-		super();
+//	public LWaiterSharedDataRole() {
+//		super();
+//		// TODO Auto-generated constructor stub
+//	}
+
+	public LWaiterSharedDataRole(SimCityGui gui) {
 		// TODO Auto-generated constructor stub
+		super(gui);
 	}
 
 	@Override

@@ -3,9 +3,11 @@ package simcity.LRestaurant;
 import agent.Role;
 import simcity.LRestaurant.LCookRole.OrderState;
 import simcity.LRestaurant.LCustomerRole.AgentEvent;
+import simcity.LRestaurant.gui.LCookGui;
 import simcity.LRestaurant.gui.LWaiterGui;
 import simcity.LRestaurant.LMenu;
 import simcity.PersonAgent;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Host;
@@ -52,6 +54,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         LCook cook;
         LHost host;
         LCashier cashier;
+        SimCityGui gui;
 
         public enum WaiterState{working, wantBreak, askingBreak, canGoOn, onBreak, checkingIn, backFromBreak, leaving, unavailable};
 
@@ -59,13 +62,14 @@ public abstract class LWaiterRole extends Role implements LWaiter{
 
         int numCust = 0;
 
-        public LWaiterRole() {
+        public LWaiterRole(SimCityGui g) {
                 super();
                 //this.name = p.getName();
                 onBreak = false;
                 waiterState = WaiterState.working;
                 log = new EventLog();
                 here = true;
+                gui = g;
         }
 
 //        public WaiterRole() {
@@ -325,6 +329,10 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         // Actions
 
         private void tellHost(){
+        	if(waiterGui == null){
+    			waiterGui = new LWaiterGui(this, "LWaiterGui");
+    			gui.myPanels.get("Restaurant 1").panel.addGui(waiterGui);
+    		}
     		host.msgIAmHere(this, "cashier");
     		here = false;
     	}
