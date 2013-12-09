@@ -177,11 +177,11 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-		waitergui.idle=false;
 		if(waiterstate==WaiterState.arrived){
 			tellHostIAmHere();
 			Do("TOLD HOST IM HERE (P&E DREW_WAITERROLE)");
 		}
+		waitergui.idle=false;
 		try{
 		//synchronized(customers){
 			for (MyCustomer customer : customers) {
@@ -389,10 +389,13 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 	private void tellHostIAmHere(){
 		host.msgIAmHere(this);
 		waiterstate=WaiterState.working;
-		if(gui == null) {
+		Do("gettin close (DREW_WAITERROLE tellhostIamhere())");
+		if(waitergui == null) {
+			Do("I MADE A GUI, I MADE A GUI! (DREW_WAITERROLE tellhostIamhere())");
 			waitergui = new Drew_WaiterGui(this,1);
 			gui.myPanels.get("Restaurant 2").panel.addGui(waitergui);
 		}
+		Do("waitergui--->     "+waitergui);
 	}
 	
 	private void leaveBank(){

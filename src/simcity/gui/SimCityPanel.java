@@ -1435,7 +1435,7 @@ public class SimCityPanel extends JPanel {
 			//Drew_WaiterGui g = new Drew_WaiterGui(aw, 1);
 			//aw.setGui(g);
 			waiters.add(aw);
-			((Drew_Host)host).addWaiter(aw);
+			//((Drew_Host)host).addWaiter(aw);
 			System.out.println("zxcvbnm"+host);
 			return aw;
 			
@@ -1493,11 +1493,11 @@ public class SimCityPanel extends JPanel {
 			aw.setCook((Drew_Cook)cook);
 			aw.addCashier((Drew_Cashier)cashier);
 			aw.setHost((Drew_Host)host);
-			Drew_WaiterGui g = new Drew_WaiterGui(aw, 1);
-			aw.setGui(g);
+			//Drew_WaiterGui g = new Drew_WaiterGui(aw, 1);
+			//aw.setGui(g);
 			//Drew_WaiterGui g = new Drew_WaiterGui(w, , waiters.size()+1);
 			waiters.add(aw);
-			((Drew_Host)host).addWaiter(aw);
+			//((Drew_Host)host).addWaiter(aw);
 			return aw;
 			
 			case 5: 
