@@ -875,7 +875,6 @@ public class SimCityPanel extends JPanel {
 				p.SetHomeAddress("Homeless Shelter");
 			}
 
-			PersonGui g = new PersonGui(p, gui);
 			if(houseOrApt.equals("House")) {
 				ResidentGui rg = new ResidentGui(p);
 				p.setGui(rg);
@@ -887,9 +886,7 @@ public class SimCityPanel extends JPanel {
 				String tempAddress = p.homeAddress.substring(0, p.homeAddress.length()-1);
 				gui.myPanels.get(tempAddress).panel.addGui(tg);
 			}
-			g.setPresent(true);
-			p.setGui(g);
-			gui.city.addGui(g);
+
 
 
 			//Add Job 
@@ -1215,6 +1212,10 @@ public class SimCityPanel extends JPanel {
 				System.out.println(role+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			}
 
+			PersonGui g = new PersonGui(p, gui);
+			g.setPresent(true);
+			p.setGui(g);
+			gui.city.addGui(g);
 			p.startThread();
 			people.add(p);
 		}
