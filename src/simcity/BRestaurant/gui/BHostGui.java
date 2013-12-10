@@ -19,7 +19,7 @@ public class BHostGui implements Gui {
         BRestaurantGui gui;
         private int mycounter;
         private int xPos = 10, yPos = 10;//default waiter position
-        private int xDestination = 10, yDestination = 10;//default start position
+        private int xDestination = 20, yDestination = 20;//default start position
 
         public static final int xTable = 50;
         public static final int yTable = 150;
@@ -172,8 +172,8 @@ public class BHostGui implements Gui {
         }
 
         public void DoLeaveCustomer() {
-                xDestination = 10*mycounter;
-                yDestination = 10;
+                xDestination = 20*mycounter;
+                yDestination = 20;
                 while(xPos != xDestination || yPos!= yDestination){
                         System.out.println("");
                         }
