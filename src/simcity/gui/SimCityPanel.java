@@ -894,6 +894,8 @@ public class SimCityPanel extends JPanel {
 			//Managers&Hosts
 			if(role.equals("Inventory Person")){
 //				this.LoadScenario("config1");
+				p.hungerLevel=100;
+				p.RestChoice="Restaurant 2";
 			}
 			if(role.equals("Bank Manager")){
 				Integer bankChoice;
@@ -1602,13 +1604,13 @@ public class SimCityPanel extends JPanel {
 			int counter= 0;
 			@Override
 			public void run() {
-				if(counter <25) {
+				if(counter <24) {
 					System.out.println("hour is " + counter);
 					for(Person p: people) {
 						p.msgTimeUpdate(counter);
 					}
 					counter++;
-					if (counter == 25) {
+					if (counter == 24) {
 						counter = 1;
 					}
 				}

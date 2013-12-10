@@ -30,6 +30,7 @@ public class TCustomerGui implements Gui{
 		yPos = -20;
 		xDestination = xWait;
 		yDestination = yWait;
+		isPresent = true; 
 		//maitreD = m;
 		//this.gui = gui;
 	}

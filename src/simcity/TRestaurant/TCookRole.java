@@ -341,7 +341,6 @@ public class TCookRole extends Role implements TCook, Cook {
 	
 	private void checkOrders() {
 		RotatingOrders newOrder = myStand.remove();
-		print("Checking order stand.");
 		if (newOrder != null) {
 			Orders o = new Orders(); 
 			o.setWaiter(newOrder.w); 

@@ -81,8 +81,8 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 	// Messages
 	
 	public void msgGoHome() {
-		state=AgentState.Paying;
-		event=AgentEvent.donePaying;
+		state=AgentState.Leaving;
+		event=AgentEvent.doneLeaving;
 		stateChanged();
 	}
 
@@ -232,7 +232,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 		}
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
 			state = AgentState.DoingNothing;
-			//no action
+			DoGoHome(); 
 			return true;
 		}
 		return false;
@@ -244,10 +244,12 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewCustomer", "Going to restaurant");
 		Do("Going to restaurant");
 		host.whatIsWait(this);
-		if(gui == null) {
+		if(customerGui == null) {
 			customerGui = new Drew_CustomerGui(this, (Drew_HostRole) host);
 			gui.myPanels.get("Restaurant 2").panel.addGui(customerGui);
+			Do("plfghjk");
 		}
+		Do("YAYAYAYAYA");
 		customerGui.DoGetInLine(numberAhead);
 		try {
 			inLine.acquire();
@@ -383,6 +385,10 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 				print("CUSTOMER LEAVING BECAUSE OF WAIT!!!!!!!!CUSTOMER LEAVING BECAUSE OF WAIT!!");
 			}
 		}
+	}
+	
+	private void DoGoHome() {
+		customerGui.DoExitRestaurant();
 	}
 
 	// Accessors, etc.

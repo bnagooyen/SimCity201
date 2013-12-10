@@ -10,7 +10,7 @@ import java.awt.*;
 public class CustomerGui implements Gui{
 
 	private Drew_CustomerRole agent = null;
-	private boolean isPresent = false;
+	private boolean isPresent = true;
 	public boolean isHungry = false;
 
 	private Drew_HostRole host;
@@ -33,11 +33,12 @@ public class CustomerGui implements Gui{
 
 	public CustomerGui(Drew_CustomerRole c/*, RestaurantGui gui*/, Drew_HostRole m) {
 		agent = c;
-		xPos = 400;
-		yPos = -40;
-		xDestination = -40;
-		yDestination = -40;
+		xPos = 40;
+		yPos = 40;
+		xDestination = 40;//-40;
+		yDestination = 40;//-40;
 		host = m;
+		isPresent=true;
 		//this.gui = gui;
 	}
 
