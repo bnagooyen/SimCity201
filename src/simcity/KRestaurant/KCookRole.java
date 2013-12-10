@@ -401,7 +401,7 @@ public class KCookRole extends Role implements Cook{
 		System.out.println(myPerson.getName() + ": " +"going to grill " +o.grill);
 		o.gui = new KMovingFoodGui(this, (KWaiter) o.w, gui, (o.grill *20) + 5, o.choice);
 		if(gui != null) {
-		gui.myPanels.get("Restaurant 1").panel.addGui((Gui) o.gui);
+		gui.myPanels.get("Restaurant 4").panel.addGui((Gui) o.gui);
 		}
 		cookGui.DoCookFood(o.grill);
 		try{
