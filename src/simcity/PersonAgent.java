@@ -121,7 +121,7 @@ public class PersonAgent extends Agent implements Person {
 	Map<String, Double> marketPrices = new HashMap<String, Double>();
 
 	//visitor boolean
-	boolean goToAll;
+	public boolean goToAll;
 
 	//Constructor
 	public PersonAgent(String name) {
