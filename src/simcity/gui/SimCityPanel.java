@@ -1213,7 +1213,7 @@ public class SimCityPanel extends JPanel {
 			}
 
 			PersonGui g = new PersonGui(p, gui);
-			g.setPresent(true);
+			//g.setPresent(true);
 			p.setGui(g);
 			gui.city.addGui(g);
 			p.startThread();
