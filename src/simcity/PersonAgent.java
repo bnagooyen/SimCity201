@@ -374,7 +374,9 @@ public class PersonAgent extends Agent implements Person {
 				return true;
 			}
 			else if(tourState.equals(NextLoc.home)){
+				print("SHOULD BE GOING HOME");
 				tourState = NextLoc.done;
+				goToAll = false; 
 				GoHome();
 				return true;
 			}
