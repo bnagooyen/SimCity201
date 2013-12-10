@@ -23,11 +23,7 @@ public class BWaiterSharedDataRole extends BWaiterRole implements BWaiter{
                 Do(": sending cook order of " + c.choice);
                 c.cusState = customerState.noAction;
                 //waiterGui.DoGoToCook();
-                try {
-                        atCook.acquire();
-                } catch (InterruptedException e) {
-                        e.printStackTrace();
-                }
+                
                 BRotatingOrders o = new BRotatingOrders(this, c.choice, c.tablenumber);
                 theMonitor.insert(o);
                 //waiterGui.DoLeaveCustomer();

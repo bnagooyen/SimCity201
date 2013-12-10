@@ -108,6 +108,7 @@ public abstract class BWaiterRole extends Role implements BWaiter{
                 thisCustomer.tablenumber=tableNum;
                 thisCustomer.cusState=customerState.needtobeSeated;
                 myCustomers.add(thisCustomer);
+                
         }
 
 
@@ -207,7 +208,7 @@ public abstract class BWaiterRole extends Role implements BWaiter{
                 for(myCustomer thiscustomer : myCustomers){
                         if(thiscustomer.c==customer){
                                 thiscustomer.cusState=customerState.needCheck;
-                                print("checktest");
+                                
                                 stateChanged();
                         }
                 }
@@ -233,6 +234,7 @@ public abstract class BWaiterRole extends Role implements BWaiter{
                         
                         if(arrived){
                                 tellHost();
+                                
                         }
                         
                         try{
@@ -282,6 +284,7 @@ public abstract class BWaiterRole extends Role implements BWaiter{
                         try{
                         for (myCustomer customer : myCustomers) {
                                 if (customer.cusState==customerState.needCheck) {
+                                	
                                         giveCheck(customer);
                                         return true;
                                 }
@@ -396,6 +399,7 @@ public abstract class BWaiterRole extends Role implements BWaiter{
             }
           
           private void giveCheck(myCustomer customer){
+        	  
                   BCheck thischeck=new BCheck(customer.choice);
                   cashier.msgCashierCheck(thischeck, customer.c);
                   customer.cusState=customerState.noAction;
@@ -429,9 +433,9 @@ public abstract class BWaiterRole extends Role implements BWaiter{
         
 
         private void giveFood(myCustomer customer){
-                //hostGui.DoGoToPlating();
-                //hostGui.DoGoToCustomer(customer.tablenumber);
-                //hostGui.DoLeaveCustomer();
+                hostGui.DoGoToPlating();
+                hostGui.DoGoToCustomer(customer.tablenumber);
+                hostGui.DoLeaveCustomer();
                 customer.cusState = customerState.noAction;
                 customer.c.msgHereisYourOrder(customer.choice);
         }

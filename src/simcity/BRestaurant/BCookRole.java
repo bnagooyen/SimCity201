@@ -35,7 +35,7 @@ public class BCookRole extends Role implements BCook, Cook {
         
         public BCookRole() {// , List<BMarketRole> markets) {
                         super();
-                        
+                        arrived=true;
                         this.name=name;
                         
                         foodStock.put("steak",new BFood("steak", 10, 5,4,5,16,0));
@@ -100,7 +100,7 @@ public class BCookRole extends Role implements BCook, Cook {
 		}
 
         public void msgHereisanOrder(BWaiter w, String choice, int tablenumber){
-
+        	
                 Order thisOrder = new Order();
                 thisOrder.choice=choice;
                 thisOrder.tablenumber=tablenumber;
@@ -173,21 +173,24 @@ public class BCookRole extends Role implements BCook, Cook {
                 }
                 
                 synchronized(pendingOrders) {
+                    for (Order order : pendingOrders){
+                            if(order.status==Status.pending){
+                            	
+                                    CookFood(order);
+                                    foodFinished(order);
+                                    return true;
+                            }
+                    }
+            }
+                
+                synchronized(pendingOrders) {
                         for (Order order : pendingOrders){
                                 if(order.status==Status.done)
                                         placeOrderDown(order);
                                 return true;
                         }
                 }
-                synchronized(pendingOrders) {
-                        for (Order order : pendingOrders){
-                                if(order.status==Status.pending){
-                                        CookFood(order);
-                                        foodFinished(order);
-                                        return true;
-                                }
-                        }
-                }
+                
                 if(alreadyOrdered==false){
                         synchronized(foodStock) {
                                 for(Map.Entry<String, BFood> food : foodStock.entrySet()) {
@@ -221,7 +224,7 @@ public class BCookRole extends Role implements BCook, Cook {
       		  AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BCook", "telling manager I'm here at work");
               Do("telling manager I'm here at work");
               arrived = false;
-              host.msgIAmHere(this, "cashier");
+              host.msgIAmHere(this, "cook");
           }
           
         private void CookFood(Order order){

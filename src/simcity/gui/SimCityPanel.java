@@ -921,7 +921,7 @@ public class SimCityPanel extends JPanel {
 			if(role.equals("Inventory Person")){
 //				this.LoadScenario("config1");
 				p.hungerLevel=100;
-				p.RestChoice="Restaurant 6";
+				p.RestChoice="Restaurant 5";
 			}
 			if(role.equals("Bank Manager")){
 				Integer bankChoice;
@@ -1395,10 +1395,11 @@ public class SimCityPanel extends JPanel {
 			break;
 			case 5: host = new BHostRole();
 			cook = new BCookRole();
+			cashier = new BCashierRole();
 			((BHostRole)host).setCook((BCookRole)cook);
 			
 			
-			cashier = new BCashierRole();
+			
 			((BHostRole)host).setCashier((BCashierRole)cashier);
 			((BCookRole) cook).setHost((BHostRole)host);
 			((BCookRole)cook).setCashier((BCashierRole)cashier);

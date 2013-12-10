@@ -107,7 +107,7 @@ public class BCustomerRole extends Role implements BCustomer {
         }
 
         public void msgAnimationFinishedGoToSeat() {
-                //from animation
+                print("received messgage at seat");
                 event = AgentEvent.seated;
                 stateChanged();
         }
@@ -129,6 +129,7 @@ public class BCustomerRole extends Role implements BCustomer {
         }
         
         public void msgHereisYourCheck(BCheck check){
+        	
                 mycheck=check;
                 event=AgentEvent.receivedCheck;
                 stateChanged();
@@ -203,7 +204,7 @@ public class BCustomerRole extends Role implements BCustomer {
                         
                         state = AgentState.DoingNothing;
                         payCheck();
-                        //leaveTable();
+                        leaveTable();
                         return true;
                 }
                 
@@ -220,7 +221,9 @@ public class BCustomerRole extends Role implements BCustomer {
                 Do("Going to restaurant");
                 if(customerGui == null){
         			customerGui = new BCustomerGui(this, "BCustomerGui");
+        			customerGui.setPresent(true);
         			gui.myPanels.get("Restaurant 5").panel.addGui(customerGui);
+        			
         		}
                 host.msgIWantFood(this);//send our instance, so he can respond to us
         }
@@ -288,6 +291,12 @@ public class BCustomerRole extends Role implements BCustomer {
                 waiter.msgIWantCheck(this);
                 stateChanged();
         }
+        
+        private void leaveTable() {
+            Do("Leaving.");
+            host.msgLeavingTable(this);
+            customerGui.DoExitRestaurant();
+    }
 
 
         private void EatFood() {
