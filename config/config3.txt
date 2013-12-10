@@ -1,5 +1,5 @@
 Population(numPeopleInFile):
-31
+33
 EntryTemplate:
 Name
 	Money
@@ -161,3 +161,13 @@ Andreen
 	Visitor
 	Walk
 	House
+2Visitor
+	1000
+	Visitor
+	Bus
+	Apartment
+3Visitor
+	1000
+	Visitor
+	Car
+	Apartment
