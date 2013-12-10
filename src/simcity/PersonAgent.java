@@ -146,7 +146,7 @@ public class PersonAgent extends Agent implements Person {
         marketPrices.put("Pizza", 5.0);
         Random rand = new Random();
         RestChoice= "Restaurant "+ Integer.toString(rand.nextInt(6)+1);
-        tourState = NextLoc.m1;
+        tourState = NextLoc.r1;
 		
 	}
 
@@ -306,24 +306,32 @@ public class PersonAgent extends Agent implements Person {
 
 			if(tourState.equals(NextLoc.m1)){
 				MarketChoice = "Market 1";
-				tourState = NextLoc.r1;
+				money = 500;
+				kitchenAmount = 0;
+				tourState = NextLoc.home;
 				GoToMarket();
 				return true;
 			}
 			else if(tourState.equals(NextLoc.m2)){
 				MarketChoice = "Market 2";
+				money = 500;
+				kitchenAmount = 0;
 				tourState = NextLoc.r2;
 				GoToMarket();
 				return true;
 			}
 			else if(tourState.equals(NextLoc.m3)){
 				MarketChoice = "Market 3";
+				money = 500;
+				kitchenAmount = 0;
 				tourState = NextLoc.b2;
 				GoToMarket();
 				return true;
 			}
 			else if(tourState.equals(NextLoc.m4)){
 				MarketChoice = "Market 4";
+				money = 500;
+				kitchenAmount = 0;
 				tourState = NextLoc.r6;
 				GoToMarket();
 				return true;
@@ -331,7 +339,7 @@ public class PersonAgent extends Agent implements Person {
 			else if(tourState.equals(NextLoc.b1)){
 				BankChoice = "Bank 1";
 				money = 1000;
-				tourState = NextLoc.home;
+				tourState = NextLoc.m1;
 				GoToBank();
 				return true;
 			}
@@ -344,7 +352,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 			else if(tourState.equals(NextLoc.r1)){
 				RestChoice = "Restaurant 1";
-				tourState = NextLoc.r3;
+				tourState = NextLoc.m2;//was r3
 				GoToRestaurant();
 				return true;
 			}
@@ -368,7 +376,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 			else if(tourState.equals(NextLoc.r5)){
 				RestChoice = "Restaurant 5";
-				tourState = NextLoc.m2;
+				tourState = NextLoc.r3;//was m2
 				GoToRestaurant();
 				return true;
 			}
@@ -379,9 +387,11 @@ public class PersonAgent extends Agent implements Person {
 				return true;
 			}
 			else if(tourState.equals(NextLoc.home)){
-				print("SHOULD BE GOING HOME");
-				tourState = NextLoc.done;
-				goToAll = false; 
+//				print("SHOULD BE GOING HOME");
+				tourState = NextLoc.done; 
+				goToAll = false;
+				money = 75;
+				hungerLevel = 0;
 				GoHome();
 				return true;
 			}
@@ -623,6 +633,7 @@ public class PersonAgent extends Agent implements Person {
 
 		DoGoTo(MarketChoice);
 		int mktCustomerNum = Integer.parseInt(MarketChoice.substring(MarketChoice.length()-1));
+//		print("MKTCUSTOMERNUM: "+mktCustomerNum);
 
 		if (myTravelPreference == TravelPreference.walk) {
 			Do("Going to "+MarketChoice);
@@ -649,11 +660,14 @@ public class PersonAgent extends Agent implements Person {
 			for(Role r: roles) {
 				if(r instanceof MarketCustomerRole) {
 					if(((MarketCustomerRole)(r)).num == mktCustomerNum) {
-
+						
 						((MarketCustomerRole) r).populateOrderList("Steak", amountOrdering);
 						((MarketCustomerRole) r).populateOrderList("Chicken", amountOrdering);
 						((MarketCustomerRole) r).populateOrderList("Salad", amountOrdering);
 						((MarketCustomerRole) r).populateOrderList("Pizza", amountOrdering);
+						
+						print("STATE OF CUSTOMER IN GO TO: "+((MarketCustomerRole)r).state);
+						
 						r.isActive = true;
 						
 					}
@@ -694,10 +708,11 @@ public class PersonAgent extends Agent implements Person {
 			for(Role r: roles) {
 				if(r instanceof BankCustomerRole) {
 					if(((BankCustomerRole)(r)).num == bCustomerNum){
-						r.isActive = true;
+						
 						if(money>depositThreshold) r.purpose="deposit";
 						else if(money<withdrawalThreshold) r.purpose="withdraw";
 						//else r.purpose="loan";
+						r.isActive = true;
 					}
 					break;
 				}
@@ -894,6 +909,9 @@ public class PersonAgent extends Agent implements Person {
 	public void addCustomerRoles(ArrayList<Role> arrayList) {
 		//for (Role r: roles) {
 		for(Role r: arrayList) {
+//			if(r instanceof MarketCustomerRole){
+//				print("NUMBERRR: "+((MarketCustomerRole)r).num);
+//			}
 			roles.add(r);
 		}
 		//}
