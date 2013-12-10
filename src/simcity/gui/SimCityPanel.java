@@ -221,7 +221,7 @@ public class SimCityPanel extends JPanel {
 	private BankManagerRole Bmanager;
 	private BankTellerRole Bteller;
 	private BankLoanOfficerRole Bloanofficer;
-
+ 
 
 	public SimCityPanel(SimCityGui gui, CityPanel city) {
 		this.gui = gui;
