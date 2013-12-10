@@ -154,9 +154,25 @@ public class LCookRole extends Role implements LCook, Cook {
 			}
 			
 			for(MFoodOrder f : delivery) {
+				Food currentFood = null;
 				Do("got " + f.amount + " of " + f.type);
-				Food currentFood = foods.get(f.type);
-				foods.get(f.type).state = MarketState.noOrder;
+				if(f.type == "Steak"){
+					currentFood = foods.get("St");
+					foods.get("St").state = MarketState.noOrder;
+				}
+				else if(f.type == "Chicken"){
+					currentFood = foods.get("Ch");
+					foods.get("Ch").state = MarketState.noOrder;
+				}
+				else if(f.type == "Pizza"){
+					currentFood = foods.get("P");
+					foods.get("P").state = MarketState.noOrder;
+				}
+				else if(f.type == "Salad"){
+					currentFood = foods.get("S");
+					foods.get("S").state = MarketState.noOrder;
+				}
+				
 				currentFood.amount += f.amount;
 			}
 			
@@ -305,7 +321,19 @@ public class LCookRole extends Role implements LCook, Cook {
 			
 			//inserting food that needs to be ordered
 			List<MFoodOrder> needed = new ArrayList<MFoodOrder>();
-			needed.add(new MFoodOrder(choice, orderAmount));
+			
+			if(choice == "St"){
+				needed.add(new MFoodOrder("Steak", orderAmount));
+			}
+			else if(choice == "Ch"){
+				needed.add(new MFoodOrder("Chicken", orderAmount));
+			}
+			else if(choice == "P"){
+				needed.add(new MFoodOrder("Pizza", orderAmount));
+			}
+			if(choice == "S"){
+				needed.add(new MFoodOrder("Salad", orderAmount));
+			}
 			
 			//choosing market to order from randomly
 			Random rand = new Random();

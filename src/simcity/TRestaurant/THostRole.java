@@ -80,7 +80,7 @@ public class THostRole extends Role implements Host {
 			Do("Cook is here");
 			cook = (TCookRole)r;
 		}
-		else if(type.equals("cashier")){
+		else if(type.equals("Cashier")){
 			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Cashier is here");
 			Do("Cashier is here");
 			cashier = (TCashierRole) r;

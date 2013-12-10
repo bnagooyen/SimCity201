@@ -437,6 +437,8 @@ public class LCustomerRole extends Role implements LCustomer{
                 		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Heading to bank");
                         goToBank();
                 }
+                
+                isActive = false;
         }
 
         private void goToBank(){

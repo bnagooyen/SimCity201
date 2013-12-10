@@ -141,10 +141,10 @@ public class DCookGui implements Gui {
 
         else if (xPos == xDestination && yPos == yDestination)
         {
-        		if(command==Command.GoToKitchen) {
-        			agent.msgAnimationArrivedAtKitchen();
-        		}
-        		else if(command==Command.GoHome) {
+//        		if(command==Command.GoToKitchen) {
+//        			agent.msgAnimationArrivedAtKitchen();
+//        		}
+        		if(command==Command.GoHome) {
         			agent.msgAnimationLeftRestaurant();
         		}
         		else if (command==Command.GoToFridge) {
