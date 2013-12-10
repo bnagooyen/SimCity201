@@ -738,6 +738,7 @@ public class SimCityPanel extends JPanel {
             Business b = (Business) pairs.getValue();
             b.down = false;
         }
+        
     }
 
     /**
@@ -862,6 +863,7 @@ public class SimCityPanel extends JPanel {
 			//    		System.out.println("added");
 			PersonAgent p = new PersonAgent(name);
 			p.setMoney(money);
+			p.setDirectory(directory);
 			p.SetTravelPreference(transport);
 			CarAgent car=new CarAgent();
 			CarGui cgui=new CarGui(car, gui);
@@ -921,7 +923,7 @@ public class SimCityPanel extends JPanel {
 			if(role.equals("Inventory Person")){
 //				this.LoadScenario("config1");
 				p.hungerLevel=100;
-				p.RestChoice="Restaurant 3";
+				p.RestChoice="Restaurant 5";
 			}
 			if(role.equals("Bank Manager")){
 				Integer bankChoice;
@@ -1236,7 +1238,7 @@ public class SimCityPanel extends JPanel {
 
 
 			//TAKE THIS TIME UPDATE AWAY, JUST FOR TESTING 
-			if(p.myJob!=null)p.msgTimeUpdate(p.myJob.startHour-1);
+			//if(p.myJob!=null)p.msgTimeUpdate(p.myJob.startHour-1);
 			else{
 				System.out.println(role+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			}
@@ -1395,10 +1397,11 @@ public class SimCityPanel extends JPanel {
 			break;
 			case 5: host = new BHostRole();
 			cook = new BCookRole();
+			cashier = new BCashierRole();
 			((BHostRole)host).setCook((BCookRole)cook);
 			
 			
-			cashier = new BCashierRole();
+			
 			((BHostRole)host).setCashier((BCashierRole)cashier);
 			((BCookRole) cook).setHost((BHostRole)host);
 			((BCookRole)cook).setCashier((BCashierRole)cashier);

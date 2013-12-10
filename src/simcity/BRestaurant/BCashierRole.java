@@ -32,7 +32,7 @@ public class BCashierRole extends Role implements BCashier {
     
     public BCashierRole() {
                 super();
-                
+                arrived=true;
                 
     }
     
@@ -138,7 +138,7 @@ public class BCashierRole extends Role implements BCashier {
     
     public void msgCashierCheck(BCheck check, BCustomer customer)
     {
-            
+    	
             myChecks.add(check);
             myCustomers.add(customer);
             synchronized(myCustomers) {

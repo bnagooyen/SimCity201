@@ -196,7 +196,7 @@ public class BHostRole extends Role implements BHost, Host{
                        myCashier = (BCashierRole) r;
                      }
                      
-                     if(!waiterList.isEmpty() && mycook != null && myCashier != null){
+                     else  if(!waiterList.isEmpty() && mycook != null && myCashier != null){
                        isClosed = false;
                      }
                      else{

@@ -96,7 +96,7 @@ public class RestaurantAnimationPanel5 extends BuildingAnimationPanel implements
         }
 
         for(Gui gui : guis) {
-            if (gui.isPresent()) {
+            if (gui.isPresent() ) {
                 gui.draw(g2);
             }
         }
