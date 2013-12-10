@@ -167,12 +167,12 @@ public class THostRole extends Role implements Host {
             If so seat him at the table.
 		 */
 		
-		if(hour == 20 && !isClosed){
+		if(hour == myPerson.directory.get(myPerson.jobLocation).closeHour && !isClosed){
 			closeRestaurant();
 			return true;
 		}
 		
-		if(hour == 21){
+		if(hour == myPerson.directory.get(myPerson.jobLocation).closeHour+1){
 			restaurantClosed();
 			return true;
 		}

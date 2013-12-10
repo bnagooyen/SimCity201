@@ -211,12 +211,12 @@ public class BHostRole extends Role implements BHost, Host{
          */
         public boolean pickAndExecuteAnAction() {
                 
-                  if(hour == 21 && !isClosed){
+                  if(hour == myPerson.directory.get(myPerson.jobLocation).closeHour && !isClosed){
               closeRestaurant();
               return true;
       }
       
-      if(hour == 20 || isClosed){
+      if(/*hour == myPerson.directory.get(myPerson.jobLocation).closeHour-1 || */isClosed){
               restaurantClosed();
               return true;
       }

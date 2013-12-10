@@ -76,7 +76,7 @@ public class KHostRole extends Role implements Host{
 		}
 		
 		theMonitor = new ProducerConsumerMonitor();
-		startHour = 10;
+		startHour = 9;
 	}
 
 	public String getMaitreDName() {
@@ -101,7 +101,7 @@ public class KHostRole extends Role implements Host{
 			restaurantMoney = 50000.0;
 		}
 		
-		if(hour == 11) {
+		if(hour == myPerson.directory.get(myPerson.jobLocation).openHour) {
 			isClosed = false;
 		}
 		stateChanged();
@@ -221,12 +221,12 @@ public class KHostRole extends Role implements Host{
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-		if(hour == 21 && !isClosed){
+		if(hour == myPerson.directory.get(myPerson.jobLocation).closeHour && !isClosed){
 			closeRestaurant();
 			return true;
 		}
 		
-		if(hour == 20){
+		if(hour == myPerson.directory.get(myPerson.jobLocation).closeHour-1){
 			restaurantClosed();
 			return true;
 		}
