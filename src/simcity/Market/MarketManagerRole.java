@@ -130,6 +130,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		}
 		
 		if(!cashiers.isEmpty() && !inventoryBoys.isEmpty()){
+			print("MARKET IS OPEN YO");
 			isClosed = false;
 		}
 		else{
@@ -197,7 +198,6 @@ public class MarketManagerRole extends Role implements MarketManager{
 			closeMarket();
 			return true;
 		}
-		
 		if(isClosed){
 			marketClosed();
 		}

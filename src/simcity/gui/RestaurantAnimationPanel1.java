@@ -88,7 +88,15 @@ public class RestaurantAnimationPanel1 extends BuildingAnimationPanel implements
 	    }
 	    
 	    public void actionPerformed(ActionEvent e) {
-			repaint();  //Will have paintComponent called
+			
+			
+		      for(Gui gui : guis) {
+		            if (gui.isPresent()) {
+		                gui.updatePosition();
+		            }
+		        }
+	    	
+	    	repaint();  //Will have paintComponent called
 		}
 
 	    public void paintComponent(Graphics g) {
@@ -116,11 +124,11 @@ public class RestaurantAnimationPanel1 extends BuildingAnimationPanel implements
 	        g2.fillRect(CookCookingX+2, CookCookingY+22, CookingW-8, CookingH-25);
 
 
-	        for(Gui gui : guis) {
-	            if (gui.isPresent()) {
-	                gui.updatePosition();
-	            }
-	        }
+//	        for(Gui gui : guis) {
+//	            if (gui.isPresent()) {
+//	                gui.updatePosition();
+//	            }
+//	        }
 
 	        for(Gui gui : guis) {
 	            if (gui.isPresent()) {

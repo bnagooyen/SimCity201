@@ -287,7 +287,7 @@ public class LHostRole extends Role implements LHost, Host {
          */
         public boolean pickAndExecuteAnAction() {
         		
-        	if(hour == myPerson.directory.get(myPerson.jobLocation).closeHour+1 && !isClosed){
+        	if(hour == myPerson.directory.get(myPerson.jobLocation).closeHour && !isClosed){
     			closeRestaurant();
     			return true;
     		}

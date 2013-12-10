@@ -2,6 +2,7 @@ package simcity.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -15,10 +16,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 //import com.sun.tools.javac.util.List;
+
+
 
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -50,6 +54,9 @@ public class CityPanel extends JPanel implements ActionListener {
     private BufferedImage market = null;
     
     public Timer timer;
+    
+    //time display of city
+    public int simCityTime =0 ;
 	
 	public CityPanel(SimCityGui city) {
 		this.setPreferredSize(new Dimension(CITY_WIDTH, CITY_HEIGHT));
@@ -119,7 +126,6 @@ public class CityPanel extends JPanel implements ActionListener {
 		timer =  new Timer(20, this);
     	timer.start();
 		
-
 
     	MouseListener mouseListener = createMouseListener();
     	   addMouseListener(mouseListener);
@@ -272,7 +278,8 @@ public class CityPanel extends JPanel implements ActionListener {
 			 g2.drawImage(houseL, 4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+3*housingLength+ sidewalkWidth+ 3*parkingGap,null);
 			 g2.drawImage(apartmentL, 4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap, null);
 			
-		 
+			
+
 		 //ROADS
 			int counter=0;
 			int i=yardSpace+housingWidth;
@@ -305,6 +312,13 @@ public class CityPanel extends JPanel implements ActionListener {
             g2.fillRect(475, 30, 10, 10);
             g2.fillRect(90, 345, 10, 10);
             g2.fillRect(475, 345, 10, 10);
+            
+            
+			 //draw time
+			 g2.setColor(Color.white);
+			 g2.setFont(new Font("Arial", Font.BOLD, 16));
+			 g2.drawString(Integer.toString(simCityTime), 4*yardSpace+7*housingWidth+8*sidewalkWidth+4*streetWidth+10, 20);
+			 
 		
 			//GUIS (ADJUST ORDER LATER)
 			

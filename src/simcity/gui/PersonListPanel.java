@@ -208,8 +208,13 @@ public class PersonListPanel extends JPanel implements ActionListener {
 //    		gui.simcityPanel.toggleTrackingOf(hack.getText());
 //    	}
     	
+//    	for(int i=0; i<pplList.size(); i++) {
+//    		System.err.println(pplList.get(i).getText());
+//    	}
+    	
     	for(int i=0; i<peopleTrackerCBs.size(); i++) {
     		if(e.getSource()==peopleTrackerCBs.get(i)) {
+        		System.err.println(pplList.get(i).getText() + " "+peopleTrackerCBs.get(i).isSelected());
     			System.err.println("Want to track "+ pplList.get(i).getText());
     			gui.simcityPanel.toggleTrackingOf(pplList.get(i).getText());
     		}
@@ -264,7 +269,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
             //button.addActionListener(this);
             //stateCB.addActionListener(this);
             //list.add(stateCB);
-            pplList.add(button);
+//            pplList.add(button);
             
             trackPerson.addActionListener(this);
             trackPerson.setFont(new Font("Arial", Font.ITALIC, 8));
@@ -339,7 +344,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
 
 
 
-	        pplList.add(button);
+//	        pplList.add(button);
 	           
 //	       	 	System.err.println("added button");
 	            
