@@ -37,7 +37,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
     private ArrayList<JComboBox> switchRoles = new ArrayList<JComboBox>();
     
     //array list for tracking
-    private ArrayList<JCheckBox> personTracker = new ArrayList<JCheckBox>();
+    private ArrayList<JCheckBox> peopleTrackerCBs = new ArrayList<JCheckBox>();
     
     private JComboBox scenarioSelection = new JComboBox();
     private JComboBox dayWeekendSelection = new JComboBox();
@@ -181,11 +181,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
      */
     @Override
 	public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == scenarioSelection){
-//        	System.err.println("changed to "+ scenarioSelection.getSelectedItem());
-//        	System.out.println((String)scenarioSelection.getSelectedItem());
-        	//UpdateToScenario((String)scenarioSelection.getSelectedItem());
-        }
+
     	if(e.getSource()==setScenario) {
     		scenarioSelection.setEnabled(false);
     		setScenario.setEnabled(false);
@@ -206,56 +202,11 @@ public class PersonListPanel extends JPanel implements ActionListener {
         		addPerson(userInput1, moneyVal, (String)roleSelection.getSelectedItem(), (String)houseOrApt.getSelectedItem(), (String)typeTransport.getSelectedItem());
         	else return;
         }
-//        else if(e.getSource() == addPersonAndSetHungryB) {
-//        	String userInput=(myPerson.getText()).trim();
-//        	if(!userInput.isEmpty())
-//        		addPerson(myPerson.getText(), true);
-//        	else return;
-//        }
-//        else {
-//        	// Isn't the second for loop more beautiful?
-//            /*for (int i = 0; i < list.size(); i++) {
-//                JButton temp = list.get(i);*/
-//        	for (int i=0; i<list.size(); i++){
-//                if (e.getSource() == list.get(i)) {
-////                	System.out.println("yup");
-////                	System.err.println(pplList.get(i).getText());
-//                    currentPerson=simCityPanel.showInfo(type, pplList.get(i).getText());
-////                    System.err.println(currentPerson);
-////                    if (currentPerson instanceof CustomerAgent) {
-////                    	list.get(i).setEnabled(false);
-////                        CustomerAgent c = (CustomerAgent) currentPerson;
-////                        c.getGui().setHungry();
-////                        //System.out.println("found!");
-////                        
-////                    }
-////                    else 
-//                    if (currentPerson instanceof PersonAgent) {
-////                    	System.out.println("yupyup");
-//                    	list.get(i).setEnabled(false);
-//                        PersonAgent p = (PersonAgent) currentPerson;
-//                        p.getGui().setHungry();
-//                 
-////                        System.err.println("found!");
-//                        
-//                    }
-////                    else if(currentPerson instanceof WaiterAgent) {
-////                    	WaiterAgent w = (WaiterAgent) currentPerson;
-////                    	if(((AbstractButton) e.getSource()).getText()=="Break?") {
-////                    		w.msgIWantABreak();
-////                    		//list.get(i).setEnabled(false);
-////                    	}
-////                    	else {
-////                    		w.msgOutOfBreak();
-////                    		list.get(i).setText("Break?");
-////                    		list.get(i).setEnabled(true);
-////                    		list.get(i).setSelected(false);
-////                    		
-////                    	}
-////                    }
-//                }
-//            }
-//        }
+    	for(int i=0; i<peopleTrackerCBs.size(); i++) {
+    		if(e.getSource()==peopleTrackerCBs.get(i)) {
+    			System.err.println("Want to track "+ pplList.get(i).getText());
+    		}
+    	}
     }
 
     /**
@@ -275,6 +226,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
             //button.setBorder(BorderFactory.createLineBorder(Color.black));
             adding.setBorder(BorderFactory.createRaisedBevelBorder());
             JComboBox switchRole = new JComboBox();
+            JCheckBox trackPerson = new JCheckBox("Track?");
             Dimension dim3 = new Dimension(120, 24);
             switchRole.setPreferredSize(dim3);
         	switchRole.addItem("Visitor");
@@ -297,7 +249,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
             button.setBackground(Color.white);
 
             Dimension paneSize = pane.getSize();
-            Dimension buttonSize = new Dimension(paneSize.width - 150,
+            Dimension buttonSize = new Dimension(paneSize.width - 200,
                     20);
             button.setPreferredSize(buttonSize);
             button.setMinimumSize(buttonSize);
@@ -307,8 +259,19 @@ public class PersonListPanel extends JPanel implements ActionListener {
             //list.add(stateCB);
             pplList.add(button);
             
+            trackPerson.addActionListener(this);
+            trackPerson.setFont(new Font("Arial", Font.ITALIC, 8));
+            
+            peopleTrackerCBs.add(trackPerson);
+            
+            
+            adding.add(trackPerson, BorderLayout.WEST);
             adding.add(button, BorderLayout.CENTER);
             adding.add(switchRole, BorderLayout.EAST);
+            
+        
+            
+            //view.add(trackPerson);
             view.add(adding);
             //simcityPanel.addPerson(name, role, moneyVal, houseOrApt);//puts customer on list
             gui.simcityPanel.addPerson("Person", name, moneyVal, role, houseOrApt, typeTransport);
@@ -335,6 +298,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
 
                
                JComboBox switchRole = new JComboBox();
+               JCheckBox trackPerson = new JCheckBox("Track?");
                Dimension dim3 = new Dimension(120, 24);
                switchRole.setPreferredSize(dim3);
                    switchRole.addItem("Visitor");
@@ -375,7 +339,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
             button.setBackground(Color.white);
 
             Dimension paneSize = pane.getSize();
-            Dimension buttonSize = new Dimension(paneSize.width - 150,
+            Dimension buttonSize = new Dimension(paneSize.width - 200,
                     20);
             button.setPreferredSize(buttonSize);
             button.setMinimumSize(buttonSize);
@@ -384,9 +348,21 @@ public class PersonListPanel extends JPanel implements ActionListener {
             //stateCB.addActionListener(this);
             //list.add(stateCB);
             pplList.add(button);
+            
+            trackPerson.addActionListener(this);
+            trackPerson.setFont(new Font("Arial", Font.ITALIC, 8));
+            
+            peopleTrackerCBs.add(trackPerson);
+            
+            adding.add(trackPerson, BorderLayout.WEST);
             adding.add(button, BorderLayout.CENTER);
             adding.add(switchRole, BorderLayout.EAST);
+            
+          
+            
+            //view.add(trackPerson);
             view.add(adding);
+            
     	}
     	validate();
     }
