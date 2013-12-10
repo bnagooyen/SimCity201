@@ -77,9 +77,9 @@ public class PersonAgent extends Agent implements Person {
 	private BusAgent bus;
 	private CarAgent myCar;
 
-	public String nearestStop="Stop1";
-	public String destStop="Stop3";
-	public String myDestination="House 5";
+	public String nearestStop="Stop4";
+	public String destStop;
+	public String myDestination;
 	//housing information
 	private Landlord myLandlord; 
 	private boolean needToPayRent = false; 
@@ -93,6 +93,7 @@ public class PersonAgent extends Agent implements Person {
 	//GUI
 	Semaphore atRestaurant = new Semaphore(0, true);
 	Semaphore atLocation = new Semaphore(0, true);
+	Semaphore travelSem = new Semaphore(0, true);
 
 	//home semaphores
 	private Semaphore atFridge = new Semaphore(0,true);
@@ -182,6 +183,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	public void msgBusIsHere(BusAgent b){
+		travelSem.release();
 		setBus(b);
 		transit=TransitState.getOnBus;
 		stateChanged();
@@ -189,13 +191,14 @@ public class PersonAgent extends Agent implements Person {
 
 	public void msgAnimationAtBusStop(){
 
-		atBusStop.release();
+		travelSem.release();
 		transit=TransitState.atBusStop;
 		stateChanged();
 	}
 
 	public void msgAtStop(String destination){
-		System.out.println("getting off message");
+		travelSem.release();
+		System.out.println("getting off message ");
 		//mydestination=destination;
 		transit = TransitState.walkingtoDestination;
 		stateChanged();
@@ -268,7 +271,7 @@ public class PersonAgent extends Agent implements Person {
 
 		if(transit==TransitState.walkingtoDestination){
 
-			getOffBusAndWalk();
+			getOffBusAndWalkToWork();
 			return true;
 		}
 
@@ -573,9 +576,17 @@ public class PersonAgent extends Agent implements Person {
 				tenantGui.LeaveHouse(); 
 			}			
 		}
+		
+		
 
 		transit=TransitState.walkingToBus;
 		DoGoTo(nearestStop);
+		try {
+			travelSem.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 
 
@@ -585,6 +596,12 @@ public class PersonAgent extends Agent implements Person {
 		System.out.println("telling bus test");
 		busStops.get(nearestStop).msgWaitingForBus(this);
 		transit=TransitState.waitingAtStop;
+		try {
+			travelSem.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void GoToMarket() {
@@ -780,14 +797,30 @@ public class PersonAgent extends Agent implements Person {
 		PersonGui.setPresent(false);
 		bus.msgGettingOn(this, destStop);
 		transit=TransitState.onBus;
+		try {
+			travelSem.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	private void getOffBusAndWalk(){
-		//gui to get off
-		PersonGui.setPresent(true);
-		DoGoTo("Restaurant 2");
-		
+	private void getOffBusAndWalkToWork(){
 		transit=TransitState.atDestination;
+		PersonGui.setPresent(true);
+		DoGoTo(jobLocation); 
+		Do("Going to Work at"+ jobLocation);
+		try {
+			atRestaurant.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}        
+		myLocation=LocationState.atWork;
+		myJob.isActive=true;
+
+		state= PersonState.doingNothing;
+		stateChanged();
 		
 
 

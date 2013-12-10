@@ -1633,7 +1633,7 @@ public class SimCityPanel extends JPanel {
 				p.msgTimeUpdate(p.directory.get(p.jobLocation).openHour-2);
 			}
 			else {
-				p.msgTimeUpdate(8); //for the visitors.. IF YOU CHANGE THIS VALUE, MUST CHANGE VALUE IN PERSONAGENT'S MSGTIMEUPDATE
+				p.msgTimeUpdate(11); //for the visitors.. IF YOU CHANGE THIS VALUE, MUST CHANGE VALUE IN PERSONAGENT'S MSGTIMEUPDATE
 			}
 		}
 	}
