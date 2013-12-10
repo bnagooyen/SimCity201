@@ -221,10 +221,12 @@ public class SimCityPanel extends JPanel {
 	private BankManagerRole Bmanager;
 	private BankTellerRole Bteller;
 	private BankLoanOfficerRole Bloanofficer;
+	private CityPanel city;
  
 
-	public SimCityPanel(SimCityGui gui) {
+	public SimCityPanel(SimCityGui gui, CityPanel C) {
 		this.gui = gui;
+		this.city=C;
 
 
 		//Populate the map for balancing people
@@ -258,47 +260,6 @@ public class SimCityPanel extends JPanel {
 		myRestaurants.add(BRestaurant);
 		myRestaurants.add(TRestaurant);
 
-
-		//this.LoadScenario("config1");
-
-		/*PersonAgent bManagerPerson = new PersonAgent("BankManager");
-        bManagerPerson.hungerLevel = 0;
-        bManagerPerson.SetJob(myBanks.get(0).bankManager, "Bank 1");
-        myBanks.get(0).bankManager.myPerson = bManagerPerson;*/
-
-		//Bteller.isActive=true;
-		//~~~PersonAgent btellerPerson = new PersonAgent("Bankteller");     //REMEMBER TO START THREAD!!!!
-		//~~btellerPerson.hungerLevel = 0;
-		//~~~btellerPerson.SetJob(bank.bankTeller, "Bank 1");
-		//~~~bank.bankTeller.myPerson=btellerPerson;
-		//Bteller.manager=Bmanager;
-		//Bteller.myPerson = btellerPerson;
-
-		//Bloanofficer.isActive=true;
-		/* PersonAgent bloanofficerPerson = new PersonAgent("Bankloanofficer");
-        bloanofficerPerson.hungerLevel = 0;
-        bloanofficerPerson.SetJob(myBanks.get(0).loanOfficer, "Bank 1");
-        //Bloanofficer.manager=Bmanager;
-        myBanks.get(0).loanOfficer.myPerson = bloanofficerPerson;*/
-
-		//Start Threads
-		//bManagerPerson.startThread();
-		//bloanofficerPerson.startThread();
-		//~~btellerPerson.startThread();
-
-		//        //Hack Bank Customer
-		//        /*Bmanager.msgTimeUpdate(8);
-		//        PersonAgent bcustomer = new PersonAgent("bcustomer");
-		//        BankCustomerRole bc = new BankCustomerRole(gui);
-		//        bc.myPerson = bcustomer;
-		//        bc.setManager(Bmanager);
-		//        bcustomer.addCustomerRoles(bc);
-		//        bcustomer.bankTime = true;
-		//        bcustomer.hungerLevel = 0;
-		//        bcustomer.startThread();*/
-		//        
-		//       
-		//Transport
 		bs1=new BusStopAgent();
 		bs2=new BusStopAgent();
 		bs3=new BusStopAgent();
@@ -319,331 +280,6 @@ public class SimCityPanel extends JPanel {
 		gui.city.addGui(bgui);
 		bus.setStops(busStops);
 
-
-		//Market
-		// manager = new MarketManagerRole(gui);
-		// mcashier = new MarketCashierRole(gui);
-		// ib = new InventoryBoyRole(gui);
-
-		/*myMarkets.get(0).mManager.isActive = true;
-        PersonAgent mManagerPerson = new PersonAgent("Manager");
-        mManagerPerson.hungerLevel = 0;
-        mManagerPerson.SetJob(myMarkets.get(0).mManager, "Market 1");
-        myMarkets.get(0).mManager.myPerson = mManagerPerson;*/
-		//        
-		//        cook.msgAddMarket(manager);
-		//        cook.setMonitor(host.getMonitor());
-		//        
-		/* myMarkets.get(0).mCashier.isActive = true;
-        PersonAgent mCashierPerson = new PersonAgent("mCashier");
-        mCashierPerson.hungerLevel = 0;
-        mCashierPerson.SetJob(myMarkets.get(0).mCashier, "Market 1");
-        myMarkets.get(0).mCashier.myPerson = mCashierPerson;*/
-
-		/*myMarkets.get(0).ib.isActive = true;
-        PersonAgent ibPerson = new PersonAgent("ib");
-        ibPerson.hungerLevel = 0;
-        ibPerson.SetJob(myMarkets.get(0).ib, "Market 1");
-        myMarkets.get(0).ib.myPerson = ibPerson;*/
-
-		//DeliveryTruckAgent dtruck = new DeliveryTruckAgent(manager);
-		// set market role pointers
-		//mcashier.setInventoryBoy(ib);
-		//mcashier.setMarketManager(manager);
-		// ib.setMarketManager(manager);
-		// ib.setMarketCashier(mcashier);
-		// manager.setDeliveryTruck(dtruck);
-		//        
-		//        // start threads of market stuff
-		//        dtruck.startThread();
-		//   mManagerPerson.startThread();
-		//   mCashierPerson.startThread();
-		//   ibPerson.startThread();
-		//
-		////        // hack market customer
-		////        PersonAgent mcustomer = new PersonAgent("mcustomer");
-		////        MarketCustomerRole mc = new MarketCustomerRole(gui);
-		////        mc.myPerson = mcustomer;
-		////        mc.setMarketManager(manager);
-		////        mcustomer.addCustomerRoles(mc);
-		////        mcustomer.marketTime = true;
-		////        mcustomer.hungerLevel = 0;
-		////        //mcustomer.startThread();
-		////        
-		////        
-		//Doreen's Restaurant setup
-		//host.isActive=true;
-		/*  for(RestaurantPlace r: myRestaurants) {
-        	if(r.restNum==3) {
-        		r.host.isActive=true;
-        		 PersonAgent hostPerson = new PersonAgent("Host");
-        		 hostPerson.hungerLevel=0; //hack so won't go to restaurant
-        	        hostPerson.SetJob(r.host, "Restaurant 3");
-        	        r.host.myPerson=hostPerson;
-        	        hostPerson.startThread();
-        	        // host.setGui(hostGui);
-        	        //waiter.setGui(waiterGui);
-        	        //System.err.println(cook);
-        	        r.cashier.isActive=true;
-        	        PersonAgent cashierPerson = new PersonAgent("Cashier");
-        	        cashierPerson.hungerLevel=0; //hack so won't go to restaurant
-        	        cashierPerson.SetJob(r.cashier, "Restaurant 3");
-        	        r.cashier.myPerson=cashierPerson;
-        	        //r.cashi.AddCook(cook);
-        	        //cashier.startThread();
-        	        cashierPerson.startThread();
-
-
-
-        	        //need this for checking if kitchen has enough food
-        	        //cookGui= new DCookGui(r.cook, gui);
-        	        //cook.setGui(cookGui);
-        	        //gui.myPanels.get("Restaurant 3").panel.addGui(cookGui);
-
-        	        r.cook.isActive=true;
-        	        PersonAgent cookPerson = new PersonAgent("cook");
-        	        cookPerson.hungerLevel=0; //hack so won't go to restaurant
-        	        cookPerson.SetJob(r.cook, "Restaurant 3");
-        	        r.cook.myPerson=cookPerson;
-        	        cookPerson.startThread();
-
-
-
-        	        //coding in waiters to test simulation
-        	        PersonAgent nWaiter = new PersonAgent("Head Waiter");
-        	        nWaiter.hungerLevel=0; //hack so won't be hungry
-        	        DWaiterNormalRole headWaiter = (DWaiterNormalRole)(r.AddNormalWaiter());
-        	        headWaiter.isActive=true;
-        	        headWaiter.myPerson=nWaiter;
-        	        //headWaiter.msgAddHost(host);
-        	        //headWaiter.msgAddCook(cook);
-        	        //headWaiter.msgAddCashier(cashier);
-        	        //DWaiterGui wGui= new DWaiterGui(headWaiter, gui);
-        	        //headWaiter.setGui(wGui);
-        	        nWaiter.startThread();
-        	        //gui.myPanels.get("Restaurant 3").panel.addGui(wGui);
-        	        //headWaiter.isActive=true;
-        	        //headWaiter.myPerson = nWaiter;
-        	        nWaiter.SetJob(headWaiter, "Restaurant 3");
-        	        //host.msgAddWaiter(headWaiter);
-//        			w.msgAddCook(cook);
-//        	      w.msgAddHost(host);
-//        	      w.msgAddCashier(cashier);
-//        	      host.msgAddWaiter(w);
-//        	      waiters.add(w);
-        	}
-        }*/
-
-
-
-
-
-
-		// cook.startThread();
-
-		//        personGui=new PersonGui(person, gui);
-		//        person.setGui(personGui);
-		//        gui.simCityPanel.addGui(personGui);
-		//        person.startThread();
-		//
-		//       // add(group);
-		//        
-		//      //Setting up people for Drew's Restaurant
-		//        Drew_host.isActive=true;
-		//        PersonAgent Drew_hostPerson = new PersonAgent("Drew Host");
-		//        Drew_hostPerson.hungerLevel=0; //hack so won't go to restaurant
-		//        Drew_hostPerson.SetJob(Drew_host, "Restaurant 2");
-		//        Drew_host.myPerson=Drew_hostPerson;
-		//        Drew_hostPerson.startThread();
-		//        
-		//        Drew_cashier.isActive=true;
-		//        PersonAgent Drew_cashierPerson = new PersonAgent("Drew Cashier");
-		//        Drew_cashierPerson.hungerLevel=0; //hack so won't go to restaurant
-		//        Drew_cashierPerson.SetJob(Drew_cashier, "Restaurant 2");
-		//        Drew_cashier.myPerson=Drew_cashierPerson;
-		//        Drew_cashier.setCook(Drew_cook);
-		//        cashierPerson.startThread();
-		//        
-		//        Drewcookgui= new Drew_CookGui(Drew_cook);
-		//        Drew_cook.setGui(Drewcookgui);
-		//        gui.myPanels.get("Restaurant 2").panel.addGui(Drewcookgui);
-		//        Drew_cook.isActive=true;
-		//        PersonAgent Drew_cookPerson = new PersonAgent("Drew cook");
-		//        Drew_cookPerson.hungerLevel=0; //hack so won't go to restaurant
-		//        Drew_cookPerson.SetJob(Drew_cook, "Restaurant 2");
-		//        Drew_cook.myPerson=cookPerson;
-		//        Drew_cook.setHost(Drew_host);
-		//        Drew_cook.setCashier(Drew_cashier);
-		//        Drew_cookPerson.startThread();
-		//        
-		//        PersonAgent Drew_Waiter = new PersonAgent("Drew's Waiter");
-		//        Drew_Waiter.hungerLevel=0;
-		//        Drew_WaiterNormalRole Drew_headWaiter = new Drew_WaiterNormalRole();
-		//        Drew_headWaiter.setHost(Drew_host);
-		//        Drew_headWaiter.setCook(Drew_cook);
-		//        Drew_headWaiter.addCashier(Drew_cashier);
-		//        Drew_WaiterGui Drew_wgui = new Drew_WaiterGui(Drew_headWaiter,1);
-		//        Drew_headWaiter.setGui(Drew_wgui);
-		//        Drew_Waiter.startThread();       
-		//        gui.myPanels.get("Restaurant 2").panel.addGui(Drew_wgui);
-		//        Drew_headWaiter.isActive=true;
-		//        Drew_headWaiter.myPerson = Drew_Waiter;
-		//        Drew_Waiter.SetJob(Drew_headWaiter, "Restaurant 2");
-		//        Drew_host.addWaiter(Drew_headWaiter);
-		//       
-		//        //Linda's Restaurant setup
-		//        Lhost.isActive = true;
-		//        PersonAgent LHostPerson = new PersonAgent("L Host");
-		//        LHostPerson.hungerLevel = 0;
-		//        LHostPerson.SetJob(Lhost, "Restaurant 1");
-		//        Lhost.myPerson = LHostPerson;
-		//        Lhost.setCook(Lcook);
-		//        LHostPerson.startThread();
-		//        
-		//        Lcashier.isActive = true;
-		//        PersonAgent LCashierPerson = new PersonAgent("L Cashier");
-		//        LCashierPerson.hungerLevel = 0;
-		//        LCashierPerson.SetJob(Lcashier, "Restaurant 1");
-		//        Lcashier.myPerson = LCashierPerson;
-		//        Lcashier.setCook(Lcook);
-		//        Lcashier.setHost(Lhost);
-		//        LCashierPerson.startThread();
-		//        
-		//        Lcook.setGui(LcookGui);
-		//        gui.myPanels.get("Restaurant 1").panel.addGui(LcookGui);
-		//        Lcook.isActive = true;
-		//        PersonAgent LCookPerson = new PersonAgent("L Cook");
-		//        LCookPerson.hungerLevel = 0;
-		//        LCookPerson.SetJob(Lcook, "Restaurant 1");
-		//        Lcook.myPerson = LCookPerson;
-		//        Lcook.setCashier(Lcashier);
-		//        Lcook.setHost(Lhost);
-		//        LCookPerson.startThread();
-		//        
-		//        
-		//        PersonAgent nLwaiterPerson = new PersonAgent("Normal Waiter");
-		//        nWaiter.hungerLevel=0;
-		//        LWaiterNormalRole nLwaiter = new LWaiterNormalRole();
-		//        nLwaiter.setHost(Lhost);
-		//        nLwaiter.setCook(Lcook);
-		//        nLwaiter.setCashier(Lcashier);
-		//        LWaiterGui LwGui = new LWaiterGui(nLwaiter, "LnWaiterGui");
-		//        nLwaiter.setGui(LwGui);
-		//        nLwaiterPerson.startThread();
-		//        gui.myPanels.get("Restaurant 1").panel.addGui(LwGui);
-		//        nLwaiter.isActive=true;
-		//        nLwaiter.myPerson = nWaiter;
-		//        nLwaiterPerson.SetJob(nLwaiter, "Restaurant 1");
-		//        Lhost.addWaiter(nLwaiter);
-		//        
-
-		//        // check kim's restaurant
-		//        KHostRole kh = new KHostRole();
-		//        PersonAgent host = new PersonAgent("host");
-		//        host.SetJob(kh, "Restaurant 4");
-		//        kh.myPerson = host;
-		//        kh.isActive = true;
-		////        
-		////        PersonAgent waiter = new PersonAgent("waiter");
-		////        KWaiterNormalRole w = (KWaiterNormalRole) KRestaurant.AddNormalWaiter();;
-		////        waiter.SetJob(w);
-		////        w.setPerson(waiter);
-		////        people.add(waiter);
-		//        
-		//        KCookRole kcook = new KCookRole(gui);
-		//        PersonAgent cook = new PersonAgent("cook");
-		//        cook.SetJob(kcook, "Restaurant 4");
-		//        kcook.myPerson = cook;
-		//        kcook.isActive = true;
-		//        
-		//        KCashierRole kc = new KCashierRole();
-		//        PersonAgent kcashier = new PersonAgent("cashier");
-		//        kcashier.SetJob(kc, "Restaurant 4");
-		//        kc.myPerson = kcashier;
-		//        kc.isActive = true;
-		//        
-		//        kcook.setCashier(kc);
-		//        kcook.setHost(kh);
-		//        kcook.addMarket(manager);
-		//        kc.setCook(kcook);
-		//        kc.setHost(kh);
-		//        kh.setCook(kcook);
-		//        
-		//        host.startThread();
-		//        cook.startThread();
-		//        kcashier.startThread();
-
-		//tiff's restaurant setup
-		/**
-        tHost.isActive = true; 
-        PersonAgent THost = new PersonAgent("THost");
-        THost.hungerLevel = 0; 
-        THost.SetJob(tHost, "Restaurant 6");
-        tHost.myPerson = THost; 
-        THost.startThread(); 
-
-        tCashier.isActive = true; 
-        PersonAgent TCashier = new PersonAgent("TCashier");
-        TCashier.hungerLevel = 0; 
-        TCashier.SetJob(tCashier, "Restaurant 6");
-        tCashier.myPerson = TCashier; 
-        TCashier.startThread();
-
-        tWaiter.isActive = true; 
-        PersonAgent TWaiter = new PersonAgent("TWaiter");
-        TWaiter.hungerLevel = 0; 
-        TWaiter.SetJob(tWaiter, "Restaurant 6");
-        tWaiter.myPerson = TWaiter; 
-        TWaiter.startThread();
-        Twaiters.add(tWaiter); 
-
-        tsWaiter.isActive = true; 
-        PersonAgent TSWaiter = new PersonAgent("TSWaiter");
-        TSWaiter.hungerLevel = 0; 
-        TSWaiter.SetJob(tsWaiter, "Restaurant 6");
-        tsWaiter.myPerson = TSWaiter; 
-        TSWaiter.startThread(); 
-        Twaiters.add(tsWaiter); 
-
-        tCook.isActive = true; 
-        PersonAgent TCook = new PersonAgent("TCook"); 
-        TCook.hungerLevel = 0; 
-        TCook.SetJob(tCook, "Restaurant 6");
-        tCook.myPerson = TCook; 
-        TCookGui tcg = new TCookGui(tCook);
-        tCook.setGui(tcg);
-        TCook.startThread();
-
-        tHost.setCashier(tCashier);
-        tHost.setCook(tCook);
-        tHost.addWaiter(tWaiter);
-        tHost.addWaiter(tsWaiter); 
-
-        tWaiter.setCashier(tCashier);
-        tWaiter.setCook(tCook);
-        tWaiter.setHost(tHost);
-
-        tsWaiter.setCashier(tCashier);
-        tsWaiter.setCook(tCook);
-        tsWaiter.setHost(tHost); 
-
-        tCook.setCashier(tCashier);
-        tCook.setHost(tHost);
-
-        tCashier.setCook(tCook);
-        tCashier.setHost(tHost);
-
-        gui.myPanels.get("Restaurant 6").panel.addGui(tcg);
-		 */
-
-		/******************* populate directory*******************************/
-		/*
-        directory.put("Market 1", market1);
-        directory.put("Market 2", market2);
-        directory.put("Market 3", market3);
-        directory.put("Market 4", market4);
-		 */
-
 		for(MarketPlace m: myMarkets) {
 			directory.put("Market "+ Integer.toString(m.num), m);
 			//System.err.println("Market "+ Integer.toString(m.num));
@@ -652,12 +288,6 @@ public class SimCityPanel extends JPanel {
 		for(BankPlace b: myBanks) {
 			directory.put("Bank "+ Integer.toString(b.num), b);
 		}
-
-		/*
-        directory.put("Bank 1", bank1);
-        directory.put("Bank 2", bank2);
-<<<<<<< HEAD
-        */
         
         directory.put("Restaurant 5", BRestaurant);
         directory.put("Restaurant 3", DRestaurant);
@@ -1655,10 +1285,12 @@ public class SimCityPanel extends JPanel {
 					for(Person p: people) {
 						p.msgTimeUpdate(counter);
 					}
+					city.simCityTime=counter;
 					counter++;
 					if (counter == 24) {
 						counter = 0;
 					}
+					
 				}
 			}
 		}
