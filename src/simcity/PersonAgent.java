@@ -125,7 +125,7 @@ public class PersonAgent extends Agent implements Person {
 	//Constructor
 	public PersonAgent(String name) {
 		super();
-
+		goToAll=false;
 		this.name = name;
 		//transit=TransitState.goToBus;
 		state=PersonState.doingNothing;

@@ -12,7 +12,6 @@ import simcity.Bank.BankLoanOfficerRole;
 import simcity.Bank.BankManagerRole;
 import simcity.Bank.BankRobberRole;
 import simcity.Bank.BankTellerRole;
-import simcity.Bank.gui.BankTellerGui;
 import simcity.Drew_restaurant.Drew_CashierRole;
 import simcity.Drew_restaurant.Drew_CookRole;
 import simcity.Drew_restaurant.Drew_CustomerRole;
@@ -20,8 +19,6 @@ import simcity.Drew_restaurant.Drew_HostRole;
 import simcity.Drew_restaurant.Drew_WaiterNormalRole;
 import simcity.Drew_restaurant.Drew_WaiterRole;
 import simcity.Drew_restaurant.Drew_WaiterSharedDataRole;
-import simcity.Drew_restaurant.gui.Drew_CookGui;
-import simcity.Drew_restaurant.gui.Drew_WaiterGui;
 import simcity.KRestaurant.KCashierRole;
 import simcity.KRestaurant.KCookRole;
 import simcity.KRestaurant.KCustomerRole;
@@ -31,7 +28,6 @@ import simcity.KRestaurant.KWaiterRole;
 import simcity.KRestaurant.KWaiterSharedDataRole;
 import simcity.LRestaurant.LCashierRole;
 import simcity.LRestaurant.LCookRole;
-import simcity.LRestaurant.gui.*;
 import simcity.LRestaurant.LCustomerRole;
 import simcity.LRestaurant.LHostRole;
 import simcity.LRestaurant.LWaiterNormalRole;
@@ -47,21 +43,15 @@ import simcity.TRestaurant.TCustomerRole;
 import simcity.TRestaurant.THostRole;
 import simcity.TRestaurant.TWaiterRole;
 import simcity.TRestaurant.TWaiterSharedDataRole;
-import simcity.TRestaurant.gui.TCookGui;
 import simcity.Transportation.BusAgent;
 import simcity.Transportation.BusStopAgent;
 import simcity.Transportation.CarAgent;
 import simcity.Transportation.DeliveryTruckAgent;
 import simcity.gui.DGui.DCookGui;
-import simcity.gui.DGui.DWaiterGui;
 import simcity.housing.gui.ResidentGui;
 import simcity.housing.gui.TenantGui;
-import simcity.interfaces.BankLoanOfficer;
-import simcity.interfaces.BankManager;
-import simcity.interfaces.BankTeller;
 import simcity.interfaces.DCook;
 import simcity.interfaces.Drew_Cook;
-import simcity.interfaces.KCashier;
 import simcity.interfaces.RestaurantCashier;
 import simcity.PersonAgent;
 
@@ -83,9 +73,6 @@ import simcity.DRestaurant.DWaiterRole;
 import simcity.DRestaurant.DWaiterSharedDataRole;
 import simcity.interfaces.*;
 
-import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -271,19 +258,6 @@ public class SimCityPanel extends JPanel {
 		myRestaurants.add(TRestaurant);
 
 
-		addPerson("Person", "Bman1", 100.0, "Bank Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Bman2", 100.0, "Bank Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman1", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman2", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman3", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman4", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Dhost", 100.0, "Doreen Host", "Apartment", "Walk"); 
-		addPerson("Person", "Drewhost", 100.0, "Drew Host", "Apartment", "Walk"); 
-		addPerson("Person", "Thost", 100.0, "Tiffany Host", "Apartment", "Walk"); 
-		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
-		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
-		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
-		
 		//this.LoadScenario("config1");
 
 		/*PersonAgent bManagerPerson = new PersonAgent("BankManager");
@@ -810,10 +784,26 @@ public class SimCityPanel extends JPanel {
 		return new Object();
 	}*/
 
+	public void AddManagers() {
 
+		addPerson("Person", "Bman1", 100.0, "Bank Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Bman2", 100.0, "Bank Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman1", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman2", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman3", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman4", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Dhost", 100.0, "Doreen Host", "Apartment", "Walk"); 
+		addPerson("Person", "Drewhost", 100.0, "Drew Host", "Apartment", "Walk"); 
+		addPerson("Person", "Thost", 100.0, "Tiffany Host", "Apartment", "Walk"); 
+		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
+		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
+		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
+		
+	}
 
 	public void LoadScenario(String type){
 		people.clear();
+		AddManagers();
 		String name, role, transport, houseOrApt; double money;
 		houseNumCounter=1;
 		aptNumCounter=1;
@@ -1128,22 +1118,22 @@ public class SimCityPanel extends JPanel {
 
 			//Add Market Cashiers
 			if(role.equals("MarketCashier1")){
-				MarketCashierRole LC= (MarketCashierRole) myMarkets.get(0).mCashier;
+				MarketCashierRole LC= myMarkets.get(0).mCashier;
 				LC.myPerson=p;
 				p.SetJob(LC, "Market 1", "MCashier");
 			}
 			if(role.equals("MarketCashier2")){
-				MarketCashierRole LC= (MarketCashierRole) myMarkets.get(1).mCashier;
+				MarketCashierRole LC= myMarkets.get(1).mCashier;
 				LC.myPerson=p;
 				p.SetJob(LC, "Market 2", "MCashier");
 			}
 			if(role.equals("MarketCashier3")){
-				MarketCashierRole LC= (MarketCashierRole) myMarkets.get(2).mCashier;
+				MarketCashierRole LC= myMarkets.get(2).mCashier;
 				LC.myPerson=p;
 				p.SetJob(LC, "Market 3", "MCashier");
 			}
 			if(role.equals("MarketCashier4")){
-				MarketCashierRole LC= (MarketCashierRole) myMarkets.get(3).mCashier;
+				MarketCashierRole LC= myMarkets.get(3).mCashier;
 				LC.myPerson=p;
 				p.SetJob(LC, "Market 4", "MCashier");
 			}
@@ -1153,22 +1143,22 @@ public class SimCityPanel extends JPanel {
 
 			//Add Inventory Boys
 			if(role.equals("InventoryBoy1")){
-				InventoryBoyRole LC= (InventoryBoyRole) myMarkets.get(0).ib;
+				InventoryBoyRole LC= myMarkets.get(0).ib;
 				LC.myPerson=p;
 				p.SetJob(LC, "Market 1", "InventoryPerson");
 			}
 			if(role.equals("InventoryBoy2")){
-				InventoryBoyRole LC= (InventoryBoyRole) myMarkets.get(1).ib;
+				InventoryBoyRole LC= myMarkets.get(1).ib;
 				LC.myPerson=p;
 				p.SetJob(LC, "Market 2", "InventoryPerson");
 			}
 			if(role.equals("InventoryBoy3")){
-				InventoryBoyRole LC= (InventoryBoyRole) myMarkets.get(2).ib;
+				InventoryBoyRole LC= myMarkets.get(2).ib;
 				LC.myPerson=p;
 				p.SetJob(LC, "Market 3", "InventoryPerson");
 			}
 			if(role.equals("InventoryBoy4")){
-				InventoryBoyRole LC= (InventoryBoyRole) myMarkets.get(3).ib;
+				InventoryBoyRole LC= myMarkets.get(3).ib;
 				LC.myPerson=p;
 				p.SetJob(LC, "Market 4", "InventoryPerson");
 			}
@@ -1317,7 +1307,7 @@ public class SimCityPanel extends JPanel {
 			mCustomers = new ArrayList<MarketCustomer>();
 			truck = new DeliveryTruckAgent(mManager);
 
-			mManager.dTruck = (DeliveryTruck)truck;
+			mManager.dTruck = truck;
 
 			ib.setMarketCashier(mCashier);
 			ib.setMarketManager(mManager);

@@ -236,21 +236,7 @@ public class DHostRole extends Role implements Host {
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-		if(hour==23 && !waitingForNoCustomers) {
-			RestaurantIsClosed();
-		}
-		if(waitingForNoCustomers) {
-			boolean restaurantEmpty=true;
-			for(MyWaiter w: waiters) {
-				if(w.numCustomers!=0) {
-					restaurantEmpty=false;
-				}
-			}
-			if(restaurantEmpty) {
-				CloseRestaurant();
-				return true;
-			}
-		}
+		//System.err.println("dhost is alivee");
 		if(cookArrived){
 			CookOnDuty();
 			return true;
@@ -267,6 +253,23 @@ public class DHostRole extends Role implements Host {
 			}
 		}
 		}
+		
+		if(hour==23 && !waitingForNoCustomers) {
+			RestaurantIsClosed();
+		}
+		if(waitingForNoCustomers) {
+			boolean restaurantEmpty=true;
+			for(MyWaiter w: waiters) {
+				if(w.numCustomers!=0) {
+					restaurantEmpty=false;
+				}
+			}
+			if(restaurantEmpty) {
+				CloseRestaurant();
+				return true;
+			}
+		}
+	
 		if(custLeavingWaitlist!=null) {
 			RemoveCustomerFromList();
 			return true;
