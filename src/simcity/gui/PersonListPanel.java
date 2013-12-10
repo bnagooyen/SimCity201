@@ -388,6 +388,8 @@ public class PersonListPanel extends JPanel implements ActionListener {
     		gui.simcityPanel.LoadScenario("config2");
     	else if(type.equals("Scenario 3"))
     		gui.simcityPanel.LoadScenario("config3");
+    	
+    	gui.simcityPanel.startTimer();
     }
 //    
 //    public void setCustomerEnabled(String old, String n) {

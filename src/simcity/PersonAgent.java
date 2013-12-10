@@ -154,7 +154,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 		if(myJob!=null){
 			Do("Employed :)   (IN TIME UPDATE FOR PERSON  "+ myJob.startHour );
-			if(hr==myJob.startHour-1) {
+			if(hr==myJob.startHour-2) {
 				Do("ITS WORK TIME!!!!!");
 				state=PersonState.workTime;
 				myJob.msgTimeUpdate(15);
