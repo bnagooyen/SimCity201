@@ -88,7 +88,15 @@ public class RestaurantAnimationPanel1 extends BuildingAnimationPanel implements
 	    }
 	    
 	    public void actionPerformed(ActionEvent e) {
-			repaint();  //Will have paintComponent called
+			
+			
+		      for(Gui gui : guis) {
+		            if (gui.isPresent()) {
+		                gui.updatePosition();
+		            }
+		        }
+	    	
+	    	repaint();  //Will have paintComponent called
 		}
 
 	    public void paintComponent(Graphics g) {

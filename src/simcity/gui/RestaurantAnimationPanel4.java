@@ -129,6 +129,16 @@ public class RestaurantAnimationPanel4 extends BuildingAnimationPanel implements
 	 	        }
 	         }
 	    }
+	    
+	    public void actionPerformed(ActionEvent e) {
+			
+		      for(Gui gui : guis) {
+		            if (gui.isPresent()) {
+		                gui.updatePosition();
+		            }
+		        }
+		      repaint();
+	    }
 
 
 		@Override

@@ -65,6 +65,14 @@ public class RestaurantAnimationPanel3 extends BuildingAnimationPanel implements
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
+			
+		      for(Gui gui : guis) {
+		            if (gui.isPresent()) {
+		                gui.updatePosition();
+		            }
+		        }
+			
 			repaint();  //Will have paintComponent called
 		}
 
