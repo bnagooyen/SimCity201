@@ -176,15 +176,16 @@ public class PersonListPanel extends JPanel implements ActionListener {
      */
     @Override
 	public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == scenarioSelection){
-//        	System.err.println("changed to "+ scenarioSelection.getSelectedItem());
-//        	System.out.println((String)scenarioSelection.getSelectedItem());
-        	UpdateToScenario((String)scenarioSelection.getSelectedItem());
-        }
+//        if(e.getSource() == scenarioSelection){
+////        	System.err.println("changed to "+ scenarioSelection.getSelectedItem());
+////        	System.out.println((String)scenarioSelection.getSelectedItem());
+//        	UpdateToScenario((String)scenarioSelection.getSelectedItem());
+//        }
     	if(e.getSource()==setScenario) {
     		scenarioSelection.setEnabled(false);
     		setScenario.setEnabled(false);
     		dayWeekendSelection.setEnabled(false);
+    		UpdateToScenario((String)scenarioSelection.getSelectedItem());
     		gui.simcityPanel.startTimer();
     		//simcityPanel.startTimer();
     		//start execution

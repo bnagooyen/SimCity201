@@ -138,7 +138,7 @@ public class PersonAgent extends Agent implements Person {
 			state = PersonState.tired;
 		}
 		if(myJob!=null){
-			Do("Employed :)   (IN TIME UPDATE FOR PERSON  "+ myJob.startHour );
+			Do("Employed :)   (IN TIME UPDATE FOR PERSON  "+ directory.get(jobLocation).openHour );
 			if(hr==directory.get(jobLocation).openHour-1) {
 				Do("ITS WORK TIME!!!!!");
 				state=PersonState.workTime;
