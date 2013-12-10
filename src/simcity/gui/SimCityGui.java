@@ -176,7 +176,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 //		c.gridwidth = 6; c.gridheight = 6;
 		add(city, BorderLayout.CENTER);
 		
-		 simcityPanel = new SimCityPanel(this);
+		 simcityPanel = new SimCityPanel(this, city);
         
         
     }

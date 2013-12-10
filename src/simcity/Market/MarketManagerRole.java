@@ -198,7 +198,6 @@ public class MarketManagerRole extends Role implements MarketManager{
 			closeMarket();
 			return true;
 		}
-		
 		if(isClosed){
 			marketClosed();
 		}

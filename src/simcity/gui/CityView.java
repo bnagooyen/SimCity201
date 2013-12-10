@@ -31,56 +31,6 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		cards = myp;
 		
 
-		
-//		cards = new HashMap<String, CityCard>();
-
-//		cards.put("Restaurant 1", new CityCard(city, Color.red));
-//		cards.put("Restaurant 2", new CityCard(city, Color.orange));
-//		cards.put("Restaurant 3", new CityCard(city, Color.yellow));
-//		cards.put("Restaurant 4", new CityCard(city, Color.green));
-//		cards.put("Restaurant 5", new CityCard(city, Color.blue));
-//		cards.put("Restaurant 6", new CityCard(city, Color.magenta));
-//		cards.put("Market 1", new CityCard(city, Color.pink));
-//		cards.put("Market 2", new CityCard(city, Color.pink));
-//		cards.put("Market 3", new CityCard(city, Color.pink));
-//		cards.put("Market 4", new CityCard(city, Color.pink));
-//		cards.put("Bank 1", new CityCard(city, Color.lightGray));
-//		cards.put("Bank 2", new CityCard(city, Color.lightGray));
-//		cards.put("House 1", new CityCard(city, Color.cyan));
-//		cards.put("House 2", new CityCard(city, Color.cyan));
-//		cards.put("House 3", new CityCard(city, Color.cyan));
-//		cards.put("House 4", new CityCard(city, Color.cyan));
-//		cards.put("House 5", new CityCard(city, Color.cyan));
-//		cards.put("House 6", new CityCard(city, Color.cyan));
-//		cards.put("House 7", new CityCard(city, Color.cyan));
-//		cards.put("House 8", new CityCard(city, Color.cyan));
-//		cards.put("House 9", new CityCard(city, Color.cyan));
-//		cards.put("House 10", new CityCard(city, Color.cyan));
-//		cards.put("House 11", new CityCard(city, Color.cyan));
-//		cards.put("House 12", new CityCard(city, Color.cyan));
-//		cards.put("House 13", new CityCard(city, Color.cyan));
-//		cards.put("House 14", new CityCard(city, Color.cyan));
-//		cards.put("House 15", new CityCard(city, Color.cyan));
-//		cards.put("Apartment 1", new CityCard(city, Color.darkGray));
-//		cards.put("Apartment 2", new CityCard(city, Color.darkGray));
-//		cards.put("Apartment 3", new CityCard(city, Color.darkGray));
-//		cards.put("Apartment 4", new CityCard(city, Color.darkGray));
-//		cards.put("Apartment 5", new CityCard(city, Color.darkGray));
-//		cards.put("Apartment 6", new CityCard(city, Color.darkGray));
-//		cards.put("Apartment 7", new CityCard(city, Color.darkGray));
-//		cards.put("Apartment 8", new CityCard(city, Color.darkGray));
-//		cards.put("Apartment 9", new CityCard(city, Color.darkGray));
-//		cards.put("Apartment 10", new CityCard(city, Color.darkGray));
-//		cards.put("Apartment 11", new CityCard(city, Color.darkGray));
-//		cards.put("Apartment 12", new CityCard(city, Color.darkGray));
-//		cards.put("Apartment 13", new CityCard(city, Color.darkGray));
-//		cards.put("Apartment 14", new CityCard(city, Color.darkGray));
-//		cards.put("Apartment 15", new CityCard(city, Color.darkGray));
-//		
-//		
-//		cards.put("null", new CityCard(city, Color.gray));
-//		cards.put("Road", new CityCard(city, Color.DARK_GRAY));
-		
 		layout = new CardLayout();
 		this.setLayout(layout);
 		for (String key:cards.keySet()) {
