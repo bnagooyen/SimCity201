@@ -124,11 +124,11 @@ public class RestaurantAnimationPanel1 extends BuildingAnimationPanel implements
 	        g2.fillRect(CookCookingX+2, CookCookingY+22, CookingW-8, CookingH-25);
 
 
-	        for(Gui gui : guis) {
-	            if (gui.isPresent()) {
-	                gui.updatePosition();
-	            }
-	        }
+//	        for(Gui gui : guis) {
+//	            if (gui.isPresent()) {
+//	                gui.updatePosition();
+//	            }
+//	        }
 
 	        for(Gui gui : guis) {
 	            if (gui.isPresent()) {

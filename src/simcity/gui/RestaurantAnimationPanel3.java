@@ -106,11 +106,11 @@ public class RestaurantAnimationPanel3 extends BuildingAnimationPanel implements
 	        g2.setColor(Color.pink);
 	        g2.fillRect(allKitchenItems_x, plating_x, grill_xsz, plating_ysz);
 	        
-	        for(Gui gui : guis) {
-	            if (gui.isPresent()) {
-	                gui.updatePosition();
-	            }
-	        }
+//	        for(Gui gui : guis) {
+//	            if (gui.isPresent()) {
+//	                gui.updatePosition();
+//	            }
+//	        }
 
 	        for(Gui gui : guis) {
 	            if (gui.isPresent()) {

@@ -115,12 +115,12 @@ public class RestaurantAnimationPanel4 extends BuildingAnimationPanel implements
 	         // fridge
 	         g2.setColor(Color.BLUE);
 	         g2.fillRect(fridgex, fridgey, fridgew, fridgeh);
-	         
-	         for(Gui gui : guis) {
-	             if (gui.isPresent()) {
-	                 gui.updatePosition();
-	             }
-	         }
+//	         
+//	         for(Gui gui : guis) {
+//	             if (gui.isPresent()) {
+//	                 gui.updatePosition();
+//	             }
+//	         }
 	         synchronized(guis) {
 	 	        for(Gui gui : guis) {
 	 	            if (gui.isPresent()) {

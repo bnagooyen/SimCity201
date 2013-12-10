@@ -95,11 +95,11 @@ public class RestaurantAnimationPanel5 extends BuildingAnimationPanel implements
         
 
 
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
+//        for(Gui gui : guis) {
+//            if (gui.isPresent()) {
+//                gui.updatePosition();
+//            }
+//        }
 
         for(Gui gui : guis) {
             if (gui.isPresent() ) {
