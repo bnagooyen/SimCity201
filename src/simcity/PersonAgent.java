@@ -446,6 +446,15 @@ public class PersonAgent extends Agent implements Person {
 
 	// Actions
 	private void GoToRestaurant() {
+		if (myLocation == LocationState.atHome) {
+			if (homeAddress.contains("House")) {
+				residentGui.LeaveHouse(); 
+			}
+			else {
+				tenantGui.LeaveHouse(); 
+			}			
+		}
+
 		DoGoTo(RestChoice);
 
 		int restCustomerNum = Integer.parseInt(RestChoice.substring(RestChoice.length()-1));
@@ -519,7 +528,14 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	private void GoToBusStop(){
-
+		if (myLocation == LocationState.atHome) {
+			if (homeAddress.contains("House")) {
+				residentGui.LeaveHouse(); 
+			}
+			else {
+				tenantGui.LeaveHouse(); 
+			}			
+		}
 
 		transit=TransitState.walkingToBus;
 		DoGoTo(nearestStop);
@@ -535,6 +551,14 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	private void GoToMarket() {
+		if (myLocation == LocationState.atHome) {
+			if (homeAddress.contains("House")) {
+				residentGui.LeaveHouse(); 
+			}
+			else {
+				tenantGui.LeaveHouse(); 
+			}			
+		}
 
 		DoGoTo(MarketChoice);
 		int mktCustomerNum = Integer.parseInt(MarketChoice.substring(MarketChoice.length()-1));
@@ -566,6 +590,14 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	private void GoToBank() {
+		if (myLocation == LocationState.atHome) {
+			if (homeAddress.contains("House")) {
+				residentGui.LeaveHouse(); 
+			}
+			else {
+				tenantGui.LeaveHouse(); 
+			}			
+		}
 
 		DoGoTo(BankChoice);
 		int bCustomerNum = Integer.parseInt(BankChoice.substring(BankChoice.length()-1));
@@ -597,6 +629,15 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	private void goToWork() {
+		if (myLocation == LocationState.atHome) {
+			if (homeAddress.contains("House")) {
+				residentGui.LeaveHouse(); 
+			}
+			else {
+				tenantGui.LeaveHouse(); 
+			}			
+		}
+
 		if (myTravelPreference == TravelPreference.walk) {
 			DoGoTo(jobLocation); 
 			Do("Going to Work at"+ jobLocation);
@@ -624,11 +665,28 @@ public class PersonAgent extends Agent implements Person {
 
 	private void GoHome() {
 		DoGoTo(homeAddress);
+		try {
+			atRestaurant.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		myLocation=LocationState.atHome;
+		if (myLocation == LocationState.atHome) {
+			if (homeAddress.contains("House")) {
+				residentGui.goToHomePosition(); 
+			}
+			else {
+				tenantGui.LeaveHouse(); 
+			}			
+		}
+
+		
 	}        
 
 	private void GoToBed() {
-		if(myLocation!=LocationState.atHome) DoGoTo(homeAddress);
+		if(myLocation!=LocationState.atHome) 
+			DoGoTo(homeAddress);
 		try {
 			atRestaurant.acquire();
 		} catch (InterruptedException e) {
