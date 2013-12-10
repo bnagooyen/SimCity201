@@ -253,6 +253,7 @@ public class PersonGui implements Gui {
 			image = ImageIO.read(new File(FileImage));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			//System.err.println("FILENOTFOUND");
 			e.printStackTrace();
 		}
 		g.drawImage(image, xPos, yPos-3, null); 
