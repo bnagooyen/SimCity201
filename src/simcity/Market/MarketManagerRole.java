@@ -52,7 +52,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		this.gui = gui;
 		marketMoney = 50000.0; //***********threshold all the rest deposit to the bank
 		log = new EventLog();
-		startHour = 10;
+		//startHour = myPerson.directory.get(myPerson.jobLocation).openHour;
 		hour = 12;
 
 	}
@@ -193,7 +193,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 
 	public boolean pickAndExecuteAnAction() {
 		
-		if(hour == 20 && !isClosed){
+		if(hour == myPerson.directory.get(myPerson.jobLocation).closeHour && !isClosed){
 			closeMarket();
 			return true;
 		}
