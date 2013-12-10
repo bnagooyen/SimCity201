@@ -101,6 +101,7 @@ public class LCookRole extends Role implements LCook, Cook {
 		
 		public void msgHereIsAnOrder(int table, String choice,LWaiterNormalRole w) {//from animation
 			//print("Received order from " + choice);
+			print("THE ORDER FROM MSG: "+choice);
 			orders.add(new Order(table, choice,w,OrderState.pending));
 			stateChanged();
 		}
@@ -223,14 +224,14 @@ public class LCookRole extends Role implements LCook, Cook {
 		}
 	}
 	
-	synchronized(foods){
-		for(Food choice : foods.values()){
-			if(choice.state.equals(MarketState.order)){
-				orderFromMarket(choice.choice, choice.need);
-				return true;
-			}
-		}
-	}
+//	synchronized(foods){
+//		for(Food choice : foods.values()){
+//			if(choice.state.equals(MarketState.order)){
+//				orderFromMarket(choice.choice, choice.need);
+//				return true;
+//			}
+//		}
+//	}
 	
 	if(goHome) {
 		goHome();
@@ -252,12 +253,12 @@ public class LCookRole extends Role implements LCook, Cook {
 
 
 		if(cookGui == null){
-			System.out.println("GOT IN HERE TO GUI");
-			cookGui = new LCookGui(this, "LCookGui");
+			
+			cookGui = new LCookGui(this, "LCook");
 			gui.myPanels.get("Restaurant 1").panel.addGui(cookGui);
 		}
 
-		host.msgIAmHere(this, "cook");
+		host.msgIAmHere(this, "cook", cookGui);
 
 		here = false;
 	}
@@ -272,7 +273,7 @@ public class LCookRole extends Role implements LCook, Cook {
 		}
 
 		private void checkRotatingStand() {
-			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Checking rotating stand");
+//			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Checking rotating stand");
 			LRestaurantOrder newOrder = theMonitor.remove();
 			if(newOrder != null) {
 				Order o = new Order(newOrder.table, newOrder.choice,newOrder.w, OrderState.pending);
@@ -298,6 +299,8 @@ public class LCookRole extends Role implements LCook, Cook {
 		}
 
 		private void orderFromMarket(String choice, int orderAmount){
+			print("STATE OF MARKET ORDER: "+foods.get(choice).state);
+			
 			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Ordering from market");
 			
 			//inserting food that needs to be ordered
@@ -355,10 +358,13 @@ public class LCookRole extends Role implements LCook, Cook {
 //				foods.get(o.choice).state = MarketState.firstOrder;
 				
 				
-				foods.get(o.choice).state = MarketState.order;
-				int orderAmount = foods.get(o.choice).capacity - foods.get(o.choice).amount;
-				foods.get(o.choice).need = orderAmount;
-				orderFromMarket(o.choice,orderAmount);
+//				foods.get(o.choice).state = MarketState.order;
+				if(foods.get(o.choice).state == MarketState.noOrder){
+					int orderAmount = foods.get(o.choice).capacity - foods.get(o.choice).amount;
+					foods.get(o.choice).need = orderAmount;
+					orderFromMarket(o.choice,orderAmount);
+					foods.get(o.choice).state = MarketState.order;
+				}
 
 			}
 			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCookRole", "Cooking order");

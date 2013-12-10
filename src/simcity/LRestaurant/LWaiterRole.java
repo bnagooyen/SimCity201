@@ -162,6 +162,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
         public void msgHereIsMyChoice(LCustomer cust, String choice) {
         	LoggedEvent e = new LoggedEvent("Received msgHereIsMyChoice");
     		log.add(e);
+    		print("THE ORDER MSGHEREISMYCHOICE: "+choice);
                 synchronized(customers){
                         for(MyCustomers c : customers){
                                 if(c.c == cust){
@@ -330,7 +331,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
 
         private void tellHost(){
         	if(waiterGui == null){
-    			waiterGui = new LWaiterGui(this, "LWaiterGui");
+    			waiterGui = new LWaiterGui(this, "LWaiter");
     			gui.myPanels.get("Restaurant 1").panel.addGui(waiterGui);
     		}
     		host.msgIAmHere(this, "waiter");
@@ -405,7 +406,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                
                 //print("Got a semaphore");
                 AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LWaiterRole", "Seating customer");
-                print("Seating " + c.c.getCustomerName() + " at table " + c.table);
+//                print("Seating " + c.c.getCustomerName() + " at table " + c.table);
                 c.c.msgFollowMe(c.table,m, this);
                 
                 waiterGui.DoGoToTable(c.table); 
@@ -423,7 +424,7 @@ public abstract class LWaiterRole extends Role implements LWaiter{
                 //waiterGui.DoLeaveCustomer();
                 numCust++;
                 //print("Waiter " + this.name + " seats " + c.c.getCustomerName() + ". NumCust is " + numCust);
-                print("Waiter " + this.name + " seats " + c.c.getCustomerName() + ".");
+//                print("Waiter " + this.name + " seats " + c.c.getCustomerName() + ".");
         }
 
         private void giveNewMenu(MyCustomers c) {

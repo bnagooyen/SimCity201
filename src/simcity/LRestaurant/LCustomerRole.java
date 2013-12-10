@@ -64,6 +64,20 @@ public class LCustomerRole extends Role implements LCustomer{
                 //super(p);
                 needToPay = 0;
                 gui = g;
+                
+                int n = rand.nextInt(4); //returns 0 to 3
+                if(n == 0){
+                	choice = "St";
+                }
+                else if(n==1){
+                	choice = "Ch";
+                }
+                else if(n==2){
+                	choice = "S";
+                }
+                else if(n==3){
+                	choice = "P";
+                }
 
         }
 
@@ -94,9 +108,7 @@ public class LCustomerRole extends Role implements LCustomer{
                 this.cashier = cashier;
         }
 
-        public String getCustomerName() {
-                return name[0];
-        }
+
         
         // Messages
 
@@ -273,18 +285,18 @@ public class LCustomerRole extends Role implements LCustomer{
         private void decideIfStay(){
 
 
-                if(!willStay){
-                        Do("Too full, deciding to leave.");
-                        host.msgChoseToLeave(this);
-                        customerGui.DoExitRestaurant();
-                        state = AgentState.DoingNothing;
-                }
-                else{
+//                if(!willStay){
+//                        Do("Too full, deciding to leave.");
+//                        host.msgChoseToLeave(this);
+//                        customerGui.DoExitRestaurant();
+//                        state = AgentState.DoingNothing;
+//                }
+//                else{
                         Do("Too full, but staying.");
                         host.msgChoseToWait(this);
                         state = AgentState.WaitingInRestaurant;
                         event = AgentEvent.standby;
-                }
+//                }
 
                 stateChanged();
         }
@@ -300,7 +312,7 @@ public class LCustomerRole extends Role implements LCustomer{
                 customerGui.deciding();
 
                 boolean stillOrdering = true;
-                canOrder = m.affordable(money);
+                canOrder = m.affordable(myPerson.money);
 
                 if(!canOrder){ //deciding if customer will still order even though they don't have money
                         if(!willStay){
@@ -363,6 +375,7 @@ public class LCustomerRole extends Role implements LCustomer{
         private void GiveOrder() {
         		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LCustomerRole", "Ordering");
                 Do("Ordering");
+                print("GIVEORDER choice: "+choice);
                 waiter.msgHereIsMyChoice(this,choice);
         }
 

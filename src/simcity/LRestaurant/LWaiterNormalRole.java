@@ -31,6 +31,7 @@ public class LWaiterNormalRole extends LWaiterRole implements LWaiter{
                e.printStackTrace();
        }
        //print("Got a semaphore");
+       print("THE ORDER FROM GIVECOOKORDER: "+c.choice);
        cook.msgHereIsAnOrder(c.table, c.choice, this);
        
 	}

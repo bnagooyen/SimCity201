@@ -48,11 +48,11 @@ public class LWaiterGui implements Gui {
     public static final int xTable4 = 170;
     public static final int yTable4 = 60;
     
-    public static final int xCook = 75;
-    public static final int yCook = 310;
+    public static final int xCook = 430;
+    public static final int yCook = 200;
     
-    public static final int xCookP = 125;
-    public static final int yCookP = 290;
+    public static final int xCookP = 450;
+    public static final int yCookP = 200;
     
     public static final int xCashier = -400;
     public static final int yCashier = 700;

@@ -35,7 +35,7 @@ public class LMenu {
 		}
 	}
 	
-	public Boolean affordable(int money){
+	public Boolean affordable(double money){
 		for(Food f: menu){
 			if(f.cost <=money){
 				return true;
@@ -69,7 +69,7 @@ public class LMenu {
 	
 	
 	private class Food{
-		int cost;
+		double cost;
 		String item;
 		
 		Food(int c, String i){

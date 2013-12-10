@@ -39,11 +39,11 @@ public class LCookGui implements Gui {
     
     private int rectSize = 10;
 
-    public static final int xCooking = 500;
-    public static final int yCooking = 200;
+    public static final int xCooking = 485;
+    public static final int yCooking = 240;
     
-    public static final int xPlating = 450;
-    public static final int yPlating = 200;
+    public static final int xPlating = 470;
+    public static final int yPlating = 220;
     
     public static final int xRefrig = 450;
     public static final int yRefrig = 250;

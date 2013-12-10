@@ -9,6 +9,7 @@ import simcity.LRestaurant.LHostRole.myWaiter;
 import simcity.LRestaurant.ProducerConsumerMonitor;
 import simcity.LRestaurant.LWaiterRole;
 import simcity.LRestaurant.LWaiterRole.WaiterState;
+import simcity.LRestaurant.gui.LCookGui;
 import simcity.LRestaurant.gui.LWaiterGui;
 import simcity.LRestaurant.gui.LHostGui;
 import simcity.PersonAgent;
@@ -46,6 +47,7 @@ public class LHostRole extends Role implements LHost, Host {
 
         private ProducerConsumerMonitor theMonitor;
         LCookRole cook;
+        LCookGui cookGui;
         LCashierRole cashier;
         
         private int hour;
@@ -132,7 +134,7 @@ public class LHostRole extends Role implements LHost, Host {
     		if(type.equals("waiter")){
     			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Waiter is here");
     			Do("Waiter is here");
-    			waiters.add(new myWaiter((LWaiterRole) r,0));
+    			waiters.add(new myWaiter((LWaiterRole) r,0, cookGui));
     		}
     		else if(type.equals("cook")){
     			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Cook is here");
@@ -154,6 +156,20 @@ public class LHostRole extends Role implements LHost, Host {
     		
     		stateChanged();
     	}
+        
+        public void msgIAmHere(Role r, String type,LCookGui cookGui) {
+			// TODO Auto-generated method stub
+        	if(type.equals("cook")){
+    			AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Cook is here");
+    			Do("Cook is here");
+    			cook = (LCookRole)r;
+    			this.cookGui = cookGui;
+    		}
+        	
+        	for(myWaiter w : waiters){
+        		w.setCookGui(cookGui);
+        	}
+		}
         
         public void msgLeftLine(){
                 moveWaitLine = true;
@@ -459,7 +475,7 @@ public class LHostRole extends Role implements LHost, Host {
 
         //utilities
         public void addWaiter(LWaiterRole w) {
-    		waiters.add(new myWaiter(w,0));
+    		waiters.add(new myWaiter(w,0,cookGui));
     		if(w instanceof LWaiterSharedDataRole) {
     			((LWaiterSharedDataRole) w).setMonitor(theMonitor);
     		}
@@ -488,11 +504,19 @@ public class LHostRole extends Role implements LHost, Host {
                 LWaiterRole w;
                 int numCust;
                 WaiterState state;
+                LCookGui cookGui;
 
-                public myWaiter(LWaiterRole waiter, int num) {
+                public myWaiter(LWaiterRole waiter, int num, LCookGui cg) {
                         w = waiter;
                         numCust = num;
                         state = WaiterState.working;
+                        cookGui = cg;
+//                        print("COOKGUI in myWaiter: " + cg);
+                        w.getGui().setCookGui(cg);
+                }
+                
+                public void setCookGui(LCookGui cg){
+                	w.getGui().setCookGui(cg);
                 }
 
         }
@@ -560,5 +584,7 @@ public class LHostRole extends Role implements LHost, Host {
 			// TODO Auto-generated method stub
 			
 		}
+
+	
 
 }

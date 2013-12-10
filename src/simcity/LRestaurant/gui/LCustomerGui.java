@@ -54,6 +54,7 @@ public class LCustomerGui implements Gui{
 		yDestination = yDpos;
 		//maitreD = m;
 //		this.gui = gui;
+		isPresent = true;
 	}
 	
 	
