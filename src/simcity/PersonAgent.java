@@ -45,6 +45,9 @@ import java.util.concurrent.Semaphore;
 //is proceeded as he wishes.
 public class PersonAgent extends Agent implements Person {
 
+	//time 
+	int hour; 
+	
 	Timer timer = new Timer();
 	Random generator = new Random();
 	String jobString;
@@ -138,13 +141,15 @@ public class PersonAgent extends Agent implements Person {
         marketPrices.put("Chicken", 7.0);
         marketPrices.put("Salad", 3.0);
         marketPrices.put("Pizza", 5.0);
+        Random rand = new Random();
+        RestChoice= "Restaurant "+ Integer.toString(rand.nextInt(6)+1);
 		
 	}
 
 	// Messages
 	public void msgTimeUpdate(int hr) {
 		Do("got time update. Time is " + hr);//+" Work Starts at " +myJob.startHour);
-		int hour = hr;
+		hour = hr;
 		if(hr == 6) { 
 			state = PersonState.doingNothing;
 			energystate=EnergyState.awake;
@@ -381,7 +386,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 		if(hungerLevel>50) {
-			if (money >= 40) {
+			if (money >= 40 && hour >= directory.get("Restaurant 3").openHour) {
 				GoToRestaurant();
 			}
 			else{

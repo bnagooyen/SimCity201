@@ -863,6 +863,7 @@ public class SimCityPanel extends JPanel {
 			//    		System.out.println("added");
 			PersonAgent p = new PersonAgent(name);
 			p.setMoney(money);
+			p.setDirectory(directory);
 			p.SetTravelPreference(transport);
 			CarAgent car=new CarAgent();
 			CarGui cgui=new CarGui(car, gui);
