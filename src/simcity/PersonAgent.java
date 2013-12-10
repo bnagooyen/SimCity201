@@ -797,11 +797,12 @@ public class PersonAgent extends Agent implements Person {
 
 	private void getOnBus(){
 		Do("getting on bus");
-
+		transit=TransitState.onBus;
 		PersonGui.DoGoTo(destStop);
+		System.out.println("getting on " +destStop);
 		PersonGui.setPresent(false);
 		bus.msgGettingOn(this, destStop);
-		transit=TransitState.onBus;
+		
 		try {
 			travelSem.acquire();
 		} catch (InterruptedException e) {
@@ -812,6 +813,7 @@ public class PersonAgent extends Agent implements Person {
 
 	private void getOffBusAndWalkToWork(){
 		transit=TransitState.atDestination;
+		System.out.println("getting off  "+ destStop );
 		PersonGui.setPresent(true);
 		DoGoTo(jobLocation); 
 		Do("Going to Work at"+ jobLocation);
