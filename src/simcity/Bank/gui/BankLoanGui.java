@@ -55,7 +55,7 @@ public class BankLoanGui implements Gui{
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command==Command.goToCorner) Role.msgAnimationFinishedGoToCorner();
 			else if (command==Command.leaveBank) Role.msgAnimationFinishedLeaveBank();
-			else if (command==command.goToLoanPosition) Role.msgAtLoanPos();
+			else if (command==Command.goToLoanPosition) Role.msgAtLoanPos();
 			command=Command.noCommand;
 		}
 	}
