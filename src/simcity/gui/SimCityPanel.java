@@ -1039,7 +1039,6 @@ public class SimCityPanel extends JPanel {
 					p.SetJob(BW,"Restaurant 5", role);
 				}
 				else if(rest.restNum==6){
-					System.out.println("qwertyuiop");
 					TWaiterRole TW;
 					if(rest.waiters.size()==0){
 						TW=(TWaiterRole) TRestaurant.AddNormalWaiter();
@@ -1052,7 +1051,6 @@ public class SimCityPanel extends JPanel {
 				}
 				System.out.println(" Problems in the if statement " + hour);
 				if(hour>=directory.get(p.jobLocation).openHour-2 && hour<=directory.get(p.jobLocation).closeHour-3){
-					System.out.println("MESSAGING WORKTIME" + p.getName());
 					p.msgWorkTime();
 				}
 			}
