@@ -47,6 +47,7 @@ public class PersonAgent extends Agent implements Person {
 
 	//time 
 	int hour; 
+	int startHour;
 	
 	Timer timer = new Timer();
 	Random generator = new Random();
@@ -134,7 +135,8 @@ public class PersonAgent extends Agent implements Person {
 		moneystate=MoneyState.poor;
 		//address="House 1";
 		myTravelPreference=TravelPreference.walk;
-		BankChoice="Bank "+ Integer.toString(generator.nextInt(1)+1);        //CHANGE RANDOM TO 2 TO HAVE people go to both banks
+		BankChoice="Bank "+ Integer.toString(generator.nextInt(2)+1);        //CHANGE RANDOM TO 2 TO HAVE people go to both banks
+		MarketChoice="Market "+ Integer.toString(generator.nextInt(4)+1);
 		energystate=EnergyState.sleeping;
 		
         marketPrices.put("Steak", 10.0);
@@ -150,19 +152,19 @@ public class PersonAgent extends Agent implements Person {
 	public void msgTimeUpdate(int hr) {
 		Do("got time update. Time is " + hr);//+" Work Starts at " +myJob.startHour);
 		hour = hr;
-		if(hr == 6) { 
+		if(myJob!=null) startHour=directory.get(jobLocation).openHour-2;
+		else startHour=50;
+		if(hr == 7 || hr==startHour) { 
 			state = PersonState.doingNothing;
 			energystate=EnergyState.awake;
 		}
-		if(hr ==24) { 
+		if(hr == 0) { 
 			energystate=EnergyState.tired;
 		}
 		if(myJob!=null){
-			Do("Employed :)   (IN TIME UPDATE FOR PERSON  "+ myJob.startHour );
-			if(hr==myJob.startHour-2) {
-				Do("ITS WORK TIME!!!!!");
+			if(hr==directory.get(jobLocation).openHour-2) {
+				Do("ITS WORK TIME!!!!! " + myJob);
 				state=PersonState.workTime;
-				myJob.msgTimeUpdate(15);
 			}
 		}
 
@@ -170,6 +172,7 @@ public class PersonAgent extends Agent implements Person {
 		if(myJob instanceof BankManagerRole || myJob instanceof MarketManagerRole || myJob instanceof Host) {
 			if(myJob.isActive) {
 				myJob.msgTimeUpdate(hr);
+				Do("Gave Time to "+myJob);
 			}
 		}
 		hungerLevel+=10;
@@ -402,7 +405,7 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}
 
-		if(kitchenAmount < kitchenThreshold && money>= (marketPrices.get("Steak")+marketPrices.get("Chicken")+marketPrices.get("Salad")+marketPrices.get("Pizza"))) {
+		if(hour>=directory.get("Market 1").openHour && kitchenAmount < kitchenThreshold && money>= (marketPrices.get("Steak")+marketPrices.get("Chicken")+marketPrices.get("Salad")+marketPrices.get("Pizza"))) {
 			GoToMarket();
 			return true;
 		}
@@ -738,7 +741,7 @@ public class PersonAgent extends Agent implements Person {
 			e.printStackTrace();
 		}
 		myLocation=LocationState.atHome;
-
+		energystate=EnergyState.sleeping;
 
 		if (homeAddress.contains("House")) {
 			residentGui.goToBed();

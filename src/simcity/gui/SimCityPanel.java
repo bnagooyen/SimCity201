@@ -679,31 +679,31 @@ public class SimCityPanel extends JPanel {
         directory.get("Restaurant 6").nearestBusStop = bs3;
         directory.get("Restaurant 2").nearestBusStop = bs4;
         
-        directory.get("Market 1").openHour = 10;
-        directory.get("Market 2").openHour = 10; 
-        directory.get("Market 3").openHour = 10;
-        directory.get("Market 4").openHour = 10;
-        directory.get("Bank 1").openHour = 8;
-        directory.get("Bank 2").openHour = 8;
-        directory.get("Restaurant 1").openHour = 11;
-        directory.get("Restaurant 3").openHour = 11;
-        directory.get("Restaurant 4").openHour = 11;
-        directory.get("Restaurant 5").openHour = 11;
-        directory.get("Restaurant 6").openHour = 11;
-        directory.get("Restaurant 2").openHour = 11;
+        directory.get("Market 1").openHour = 9;
+        directory.get("Market 2").openHour = 9; 
+        directory.get("Market 3").openHour = 9;
+        directory.get("Market 4").openHour = 9;
+        directory.get("Bank 1").openHour = 9;
+        directory.get("Bank 2").openHour = 9;
+        directory.get("Restaurant 1").openHour = 9;
+        directory.get("Restaurant 3").openHour = 9;
+        directory.get("Restaurant 4").openHour = 9;
+        directory.get("Restaurant 5").openHour = 9;
+        directory.get("Restaurant 6").openHour = 9;
+        directory.get("Restaurant 2").openHour = 9;
         
-        directory.get("Market 1").closeHour = 0;
-        directory.get("Market 2").closeHour = 0; 
-        directory.get("Market 3").closeHour = 0;
-        directory.get("Market 4").closeHour = 0;
-        directory.get("Bank 1").closeHour = 6;
-        directory.get("Bank 2").closeHour = 6;
-        directory.get("Restaurant 1").closeHour = 11;
-        directory.get("Restaurant 3").closeHour = 11;
-        directory.get("Restaurant 4").closeHour = 11;
-        directory.get("Restaurant 5").closeHour = 11;
-        directory.get("Restaurant 6").closeHour = 11;
-        directory.get("Restaurant 2").closeHour = 11;
+        directory.get("Market 1").closeHour = 23;
+        directory.get("Market 2").closeHour = 23; 
+        directory.get("Market 3").closeHour = 23;
+        directory.get("Market 4").closeHour = 23;
+        directory.get("Bank 1").closeHour = 17;
+        directory.get("Bank 2").closeHour = 17;
+        directory.get("Restaurant 1").closeHour = 20;
+        directory.get("Restaurant 3").closeHour = 20;
+        directory.get("Restaurant 4").closeHour = 20;
+        directory.get("Restaurant 5").closeHour = 20;
+        directory.get("Restaurant 6").closeHour = 20;
+        directory.get("Restaurant 2").closeHour = 20;
         
         // set all market places to not down
         Iterator it = directory.entrySet().iterator();
@@ -1224,14 +1224,6 @@ public class SimCityPanel extends JPanel {
 	            }*/
 
 			if(p.myJob!=null)p.myJob.isActive=false;
-		
-
-
-			//TAKE THIS TIME UPDATE AWAY, JUST FOR TESTING 
-			//if(p.myJob!=null)p.msgTimeUpdate(p.myJob.startHour-1);
-			else{
-				System.out.println(role+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			}
 
 			PersonGui g = new PersonGui(p, gui);
 			//g.setPresent(true);
@@ -1623,7 +1615,7 @@ public class SimCityPanel extends JPanel {
 		Timer timer;
 
 		class RemindTask extends TimerTask {
-			int counter= 0;
+			int counter= 7;
 			@Override
 			public void run() {
 				if(counter <24) {
@@ -1633,7 +1625,7 @@ public class SimCityPanel extends JPanel {
 					}
 					counter++;
 					if (counter == 24) {
-						counter = 1;
+						counter = 0;
 					}
 				}
 			}
@@ -1641,7 +1633,7 @@ public class SimCityPanel extends JPanel {
 		timer = new Timer();
 		timer.schedule(new RemindTask(),
 				0,        //initial delay
-				1*2000);  //subsequent rate                
+				1*10000);  //subsequent rate                
 	}
 
 
