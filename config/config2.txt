@@ -1,0 +1,163 @@
+Population(numPeopleInFile):
+31
+EntryTemplate:
+Name
+	Money
+	Role
+	ModeOfTransport
+	House/Apartment
+Applekimi
+	600
+	Waiter
+	Walk
+	Apartment
+Drewreen
+	600
+	Waiter
+	Walk
+	Apartment
+Kimda
+	500
+	Waiter
+	Walk
+	Apartment
+Limberly
+	500
+	Waiter
+	Walk
+	Apartment
+Santiar
+	500
+	Waiter
+	Walk
+	Apartment
+Chartiago
+	500
+	Waiter
+	Walk
+	House
+Andrew
+	400
+	Cook1
+	Walk
+	Apartment
+Brian
+	400
+	Cook2
+	Walk
+	Apartment
+Doreen
+	400
+	Cook3
+	Walk
+	Apartment
+Kim
+	400
+	Cook4
+	Walk
+	Apartment
+Linda
+	400
+	Cook5
+	Walk
+	Apartment
+Tiffany
+	400
+	Cook6
+	Walk
+	House
+LinLin
+	400
+	RestaurantCashier1
+	Walk
+	Apartment
+DrewDrew
+	400
+	RestaurantCashier2
+	Walk
+	Apartment
+DorDor
+	400
+	RestaurantCashier3
+	Walk
+	Apartment
+KimKim
+	400
+	RestaurantCashier4
+	Walk
+	Apartment
+BriBri
+	400
+	RestaurantCashier5
+	Walk
+	Apartment
+TifTif
+	400
+	RestaurantCashier6
+	Walk
+	Apartment
+AInventory
+	200
+	InventoryBoy1
+	Walk
+	Apartment
+BInventory
+	200
+	InventoryBoy2
+	Walk
+	Apartment
+CInventory
+	200
+	InventoryBoy3
+	Walk
+	Apartment
+DInventory
+	200
+	InventoryBoy4
+	Walk
+	Apartment
+AMCashier
+	300
+	MarketCashier1
+	Walk
+	Apartment
+BMCashier
+	300
+	MarketCashier2
+	Walk
+	Apartment
+CMCashier
+	300
+	MarketCashier3
+	Walk
+	Apartment
+DMCashier
+	300
+	MarketCashier4
+	Walk
+	Apartment
+DrewDor
+	400
+	BankTeller1
+	Walk
+	House
+Aplimi
+	400
+	BankTeller2
+	Walk
+	House
+Kimiman
+	400
+	BankLoanOfficer1
+	Walk
+	House
+Andreen
+	400
+	BankLoanOfficer2
+	Walk
+	House
+1Visitor
+	1000
+	Visitor
+	Walk
+	House
