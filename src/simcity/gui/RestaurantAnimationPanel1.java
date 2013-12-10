@@ -51,7 +51,7 @@ public class RestaurantAnimationPanel1 extends BuildingAnimationPanel implements
 	    private final int CookRX = 450;
 	    private final int CookRY = 250;
 	    private final int RefrigW = 10;
-	    private final int RefrigH = 20;
+	    private final int RefrigH = 10;
 	    
 	    private final int TABLEW = 50;
 	    private final int TABLEH = 50;

@@ -17,7 +17,6 @@ import java.util.concurrent.Semaphore;
  */
 
 public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
-	private OrderStand myStand;
 	public List<customers> myCustomers
 	= new ArrayList<customers>(); 
 
@@ -501,9 +500,6 @@ public class TWaiterSharedDataRole extends TWaiterRole implements TWaiter{
 		cashier = c; 
 	}
 
-	public void setMonitor(OrderStand o) {
-		myStand = o; 
-	}
 
 
 	class customers {

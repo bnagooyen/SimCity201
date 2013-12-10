@@ -19,7 +19,6 @@ import java.util.concurrent.Semaphore;
  */
 
 public class THostRole extends Role implements Host {
-	private OrderStand myStand;
 	static final int NTABLES = 3;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -54,7 +53,6 @@ public class THostRole extends Role implements Host {
 		for (int ix = 1; ix <= NTABLES; ix++) {
 			tables.add(new Table(ix));//how you add to a collections
 		}
-		myStand = new OrderStand(); 
 	}
 
 	public String getName() {
@@ -74,14 +72,13 @@ public class THostRole extends Role implements Host {
 		if(type.equals("Waiter")){
 			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Waiter is here");
 			Do("Waiter is here");
-			addWaiter((TWaiter) r);
+			addWaiter((TWaiter) r); 
 			//waiters.add(new myWaiters((TWaiter) r));
 		}
 		else if(type.equals("Cook")){
 			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Cook is here");
 			Do("Cook is here");
 			cook = (TCookRole)r;
-			cook.setMonitor(myStand);
 		}
 		else if(type.equals("cashier")){
 			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "THostRole", "Cashier is here");
@@ -302,7 +299,6 @@ public class THostRole extends Role implements Host {
 	public void addWaiter(TWaiter wait) {
 		myWaiters waitList = new myWaiters(wait);
 		waiters.add(waitList);
-		wait.setMonitor(myStand); 
 		wait.setHomePosition(waiters.size() - 1);
 		//stateChanged(); 
 	}

@@ -71,7 +71,6 @@ public class PersonListPanel extends JPanel implements ActionListener {
         setScenario.addActionListener(this);
         scenarioSelector.add(setScenario);
        
-        //scenarioSelection.addItem("Choose Scenario..");
         scenarioSelection.addItem("Scenario 1");
         scenarioSelection.addItem("Scenario 2");
         scenarioSelection.addItem("Scenario 3");
@@ -176,17 +175,15 @@ public class PersonListPanel extends JPanel implements ActionListener {
      */
     @Override
 	public void actionPerformed(ActionEvent e) {
-//        if(e.getSource() == scenarioSelection){
-////        	System.err.println("changed to "+ scenarioSelection.getSelectedItem());
-////        	System.out.println((String)scenarioSelection.getSelectedItem());
-//        	UpdateToScenario((String)scenarioSelection.getSelectedItem());
-//        }
+        if(e.getSource() == scenarioSelection){
+//        	System.err.println("changed to "+ scenarioSelection.getSelectedItem());
+//        	System.out.println((String)scenarioSelection.getSelectedItem());
+        	//UpdateToScenario((String)scenarioSelection.getSelectedItem());
+        }
     	if(e.getSource()==setScenario) {
     		scenarioSelection.setEnabled(false);
     		setScenario.setEnabled(false);
     		dayWeekendSelection.setEnabled(false);
-    		UpdateToScenario((String)scenarioSelection.getSelectedItem());
-    		gui.simcityPanel.startTimer();
     		//simcityPanel.startTimer();
     		//start execution
     	}
@@ -301,10 +298,6 @@ public class PersonListPanel extends JPanel implements ActionListener {
             //button.addActionListener(this);
             //stateCB.addActionListener(this);
             //list.add(stateCB);
-            
-            
-            
-            
             pplList.add(button);
             
             adding.add(button, BorderLayout.CENTER);
@@ -324,43 +317,12 @@ public class PersonListPanel extends JPanel implements ActionListener {
     		view.remove(c);
     	}
     	view.validate();
-    	
-    	
-    	
     	for(Person p: people) {
     		  JLabel button = new JLabel(p.getName(), SwingConstants.CENTER);
     		  JPanel adding = new JPanel();
-    		  adding.setBorder(BorderFactory.createRaisedBevelBorder());
 //            System.err.println("addPerson");
             button.setBorder(BorderFactory.createLineBorder(Color.black));
 
-            
-            JComboBox switchRole = new JComboBox();
-            Dimension dim3 = new Dimension(120, 24);
-            switchRole.setPreferredSize(dim3);
-        	switchRole.addItem("Visitor");
-        	switchRole.addItem("Waiter");
-        	switchRole.addItem("MCashier");
-        	switchRole.addItem("RCashier");
-        	switchRole.addItem("Cook");
-        	switchRole.addItem("InventoryPerson");
-        	switchRole.addItem("Bank Teller");
-        	switchRole.addItem("Bank Loan Officer");
-        	switchRole.addItem("Bank Robber");
-        	switchRole.addItem("Repair Man");
-        	
-        	
-        	switchRole.addActionListener(this);
-        	String myJob = p.getJob();
-        	if (myJob.contains("Host") || myJob.contains("Manager")) {
-        		switchRole.addItem(myJob);
-        		switchRole.setSelectedItem(myJob);
-        		switchRole.setEnabled(false);
-        	}
-        	else {
-        	switchRole.setSelectedItem(p.getJob());
-        	}
-        	switchRoles.add(switchRole);
 
 	        pplList.add(button);
 	           
@@ -369,8 +331,8 @@ public class PersonListPanel extends JPanel implements ActionListener {
             button.setBackground(Color.white);
 
             Dimension paneSize = pane.getSize();
-            Dimension buttonSize = new Dimension(paneSize.width - 150,
-                    20);
+            Dimension buttonSize = new Dimension(paneSize.width-50,
+                    40);
             button.setPreferredSize(buttonSize);
             button.setMinimumSize(buttonSize);
             button.setMaximumSize(buttonSize);
@@ -378,25 +340,23 @@ public class PersonListPanel extends JPanel implements ActionListener {
             //stateCB.addActionListener(this);
             //list.add(stateCB);
             pplList.add(button);
+            
             adding.add(button, BorderLayout.CENTER);
-            adding.add(switchRole, BorderLayout.EAST);
             view.add(adding);
     	}
     	validate();
     }
     
-    public void UpdateToScenario(String type) {
-    		//add load scenario method here
-    	if(type.equals("Scenario 1"))
-    		gui.simcityPanel.LoadScenario("config1");
-    	else if(type.equals("Scenario 2"))
-    		gui.simcityPanel.LoadScenario("config2");
-    	else if(type.equals("Scenario 3"))
-    		gui.simcityPanel.LoadScenario("config3");
-    }
-    
+//    public void UpdateToScenario(String type) {
+//    		//add load scenario method here
+//    	if(type.equals("Scenario 1"))
+//    		simcityPanel.LoadScenario("config1");
+//    	else if(type.equals("Scenario 2"))
+//    		simcityPanel.LoadScenario("config2");
+//    	else if(type.equals("Scenario 3"))
+//    		simcityPanel.LoadScenario("config3");
+//    }
 //    
-
 //    public void setCustomerEnabled(String old, String n) {
 //    	for(int i=0; i<pplList.size(); i++) {
 //    		if(pplList.get(i).getText()==old) {

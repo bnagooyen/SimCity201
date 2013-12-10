@@ -402,7 +402,8 @@ public class LHostRole extends Role implements LHost, Host {
     	}
     	
     	private void restaurantClosed() {
-    		
+    		AlertLog.getInstance().logInfo(AlertTag.LRestaurant, "LHostRole", "Telling market is closed");
+    		Do("Telling market is closed");
     		synchronized(customers){
     			for(MyCustomers c: customers){
     				c.c.msgRestaurantClosed();

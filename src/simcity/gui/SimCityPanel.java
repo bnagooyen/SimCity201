@@ -271,18 +271,18 @@ public class SimCityPanel extends JPanel {
 		myRestaurants.add(TRestaurant);
 
 
-//		addPerson("Person", "Bman1", 100.0, "Bank Manager", "Apartment", "Walk"); 
-//		addPerson("Person", "Bman2", 100.0, "Bank Manager", "Apartment", "Walk"); 
-//		addPerson("Person", "Mman1", 100.0, "Market Manager", "Apartment", "Walk"); 
-//		addPerson("Person", "Mman2", 100.0, "Market Manager", "Apartment", "Walk"); 
-//		addPerson("Person", "Mman3", 100.0, "Market Manager", "Apartment", "Walk"); 
-//		addPerson("Person", "Mman4", 100.0, "Market Manager", "Apartment", "Walk"); 
-//		addPerson("Person", "Dhost", 100.0, "Doreen Host", "Apartment", "Walk"); 
-//		addPerson("Person", "Drewhost", 100.0, "Drew Host", "Apartment", "Walk"); 
-//		addPerson("Person", "Thost", 100.0, "Tiffany Host", "Apartment", "Walk"); 
-//		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
-//		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
-//		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
+		addPerson("Person", "Bman1", 100.0, "Bank Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Bman2", 100.0, "Bank Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman1", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman2", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman3", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Mman4", 100.0, "Market Manager", "Apartment", "Walk"); 
+		addPerson("Person", "Dhost", 100.0, "Doreen Host", "Apartment", "Walk"); 
+		addPerson("Person", "Drewhost", 100.0, "Drew Host", "Apartment", "Walk"); 
+		addPerson("Person", "Thost", 100.0, "Tiffany Host", "Apartment", "Walk"); 
+		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
+		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
+		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
 		
 		//this.LoadScenario("config1");
 
@@ -705,32 +705,6 @@ public class SimCityPanel extends JPanel {
         directory.get("Restaurant 6").nearestBusStop = bs3;
         directory.get("Restaurant 2").nearestBusStop = bs4;
         
-        directory.get("Market 1").openHour = 10;
-        directory.get("Market 2").openHour = 10; 
-        directory.get("Market 3").openHour = 10;
-        directory.get("Market 4").openHour = 10;
-        directory.get("Bank 1").openHour = 8;
-        directory.get("Bank 2").openHour = 8;
-        directory.get("Restaurant 1").openHour = 11;
-        directory.get("Restaurant 3").openHour = 11;
-        directory.get("Restaurant 4").openHour = 11;
-        directory.get("Restaurant 5").openHour = 11;
-        directory.get("Restaurant 6").openHour = 11;
-        directory.get("Restaurant 2").openHour = 11;
-        
-        directory.get("Market 1").closeHour = 0;
-        directory.get("Market 2").closeHour = 0; 
-        directory.get("Market 3").closeHour = 0;
-        directory.get("Market 4").closeHour = 0;
-        directory.get("Bank 1").closeHour = 6;
-        directory.get("Bank 2").closeHour = 6;
-        directory.get("Restaurant 1").closeHour = 11;
-        directory.get("Restaurant 3").closeHour = 11;
-        directory.get("Restaurant 4").closeHour = 11;
-        directory.get("Restaurant 5").closeHour = 11;
-        directory.get("Restaurant 6").closeHour = 11;
-        directory.get("Restaurant 2").closeHour = 11;
-        
         // set all market places to not down
         Iterator it = directory.entrySet().iterator();
         while (it.hasNext()) {
@@ -809,24 +783,10 @@ public class SimCityPanel extends JPanel {
 		return new Object();
 	}*/
 
-	public  void AddManagers() {
-		addPerson("Person", "Bman1", 100.0, "Bank Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Bman2", 100.0, "Bank Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman1", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman2", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman3", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman4", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Dhost", 100.0, "Doreen Host", "Apartment", "Walk"); 
-		addPerson("Person", "Drewhost", 100.0, "Drew Host", "Apartment", "Walk"); 
-		addPerson("Person", "Thost", 100.0, "Tiffany Host", "Apartment", "Walk"); 
-		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
-		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
-		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
-	}
+
 
 	public void LoadScenario(String type){
 		people.clear();
-		AddManagers();
 		String name, role, transport, houseOrApt; double money;
 		houseNumCounter=1;
 		aptNumCounter=1;
@@ -875,7 +835,6 @@ public class SimCityPanel extends JPanel {
 		if(type.equals("Person")) {
 			//    		System.out.println("added");
 			PersonAgent p = new PersonAgent(name);
-			p.setDirectory(directory);
 			p.setMoney(money);
 			p.SetTravelPreference(transport);
 			CarAgent car=new CarAgent();
@@ -916,7 +875,7 @@ public class SimCityPanel extends JPanel {
 				p.SetHomeAddress("Homeless Shelter");
 			}
 
-			
+			PersonGui g = new PersonGui(p, gui);
 			if(houseOrApt.equals("House")) {
 				ResidentGui rg = new ResidentGui(p);
 				p.setGui(rg);
@@ -928,46 +887,48 @@ public class SimCityPanel extends JPanel {
 				String tempAddress = p.homeAddress.substring(0, p.homeAddress.length()-1);
 				gui.myPanels.get(tempAddress).panel.addGui(tg);
 			}
-
+			g.setPresent(true);
+			p.setGui(g);
+			gui.city.addGui(g);
 
 
 			//Add Job 
 
 			//Managers&Hosts
 			if(role.equals("Inventory Person")){
-				//this.LoadScenario("config1");
+				this.LoadScenario("config1");
 			}
 			if(role.equals("Bank Manager")){
 				Integer bankChoice;
 				bankChoice=(storebalance.get(role)%2);
 				storebalance.put(role, storebalance.get(role)+1);
-				p.SetJob(myBanks.get(bankChoice).bankManager, "Bank "+Integer.toString(bankChoice+1), "Bank Manager");
+				p.SetJob(myBanks.get(bankChoice).bankManager, "Bank "+Integer.toString(bankChoice+1));
 				myBanks.get(bankChoice).bankManager.myPerson = p;
 			}
 			if(role.equals("Market Manager")){
 				Integer marketChoice;
 				marketChoice=(storebalance.get(role)%4);
 				storebalance.put(role, storebalance.get(role)+1);
-				p.SetJob(myMarkets.get(marketChoice).mManager, "Market "+Integer.toString(marketChoice+1), "Market Manager");
+				p.SetJob(myMarkets.get(marketChoice).mManager, "Market "+Integer.toString(marketChoice+1));
 				myMarkets.get(marketChoice).mManager.myPerson = p;
 				for(MarketPlace m:myMarkets){
 					if(m.mManager.myPerson==null) System.out.println("(in role.equals(Market Manager) Simcity Pnale) NO PERSON IN "+m.num);
 				}
 			}
 			if(role.equals("Doreen Host")){
-				p.SetJob(myRestaurants.get(2).host, "Restaurant 3", "Doreen Host");
+				p.SetJob(myRestaurants.get(2).host, "Restaurant 3");
 				myRestaurants.get(2).host.myPerson=p;
 			}
 			if(role.equals("Drew Host")){
-				p.SetJob(myRestaurants.get(1).host, "Restaurant 2", "Drew Host");
+				p.SetJob(myRestaurants.get(1).host, "Restaurant 2");
 				myRestaurants.get(1).host.myPerson=p;
 			}
 			if(role.equals("Linda Host")){
-				p.SetJob(myRestaurants.get(0).host, "Restaurant 1", "Linda Host");
+				p.SetJob(myRestaurants.get(0).host, "Restaurant 1");
 				myRestaurants.get(0).host.myPerson=p;
 			}
 			if(role.equals("Kim Host")){
-				p.SetJob(myRestaurants.get(3).host, "Restaurant 4", "Kim Host");
+				p.SetJob(myRestaurants.get(3).host, "Restaurant 4");
 				//p.SetJob(((RestaurantPlace)directory.get("Restaurant 4")).host, "Restaurant 4");
 				//((RestaurantPlace)directory.get("Restaurant 4")).host.myPerson = p;
 				//System.out.println("Restaurant 4's host's person is "+ ((RestaurantPlace)directory.get("Restaurant 4")).host);
@@ -975,11 +936,11 @@ public class SimCityPanel extends JPanel {
 				myRestaurants.get(3).host.myPerson=p;
 			}
 			if(role.equals("Brian Host")){
-				p.SetJob(myRestaurants.get(4).host, "Restaurant 5", "Brian Host");
+				p.SetJob(myRestaurants.get(4).host, "Restaurant 5");
 				myRestaurants.get(4).host.myPerson=p;
 			}
 			if(role.equals("Tiffany Host")){
-				p.SetJob(myRestaurants.get(5).host, "Restaurant 6", "Tiffany Host");
+				p.SetJob(myRestaurants.get(5).host, "Restaurant 6");
 				myRestaurants.get(5).host.myPerson=p;
 			}
 
@@ -1008,7 +969,7 @@ public class SimCityPanel extends JPanel {
 						LW=(LWaiterRole) LRestaurant.AddSharedDataWaiter();
 					}
 					LW.myPerson=p;
-					p.SetJob(LW, "Restaurant 1", role);
+					p.SetJob(LW, "Restaurant 1");
 				}
 				else if(rest.restNum==2){
 					Drew_WaiterRole DW;
@@ -1019,7 +980,7 @@ public class SimCityPanel extends JPanel {
 						DW=(Drew_WaiterRole) DrewRestaurant.AddNormalWaiter();
 					}
 					DW.myPerson=p;
-					p.SetJob(DW,"Restaurant 2", role);
+					p.SetJob(DW,"Restaurant 2");
 				}
 				else if(rest.restNum==3){
 					DWaiterRole DW;
@@ -1030,7 +991,7 @@ public class SimCityPanel extends JPanel {
 						DW=(DWaiterRole) DRestaurant.AddSharedDataWaiter();
 					}
 					DW.myPerson=p;
-					p.SetJob(DW,"Restaurant 3", role);
+					p.SetJob(DW,"Restaurant 3");
 				}
 				else if(rest.restNum==4){
 					KWaiterRole KW;
@@ -1041,7 +1002,7 @@ public class SimCityPanel extends JPanel {
 						KW=(KWaiterRole) KRestaurant.AddSharedDataWaiter();
 					}
 					KW.myPerson=p;
-					p.SetJob(KW,"Restaurant 4", role);
+					p.SetJob(KW,"Restaurant 4");
 				}
 				else if(rest.restNum==5){
 					BWaiterRole BW;
@@ -1052,7 +1013,7 @@ public class SimCityPanel extends JPanel {
 						BW=(BWaiterRole) BRestaurant.AddSharedDataWaiter();
 					}
 					BW.myPerson=p;
-					p.SetJob(BW,"Restaurant 5", role);
+					p.SetJob(BW,"Restaurant 5");
 				}
 				else if(rest.restNum==6){
 					System.out.println("qwertyuiop");
@@ -1064,7 +1025,7 @@ public class SimCityPanel extends JPanel {
 						TW=(TWaiterRole) TRestaurant.AddSharedDataWaiter();
 					}
 					TW.myPerson=p;
-					p.SetJob(TW,"Restaurant 6", role);
+					p.SetJob(TW,"Restaurant 6");
 				}
 			}
 
@@ -1073,66 +1034,66 @@ public class SimCityPanel extends JPanel {
 			if(role.equals("RestaurantCashier1")){
 				LCashierRole LC= (LCashierRole) LRestaurant.cashier;
 				LC.myPerson=p;
-				p.SetJob(LC, "Restaurant 1", "RCashier");
+				p.SetJob(LC, "Restaurant 1");
 			}
 			if(role.equals("RestaurantCashier2")){
 				Drew_CashierRole DC= (Drew_CashierRole) DrewRestaurant.cashier;
 				DC.myPerson=p;
-				p.SetJob(DC, "Restaurant 2", "RCashier");
+				p.SetJob(DC, "Restaurant 2");
 			}
 			if(role.equals("RestaurantCashier3")){
 				DCashierRole DC= (DCashierRole) DRestaurant.cashier;
 				DC.myPerson=p;
-				p.SetJob(DC, "Restaurant 3", "RCashier");
+				p.SetJob(DC, "Restaurant 3");
 			}
 			if(role.equals("RestaurantCashier4")){
 				KCashierRole KC= (KCashierRole) KRestaurant.cashier;
 				KC.myPerson=p;
-				p.SetJob(KC, "Restaurant 4", "RCashier");
+				p.SetJob(KC, "Restaurant 4");
 			}
 			if(role.equals("RestaurantCashier5")){
 				BCashierRole BC= (BCashierRole) BRestaurant.cashier;
 				BC.myPerson=p;
-				p.SetJob(BC, "Restaurant 5", "RCashier");
+				p.SetJob(BC, "Restaurant 5");
 			}
 			if(role.equals("RestaurantCashier6")){
 				TCashierRole TC= (TCashierRole) TRestaurant.cashier;
 				TC.myPerson=p;
-				p.SetJob(TC, "Restaurant 6", "RCashier");
+				p.SetJob(TC, "Restaurant 6");
 			}
 
 			//Add Cooks
 			if(role.equals("Cook1")){
 				LCookRole LC= (LCookRole) LRestaurant.cook;
 				LC.myPerson=p;
-				p.SetJob(LC, "Restaurant 1", "Cook");
+				p.SetJob(LC, "Restaurant 1");
 			}
 			if(role.equals("Cook2")){
 				Drew_CookRole DC= (Drew_CookRole) DrewRestaurant.cook;
 				DC.myPerson=p;
-				p.SetJob(DC, "Restaurant 2", "Cook");
+				p.SetJob(DC, "Restaurant 2");
 			}
 			if(role.equals("Cook3")){
 				DCookRole DC= (DCookRole) DRestaurant.cook;
 				DC.myPerson=p;
-				p.SetJob(DC, "Restaurant 3", "Cook");
+				p.SetJob(DC, "Restaurant 3");
 			}
 			if(role.equals("Cook4")){
 				KCookRole KC= (KCookRole) KRestaurant.cook;
 				KC.myPerson=p;
 				KC.setHost((KHostRole) KRestaurant.host);
 				KC.setCashier((RestaurantCashier) KRestaurant.cashier);
-				p.SetJob(KC, "Restaurant 4", "Cook");
+				p.SetJob(KC, "Restaurant 4");
 			}
 			if(role.equals("Cook5")){
 				BCookRole BC= (BCookRole) BRestaurant.cook;
 				BC.myPerson=p;
-				p.SetJob(BC, "Restaurant 5", "Cook");
+				p.SetJob(BC, "Restaurant 5");
 			}
 			if(role.equals("Cook6")){
 				TCookRole TC= (TCookRole) TRestaurant.cook;
 				TC.myPerson=p;
-				p.SetJob(TC, "Restaurant 6", "Cook");
+				p.SetJob(TC, "Restaurant 6");
 			}
 
 
@@ -1142,22 +1103,22 @@ public class SimCityPanel extends JPanel {
 			if(role.equals("MarketCashier1")){
 				MarketCashierRole LC= (MarketCashierRole) myMarkets.get(0).mCashier;
 				LC.myPerson=p;
-				p.SetJob(LC, "Market 1", "MCashier");
+				p.SetJob(LC, "Market 1");
 			}
 			if(role.equals("MarketCashier2")){
 				MarketCashierRole LC= (MarketCashierRole) myMarkets.get(1).mCashier;
 				LC.myPerson=p;
-				p.SetJob(LC, "Market 2", "MCashier");
+				p.SetJob(LC, "Market 2");
 			}
 			if(role.equals("MarketCashier3")){
 				MarketCashierRole LC= (MarketCashierRole) myMarkets.get(2).mCashier;
 				LC.myPerson=p;
-				p.SetJob(LC, "Market 3", "MCashier");
+				p.SetJob(LC, "Market 3");
 			}
 			if(role.equals("MarketCashier4")){
 				MarketCashierRole LC= (MarketCashierRole) myMarkets.get(3).mCashier;
 				LC.myPerson=p;
-				p.SetJob(LC, "Market 4", "MCashier");
+				p.SetJob(LC, "Market 4");
 			}
 
 
@@ -1167,22 +1128,22 @@ public class SimCityPanel extends JPanel {
 			if(role.equals("InventoryBoy1")){
 				InventoryBoyRole LC= (InventoryBoyRole) myMarkets.get(0).ib;
 				LC.myPerson=p;
-				p.SetJob(LC, "Market 1", "InventoryPerson");
+				p.SetJob(LC, "Market 1");
 			}
 			if(role.equals("InventoryBoy2")){
 				InventoryBoyRole LC= (InventoryBoyRole) myMarkets.get(1).ib;
 				LC.myPerson=p;
-				p.SetJob(LC, "Market 2", "InventoryPerson");
+				p.SetJob(LC, "Market 2");
 			}
 			if(role.equals("InventoryBoy3")){
 				InventoryBoyRole LC= (InventoryBoyRole) myMarkets.get(2).ib;
 				LC.myPerson=p;
-				p.SetJob(LC, "Market 3", "InventoryPerson");
+				p.SetJob(LC, "Market 3");
 			}
 			if(role.equals("InventoryBoy4")){
 				InventoryBoyRole LC= (InventoryBoyRole) myMarkets.get(3).ib;
 				LC.myPerson=p;
-				p.SetJob(LC, "Market 4", "InventoryPerson");
+				p.SetJob(LC, "Market 4");
 			}
 
 
@@ -1198,12 +1159,12 @@ public class SimCityPanel extends JPanel {
 			if(role.equals("BankTeller1")){
 				BankTellerRole BT=  myBanks.get(0).bankTeller;
 				BT.myPerson=p;
-				p.SetJob(BT,"Bank 1", "Bank Teller");
+				p.SetJob(BT,"Bank 1");
 			}
 			if(role.equals("BankTeller2")){
 				BankTellerRole BT=  myBanks.get(1).bankTeller;
 				BT.myPerson=p;
-				p.SetJob(BT,"Bank 2", "Bank Teller");
+				p.SetJob(BT,"Bank 2");
 			}
 
 			//Add Bank Loan Officers
@@ -1218,12 +1179,12 @@ public class SimCityPanel extends JPanel {
 			if(role.equals("BankLoanOfficer1")){
 				BankLoanOfficerRole BT=  myBanks.get(0).loanOfficer;
 				BT.myPerson=p;
-				p.SetJob(BT,"Bank 1", "Bank Loan Officer");
+				p.SetJob(BT,"Bank 1");
 			}
 			if(role.equals("BankLoanOfficer2")){
 				BankLoanOfficerRole BT=  myBanks.get(1).loanOfficer;
 				BT.myPerson=p;
-				p.SetJob(BT,"Bank 2", "Bank Loan Officer");
+				p.SetJob(BT,"Bank 2");
 			}
 
 			//	    		Bmanager.msgTimeUpdate(8);
@@ -1248,25 +1209,14 @@ public class SimCityPanel extends JPanel {
 		
 
 
-//			//TAKE THIS TIME UPDATE AWAY, JUST FOR TESTING 
-//			if(p.myJob!=null)p.msgTimeUpdate(p.myJob.startHour-1);
-//			else{
-//				System.out.println(role+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//			}
+			//TAKE THIS TIME UPDATE AWAY, JUST FOR TESTING 
+			if(p.myJob!=null)p.msgTimeUpdate(p.myJob.startHour-1);
+			else{
+				System.out.println(role+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			}
 
-			//p.startThread(); TRYING TO START THREADS ON START BUTTON.. LOOK AT STARTTIMER
-//			if(!fromFile) {
-//				p.startThread();
-//			}
-			
-			PersonGui g = new PersonGui(p, gui);
-			g.setPresent(true);
-			p.setGui(g);
-			gui.city.addGui(g);
 			p.startThread();
-			
 			people.add(p);
-			
 		}
 	}
 
@@ -1278,8 +1228,6 @@ public class SimCityPanel extends JPanel {
 		public int y;
 		public boolean down;
 		public BusStop nearestBusStop;
-		public int openHour;
-		public int closeHour;
 
 	}
 	//waiter needs host
@@ -1649,7 +1597,6 @@ public class SimCityPanel extends JPanel {
 	public void startTimer() {
 		Timer timer;
 
-		
 		class RemindTask extends TimerTask {
 			int counter= 0;
 			@Override
@@ -1669,7 +1616,7 @@ public class SimCityPanel extends JPanel {
 		timer = new Timer();
 		timer.schedule(new RemindTask(),
 				0,        //initial delay
-				1*5000);  //subsequent rate                
+				1*2000);  //subsequent rate                
 	}
 
 

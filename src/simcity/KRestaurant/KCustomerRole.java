@@ -320,7 +320,7 @@ public class KCustomerRole extends Role implements KCustomer{
 	private void goToRestaurant() {
 		if(customerGui == null) {
 			customerGui = new KCustomerGui(this, gui);
-			gui.myPanels.get("Restaurant 4").panel.addGui(customerGui);
+			gui.myPanels.get("Restaurant 1").panel.addGui(customerGui);
 		}
 		customerGui.setPresent(true);
 		AlertLog.getInstance().logMessage(AlertTag.KRestaurant, "KCustomer", "Going to restaurant");

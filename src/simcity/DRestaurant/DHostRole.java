@@ -3,6 +3,7 @@ package simcity.DRestaurant;
 import simcity.DRestaurant.DProducerConsumerMonitor;
 import simcity.DRestaurant.DHostRole.MyCustomer.CustState;
 import simcity.DRestaurant.DHostRole.MyWaiter.MyWaiterState;
+import agent.Agent;
 import agent.Role;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -112,7 +113,6 @@ public class DHostRole extends Role implements Host {
 		System.out.println("host received update in register amount: "+ register);
 		registerRestocked.release();
 	}
-	@Override
 	public void msgTimeUpdate(int hr) {
 		hour = hr;
 		stateChanged();
