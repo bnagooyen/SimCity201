@@ -37,7 +37,7 @@ public abstract class BWaiterRole extends Role implements BWaiter{
         private boolean onBreak=false;
         Timer timer= new Timer();
         SimCityGui gui;
-        BHostGui waitergui; 
+        
 
 
         public enum customerState{
@@ -85,8 +85,8 @@ public abstract class BWaiterRole extends Role implements BWaiter{
         
 
         public BWaiterRole(SimCityGui g) {
-                //super(p);
-        	
+                super();
+                arrived=true;
         		gui =g;
                 this.name = name;
                 // make some tables
@@ -132,10 +132,7 @@ public abstract class BWaiterRole extends Role implements BWaiter{
 
         public void msgIWantFood(BCustomer cust) {
                 waitingCustomers.add(cust);
-               if(hostGui == null){
-        			hostGui = new BHostGui(this);
-        			gui.myPanels.get("Restaurant 5").panel.addGui(hostGui);
-        		}
+               
                 stateChanged();
         }
         
@@ -351,6 +348,10 @@ public abstract class BWaiterRole extends Role implements BWaiter{
          Do("telling manager I can work");
          arrived = false;
          host.msgIAmHere(this, "waiter");
+         if(hostGui == null){
+ 			hostGui = new BHostGui(this);
+ 			gui.myPanels.get("Restaurant 5").panel.addGui(hostGui);
+ 		}
  }
         
         private void returnFromBreak(){
@@ -473,7 +474,7 @@ public abstract class BWaiterRole extends Role implements BWaiter{
     }
         
          public void setCashier(BCashier cashier){
-                        this.cashier = cashier;
+                    this.cashier = cashier;
             }
 
         public BHostGui getGui() {

@@ -893,7 +893,7 @@ public class SimCityPanel extends JPanel {
 
 			//Managers&Hosts
 			if(role.equals("Inventory Person")){
-				this.LoadScenario("config1");
+//				this.LoadScenario("config1");
 			}
 			if(role.equals("Bank Manager")){
 				Integer bankChoice;
