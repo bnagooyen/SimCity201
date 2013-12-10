@@ -708,7 +708,9 @@ public class PersonAgent extends Agent implements Person {
 			stateChanged();
 		}
 		else if (myTravelPreference == TravelPreference.bus) {
-			DoGoTo("Bus Stop"); 
+			 myDestination=jobLocation;
+             destStop=directory.get(jobLocation).nearestBusStop;
+             transit=TransitState.goToBus;
 		}
 		else if (myTravelPreference == TravelPreference.car) {
 			DoGoTo("Car");
