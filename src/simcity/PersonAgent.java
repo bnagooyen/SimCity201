@@ -77,7 +77,7 @@ public class PersonAgent extends Agent implements Person {
 	private BusAgent bus;
 	private CarAgent myCar;
 
-	public String nearestStop="Stop4";
+	public String nearestStop="Stop1";
 	public String destStop;
 	public String myDestination;
 	//housing information
