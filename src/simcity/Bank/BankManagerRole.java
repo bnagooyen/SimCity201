@@ -77,7 +77,7 @@ public class BankManagerRole extends Role implements BankManager {
 		gui=G;
 		instance=num;
 		// TODO Auto-generated constructor stub
-		startHour=7;
+		//startHour=7;
 		bankState=BankState.arriving;
 		hour=0;
 		officers.clear();

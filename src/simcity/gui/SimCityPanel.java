@@ -738,6 +738,7 @@ public class SimCityPanel extends JPanel {
             Business b = (Business) pairs.getValue();
             b.down = false;
         }
+        
     }
 
     /**
@@ -862,6 +863,7 @@ public class SimCityPanel extends JPanel {
 			//    		System.out.println("added");
 			PersonAgent p = new PersonAgent(name);
 			p.setMoney(money);
+			p.setDirectory(directory);
 			p.SetTravelPreference(transport);
 			CarAgent car=new CarAgent();
 			CarGui cgui=new CarGui(car, gui);
@@ -1236,7 +1238,7 @@ public class SimCityPanel extends JPanel {
 
 
 			//TAKE THIS TIME UPDATE AWAY, JUST FOR TESTING 
-			if(p.myJob!=null)p.msgTimeUpdate(p.myJob.startHour-1);
+			//if(p.myJob!=null)p.msgTimeUpdate(p.myJob.startHour-1);
 			else{
 				System.out.println(role+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			}

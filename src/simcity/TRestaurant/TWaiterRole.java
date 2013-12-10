@@ -132,7 +132,7 @@ public class TWaiterRole extends Role implements TWaiter{
 			while (myCustomers.get(index).c != cust) {
 				index++; 
 			}
-			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "Recieved check from cashier");
+			AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "Recieved check from cashier");
 			Do("Received check from cashier"); 
 			myCustomers.get(index).check = c; 
 			myCustomers.get(index).state = CustomerState.Paying;
@@ -154,14 +154,14 @@ public class TWaiterRole extends Role implements TWaiter{
 	}
 
 	public void msgNoBreak() {
-		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "No break for me.");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "No break for me.");
 		Do("No break for me.");
 		askingForBreak = false; 
 		stateChanged(); 
 	}
 
 	public void msgOnBreak() {
-		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "I can have a break! :)");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "I can have a break! :)");
 		Do("I can have a break! :)");
 		onBreak = true; 
 		stateChanged(); 
@@ -299,7 +299,7 @@ public class TWaiterRole extends Role implements TWaiter{
 	// Actions
 	
 	private void tellHost() {
-		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "Telling manager I can work");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "Telling manager I can work");
 		Do("Telling manager I can work");
 		arrived = false;
 		if (waiterGui == null) {
@@ -310,7 +310,7 @@ public class TWaiterRole extends Role implements TWaiter{
 	}
 	
 	private void goHome() {
-		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "Going home");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "Going home");
 		Do("Going home");
 		waiterGui.LeaveRestaurant();
 		isActive = false;
@@ -334,7 +334,7 @@ public class TWaiterRole extends Role implements TWaiter{
 	}
 
 	private void goToTable (TCustomer c, int table) throws InterruptedException {
-		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "Going to table");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "Going to table");
 		Do("Going to table " + table + " to take order");
 		DoGoToTable(table);
 		atTable.acquire(); 
@@ -351,12 +351,12 @@ public class TWaiterRole extends Role implements TWaiter{
 			myCustomers.get(index).choice = o;
 		}
 		myCustomers.get(index).state = CustomerState.waitingForOrder;
-		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "Received customer's orders");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "Received customer's orders");
 		Do("Received customer's orders");
 	}
 
 	private void callCook(customers c) {
-		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "in callCook");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "in callCook");
 		Do("in callCook");
 		goToCook(); 
 		try {
@@ -384,7 +384,7 @@ public class TWaiterRole extends Role implements TWaiter{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "Giving customer their order");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "Giving customer their order");
 		Do("Giving customer their order.");
 		c.msgHeresYourOrder(); 
 		waiterGui.DoLeaveCustomer();
@@ -407,7 +407,7 @@ public class TWaiterRole extends Role implements TWaiter{
 			e.printStackTrace();
 		}
 		
-		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "Gave check to customer");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "Gave check to customer");
 		Do("Gave check to customer"); 
 		c.msgHereIsYourCheck(check); 
 		waiterGui.DoLeaveCustomer();
@@ -426,13 +426,13 @@ public class TWaiterRole extends Role implements TWaiter{
 	}
 
 	private void AskForBreak() {
-		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "Asking host for a break");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "Asking host for a break");
 		Do("Asking host for a break"); 
 		host.msgBreakPlease(this); 
 	}
 
 	private void takeBreak() {
-		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "Taking my break");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "Taking my break");
 		Do("Taking my break"); 
 		waiterGui.DoGoOnBreak();
 		waiterGui.setBreak();
@@ -441,11 +441,11 @@ public class TWaiterRole extends Role implements TWaiter{
 				DoneWithBreak(); 
 			}
 		},
-		 10000);
+		 5000);
 	}
 
 	public void DoneWithBreak() {
-		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterSharedDataRole", "Done with my break");
+		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TWaiterRole", "Done with my break");
 		Do("Done with my break");
 		waiterGui.DoLeaveCustomer();
 		waiterGui.offBreak(); 
