@@ -261,7 +261,7 @@ public class TWaiterRole extends Role implements TWaiter{
 				}
 				for (int index = 0; index < myCustomers.size(); index++) {
 					if (myCustomers.get(index).state == CustomerState.orderDone) {
-						//goToCook();
+						goToCook();
 						giveOrder(myCustomers.get(index).c, myCustomers.get(index).table, myCustomers.get(index).choice);
 						myCustomers.get(index).state = CustomerState.Eating; 
 						return true; 
@@ -269,7 +269,7 @@ public class TWaiterRole extends Role implements TWaiter{
 				}
 				for (int index = 0; index < myCustomers.size(); index++) {
 					if (myCustomers.get(index).state == CustomerState.waiting) {
-						//waiterGui.getCustomer();
+						waiterGui.getCustomer();
 						try {
 							withCustomer.acquire();
 						} catch (InterruptedException e1) {

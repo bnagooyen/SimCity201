@@ -111,6 +111,7 @@ public class Drew_HostRole extends Role implements Drew_Host, Host {//Drew_Host{
 		waitingCustomers.add(cust);
 		count++;
 		cust.wait(waitingCustomers.size()-1);
+		Do("Recieved msgiwantfood");
 		stateChanged();
 	}
 

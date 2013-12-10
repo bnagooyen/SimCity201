@@ -144,7 +144,6 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	}
 	
 	private void msgTimeToCheckStand() {
-		Do("time to check stand");
 		stateChanged();
 	}
 	
@@ -347,7 +346,6 @@ Do("UNCOMMENT 289");//			market.msgIAmHere(this, toOrder, "Drew_restaurant", "co
 
 	
 	private void checkRotatingStand() {
-		Do("Checking Stand "+myPerson.getName());
 		Drew_RestaurantOrder newOrder = theMonitor.remove();
 		if(newOrder != null) {
 			Order o = new Order(newOrder.w, newOrder.choice, newOrder.table);
@@ -358,7 +356,6 @@ Do("UNCOMMENT 289");//			market.msgIAmHere(this, toOrder, "Drew_restaurant", "co
 			timer.schedule(new TimerTask() {
 				public void run() {
 						msgTimeToCheckStand();
-						Do("timer Done!");
 					}
 				},
 				2000);

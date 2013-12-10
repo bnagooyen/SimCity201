@@ -360,7 +360,7 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}
 
-		if(hungerLevel>50 && transit==TransitState.walkingtoDestination) {
+		if(hungerLevel>50) {
 			if (money >= 40) {
 				GoToRestaurant();
 			}
