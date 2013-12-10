@@ -51,7 +51,7 @@ public class PersonAgent extends Agent implements Person {
 	
 	Timer timer = new Timer();
 	Random generator = new Random();
-	String jobString;
+	public String jobString;
 	private String name;
 	public Role myJob;
 	public String jobLocation;
