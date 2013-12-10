@@ -1,6 +1,7 @@
 package simcity.TRestaurant;
 
 import simcity.TRestaurant.gui.TCustomerGui;
+import simcity.TRestaurant.gui.TWaiterGui;
 import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -231,6 +232,10 @@ public class TCustomerRole extends Role implements TCustomer {
 	private void goToRestaurant() {
 		AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Going to restaurant");
 		Do("Going to restaurant");
+		if (customerGui == null) {
+			customerGui = new TCustomerGui(this);
+			gui.myPanels.get("Restaurant 6").panel.addGui(customerGui);
+		}
 		host.msgIWantFood(this);	//send our instance, so he can respond 
 	}
 	
