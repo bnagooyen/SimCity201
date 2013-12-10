@@ -378,6 +378,7 @@ public class DCustomerRole extends Role implements DCustomer {
 	private void DecideWhatIWantToEat(final DMenu myMenu) {
 		//Do("Deciding what to order...");
 		state = AgentState.Seated;
+		choice = myMenu.MostExpensiveICanAfford(myPerson.money);
 		/*timer.schedule(new TimerTask() {
 			public void run() {
 				Random generator= new Random();
