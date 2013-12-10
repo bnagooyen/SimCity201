@@ -909,6 +909,12 @@ public class SimCityPanel extends JPanel {
 
 			//Add Job 
 
+			//Visitor first
+			if(role.equals("Visitor")) {
+				System.err.println("Visitor added");
+				p.goToAll=true;
+			}
+			
 			//Managers&Hosts
 			if(role.equals("Inventory Person")){
 //				this.LoadScenario("config1");
