@@ -226,7 +226,7 @@ public class KHostRole extends Role implements Host{
 			return true;
 		}
 		
-		if(hour == myPerson.directory.get(myPerson.jobLocation).closeHour-1){
+		if(hour == myPerson.directory.get(myPerson.jobLocation).closeHour){
 			restaurantClosed();
 			return true;
 		}

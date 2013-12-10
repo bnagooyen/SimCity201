@@ -157,11 +157,11 @@ public class Drew_HostRole extends Role implements Drew_Host, Host {//Drew_Host{
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-		if(hour>startHour && !restaurantOpen){
+		if(hour>=myPerson.directory.get(myPerson.jobLocation).openHour  && !restaurantOpen){
 			openRestaurant();
 			return true;
 		}		
-		if(hour>22 && restaurantOpen){
+		if(hour>myPerson.directory.get(myPerson.jobLocation).closeHour  && restaurantOpen){
 			closeRestaurant();
 			return true;
 		}
