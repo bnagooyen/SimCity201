@@ -373,10 +373,10 @@ public class DCookRole extends Role implements DCook, Cook{
 //                
 //        }
         
-        public void msgAnimationArrivedAtKitchen() {
-        	atKitchen.release();
-        	stateChanged();
-        }
+//        public void msgAnimationArrivedAtKitchen() {
+//        	atKitchen.release();
+//        	stateChanged();
+//        }
         public void msgAnimationLeftRestaurant() {
         	atTheDoor.release();
         	stateChanged();
@@ -530,12 +530,12 @@ public class DCookRole extends Role implements DCook, Cook{
         			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCookRole", "On duty. Going to kitchen");
         			Do("On duty.. going to kitchen");
         			DoGoToKitchen();
-        			try {
-						atKitchen.acquire();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+//        			try {
+//						atKitchen.acquire();
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
         			//goingToKitchen=false;
         			//inKitchen=true;
         			state=CookState.atKitchen;

@@ -77,7 +77,7 @@ public class PersonAgent extends Agent implements Person {
 	private BusAgent bus;
 	private CarAgent myCar;
 
-	public String nearestStop="Stop1";
+	public String nearestStop="Stop4";
 	public String destStop;
 	public String myDestination;
 	//housing information
@@ -191,14 +191,14 @@ public class PersonAgent extends Agent implements Person {
 
 	public void msgAnimationAtBusStop(){
 
-		atBusStop.release();
+		travelSem.release();
 		transit=TransitState.atBusStop;
 		stateChanged();
 	}
 
 	public void msgAtStop(String destination){
 		travelSem.release();
-		System.out.println("getting off message");
+		System.out.println("getting off message ");
 		//mydestination=destination;
 		transit = TransitState.walkingtoDestination;
 		stateChanged();
@@ -585,7 +585,12 @@ public class PersonAgent extends Agent implements Person {
 
 		transit=TransitState.walkingToBus;
 		DoGoTo(nearestStop);
-		
+		try {
+			travelSem.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 
 
@@ -805,7 +810,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	private void getOffBusAndWalkToWork(){
-		//gui to get off
+		transit=TransitState.atDestination;
 		PersonGui.setPresent(true);
 		DoGoTo(jobLocation); 
 		Do("Going to Work at"+ jobLocation);
