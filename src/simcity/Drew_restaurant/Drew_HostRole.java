@@ -50,7 +50,7 @@ public class Drew_HostRole extends Role implements Drew_Host, Host {//Drew_Host{
 		super();
 		// make some tables
 		startHour=11;
-		restaurantOpen=false;
+		restaurantOpen=true;
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		for (int ix = 1; ix <= NTABLES; ix++) {
 			Table t = new Table(ix);			

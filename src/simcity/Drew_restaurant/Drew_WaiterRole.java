@@ -289,11 +289,11 @@ public abstract class Drew_WaiterRole extends Role implements Drew_Waiter{
 	// Actions
 	
 	private void seatCustomer(MyCustomer customer){
-		if(customer.c.getName().equals("Break")){
+		/*if(customer.c.getName().equals("Break")){
 			AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewWaiter", "May I go on break?");
 			print("May I go on break?");
 			host.iWantToGoOnBreak(this);
-		}
+		}*/
 		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewWaiter", "Seating " + customer.c + " at " + customer.getTable());
 		print("Seating " + customer.c + " at " + customer.getTable());
 		waitergui.getCustomer();
