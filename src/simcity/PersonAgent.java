@@ -64,7 +64,7 @@ public class PersonAgent extends Agent implements Person {
 	public int hungerLevel;
 	enum EnergyState { awake, tired, sleeping};
 	EnergyState energystate;
-	enum PersonState { doingNothing, atRestaurant, workTime, asleep, dead };
+	enum PersonState { doingNothing, atRestaurant, workTime, asleep, dead, travelling };
 	public enum TransitState {justLeaving, goToBus, walkingToBus, onBus, goToCar, inCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
 	enum LocationState {atHome, atRestaurant, atBank, atWork, atMarket};
 	public enum MoneyState {poor, middle, rich};
@@ -265,6 +265,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 		if(transit==TransitState.atBusStop){
+			
 			tellBusStop();
 			return true;
 		}
@@ -305,85 +306,111 @@ public class PersonAgent extends Agent implements Person {
 		if(goToAll){ //boolean that is set for visitors
 
 			if(tourState.equals(NextLoc.m1)){
-				MarketChoice = "Market 1";
-				money = 500;
-				kitchenAmount = 0;
+				if(!directory.get("Market 1").down){
+					MarketChoice = "Market 1";
+					money = 500;
+					kitchenAmount = 0;
+					GoToMarket();
+				}
 				tourState = NextLoc.home;
-				GoToMarket();
+				
 				return true;
 			}
 			else if(tourState.equals(NextLoc.m2)){
-				MarketChoice = "Market 2";
-				money = 500;
-				kitchenAmount = 0;
+				if(!directory.get("Market 2").down){
+					MarketChoice = "Market 2";
+					money = 500;
+					kitchenAmount = 0;
+					GoToMarket();
+				}
 				tourState = NextLoc.r2;
-				GoToMarket();
+				
 				return true;
 			}
 			else if(tourState.equals(NextLoc.m3)){
-				MarketChoice = "Market 3";
-				money = 500;
-				kitchenAmount = 0;
+				if(!directory.get("Market 3").down){
+					MarketChoice = "Market 3";
+					money = 500;
+					kitchenAmount = 0;
+					GoToMarket();
+				}
 				tourState = NextLoc.b2;
-				GoToMarket();
 				return true;
 			}
 			else if(tourState.equals(NextLoc.m4)){
-				MarketChoice = "Market 4";
-				money = 500;
-				kitchenAmount = 0;
+				if(!directory.get("Market 4").down){
+					MarketChoice = "Market 4";
+					money = 500;
+					kitchenAmount = 0;
+					GoToMarket();
+				}
 				tourState = NextLoc.r6;
-				GoToMarket();
 				return true;
 			}
 			else if(tourState.equals(NextLoc.b1)){
-				BankChoice = "Bank 1";
-				money = 1000;
+				if(!directory.get("Bank 1").down){
+					BankChoice = "Bank 1";
+					money = 1000;
+					GoToBank();
+				}
 				tourState = NextLoc.m1;
-				GoToBank();
 				return true;
 			}
 			else if(tourState.equals(NextLoc.b2)){
-				BankChoice = "Bank 2";
-				money = 1000;
+				if(!directory.get("Bank 2").down){
+					BankChoice = "Bank 2";
+					money = 1000;
+					GoToBank();
+				}
 				tourState = NextLoc.m4;
-				GoToBank();
 				return true;
 			}
 			else if(tourState.equals(NextLoc.r1)){
-				RestChoice = "Restaurant 1";
-				tourState = NextLoc.m2;//was r3
-				GoToRestaurant();
+				if(!directory.get("Restaurant 1").down){
+					RestChoice = "Restaurant 1";
+					GoToRestaurant();
+				}
+				tourState = NextLoc.r3;
 				return true;
 			}
 			else if(tourState.equals(NextLoc.r2)){
-				RestChoice = "Restaurant 2";
+				if(!directory.get("Restaurant 2").down){
+					RestChoice = "Restaurant 2";
+					GoToRestaurant();
+				}
 				tourState = NextLoc.b1;
-				GoToRestaurant();
 				return true;
 			}
 			else if(tourState.equals(NextLoc.r3)){
-				RestChoice = "Restaurant 3";
+				if(!directory.get("Restaurant 3").down){
+					RestChoice = "Restaurant 3";
+					GoToRestaurant();
+				}
 				tourState = NextLoc.r4;
-				GoToRestaurant();
 				return true;
 			}
 			else if(tourState.equals(NextLoc.r4)){
-				RestChoice = "Restaurant 4";
+				if(!directory.get("Restaurant 4").down){
+					RestChoice = "Restaurant 4";
+					GoToRestaurant();
+				}
 				tourState = NextLoc.m3;
-				GoToRestaurant();
 				return true;
 			}
 			else if(tourState.equals(NextLoc.r5)){
-				RestChoice = "Restaurant 5";
-				tourState = NextLoc.r3;//was m2
-				GoToRestaurant();
+				if(!directory.get("Restaurant 5").down){
+					RestChoice = "Restaurant 5";
+					GoToRestaurant();
+				}
+				tourState = NextLoc.m2;
 				return true;
 			}
 			else if(tourState.equals(NextLoc.r6)){
-				RestChoice = "Restaurant 6";
+				if(!directory.get("Restaurant 6").down){
+					RestChoice = "Restaurant 6";
+					GoToRestaurant();
+				}
 				tourState = NextLoc.r5;
-				GoToRestaurant();
 				return true;
 			}
 			else if(tourState.equals(NextLoc.home)){
@@ -392,6 +419,7 @@ public class PersonAgent extends Agent implements Person {
 				goToAll = false;
 				money = 75;
 				hungerLevel = 0;
+				kitchenAmount = 100;
 				GoHome();
 				return true;
 			}
@@ -658,7 +686,7 @@ public class PersonAgent extends Agent implements Person {
 			
 			//Do("here");
 			for(Role r: roles) {
-				if(r instanceof MarketCustomerRole) {
+				if(r instanceof MarketCustomerRole ) {
 					if(((MarketCustomerRole)(r)).num == mktCustomerNum) {
 						
 						((MarketCustomerRole) r).populateOrderList("Steak", amountOrdering);
@@ -671,7 +699,6 @@ public class PersonAgent extends Agent implements Person {
 						r.isActive = true;
 						
 					}
-					break;
 				}
 			}
 			
@@ -714,7 +741,6 @@ public class PersonAgent extends Agent implements Person {
 						//else r.purpose="loan";
 						r.isActive = true;
 					}
-					break;
 				}
 			}
 			stateChanged();
@@ -746,10 +772,12 @@ public class PersonAgent extends Agent implements Person {
 			state= PersonState.doingNothing;
 			stateChanged();
 		}
+		
 		else if (myTravelPreference == TravelPreference.bus) {
 			 myDestination=jobLocation;
              destStop=directory.get(jobLocation).nearestBusStop;
              transit=TransitState.goToBus;
+             state=PersonState.travelling;
 		}
 		else if (myTravelPreference == TravelPreference.car) {
 			DoGoTo("Car");
@@ -814,11 +842,12 @@ public class PersonAgent extends Agent implements Person {
 
 	private void getOnBus(){
 		Do("getting on bus");
-
-		PersonGui.DoGoTo(destStop);
-		PersonGui.setPresent(false);
-		bus.msgGettingOn(this, destStop);
 		transit=TransitState.onBus;
+		PersonGui.DoGoTo(destStop);
+		System.out.println("going to " +destStop);
+		//PersonGui.setPresent(false);
+		bus.msgGettingOn(this, destStop);
+		
 		try {
 			travelSem.acquire();
 		} catch (InterruptedException e) {
@@ -829,6 +858,7 @@ public class PersonAgent extends Agent implements Person {
 
 	private void getOffBusAndWalkToWork(){
 		transit=TransitState.atDestination;
+		System.out.println("getting off  "+ destStop );
 		PersonGui.setPresent(true);
 		DoGoTo(jobLocation); 
 		Do("Going to Work at"+ jobLocation);

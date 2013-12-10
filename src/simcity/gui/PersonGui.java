@@ -229,8 +229,9 @@ public class PersonGui implements Gui {
 			}
 
 			else if(command==Command.GoToBusStop) {
+				 
 				agent.msgAnimationAtBusStop();
-
+				
 
 			}
 
@@ -345,6 +346,7 @@ public class PersonGui implements Gui {
 				//isPresent = true; 
 			}
 			else if (busStop > 0){
+				isPresent = false;
 				busStop = 0;
 				command = Command.none; 
 

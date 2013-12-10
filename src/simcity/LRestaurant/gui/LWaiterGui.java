@@ -54,7 +54,7 @@ public class LWaiterGui implements Gui {
     public static final int xCookP = 450;
     public static final int yCookP = 200;
     
-    public static final int xCashier = -400;
+    public static final int xCashier = -300;
     public static final int yCashier = 700;
     
     private int tableNum;

@@ -80,13 +80,12 @@ public class BusAgent extends Agent implements Bus {
 
                 }
                 state=busState.loading;
-                stateChanged();
                 }
                 
                 else if (people.size()==0){
                         state=busState.readyToGo;
-                        stateChanged();
                 }
+                stateChanged();
         }
 
         public void msgGettingOn(PersonAgent p, String destination){ // first loop to get everyone on bus 
