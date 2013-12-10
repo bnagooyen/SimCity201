@@ -185,6 +185,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
     		setScenario.setEnabled(false);
     		dayWeekendSelection.setEnabled(false);
     		//simcityPanel.startTimer();
+    		UpdateToScenario((String)scenarioSelection.getSelectedItem());
     		//start execution
     	}
     	if (e.getSource() == addPersonB) {
@@ -347,15 +348,15 @@ public class PersonListPanel extends JPanel implements ActionListener {
     	validate();
     }
     
-//    public void UpdateToScenario(String type) {
-//    		//add load scenario method here
-//    	if(type.equals("Scenario 1"))
-//    		simcityPanel.LoadScenario("config1");
-//    	else if(type.equals("Scenario 2"))
-//    		simcityPanel.LoadScenario("config2");
-//    	else if(type.equals("Scenario 3"))
-//    		simcityPanel.LoadScenario("config3");
-//    }
+    public void UpdateToScenario(String type) {
+    		//add load scenario method here
+    	if(type.equals("Scenario 1"))
+    		gui.simcityPanel.LoadScenario("config1");
+    	else if(type.equals("Scenario 2"))
+    		gui.simcityPanel.LoadScenario("config2");
+    	else if(type.equals("Scenario 3"))
+    		gui.simcityPanel.LoadScenario("config3");
+    }
 //    
 //    public void setCustomerEnabled(String old, String n) {
 //    	for(int i=0; i<pplList.size(); i++) {
