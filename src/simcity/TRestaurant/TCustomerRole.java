@@ -221,6 +221,7 @@ public class TCustomerRole extends Role implements TCustomer {
 		}
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
 			state = AgentState.DoingNothing;
+			leaveRestaurant(); 
 			//no action
 			return true;
 		}
@@ -457,6 +458,10 @@ public class TCustomerRole extends Role implements TCustomer {
 		Do("Leaving.");
 		waiter.msgLeavingTable(this);
 		customerGui.DoExitRestaurant();
+	}
+	
+	private void leaveRestaurant() {
+		customerGui.DoExitRestaurant(); 		
 	}
 
 	// Accessors, etc.

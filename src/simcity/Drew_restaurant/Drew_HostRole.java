@@ -211,6 +211,7 @@ public class Drew_HostRole extends Role implements Drew_Host, Host {//Drew_Host{
 		AlertLog.getInstance().logMessage(AlertTag.DrewRestaurant, "DrewHost", "We're Closed, Go Home");
 		Do("We're Closed, Go Home");
 		waitingCustomers.get(0).msgGoHome();
+		waitingCustomers.remove(0); 
 	}
 	
 	private void seatCustomer(Drew_Customer customer, Table table) {
