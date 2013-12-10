@@ -145,6 +145,7 @@ public class PersonAgent extends Agent implements Person {
         marketPrices.put("Pizza", 5.0);
         Random rand = new Random();
         RestChoice= "Restaurant "+ Integer.toString(rand.nextInt(6)+1);
+        tourState = NextLoc.m1;
 		
 	}
 
