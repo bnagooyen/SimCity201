@@ -677,7 +677,7 @@ public class PersonAgent extends Agent implements Person {
 				residentGui.goToHomePosition(); 
 			}
 			else {
-				tenantGui.LeaveHouse(); 
+				tenantGui.goToHomePosition(); 
 			}			
 		}
 
