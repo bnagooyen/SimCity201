@@ -61,6 +61,9 @@ public class PersonGui implements Gui {
 	private boolean labelIsShowing=false;
 	String foodReady;
 
+	//string of file name for toggling image
+	String FileImage;
+	
 	// private int seatingAt;
 	private DCustomerRole takingOrderFrom;//, orderFrom;
 
@@ -74,6 +77,7 @@ public class PersonGui implements Gui {
 		gui=g;
 		this.agent = agent;
 		madeToFront=true;
+		FileImage = "images/person.png";
 		//        for(int i=0; i<labelIsShowing.length;i++)
 		//        	labelIsShowing[i]=false;
 
@@ -246,9 +250,10 @@ public class PersonGui implements Gui {
 
 		Image image = null;
 		try {
-			image = ImageIO.read(new File("images/person.png"));
+			image = ImageIO.read(new File(FileImage));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			//System.err.println("FILENOTFOUND");
 			e.printStackTrace();
 		}
 		g.drawImage(image, xPos, yPos-3, null); 
@@ -286,6 +291,17 @@ public class PersonGui implements Gui {
 
 	public int getYPos() {
 		return yPos;
+	}
+	
+	public void ToggleImage() {
+		if(FileImage.equals("images/person.png")) {
+			FileImage="images/personTracked.png";
+		}
+		else {
+			FileImage="images/person.png";
+		}
+		
+		System.err.println("image toggled");
 	}
 
 	public void DoGoTo(String destination) {

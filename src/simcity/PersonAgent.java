@@ -212,6 +212,11 @@ public class PersonAgent extends Agent implements Person {
 		stateChanged(); 
 	}
 
+	public void msgWorkTime(){
+		state=PersonState.workTime;
+		energystate=EnergyState.awake;
+		stateChanged();
+	}
 	//Animation Messages
 	public void msgAnimationArivedAtRestaurant() {
 		atRestaurant.release();
