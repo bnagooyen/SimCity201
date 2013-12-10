@@ -253,7 +253,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 	} 
 	
 	private void cookIt(final Order O){
-		//doCooking(O); Will be used for gui
+		//doCooking(O);// Will be used for gui
 		Food f=foods.get(O.choice.toLowerCase());
 		if(f.amount==0){
 			O.w.outOf(O.choice, O.t);
@@ -261,7 +261,7 @@ public class Drew_CookRole extends Role implements Drew_Cook {
 			print("OUT OF "+ O.choice);
 			return;
 		}
-		//gui.goToGrill();
+		gui.goToGrill();
 		finishTask();
 		gui.onGrill++;
 		O.s=State.cooking;

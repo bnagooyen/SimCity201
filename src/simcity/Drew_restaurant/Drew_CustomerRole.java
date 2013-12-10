@@ -293,7 +293,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 	}
 	
 	private String chooseFood(){
-		for(int i=0; i<menu.choices.size(); i++){
+		/*for(int i=0; i<menu.choices.size(); i++){
 			if(name.toLowerCase().equals(menu.getItem(i).toLowerCase())){					//Hack to make cust order specific food
 				String choice=name;
 				if(menu.getPrice(choice)<Money){
@@ -302,7 +302,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 					return choice;
 				}
 			}
-		}
+		}*/
 		String choice="";
 		int rand = (int)(Math.random() * menu.choices.size());
 		if(menu.choices.isEmpty()){					//If cook has no food left
