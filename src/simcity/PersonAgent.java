@@ -64,7 +64,7 @@ public class PersonAgent extends Agent implements Person {
 	public int hungerLevel;
 	enum EnergyState { awake, tired, sleeping};
 	EnergyState energystate;
-	enum PersonState { doingNothing, atRestaurant, workTime, asleep, dead };
+	enum PersonState { doingNothing, atRestaurant, workTime, asleep, dead, travelling };
 	public enum TransitState {justLeaving, goToBus, walkingToBus, onBus, goToCar, inCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
 	enum LocationState {atHome, atRestaurant, atBank, atWork, atMarket};
 	public enum MoneyState {poor, middle, rich};
@@ -265,6 +265,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 		if(transit==TransitState.atBusStop){
+			
 			tellBusStop();
 			return true;
 		}
@@ -746,10 +747,12 @@ public class PersonAgent extends Agent implements Person {
 			state= PersonState.doingNothing;
 			stateChanged();
 		}
+		
 		else if (myTravelPreference == TravelPreference.bus) {
 			 myDestination=jobLocation;
              destStop=directory.get(jobLocation).nearestBusStop;
              transit=TransitState.goToBus;
+             state=PersonState.travelling;
 		}
 		else if (myTravelPreference == TravelPreference.car) {
 			DoGoTo("Car");
@@ -816,8 +819,8 @@ public class PersonAgent extends Agent implements Person {
 		Do("getting on bus");
 		transit=TransitState.onBus;
 		PersonGui.DoGoTo(destStop);
-		System.out.println("getting on " +destStop);
-		PersonGui.setPresent(false);
+		System.out.println("going to " +destStop);
+		//PersonGui.setPresent(false);
 		bus.msgGettingOn(this, destStop);
 		
 		try {
