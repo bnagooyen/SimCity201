@@ -142,6 +142,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
 
         // actions
         private void goToManager() {
+        		for(MFoodOrder o:order){
+        			print("ORDER : "+o.amount+" "+o.type);
+        		}
+        	
         		customerGui = new MCustomerGui(this);
         		customerGui.setPresent(true);
         		if(gui!=null) {
