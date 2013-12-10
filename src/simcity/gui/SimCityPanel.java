@@ -705,6 +705,32 @@ public class SimCityPanel extends JPanel {
         directory.get("Restaurant 6").nearestBusStop = bs3;
         directory.get("Restaurant 2").nearestBusStop = bs4;
         
+        directory.get("Market 1").openHour = 10;
+        directory.get("Market 2").openHour = 10; 
+        directory.get("Market 3").openHour = 10;
+        directory.get("Market 4").openHour = 10;
+        directory.get("Bank 1").openHour = 8;
+        directory.get("Bank 2").openHour = 8;
+        directory.get("Restaurant 1").openHour = 11;
+        directory.get("Restaurant 3").openHour = 11;
+        directory.get("Restaurant 4").openHour = 11;
+        directory.get("Restaurant 5").openHour = 11;
+        directory.get("Restaurant 6").openHour = 11;
+        directory.get("Restaurant 2").openHour = 11;
+        
+        directory.get("Market 1").closeHour = 0;
+        directory.get("Market 2").closeHour = 0; 
+        directory.get("Market 3").closeHour = 0;
+        directory.get("Market 4").closeHour = 0;
+        directory.get("Bank 1").closeHour = 6;
+        directory.get("Bank 2").closeHour = 6;
+        directory.get("Restaurant 1").closeHour = 11;
+        directory.get("Restaurant 3").closeHour = 11;
+        directory.get("Restaurant 4").closeHour = 11;
+        directory.get("Restaurant 5").closeHour = 11;
+        directory.get("Restaurant 6").closeHour = 11;
+        directory.get("Restaurant 2").closeHour = 11;
+        
         // set all market places to not down
         Iterator it = directory.entrySet().iterator();
         while (it.hasNext()) {
@@ -849,6 +875,7 @@ public class SimCityPanel extends JPanel {
 		if(type.equals("Person")) {
 			//    		System.out.println("added");
 			PersonAgent p = new PersonAgent(name);
+			p.setDirectory(directory);
 			p.setMoney(money);
 			p.SetTravelPreference(transport);
 			CarAgent car=new CarAgent();
@@ -1228,7 +1255,18 @@ public class SimCityPanel extends JPanel {
 //			}
 
 			//p.startThread(); TRYING TO START THREADS ON START BUTTON.. LOOK AT STARTTIMER
+//			if(!fromFile) {
+//				p.startThread();
+//			}
+			
+			PersonGui g = new PersonGui(p, gui);
+			g.setPresent(true);
+			p.setGui(g);
+			gui.city.addGui(g);
+			p.startThread();
+			
 			people.add(p);
+			
 		}
 	}
 
@@ -1240,6 +1278,8 @@ public class SimCityPanel extends JPanel {
 		public int y;
 		public boolean down;
 		public BusStop nearestBusStop;
+		public int openHour;
+		public int closeHour;
 
 	}
 	//waiter needs host
@@ -1609,13 +1649,6 @@ public class SimCityPanel extends JPanel {
 	public void startTimer() {
 		Timer timer;
 
-		for(PersonAgent p: people) {
-			PersonGui g = new PersonGui(p, gui);
-			g.setPresent(true);
-			p.setGui(g);
-			gui.city.addGui(g);
-			p.startThread();
-		}
 		
 		class RemindTask extends TimerTask {
 			int counter= 0;

@@ -44,7 +44,7 @@ import java.util.concurrent.Semaphore;
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
 public class PersonAgent extends Agent implements Person {
-
+	int hour;
 	Timer timer = new Timer();
 	Random generator = new Random();
 	private String jobString;
@@ -58,6 +58,7 @@ public class PersonAgent extends Agent implements Person {
 	public Map<String, BusStopAgent> busStops=new HashMap<String, BusStopAgent>(); 
 	//States
 	public int hungerLevel;
+
 	enum PersonState { doingNothing, atRestaurant, workTime, tired, asleep, dead };
 	public enum TransitState {justLeaving, goToBus, walkingToBus, onBus, goToCar, inCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
 	enum LocationState {atHome, atRestaurant, atBank, atWork, atMarket};
@@ -115,8 +116,9 @@ public class PersonAgent extends Agent implements Person {
 		super();
 
 		this.name = name;
+		hour = 0;
 		//transit=TransitState.goToBus;
-		state=PersonState.doingNothing;
+		state=PersonState.asleep;
 		hungerLevel=70;
 		myLocation=LocationState.atHome;
 		moneystate=MoneyState.poor;
@@ -128,16 +130,16 @@ public class PersonAgent extends Agent implements Person {
 	// Messages
 	public void msgTimeUpdate(int hr) {
 		Do("got time update. Time is " + hr);//+" Work Starts at " +myJob.startHour);
-		int hour = hr;
+		hour = hr;
 		if(hr == 6) { 
 			state = PersonState.doingNothing;
 		}
-		if(hr ==24) { 
+		if(hr ==0) { 
 			state = PersonState.tired;
 		}
 		if(myJob!=null){
 			Do("Employed :)   (IN TIME UPDATE FOR PERSON  "+ myJob.startHour );
-			if(hr==myJob.startHour-1) {
+			if(hr==directory.get(jobLocation).openHour-1) {
 				Do("ITS WORK TIME!!!!!");
 				state=PersonState.workTime;
 			}
@@ -216,6 +218,7 @@ public class PersonAgent extends Agent implements Person {
 	@Override
 	protected boolean pickAndExecuteAnAction() {
 
+		System.out.println("in person scheduler");
 		if(state==PersonState.asleep||state==PersonState.dead){
 			return false;
 		}
