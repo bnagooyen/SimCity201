@@ -666,18 +666,18 @@ public class SimCityPanel extends JPanel {
         directory.put("Restaurant 6", TRestaurant);
         
         // set nearest bus stop of all the buildings
-        directory.get("Market 1").nearestBusStop = bs1;
-        directory.get("Market 2").nearestBusStop = bs4;
-        directory.get("Market 3").nearestBusStop = bs2;
-        directory.get("Market 4").nearestBusStop = bs3;
-        directory.get("Bank 1").nearestBusStop = bs4;
-        directory.get("Bank 2").nearestBusStop = bs2;
-        directory.get("Restaurant 1").nearestBusStop = bs1;
-        directory.get("Restaurant 3").nearestBusStop = bs1;
-        directory.get("Restaurant 4").nearestBusStop = bs2;
-        directory.get("Restaurant 5").nearestBusStop = bs3;
-        directory.get("Restaurant 6").nearestBusStop = bs3;
-        directory.get("Restaurant 2").nearestBusStop = bs4;
+        directory.get("Market 1").nearestBusStop = "Stop1";
+        directory.get("Market 2").nearestBusStop = "Stop4";
+        directory.get("Market 3").nearestBusStop = "Stop2";
+        directory.get("Market 4").nearestBusStop = "Stop3";
+        directory.get("Bank 1").nearestBusStop = "Stop4";
+        directory.get("Bank 2").nearestBusStop = "Stop2";
+        directory.get("Restaurant 1").nearestBusStop = "Stop1";
+        directory.get("Restaurant 3").nearestBusStop = "Stop1";
+        directory.get("Restaurant 4").nearestBusStop = "Stop2";
+        directory.get("Restaurant 5").nearestBusStop = "Stop3";
+        directory.get("Restaurant 6").nearestBusStop = "Stop3";
+        directory.get("Restaurant 2").nearestBusStop = "Stop4";
         
         directory.get("Market 1").openHour = 9;
         directory.get("Market 2").openHour = 9; 
@@ -911,7 +911,7 @@ public class SimCityPanel extends JPanel {
 
 			//Visitor first
 			if(role.equals("Visitor")) {
-				System.err.println("Visitor added");
+				//System.err.println("Visitor added");
 				p.goToAll=true;
 			}
 			
@@ -1248,7 +1248,7 @@ public class SimCityPanel extends JPanel {
 		public boolean down;
 		public int openHour;
 		public int closeHour;
-		public BusStop nearestBusStop;
+		public String nearestBusStop;
 
 	}
 	//waiter needs host
@@ -1616,6 +1616,16 @@ public class SimCityPanel extends JPanel {
 			}
 		}
 	}
+	
+	//this is the hack for scenarios 2 and 3 to show a visitor going to all businesses
+	public void getWorkersToJob() {
+		for(PersonAgent p: people) {
+			if(p.myJob!=null) {
+				p.msgTimeUpdate(p.directory.get(p.jobLocation).openHour-2);
+			}
+		}
+	}
+	
 	public void startTimer() {
 		Timer timer;
 

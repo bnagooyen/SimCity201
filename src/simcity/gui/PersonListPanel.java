@@ -32,7 +32,13 @@ public class PersonListPanel extends JPanel implements ActionListener {
     private JTextField myPerson = new JTextField(); 
     private JTextField myPersonMoneyVal = new JTextField(); 
     private JComboBox roleSelection = new JComboBox();
+    
+    //array list for switching roles
     private ArrayList<JComboBox> switchRoles = new ArrayList<JComboBox>();
+    
+    //array list for tracking
+    private ArrayList<JCheckBox> personTracker = new ArrayList<JCheckBox>();
+    
     private JComboBox scenarioSelection = new JComboBox();
     private JComboBox dayWeekendSelection = new JComboBox();
     private JComboBox houseOrApt = new JComboBox();
@@ -345,7 +351,12 @@ public class PersonListPanel extends JPanel implements ActionListener {
                    
                    switchRole.addActionListener(this);
                    String myJob = p.getJob();
-                   if (myJob.contains("Host") || myJob.contains("Manager")) {
+                   
+                   if(myJob==null) { //Visitor's don't have jobs
+                	   switchRole.setSelectedItem("Visitor");
+                   }
+                   
+                   else if (myJob.contains("Host") || myJob.contains("Manager")) {
                            switchRole.addItem(myJob);
                            switchRole.setSelectedItem(myJob);
                            switchRole.setEnabled(false);
@@ -382,14 +393,26 @@ public class PersonListPanel extends JPanel implements ActionListener {
     
     public void UpdateToScenario(String type) {
     		//add load scenario method here
-    	if(type.equals("Scenario 1"))
-    		gui.simcityPanel.LoadScenario("config1");
-    	else if(type.equals("Scenario 2"))
-    		gui.simcityPanel.LoadScenario("config2");
-    	else if(type.equals("Scenario 3"))
-    		gui.simcityPanel.LoadScenario("config3");
     	
-    	gui.simcityPanel.startTimer();
+    	
+    	//normative with timer 
+    	if(type.equals("Scenario 1")) {
+    		gui.simcityPanel.LoadScenario("config1");
+    		gui.simcityPanel.startTimer();
+    	}
+    	
+    	//visitor 1 without timer
+    	else if(type.equals("Scenario 2")) {
+    		gui.simcityPanel.LoadScenario("config2");
+    		gui.simcityPanel.getWorkersToJob();
+    	}
+    	
+    	else if(type.equals("Scenario 3")) {
+    		gui.simcityPanel.LoadScenario("config3");
+    		gui.simcityPanel.getWorkersToJob();
+    	}
+    	
+    	
     }
 //    
 //    public void setCustomerEnabled(String old, String n) {
