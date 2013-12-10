@@ -154,7 +154,7 @@ public class PersonAgent extends Agent implements Person {
 		hour = hr;
 		if(myJob!=null) startHour=directory.get(jobLocation).openHour-2;
 		else startHour=50;
-		if(hr == 7 || hr==startHour) { 
+		if(hr > 7 || hr==startHour) { 
 			state = PersonState.doingNothing;
 			energystate=EnergyState.awake;
 		}
@@ -176,6 +176,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}
 		hungerLevel+=10;
+		if(name.equals("qaz")) print("QUAZ GOT STATECHANGE");
 		stateChanged();
 	}
 
@@ -241,6 +242,8 @@ public class PersonAgent extends Agent implements Person {
 	 */
 	@Override
 	protected boolean pickAndExecuteAnAction() {
+		
+		if(name.equals("qaz")) print("QUAZ IS IN STATECHANGE");
 
 		if(energystate==EnergyState.sleeping||state==PersonState.dead){
 			return false;
