@@ -666,18 +666,18 @@ public class SimCityPanel extends JPanel {
         directory.put("Restaurant 6", TRestaurant);
         
         // set nearest bus stop of all the buildings
-        directory.get("Market 1").nearestBusStop = bs1;
-        directory.get("Market 2").nearestBusStop = bs4;
-        directory.get("Market 3").nearestBusStop = bs2;
-        directory.get("Market 4").nearestBusStop = bs3;
-        directory.get("Bank 1").nearestBusStop = bs4;
-        directory.get("Bank 2").nearestBusStop = bs2;
-        directory.get("Restaurant 1").nearestBusStop = bs1;
-        directory.get("Restaurant 3").nearestBusStop = bs1;
-        directory.get("Restaurant 4").nearestBusStop = bs2;
-        directory.get("Restaurant 5").nearestBusStop = bs3;
-        directory.get("Restaurant 6").nearestBusStop = bs3;
-        directory.get("Restaurant 2").nearestBusStop = bs4;
+        directory.get("Market 1").nearestBusStop = "Stop1";
+        directory.get("Market 2").nearestBusStop = "Stop4";
+        directory.get("Market 3").nearestBusStop = "Stop2";
+        directory.get("Market 4").nearestBusStop = "Stop3";
+        directory.get("Bank 1").nearestBusStop = "Stop4";
+        directory.get("Bank 2").nearestBusStop = "Stop2";
+        directory.get("Restaurant 1").nearestBusStop = "Stop1";
+        directory.get("Restaurant 3").nearestBusStop = "Stop1";
+        directory.get("Restaurant 4").nearestBusStop = "Stop2";
+        directory.get("Restaurant 5").nearestBusStop = "Stop3";
+        directory.get("Restaurant 6").nearestBusStop = "Stop3";
+        directory.get("Restaurant 2").nearestBusStop = "Stop4";
         
         directory.get("Market 1").openHour = 9;
         directory.get("Market 2").openHour = 9; 
@@ -696,8 +696,8 @@ public class SimCityPanel extends JPanel {
         directory.get("Market 2").closeHour = 23; 
         directory.get("Market 3").closeHour = 23;
         directory.get("Market 4").closeHour = 23;
-        directory.get("Bank 1").closeHour = 17;
-        directory.get("Bank 2").closeHour = 17;
+        directory.get("Bank 1").closeHour = 14;
+        directory.get("Bank 2").closeHour = 14;
         directory.get("Restaurant 1").closeHour = 20;
         directory.get("Restaurant 3").closeHour = 20;
         directory.get("Restaurant 4").closeHour = 20;
@@ -981,7 +981,6 @@ public class SimCityPanel extends JPanel {
 						rest=r;
 					}
 				}
-				System.out.println("QWERTYUI ------ "+rest.restNum);
 
 				if(rest.restNum==1){
 					LWaiterRole LW;
@@ -1249,7 +1248,7 @@ public class SimCityPanel extends JPanel {
 		public boolean down;
 		public int openHour;
 		public int closeHour;
-		public BusStop nearestBusStop;
+		public String nearestBusStop;
 
 	}
 	//waiter needs host

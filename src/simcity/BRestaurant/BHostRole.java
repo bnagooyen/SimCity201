@@ -211,12 +211,12 @@ public class BHostRole extends Role implements BHost, Host{
          */
         public boolean pickAndExecuteAnAction() {
                 
-              if(hour == myPerson.directory.get(myPerson.jobLocation).closeHour+1 && !isClosed){
+                  if(hour == 21 && !isClosed){
               closeRestaurant();
               return true;
       }
       
-      if(hour == myPerson.directory.get(myPerson.jobLocation).closeHour && !waitingCustomers.isEmpty()){
+                  else  if(hour == 20 || isClosed){
               restaurantClosed();
               return true;
       }
@@ -311,7 +311,7 @@ public class BHostRole extends Role implements BHost, Host{
          
          private void restaurantClosed() {
    			AlertLog.getInstance().logMessage(AlertTag.BRestaurant, "BHost", "Telling market is closed");
-   			Do("Telling market is closed");
+         Do("Telling market is closed");
         
                  waitingCustomers.clear();
          

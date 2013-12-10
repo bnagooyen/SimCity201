@@ -296,6 +296,7 @@ public class BCustomerRole extends Role implements BCustomer {
             Do("Leaving.");
             host.msgLeavingTable(this);
             customerGui.DoExitRestaurant();
+            isActive=false;
     }
 
 

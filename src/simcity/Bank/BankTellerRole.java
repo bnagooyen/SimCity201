@@ -135,6 +135,7 @@ public class BankTellerRole extends Role implements BankTeller {
 	@Override
 	public void msgAnimationFinishedGoToCorner() {
 		Do("ATCORNER");
+		atDest.release();
 		if(corner==cornerState.coming){
 			banktellerGui.goToTellerPos();
 		}
@@ -142,7 +143,6 @@ public class BankTellerRole extends Role implements BankTeller {
 			Do("DOEXIT");
 			banktellerGui.DoExitBank();
 		}
-		atDest.release();
 	}
 
 
