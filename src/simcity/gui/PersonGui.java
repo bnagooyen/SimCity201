@@ -37,6 +37,7 @@ public class PersonGui implements Gui {
 	private boolean madeToFront=true;
 	//private String foodReady;
 
+	boolean tracking = false;
 	//    static List<CookLabel> foodz = Collections.synchronizedList(new ArrayList<CookLabel>());
 
 
@@ -250,12 +251,18 @@ public class PersonGui implements Gui {
 
 		Image image = null;
 		try {
-			image = ImageIO.read(new File(FileImage));
+			if(tracking == true){
+				image = ImageIO.read(new File("images/personTracked.png"));
+			}
+			else if (tracking ==false ) {
+				image = ImageIO.read(new File("images/person.png"));
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			//System.err.println("FILENOTFOUND");
 			e.printStackTrace();
 		}
+
 		g.drawImage(image, xPos, yPos-3, null); 
 
 
@@ -294,14 +301,24 @@ public class PersonGui implements Gui {
 	}
 	
 	public void ToggleImage() {
-		if(FileImage.equals("images/person.png")) {
-			FileImage="images/personTracked.png";
+		System.err.println("tracking is " + tracking);
+	
+		if(tracking == false) {
+			tracking = true;
 		}
-		else {
-			FileImage="images/person.png";
+		else{
+			tracking = false;
 		}
-		
-		System.err.println("image toggled");
+		System.err.println("tracking is " + tracking);
+
+//		if(FileImage.equals("images/person.png")) {
+//			FileImage="images/personTracked.png";
+//		}
+//		else {
+//			FileImage="images/person.png";
+//		}
+//		
+//		System.err.println("image toggled, image is "+FileImage);
 	}
 
 	public void DoGoTo(String destination) {

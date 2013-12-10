@@ -262,13 +262,13 @@ public class BankManagerRole extends Role implements BankManager {
 			return true;
 		}
 		
-		if(hour>=8 && bankState==BankState.newDay && officers.size()>=1 && tellers.size()>=1) {
+		if(hour>=myPerson.directory.get(myPerson.jobLocation).openHour  && bankState==BankState.newDay && officers.size()>=1 && tellers.size()>=1) {
 			OpenBank();
 			return true;
 		}
 		
 		
-		if(hour>=19 && bankState==BankState.open) {
+		if(hour>=myPerson.directory.get(myPerson.jobLocation).closeHour  && bankState==BankState.open) {
 			CloseBank();
 			return true;
 		}
