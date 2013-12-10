@@ -58,7 +58,9 @@ public class PersonAgent extends Agent implements Person {
 	public Map<String, BusStopAgent> busStops=new HashMap<String, BusStopAgent>(); 
 	//States
 	public int hungerLevel;
-	enum PersonState { doingNothing, atRestaurant, workTime, tired, asleep, dead };
+	enum EnergyState { awake, tired, sleeping};
+	EnergyState energystate;
+	enum PersonState { doingNothing, atRestaurant, workTime, asleep, dead };
 	public enum TransitState {justLeaving, goToBus, walkingToBus, onBus, goToCar, inCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
 	enum LocationState {atHome, atRestaurant, atBank, atWork, atMarket};
 	public enum MoneyState {poor, middle, rich};
@@ -79,6 +81,10 @@ public class PersonAgent extends Agent implements Person {
 	private boolean needToPayRent = false; 
 	private double rentBill; 
 
+	//kitchen variable
+	private int kitchenAmount;
+	private static final int kitchenThreshold = 2;
+	private static final int kitchenMax = 5;
 
 	//GUI
 	Semaphore atRestaurant = new Semaphore(0, true);
@@ -106,6 +112,9 @@ public class PersonAgent extends Agent implements Person {
 	public String BankChoice;
 	public String MarketChoice;
 	public String RestChoice;
+	
+	//prices of market
+	Map<String, Double> marketPrices = new HashMap<String, Double>();
 
 	//visitor boolean
 	boolean goToAll;
@@ -123,6 +132,13 @@ public class PersonAgent extends Agent implements Person {
 		//address="House 1";
 		myTravelPreference=TravelPreference.walk;
 		BankChoice="Bank "+ Integer.toString(generator.nextInt(1)+1);        //CHANGE RANDOM TO 2 TO HAVE people go to both banks
+		energystate=EnergyState.sleeping;
+		
+        marketPrices.put("Steak", 10.0);
+        marketPrices.put("Chicken", 7.0);
+        marketPrices.put("Salad", 3.0);
+        marketPrices.put("Pizza", 5.0);
+		
 	}
 
 	// Messages
@@ -131,9 +147,10 @@ public class PersonAgent extends Agent implements Person {
 		int hour = hr;
 		if(hr == 6) { 
 			state = PersonState.doingNothing;
+			energystate=EnergyState.awake;
 		}
 		if(hr ==24) { 
-			state = PersonState.tired;
+			energystate=EnergyState.tired;
 		}
 		if(myJob!=null){
 			Do("Employed :)   (IN TIME UPDATE FOR PERSON  "+ myJob.startHour );
@@ -217,7 +234,7 @@ public class PersonAgent extends Agent implements Person {
 	@Override
 	protected boolean pickAndExecuteAnAction() {
 
-		if(state==PersonState.asleep||state==PersonState.dead){
+		if(energystate==EnergyState.sleeping||state==PersonState.dead){
 			return false;
 		}
 
@@ -245,11 +262,13 @@ public class PersonAgent extends Agent implements Person {
 
 		if(transit==TransitState.goToCar){
 			goToCar();
+			return true;
 
 		}
 
 		if(transit==TransitState.getOutCar){
 			getOutCar();
+			return true;
 		}
 
 		for(Role r: roles) {
@@ -349,7 +368,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 
-		if (state==PersonState.tired){
+		if (energystate==EnergyState.tired){
 			GoToBed();
 			state=PersonState.asleep;
 			return true;
@@ -365,19 +384,23 @@ public class PersonAgent extends Agent implements Person {
 			if (money >= 40) {
 				GoToRestaurant();
 			}
-			else {
+			else{
 				EatAtHome(); 
 			}
 			return true;
 		}
 
-
-		if(money>depositThreshold||(money<withdrawalThreshold && moneystate!=MoneyState.poor)||(moneystate==MoneyState.rich)){
+	
+		if(money>depositThreshold||(money<withdrawalThreshold && moneystate!=MoneyState.poor)/*||(moneystate==MoneyState.rich)*/){
 			GoToBank(); //going to have to choose which bank
 			if(state==PersonState.workTime)Do("1234567890"+myJob);
 			return true;
 		}
 
+		if(kitchenAmount < kitchenThreshold && money>= (marketPrices.get("Steak")+marketPrices.get("Chicken")+marketPrices.get("Salad")+marketPrices.get("Pizza"))) {
+			GoToMarket();
+			return true;
+		}
 
 		if(!(myLocation==LocationState.atHome)) {
 			GoHome();
@@ -396,6 +419,7 @@ public class PersonAgent extends Agent implements Person {
 	//ACTIONS
 	private void EatAtHome() {
 		Do("Eating at Home");
+		kitchenAmount--;
 		/*if(myLocation!=LocationState.atHome)*/ DoGoTo(homeAddress);
 		try {
 			atRestaurant.acquire();
@@ -574,12 +598,26 @@ public class PersonAgent extends Agent implements Person {
 			}        
 			myLocation=LocationState.atMarket;
 
+			//determine how much i can afford 
+			boolean orderDetermined=false;
+			int amountOrdering = (kitchenMax - kitchenAmount);
+			while (!orderDetermined) {
+				if(money>=amountOrdering * (marketPrices.get("Steak")+marketPrices.get("Chicken")+marketPrices.get("Salad")+marketPrices.get("Pizza"))) {
+					orderDetermined=true;
+				}
+				else
+					amountOrdering--;
+			}
+			
 			//Do("here");
 			for(Role r: roles) {
 				if(r instanceof MarketCustomerRole) {
 					if(((MarketCustomerRole)(r)).num == mktCustomerNum) {
 						r.isActive = true;
-						((MarketCustomerRole) r).populateOrderList("Steak", 1);
+						((MarketCustomerRole) r).populateOrderList("Steak", amountOrdering);
+						((MarketCustomerRole) r).populateOrderList("Chicken", amountOrdering);
+						((MarketCustomerRole) r).populateOrderList("Salad", amountOrdering);
+						((MarketCustomerRole) r).populateOrderList("Pizza", amountOrdering);
 
 					}
 					break;
@@ -620,7 +658,7 @@ public class PersonAgent extends Agent implements Person {
 						r.isActive = true;
 						if(money>depositThreshold) r.purpose="deposit";
 						else if(money<withdrawalThreshold) r.purpose="withdraw";
-						else r.purpose="loan";
+						//else r.purpose="loan";
 					}
 					break;
 				}
@@ -715,6 +753,7 @@ public class PersonAgent extends Agent implements Person {
 				e.printStackTrace();
 			}
 		}
+		energystate=EnergyState.sleeping;
 	}
 
 	private void getOnBus(){
