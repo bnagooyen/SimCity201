@@ -77,7 +77,7 @@ public class PersonAgent extends Agent implements Person {
 	private BusAgent bus;
 	private CarAgent myCar;
 
-	public String nearestStop="Stop4";
+	public String nearestStop="Stop1";
 	public String destStop;
 	public String myDestination;
 	//housing information
@@ -212,6 +212,11 @@ public class PersonAgent extends Agent implements Person {
 		stateChanged(); 
 	}
 
+	public void msgWorkTime(){
+		state=PersonState.workTime;
+		energystate=EnergyState.awake;
+		stateChanged();
+	}
 	//Animation Messages
 	public void msgAnimationArivedAtRestaurant() {
 		atRestaurant.release();
@@ -374,7 +379,9 @@ public class PersonAgent extends Agent implements Person {
 				return true;
 			}
 			else if(tourState.equals(NextLoc.home)){
+				print("SHOULD BE GOING HOME");
 				tourState = NextLoc.done;
+				goToAll = false; 
 				GoHome();
 				return true;
 			}

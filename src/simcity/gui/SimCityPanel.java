@@ -94,6 +94,7 @@ public class SimCityPanel extends JPanel {
 	public int ApartmentsPerLandlord;
 	public int aptNumCounter=1;
 	public char aptLetCounter='A';
+	private int hour=0;
 
 	private ArrayList<RestaurantPlace> myRestaurants=new ArrayList<RestaurantPlace>();
 	public Map<String, BusStopAgent> busStops=new HashMap<String, BusStopAgent>();
@@ -1049,6 +1050,11 @@ public class SimCityPanel extends JPanel {
 					TW.myPerson=p;
 					p.SetJob(TW,"Restaurant 6", role);
 				}
+				System.out.println(" Problems in the if statement " + hour);
+				if(hour>=directory.get(p.jobLocation).openHour-2 && hour<=directory.get(p.jobLocation).closeHour-3){
+					System.out.println("MESSAGING WORKTIME" + p.getName());
+					p.msgWorkTime();
+				}
 			}
 
 
@@ -1647,6 +1653,7 @@ public class SimCityPanel extends JPanel {
 			public void run() {
 				if(counter <24) {
 					System.out.println("hour is " + counter);
+					hour=counter;
 					for(Person p: people) {
 						p.msgTimeUpdate(counter);
 					}
@@ -1660,7 +1667,7 @@ public class SimCityPanel extends JPanel {
 		timer = new Timer();
 		timer.schedule(new RemindTask(),
 				0,        //initial delay
-				1*3000);  //subsequent rate                
+				1*8000);  //subsequent rate                
 	}
 
 

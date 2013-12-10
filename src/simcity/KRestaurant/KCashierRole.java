@@ -22,7 +22,7 @@ import java.util.concurrent.Semaphore;
  * Restaurant Cook Agent
  */
 
-public class KCashierRole extends Role implements RestaurantCashier{
+public class KCashierRole extends Role implements RestaurantCashier, KCashier{
 	
 	public List<Order> bills = Collections.synchronizedList(new ArrayList<Order>());
 	public List<MarketBill> toPay = Collections.synchronizedList(new ArrayList<MarketBill>());
