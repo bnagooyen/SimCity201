@@ -292,6 +292,7 @@ public class PersonGui implements Gui {
 		
 		if(destination.contains("Restaurant")) {
 			
+			isPresent = true; 
 			Point myDest = myMap.get(destination);
 			xDestination = myDest.x;
 			yDestination = myDest.y;
@@ -304,6 +305,7 @@ public class PersonGui implements Gui {
 			xDestination = myDest.x;
 			yDestination = myDest.y;
 			if (busStop == 0) {
+				isPresent = true; 
 				command=Command.GoToBusStop;
 				busStop++; 
 				//isPresent = true; 
@@ -316,6 +318,7 @@ public class PersonGui implements Gui {
 		}
 		if(destination.contains("Market")) {
 			
+			isPresent = true; 
 			Point myDest = myMap.get(destination);
 			xDestination = myDest.x;
 			yDestination = myDest.y;
@@ -324,6 +327,7 @@ public class PersonGui implements Gui {
 
 		if(destination.contains("Bank")) {
 			
+			isPresent = true; 
 			Point myDest = myMap.get(destination);
 			xDestination = myDest.x;
 			yDestination = myDest.y;
@@ -331,6 +335,7 @@ public class PersonGui implements Gui {
 		}
 
 		if(destination.contains("House") || destination.contains("Apartment")) {
+			isPresent = true; 
 			if(destination.contains("Apartment")) {
 				destination=destination.substring(0, destination.length()-1);
 				//System.err.println(destination);
