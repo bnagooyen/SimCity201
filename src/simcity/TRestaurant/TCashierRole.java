@@ -94,6 +94,7 @@ public class TCashierRole extends Role implements TCashier, RestaurantCashier{
 		super();
 		this.name = name;
 		arrived = true; 
+		addFood(); 
 	}
 
 	public void msgComputeBill(TWaiter w, TCustomer c, String order) {
