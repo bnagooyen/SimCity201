@@ -356,6 +356,7 @@ public class Drew_CustomerRole extends Role implements Drew_Customer{
 		Do("Leaving.");
 		waiter.DoneEating(this);
 		customerGui.DoExitRestaurant();
+		this.isActive=false;
 	}
 	
 	private void payCashier(){

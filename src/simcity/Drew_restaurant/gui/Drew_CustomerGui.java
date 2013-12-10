@@ -33,9 +33,9 @@ public class Drew_CustomerGui implements Gui{
 
 	public Drew_CustomerGui(Drew_CustomerRole c/*, RestaurantGui gui*/, Drew_HostRole m) {
 		agent = c;
-		xPos = 40;
-		yPos = 40;
-		xDestination = 40;
+		xPos = 400;
+		yPos = -40;
+		xDestination = 400;
 		yDestination = 40;
 		host = m;
 		isPresent=true;
