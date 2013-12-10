@@ -434,7 +434,7 @@ public class TCustomerRole extends Role implements TCustomer {
 				stateChanged();
 			}
 		},
-		getHungerLevel() * 1000);//how long to wait before running task
+		1000);//how long to wait before running task
 	}
 	
 	private void AskCheck() {
