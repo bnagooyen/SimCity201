@@ -214,6 +214,7 @@ public class PersonAgent extends Agent implements Person {
 
 	public void msgWorkTime(){
 		state=PersonState.workTime;
+		energystate=EnergyState.awake;
 		stateChanged();
 	}
 	//Animation Messages

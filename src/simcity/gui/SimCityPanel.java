@@ -1050,7 +1050,8 @@ public class SimCityPanel extends JPanel {
 					TW.myPerson=p;
 					p.SetJob(TW,"Restaurant 6", role);
 				}
-				if(hour>=directory.get(p.jobLocation).openHour-2 && hour>=directory.get(p.jobLocation).closeHour-3){
+				System.out.println(" Problems in the if statement " + hour);
+				if(hour>=directory.get(p.jobLocation).openHour-2 && hour<=directory.get(p.jobLocation).closeHour-3){
 					System.out.println("MESSAGING WORKTIME" + p.getName());
 					p.msgWorkTime();
 				}
