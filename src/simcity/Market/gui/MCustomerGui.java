@@ -17,6 +17,7 @@ public class MCustomerGui implements Gui{
     boolean goingToCashier = true;
     
     public MCustomerGui(MarketCustomerRole r) {
+    	isPresent = true;
     	this.role = r;
     }
     

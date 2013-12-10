@@ -625,16 +625,19 @@ public class PersonAgent extends Agent implements Person {
 			for(Role r: roles) {
 				if(r instanceof MarketCustomerRole) {
 					if(((MarketCustomerRole)(r)).num == mktCustomerNum) {
-						r.isActive = true;
+
 						((MarketCustomerRole) r).populateOrderList("Steak", amountOrdering);
 						((MarketCustomerRole) r).populateOrderList("Chicken", amountOrdering);
 						((MarketCustomerRole) r).populateOrderList("Salad", amountOrdering);
 						((MarketCustomerRole) r).populateOrderList("Pizza", amountOrdering);
-
+						r.isActive = true;
+						
 					}
 					break;
 				}
 			}
+			
+			
 			stateChanged();
 		}
 
