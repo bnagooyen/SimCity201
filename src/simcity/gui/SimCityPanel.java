@@ -1622,6 +1622,15 @@ public class SimCityPanel extends JPanel {
 		}
 	}
 	
+	//this is for tracking guis
+	public void toggleTrackingOf(String name) {
+		for(PersonAgent p: people) {
+			if (p.getName().equals(name)) {
+				p.PersonGui.ToggleImage();
+			}
+		}
+	}
+	
 	//this is the hack for scenarios 2 and 3 to show a visitor going to all businesses
 	public void getWorkersToJob() {
 		for(PersonAgent p: people) {
