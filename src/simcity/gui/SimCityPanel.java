@@ -921,7 +921,7 @@ public class SimCityPanel extends JPanel {
 			if(role.equals("Inventory Person")){
 //				this.LoadScenario("config1");
 				p.hungerLevel=100;
-				p.RestChoice="Restaurant 3";
+				p.RestChoice="Restaurant 6";
 			}
 			if(role.equals("Bank Manager")){
 				Integer bankChoice;
