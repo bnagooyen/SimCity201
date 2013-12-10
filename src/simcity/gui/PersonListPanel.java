@@ -205,6 +205,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
     	for(int i=0; i<peopleTrackerCBs.size(); i++) {
     		if(e.getSource()==peopleTrackerCBs.get(i)) {
     			System.err.println("Want to track "+ pplList.get(i).getText());
+    			gui.simcityPanel.toggleTrackingOf(pplList.get(i).getText());
     		}
     	}
     }
