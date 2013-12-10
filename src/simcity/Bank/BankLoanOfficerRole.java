@@ -127,13 +127,13 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 	@Override
 	public void msgAnimationFinishedGoToCorner() {
 		// TODO Auto-generated method stub
+		atDest.release();
 		if(corner==cornerState.coming){
 			bankloanGui.goToLoanPos();
 		}
 		else if(corner==cornerState.leaving){
 			bankloanGui.DoExitBank();
 		}
-		atDest.release();
 	}
 
 
@@ -144,6 +144,7 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 
 	@Override
 	public void msgAnimationFinishedLeaveBank() {
+		Do("RECIEVED ANIMATION FINSISHED LEAVE BANK");
 		atDest.release();
 		state=bankLoanState.arrived;
 	}

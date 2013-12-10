@@ -696,8 +696,8 @@ public class SimCityPanel extends JPanel {
         directory.get("Market 2").closeHour = 23; 
         directory.get("Market 3").closeHour = 23;
         directory.get("Market 4").closeHour = 23;
-        directory.get("Bank 1").closeHour = 17;
-        directory.get("Bank 2").closeHour = 17;
+        directory.get("Bank 1").closeHour = 14;
+        directory.get("Bank 2").closeHour = 14;
         directory.get("Restaurant 1").closeHour = 20;
         directory.get("Restaurant 3").closeHour = 20;
         directory.get("Restaurant 4").closeHour = 20;
@@ -981,7 +981,6 @@ public class SimCityPanel extends JPanel {
 						rest=r;
 					}
 				}
-				System.out.println("QWERTYUI ------ "+rest.restNum);
 
 				if(rest.restNum==1){
 					LWaiterRole LW;

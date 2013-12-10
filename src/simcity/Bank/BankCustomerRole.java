@@ -156,7 +156,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		Do("Arriving at bank with $"+ myPerson.money);
 		if(bankcustomerGui == null) {
 			bankcustomerGui = new BankCustomerGui(this, manager);
-			gui.myPanels.get("Bank "+num).panel.addGui(bankcustomerGui);
+			gui.myPanels.get(myPerson.BankChoice).panel.addGui(bankcustomerGui);
 		}
 		bankcustomerGui.setPresent(true);
 		
