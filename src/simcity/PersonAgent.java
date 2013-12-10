@@ -352,7 +352,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 			else if(tourState.equals(NextLoc.r1)){
 				RestChoice = "Restaurant 1";
-				tourState = NextLoc.m2;//was r3
+				tourState = NextLoc.r3;
 				GoToRestaurant();
 				return true;
 			}
@@ -376,7 +376,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 			else if(tourState.equals(NextLoc.r5)){
 				RestChoice = "Restaurant 5";
-				tourState = NextLoc.r3;//was m2
+				tourState = NextLoc.m2;
 				GoToRestaurant();
 				return true;
 			}
@@ -658,7 +658,7 @@ public class PersonAgent extends Agent implements Person {
 			
 			//Do("here");
 			for(Role r: roles) {
-				if(r instanceof MarketCustomerRole) {
+				if(r instanceof MarketCustomerRole ) {
 					if(((MarketCustomerRole)(r)).num == mktCustomerNum) {
 						
 						((MarketCustomerRole) r).populateOrderList("Steak", amountOrdering);
@@ -671,7 +671,6 @@ public class PersonAgent extends Agent implements Person {
 						r.isActive = true;
 						
 					}
-					break;
 				}
 			}
 			
@@ -714,7 +713,6 @@ public class PersonAgent extends Agent implements Person {
 						//else r.purpose="loan";
 						r.isActive = true;
 					}
-					break;
 				}
 			}
 			stateChanged();
