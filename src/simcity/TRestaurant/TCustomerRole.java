@@ -461,7 +461,8 @@ public class TCustomerRole extends Role implements TCustomer {
 	}
 	
 	private void leaveRestaurant() {
-		customerGui.DoExitRestaurant(); 		
+		customerGui.DoExitRestaurant(); 
+		isActive = false;
 	}
 
 	// Accessors, etc.
