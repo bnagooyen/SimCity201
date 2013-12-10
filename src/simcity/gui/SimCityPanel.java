@@ -1602,13 +1602,13 @@ public class SimCityPanel extends JPanel {
 			int counter= 0;
 			@Override
 			public void run() {
-				if(counter <25) {
+				if(counter <24) {
 					System.out.println("hour is " + counter);
 					for(Person p: people) {
 						p.msgTimeUpdate(counter);
 					}
 					counter++;
-					if (counter == 25) {
+					if (counter == 24) {
 						counter = 1;
 					}
 				}
