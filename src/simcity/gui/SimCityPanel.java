@@ -911,7 +911,7 @@ public class SimCityPanel extends JPanel {
 
 			//Visitor first
 			if(role.equals("Visitor")) {
-				System.err.println("Visitor added");
+				//System.err.println("Visitor added");
 				p.goToAll=true;
 			}
 			
@@ -1617,6 +1617,16 @@ public class SimCityPanel extends JPanel {
 			}
 		}
 	}
+	
+	//this is the hack for scenarios 2 and 3 to show a visitor going to all businesses
+	public void getWorkersToJob() {
+		for(PersonAgent p: people) {
+			if(p.myJob!=null) {
+				p.msgTimeUpdate(p.directory.get(p.jobLocation).openHour-2);
+			}
+		}
+	}
+	
 	public void startTimer() {
 		Timer timer;
 
