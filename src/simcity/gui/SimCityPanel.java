@@ -199,7 +199,7 @@ public class SimCityPanel extends JPanel {
 	//private JPanel group = new JPanel();
 
 	private SimCityGui gui; //reference to main gui
-
+	private CityPanel city;
 
 
 	//Transport
@@ -223,9 +223,9 @@ public class SimCityPanel extends JPanel {
 	private BankLoanOfficerRole Bloanofficer;
 
 
-	public SimCityPanel(SimCityGui gui) {
+	public SimCityPanel(SimCityGui gui, CityPanel city) {
 		this.gui = gui;
-
+		this.city = city;
 
 		//Populate the map for balancing people
 		storebalance.put("Bank Manager", 0);
@@ -1661,6 +1661,7 @@ public class SimCityPanel extends JPanel {
 					if (counter == 24) {
 						counter = 0;
 					}
+					city.simCityTime=counter;
 				}
 			}
 		}
