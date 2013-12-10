@@ -22,6 +22,7 @@ public class PersonGui implements Gui {
 	}
 	private boolean isPresent = false;
 	private boolean isHungry = false;
+	private boolean takingCar = false; 
 	private int busStop = 0; 
 	SimCityGui gui;
 	private int tableGoingTo;
@@ -291,8 +292,9 @@ public class PersonGui implements Gui {
 		System.out.print("Going to " + destination);
 		
 		if(destination.contains("Restaurant")) {
-			
-			isPresent = true; 
+			if (takingCar == false) {
+				isPresent = true;
+			}
 			Point myDest = myMap.get(destination);
 			xDestination = myDest.x;
 			yDestination = myDest.y;
@@ -300,7 +302,6 @@ public class PersonGui implements Gui {
 		}
 
 		if(destination.contains("Stop")) {
-			
 			Point myDest = myMap.get(destination);
 			xDestination = myDest.x;
 			yDestination = myDest.y;
@@ -317,8 +318,9 @@ public class PersonGui implements Gui {
 			}
 		}
 		if(destination.contains("Market")) {
-			
-			isPresent = true; 
+			if (takingCar == false) {
+				isPresent = true;
+			}
 			Point myDest = myMap.get(destination);
 			xDestination = myDest.x;
 			yDestination = myDest.y;
@@ -326,8 +328,9 @@ public class PersonGui implements Gui {
 		}
 
 		if(destination.contains("Bank")) {
-			
-			isPresent = true; 
+			if (takingCar == false) {
+				isPresent = true;
+			}
 			Point myDest = myMap.get(destination);
 			xDestination = myDest.x;
 			yDestination = myDest.y;
@@ -335,7 +338,9 @@ public class PersonGui implements Gui {
 		}
 
 		if(destination.contains("House") || destination.contains("Apartment")) {
-			isPresent = true; 
+			if (takingCar == false) {
+				isPresent = true;
+			}
 			if(destination.contains("Apartment")) {
 				destination=destination.substring(0, destination.length()-1);
 				//System.err.println(destination);
@@ -348,6 +353,11 @@ public class PersonGui implements Gui {
 		}
 
 
+	}
+
+	public void takingCar(boolean state) {
+		takingCar = state; 
+		
 	}
 
 	//   static class CookLabel {
