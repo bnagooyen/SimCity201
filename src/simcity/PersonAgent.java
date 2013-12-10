@@ -47,7 +47,7 @@ public class PersonAgent extends Agent implements Person {
 
 	Timer timer = new Timer();
 	Random generator = new Random();
-
+	String jobString;
 	private String name;
 	public Role myJob;
 	public String jobLocation;
@@ -807,8 +807,9 @@ public class PersonAgent extends Agent implements Person {
 		this.money=money;
 	}
 
-	public void SetJob(Role job, String location) {
+	public void SetJob(Role job, String location, String jobString) {
 		myJob=job;
+		this.jobString = jobString;
 		jobLocation=location;
 		roles.add(myJob);
 		myJob.isActive=true;
@@ -822,6 +823,9 @@ public class PersonAgent extends Agent implements Person {
 
 	//utilities
 
+	public String getJob() {
+		return jobString;
+	}
 	public void setDirectory(Map<String, Business>direc){
 		directory = direc;
 	}
