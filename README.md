@@ -107,10 +107,13 @@
 	+Alert Log
 	+Person Agent
 	+Fixed Market Tests 
+	+Restaurant Integration
+	+Sim City Panel
+	+Person Agent
 	
 	
 	
-	##Missing Components
+	Missing Components
 	Vehicles should behave appropriately at intersections.
 	
 	Routing behavior must show that agents don't bump into buildings, tables, etc.
@@ -133,6 +136,9 @@
 	Roads should have appropriate complexity [e.g. intersections with stop signs and/or signals]
 	
 	Role Switching 
+	
+	
+	Overall a great team effort and wealll collaborated on many parts of the project.  Much of this effort and collaboration cannot be outlined very specifically.  We all assisted each other in areas needed.  
 	
 	
 	
