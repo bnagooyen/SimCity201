@@ -77,7 +77,7 @@ public class PersonAgent extends Agent implements Person {
 	private BusAgent bus;
 	private CarAgent myCar;
 
-	public String nearestStop="Stop1";
+	public String nearestStop;
 	public String destStop;
 	public String myDestination;
 	//housing information
@@ -139,14 +139,14 @@ public class PersonAgent extends Agent implements Person {
 		BankChoice="Bank "+ Integer.toString(generator.nextInt(2)+1);        //CHANGE RANDOM TO 2 TO HAVE people go to both banks
 		MarketChoice="Market "+ Integer.toString(generator.nextInt(4)+1);
 		energystate=EnergyState.sleeping;
-		
+
         marketPrices.put("Steak", 10.0);
         marketPrices.put("Chicken", 7.0);
         marketPrices.put("Salad", 3.0);
         marketPrices.put("Pizza", 5.0);
         Random rand = new Random();
         RestChoice= "Restaurant "+ Integer.toString(rand.nextInt(6)+1);
-        tourState = NextLoc.r1;
+        tourState = NextLoc.m1;
 		
 	}
 
@@ -312,7 +312,7 @@ public class PersonAgent extends Agent implements Person {
 					kitchenAmount = 0;
 					GoToMarket();
 				}
-				tourState = NextLoc.home;
+				tourState = NextLoc.r1;
 				
 				return true;
 			}
@@ -353,7 +353,7 @@ public class PersonAgent extends Agent implements Person {
 					money = 1000;
 					GoToBank();
 				}
-				tourState = NextLoc.m1;
+				tourState = NextLoc.home;
 				return true;
 			}
 			else if(tourState.equals(NextLoc.b2)){
@@ -776,6 +776,14 @@ public class PersonAgent extends Agent implements Person {
 		
 		else if (myTravelPreference == TravelPreference.bus) {
 			 myDestination=jobLocation;
+			 String tempAddress;
+			 if(homeAddress.contains("Apartment")) {
+				 tempAddress=homeAddress.substring(0, homeAddress.length()-1);
+			 }
+			 else{
+				 tempAddress=homeAddress;
+			 }
+			nearestStop=directory.get(tempAddress).nearestBusStop;
              destStop=directory.get(jobLocation).nearestBusStop;
              transit=TransitState.goToBus;
              state=PersonState.travelling;

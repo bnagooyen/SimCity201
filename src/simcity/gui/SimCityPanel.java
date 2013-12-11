@@ -456,9 +456,11 @@ public class SimCityPanel extends JPanel {
 	public boolean addPerson(String type, String name, double money, String role, String houseOrApt, String transport) {
 		if(type.equals("Person")) {
 			//    		System.out.println("added");
+			
 			PersonAgent p = new PersonAgent(name);
-			p.setMoney(money);
 			p.setDirectory(directory);
+			p.setMoney(money);
+			
 			p.SetTravelPreference(transport);
 			p.setStops(busStops);
 			
