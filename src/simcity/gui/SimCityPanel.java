@@ -559,7 +559,7 @@ public class SimCityPanel extends JPanel {
 				p.hungerLevel=100;
 				p.RestChoice="Restaurant 5";
 			}
-			if(role.equals("Bank Manager") && !isWeekend){
+			if(role.equals("Bank Manager")){
 				Integer bankChoice;
 				bankChoice=(storebalance.get(role)%2);
 				storebalance.put(role, storebalance.get(role)+1);
