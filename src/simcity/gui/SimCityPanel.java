@@ -493,13 +493,8 @@ public class SimCityPanel extends JPanel {
 			p.setMoney(money);
 			p.setDirectory(directory);
 			p.SetTravelPreference(transport);
-			CarAgent car=new CarAgent();
-			CarGui cgui=new CarGui(car, gui);
-			car.setGui(cgui);
-			car.startThread();
-			gui.city.addGui(cgui);
-			p.setCar(car);
 			p.setStops(busStops);
+			
 
 			//DCustomerRole restCustomer = new DCustomerRole(gui);
 			//restCustomer.host=host;
@@ -542,8 +537,15 @@ public class SimCityPanel extends JPanel {
 				String tempAddress = p.homeAddress.substring(0, p.homeAddress.length()-1);
 				gui.myPanels.get(tempAddress).panel.addGui(tg);
 			}
-
-
+			
+			//creating car
+			CarAgent car=new CarAgent();
+			CarGui cgui=new CarGui(car, gui);
+			car.setGui(cgui);
+			car.setHome(p.homeAddress);
+			car.startThread();
+			gui.city.addGui(cgui);
+			p.setCar(car);
 
 			//Add Job 
 

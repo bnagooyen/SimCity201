@@ -4,6 +4,8 @@ package simcity.gui;
 import simcity.PersonAgent;
 import simcity.Transportation.BusAgent;
 import simcity.Transportation.CarAgent;
+import simcity.housing.gui.ResidentGui;
+import simcity.housing.gui.TenantGui;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -65,10 +67,9 @@ public class CarGui implements Gui {
             gui=g;
         this.agent = agent;
         madeToFront=true;
-//        for(int i=0; i<labelIsShowing.length;i++)
-//                labelIsShowing[i]=false;
+//      
+      
         
-        //coordinates are from citypanel, find the building you want to ppl to go to and copy/paste coordinates to this map
         
         myMap.put("Restaurant 1", new Point(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth+50, streetWidth+sidewalkWidth));
 		myMap.put("Restaurant 2", new Point(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth+50, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
@@ -76,7 +77,7 @@ public class CarGui implements Gui {
 		myMap.put("Restaurant 4", new Point(3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth+50, streetWidth+sidewalkWidth));
 		myMap.put("Restaurant 5", new Point(3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth+50, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
 		myMap.put("Restaurant 6", new Point(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth-50, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
-        myMap.put("Restaurant 3", new Point(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth-50, streetWidth+sidewalkWidth));
+       
         
         myMap.put("House 1", new Point(yardSpace+50, streetWidth+sidewalkWidth));
         myMap.put("House 2", new Point(yardSpace+50, streetWidth+sidewalkWidth+2*housingLength+ 2*parkingGap));
@@ -216,6 +217,15 @@ public class CarGui implements Gui {
     public void setPresent(boolean p) {
                 isPresent = p;
         }
+    
+    public void setLocation(String h) {
+    	if(h.contains("Apartment")) {
+			String tempAddress = h.substring(0, h.length()-1);
+			h = tempAddress; 
+		}
+    	xPos = myMap.get(h).x; 
+    	yPos = myMap.get(h).y; 
+    }
     
         
     

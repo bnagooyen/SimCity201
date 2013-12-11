@@ -473,6 +473,12 @@ public class LCustomerRole extends Role implements LCustomer{
                 return customerGui;
         }
 
+		@Override
+		public String getCustomerName() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 		
 
 		
