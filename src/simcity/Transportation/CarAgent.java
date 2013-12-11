@@ -102,5 +102,9 @@ public boolean pickAndExecuteAnAction(){
         private void DoGoTo(String dest) {
                 cgui.DoGoTo(dest);
         }
+        
+        public void setHome(String home) {
+        		cgui.setLocation(home);
+        }
 
 }
