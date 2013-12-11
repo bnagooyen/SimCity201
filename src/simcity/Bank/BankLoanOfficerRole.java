@@ -281,4 +281,10 @@ public class BankLoanOfficerRole extends Role implements BankLoanOfficer {
 			e.printStackTrace();
 		}
 	}
+
+
+	@Override
+	public PersonAgent getPerson() {
+		return myPerson;
+	}
 }

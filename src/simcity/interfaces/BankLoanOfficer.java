@@ -1,5 +1,6 @@
 package simcity.interfaces;
 
+import simcity.PersonAgent;
 import simcity.Bank.gui.BankLoanGui;
 
 //import simcity.Bank.BankLoanOfficerRole.MyCustomer;
@@ -33,6 +34,8 @@ public interface BankLoanOfficer {
 	public void setManager(BankManager m);
 
 	public void setGui(BankLoanGui lOGui);
+
+	public PersonAgent getPerson();
 
 
 }

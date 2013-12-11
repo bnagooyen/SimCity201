@@ -52,7 +52,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	private double registerAmnt;
 	//public HostGui hostGui = null;
 	//Map<String, Double> blacklist = new HashMap<String, Double>();
-	List<DCheck> myBills = Collections.synchronizedList(new ArrayList<DCheck>());
+	public List<DCheck> myBills = Collections.synchronizedList(new ArrayList<DCheck>());
 	List<InventoryBill> inventoryBills = Collections.synchronizedList(new ArrayList<InventoryBill>());
 	public List<DCheck> getBills() {
 		return myBills;

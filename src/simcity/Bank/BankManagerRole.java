@@ -50,6 +50,7 @@ public class BankManagerRole extends Role implements BankManager {
 	private List<MyTeller> tellers = Collections.synchronizedList(new ArrayList<MyTeller>());
 	private List<MyLoanOfficer> officers = Collections.synchronizedList(new ArrayList<MyLoanOfficer>());
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
+	private List<MyCustomer> newJobs = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	public List<MyClient> clients = Collections.synchronizedList(new ArrayList<MyClient>()); 
 	public Map<Integer, MyAccount> accounts = new HashMap<Integer, MyAccount>();
 	int hour;
@@ -126,6 +127,15 @@ public class BankManagerRole extends Role implements BankManager {
 			AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Customer with a transaction is here");
 			Do("Customer with a transaction is here");
 			customers.add(new MyCustomer((BankCustomer)person, MyCustomer.MyCustomerState.transaction));
+			stateChanged();
+		}
+		//Fire Loan Officer and Hire new Applicant
+		else if(type.equals("job")) {
+			AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Hiring a new loan officer");
+			Do("New Loan officer is here. Old Loan Officer is fired");
+			if(person.myPerson.jobString.contains("Loan")){
+				newJobs.add(new MyCustomer((BankCustomer)person, MyCustomer.MyCustomerState.loanjob));
+			}
 			stateChanged();
 		}
 		else{
@@ -248,6 +258,12 @@ public class BankManagerRole extends Role implements BankManager {
 		if(tellers.size()==1 && tellers.get(0).state==MyTellerState.justArrived) {
 			AddTeller();
 			return true;
+		}
+		
+		if(!newJobs.isEmpty()){
+			if(newJobs.get(0).state==MyCustomerState.loanjob){
+				hireNewLoanOfficer();
+			}
 		}
 		
 		if(accountCheckCust!=null){
@@ -373,6 +389,15 @@ public class BankManagerRole extends Role implements BankManager {
 		officers.remove(officers.get(0));
 //		bankManagerGui.goToManagerPos();
 //		finishTask();
+	}
+	
+	private void hireNewLoanOfficer(){
+		officers.get(0).emp.msgGoHome(50.0);
+		PersonAgent newOfficer=newJobs.get(0).customer.getPerson();
+		PersonAgent oldOfficer=officers.get(0).emp.getPerson();
+		newOfficer.SetJob((Role) officers.get(0).emp, newOfficer.jobLocation, "Bank Loan Officer");
+		oldOfficer.myJob=null;
+		officers.get(0).myPerson=newOfficer;
 	}
 	
 	private void AddTeller() {
@@ -595,7 +620,8 @@ public class BankManagerRole extends Role implements BankManager {
 	}
 
 	public static class MyLoanOfficer {
-		BankLoanOfficer emp;
+		public PersonAgent myPerson;
+		public BankLoanOfficer emp;
 		boolean needsAccount=false;
 		int startHr=0;
 		int accountNum = 0;
@@ -614,7 +640,7 @@ public class BankManagerRole extends Role implements BankManager {
 	
 	public static class MyCustomer {
 		BankCustomer customer;
-		public enum MyCustomerState {transaction, loan};
+		public enum MyCustomerState {transaction, loan, loanjob, tellerJob};
 		MyCustomerState state;
 		
 		public MyCustomer(BankCustomer b, MyCustomerState st) {

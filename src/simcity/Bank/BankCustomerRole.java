@@ -170,6 +170,10 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			bankcustomerGui.goToLoanPos();
 			finishTask();
 		}
+		else if(purpose.equals("job")){
+			manager.msgIAmHere(this, "job");
+			//GUI???
+		}
 		state=bankCustomerState.waiting;
 	}
 	
@@ -245,4 +249,10 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public void setMarketManager(BankManagerRole bankManager) {
 		manager = bankManager;
 	}
+
+	@Override
+	public PersonAgent getPerson() {
+		return myPerson;
+	}
+	
 }

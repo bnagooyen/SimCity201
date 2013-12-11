@@ -5,16 +5,16 @@ import simcity.interfaces.DWaiter;
 
 public class DCheck {
 	int tablenum;
-	double BillAmnt;
+	public double BillAmnt;
 	double CustomerPaid;
-	double debt;
+	public double debt;
 	//double Change;
 	String choice;
 	DWaiter waiter;
 	String name;
-	DCustomer customer; //for cashier to keep track of who to give change to
+	public DCustomer customer; //for cashier to keep track of who to give change to
 	public enum CheckState { processing, processed, sent, paid, debt };
-	CheckState state;
+	public CheckState state;
 	
 	DCheck(String ch, int tnum, double amnt, DWaiter wa) {
 		choice = ch;
