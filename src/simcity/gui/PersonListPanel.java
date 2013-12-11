@@ -269,6 +269,8 @@ public class PersonListPanel extends JPanel implements ActionListener {
 
 	        pplList.add(button);
 	           
+	        
+	        
 //	       	 	System.err.println("added button");
 	            
             button.setBackground(Color.white);

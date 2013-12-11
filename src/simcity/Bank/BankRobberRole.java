@@ -64,6 +64,7 @@ public class BankRobberRole extends Role implements BankRobber {
 		//tell Person He was shot				*******************************
 	}
 	
+	
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
