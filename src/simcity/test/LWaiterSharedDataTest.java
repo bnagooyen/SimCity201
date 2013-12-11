@@ -38,6 +38,7 @@ public class LWaiterSharedDataTest extends TestCase
 		ProducerConsumerMonitor m = new ProducerConsumerMonitor();
 		sWaiter.setMonitor(m);
 		sWaiter.setHost(host);
+		
 	}	
 	
 	public void testWaiter(){
