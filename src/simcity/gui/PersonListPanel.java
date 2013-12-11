@@ -238,6 +238,10 @@ public class PersonListPanel extends JPanel implements ActionListener {
     
     public void addPerson(String name, double moneyVal, String role, String houseOrApt, String typeTransport) {
 
+    		//just in case ther was no housing and adding fails
+    		boolean success=  gui.simcityPanel.addPerson("Person", name, moneyVal, role, houseOrApt, typeTransport);
+    		if(!success) return;
+    		
     		JPanel myPersonControls = new JPanel();
         	JPanel adding = new JPanel();
             JLabel button = new JLabel(name, SwingConstants.CENTER);
@@ -293,7 +297,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
             //view.add(trackPerson);
             view.add(adding);
             //simcityPanel.addPerson(name, role, moneyVal, houseOrApt);//puts customer on list
-            gui.simcityPanel.addPerson("Person", name, moneyVal, role, houseOrApt, typeTransport);
+           
             //restPanel.showInfo(type, name);//puts hungry button on panel
             validate();
         
