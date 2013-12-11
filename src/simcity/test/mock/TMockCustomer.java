@@ -3,9 +3,11 @@ package simcity.test.mock;
 
 import java.util.List;
 
+import simcity.TRestaurant.TCashierRole;
 import simcity.interfaces.TCashier;
 import simcity.interfaces.TCustomer;
 import simcity.interfaces.TWaiter;
+import simcity.mockrole.MockRole;
 import junit.framework.*;
 
 /**
@@ -14,7 +16,7 @@ import junit.framework.*;
  * @author Monroe Ekilah
  *
  */
-public class TMockCustomer extends Mock implements TCustomer {
+public class TMockCustomer extends MockRole implements TCustomer {
 	public EventLog log = new EventLog(); 
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.
@@ -54,6 +56,12 @@ public class TMockCustomer extends Mock implements TCustomer {
 
 	@Override
 	public void msgRestaurantClosed() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setCashier(TCashierRole cashier) {
 		// TODO Auto-generated method stub
 		
 	}

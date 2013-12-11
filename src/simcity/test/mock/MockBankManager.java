@@ -1,6 +1,8 @@
 package simcity.test.mock;
 
 import agent.Role;
+import simcity.Bank.BankCustomerRole;
+import simcity.Bank.gui.BankManagerGui;
 import simcity.housing.LandlordRole;
 import simcity.interfaces.*;
 
@@ -52,5 +54,47 @@ public class MockBankManager extends Mock implements BankManager{
             LoggedEvent m = new LoggedEvent ("Received from landlord for account " + account); 
             log.add(m);                  
         }
+
+		@Override
+		public void msgCheckBalance(BankCustomerRole c, int AN) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void msgAnimationFinishedGoToCorner() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void msgAnimationFinishedLeaveBank() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void msgAtTellerPos() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void msgAtManagerPos() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void msgAtLoanPos() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void setGui(BankManagerGui manGui) {
+			// TODO Auto-generated method stub
+			
+		}
 
 }

@@ -5,19 +5,16 @@ import java.util.List;
 import java.util.Map;
 
 import agent.Role;
-import simcity.PersonAgent.HomeType;
 import simcity.DRestaurant.DMenu;
 import simcity.DRestaurant.DWaiterRole;
 import simcity.Transportation.CarAgent;
-import simcity.gui.SimCityPanel.Location;
 import simcity.housing.LandlordRole;
 import simcity.interfaces.Bus;
 import simcity.interfaces.Landlord;
 import simcity.interfaces.Person;
-import simcity.restaurant.interfaces.Cashier;
-import simcity.restaurant.interfaces.Customer;
+import simcity.mockrole.MockRole;
 
-public class MockPerson extends Mock implements Person {
+public class MockPerson extends MockRole implements Person {
 
 public EventLog log;
 	
@@ -51,29 +48,7 @@ public EventLog log;
 		
 	}
 
-	@Override
-	public void SetJob(Role j) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void setCar(CarAgent c) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Role GetJob() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public HomeType GetHomeState() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public int getHouseNum() {
@@ -96,22 +71,22 @@ public EventLog log;
 		
 	}
 
-	@Override
-	public void msgSetBuildingDirectory(Map<String, List<Location>> buildings) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgSetBusDirectory(Map<String, List<Location>> busStops) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	public void msgHereIsYourRentBill(LandlordRole landlordRole, double rentBill) {
 		log.add(new LoggedEvent("Received message from Landlord"));
 		
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getJob() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

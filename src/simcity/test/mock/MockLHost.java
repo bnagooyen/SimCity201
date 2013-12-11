@@ -1,6 +1,7 @@
 package simcity.test.mock;
 
 
+import agent.Role;
 import simcity.LRestaurant.LCashierRole;
 import simcity.LRestaurant.LMenu;
 import simcity.LRestaurant.LWaiterRole;
@@ -13,9 +14,10 @@ import simcity.interfaces.LCook;
 import simcity.interfaces.LCustomer;
 import simcity.interfaces.LHost;
 import simcity.interfaces.LWaiter;
+import simcity.mockrole.MockRole;
 
 
-public class MockLHost extends Mock implements LHost{
+public class MockLHost extends MockRole implements LHost{
 
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.
@@ -81,7 +83,13 @@ public class MockLHost extends Mock implements LHost{
 	}
 
 	@Override
-	public void msgHereIsMoney(int restMoney) {
+	public void msgIAmHere(Role r, String type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgHereIsMoney(double money) {
 		// TODO Auto-generated method stub
 		
 	}

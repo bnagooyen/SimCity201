@@ -1,6 +1,9 @@
 package simcity.test;
 
 
+import java.util.ArrayList;
+
+import agent.Role;
 import simcity.PersonAgent;
 import simcity.mockrole.MockRole;
 import simcity.Bank.BankCustomerRole;
@@ -23,14 +26,20 @@ public class BankCustomerTest extends TestCase{
 	@Override
 	public void setUp() throws Exception{
 		super.setUp();
-		
+		ArrayList<Role> myCustomerRoles= new ArrayList<Role>();
+		customer.manager = mgr; 
+		customer.loanOfficer = loanOfficer; 
+		myCustomerRoles.add(customer); 
 		p = new PersonAgent("BankCustomer");
+		p.addCustomerRoles(myCustomerRoles);
 		//mockrole=new MockRole("mockrole");
-		customer = new BankCustomerRole(null);
-		customer.myPerson=p;
-		p.addRole(customer);
+		//customer = new BankCustomerRole(null, 0);
+		customer.myPerson = p;
+		
+		//p.addRole(customer);
 		mgr = new MockBankManager("MockBankManager");
 		PersonAgent p2 = new PersonAgent("mockTeller");
+		p2.SetJob(mgr, "Bank 1", "Bank Manager");
 		teller = new MockBankTeller("mock bankTeller");
 		p.SetJob(teller);
 		teller.myPerson=p2;
