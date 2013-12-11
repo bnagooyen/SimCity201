@@ -113,16 +113,17 @@ public class PersonListPanel extends JPanel implements ActionListener {
         
         
       	roleSelection.addItem("Role..");
+      	roleSelection.addItem("Person");
     	roleSelection.addItem("Visitor");
     	roleSelection.addItem("Waiter");
-    	roleSelection.addItem("Inventory Person 1");
-    	roleSelection.addItem("Inventory Person 2");
-    	roleSelection.addItem("Inventory Person 3");
-    	roleSelection.addItem("Inventory Person 4");
-    	roleSelection.addItem("Bank Teller 1");
-    	roleSelection.addItem("Bank Teller 2");
-    	roleSelection.addItem("Bank Loan Officer 1");
-    	roleSelection.addItem("Bank Loan Officer 2");
+    	//roleSelection.addItem("Inventory Person 1");
+    	//roleSelection.addItem("Inventory Person 2");
+    	//roleSelection.addItem("Inventory Person 3");
+    	//roleSelection.addItem("Inventory Person 4");
+    	//roleSelection.addItem("Bank Teller 1");
+    	//roleSelection.addItem("Bank Teller 2");
+    	//roleSelection.addItem("Bank Loan Officer 1");
+    	//roleSelection.addItem("Bank Loan Officer 2");
     	roleSelection.addItem("Bank Robber");
     	
     	
@@ -253,6 +254,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
             Dimension dim3 = new Dimension(120, 24);
             switchRole.setPreferredSize(dim3);
         	switchRole.addItem("Visitor");
+        	switchRole.addItem("Person");
         	switchRole.addItem("Waiter");
         	switchRole.addItem("InventoryPerson");
         	switchRole.addItem("Bank Teller");
@@ -260,7 +262,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
         	switchRole.addItem("Bank Robber");
         	switchRole.addItem("MCashier");
         	
-        	
+        	switchRole.setEnabled(false);
         	switchRole.addActionListener(this);
         	switchRole.setSelectedItem(role);
         	switchRoles.add(switchRole);
@@ -357,6 +359,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
                    }
                    else {
                    switchRole.setSelectedItem(p.getJob());
+                   switchRole.setEnabled(false);
                    }
                    switchRoles.add(switchRole);
 

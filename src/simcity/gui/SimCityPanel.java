@@ -1327,7 +1327,7 @@ public class SimCityPanel extends JPanel {
 						}
 					}
 				}
-			}, 5000);
+			}, 20000);
 		}
 	}
 	
