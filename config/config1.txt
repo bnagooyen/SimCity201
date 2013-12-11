@@ -151,9 +151,9 @@ Kimiman
 	400
 	BankLoanOfficer1
 	Walk
-	House
+	Apartment
 Andreen
 	400
 	BankLoanOfficer2
 	Walk
-	House
+	Apartment

@@ -390,9 +390,9 @@ public class SimCityPanel extends JPanel {
 		addPerson("Person", "Dhost", 100.0, "Doreen Host", "House", "Walk"); 
 		addPerson("Person", "Drewhost", 100.0, "Drew Host", "House", "Walk"); 
 		addPerson("Person", "Thost", 100.0, "Tiffany Host", "House", "Walk"); 
-		addPerson("Person", "BHost", 100.0, "Brian Host", "House", "Walk"); 
-		addPerson("Person", "LHost", 100.0, "Linda Host", "House", "Walk"); 
-		addPerson("Person", "KHost", 100.0, "Kim Host", "House", "Walk"); 
+		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
+		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
+		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
 		
 	}
 
