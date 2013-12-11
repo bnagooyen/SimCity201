@@ -86,7 +86,7 @@ public class PersonAgent extends Agent implements Person {
 	private double rentBill; 
 
 	//kitchen variable
-	private int kitchenAmount;
+	public int kitchenAmount;
 	private static final int kitchenThreshold = 2;
 	private static final int kitchenMax = 5;
 
@@ -117,6 +117,7 @@ public class PersonAgent extends Agent implements Person {
 	public String BankChoice;
 	public String MarketChoice;
 	public String RestChoice;
+	public String primaryRestChoice;
 	
 	//prices of market
 	Map<String, Double> marketPrices = new HashMap<String, Double>();
@@ -483,6 +484,7 @@ public class PersonAgent extends Agent implements Person {
 
 	//ACTIONS
 	private void EatAtHome() {
+	
 		Do("Eating at Home");
 		kitchenAmount--;
 		/*if(myLocation!=LocationState.atHome)*/ DoGoTo(homeAddress);
@@ -536,6 +538,7 @@ public class PersonAgent extends Agent implements Person {
 
 	// Actions
 	private void GoToRestaurant() {
+		int restCustomerNum;
 		if (myLocation == LocationState.atHome) {
 			if (homeAddress.contains("House")) {
 				residentGui.LeaveHouse(); 
@@ -545,21 +548,31 @@ public class PersonAgent extends Agent implements Person {
 			}			
 		}
 		
+		if(!goToAll && directory.get(RestChoice).down) {
 		/******decide where to eat*******/
 		//decision: closest restaurant to me
 		int myRestaurantChoice = 1;
-		int minTotDistance = Math.abs(directory.get("Restaurant 1").x- directory.get(homeAddress).x) + Math.abs(directory.get("Restaurant 1").y- directory.get(homeAddress).y);
+		//System.err.println(directory.get("Restaurant 1"));
+		String myAddress;
+		if(homeAddress.contains("Apartment"))
+			myAddress = homeAddress.substring(0, homeAddress.length()-1);
+		else 
+			myAddress = homeAddress;
+		
+		//System.err.println(directory.get(myAddress));
+		//int minTotDistance = Math.abs(directory.get("Restaurant 1").x- directory.get(myAddress).x) + Math.abs(directory.get("Restaurant 1").y- directory.get(myAddress).y);
+		
+		
 		boolean restaurantIsOpen=false;
-		for(int i=1; i<4; i++) {
-			if(directory.get("Restaurant "+ Integer.toString(i)).openHour>=hour && directory.get("Restaurant "+ Integer.toString(i)).closeHour-1<hour) {
+		
+		for(int i=1; i<=6; i++) {
+			if(!directory.get("Restaurant "+ Integer.toString(i)).down && directory.get("Restaurant "+ Integer.toString(i)).openHour<=hour && directory.get("Restaurant "+ Integer.toString(i)).closeHour>hour) {
 				restaurantIsOpen=true;
-				int myDistance = Math.abs(directory.get("Restaurant "+ Integer.toString(i)).x- directory.get(homeAddress).x) + Math.abs(directory.get("Restaurant "+Integer.toString(i)).y- directory.get(homeAddress).y);
-				if(myDistance < minTotDistance) {
-					myRestaurantChoice = i;
-					minTotDistance = myDistance;
+				myRestaurantChoice = i;
+				break;
 				}
 			}
-		}
+		
 		
 		if(!restaurantIsOpen) {
 			System.out.println("There are no restaurants open.. must eat at home");
@@ -567,11 +580,20 @@ public class PersonAgent extends Agent implements Person {
 			return;
 		}
 		
-		RestChoice = "Restaurant "+ Integer.toString(myRestaurantChoice);
+		
+		
+		
+			String myChoice = "Restaurant "+ Integer.toString(myRestaurantChoice);
+			DoGoTo(myChoice);
+			restCustomerNum =myRestaurantChoice;
+		
+		}
+		else {
+			DoGoTo(RestChoice);
+			restCustomerNum = Integer.parseInt(RestChoice.substring(RestChoice.length()-1));
+		}
 
-		DoGoTo(RestChoice);
-
-		int restCustomerNum = Integer.parseInt(RestChoice.substring(RestChoice.length()-1));
+		
 
 		if (myTravelPreference == TravelPreference.walk) {
 			Do("Going to "+RestChoice);
@@ -982,7 +1004,20 @@ public class PersonAgent extends Agent implements Person {
 	//Getters & Setters
 	public void SetHomeAddress(String ad) {
 		homeAddress=ad;
+		int RestChoicenum;
+		//decide primary restaurant
+		if(homeAddress.contains("Apartment")) {
+			//System.err.println(homeAddress.substring(10, homeAddress.length()-1));
+			RestChoicenum = Integer.parseInt(homeAddress.substring(10, homeAddress.length()-1))%6+1;
+		}
+		else 
+			RestChoicenum = Integer.parseInt(homeAddress.substring(6))%6+1;
+			//System.err.println(homeAddress.substring(6));
 		//System.err.println("home address added ... "+ homeAddress);
+		
+		RestChoice = "Restaurant "+ Integer.toString(RestChoicenum);
+		primaryRestChoice=RestChoice;
+		//System.err.println(RestChoice);
 	}
 
 	public void SetTravelPreference(String choice) {

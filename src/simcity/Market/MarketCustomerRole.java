@@ -82,6 +82,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
         public void msgHereIsOrderAndCheck(List<MFoodOrder> canGive, double check) {
         		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketCustomerRole", "Got food and check");
         		Do("Got food and check");
+        		myPerson.kitchenAmount=canGive.get(0).amount;
                 LoggedEvent e = new LoggedEvent("got food and check");
                 log.add(e);
                 
@@ -216,8 +217,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer{
                 LoggedEvent e = new LoggedEvent("leaving market");
                 log.add(e);
                 state = customerState.done;
-                isActive = false;
                 DoGoHome();
+                isActive = false;
         }
         
         // animation
