@@ -414,7 +414,6 @@ public class SimCityPanel extends JPanel {
 	}*/
 
 	public void AddManagers() {
-
 		addPerson("Person", "Bman1", 100.0, "Bank Manager", "Apartment", "Walk"); 
 		addPerson("Person", "Bman2", 100.0, "Bank Manager", "Apartment", "Walk"); 
 		addPerson("Person", "Mman1", 100.0, "Market Manager", "Apartment", "Walk"); 
@@ -432,7 +431,6 @@ public class SimCityPanel extends JPanel {
 
 	public void LoadScenario(String type){
 		people.clear();
-		AddManagers();
 		String name, role, transport, houseOrApt; double money;
 		houseNumCounter=1;
 		aptNumCounter=1;
@@ -443,8 +441,15 @@ public class SimCityPanel extends JPanel {
 			
 			//read day or weekend first
 			String dayOrWeekend = in.next();
-			if(dayOrWeekend.equals("Weekend"))
+			if(dayOrWeekend.equals("Weekend")) {
 				isWeekend=true;
+				System.err.println("Weekend scenario loaded");
+				for(int i=1; i<=numBanks; i++) {
+					directory.get("Bank "+Integer.toString(i)).down=true;
+				}
+			}
+			
+			AddManagers();
 			
 			in.next();
 			int numItems = in.nextInt();
@@ -554,7 +559,7 @@ public class SimCityPanel extends JPanel {
 				p.hungerLevel=100;
 				p.RestChoice="Restaurant 5";
 			}
-			if(role.equals("Bank Manager")){
+			if(role.equals("Bank Manager") && !isWeekend){
 				Integer bankChoice;
 				bankChoice=(storebalance.get(role)%2);
 				storebalance.put(role, storebalance.get(role)+1);
