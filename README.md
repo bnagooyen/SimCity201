@@ -37,6 +37,7 @@
 	In Scenario four there are three houses available and 3 apartment spots available.
 	
 	+Lastly the last parameter within the instantiation of a person is the transportation preference.  This dictates how this individual gets to and from work.  The bus stop will pick them up at the bus stop closest to their house, and drop them off at the nearest bus stop to where they work. 
+	Transportation can be added as easily as changing people's transportation preference withint he configuration files.  Anybody can be chagned from walk to bus or car.  Also note, for scenario only one visitor appears although three are configured.  
 	
 	##Responsibilities
 	
