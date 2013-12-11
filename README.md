@@ -138,7 +138,7 @@
 	Role Switching 
 	
 	
-	Overall a great team effort and wealll collaborated on many parts of the project.  Much of this effort and collaboration cannot be outlined very specifically.  We all assisted each other in areas needed.  
+	Overall a great team effort and we all collaborated on many parts of the project.  Much of this effort and collaboration cannot be outlined very specifically.  We all assisted each other in areas needed.  
 	
 	
 	
