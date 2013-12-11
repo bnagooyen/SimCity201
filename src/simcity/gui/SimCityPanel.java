@@ -48,6 +48,8 @@ import simcity.Transportation.BusStopAgent;
 import simcity.Transportation.CarAgent;
 import simcity.Transportation.DeliveryTruckAgent;
 import simcity.gui.DGui.DCookGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.housing.gui.ResidentGui;
 import simcity.housing.gui.TenantGui;
 import simcity.interfaces.DCook;
@@ -376,56 +378,21 @@ public class SimCityPanel extends JPanel {
 	 * @param type indicates whether the person is a customer or waiter
 	 * @param name name of person
 	 */
-	/*public Object showInfo(String type, String name) {
 
-		if (type.equals("Customers")) {
-
-			for (int i = 0; i < customers.size(); i++) {
-				DCustomerRole temp = customers.get(i);
-				if (temp.getText() == name) {
-					return temp;
-				}
-			}
-		}
-
-		if (type.equals("Waiters")) {
-
-			for (int i = 0; i < waiters.size(); i++) {
-				DWaiterRole temp = waiters.get(i);
-				if (temp.getName() == name)
-					return temp;
-			}
-		}
-
-		if (type.equals("Person")) {
-			//        	System.err.println("lsdfjlkasdjf");
-
-			for (int i = 0; i < people.size(); i++) {
-				PersonAgent temp = people.get(i);
-				if (temp.getName() == name) {
-					//                	System.out.println("sdljflskjdf");
-					return temp;
-				}
-			}
-		}
-
-
-		return new Object();
-	}*/
 
 	public void AddManagers() {
-		addPerson("Person", "Bman1", 100.0, "Bank Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Bman2", 100.0, "Bank Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman1", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman2", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman3", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Mman4", 100.0, "Market Manager", "Apartment", "Walk"); 
-		addPerson("Person", "Dhost", 100.0, "Doreen Host", "Apartment", "Walk"); 
-		addPerson("Person", "Drewhost", 100.0, "Drew Host", "Apartment", "Walk"); 
-		addPerson("Person", "Thost", 100.0, "Tiffany Host", "Apartment", "Walk"); 
-		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
-		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
-		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
+		addPerson("Person", "Bman1", 100.0, "Bank Manager", "House", "Walk"); 
+		addPerson("Person", "Bman2", 100.0, "Bank Manager", "House", "Walk"); 
+		addPerson("Person", "Mman1", 100.0, "Market Manager", "House", "Walk"); 
+		addPerson("Person", "Mman2", 100.0, "Market Manager", "House", "Walk"); 
+		addPerson("Person", "Mman3", 100.0, "Market Manager", "House", "Walk"); 
+		addPerson("Person", "Mman4", 100.0, "Market Manager", "House", "Walk"); 
+		addPerson("Person", "Dhost", 100.0, "Doreen Host", "House", "Walk"); 
+		addPerson("Person", "Drewhost", 100.0, "Drew Host", "House", "Walk"); 
+		addPerson("Person", "Thost", 100.0, "Tiffany Host", "House", "Walk"); 
+		addPerson("Person", "BHost", 100.0, "Brian Host", "House", "Walk"); 
+		addPerson("Person", "LHost", 100.0, "Linda Host", "House", "Walk"); 
+		addPerson("Person", "KHost", 100.0, "Kim Host", "House", "Walk"); 
 		
 	}
 
@@ -486,7 +453,7 @@ public class SimCityPanel extends JPanel {
 	 */
 
 
-	public void addPerson(String type, String name, double money, String role, String houseOrApt, String transport) {
+	public boolean addPerson(String type, String name, double money, String role, String houseOrApt, String transport) {
 		if(type.equals("Person")) {
 			//    		System.out.println("added");
 			PersonAgent p = new PersonAgent(name);
@@ -509,11 +476,16 @@ public class SimCityPanel extends JPanel {
 
 			if(houseOrApt.equals("House") && houseNumCounter<=NUMHOUSES) {
 				p.SetHomeAddress("House "+ Integer.toString(houseNumCounter));
+				//System.err.println("House "+ Integer.toString(houseNumCounter));
 				houseNumCounter++;
+				ResidentGui rg = new ResidentGui(p);
+				p.setGui(rg);
+				gui.myPanels.get(p.homeAddress).panel.addGui(rg);
 
 			}
-			else if(aptNumCounter<=aptNumCounter) {
+			else if(houseOrApt.equals("Apartment") && aptNumCounter<=aptNumCounter) {
 				p.SetHomeAddress("Apartment "+ Integer.toString(aptNumCounter)+ aptLetCounter);
+				//System.err.println("Apartment "+ Integer.toString(aptNumCounter)+ aptLetCounter);
 				if(aptLetCounter=='C') {
 					aptLetCounter='A';
 					aptNumCounter++;
@@ -521,22 +493,21 @@ public class SimCityPanel extends JPanel {
 				else {
 					aptLetCounter++;
 				}
-			}
-			else {
-				p.SetHomeAddress("Homeless Shelter");
-			}
-
-			if(houseOrApt.equals("House")) {
-				ResidentGui rg = new ResidentGui(p);
-				p.setGui(rg);
-				gui.myPanels.get(p.homeAddress).panel.addGui(rg);
-			}
-			else if(houseOrApt.equals("Apartment")) {
+				
 				TenantGui tg = new TenantGui(p, p.homeAddress.substring(p.homeAddress.length()-1));
 				p.setGui(tg);
 				String tempAddress = p.homeAddress.substring(0, p.homeAddress.length()-1);
+				//System.err.println(tempAddress);
 				gui.myPanels.get(tempAddress).panel.addGui(tg);
 			}
+			else {
+				System.out.println("Add Failed.. no housing remaining");
+				AlertLog.getInstance().logInfo(AlertTag.GENERAL_CITY, "Miscellaneous", "Add Failed.. no housing remaining.. try assigning different housing option");
+				return false;
+			}
+
+
+
 			
 			//creating car
 			CarAgent car=new CarAgent();
@@ -867,7 +838,11 @@ public class SimCityPanel extends JPanel {
 			gui.city.addGui(g);
 			p.startThread();
 			people.add(p);
+			return true;
 		}
+		
+		//will never happen.. everyone's a person
+		return false;
 	}
 
 	
