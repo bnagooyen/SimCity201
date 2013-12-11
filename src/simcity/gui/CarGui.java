@@ -12,6 +12,7 @@ public class CarGui implements Gui {
 
     private CarAgent agent = null;
     private boolean isPresent = false;
+    private PersonAgent person;
     
     
     SimCityGui gui;
@@ -69,8 +70,14 @@ public class CarGui implements Gui {
         
         //coordinates are from citypanel, find the building you want to ppl to go to and copy/paste coordinates to this map
         
-       
-        myMap.put("Restaurant 3", new Point(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth, streetWidth+sidewalkWidth+50));
+        myMap.put("Restaurant 1", new Point(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth+50, streetWidth+sidewalkWidth));
+		myMap.put("Restaurant 2", new Point(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth+50, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+		myMap.put("Restaurant 3", new Point(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth-50, streetWidth+sidewalkWidth));
+		myMap.put("Restaurant 4", new Point(3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth+50, streetWidth+sidewalkWidth));
+		myMap.put("Restaurant 5", new Point(3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth+50, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+		myMap.put("Restaurant 6", new Point(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth-50, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+        myMap.put("Restaurant 3", new Point(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth-50, streetWidth+sidewalkWidth));
+        
         myMap.put("House 1", new Point(yardSpace+50, streetWidth+sidewalkWidth));
         myMap.put("House 2", new Point(yardSpace+50, streetWidth+sidewalkWidth+2*housingLength+ 2*parkingGap));
         myMap.put("House 3", new Point(yardSpace+50, streetWidth+sidewalkWidth+4*housingLength+ 5*parkingGap));
@@ -103,6 +110,14 @@ public class CarGui implements Gui {
         myMap.put("Stop2", new Point(485,15));
         myMap.put("Stop3", new Point(485,360));
         myMap.put("Stop4", new Point(75,360));
+        
+        myMap.put("Bank 1", new Point(yardSpace+housingWidth+2*sidewalkWidth+streetWidth-50, streetWidth+sidewalkWidth+4*housingLength+ 5*parkingGap));
+		myMap.put("Bank 2", new Point(4*yardSpace+6*housingWidth+6*sidewalkWidth+3*streetWidth+50, streetWidth+sidewalkWidth));
+
+		myMap.put("Market 1", new Point(yardSpace+housingWidth+2*sidewalkWidth+streetWidth-50, streetWidth+sidewalkWidth));
+		myMap.put("Market 2", new Point(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth-50, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+		myMap.put("Market 3", new Point(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth-50, streetWidth+sidewalkWidth));
+		myMap.put("Market 4", new Point(4*yardSpace+6*housingWidth+6*sidewalkWidth+3*streetWidth+50, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
         
         
     
@@ -191,6 +206,10 @@ public class CarGui implements Gui {
     @Override
         public boolean isPresent() {
         return isPresent;
+    }
+    
+    public void setPerson(PersonAgent p){
+    	person=p;
     }
     
   

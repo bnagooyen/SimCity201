@@ -15,6 +15,7 @@ public class CarAgent extends Agent implements Car {
         
         public Person driver=null;
         public String destination;
+        public int xStart, yStart;
         Semaphore atDestination= new Semaphore(0, true);
         
         public enum carState
@@ -82,8 +83,9 @@ public boolean pickAndExecuteAnAction(){
         private void HaveArrived(){
                 state=carState.parked;
                 Do("Arrived at destination");
-                driver.msgAtDestination(destination);
                 cgui.setPresent(false);
+                driver.msgAtDestination(destination);
+                
                 
         }
         
