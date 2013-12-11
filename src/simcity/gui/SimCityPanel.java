@@ -843,24 +843,17 @@ public class SimCityPanel extends JPanel {
 				p.SetJob(BT,"Bank 2", "Bank Loan Officer");
 			}
 
-
-			//	    		Bmanager.msgTimeUpdate(8);
-			//BankCustomerRole bc = new BankCustomerRole(gui);
-			//bc.myPerson = p;
-			//bc.setManager(Bmanager);
-			//p.addCustomerRoles(bc);
-
-
-			//test going to work
-			/*if(first){
-	            	p.bankTime=false;
-	            	p.hungerLevel = 0;
-	            	p.SetJob(Bteller, "Bank 1");
-	            	Bteller.manager=Bmanager;
-	            	Bteller.myPerson = p;
-	            	Bteller.isActive=false;
-	            	first=false;
-	            }*/
+			
+			//Add People that take another Person's Job
+			if(role.equals("Bank Loan Officer 1")){
+				BankCustomerRole BC = null;
+				for(Role r:p.roles){
+					if(r instanceof BankCustomerRole)BC=(BankCustomerRole) r;
+				}
+				BC.purpose="job";
+				p.SetJob(BC, "Bank 1", "Bank Loan Officer");
+				p.msgWorkTime();
+			}
 
 			if(p.myJob!=null)p.myJob.isActive=false;
 
