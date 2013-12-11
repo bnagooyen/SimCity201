@@ -45,22 +45,22 @@
 	Doreen Hakimi:
 	+Front end specialist, much of the GUI work.
 	+Bank Implementation, normative and non normative scenarios
-	+ File configuraitons 
-	+ Scenario building and implementation within Sim City Panel
-	+ Restaurant Integration
-	+ SimCity Panel 
-	+ Control Panels
-	+ Card Layout
-	+ Tracing
+	+File configuraitons 
+	+Scenario building and implementation within Sim City Panel
+	+Restaurant Integration
+	+SimCity Panel 
+	+Control Panels
+	+Card Layout
+	+Tracing
 	
 	Drew Appleman:
-	+Bank Implementation
+	+Bank Implementation and Integration
 	+Person Agent
 	+Creating People within the SimCity Panel 
 	+Worked on Restaurant GUI's working in SimCity
 	+Restaurant Integration
 	+Bank Robber
-	+Person Agent
+	+Designed and implemented the scheduler for Person Agent
 
 	Linda Char:
 	+Market implementation norms and non norms
