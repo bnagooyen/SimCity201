@@ -26,7 +26,7 @@ public class MockRoleCook extends MockRole implements Cook{
 		super(name);
 		p = new PersonAgent("default");
 		log = new EventLog();
-		cr = new LCookRole();
+		//cr = new LCookRole();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -59,6 +59,12 @@ public class MockRoleCook extends MockRole implements Cook{
 	public boolean pickAndExecuteAnAction() {
 	
 		return false;
+	}
+
+	@Override
+	public void msgSetInventory(int val) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

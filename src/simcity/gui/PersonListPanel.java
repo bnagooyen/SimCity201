@@ -113,11 +113,16 @@ public class PersonListPanel extends JPanel implements ActionListener {
       	roleSelection.addItem("Role..");
     	roleSelection.addItem("Visitor");
     	roleSelection.addItem("Waiter");
-    	roleSelection.addItem("Inventory Person");
-    	roleSelection.addItem("Bank Teller");
-    	roleSelection.addItem("Bank Loan Officer");
+    	roleSelection.addItem("Inventory Person 1");
+    	roleSelection.addItem("Inventory Person 2");
+    	roleSelection.addItem("Inventory Person 3");
+    	roleSelection.addItem("Inventory Person 4");
+    	roleSelection.addItem("Bank Teller 1");
+    	roleSelection.addItem("Bank Teller 2");
+    	roleSelection.addItem("Bank Loan Officer 1");
+    	roleSelection.addItem("Bank Loan Officer 2");
     	roleSelection.addItem("Bank Robber");
-    	roleSelection.addItem("Repair Man");
+    	
     	
     	
 
@@ -247,7 +252,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
         	switchRole.addItem("Bank Teller");
         	switchRole.addItem("Bank Loan Officer");
         	switchRole.addItem("Bank Robber");
-        	switchRole.addItem("Repair Man");
+        	switchRole.addItem("MCashier");
         	
         	
         	switchRole.addActionListener(this);
@@ -316,13 +321,13 @@ public class PersonListPanel extends JPanel implements ActionListener {
                    switchRole.addItem("Visitor");
                    switchRole.addItem("Waiter");
                    switchRole.addItem("MCashier");
-                   switchRole.addItem("RCashier");
-                   switchRole.addItem("Cook");
+//                   switchRole.addItem("RCashier");
+//                   switchRole.addItem("Cook");
                    switchRole.addItem("InventoryPerson");
                    switchRole.addItem("Bank Teller");
                    switchRole.addItem("Bank Loan Officer");
                    switchRole.addItem("Bank Robber");
-                   switchRole.addItem("Repair Man");
+//                   switchRole.addItem("Repair Man");
                    
                    
                    switchRole.addActionListener(this);
