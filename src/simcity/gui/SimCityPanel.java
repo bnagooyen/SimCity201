@@ -414,7 +414,6 @@ public class SimCityPanel extends JPanel {
 	}*/
 
 	public void AddManagers() {
-
 		addPerson("Person", "Bman1", 100.0, "Bank Manager", "Apartment", "Walk"); 
 		addPerson("Person", "Bman2", 100.0, "Bank Manager", "Apartment", "Walk"); 
 		addPerson("Person", "Mman1", 100.0, "Market Manager", "Apartment", "Walk"); 
@@ -432,7 +431,6 @@ public class SimCityPanel extends JPanel {
 
 	public void LoadScenario(String type){
 		people.clear();
-		AddManagers();
 		String name, role, transport, houseOrApt; double money;
 		houseNumCounter=1;
 		aptNumCounter=1;
@@ -443,8 +441,15 @@ public class SimCityPanel extends JPanel {
 			
 			//read day or weekend first
 			String dayOrWeekend = in.next();
-			if(dayOrWeekend.equals("Weekend"))
+			if(dayOrWeekend.equals("Weekend")) {
 				isWeekend=true;
+				System.err.println("Weekend scenario loaded");
+				for(int i=1; i<=numBanks; i++) {
+					directory.get("Bank "+Integer.toString(i)).down=true;
+				}
+			}
+			
+			AddManagers();
 			
 			in.next();
 			int numItems = in.nextInt();
@@ -488,13 +493,8 @@ public class SimCityPanel extends JPanel {
 			p.setMoney(money);
 			p.setDirectory(directory);
 			p.SetTravelPreference(transport);
-			CarAgent car=new CarAgent();
-			CarGui cgui=new CarGui(car, gui);
-			car.setGui(cgui);
-			car.startThread();
-			gui.city.addGui(cgui);
-			p.setCar(car);
 			p.setStops(busStops);
+			
 
 			//DCustomerRole restCustomer = new DCustomerRole(gui);
 			//restCustomer.host=host;
@@ -537,8 +537,15 @@ public class SimCityPanel extends JPanel {
 				String tempAddress = p.homeAddress.substring(0, p.homeAddress.length()-1);
 				gui.myPanels.get(tempAddress).panel.addGui(tg);
 			}
-
-
+			
+			//creating car
+			CarAgent car=new CarAgent();
+			CarGui cgui=new CarGui(car, gui);
+			car.setGui(cgui);
+			car.setHome(p.homeAddress);
+			car.startThread();
+			gui.city.addGui(cgui);
+			p.setCar(car);
 
 			//Add Job 
 

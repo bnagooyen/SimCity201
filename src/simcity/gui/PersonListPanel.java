@@ -336,13 +336,20 @@ public class PersonListPanel extends JPanel implements ActionListener {
                    String myJob = p.getJob();
                    
                    if(myJob==null) { //Visitor's don't have jobs
-                	   switchRole.setSelectedItem("Visitor");
+                	   switchRole.addItem("Not Working");
+                	   switchRole.setSelectedItem("Not Working");
+                       switchRole.setEnabled(false);
                    }
                    
                    else if (myJob.contains("Host") || myJob.contains("Manager")) {
                            switchRole.addItem(myJob);
                            switchRole.setSelectedItem(myJob);
                            switchRole.setEnabled(false);
+                   }
+                   else if (myJob.contains("Cook") || myJob.contains("Cashier")) {
+                	   switchRole.addItem(myJob);
+                       switchRole.setSelectedItem(myJob);
+                       switchRole.setEnabled(false);
                    }
                    else {
                    switchRole.setSelectedItem(p.getJob());

@@ -288,7 +288,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 		if(transit==TransitState.getOutCar){
-			getOutCar();
+			getOutCarAndGoToWork();
 			return true;
 		}
 
@@ -451,7 +451,8 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 	
-		if(money>depositThreshold||(money<withdrawalThreshold && moneystate!=MoneyState.poor)/*||(moneystate==MoneyState.rich)*/){
+		if((money>depositThreshold||(money<withdrawalThreshold && moneystate!=MoneyState.poor)) && !directory.get(BankChoice).down/*||(moneystate==MoneyState.rich)*/){
+			System.err.println(!directory.get(BankChoice).down);
 			GoToBank(); //going to have to choose which bank
 			if(state==PersonState.workTime)Do("1234567890"+myJob);
 			return true;
@@ -781,6 +782,9 @@ public class PersonAgent extends Agent implements Person {
 		}
 		else if (myTravelPreference == TravelPreference.car) {
 			DoGoTo("Car");
+			myDestination=jobLocation;
+			transit=TransitState.goToCar;
+			state=PersonState.travelling;
 		}
 
 	}
@@ -901,14 +905,35 @@ public class PersonAgent extends Agent implements Person {
 	private void goToCar(){
 		Do("Do go To car");//gui?
 
-		PersonGui.setPresent(false);
+		//PersonGui.setPresent(false);
+		PersonGui.takingCar(true);
 		myCar.msgGoToDestination(myDestination, this);
 		DoGoTo(myDestination);
 		transit=TransitState.inCar;
+		try {
+			travelSem.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	private void getOutCar(){
-		PersonGui.setPresent(true);
+	private void getOutCarAndGoToWork(){
+		transit=TransitState.atDestination;
+		PersonGui.takingCar(false);
+		DoGoTo(jobLocation); 
+		Do("Going to Work at"+ jobLocation);
+		try {
+			atRestaurant.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}        
+		myLocation=LocationState.atWork;
+		myJob.isActive=true;
+
+		state= PersonState.doingNothing;
+		stateChanged();
 		
 	}
 
@@ -1010,6 +1035,7 @@ public class PersonAgent extends Agent implements Person {
 
 	@Override
 	public void msgAtDestination(String destination) {
+		travelSem.release();
 		transit=TransitState.getOutCar;
         
         stateChanged();

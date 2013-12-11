@@ -271,7 +271,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		inventoryBoys.clear();
 		isClosed = true;
 		
-		if(gui != null){
+		if(managerGui != null){
 			managerGui.DoGoHome();
 		}
 		

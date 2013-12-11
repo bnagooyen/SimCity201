@@ -5,8 +5,10 @@ import java.util.List;
 import simcity.DRestaurant.DCheck;
 import simcity.DRestaurant.DCustomerRole;
 import simcity.DRestaurant.DOrder;
+import simcity.interfaces.DWaiter;
+import simcity.mockrole.MockRole;
 
-public class MockWaiter extends MockRole implements Waiter {
+public class MockWaiter extends MockRole implements DWaiter {
 	private String name;
 	public EventLog log = new EventLog();
 	public MockWaiter(String name) {
