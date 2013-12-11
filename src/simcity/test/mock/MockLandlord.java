@@ -4,9 +4,9 @@ import java.util.List;
 
 import simcity.PersonAgent;
 import simcity.interfaces.Landlord;
-import simcity.interfaces.RepairMan; 
+import simcity.mockrole.MockRole;
 
-public class MockLandlord extends Mock implements Landlord{
+public class MockLandlord extends MockRole implements Landlord{
 	
 	public EventLog log = new EventLog(); 
 	public LoggedEvent event; 
@@ -35,11 +35,13 @@ public class MockLandlord extends Mock implements Landlord{
 	}
 		
 
+	/**
 	@Override
 	public void msgJobDone(String l, double cost) {
 		LoggedEvent m = new LoggedEvent ("Received a bill from the repairman. Bill = " + cost); 
 		log.add(m);		
 	}
+	*/
 
 
 	@Override

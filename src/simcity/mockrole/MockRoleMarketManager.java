@@ -63,17 +63,6 @@ public class MockRoleMarketManager extends MockRole implements MarketManager{
 		
 	}
 
-	@Override
-	public void msgRestaurantClosed(Role r) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgRestaurantOpen(Role r) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void msgIAmHere(Role r, List<MFoodOrder> need, String building,

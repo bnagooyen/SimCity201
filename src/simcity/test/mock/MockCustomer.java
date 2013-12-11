@@ -3,14 +3,16 @@ package simcity.test.mock;
 
 import simcity.DRestaurant.DMenu;
 import simcity.DRestaurant.DWaiterRole;
+import simcity.interfaces.DCashier;
+import simcity.interfaces.DCustomer;
 import simcity.mockrole.MockRole;
 
-public class MockCustomer extends MockRole implements Customer {
+public class MockCustomer extends MockRole implements DCustomer {
 
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.
 	 */
-	public Cashier cashier;
+	public DCashier cashier;
 	public EventLog log = new EventLog();
 	public double Wallet;
 	public double Debt;
@@ -138,6 +140,11 @@ public class MockCustomer extends MockRole implements Customer {
 	public void msgYourTableIsReady() {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received msgYourTableIsReady"));
+	}
+	@Override
+	public void msgRestaurantIsClosed() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
