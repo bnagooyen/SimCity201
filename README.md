@@ -95,6 +95,7 @@
 	+Bus GUIs
 	+Car GUI
 	+Person GUI
+	+Person Transportation scheduler
 	+Restaurant Integration
 	+Sim City Panel
 	+Person Agent
