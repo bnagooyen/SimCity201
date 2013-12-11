@@ -1302,7 +1302,7 @@ public class SimCityPanel extends JPanel {
 		timer = new Timer();
 		timer.schedule(new RemindTask(),
 				0,        //initial delay
-				1*10000);  //subsequent rate                
+				1*30000);  //subsequent rate                
 	}
 
 
