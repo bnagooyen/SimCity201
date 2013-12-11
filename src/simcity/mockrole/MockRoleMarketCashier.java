@@ -13,6 +13,7 @@ import simcity.interfaces.Car;
 import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketCustomer;
+import simcity.interfaces.MarketManager;
 import simcity.interfaces.RestaurantCashier;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
@@ -134,6 +135,12 @@ public class MockRoleMarketCashier extends MockRole implements MarketCashier{
 //		}
 		
 		return false;
+	}
+
+	@Override
+	public void setMarketManager(MarketManager m) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

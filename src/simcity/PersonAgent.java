@@ -451,7 +451,8 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 	
-		if(money>depositThreshold||(money<withdrawalThreshold && moneystate!=MoneyState.poor)/*||(moneystate==MoneyState.rich)*/){
+		if((money>depositThreshold||(money<withdrawalThreshold && moneystate!=MoneyState.poor)) && !directory.get(BankChoice).down/*||(moneystate==MoneyState.rich)*/){
+			System.err.println(!directory.get(BankChoice).down);
 			GoToBank(); //going to have to choose which bank
 			if(state==PersonState.workTime)Do("1234567890"+myJob);
 			return true;

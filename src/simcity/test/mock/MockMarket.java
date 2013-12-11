@@ -2,9 +2,10 @@ package simcity.test.mock;
 
 import java.util.ArrayList;
 
-import DRestaurant.DFoodOrder;
+import simcity.DRestaurant.DFoodOrder;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.Market;
+import simcity.mockrole.MockRole;
 
 public class MockMarket extends MockRole implements Market {
 
@@ -26,19 +27,7 @@ public class MockMarket extends MockRole implements Market {
 	@Override
 	public void msgHereIsAnInventoryOrder(ArrayList<DFoodOrder> orderToMarket,
 			int id, DCashier c) {
-			log.add(new LoggedEvent("Received msgHereIsAnInventoryOrder"));
-			//if(marketFood.get())
-			for(DFoodOrder order: orderToMarket) {
-				if(order.getVal()<=inventory) {
-					log.add(new LoggedEvent("Can fullfill fully"));
-				}
-				else if(inventory>0) {
-					log.add(new LoggedEvent("Can fullfill partially: "+inventory));
-				}
-				else {
-					log.add(new LoggedEvent("Cannot fullfill order"));
-				}
-			}
+
 	}
 
 	@Override
@@ -46,5 +35,6 @@ public class MockMarket extends MockRole implements Market {
 		// TODO Auto-generated method stub
 			log.add(new LoggedEvent("Received msgHereIsAPayment "+ val));
 	}
+
 
 }
