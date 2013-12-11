@@ -10,8 +10,9 @@ import simcity.interfaces.Cook;
 import simcity.interfaces.MarketCashier;
 import simcity.interfaces.MarketManager;
 import simcity.interfaces.RestaurantCashier;
+import simcity.mockrole.MockRole;
 
-public class MockCook extends Mock implements Cook{
+public class MockCook extends MockRole implements Cook{
 
 	public EventLog log;
 	public MarketCashier mc;
@@ -23,7 +24,7 @@ public class MockCook extends Mock implements Cook{
 		super(name);
 		p = new PersonAgent("default");
 		log = new EventLog();
-		cr = new DCookRole();
+		cr = new DCookRole(null);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -49,6 +50,12 @@ public class MockCook extends Mock implements Cook{
 	@Override
 	public void msgHereIsDelivery(List<MFoodOrder> canGive, double check,
 			MarketManager manager, MarketCashier mc) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgSetInventory(int val) {
 		// TODO Auto-generated method stub
 		
 	}

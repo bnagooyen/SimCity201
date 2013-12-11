@@ -6,11 +6,12 @@ import java.util.List;
 
 import simcity.Drew_restaurant.Drew_WaiterRole.MyCustomer;
 import simcity.Drew_restaurant.gui.Drew_WaiterGui;
-import simcity.Drew_restaurant.interfaces.Drew_Cashier;
-import simcity.Drew_restaurant.interfaces.Drew_Cook;
-import simcity.Drew_restaurant.interfaces.Drew_Customer;
-import simcity.Drew_restaurant.interfaces.Drew_Waiter;
-import simcity.Drew_restaurant.interfaces.Drew_Host;
+import simcity.interfaces.Drew_Cashier;
+import simcity.interfaces.Drew_Cook;
+import simcity.interfaces.Drew_Customer;
+import simcity.interfaces.Drew_Host;
+import simcity.interfaces.Drew_Waiter;
+import simcity.mockrole.MockRole;
 
 /**
  * A sample MockCustomer built to unit test a CashierAgent.
@@ -18,7 +19,7 @@ import simcity.Drew_restaurant.interfaces.Drew_Host;
  * @author Monroe Ekilah
  *
  */
-public class Drew_MockWaiter extends Mock implements Drew_Waiter {
+public class Drew_MockWaiter extends MockRole implements Drew_Waiter {
 	
 
 

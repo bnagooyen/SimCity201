@@ -10,9 +10,10 @@ import simcity.test.mock.Mock;
 import simcity.interfaces.LCashier;
 import simcity.interfaces.LCustomer;
 import simcity.interfaces.LWaiter;
+import simcity.mockrole.MockRole;
 
 
-public class MockLCustomer extends Mock implements LCustomer {
+public class MockLCustomer extends MockRole implements LCustomer {
 
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.
@@ -75,6 +76,12 @@ public class MockLCustomer extends Mock implements LCustomer {
 	public String getCustomerName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void msgRestaurantClosed() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

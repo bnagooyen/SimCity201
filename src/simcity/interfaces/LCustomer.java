@@ -34,4 +34,6 @@ public interface LCustomer {
 //	public abstract String getCustomerName();
 
 	public abstract void msgRestaurantClosed();
+
+	String getCustomerName();
 }

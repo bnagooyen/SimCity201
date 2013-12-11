@@ -6,7 +6,7 @@ import DRestaurant.DFoodOrder;
 import simcity.interfaces.DCashier;
 import simcity.interfaces.Market;
 
-public class MockMarket extends Mock implements Market {
+public class MockMarket extends MockRole implements Market {
 
 	public DCashier cashier;
 	public EventLog log = new EventLog();

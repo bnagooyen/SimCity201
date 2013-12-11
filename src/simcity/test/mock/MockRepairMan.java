@@ -4,7 +4,6 @@ import java.util.List;
 
 import simcity.PersonAgent;
 import simcity.interfaces.Landlord;
-import simcity.interfaces.RepairMan; 
 
 public class MockRepairMan extends Mock implements RepairMan{
 
