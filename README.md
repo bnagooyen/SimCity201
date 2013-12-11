@@ -38,7 +38,7 @@
 	
 	+Lastly the last parameter within the instantiation of a person is the transportation preference.  This dictates how this individual gets to and from work.  The bus stop will pick them up at the bus stop closest to their house, and drop them off at the nearest bus stop to where they work. 
 	
-	#Responsibilities
+	##Responsibilities
 	
 	+Responsibilities were split up in the following ways 
 	
@@ -110,7 +110,7 @@
 	
 	
 	
-	Missing Components
+	##Missing Components
 	Vehicles should behave appropriately at intersections.
 	
 	Routing behavior must show that agents don't bump into buildings, tables, etc.
