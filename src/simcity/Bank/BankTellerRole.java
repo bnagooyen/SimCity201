@@ -234,7 +234,6 @@ public class BankTellerRole extends Role implements BankTeller {
 		private void dealWithRobbery(){
 			Random generator=new Random();
 			int choice = generator.nextInt(3);
-			choice=2;
 			if(choice==0){
 				AlertLog.getInstance().logMessage(AlertTag.Bank, "BankTeller", "Call the Po-Po. We was robbed");
 				Do("Call the Po-Po. We was robbed");
