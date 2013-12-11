@@ -146,7 +146,7 @@ public class PersonAgent extends Agent implements Person {
         marketPrices.put("Pizza", 5.0);
         Random rand = new Random();
         RestChoice= "Restaurant "+ Integer.toString(rand.nextInt(6)+1);
-        tourState = NextLoc.r1;
+        tourState = NextLoc.m1;
 		
 	}
 
@@ -312,7 +312,7 @@ public class PersonAgent extends Agent implements Person {
 					kitchenAmount = 0;
 					GoToMarket();
 				}
-				tourState = NextLoc.home;
+				tourState = NextLoc.r1;
 				
 				return true;
 			}
@@ -353,7 +353,7 @@ public class PersonAgent extends Agent implements Person {
 					money = 1000;
 					GoToBank();
 				}
-				tourState = NextLoc.m1;
+				tourState = NextLoc.home;
 				return true;
 			}
 			else if(tourState.equals(NextLoc.b2)){
