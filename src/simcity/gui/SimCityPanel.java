@@ -1242,13 +1242,28 @@ public class SimCityPanel extends JPanel {
 	
 	//this is the hack for scenarios 2 and 3 to show a visitor going to all businesses
 	public void getWorkersToJob() {
+		boolean visitorExists=false;
 		for(PersonAgent p: people) {
 			if(p.myJob!=null) {
 				p.msgTimeUpdate(p.directory.get(p.jobLocation).openHour-2);
 			}
 			else {
-				p.msgTimeUpdate(11); //for the visitors.. IF YOU CHANGE THIS VALUE, MUST CHANGE VALUE IN PERSONAGENT'S MSGTIMEUPDATE
+//				p.msgTimeUpdate(11); //for the visitors.. IF YOU CHANGE THIS VALUE, MUST CHANGE VALUE IN PERSONAGENT'S MSGTIMEUPDATE
+				visitorExists=true;
 			}
+		
+		}
+		if(visitorExists) {
+			Timer t = new Timer();
+			t.schedule(new TimerTask() {
+				public void run() {
+					for(PersonAgent p: people) {
+						if(p.goToAll) {
+							p.msgTimeUpdate(11);
+						}
+					}
+				}
+			}, 5000);
 		}
 	}
 	
