@@ -3,6 +3,7 @@ package simcity.test;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import simcity.interfaces.DHost;
 import simcity.mockrole.MockRoleCook;
 import simcity.test.mock.MockCook;
 import simcity.test.mock.MockCustomer;
@@ -16,6 +17,7 @@ import simcity.DRestaurant.DCheck;
 import simcity.DRestaurant.DFoodOrder;
 import simcity.DRestaurant.DCashierRole.InventoryBill.InventoryBillState;
 import simcity.DRestaurant.DCheck.CheckState;
+import simcity.DRestaurant.DHostRole;
 import simcity.PersonAgent;
 import junit.framework.*;
 
@@ -57,6 +59,7 @@ public class DCashierTest extends TestCase
 		DCashierRole cashier;
 		MockDRestaurantWaiter waiter;
 		MockDRestaurantCustomer customer;
+		//hack .. I know its wrong
 		MockDHost host;
 		PersonAgent p;
 //		MockMarket market1;
@@ -74,7 +77,7 @@ public class DCashierTest extends TestCase
 			cashier.myPerson = p;
 			customer = new MockDRestaurantCustomer("mockcustomer");		
 			waiter = new MockDRestaurantWaiter("mockwaiter");
-			host = new MockDHost();
+			host = new DHost();
 			//cashier.onDuty = false;
 //			market1 = new MockMarket("mockMarket1");
 //			market2 = new MockMarket("mockMarket2");
@@ -86,7 +89,8 @@ public class DCashierTest extends TestCase
 		public void testWaiterAsksForBill()
 		{
 			waiter.cashier = cashier;
-			
+			cashier.AddHost(host);
+			assertTrue(cashier.pickAndExecuteAnAction());
 			// pre-conditions
 			assertEquals("cashier should have zero bills but doesn't", cashier.myBills.size(), 0);
 			//assertEquals("CashierAgent should have an empty event log before his msgBill is called. Instead, the cashier's event log read: " + cashier.log.toString(), 0, cashier.log.size());

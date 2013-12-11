@@ -3,18 +3,18 @@ package simcity.test.mock;
 
 import simcity.Drew_restaurant.gui.Drew_CustomerGui;
 import simcity.Drew_restaurant.gui.Menu;
-import simcity.Drew_restaurant.interfaces.Drew_Cashier;
-import simcity.Drew_restaurant.interfaces.Drew_Customer;
-import simcity.Drew_restaurant.interfaces.Drew_Waiter;
-import simcity.Drew_restaurant.interfaces.Drew_Host;
-
+import simcity.interfaces.Drew_Cashier;
+import simcity.interfaces.Drew_Customer;
+import simcity.interfaces.Drew_Host;
+import simcity.interfaces.Drew_Waiter;
+import simcity.mockrole.MockRole;
 /**
  * A sample MockCustomer built to unit test a CashierAgent.
  *
  * @author Monroe Ekilah
  *
  */
-public class Drew_MockCustomer extends Mock implements Drew_Customer {
+public class Drew_MockCustomer extends MockRole implements Drew_Customer {
 	
 
 

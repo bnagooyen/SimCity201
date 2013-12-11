@@ -1,8 +1,12 @@
 package simcity.test.mock;
 
+import simcity.TRestaurant.TCashierRole;
+import simcity.TRestaurant.TCookRole;
+import simcity.TRestaurant.THostRole;
 import simcity.interfaces.TCashier;
 import simcity.interfaces.TCustomer;
 import simcity.interfaces.TWaiter;
+import simcity.mockrole.MockRole;
 
 
 
@@ -12,7 +16,7 @@ import simcity.interfaces.TWaiter;
  * @author Monroe Ekilah
  *
  */
-public class TMockWaiter extends Mock implements TWaiter {
+public class TMockWaiter extends MockRole implements TWaiter {
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.
 	 */
@@ -68,6 +72,30 @@ public class TMockWaiter extends Mock implements TWaiter {
 
 	@Override
 	public void msgGoHome(double moneys) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setHost(THostRole tHostRole) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setHomePosition(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setCashier(TCashierRole cashier) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setCook(TCookRole cook) {
 		// TODO Auto-generated method stub
 		
 	}

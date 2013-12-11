@@ -3,8 +3,9 @@ package simcity.test.mock;
 
 import simcity.DRestaurant.DMenu;
 import simcity.DRestaurant.DWaiterRole;
+import simcity.mockrole.MockRole;
 
-public class MockCustomer extends Mock implements Customer {
+public class MockCustomer extends MockRole implements Customer {
 
 	/**
 	 * Reference to the Cashier under test that can be set by the unit test.

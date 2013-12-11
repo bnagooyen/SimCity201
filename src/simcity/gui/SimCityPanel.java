@@ -118,23 +118,14 @@ public class SimCityPanel extends JPanel {
 	//FOR TESTING WORK
 	boolean first=true;
 
+	//for weekend behavio
+	boolean isWeekend = false;
 
 	/********************** make directory********************/
 	public  Map<String, Business> directory = new HashMap<String, Business>();
 	public Map<String, Integer> storebalance = new HashMap<String, Integer>();
-	//Host, cook, waiters and customers
-	// private DHostRole host = new DHostRole();
-	//private HostGui hostGui = new HostGui(host);
 
-
-	//private WaiterAgent waiter = new WaiterAgent("Joe");
-	//private WaiterGui waiterGui = new WaiterGui(waiter);
-
-	//private DCookRole cook = new DCookRole();
 	private DCookGui cookGui = null;
-
-	//    private PersonAgent person = new PersonAgent("Doreen");
-	//    private PersonGui personGui=null;
 
 	private Vector<PersonAgent> people = new Vector<PersonAgent>();
 	//private CookGui cookGui = new CookGui(cook);
@@ -144,59 +135,12 @@ public class SimCityPanel extends JPanel {
 	//private Vector<DWaiterRole> waiters = new Vector<DWaiterRole>();
 	private Vector<DCustomerRole> customers = new Vector<DCustomerRole>();
 
-	//Drews Restaurant
-	/*private Vector<Drew_WaiterRole> Drew_waiters = new Vector<Drew_WaiterRole>();
-	private Vector<Drew_CustomerRole> Drew_customers = new Vector<Drew_CustomerRole>();
-	private Drew_CashierRole Drew_cashier = new Drew_CashierRole();
-	private Drew_WaiterRole Drew_waiter = new Drew_WaiterNormalRole();
-	private Drew_CookRole Drew_cook = new Drew_CookRole();
-	private Drew_HostRole Drew_host = new Drew_HostRole();
-	private Drew_CustomerRole Drew_customer = new Drew_CustomerRole();
-	private Drew_CookGui Drewcookgui;*/
-
-	//Linda's Restaurant
-	/*private Vector<LWaiterRole> Lwaiters = new Vector<LWaiterRole>();
-	private Vector<LCustomerRole> Lcustomers = new Vector<LCustomerRole>();
-	private LCashierRole Lcashier = new LCashierRole();
-	private LCookRole Lcook = new LCookRole();
-	private LCookGui LcookGui = new LCookGui(Lcook, "LcookGui");
-	private LHostRole Lhost = new LHostRole();*/
-
-
-	//Brian's Restaurant
-	/*private Vector<BWaiterRole> BWaiters= new Vector <BWaiterRole>();
-	private Vector<BCustomerRole> Bcustomers= new Vector<BCustomerRole>();
-	private BCashierRole Bcashier= new BCashierRole();
-	private BCookRole Bcook=new BCookRole();
-	private BHostRole BHost=new BHostRole();*/
-
-	
-
-
-
-
-
-
-	//Tiff's Restaurant
-	/*private Vector<TWaiterRole> Twaiters = new Vector<TWaiterRole>();
-	private Vector<TCustomerRole> Tcustomers = new Vector<TCustomerRole>();
-	private TCustomerRole tCustomer = new TCustomerRole();
-	private TCashierRole tCashier = new TCashierRole(); 
-	private TWaiterRole tWaiter = new TWaiterRole(); 
-	private TWaiterSharedDataRole tsWaiter = new TWaiterSharedDataRole(); 
-	private TCookRole tCook = new TCookRole();
-	private TCookGui tCookGui = new TCookGui(tCook);
-	private THostRole tHost = new THostRole();*/
 
 	private final int numMarkets = 4;
 	private final int numBanks = 2;
 	//private Vector<DMarketAgent> markets = new Vector<DMarketAgent>();
 
 	private JPanel restLabel = new JPanel();
-	//customer drop down!
-	//private ListPanel customerPanel = new ListPanel(this, "Customers");
-	//private ListPanel waiterPanel = new ListPanel(this, "Waiters");
-	//private JPanel group = new JPanel();
 
 	private SimCityGui gui; //reference to main gui
 
@@ -228,7 +172,10 @@ public class SimCityPanel extends JPanel {
 		this.gui = gui;
 		this.city=C;
 
+		//initialize weekend to false to assure input is weekday on default
+		isWeekend=false;
 
+		
 		//Populate the map for balancing people
 		storebalance.put("Bank Manager", 0);
 		storebalance.put("Bank Teller", 0);
@@ -244,6 +191,7 @@ public class SimCityPanel extends JPanel {
 		for(int i=1; i<=numMarkets; i++) {
 			myMarkets.add(new MarketPlace(i));
 		}
+		
 
 		DrewRestaurant = new RestaurantPlace(2);
 		BRestaurant = new RestaurantPlace(5);
@@ -280,6 +228,9 @@ public class SimCityPanel extends JPanel {
 		gui.city.addGui(bgui);
 		bus.setStops(busStops);
 
+		
+		/*************add to directory ****************/
+		
 		for(MarketPlace m: myMarkets) {
 			directory.put("Market "+ Integer.toString(m.num), m);
 			//System.err.println("Market "+ Integer.toString(m.num));
@@ -288,6 +239,50 @@ public class SimCityPanel extends JPanel {
 		for(BankPlace b: myBanks) {
 			directory.put("Bank "+ Integer.toString(b.num), b);
 		}
+		
+		//we need this for houses and apartments too for transportation
+		
+		/***Housing***/
+		for(int i=1; i<=NUMHOUSES; i++) {
+			directory.put("House "+ Integer.toString(i), new Housing());
+		}
+		
+		directory.get("House 1").nearestBusStop = "Stop1";
+        directory.get("House 2").nearestBusStop = "Stop1";
+        directory.get("House 4").nearestBusStop = "Stop1";
+        directory.get("House 3").nearestBusStop = "Stop4";
+        directory.get("House 5").nearestBusStop = "Stop4";
+        directory.get("House 6").nearestBusStop = "Stop4";
+        directory.get("House 7").nearestBusStop = "Stop1";
+        directory.get("House 8").nearestBusStop = "Stop4";
+        directory.get("House 9").nearestBusStop = "Stop3";
+        directory.get("House 11").nearestBusStop = "Stop3";
+        directory.get("House 10").nearestBusStop = "Stop2";
+        directory.get("House 12").nearestBusStop = "Stop2";
+        directory.get("House 14").nearestBusStop = "Stop2";
+        directory.get("House 13").nearestBusStop = "Stop3";
+        directory.get("House 15").nearestBusStop = "Stop3";
+		
+        /***Apartemnts***/
+		for(int i=1; i<=NUMAPTS; i++) {
+			directory.put("Apartment "+ Integer.toString(i), new Housing());
+		}
+		
+		directory.get("Apartment 1").nearestBusStop = "Stop1";
+        directory.get("Apartment 2").nearestBusStop = "Stop1";
+        directory.get("Apartment 3").nearestBusStop = "Stop1";
+        directory.get("Apartment 4").nearestBusStop = "Stop4";
+        directory.get("Apartment 5").nearestBusStop = "Stop4";
+        directory.get("Apartment 6").nearestBusStop = "Stop4";
+        directory.get("Apartment 7").nearestBusStop = "Stop2";
+        directory.get("Apartment 8").nearestBusStop = "Stop2";
+        directory.get("Apartment 9").nearestBusStop = "Stop2";
+        directory.get("Apartment 11").nearestBusStop = "Stop3";
+        directory.get("Apartment 10").nearestBusStop = "Stop3";
+        directory.get("Apartment 12").nearestBusStop = "Stop3";
+
+		
+
         
         directory.put("Restaurant 5", BRestaurant);
         directory.put("Restaurant 3", DRestaurant);
@@ -335,6 +330,9 @@ public class SimCityPanel extends JPanel {
         directory.get("Restaurant 5").closeHour = 20;
         directory.get("Restaurant 6").closeHour = 20;
         directory.get("Restaurant 2").closeHour = 20;
+       
+        
+        
         
         // set all market places to not down
         Iterator it = directory.entrySet().iterator();
@@ -416,7 +414,6 @@ public class SimCityPanel extends JPanel {
 	}*/
 
 	public void AddManagers() {
-
 		addPerson("Person", "Bman1", 100.0, "Bank Manager", "Apartment", "Walk"); 
 		addPerson("Person", "Bman2", 100.0, "Bank Manager", "Apartment", "Walk"); 
 		addPerson("Person", "Mman1", 100.0, "Market Manager", "Apartment", "Walk"); 
@@ -434,7 +431,6 @@ public class SimCityPanel extends JPanel {
 
 	public void LoadScenario(String type){
 		people.clear();
-		AddManagers();
 		String name, role, transport, houseOrApt; double money;
 		houseNumCounter=1;
 		aptNumCounter=1;
@@ -442,6 +438,18 @@ public class SimCityPanel extends JPanel {
 		try {	
 			
 			in  = new Scanner(new FileReader("config"+File.separator+type+".txt"));
+			
+			//read day or weekend first
+			String dayOrWeekend = in.next();
+			if(dayOrWeekend.equals("Weekend")) {
+				isWeekend=true;
+				System.err.println("Weekend scenario loaded");
+				for(int i=1; i<=numBanks; i++) {
+					directory.get("Bank "+Integer.toString(i)).down=true;
+				}
+			}
+			
+			AddManagers();
 			
 			in.next();
 			int numItems = in.nextInt();
@@ -457,8 +465,7 @@ public class SimCityPanel extends JPanel {
 				money = in.nextDouble();
 				role = in.next().trim();
 				transport = in.next().trim();
-				houseOrApt = in.next().trim();
-						
+				houseOrApt = in.next().trim();		
 				addPerson("Person", name, money, role, houseOrApt, transport);
 			}
 			gui.AddPeople(people);
@@ -552,12 +559,14 @@ public class SimCityPanel extends JPanel {
 				p.hungerLevel=100;
 				p.RestChoice="Restaurant 5";
 			}
-			if(role.equals("Bank Manager")){
+			if(role.equals("Bank Manager") && !isWeekend){
 				Integer bankChoice;
 				bankChoice=(storebalance.get(role)%2);
 				storebalance.put(role, storebalance.get(role)+1);
-				p.SetJob(myBanks.get(bankChoice).bankManager, "Bank "+Integer.toString(bankChoice+1), "Bank Manager");
-				myBanks.get(bankChoice).bankManager.myPerson = p;
+				if(!isWeekend) {
+					p.SetJob(myBanks.get(bankChoice).bankManager, "Bank "+Integer.toString(bankChoice+1), "Bank Manager");
+					myBanks.get(bankChoice).bankManager.myPerson = p;
+				}
 			}
 			if(role.equals("Market Manager")){
 				Integer marketChoice;
@@ -812,47 +821,40 @@ public class SimCityPanel extends JPanel {
 	    			p.myJob.isActive=false;
 	    			p.hungerLevel=0;
 	    		}*/
-			if(role.equals("BankTeller1")){
-				BankTellerRole BT=  myBanks.get(0).bankTeller;
-				BT.myPerson=p;
-				p.SetJob(BT,"Bank 1", "Bank Teller");
-			}
-			if(role.equals("BankTeller2")){
-				BankTellerRole BT=  myBanks.get(1).bankTeller;
-				BT.myPerson=p;
-				p.SetJob(BT,"Bank 2", "Bank Teller");
-			}
-
-			//Add Bank Loan Officers
-			/*if(role.equals("Bank Loan Officer")){
-	    			BankTellerRole BT= new BankTellerRole(gui);
-	    			BT.setManager(bank1.bankManager);
-	    			BT.myPerson=p;
-	    			p.SetJob(BT,"Bank 1");
-	    			p.myJob.isActive=false;
-	    			p.hungerLevel=0;
-	    		}*/
-			if(role.equals("BankLoanOfficer1")){
-				BankLoanOfficerRole BT=  myBanks.get(0).loanOfficer;
-				BT.myPerson=p;
-				p.SetJob(BT,"Bank 1", "Bank Loan Officer");
-			}
-			if(role.equals("BankLoanOfficer2")){
-				BankLoanOfficerRole BT=  myBanks.get(1).loanOfficer;
-				BT.myPerson=p;
-				p.SetJob(BT,"Bank 2", "Bank Loan Officer");
-			}
-
-			
-			//Add People that take another Person's Job
-			if(role.equals("Bank Loan Officer 1")){
-				BankCustomerRole BC = null;
-				for(Role r:p.roles){
-					if(r instanceof BankCustomerRole)BC=(BankCustomerRole) r;
+			if(!isWeekend) {
+				if(role.equals("BankTeller1")){
+					BankTellerRole BT=  myBanks.get(0).bankTeller;
+					BT.myPerson=p;
+					p.SetJob(BT,"Bank 1", "Bank Teller");
 				}
-				BC.purpose="job";
-				p.SetJob(BC, "Bank 1", "Bank Loan Officer");
-				p.msgWorkTime();
+				if(role.equals("BankTeller2")){
+					BankTellerRole BT=  myBanks.get(1).bankTeller;
+					BT.myPerson=p;
+					p.SetJob(BT,"Bank 2", "Bank Teller");
+				}
+				
+				if(role.equals("BankLoanOfficer1")){
+					BankLoanOfficerRole BT=  myBanks.get(0).loanOfficer;
+					BT.myPerson=p;
+					p.SetJob(BT,"Bank 1", "Bank Loan Officer");
+				}
+				if(role.equals("BankLoanOfficer2")){
+					BankLoanOfficerRole BT=  myBanks.get(1).loanOfficer;
+					BT.myPerson=p;
+					p.SetJob(BT,"Bank 2", "Bank Loan Officer");
+				}
+	
+				
+				//Add People that take another Person's Job
+				if(role.equals("Bank Loan Officer 1")){
+					BankCustomerRole BC = null;
+					for(Role r:p.roles){
+						if(r instanceof BankCustomerRole)BC=(BankCustomerRole) r;
+					}
+					BC.purpose="job";
+					p.SetJob(BC, "Bank 1", "Bank Loan Officer");
+					p.msgWorkTime();
+				}
 			}
 
 			if(p.myJob!=null)p.myJob.isActive=false;
@@ -866,21 +868,7 @@ public class SimCityPanel extends JPanel {
 		}
 	}
 
-	/**************************ROLE FACTORY******************************/
-
-	public class Business {
-		public String name;
-		public int x;
-		public int y;
-		public boolean down;
-		public int openHour;
-		public int closeHour;
-		public String nearestBusStop;
-
-	}
-	//waiter needs host
-	//customer needs hot
-	//waiter needs cook setCook(cook)
+	
 
 
 	private ArrayList<Role> GenerateAllCustomerRoles() {
@@ -912,6 +900,26 @@ public class SimCityPanel extends JPanel {
 
 		//return null;
 	}
+	
+	
+	/**************************ROLE FACTORY******************************/
+
+	public class Business {
+		public String name;
+		public int x;
+		public int y;
+		public boolean down;
+		public int openHour;
+		public int closeHour;
+		public String nearestBusStop;
+
+	}
+	
+	//we realized we need houses in here for transportation
+	public class Housing extends Business {
+	}
+
+
 
 
 	class MarketPlace extends Business {

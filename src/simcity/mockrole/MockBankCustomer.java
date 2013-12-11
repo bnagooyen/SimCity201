@@ -1,8 +1,12 @@
-package simcity.test.mock;
+package simcity.mockrole;
 
+import simcity.PersonAgent;
+import simcity.Bank.gui.BankCustomerGui;
 import simcity.interfaces.*;
+import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
 
-public class MockBankCustomer extends Mock implements BankCustomer{
+public class MockBankCustomer extends MockRole implements BankCustomer{
 
 	public EventLog log;
 	public MockBankCustomer(String name) {
@@ -39,5 +43,36 @@ public class MockBankCustomer extends Mock implements BankCustomer{
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Bank closed"));
 	}
+	@Override
+	public void msgAtTellerPos() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgAnimationFinishedLeaveBank() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgAtLoanPos() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public PersonAgent getPerson() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setManager(BankManager m) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setGui(BankCustomerGui BC) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
