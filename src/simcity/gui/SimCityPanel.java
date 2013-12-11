@@ -59,6 +59,7 @@ import simcity.PersonAgent;
 
 import javax.swing.*;
 
+import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -97,6 +98,15 @@ public class SimCityPanel extends JPanel {
 	public int aptNumCounter=1;
 	public char aptLetCounter='A';
 	private int hour=0;
+	
+	
+	// for location of restaurants
+	public static final int streetWidth = 30;
+	public static final int sidewalkWidth = 20;
+	public static final int housingWidth=30;
+	public static final int housingLength=35;
+	public static final int parkingGap = 22;
+	public static final int yardSpace=11;
 
 	private ArrayList<RestaurantPlace> myRestaurants=new ArrayList<RestaurantPlace>();
 	public Map<String, BusStopAgent> busStops=new HashMap<String, BusStopAgent>();
@@ -186,6 +196,8 @@ public class SimCityPanel extends JPanel {
 		storebalance.put("Inventory Person", 0);
 		storebalance.put("Market Cashier", 0);
 
+		/*****add markets and banks *******/
+		
 		for(int i=1; i<=numBanks; i++ ) {
 			myBanks.add(new BankPlace(i));
 		}
@@ -195,6 +207,7 @@ public class SimCityPanel extends JPanel {
 		}
 		
 
+		/*******add restaurants and set locations********/
 		DrewRestaurant = new RestaurantPlace(2);
 		BRestaurant = new RestaurantPlace(5);
 		DRestaurant = new RestaurantPlace(3);
@@ -202,6 +215,40 @@ public class SimCityPanel extends JPanel {
 		LRestaurant = new RestaurantPlace(1);
 		TRestaurant = new RestaurantPlace(6);
 
+
+		
+		
+		/*
+		 * 		myMap.put("Restaurant 1", new Point(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth+30, streetWidth+sidewalkWidth));
+		myMap.put("Restaurant 2", new Point(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth+30, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+		myMap.put("Restaurant 3", new Point(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth-10, streetWidth+sidewalkWidth));
+		myMap.put("Restaurant 4", new Point(3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth+30, streetWidth+sidewalkWidth));
+		myMap.put("Restaurant 5", new Point(3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth+30, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+		myMap.put("Restaurant 6", new Point(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth-10, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
+
+		 * 
+		 */
+		
+		LRestaurant.x=2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth+30;
+		LRestaurant.y= streetWidth+sidewalkWidth;
+		
+		DrewRestaurant.x=2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth+30;
+	    DrewRestaurant.y=streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap;
+	    
+	    DRestaurant.x=2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth-10;
+	    DRestaurant.y=streetWidth+sidewalkWidth;
+	    
+	    KRestaurant.x=3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth+30;
+	    KRestaurant.y=streetWidth+sidewalkWidth;
+	    
+	    BRestaurant.x=3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth+30;
+	    BRestaurant.y= streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap;
+	    
+	    TRestaurant.x=3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth-10;
+	    TRestaurant.y= streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap;
+		
+	    
+	    
 
 		myRestaurants.add(LRestaurant);
 		myRestaurants.add(DrewRestaurant);

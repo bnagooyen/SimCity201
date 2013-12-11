@@ -144,8 +144,12 @@ public class PersonAgent extends Agent implements Person {
         marketPrices.put("Chicken", 7.0);
         marketPrices.put("Salad", 3.0);
         marketPrices.put("Pizza", 5.0);
-        Random rand = new Random();
-        RestChoice= "Restaurant "+ Integer.toString(rand.nextInt(6)+1);
+        
+        
+        //Random rand = new Random();
+        //RestChoice= "Restaurant "+ Integer.toString(rand.nextInt(6)+1);
+       
+        
         tourState = NextLoc.m1;
 		
 	}
@@ -452,7 +456,7 @@ public class PersonAgent extends Agent implements Person {
 
 	
 		if((money>depositThreshold||(money<withdrawalThreshold && moneystate!=MoneyState.poor)) && !directory.get(BankChoice).down/*||(moneystate==MoneyState.rich)*/){
-			System.err.println(!directory.get(BankChoice).down);
+			//System.err.println(!directory.get(BankChoice).down);
 			GoToBank(); //going to have to choose which bank
 			if(state==PersonState.workTime)Do("1234567890"+myJob);
 			return true;
@@ -540,6 +544,30 @@ public class PersonAgent extends Agent implements Person {
 				tenantGui.LeaveHouse(); 
 			}			
 		}
+		
+		/******decide where to eat*******/
+		//decision: closest restaurant to me
+		int myRestaurantChoice = 1;
+		int minTotDistance = Math.abs(directory.get("Restaurant 1").x- directory.get(homeAddress).x) + Math.abs(directory.get("Restaurant 1").y- directory.get(homeAddress).y);
+		boolean restaurantIsOpen=false;
+		for(int i=1; i<4; i++) {
+			if(directory.get("Restaurant "+ Integer.toString(i)).openHour>=hour && directory.get("Restaurant "+ Integer.toString(i)).closeHour-1<hour) {
+				restaurantIsOpen=true;
+				int myDistance = Math.abs(directory.get("Restaurant "+ Integer.toString(i)).x- directory.get(homeAddress).x) + Math.abs(directory.get("Restaurant "+Integer.toString(i)).y- directory.get(homeAddress).y);
+				if(myDistance < minTotDistance) {
+					myRestaurantChoice = i;
+					minTotDistance = myDistance;
+				}
+			}
+		}
+		
+		if(!restaurantIsOpen) {
+			System.out.println("There are no restaurants open.. must eat at home");
+			EatAtHome();
+			return;
+		}
+		
+		RestChoice = "Restaurant "+ Integer.toString(myRestaurantChoice);
 
 		DoGoTo(RestChoice);
 
@@ -1005,6 +1033,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 	public void setDirectory(Map<String, Business>direc){
 		directory = direc;
+		
 	}
 
 	public void setGui(PersonGui gui) {
