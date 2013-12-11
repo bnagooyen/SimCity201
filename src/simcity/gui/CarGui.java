@@ -139,7 +139,7 @@ public class CarGui implements Gui {
         public void updatePosition() {
             //System.out.println("x pos: "+ xPos + " // y pos: "+ yPos+" // xDestination: " + xDestination + " // yDestination: " + yDestination);
             if (xPos != xDestination) {
-                if (yPos == 20 || yPos == 375) {
+                if (yPos == 15 || yPos == 365) {
                      if (xPos < xDestination)
                           xPos++;
                      else if (xPos > xDestination)
@@ -147,9 +147,9 @@ public class CarGui implements Gui {
                 }
              
              else 
-                     if (375 - yDestination <= 150 && yPos >= 20) 
+                     if (365 - yDestination <= 150 && yPos >= 15) 
                              yPos++;
-                     else if (375 - yDestination > 150 && yPos <= 375)
+                     else if (365 - yDestination > 150 && yPos <= 365)
                              yPos--;
              }
              
