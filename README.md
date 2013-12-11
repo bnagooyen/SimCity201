@@ -9,10 +9,7 @@
   + Thi Tran
   
   
-###Anything missing or implemented incorrectly?
-	+ Everything is implemented
-	+ Semaphores are added
-	+ Everything should work! Sometimes a waiter will get stuck getting an order, but I've only seen that when I tested many customers/waiters.
+
 
 
 ###How To Compile and Run
@@ -40,11 +37,110 @@
 	In Scenario four there are three houses available and 3 apartment spots available.
 	
 	+Lastly the last parameter within the instantiation of a person is the transportation preference.  This dictates how this individual gets to and from work.  The bus stop will pick them up at the bus stop closest to their house, and drop them off at the nearest bus stop to where they work. 
+	Transportation can be added as easily as changing people's transportation preference withint he configuration files.  Anybody can be chagned from walk to bus or car.  Also note, for scenario only one visitor appears although three are configured.  
+	
+	##Responsibilities
+	
+	+Responsibilities were split up in the following ways 
+	
+	Doreen Hakimi:
+	+Front end specialist, much of the GUI work.
+	+Bank Implementation, normative and non normative scenarios
+	+File configuraitons 
+	+Scenario building and implementation within Sim City Panel
+	+Restaurant Integration
+	+SimCity Panel 
+	+Control Panels
+	+Card Layout
+	+Tracing
+	
+	Drew Appleman:
+	+Bank Implementation and Integration
+	+Person Agent
+	+Creating People within the SimCity Panel 
+	+Worked on Restaurant GUI's working in SimCity
+	+Restaurant Integration
+	+Bank Robber
+	+Designed and implemented the scheduler for Person Agent
+
+	Linda Char:
+	+Market implementation norms and non norms
+	+Visitor Role
+	+Sim City Panel
+	+Alert Log
+	+Restaurant Integration
+	+Implemented setting inventory in restaurants
+	+Person Agent
+	+Scenario Building #2
+	+Fixed Market tests
+	+Streets
+	+Restaurant 
+	
+	Thi Tran:
+	+Implemented Housing
+	+Transport Support 
+	+Sim City Panel 
+	+Restauraunt Integration
+	+Person GUI
+	+Resident GUI
+	+Tenant GUI
+	+Visitor
+	+Person Agent
+	+Streets
+	
+	
+	Brian Nguyen
+	+Transportation 
+	+Bus Interactions(Bus Stop, Person, Bus)
+	+Car Interactions 
+	+Bus GUIs
+	+Car GUI
+	+Person GUI
+	+Person Transportation scheduler
+	+Restaurant Integration
+	+Sim City Panel
+	+Person Agent
+	+Helped with Streets
+	+README
+	
+	Kimberly Santiago
+	+Market Implementation
+	+Directory
+	+Alert Log
+	+Person Agent
+	+Fixed Market Tests 
+	+Restaurant Integration
+	+Sim City Panel
+	+Person Agent
 	
 	
 	
+	Missing Components
+	Vehicles should behave appropriately at intersections.
+	
+	Routing behavior must show that agents don't bump into buildings, tables, etc.
+	
+	Enough vehicle traffic to show stopping/starting at intersections.
+	
+	Vehicles stop for pedestrians with right of way.
+	
+	P. Scenario: Vehicle accident
+	
+	Two vehicles collide.
 	
 	
-###Resources
-  + [Restaurant v1](http://www-scf.usc.edu/~csci201/readings/restaurant-v1.html)
-  + [Agent Roadmap](http://www-scf.usc.edu/~csci201/readings/agent-roadmap.html)
+	Q. Scenario: Vehicle hits pedestrian
+	
+	A vehicle hits a pedestrian.
+	
+	Then ... (you design it).
+	
+	Roads should have appropriate complexity [e.g. intersections with stop signs and/or signals]
+	
+	Role Switching 
+	
+	
+	Overall a great team effort and we all collaborated on many parts of the project.  Much of this effort and collaboration cannot be outlined very specifically.  We all assisted each other in areas needed.  
+	
+	
+	
