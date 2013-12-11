@@ -1,5 +1,5 @@
+/**
 package simcity.test.mock;
-
 import java.util.List;
 
 import simcity.PersonAgent;
@@ -34,3 +34,4 @@ public class MockRepairMan extends Mock implements RepairMan{
 	}
 
 }
+*/
