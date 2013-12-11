@@ -2,7 +2,9 @@ package simcity.test;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import agent.Role;
 import simcity.PersonAgent;
@@ -13,6 +15,9 @@ import simcity.Market.MarketCashierRole;
 import simcity.Market.MarketCashierRole.myState;
 import simcity.Market.MarketManagerRole;
 import simcity.Market.MarketManagerRole.workerState;
+import simcity.gui.CityPanel;
+import simcity.gui.SimCityPanel;
+import simcity.gui.SimCityPanel.Business;
 import simcity.interfaces.MarketCashier;
 import simcity.mockrole.MockRoleCook;
 import simcity.mockrole.MockRoleInventoryBoy;
@@ -29,6 +34,7 @@ import simcity.test.mock.MockMarketCashier;
 import simcity.test.mock.MockMarketCustomer;
 import simcity.test.mock.MockMarketManager;
 import simcity.Market.MarketCashierRole.orderState;
+import simcity.gui.SimCityPanel.MarketPlace;
 import junit.framework.TestCase;
 
 public class MarketManagerTest extends TestCase{
@@ -58,6 +64,9 @@ public class MarketManagerTest extends TestCase{
 		m = new MarketManagerRole(null);
 		m.myPerson = p;
 		dTruck = new MockDeliveryTruck("mockDeliveryTruck");
+		
+		p.setDirectory(null);
+
 	}
 	
 	
@@ -69,6 +78,7 @@ public class MarketManagerTest extends TestCase{
 		f1 = new MFoodOrder("Ch", 2);
 		foods.add(f1);
 		 m.setDeliveryTruck(dTruck);
+		 
 
 		
 		// preconditions
@@ -148,7 +158,9 @@ public class MarketManagerTest extends TestCase{
         //assertTrue("MarketManager is closing.", m.pickAndExecuteAnAction());
         assertEquals("MarketManager should have zero cashiers", m.cashiers.size(), 0);
         assertEquals("MarketManager should have zero inventoryBoys", m.inventoryBoys.size(), 0);
+        m.msgTimeUpdate(21);
         m.pickAndExecuteAnAction(); 
+        System.err.println(m.isClosed);
         assertEquals("MarketManager should have zero customers", m.customers.size(), 0);
         assertEquals("MarketCashier should have an empty event log. The mc's event log read: " + m.log.toString(), 3, m.log.size());
         assertEquals("MockInventoryBoy should have an empty event log. The ib's event log reads: "

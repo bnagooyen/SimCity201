@@ -28,13 +28,13 @@ import agent.Role;
 
 
 public class MarketManagerRole extends Role implements MarketManager{
-	
+
 	public List<MyMarketCashier> cashiers = Collections.synchronizedList(new ArrayList<MyMarketCashier>());
 	public List<InventoryBoy> inventoryBoys = Collections.synchronizedList(new ArrayList<InventoryBoy>());
 	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	public DeliveryTruck dTruck;
 	public List<MyDeliveryOrder> dOrders = Collections.synchronizedList(new ArrayList<MyDeliveryOrder>());
-	
+
 	public double marketMoney;
 	public int hour;
 	public boolean isClosed;
@@ -42,11 +42,11 @@ public class MarketManagerRole extends Role implements MarketManager{
 	public enum orderState{waiting, done};
 	public workerState dState;
 	public EventLog log;
-		
+
 	MManagerGui managerGui;
 
 	private SimCityGui gui;
-	
+
 	public MarketManagerRole(SimCityGui gui) {
 		super();
 		this.gui = gui;
@@ -58,56 +58,56 @@ public class MarketManagerRole extends Role implements MarketManager{
 	}
 
 	//Messages
-//	public void msgRestaurantClosed(Role r){
-//		//cannot deliver order delete customer order
-//		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Told market is closed");
-//		Do(r+"'s restaurant is closed");
-//		
-//		synchronized(dOrders){
-//			for(MyDeliveryOrder d : dOrders){
-//				if(d.cook.equals(r)){
-//					d.restClosed = true;
-//				}
-//			}
-//		}
-		
-//		synchronized(customers){
-//			for(MyCustomer cust : customers){
-//				if(cust.c.equals(r)){
-//					customers.remove(r);
-//				}
-//			}
-//		}
-//	}
-	
-//	public void msgRestaurantOpen(Role r){
-//		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Told market is open");
-//		Do(r+"'s restaurant is open");
-//		
-//		
-//		synchronized(dOrders){
-//			for(MyDeliveryOrder d : dOrders){
-//				if(d.cook.equals(r)){
-//					d.restClosed = false;
-//				}
-//			}
-//		}
-//		
-//	}
-	
+	//	public void msgRestaurantClosed(Role r){
+	//		//cannot deliver order delete customer order
+	//		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Told market is closed");
+	//		Do(r+"'s restaurant is closed");
+	//		
+	//		synchronized(dOrders){
+	//			for(MyDeliveryOrder d : dOrders){
+	//				if(d.cook.equals(r)){
+	//					d.restClosed = true;
+	//				}
+	//			}
+	//		}
+
+	//		synchronized(customers){
+	//			for(MyCustomer cust : customers){
+	//				if(cust.c.equals(r)){
+	//					customers.remove(r);
+	//				}
+	//			}
+	//		}
+	//	}
+
+	//	public void msgRestaurantOpen(Role r){
+	//		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Told market is open");
+	//		Do(r+"'s restaurant is open");
+	//		
+	//		
+	//		synchronized(dOrders){
+	//			for(MyDeliveryOrder d : dOrders){
+	//				if(d.cook.equals(r)){
+	//					d.restClosed = false;
+	//				}
+	//			}
+	//		}
+	//		
+	//	}
+
 	public void msgHereIsMoney(double money){
 		marketMoney += money;
 	}
-	
+
 	public void msgTimeUpdate(int hour){
 		this.hour = hour;
 	}
-	
+
 	//Customer is visiting market to set an order
 	public void msgIAmHere(Role r, String type){
 		LoggedEvent e = new LoggedEvent("Received msgIAmHere.");
 		log.add(e);
-		
+
 		if(type.equals("cashier")){
 			AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Cashier is here");
 			Do("Cashier is here");
@@ -128,7 +128,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 			Do("Cook is here");
 			customers.add(new MyCustomer(r, "cook"));
 		}
-		
+
 		if(!cashiers.isEmpty() && !inventoryBoys.isEmpty()){
 			print("MARKET IS OPEN YO");
 			isClosed = false;
@@ -136,15 +136,15 @@ public class MarketManagerRole extends Role implements MarketManager{
 		else{
 			isClosed = true;
 		}
-		
+
 		stateChanged();
 	}
-	
+
 	//Cook is calling in an order
 	public void msgIAmHere(Role r, List<MFoodOrder>need, String building, String type, RestaurantCashier cashier){
 		LoggedEvent e = new LoggedEvent("Received msgIAmHere.");
 		log.add(e);
-		
+
 		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Cook is calling");
 		Do("Cook is calling");
 		if(type.equals("cook")) {
@@ -152,13 +152,13 @@ public class MarketManagerRole extends Role implements MarketManager{
 		}
 		stateChanged();
 	}
-	
+
 	public void msgBackFromDelivery(){
 		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Delivery truck back from delivery");
 		Do("Delivery truck back from delivery");
 		dState = workerState.available;
 	}
-	
+
 	public void msgCustomerDone(MarketCashier mc, Role r){
 		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Cashier finished order");
 		Do("Cashier finished order");
@@ -168,12 +168,12 @@ public class MarketManagerRole extends Role implements MarketManager{
 		customers.remove(cust);
 		stateChanged();
 	}
-	
+
 	public void msgLoadDeliveryTruck(MarketCashier cashier, List<MFoodOrder>deliver, String location, double bill, Cook c){
 		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Loading delivery truck");
 		Do("Loading delivery truck");
 		dState = workerState.occupied;
-				
+
 		synchronized(customers) {
 			for(MyCustomer mc : customers) {
 				if(mc.building == location) {
@@ -183,9 +183,9 @@ public class MarketManagerRole extends Role implements MarketManager{
 				}
 			}
 		}
-			
-		
-		
+
+
+
 		stateChanged();
 	}
 
@@ -193,25 +193,30 @@ public class MarketManagerRole extends Role implements MarketManager{
 	//Scheduler
 
 	public boolean pickAndExecuteAnAction() {
-		
-		if(hour == myPerson.directory.get(myPerson.jobLocation).closeHour && !isClosed){
+		if(myPerson.directory!=null){
+			if(hour == myPerson.directory.get(myPerson.jobLocation).closeHour && !isClosed){
+				closeMarket();
+				return true;
+			}
+		}
+		else if(hour == 20){
 			closeMarket();
 			return true;
 		}
 		if(isClosed){
 			marketClosed();
 		}
-		
+
 		if(cashiers.size() > 1){
 			swapCashiers();
 			return true;
 		}
-		
+
 		if(inventoryBoys.size() > 1){
 			swapInventoryBoys();
 			return true;
 		}
-		
+
 		if(dState==workerState.occupied){
 			synchronized(dOrders){
 				for(MyDeliveryOrder d : dOrders){
@@ -221,10 +226,10 @@ public class MarketManagerRole extends Role implements MarketManager{
 					}
 				}
 			}
-			
+
 			return true;
 		}
-		
+
 		synchronized(customers){
 			for(MyCustomer c: customers){
 				if(c.waiting == true){
@@ -239,19 +244,19 @@ public class MarketManagerRole extends Role implements MarketManager{
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	//Actions
-	
+
 	private void sendOverTruck(MyDeliveryOrder d){
 		dState = workerState.out;
 		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Sending delivery truck over");
 		Do("Sending delivery truck over");
 		dTruck.msgGoToDestination(d.mc, d.supply, d.destination, d.check, d.cook, d.cashier);
 	}
-	
+
 	private void closeMarket(){ //pay employees 50
 		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Closing market");
 		Do("Closing market. It is "+hour);
@@ -270,19 +275,19 @@ public class MarketManagerRole extends Role implements MarketManager{
 		cashiers.clear();
 		inventoryBoys.clear();
 		isClosed = true;
-		
+
 		if(managerGui != null){
 			managerGui.DoGoHome();
 		}
-		
+
 		isActive = false;
-//		myPerson.energyState = EnergyState.tired;
-//		myPerson.locationState = LocationState.Out;
+		//		myPerson.energyState = EnergyState.tired;
+		//		myPerson.locationState = LocationState.Out;
 
 	}
-	
+
 	private void marketClosed(){
-//		Do("Telling market is closed");
+		//		Do("Telling market is closed");
 		synchronized(customers){
 			for(MyCustomer c: customers){
 				if(c.type.equals("customer")) {
@@ -296,7 +301,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		}
 
 	}
-	
+
 	private void swapCashiers(){
 		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Switching out cashiers");
 		Do("Switching out cashiers");
@@ -305,7 +310,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		cashiers.get(1).state = workerState.available;
 		cashiers.remove(0);
 	}
-	
+
 	private void swapInventoryBoys(){
 		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Switching out inventory boys");
 		Do("Switching out inventory boys");
@@ -313,7 +318,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		inventoryBoys.get(0).msgGoHome(50);
 		inventoryBoys.remove(0);
 	}
-	
+
 	private void handleCustomer(MyCustomer c, MyMarketCashier mc){
 		AlertLog.getInstance().logInfo(AlertTag.Market, "MarketManagerRole", "Assigning order to cashier");
 		Do("Assigning order to cashier");
@@ -324,11 +329,11 @@ public class MarketManagerRole extends Role implements MarketManager{
 		}
 		else { // type must be cook
 			mc.c.msgOrder((Cook)c.c, c.need, c.building,c.cashier);
-//			((Cook) c.c).msgGoToCashier((MarketCashier) mc.c);
+			//			((Cook) c.c).msgGoToCashier((MarketCashier) mc.c);
 
 		}
 	}
-	
+
 	//Utilities
 	private MyCustomer find(Role r, List<MyCustomer> custs) {
 		MyCustomer c = null;
@@ -341,7 +346,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		}
 		return c;
 	}
-	
+
 	private MyMarketCashier find(MarketCashier m, List<MyMarketCashier> cash){
 		MyMarketCashier mc = null;
 		synchronized(cash){
@@ -353,25 +358,25 @@ public class MarketManagerRole extends Role implements MarketManager{
 		}
 		return mc;
 	}
-	
+
 	public class MyMarketCashier{
 		MarketCashier c;
 		public workerState state;
-		
+
 		public MyMarketCashier(Role r, workerState w){
 			c = (MarketCashier) r;
 			state = w;
 		}
 
 	}
-	
+
 	public void setDeliveryTruck(DeliveryTruck d){
 		dTruck = d;
 	}
-	
+
 	public class MyDeliveryOrder{
-//		public DeliveryTruck d;
-//		public workerState state;
+		//		public DeliveryTruck d;
+		//		public workerState state;
 		public MarketCashier mc;
 		public List<MFoodOrder>supply;
 		public String destination;
@@ -379,8 +384,8 @@ public class MarketManagerRole extends Role implements MarketManager{
 		public Cook cook;//restaurant's cook
 		public RestaurantCashier cashier;
 		public orderState state;
-//		public boolean restClosed; 
-		
+		//		public boolean restClosed; 
+
 		MyDeliveryOrder(MarketCashier mCash, List<MFoodOrder>deliver, String loc, double bill, Cook c,RestaurantCashier rc){
 			mc = mCash;
 			supply = deliver;
@@ -389,10 +394,10 @@ public class MarketManagerRole extends Role implements MarketManager{
 			cook = c;
 			cashier = rc;
 			state = orderState.waiting;
-//			restClosed = false;
+			//			restClosed = false;
 		}
 	}
-	
+
 	public class MyCustomer{
 		Role c;
 		boolean waiting;
@@ -401,7 +406,7 @@ public class MarketManagerRole extends Role implements MarketManager{
 		String building;
 		public RestaurantCashier cashier;
 
-		
+
 		//For the customers who visit the market
 		MyCustomer(Role r, String s){
 			c = r;
@@ -409,9 +414,9 @@ public class MarketManagerRole extends Role implements MarketManager{
 			type = s;
 			building = null;
 			cashier = null;
-		
+
 		}
-		
+
 		//For the cook who calls in an order
 		MyCustomer(Role r, List<MFoodOrder>n, String b, String s, RestaurantCashier cash, boolean closed){
 			c = r;

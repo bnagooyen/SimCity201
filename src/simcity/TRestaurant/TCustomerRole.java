@@ -221,7 +221,8 @@ public class TCustomerRole extends Role implements TCustomer {
 		}
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
 			state = AgentState.DoingNothing;
-			leaveRestaurant(); 
+			leaveRestaurant();
+			
 			//no action
 			return true;
 		}
@@ -371,9 +372,9 @@ public class TCustomerRole extends Role implements TCustomer {
 				AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Can't order anything else");
 				Do("Can't order anything else.");
 				waiter.msgLeavingTable(this);
-				customerGui.DoExitRestaurant();
 				state = AgentState.DoingNothing; 
-				event = AgentEvent.none; 
+				event = AgentEvent.none;
+				leaveRestaurant();
 			}
 			else {
 				AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Giving waiter my order");
@@ -391,9 +392,9 @@ public class TCustomerRole extends Role implements TCustomer {
 					AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Can't order anything else");
 					Do("Can't order anything else.");
 					waiter.msgLeavingTable(this);
-					customerGui.DoExitRestaurant();
 					state = AgentState.DoingNothing; 
 					event = AgentEvent.none; 
+					leaveRestaurant();
 				}
 				else {
 					AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Giving waiter my order");
@@ -407,9 +408,9 @@ public class TCustomerRole extends Role implements TCustomer {
 				AlertLog.getInstance().logInfo(AlertTag.TRestaurant, "TCustomerRole", "Don't have enough money. Leaving now.");
 				print("Don't have enough money. Leaving now.");
 				waiter.msgLeavingTable(this);
-				customerGui.DoExitRestaurant();
 				state = AgentState.DoingNothing; 
 				event = AgentEvent.none; 
+				leaveRestaurant();
 			}
 		}
 		

@@ -67,7 +67,7 @@ public class MockDRestaurantCustomer extends Mock implements DCustomer {
 	@Override
 	public void msgHereIsYourReceiptAndChange(double num) {
 		// TODO Auto-generated method stub
-		LoggedEvent e = new LoggedEvent("Received msgChange from cashier. Total = " + change);
+		LoggedEvent e = new LoggedEvent("Received msgChange from cashier. Total = " + num);
 		log.add(e);
 	}
 
