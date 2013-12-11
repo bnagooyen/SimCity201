@@ -207,6 +207,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankCustomer", "Making a transaction");
 		Do("Making a transaction");
 		
+		
 		//HACK TO TEST
 		if(myPerson.money>myPerson.depositThreshold){
 			teller.msgDeposit(this, accountNum, myPerson.money-myPerson.depositThreshold);

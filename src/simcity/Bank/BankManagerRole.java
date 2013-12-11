@@ -21,6 +21,7 @@ import simcity.gui.trace.AlertTag;
 import simcity.interfaces.BankCustomer;
 import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;
+import simcity.interfaces.BankRobber;
 import simcity.interfaces.BankTeller;
 import simcity.interfaces.Landlord;
 //import simcity.interfaces.Landlord;
@@ -62,7 +63,8 @@ public class BankManagerRole extends Role implements BankManager {
 	private double employeePayPerHour=10;
 	private double vault = 1000000000;
 	
-	
+	//Robber
+	BankRobber robber=null;
 	
 	//gui
 	private Semaphore atDest = new Semaphore(0,true);
@@ -129,6 +131,12 @@ public class BankManagerRole extends Role implements BankManager {
 			customers.add(new MyCustomer((BankCustomer)person, MyCustomer.MyCustomerState.transaction));
 			stateChanged();
 		}
+		else if(type.equals("robbery")) {
+			AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "THERE IS A BANKROBBER!");
+			Do("ROBBERY!!!!!!");
+			robber=(BankRobber) person;
+			stateChanged();
+		}
 		//Fire Loan Officer and Hire new Applicant
 		else if(type.equals("job")) {
 			AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Hiring a new loan officer");
@@ -155,6 +163,11 @@ public class BankManagerRole extends Role implements BankManager {
 		Do("BankLoanOfficer available");
 		officers.get(0).state=MyLoanOfficer.MyOfficerState.available;
 		stateChanged();		
+	}
+	
+	public void iAmDead() {
+		tellers.remove(0);
+		Do("Teller was killed, no more teller");
 	}
 	
 	public void msgCreateAccount(String type) {
@@ -331,6 +344,10 @@ public class BankManagerRole extends Role implements BankManager {
 			return true;
 		}
 		
+		if(robber!=null&&tellers.get(0).state==MyTellerState.available){
+				SendRobberToTeller(robber);
+		}
+		
 		if(!tellers.isEmpty() && tellers.get(0).state==MyTellerState.available) {
 			synchronized(customers) {
 				for(MyCustomer cust: customers) {
@@ -422,6 +439,14 @@ public class BankManagerRole extends Role implements BankManager {
 		tellers.get(0).state=MyTellerState.occupied;
 		c.customer.msgGoToTeller(tellers.get(0).emp);
 		customers.remove(c);
+	}
+	
+	private void SendRobberToTeller(BankRobber R) {
+		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankManager", "Telling customer to go to teller");
+		Do("Telling customer to go to teller");
+		tellers.get(0).state=MyTellerState.occupied;
+		R.msgGoToTeller(tellers.get(0).emp);
+		robber=null;
 	}
 	
 	private void SendCustomerToLoanOfficer(MyCustomer c) {
@@ -649,6 +674,7 @@ public class BankManagerRole extends Role implements BankManager {
 		}
 		
 	}
+	
 	
 	class MyClient {
 		public MyClient(Landlord l, Integer account, double rentBill) {

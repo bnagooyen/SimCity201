@@ -10,4 +10,10 @@ public interface BankRobber {
 	public void msgIRefuseToPay();
 	
 	public void msgIShotYou();
+
+	public void setManager(BankManager m);
+
+	public void msgAtTellerPos();
+
+	public void msgAnimationFinishedLeaveBank();
 }

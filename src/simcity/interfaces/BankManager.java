@@ -42,4 +42,6 @@ public interface BankManager {
 	void msgAtLoanPos();
 
 	public abstract void setGui(BankManagerGui manGui);
+
+	public abstract void iAmDead();
 }

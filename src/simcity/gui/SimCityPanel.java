@@ -865,6 +865,13 @@ public class SimCityPanel extends JPanel {
 					BT.myPerson=p;
 					p.SetJob(BT,"Bank 2", "Bank Loan Officer");
 				}
+				
+				if(role.equals("Bank Robber")){
+					BankRobberRole BR=  myBanks.get(0).addRobber();
+					BR.myPerson=p;
+					p.SetJob(BR,"Bank 1", "Bank Robber");
+					p.msgWorkTime();
+				}
 	
 				
 				//Add People that take another Person's Job
@@ -1000,13 +1007,16 @@ public class SimCityPanel extends JPanel {
 
 
 		ArrayList<BankCustomerRole> bankCustomers;
+		ArrayList<BankRobberRole> bankRobbers;
 
+		
 		public BankPlace(int num) {
 			this.num = num;
 			loanOfficer = new BankLoanOfficerRole(gui,num);
 			bankManager = new BankManagerRole(gui, num);
 			bankTeller = new BankTellerRole(gui,num);
 			bankCustomers = new ArrayList<BankCustomerRole>();
+			bankRobbers = new ArrayList<BankRobberRole>();
 
 			loanOfficer.setManager(bankManager);
 			bankTeller.setManager(bankManager);
@@ -1017,6 +1027,13 @@ public class SimCityPanel extends JPanel {
 			b.setManager(bankManager);
 			b.num=num;
 			bankCustomers.add(b);
+			return b;
+		}
+		public BankRobberRole addRobber() {
+			BankRobberRole b = new BankRobberRole(gui,num);
+			b.setManager(bankManager);
+			b.num=num;
+			bankRobbers.add(b);
 			return b;
 		}
 	}
