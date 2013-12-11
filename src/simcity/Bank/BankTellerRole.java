@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
+import simcity.PersonAgent.PersonState;
 import simcity.Bank.gui.BankTellerGui;
 import simcity.Market.gui.IBGui;
 import simcity.gui.SimCityGui;
@@ -20,6 +21,7 @@ public class BankTellerRole extends Role implements BankTeller {
 	//data
 	public BankManager manager;
 	public BankRobber robber;
+	public boolean shot=false;
 	public MyCustomer customer=null;
 	public Double requested=0.00;
 	public Double transacted=0.00;
@@ -115,6 +117,9 @@ public class BankTellerRole extends Role implements BankTeller {
 	public void msgIShotYou(){
 		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankTeller", "Ahhh I got shot yo");
 		Do("Ahhh I got shot yo");
+		shot=true;
+		manager.iAmDead();
+		myPerson.state=PersonState.dead;
 		//Tell person he was shot, Message? Directly add to state?
 	}
 	public void msgGoHome(double pay){
@@ -228,7 +233,8 @@ public class BankTellerRole extends Role implements BankTeller {
 		}
 		private void dealWithRobbery(){
 			Random generator=new Random();
-			int choice = generator.nextInt(2);
+			int choice = generator.nextInt(3);
+			choice=2;
 			if(choice==0){
 				AlertLog.getInstance().logMessage(AlertTag.Bank, "BankTeller", "Call the Po-Po. We was robbed");
 				Do("Call the Po-Po. We was robbed");
@@ -245,6 +251,7 @@ public class BankTellerRole extends Role implements BankTeller {
 				robber.msgIShotYou();
 				manager.msgAvailable(this);
 			}
+			robber=null;
 		}
 		
 		private void leaveBank() {
@@ -283,6 +290,13 @@ public class BankTellerRole extends Role implements BankTeller {
 		
 		public void setManager(BankManager Bman){
 			manager=Bman;
+		}
+
+
+
+		@Override
+		public boolean getshot() {
+			return shot;
 		}
 		
 			

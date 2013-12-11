@@ -4,41 +4,46 @@ package simcity.Bank.gui;
 
 import java.awt.*;
 
+import simcity.Bank.BankCustomerRole;
 import simcity.gui.Gui;
+import simcity.interfaces.BankCustomer;
+import simcity.interfaces.BankLoanOfficer;
 import simcity.interfaces.BankManager;
+import simcity.interfaces.BankRobber;
 import simcity.interfaces.BankTeller;
 
-public class BankTellerGui implements Gui{
+public class BankRobberGui implements Gui{
 
-	private BankTeller Role = null;
-	private boolean isPresent = false;
-	public boolean isHungry = false;
+	private BankRobber Role = null;
+	private boolean isPresent = true;
+	
+	public boolean shot=false;
 
 	private BankManager manager;
 	public Gui gui;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
-	private enum Command {noCommand, goToCorner, goToTellerPosition, leaveBank};
+	private enum Command {noCommand, goToTellerPosition, goToLoanPosition, leaveBank};
 	private Command command=Command.noCommand;
 
-	public static final int xCorner = 100;
-	public static final int yCorner = 80;
 	public static final int xTeller = 255;
-	public static final int yTeller = 80;
+	public static final int yTeller = 125;
+	public static final int xLoan = 175;
+	public static final int yLoan = 125;
 	
 	public static final int customerSize = 20;
 	public static final int xOffScreen = 100;
-	public static final int yOffScreen = 400;
+	public static final int yOffScreen = 350;
 
-	public BankTellerGui(BankTeller BT, BankManager m) {
-		Role = BT;
-		xPos = 50;
-		yPos = 430;
-		xDestination = 80;
+	public BankRobberGui(BankRobber BC, BankManager m) {
+		Role = BC;
+		xPos = 100;
+		yPos = 350;
+		xDestination = 100;
 		yDestination = 400;
 		manager = m;
-		Role.setManager(m);
+		BC.setManager(m);
 		//this.gui = gui;
 	}
 
@@ -53,17 +58,16 @@ public class BankTellerGui implements Gui{
 		else if (yPos > yDestination)
 			yPos--;
 		if (xPos == xDestination && yPos == yDestination) {
-			if (command==Command.goToCorner) Role.msgAnimationFinishedGoToCorner();
+			if (command==Command.goToTellerPosition) Role.msgAtTellerPos();
 			else if (command==Command.leaveBank) Role.msgAnimationFinishedLeaveBank();
-			else if (command==command.goToTellerPosition) Role.msgAtTellerPos();
 			command=Command.noCommand;
 		}
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
+		g.setColor(Color.YELLOW);
 		g.fillRect(xPos, yPos, customerSize, customerSize);
-		if(Role.getshot()){
+		if(shot){
 			g.setColor(Color.RED);
 			g.fillOval(xPos+customerSize/2, yPos+customerSize/2, customerSize/2, customerSize/2);
 		}
@@ -77,16 +81,16 @@ public class BankTellerGui implements Gui{
 		isPresent = p;
 	}
 	
-    public void goToCorner() {
-    	xDestination = xCorner;
-        yDestination = yCorner;
-        command = Command.goToCorner;
-    }
-    
-    public void goToTellerPos() {
+    public void goToTeller() {
     	xDestination = xTeller;
         yDestination = yTeller;
         command = Command.goToTellerPosition;
+    }
+    
+    public void goToLoanPos() {
+    	xDestination = xLoan;
+        yDestination = yLoan;
+        command = Command.goToLoanPosition;
     }
 	
 	public void DoExitBank() {

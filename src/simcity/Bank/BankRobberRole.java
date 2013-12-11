@@ -1,8 +1,14 @@
 package simcity.Bank;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
+import simcity.Bank.BankCustomerRole.bankCustomerState;
+import simcity.Bank.gui.BankCustomerGui;
+import simcity.Bank.gui.BankRobberGui;
+import simcity.PersonAgent.PersonState;
+import simcity.gui.SimCityGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.*;
@@ -12,13 +18,21 @@ public class BankRobberRole extends Role implements BankRobber {
 	//data
 	public BankManager manager; 
 	public BankTeller teller; 
+	public int num;
 	
 	public enum bankRobberState { arrived, waiting, inProgress, unsucessful, done};
 	public bankRobberState state=bankRobberState.arrived;
 	
-	public BankRobberRole() {
+	//GUI
+	private Semaphore atDest = new Semaphore(0,true);
+	private BankRobberGui bankrobbergui;;
+	private SimCityGui gui;
+	
+	public BankRobberRole(SimCityGui G, int N) {
 		super();
-		// TODO Auto-generated constructor stub
+		state=bankRobberState.arrived;
+		gui=G;
+		num=N;
 	}
 	
 	//messages
@@ -44,9 +58,12 @@ public class BankRobberRole extends Role implements BankRobber {
 	public void msgIShotYou(){
 		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankRobber", "Shots fired");
 		Do("Shots fired");
+		bankrobbergui.shot=true;
 		state=bankRobberState.done;
+		myPerson.state=PersonState.dead;
 		//tell Person He was shot				*******************************
 	}
+	
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
@@ -73,7 +90,14 @@ public class BankRobberRole extends Role implements BankRobber {
 	private void tellManagerArrived(){
 		AlertLog.getInstance().logMessage(AlertTag.Bank, "BankRobber", "Robber has arrived");
 		Do("Robber has arrived");
-		manager.msgIAmHere(this, "transaction");
+		if(bankrobbergui == null) {
+			bankrobbergui = new BankRobberGui(this, manager);
+			gui.myPanels.get(myPerson.BankChoice).panel.addGui(bankrobbergui);
+		}
+		bankrobbergui.setPresent(true);
+		manager.msgIAmHere(this, "robbery");
+		bankrobbergui.goToTeller();
+		finishTask();
 		state=bankRobberState.waiting;
 	}
 	
@@ -97,6 +121,35 @@ public class BankRobberRole extends Role implements BankRobber {
 		Do("I'm out!");
 		this.isActive=false;
 		state=bankRobberState.arrived;
-		//doLeaveBank       GUI
+		bankrobbergui.DoExitBank();
+		finishTask();
+	}
+
+	@Override
+	public void setManager(BankManager m) {
+		// TODO Auto-generated method stub
+		manager=m;
+	}
+
+	public void msgAtTellerPos() {
+		Do("Robs at teller!");
+		atDest.release();
+		
+	}
+
+	public void msgAnimationFinishedLeaveBank() {
+		atDest.release();
+		state=bankRobberState.arrived;
+		this.isActive=false;
+		myPerson.msgLeftBuilding();
+	}
+	
+	private void finishTask(){			//Semaphore to make waiter finish task before running scheduler
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

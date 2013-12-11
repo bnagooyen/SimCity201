@@ -7,7 +7,7 @@ import simcity.Bank.gui.BankTellerGui;
 //import simcity.Bank.BankTellerRole.bankTellerState;
 
 public interface BankTeller {
-	
+
 	public void msgMakeAccount(BankCustomer BC);
 	
 	public void msgAccountCreated(int num);
@@ -35,4 +35,6 @@ public interface BankTeller {
 	public void setManager(BankManager m);
 
 	public void setGui(BankTellerGui bgui);
+
+	public boolean getshot();
 }

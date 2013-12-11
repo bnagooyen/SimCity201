@@ -64,14 +64,14 @@ public class PersonAgent extends Agent implements Person {
 	public int hungerLevel;
 	enum EnergyState { awake, tired, sleeping};
 	EnergyState energystate;
-	enum PersonState { doingNothing, atRestaurant, workTime, asleep, dead, travelling };
+	public enum PersonState { doingNothing, atRestaurant, workTime, asleep, dead, travelling };
 	public enum TransitState {justLeaving, goToBus, walkingToBus, onBus, goToCar, inCar, getOutCar, walkingtoDestination, atDestination, atBusStop, waitingAtStop, getOnBus, getOffBus };
 	enum LocationState {atHome, atRestaurant, atBank, atWork, atMarket};
 	public enum MoneyState {poor, middle, rich};
 	enum TravelPreference {walk, bus, car};
 	TravelPreference myTravelPreference;
 	private LocationState myLocation;
-	private PersonState state;
+	public PersonState state;
 	public MoneyState moneystate;
 	private TransitState transit;
 	private BusAgent bus;
@@ -156,7 +156,7 @@ public class PersonAgent extends Agent implements Person {
 
 	// Messages
 	public void msgTimeUpdate(int hr) {
-		Do("got time update. Time is " + hr);//+" Work Starts at " +myJob.startHour);
+		//Do("got time update. Time is " + hr);//+" Work Starts at " +myJob.startHour);
 		hour = hr;
 		if(myJob!=null) startHour=directory.get(jobLocation).openHour-2;
 		else startHour=50;
