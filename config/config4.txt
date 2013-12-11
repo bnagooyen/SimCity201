@@ -1,6 +1,6 @@
-Day
+Weekend
 Population(numPeopleInFile):
-31
+30
 EntryTemplate:
 Name
 	Money
@@ -155,10 +155,5 @@ Kimiman
 Andreen
 	400
 	BankLoanOfficer2
-	Walk
-	House
-1Visitor
-	1000
-	Visitor
 	Walk
 	House

@@ -80,16 +80,18 @@ public class PersonListPanel extends JPanel implements ActionListener {
         scenarioSelection.addItem("Scenario 1");
         scenarioSelection.addItem("Scenario 2");
         scenarioSelection.addItem("Scenario 3");
+        scenarioSelection.addItem("Scenario 4");
         
         scenarioSelection.addActionListener(this);
         
         scenarioSelector.add(scenarioSelection);
         
+        dayWeekendSelection.addItem("Day/Weekend");
         dayWeekendSelection.addItem("Weekday");
         dayWeekendSelection.addItem("Weekend");
         
         scenarioSelector.add(dayWeekendSelection);
-
+        dayWeekendSelection.setEnabled(false);
         
         add(scenarioSelector, BorderLayout.NORTH);
         
@@ -390,19 +392,27 @@ public class PersonListPanel extends JPanel implements ActionListener {
     	
     	//normative with timer 
     	if(type.equals("Scenario 1")) {
+    		dayWeekendSelection.setSelectedItem("Weekday");
     		gui.simcityPanel.LoadScenario("config1");
     		gui.simcityPanel.startTimer();
     	}
     	
     	//visitor 1 without timer
     	else if(type.equals("Scenario 2")) {
+    		dayWeekendSelection.setSelectedItem("Weekday");
     		gui.simcityPanel.LoadScenario("config2");
     		gui.simcityPanel.getWorkersToJob();
     	}
     	
     	else if(type.equals("Scenario 3")) {
+    		dayWeekendSelection.setSelectedItem("Weekday");
     		gui.simcityPanel.LoadScenario("config3");
     		gui.simcityPanel.getWorkersToJob();
+    	}
+    	else if(type.equals("Scenario 4")) {
+    		dayWeekendSelection.setSelectedItem("Weekend");
+    		gui.simcityPanel.LoadScenario("config4");
+    		gui.simcityPanel.startTimer();
     	}
     	
     	
