@@ -1,7 +1,12 @@
+/*
+ * SimCity201, Released December 2013
+ * Contributors to file: Doreen Hakimi
+ */
+
 package simcity.DRestaurant;
  
 import simcity.gui.SimCityGui;
-import simcity.gui.DGui.DCustomerGui;
+import simcity.DRestaurant.DGui.DCustomerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.DCustomer;
@@ -21,18 +26,16 @@ import java.util.concurrent.Semaphore;
 public class DCustomerRole extends Role implements DCustomer {
 	private String name;
 	private String myText;
-	//parse through string
 	public String choice;
 	private int hungerLevel = 5;        // determines length of meal
-	//private int sittingAt; //table handling
+	
+	//timer
 	Timer timer = new Timer();
 	private DCustomerGui customerGui;
 	
 	private boolean stayOrLeave;
 	
 	private DMenu myMenu;
-//	private double wallet;
-//	private double debt;
 	
 	//semahores
 	Semaphore atFront = new Semaphore(0, true);
@@ -44,11 +47,9 @@ public class DCustomerRole extends Role implements DCustomer {
 	SimCityGui rGui;
 	//table
 	private int tableNum;
-	//CustomerGui gui;
-	//check
+
 	DCheck myBill = null;
 	
-	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
 	{DoingNothing, WaitingInRestaurant, BeingSeated, Seated, ReadyToOrder, Ordered, Eating, Paying, DoneEating, Leaving, Gone, GoingToCashier, Paid, WaitingForCheck, WaitingInHangout, AtFront};
 	private AgentState state = AgentState.DoingNothing;//The start state
@@ -66,28 +67,8 @@ public class DCustomerRole extends Role implements DCustomer {
 	public DCustomerRole(SimCityGui gui){
 		super();
 		this.rGui=gui;
-		//parsing string
-		//Input: Name, MoneyVal, Order , Stay/Leave
-//		String[] inputs = name.split(", "); 
-//		
-		
-//		this.myText = name;
-//		wallet= Double.parseDouble(inputs[1].trim());
-//		this.name=inputs[0].trim();
-//		choice=inputs[2].trim();
-//		//System.out.println(inputs[3]);
-//		if(inputs[3].trim().equals("Stay")) {
-//			stayOrLeave=true;
-//			//System.out.println("staying.");
-//		}
-//		if(inputs[3].trim().equals("Leave")) {
-//			stayOrLeave=false;
-//		}
-		//System.out.printf("Name: "+ name + " Money: "+ "%d ", wallet);
-		//System.out.print(wallet);
 
 		state=AgentState.DoingNothing;
-//		debt=0;
 		
 	}
 	public void setChoice(String ch) {
@@ -111,15 +92,10 @@ public class DCustomerRole extends Role implements DCustomer {
 	public String getCustomerName() {
 		return name;
 	}
+	
+	
 	// Messages
 
-	@Override
-//	public void gotHungry() {//from animation
-//		print("I'm hungry");
-//		event = AgentEvent.gotHungry; //event is the state change
-//		stateChanged();
-//	}
-	
 	public void gotHungry() {
 		// TODO Auto-generated method stub
 		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCustomerRole", "I'm hungry");
@@ -214,6 +190,7 @@ public class DCustomerRole extends Role implements DCustomer {
 			//System.out.print("wallet now = "+ wallet);
 		}
 		else {
+			//used this statement to test acquiring debt
 			;//System.out.println("customer acquired debt of "+ (-1)*num);
 		}
 		event = AgentEvent.gotReceipt;
@@ -330,8 +307,7 @@ public class DCustomerRole extends Role implements DCustomer {
 		Do("Going to restaurant");
 		state = AgentState.WaitingInRestaurant;
 		host.msgIWantFood(this);//send our instance, so he can respond to us
-//		host.msgIAmHere(this);
-		//System.err.println("sent iwantfood");
+
 	}
 	private void LeaveRestaurant() {
 		DoLeaveRestaurant();
@@ -371,25 +347,13 @@ public class DCustomerRole extends Role implements DCustomer {
 		Do("Being seated. Going to table");
 		state = AgentState.BeingSeated;
 		DoGoToSeat();
-		//customerGui.DoGoToSeat(sittingAt, 1);//hack; only one table
-		//do is being called by waitergui
+
 	}
 	
 	private void DecideWhatIWantToEat(final DMenu myMenu) {
 		//Do("Deciding what to order...");
 		state = AgentState.Seated;
 		choice = myMenu.MostExpensiveICanAfford(myPerson.money);
-		/*timer.schedule(new TimerTask() {
-			public void run() {
-				Random generator= new Random();
-				choice= myMenu.myOptions[generator.nextInt(myMenu.getSize())];
-				Do("I'm ordering " +choice);
-				event = AgentEvent.iKnowWhatIWant;
-				//isHungry = false;
-				stateChanged();
-			}
-		},
-		3000); */
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
@@ -438,9 +402,7 @@ public class DCustomerRole extends Role implements DCustomer {
 			DoDisplayOrderCard();
 			
 	}
-		//waiter.msgHereIsMyChoice(this, choice);
-		//DoDisplayOrderCard();
-	//}
+	
 	
 	private void GiveNewOrder() {
 		if(!stayOrLeave) { //will leave if restaurant doesn't have their only choice 
@@ -455,13 +417,7 @@ public class DCustomerRole extends Role implements DCustomer {
 		System.out.println("giving waiter new order");
 		String ch=myMenu.OutOf(choice, myPerson.money);
 		System.out.println("menu recommended " + ch);
-		/* if requirement allows user to eat anyway...
-		if(ch.equals("None") && !stayOrLeave) {
-			waiter.msgCantAffordNotStaying(this);
-			DoLeaveRestaurant();
-			return;
-		}
-		else choice=ch; */
+
 		if(ch.equals("None")) {
 			state=AgentState.Leaving;
 			waiter.msgCantAffordNotStaying(this);
@@ -512,29 +468,7 @@ public class DCustomerRole extends Role implements DCustomer {
 		//DoLeaveRestaurant();
 		DoGoToCashier();
 	}
-	
-//	private void PayMyBill() {
-//		DecimalFormat df = new DecimalFormat("###.##");
-//		//normative scenario.. pays amount due;
-//		System.err.println("PAYING BILL...");
-//		if(debt>0) {
-//			;//System.out.print("adding my debt of " + debt+ " to bill.. paying "+ (wallet+debt));
-//		}
-//		double myPay=  Double.valueOf(df.format(wallet+debt));
-//		myBill.setCustomerPaid(myPay);
-//		debt=0; // paid it, no more
-//		cashier.msgHereIsAPayment(this, myBill.getTablenum(), myBill.getCustomerPaid());
-//		if((myBill.getBillAmnt()+debt)>wallet) {
-//			System.out.print("bill: "+ myBill.getBillAmnt() + " Wallet: "+ wallet + " Debt: "+ debt);
-//
-//			double myDebt = Double.valueOf(df.format(myBill.getBillAmnt()+debt-wallet));
-//			
-//			System.out.print("added "+ myDebt + " debt");
-//			debt+=myDebt;
-//		}
-//		wallet=0;
-//		state=AgentState.Paid;
-//	}
+
 	
 	private void PayMyBill() {
 		DecimalFormat df = new DecimalFormat("###.##");

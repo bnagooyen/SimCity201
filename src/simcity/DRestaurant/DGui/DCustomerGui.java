@@ -1,4 +1,9 @@
-package simcity.gui.DGui;
+/*
+ * SimCity201, Released December 2013
+ * Contributors to file: Doreen Hakimi
+ */
+
+package simcity.DRestaurant.DGui;
 
 import simcity.gui.Gui;
 import simcity.gui.SimCityGui;

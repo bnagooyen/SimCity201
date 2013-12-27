@@ -1,3 +1,8 @@
+/*
+ * SimCity201, Released December 2013
+ * Contributors to file: Doreen Hakimi
+ */
+
 package simcity.DRestaurant;
 
 import simcity.DRestaurant.DProducerConsumerMonitor;
@@ -16,12 +21,9 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 /**
- * Restaurant Host Agent
+ * Restaurant Host Role
  */
-//We only have 2 types of agents in this prototype. A customer and an agent that
-//does all the rest. Rather than calling the other agent a waiter, we called him
-//the HostAgent. A Host is the manager of a restaurant who sees that all
-//is proceeded as he wishes.
+
 public class DHostRole extends Role implements Host {
 	
 	private DProducerConsumerMonitor theMonitor;
@@ -64,16 +66,13 @@ public class DHostRole extends Role implements Host {
 	public DHostRole() {
 		super();
 
-		//this.name = name;
-		// make some tables
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		for (int ix = 1; ix <= NTABLES; ix++) {
 			tables.add(new Table(ix));//how you add to a collections
 		}
 		register=300;
 		KitchenReadyForOpen=false;
-		//adding one waiter.. to be changed
-		//waiters.add(new WaiterAgent("Joe"));
+
 
 		customersInRST=0;
 		
@@ -236,7 +235,7 @@ public class DHostRole extends Role implements Host {
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-		//System.err.println("dhost is alivee");
+
 		if(cookArrived){
 			CookOnDuty();
 			return true;
@@ -424,18 +423,7 @@ public class DHostRole extends Role implements Host {
 		
 	}
 	
-//	private void AssignToTable(MyCustomer cust, MyWaiter w, Table t)
-//	{
-//		t.occupiedBy=(CustomerAgent) cust.c;
-//		waitingCustomers.remove(cust);
-//		w.w.msgSitAtTable(t.getTableNum(), cust.c);
-//		Do(((CustomerAgent) (cust.c)).getName() +" assigned waiter: " + w.w.getName());
-//		w.numCustomers++;
-//		System.out.println(name+": sent sitAtTable msg");
-//		customersInRST++;
-//		
-//	}
-//	
+
 	private void AnswerWaiterBreakRequest(MyWaiter w) {
 		int waitersOnDuty=0;
 		for(MyWaiter waiter: waiters) {
@@ -465,13 +453,7 @@ public class DHostRole extends Role implements Host {
 	public DProducerConsumerMonitor getMonitor() {
 		return theMonitor;
 	}
-//	public void setGui(HostGui gui) {
-//		hostGui = gui;
-//	}
-//
-//	public HostGui getGui() {
-//		return hostGui;
-//	}
+
 	
 	public void msgAddWaiter(DWaiterRole w) {
 		//waiters.add(w);
@@ -483,11 +465,6 @@ public class DHostRole extends Role implements Host {
 		
 	}
 	
-//	public void addCook(DCookRole c) {
-//		myCook = c;
-//		c.setMonitor(theMonitor);
-//		cookArrived=true;
-//	}
 	
 	static public class MyWaiter {
 		

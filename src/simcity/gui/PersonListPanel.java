@@ -1,3 +1,9 @@
+/*
+ * SimCity201, Released December 2013
+ * Contributors to file: Doreen Hakimi
+ * Description: Gui panel which allows for people to be created and scenarios to be loaded
+ */
+
 package simcity.gui;
 
 
@@ -116,6 +122,8 @@ public class PersonListPanel extends JPanel implements ActionListener {
       	roleSelection.addItem("Person");
     	roleSelection.addItem("Visitor");
     	roleSelection.addItem("Waiter");
+    	
+    	/***** roles that would have supported role switching (removed last minute due to shortage of time) ****/
     	//roleSelection.addItem("Inventory Person 1");
     	//roleSelection.addItem("Inventory Person 2");
     	//roleSelection.addItem("Inventory Person 3");
@@ -124,32 +132,26 @@ public class PersonListPanel extends JPanel implements ActionListener {
     	//roleSelection.addItem("Bank Teller 2");
     	//roleSelection.addItem("Bank Loan Officer 1");
     	//roleSelection.addItem("Bank Loan Officer 2");
+    	//roleSelection.addItem("Market Inventory");
+    	//roleSelection.addItem("Bank Robber");
+    	
     	roleSelection.addItem("Bank Robber");
-    	
-    	
-    	
-
-    	
-//    	roleSelection.addItem("Market Inventory");
-//    	roleSelection.addItem("Bank Robber");
-    	
+  
     	roleSelection.addActionListener(this);
     	
-    	//addPerson.add(new JLabel("<html><u>" + type + "</u></html>"));
+
     	JLabel lbl2 = new JLabel("Name");
-    	//lbl2.setForeground(Color.white);
+
     	lbl2.setFont(new Font("Arial", Font.BOLD, 12));
     	addPerson.add(lbl2);
     	JLabel lbl3 = new JLabel("MoneyValue");
     	lbl3.setFont(new Font("Arial", Font.BOLD, 12));
-    	//lbl3.setForeground(Color.white);
+
     	addPerson.add(lbl3);
     	addPerson.add(myPerson);
     	addPerson.add(myPersonMoneyVal);
     	addPerson.add(roleSelection);
-//    	JPanel housingAndStart = new JPanel();
-//    	housingAndStart.setLayout(new GridLayout(1,2));
-//    	houseOrApt.setPreferredSize(new Dimension(70, 10));
+
     	
     	houseOrApt.addItem("Apartment");
     	houseOrApt.addItem("House");
@@ -199,8 +201,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
     		//start execution
     	}
     	if (e.getSource() == addPersonB) {
-        	// Chapter 2.19 describes showInputDialog()
-            //addPerson(JOptionPane.showInputDialog("Please enter a name:"));
+
         	String userInput1=(myPerson.getText()).trim();
         	String userInput2 = (myPersonMoneyVal).getText().trim();
         	double moneyVal=Double.parseDouble(userInput2);
@@ -210,15 +211,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
         		addPerson(userInput1, moneyVal, (String)roleSelection.getSelectedItem(), (String)houseOrApt.getSelectedItem(), (String)typeTransport.getSelectedItem());
         	else return;
         }
-    	
-//    	//hack bc this thing is not working
-//    	for(JLabel hack: pplList){
-//    		gui.simcityPanel.toggleTrackingOf(hack.getText());
-//    	}
-    	
-//    	for(int i=0; i<pplList.size(); i++) {
-//    		System.err.println(pplList.get(i).getText());
-//    	}
+
     	
     	for(int i=0; i<peopleTrackerCBs.size(); i++) {
     		if(e.getSource()==peopleTrackerCBs.get(i)) {
@@ -239,15 +232,14 @@ public class PersonListPanel extends JPanel implements ActionListener {
     
     public void addPerson(String name, double moneyVal, String role, String houseOrApt, String typeTransport) {
 
-    		//just in case ther was no housing and adding fails
+    		//just in case there was no housing and adding fails
     		boolean success=  gui.simcityPanel.addPerson("Person", name, moneyVal, role, houseOrApt, typeTransport);
     		if(!success) return;
     		
     		JPanel myPersonControls = new JPanel();
         	JPanel adding = new JPanel();
             JLabel button = new JLabel(name, SwingConstants.CENTER);
-//            System.err.println("addPerson");
-            //button.setBorder(BorderFactory.createLineBorder(Color.black));
+
             adding.setBorder(BorderFactory.createRaisedBevelBorder());
             JComboBox switchRole = new JComboBox();
             JCheckBox trackPerson = new JCheckBox("Track?");
@@ -281,10 +273,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
             button.setPreferredSize(buttonSize);
             button.setMinimumSize(buttonSize);
             button.setMaximumSize(buttonSize);
-            //button.addActionListener(this);
-            //stateCB.addActionListener(this);
-            //list.add(stateCB);
-//            pplList.add(button);
+
             
             trackPerson.addActionListener(this);
             trackPerson.setFont(new Font("Arial", Font.ITALIC, 8));
@@ -297,12 +286,8 @@ public class PersonListPanel extends JPanel implements ActionListener {
             adding.add(switchRole, BorderLayout.EAST);
             
         
-            
-            //view.add(trackPerson);
+  
             view.add(adding);
-            //simcityPanel.addPerson(name, role, moneyVal, houseOrApt);//puts customer on list
-           
-            //restPanel.showInfo(type, name);//puts hungry button on panel
             validate();
         
     }
@@ -317,10 +302,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
     	for(Person p: people) {
     		  JLabel button = new JLabel(p.getName(), SwingConstants.CENTER);
     		  JPanel adding = new JPanel();
-//            System.err.println("addPerson");
-           // button.setBorder(BorderFactory.createLineBorder(Color.black));
-    		  
-    		   //button.setBorder(BorderFactory.createLineBorder(Color.black));
+
     		  adding.setBorder(BorderFactory.createRaisedBevelBorder());
 
                
@@ -328,48 +310,44 @@ public class PersonListPanel extends JPanel implements ActionListener {
                JCheckBox trackPerson = new JCheckBox("Track?");
                Dimension dim3 = new Dimension(120, 24);
                switchRole.setPreferredSize(dim3);
-                   switchRole.addItem("Visitor");
-                   switchRole.addItem("Waiter");
-                   switchRole.addItem("MCashier");
+               switchRole.addItem("Visitor");
+               switchRole.addItem("Waiter");
+               switchRole.addItem("MCashier");
+
+               switchRole.addItem("InventoryPerson");
+               switchRole.addItem("Bank Teller");
+               switchRole.addItem("Bank Loan Officer");
+               switchRole.addItem("Bank Robber");
+
+//                   switchRole.addItem("Repair Man");
 //                   switchRole.addItem("RCashier");
 //                   switchRole.addItem("Cook");
-                   switchRole.addItem("InventoryPerson");
-                   switchRole.addItem("Bank Teller");
-                   switchRole.addItem("Bank Loan Officer");
-                   switchRole.addItem("Bank Robber");
-//                   switchRole.addItem("Repair Man");
-                   
-                   
-                   switchRole.addActionListener(this);
-                   String myJob = p.getJob();
-                   
-                   if(myJob==null) { //Visitor's don't have jobs
-                	   switchRole.addItem("Not Working");
-                	   switchRole.setSelectedItem("Not Working");
-                       switchRole.setEnabled(false);
-                   }
-                   
-                   else if (myJob.contains("Host") || myJob.contains("Manager")) {
-                           switchRole.addItem(myJob);
-                           switchRole.setSelectedItem(myJob);
-                           switchRole.setEnabled(false);
-                   }
-                   else if (myJob.contains("Cook") || myJob.contains("Cashier")) {
-                	   switchRole.addItem(myJob);
+               
+               switchRole.addActionListener(this);
+               String myJob = p.getJob();
+               
+               if(myJob==null) { //Visitor's don't have jobs
+            	   switchRole.addItem("Not Working");
+            	   switchRole.setSelectedItem("Not Working");
+                   switchRole.setEnabled(false);
+               }
+               
+               else if (myJob.contains("Host") || myJob.contains("Manager")) {
+                       switchRole.addItem(myJob);
                        switchRole.setSelectedItem(myJob);
                        switchRole.setEnabled(false);
-                   }
-                   else {
-                   switchRole.setSelectedItem(p.getJob());
+               }
+               else if (myJob.contains("Cook") || myJob.contains("Cashier")) {
+            	   switchRole.addItem(myJob);
+                   switchRole.setSelectedItem(myJob);
                    switchRole.setEnabled(false);
-                   }
-                   switchRoles.add(switchRole);
+               }
+               else {
+               switchRole.setSelectedItem(p.getJob());
+               switchRole.setEnabled(false);
+               }
+               switchRoles.add(switchRole);
 
-
-
-//	        pplList.add(button);
-	           
-//	       	 	System.err.println("added button");
 	            
             button.setBackground(Color.white);
 
@@ -379,9 +357,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
             button.setPreferredSize(buttonSize);
             button.setMinimumSize(buttonSize);
             button.setMaximumSize(buttonSize);
-            //button.addActionListener(this);
-            //stateCB.addActionListener(this);
-            //list.add(stateCB);
+
             pplList.add(button);
             
             trackPerson.addActionListener(this);
@@ -393,9 +369,7 @@ public class PersonListPanel extends JPanel implements ActionListener {
             adding.add(button, BorderLayout.CENTER);
             adding.add(switchRole, BorderLayout.EAST);
             
-          
-            
-            //view.add(trackPerson);
+  
             view.add(adding);
             
     	}
@@ -433,43 +407,5 @@ public class PersonListPanel extends JPanel implements ActionListener {
     	
     	
     }
-//    
-//    public void setCustomerEnabled(String old, String n) {
-//    	for(int i=0; i<pplList.size(); i++) {
-//    		if(pplList.get(i).getText()==old) {
-//    			list.get(i).setEnabled(true);
-//    			list.get(i).setSelected(false);
-//    			
-//    			
-//    			pplList.get(i).setText(n);
-//    		}
-//    	}
-//    }
-//    
-//    public void setWaiterEnabled(String name) {
-//    	for(int i=0; i<pplList.size(); i++) {
-//    		if(pplList.get(i).getText()==name) {
-//    			list.get(i).setEnabled(true);
-//    			list.get(i).setSelected(false);
-//    		}
-//    	}
-//    }
-//    
-//    public void setWaiterDisabled(String name) {
-//    	for(int i=0; i<pplList.size(); i++) {
-//    		if(pplList.get(i).getText()==name) {
-//    			list.get(i).setEnabled(false);
-//    		}
-//    	}
-//    }
-//    
-//    public void setWaiterToBreak(String name) {
-//    	for(int i=0; i<pplList.size(); i++) {
-//    		if(pplList.get(i).getText()==name) {
-//    			list.get(i).setEnabled(true);
-//    			list.get(i).setText(" Back?");
-//    			list.get(i).setSelected(false);
-//    		}
-//    	}
-//    }
+
 }

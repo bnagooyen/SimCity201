@@ -1,4 +1,9 @@
-package simcity.gui.DGui;
+/*
+ * SimCity201, Released December 2013
+ * Contributors to file: Doreen Hakimi
+ */
+
+package simcity.DRestaurant.DGui;
 
 
 import simcity.gui.Gui;
@@ -54,9 +59,7 @@ public class DWaiterGui implements Gui {
     
     enum Command {none, GoToFront, GoSeatCustomer, GoToTable, GoToCook, GoToCashier, GoToHangout, GoHome};
     Command command= Command.none;
-    
-    //public String[] foodReady= new String[nTABLES];
-    //public boolean[] labelIsShowing = new boolean[nTABLES];
+
     private boolean labelIsShowing=false;
     String foodReady;
 
@@ -73,16 +76,7 @@ public class DWaiterGui implements Gui {
 
         this.agent = agent;
         madeToFront=true;
-//        for(int i=0; i<labelIsShowing.length;i++)
-//        	labelIsShowing[i]=false;
-        
-       // hangout_x=40*startPos+x_Offset;
-        
-//        xPos = hangout_x;
-//        yPos = hangout_y;
-//        
-//        xDestination=xPos;
-//        yDestination=yPos;
+
         
       xPos = -40;
       yPos = -40;

@@ -1,3 +1,8 @@
+/*
+ * SimCity201, Released December 2013
+ * Contributors to file: Doreen Hakimi
+ */
+
 package simcity.DRestaurant;
 
 import simcity.DRestaurant.DCashierRole.InventoryBill.InventoryBillState;
@@ -20,21 +25,11 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 /**
- * Restaurant Host Agent
+ * Restaurant Cashier Role
  */
-//We only have 2 types of agents in this prototype. A customer and an agent that
-//does all the rest. Rather than calling the other agent a waiter, we called him
-//the HostAgent. A Host is the manager of a restaurant who sees that all
-//is proceeded as he wishes.
-public class DCashierRole extends Role implements DCashier, RestaurantCashier {
-	//static final int NTABLES = 12;//a global for the number of tables.
-	//Notice that we implement waitingCustomers using ArrayList, but type it
-	//with List semantics.
-	//public List<CustomerAgent> waitingCustomers
-	//= new ArrayList<CustomerAgent>();
 
-	//list of waiters
-	//public List<WaiterAgent> waiters = new ArrayList<WaiterAgent>();
+public class DCashierRole extends Role implements DCashier, RestaurantCashier {
+
 	DCook myCook = null;
 	enum CashierState {arrived, working, offDuty};
 	CashierState state;
@@ -50,21 +45,16 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	private DWaiter waiterAtRegister=null;
 	private DHostRole host = null;
 	private double registerAmnt;
-	//public HostGui hostGui = null;
-	//Map<String, Double> blacklist = new HashMap<String, Double>();
+
 	public List<DCheck> myBills = Collections.synchronizedList(new ArrayList<DCheck>());
 	List<InventoryBill> inventoryBills = Collections.synchronizedList(new ArrayList<InventoryBill>());
+	
 	public List<DCheck> getBills() {
 		return myBills;
 	}
 
 	public DCashierRole() {
 		super();
-
-		// make some tables
-		
-		//adding one waiter.. to be changed
-		//waiters.add(new WaiterAgent("Joe"));
 		
 		prices.put("Steak", 15.99);
 		prices.put("Chicken", 10.99);
@@ -114,10 +104,6 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	public void AddCook(DCook tba) {
 		myCook = tba;
 	}
-
-//	public void msgMadeInventoryOrder(int ORDER_ID, double billAmt, Market m) {
-//		inventoryBills.add(new InventoryBill(billAmt, m));
-//	}
 	
 	public void msgOffDuty(double pay) {
 		myPerson.money+=pay;
@@ -154,19 +140,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 		stateChanged();
 	}
 	
-//	public void msgHereIsAnInventoryBill(double amnt, Market market1) {
-//		System.out.print("received bill from "+ market1+" for "+ amnt);
-////		inventoryBills.add(new InventoryBill(amnt, market1));
-//		//log.add(new LoggedEvent("Received msgHereIsAnInventoryBill"));
-//		inventoryBills.add(new InventoryBill(amnt, market1));
-//		stateChanged();
-//	}
-	
-//	public void msgPayThisBill(double amnt, MarketCashier mkt) {
-//		System.out.print("received bill from cook to pay "+ mkt+" for "+ amnt);
-//		//inventoryBills.add(new InventoryBill(amnt, mkt));
-//		stateChanged();
-//	}
+
 	
 	@Override
 	public void msgComputeBill(String choice, DCustomer cust, String name, int tnum, DWaiter wa) {
@@ -184,10 +158,8 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	
 	@Override
 	public void msgHereIsAPayment(DCustomer cust, int tnum, double valCustPaid) {
-//		System.err.println(tnum);
 		for (int i=0; i<myBills.size(); i++) {
 			if (cust==myBills.get(i).getCustomer() && !(myBills.get(i).state==CheckState.debt)) {
-//				System.out.println("foudnit");
 				myBills.get(i).setCustomerPaid(valCustPaid);
 				myBills.get(i).setCustomer(cust);
 				myBills.get(i).state=CheckState.paid;
@@ -201,12 +173,7 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 	 */
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		/* Think of this next rule as:
-            Does there exist a table and customer,
-            so that table is unoccupied and customer is waiting.
-            If so seat him at the table.
-		 */
-		//System.out.println('');
+
 		if(state==CashierState.arrived) {
 			tellHost();
 			return true;
@@ -308,7 +275,6 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 		if(bi.amnt>registerAmnt) {
 			bi.state=InventoryBillState.couldNotAfford;
 			bi.amnt=Double.parseDouble(df.format((1+ MKT_interestRate)*bi.amnt));
-//			System.err.println(bi.amnt);
 			AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DCashierRole", "Could not afford this inventory bill");
 			Do("Could not afford this inventory bill, bill value updated to "+ bi.amnt);
 			return;
@@ -316,46 +282,18 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 
 		registerAmnt-=bi.amnt;
 		bi.state=InventoryBillState.processed;
-		//final Market ma=bi.ma;
-		//final double amt=bi.amnt;
 		bi.cashier.msgHereIsPayment(this, bi.amnt);
 		inventoryBills.remove(bi);
 		
-		//bi.ma.msgHereIsAPayment(this, amt);
 			
 		
 	}
 	private void ProcessBill(DCheck bi) {
-		//Do("processing bill.. "+ prices.get(bi.getChoice()));
-		/*
-		double amntdue=0;
-		if(blacklist.get(bi.name)!=null) {
-			amntdue=blacklist.get(bi.name);
-			System.out.print(bi.name+ " has a debt on my records! adding "+amntdue+"\n");
-			System.out.println();
-		}*/
-		
+
 		bi.setBillAmnt(prices.get(bi.getChoice()));
-
-		//System.out.println(bi.getBillAmnt());
 		bi.state=CheckState.processed;
-
-		
 		bi.getWaiter().msgCheckIsReady();
 		
-		/*got rid of timer for junit testing*/
-		
-//		final Check biForTimer=bi;
-//		timer.schedule(new TimerTask() {
-//			@Override
-//			public void run() {
-//				biForTimer.getWaiter().msgCheckIsReady();
-//				//isHungry = false;
-//				//stateChanged();
-//			}
-//		},
-//		5000); // arbitrary num.. takes 8 seconds
-//		
 	}
 	private void GiveCheckToWaiter() {
 		
@@ -402,8 +340,6 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 				if(bill.state==CheckState.debt && bill.customer==bi.getCustomer()) {
 					if(bill.debt<=changeval) { // customer is trying to pay debt
 						System.out.println("Customer's debt of "+ bill.debt+ " is added on to current bill");
-						
-//						System.err.println(changeval);
 						myBills.remove(bill);
 					}
 				}
@@ -414,14 +350,10 @@ public class DCashierRole extends Role implements DCashier, RestaurantCashier {
 			myBills.remove(bi);
 		}
 		else {
-			//blacklist.put(bi.getCustomer().getName(), (-1.0)*changeval);
 			bi.getCustomer().msgHereIsYourReceiptAndChange(0);
 			registerAmnt+=bi.getCustomerPaid();
-		
-//			System.err.println("Customer Acquired Debt of " + Double.parseDouble(df.format(bi.BillAmnt- bi.CustomerPaid)));
 			bi.state=CheckState.debt;
 			bi.debt=Double.parseDouble(df.format(bi.BillAmnt- bi.CustomerPaid));
-//			System.err.println(bi.debt);
 		}
 	
 

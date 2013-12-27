@@ -1,4 +1,7 @@
-//aaaah
+/*
+ * SimCity201, Released December 2013
+ * Contributors to file: Doreen Hakimi
+ */
 
 package simcity.DRestaurant;
 
@@ -6,7 +9,7 @@ import simcity.DRestaurant.DOrder;
 import simcity.DRestaurant.DOrder.OrderState;
 import agent.Role;
 import simcity.gui.SimCityGui;
-import simcity.gui.DGui.DWaiterGui;
+import simcity.DRestaurant.DGui.DWaiterGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.DCustomer;
@@ -15,16 +18,12 @@ import simcity.interfaces.DWaiter;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 /**
- * Restaurant Host Agent
+ * Restaurant Head Waiter
  */
-//We only have 2 types of agents in this prototype. A customer and an agent that
-//does all the rest. Rather than calling the other agent a waiter, we called him
-//the HostAgent. A Host is the manager of a restaurant who sees that all
-//is proceeded as he wishes.
+
 public abstract class DWaiterRole extends Role implements DWaiter {
 	static final int NTABLES = 4;//a global for the number of tables.
-	//Notice that we implement waitingCustomers using ArrayList, but type it
-	//with List semantics.
+
 	public List<DCustomerRole> waitingCustomers
 	=  Collections.synchronizedList(new ArrayList<DCustomerRole>());
 
@@ -32,24 +31,16 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	
 	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	public List<DCheck> myChecks=  Collections.synchronizedList(new ArrayList<DCheck>());
-	//public Check myBill= null; //typically carrying only one
-	//public MyCustomer billRecipient = null; //again typically only one
-	//public List<Order> ReadyOrders = new ArrayList<Order>();
-	
+
 	Timer timer = new Timer();
 	
 	DCookRole cook;
 	DHostRole host;
 	DCashierRole cashier;
-	
-	//note that tables is typed with Collection semantics.
-	//Later we will see how it is implemented
 
-	//private boolean inMotion = false;
 	protected String type;
 	boolean checksWaiting=false;
 	private MyCustomer takingOrderFrom = null;
-	//private Order orderDelivering = null;
 	private int startPos;
 	private String name;
 	private Semaphore atTable = new Semaphore(0,true);
@@ -64,7 +55,6 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 			goingToCook, servingFood, onBreak, onDuty, waitingForOnDuty, offDuty};
 	
 	public boolean onBreak;
-	//public boolean requestedBreak; // for host to respond to break request
 	public boolean canTakeBreak; // to hold response from host + make sure host doesn't assign new customers while waiter is finishing up
 	private boolean checkBoxReset= false;
 	
@@ -142,12 +132,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		customerArrived.release();
 		stateChanged();
 	}
-//	
-//	public void msgSitAtTable(int t, Customer c) {
-//		System.out.println("waiter: adding "+c+ " to my customers list");
-//		customers.add(new MyCustomer(c, t, restaurant.WaiterAgent.MyCustomer.MyCustomerState.waiting));
-//		stateChanged();
-//	}
+
 	
 	@Override
 	public void msgImReadyToOrder(DCustomerRole cust) {
@@ -220,8 +205,6 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	@Override
 	public void msgCantAffordNotStaying(DCustomerRole cust) {
 		//System.out.println("received done eating");
-		//state=WaiterState.working;
-		//DoGoHangAtTheFront();
 		for(MyCustomer customer: customers) {
 			if(customer.getCustomer()==cust) {
 				customer.state=MyCustomer.MyCustomerState.couldNotAffordAndLeaving;
@@ -232,9 +215,6 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 
 	@Override
 	public void msgAtTable() {//from animation
-		//print("msgAtTable() called");
-		//atTable.release();// = true;
-//		state=WaiterState.working;
 		stateChanged();
 	}
 	
@@ -292,13 +272,13 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	}
 	
 	public void msgAnimationArrivedAtFront() {
-//		System.out.println("made it");
+//		System.out.println("waiter made it to the front");
 		atFront.release();
 		stateChanged();
 	}
 	
 	public void msgAnimationArrivedAtCashier() {
-//		System.out.println("made it to cashier!");
+//		System.out.println("waiter made it to cashier!");
 		//state=WaiterState.atCashier;
 		
 		atCashier.release();
@@ -313,15 +293,13 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	
 	public void msgAnimationDoneSeating() {
 		state= WaiterState.working; // using working as default state
-		//inMotion=false;
-		//System.out.println("madeit");
+
 		atTable.release();
 		stateChanged();
 	}
 	
 	public void msgAnimationArrivedAtKitchen() {
-		//System.out.println("made it to kitchen");
-		//state= WaiterState.atKitchen;
+
 		atCook.release();
 		stateChanged();
 	}
@@ -336,7 +314,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-		//`System.out.println("in watier scheduler");
+		//`System.out.println("in waiter scheduler");
 		if(!onBreak)
 		{
 			
@@ -354,25 +332,13 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 				return true;
 			}
 			
-			//System.out.println("waiter is on duty!");
-			//if gui is still seating a customer, cannot schedule any other task
-			
-			//notifying clear table to host on the radio
 			
 			if(wantBreakChecked) {
 				AskHostForBreak();
 				return true;
 			}
 			
-//			if(returnFromWorkChecked) {
-//				ReturnToWork();
-//				return true;
-//			}
-//			
-//			if(disableBoxTillBreak){
-//				DisableCheckbox();
-//				return true;
-//			}
+
 			
 			synchronized(customers) {
 			for (MyCustomer customer : customers) {
@@ -428,15 +394,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 					}
 				}
 				}
-				/*
-				for (MyCustomer customer : customers) {
-					if(customer.state==MyCustomer.MyCustomerState.ordered) {
-						//System.out.println("found customer who ordered!");
-						customer.state= MyCustomer.MyCustomerState.waitingForFood;
-						GoToCook();
-						return true;
-					}
-				}*/
+
 				synchronized(customers) {
 				for (MyCustomer customer : customers) {
 					if(customer.state==DWaiterRole.MyCustomer.MyCustomerState.gone) {
@@ -461,19 +419,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 					}
 				}
 				}
-//				
-//				
-//				if(checkBoxReset) {
-//					CouldNotTakeBreak();
-//					return true;
-//				}
-//				
-//				
-//				
-//				if(customers.size()==0 && canTakeBreak) {
-//					TakeBreak(this);
-//					return true;
-//				}
+
 				
 	
 		
@@ -533,6 +479,8 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		wantBreakChecked=false; //so doesn't call this message again
 
 	}
+	
+	/*******break functionality implemented in separate restaurants, not reimplemented for integration ******/
 //	private void TakeBreak (final WaiterRole w) {
 //		onBreak=true;
 //		Do("Taking break...");
@@ -610,10 +558,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		
 		AlertLog.getInstance().logInfo(AlertTag.DRestaurant, "DWaiterRole", "Going to customer");
 		Do("Going to customer");
-		//takingOrderFrom=cust;
-		//state=WaiterState.goingToTakeOrder;
 		DoGoToTable(cust.getCustomer(), cust.getTablenum());
-//		System.out.println(atTable.availablePermits());
 		try {
 			atTable.acquire();
 		} catch (InterruptedException e) {
@@ -631,10 +576,6 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		}
 	}
 	
-	/*private void ReturnToFront() {
-		System.out.println("going to front...");
-		DoGoToFront();
-	}*/
 	
 	private void GoToCook() {
 		//state=WaiterState.goingToCook;
@@ -663,19 +604,9 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		
 	}
 	
-	protected abstract void GiveCookOrder(DOrder o);
-//	{ //start here!
-//		Do("giving order to cook");
-//		cook.msgHereIsAnOrder(o);
-//		
-//		o.state=OrderState.ordered;
-//		state=WaiterState.working; 
-//	}
 	
-//	private void TellCookToClearPlating(Order o) {
-//		System.err.println(o.tablenum);
-//		cook.msgClearPlatingForOrder(o);
-//	}
+	//the method that both types of waiters will override (all that is different between the waiters)
+	protected abstract void GiveCookOrder(DOrder o);
 	
 	private void ServeCustomer(DOrder o) {
 		DoDisplayCookedLabel(o.getChoice(), o.tablenum);
@@ -698,11 +629,8 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 				System.out.println(customer.getCustomer() + " here is you order of : " + o.getChoice());
 				customer.getCustomer().msgFoodIsServed();
 				customer.state=MyCustomer.MyCustomerState.served;
-//				System.err.println((CustomerAgent)(customer.getCustomer()));
 				cashier.msgComputeBill(o.getChoice(), (customer.getCustomer()), (((DCustomerRole)(customer.getCustomer())).getName()), o.tablenum, this);
-//				System.err.println("requested bill for " + (((CustomerAgent) (customer.getCustomer())).getName()) + " at table "+  o.tablenum);
 				DoGoHangAtTheFront();
-//				o.state=OrderState.billPending;
 				orders.remove(o);
 				
 			}
@@ -711,10 +639,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	
 	
 	private void UpdateHostOnClearTable(MyCustomer cust) {
-		//System.out.println("going to clear table");
 		host.msgTableIsClear(cust.getTablenum(), this);
-//		DoClearTable(cust.getTablenum());
-		//DoGoToFront();
 		DoGoHangAtTheFront();
 		customers.remove(cust);
 	}
@@ -722,9 +647,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	private void UpdateHostOnClearTableAndLeave(MyCustomer cust) { // so waiter doesn't hang out at a table if customer can't afford
 		//System.out.println("going to clear table");
 		host.msgTableIsClear(cust.getTablenum(), this);
-//		DoClearTable(cust.getTablenum());
 		DoGoHangAtTheFront();
-		//DoGoToFront();
 		customers.remove(cust);
 	}
 	
@@ -790,9 +713,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		Do("going to cashier to get bill..");
 		WaiterGui.DoGoToCashier();
 	}
-//	private void DoDisableCheckbox() {
-//		WaiterGui.DoDisableCheckbox();
-//	}
+
 	private void DoGoToFront() {
 		WaiterGui.DoGoToFrontLine();
 	}
@@ -807,27 +728,11 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 	}
 	
 	private void DoGoToTable(DCustomer customer, int table) {
-		/*
-		if(customer.state==MyCustomer.MyCustomerState.serveMe) {
-			System.out.println("Serving "+ customer.getCustomer() + " at "+ table);
-			WaiterGui.DoGoToTable(customer.getCustomer(), table);
-			//state=WaiterState.servingFood;
-		}
-		else if(state==WaiterState.goingToGiveBill) {
-			//System.out.println("going to give "+ customer.getCustomer() + "bill!");
-			WaiterGui.DoGoToTable(customer.getCustomer(), table);
-		}
-		else {
-			System.out.println("Going to "+ customer.getCustomer() + " at " + table);
-			WaiterGui.DoGoToTable(customer.getCustomer(), table);
-			state=WaiterState.goingToTakeOrder;
-		}*/
+
 		WaiterGui.DoGoToTable((DCustomerRole)customer, table);
 	}
+	
 
-//	private void DoClearTable(int t) {
-//		WaiterGui.DoClearTable(t);
-//	}
 	private void DoGoToCook() {
 		WaiterGui.DoGoToCook();
 	}
@@ -836,6 +741,16 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		WaiterGui.DoShowCookedLabel(choice, tablenum);
 	}
 	
+	/***** do functions not utilized during integration *****/
+	
+//	private void DoDisableCheckbox() {
+//	WaiterGui.DoDisableCheckbox();
+//}
+
+//	private void DoClearTable(int t) {
+//		WaiterGui.DoClearTable(t);
+//	}
+	
 //	private void DoResetCheckBox() {
 //		WaiterGui.DoResetCheckBox();
 //	}
@@ -843,6 +758,7 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 //	private void DoSetBoxToReturn() {
 //		WaiterGui.DoSetBoxToReturn();
 //	}
+	
 	//utilities
 
 	public void setGui(DWaiterGui gui) {
@@ -905,36 +821,5 @@ public abstract class DWaiterRole extends Role implements DWaiter {
 		
 	}
 	
-	
-	/* private class Table {
-		CustomerAgent occupiedBy;
-		int tableNumber;
-		
-		Table(int tableNumber) {
-			this.tableNumber = tableNumber;
-		}
-		
-		int getTableNum() { return tableNumber; }
-
-		void setOccupant(CustomerAgent cust) {
-			occupiedBy = cust;
-		}
-
-		void setUnoccupied() {
-			occupiedBy = null;
-		}
-
-		CustomerAgent getOccupant() {
-			return occupiedBy;
-		}
-
-		boolean isOccupied() {
-			return occupiedBy != null;
-		}
-
-		public String toString() {
-			return "table " + tableNumber;
-		}
-	}*/
 }
 

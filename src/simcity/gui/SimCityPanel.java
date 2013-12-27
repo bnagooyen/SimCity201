@@ -1,3 +1,8 @@
+/*
+ * SimCity201, Released December 2013
+ * Contributors to file: Doreen Hakimi, Andrew Appleman, Kimberly Santiago, Brian Nguyen
+ */
+
 package simcity.gui;
 
 import simcity.BRestaurant.BCashierRole;
@@ -47,7 +52,7 @@ import simcity.Transportation.BusAgent;
 import simcity.Transportation.BusStopAgent;
 import simcity.Transportation.CarAgent;
 import simcity.Transportation.DeliveryTruckAgent;
-import simcity.gui.DGui.DCookGui;
+import simcity.DRestaurant.DGui.DCookGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.housing.gui.ResidentGui;
@@ -122,12 +127,12 @@ public class SimCityPanel extends JPanel {
 	RestaurantPlace LRestaurant;
 	RestaurantPlace TRestaurant;
 
-	// make bank
-	BankPlace bank1=null;
-	BankPlace bank2 = null;
-	// make market 
-	MarketPlace market1=null;
-	//FOR TESTING WORK
+//	// make bank
+//	BankPlace bank1=null;
+//	BankPlace bank2 = null;
+//	// make market 
+//	MarketPlace market1=null;
+
 	boolean first=true;
 
 	//for weekend behavio
@@ -168,15 +173,11 @@ public class SimCityPanel extends JPanel {
 
 	//Person
 
-	// market people workers
-	// private MarketManagerRole manager;
-	// private MarketCashierRole mcashier;
-	// private InventoryBoyRole ib;
 
 	//Bank people workers
-	private BankManagerRole Bmanager;
-	private BankTellerRole Bteller;
-	private BankLoanOfficerRole Bloanofficer;
+//	private BankManagerRole Bmanager;
+//	private BankTellerRole Bteller;
+//	private BankLoanOfficerRole Bloanofficer;
 	private CityPanel city;
  
 
@@ -217,17 +218,7 @@ public class SimCityPanel extends JPanel {
 
 
 		
-		
-		/*
-		 * 		myMap.put("Restaurant 1", new Point(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth+30, streetWidth+sidewalkWidth));
-		myMap.put("Restaurant 2", new Point(2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth+30, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
-		myMap.put("Restaurant 3", new Point(2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth-10, streetWidth+sidewalkWidth));
-		myMap.put("Restaurant 4", new Point(3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth+30, streetWidth+sidewalkWidth));
-		myMap.put("Restaurant 5", new Point(3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth+30, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
-		myMap.put("Restaurant 6", new Point(3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth-10, streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap));
 
-		 * 
-		 */
 		
 		LRestaurant.x=2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth+30;
 		LRestaurant.y= streetWidth+sidewalkWidth;
@@ -284,7 +275,7 @@ public class SimCityPanel extends JPanel {
 			directory.put("Market "+ Integer.toString(m.num), m);
 			//System.err.println("Market "+ Integer.toString(m.num));
 		}
-		//directory.put("Bank", bank);
+		
 		for(BankPlace b: myBanks) {
 			directory.put("Bank "+ Integer.toString(b.num), b);
 		}
@@ -393,39 +384,10 @@ public class SimCityPanel extends JPanel {
         
     }
 
-    /**
-     * Sets up the restaurant label that includes the menu,
-     * and host and cook information
-     */
-
-
-    /**
-     * When a customer or waiter is clicked, this function calls
-     * updatedInfoPanel() from the main gui so that person's information
-     * will be shown
-     *
-     * @param type indicates whether the person is a customer or waiter
-     * @param name name of person
-     */
-
-   
-
-
-	/**
-	 * Sets up the restaurant label that includes the menu,
-	 * and host and cook information
+	/***
+	 * These people are hard coded in, so they cannot be added through file i/o.
+	 * They are the managers that run each prospective business.
 	 */
-
-
-	/**
-	 * When a customer or waiter is clicked, this function calls
-	 * updatedInfoPanel() from the main gui so that person's information
-	 * will be shown
-	 *
-	 * @param type indicates whether the person is a customer or waiter
-	 * @param name name of person
-	 */
-
 
 	public void AddManagers() {
 		addPerson("Person", "Bman1", 100.0, "Bank Manager", "House", "Walk"); 
@@ -492,12 +454,6 @@ public class SimCityPanel extends JPanel {
 
 
 
-	/**
-	 * Adds a customer or waiter to the appropriate list
-	 *
-	 * @param type indicates whether the person is a customer or waiter (later)
-	 * @param name name of person
-	 */
 
 
 	public boolean addPerson(String type, String name, double money, String role, String houseOrApt, String transport) {
@@ -511,10 +467,6 @@ public class SimCityPanel extends JPanel {
 			p.SetTravelPreference(transport);
 			p.setStops(busStops);
 			
-
-			//DCustomerRole restCustomer = new DCustomerRole(gui);
-			//restCustomer.host=host;
-			//restCustomer.cashier=cashier;
 			ArrayList<Role> tempRoles = GenerateAllCustomerRoles();
 			for(Role r: tempRoles) {
 				r.myPerson=p;
@@ -614,10 +566,6 @@ public class SimCityPanel extends JPanel {
 			}
 			if(role.equals("Kim Host")){
 				p.SetJob(myRestaurants.get(3).host, "Restaurant 4", "Kim Host");
-				//p.SetJob(((RestaurantPlace)directory.get("Restaurant 4")).host, "Restaurant 4");
-				//((RestaurantPlace)directory.get("Restaurant 4")).host.myPerson = p;
-				//System.out.println("Restaurant 4's host's person is "+ ((RestaurantPlace)directory.get("Restaurant 4")).host);
-				//System.out.println("it should be "+p.getName());
 				myRestaurants.get(3).host.myPerson=p;
 			}
 			if(role.equals("Brian Host")){
@@ -833,6 +781,10 @@ public class SimCityPanel extends JPanel {
 				p.SetJob(LC, "Market 4", "InventoryPerson");
 			}
 
+			
+			//for our release we removed the 'add teller' functionality last minute, as we were going
+			//to implement role switching through it, but, due to time limitation, we could not remove the 
+			//bugs.. so it has been commented out.
 
 			//Add Bank Tellers
 			/*if(role.equals("Bank Teller")){
@@ -906,19 +858,15 @@ public class SimCityPanel extends JPanel {
 
 	private ArrayList<Role> GenerateAllCustomerRoles() {
 		ArrayList<Role> myCustomerRoles= new ArrayList<Role>();
-		/*******turn this into a loop to make more efficient*********/
 
-		//myCustomerRoles.add(bank.addCustomer());
-		//myCustomerRoles.add(market1.addCustomer());
+		
+		//add all bank and market customer roles
 		for(BankPlace b: myBanks) {
 			myCustomerRoles.add(b.addCustomer());
 		}
 		for(MarketPlace m: myMarkets) {
 			myCustomerRoles.add(m.addCustomer());
 		}
-
-		// myCustomerRoles.add(bank1.addCustomer());
-		// myCustomerRoles.add(market1.addCustomer());
 
 		myCustomerRoles.add(DrewRestaurant.AddCustomer());
 		myCustomerRoles.add(BRestaurant.AddCustomer());
@@ -930,8 +878,6 @@ public class SimCityPanel extends JPanel {
 		return myCustomerRoles;
 
 
-
-		//return null;
 	}
 	
 	

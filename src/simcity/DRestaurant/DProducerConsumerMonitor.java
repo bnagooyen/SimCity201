@@ -28,15 +28,10 @@ public class DProducerConsumerMonitor extends Object {
 	    
 	    synchronized public DOrder remove() {
 	    	DOrder data;
-//	        while(count == 0)
-//	            try{ 
-//	                System.out.println("\tEmpty, waiting");
-//	                wait(5000);                         // Empty, wait to consume
-//	            } catch (InterruptedException ex) {};
-//	 
+
 	        data = remove_Order();
 	        if(data!=null)
-	        //System.err.println("****"+data+"***"+count);
+	       
 	        if(data!=null) {
 	        	count--;
 	        }
@@ -44,7 +39,7 @@ public class DProducerConsumerMonitor extends Object {
 	        	System.out.println("\tnot full, notify");
 	        	notify();
 	        }
-	        //System.out.println(data);
+
 	        return data;
 	    }
 	    
@@ -55,13 +50,10 @@ public class DProducerConsumerMonitor extends Object {
 	    private DOrder remove_Order(){
 	    	DOrder data = null;
 	    	if(theData.size() >0) {
-	    		//System.out.println("found something!");
+
 	    		data = (DOrder)theData.firstElement();
-	    		//System.out.println(data);
 	    		theData.removeElementAt(0);
-	    		//System.out.println(data);
 	    	}
-	    	//System.out.println(data);
 	        return data;
 	    }
 	    

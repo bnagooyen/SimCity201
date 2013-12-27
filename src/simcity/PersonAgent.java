@@ -1,3 +1,7 @@
+/*
+ * SimCity201, Released December 2013
+ * Contributors to file: Andrew Appleman, Brian Nguyen, Doreen Hakimi
+ */
 package simcity;
 
 import simcity.DRestaurant.DCustomerRole;
@@ -936,28 +940,6 @@ public class PersonAgent extends Agent implements Person {
 		state= PersonState.doingNothing;
 		stateChanged();
 		
-
-
-		/*  if (mydestination != "home") {
-                 boolean haveRole=false;
-                 neededRole=possibleRoles.get(mydestination);
-
-                 if(needToGoToWork){
-                         myJob.isActive=true;
-                         needToGoToWork=false;
-                 }
-                 else{
-                         for(Role role:roles){
-                                 if(role==neededRole){
-                                         role.isActive=true;                
-                                         haveRole=true;
-                                 }
-                         }
-                         if(!haveRole){
-                                 roles.add(neededRole);
-                                 neededRole.isActive=true;
-                         }
-                 }*/
 	}
 
 	private void goToCar(){

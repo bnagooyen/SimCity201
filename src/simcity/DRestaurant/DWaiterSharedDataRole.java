@@ -1,10 +1,14 @@
+/*
+ * SimCity201, Released December 2013
+ * Contributors to file: Doreen Hakimi
+ */
 package simcity.DRestaurant;
 
 import simcity.DRestaurant.DWaiterRole;
 import simcity.DRestaurant.DOrder.OrderState;
 import simcity.DRestaurant.DWaiterRole.WaiterState;
 import simcity.gui.SimCityGui;
-import simcity.gui.DGui.DWaiterGui;
+import simcity.DRestaurant.DGui.DWaiterGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.DWaiter;

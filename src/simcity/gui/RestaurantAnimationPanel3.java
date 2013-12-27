@@ -1,3 +1,7 @@
+/*
+ * SimCity201, Released December 2013
+ * Contributors to file: Doreen Hakimi
+ */
 package simcity.gui;
 
 import java.awt.Color;
