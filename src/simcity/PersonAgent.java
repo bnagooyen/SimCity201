@@ -52,7 +52,7 @@ public class PersonAgent extends Agent implements Person {
 	//time 
 	int hour; 
 	int startHour;
-	
+
 	Timer timer = new Timer();
 	Random generator = new Random();
 	public String jobString;
@@ -122,7 +122,7 @@ public class PersonAgent extends Agent implements Person {
 	public String MarketChoice;
 	public String RestChoice;
 	public String primaryRestChoice;
-	
+
 	//prices of market
 	Map<String, Double> marketPrices = new HashMap<String, Double>();
 
@@ -145,18 +145,18 @@ public class PersonAgent extends Agent implements Person {
 		MarketChoice="Market "+ Integer.toString(generator.nextInt(4)+1);
 		energystate=EnergyState.sleeping;
 
-        marketPrices.put("Steak", 10.0);
-        marketPrices.put("Chicken", 7.0);
-        marketPrices.put("Salad", 3.0);
-        marketPrices.put("Pizza", 5.0);
-        
-        
-        //Random rand = new Random();
-        //RestChoice= "Restaurant "+ Integer.toString(rand.nextInt(6)+1);
-       
-        
-        tourState = NextLoc.m1;
-		
+		marketPrices.put("Steak", 10.0);
+		marketPrices.put("Chicken", 7.0);
+		marketPrices.put("Salad", 3.0);
+		marketPrices.put("Pizza", 5.0);
+
+
+		//Random rand = new Random();
+		//RestChoice= "Restaurant "+ Integer.toString(rand.nextInt(6)+1);
+
+
+		tourState = NextLoc.m1;
+
 	}
 
 	// Messages
@@ -250,9 +250,9 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	//        public void msgLeftLocation() {
-		//                atLocation.release();
-		//                stateChanged();
-		//        }
+	//                atLocation.release();
+	//                stateChanged();
+	//        }
 
 
 	/**
@@ -260,7 +260,7 @@ public class PersonAgent extends Agent implements Person {
 	 */
 	@Override
 	protected boolean pickAndExecuteAnAction() {
-		
+
 		if(name.equals("qaz")) print("QUAZ IS IN STATECHANGE");
 
 		if(energystate==EnergyState.sleeping||state==PersonState.dead){
@@ -274,7 +274,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 		if(transit==TransitState.atBusStop){
-			
+
 			tellBusStop();
 			return true;
 		}
@@ -322,7 +322,7 @@ public class PersonAgent extends Agent implements Person {
 					GoToMarket();
 				}
 				tourState = NextLoc.r1;
-				
+
 				return true;
 			}
 			else if(tourState.equals(NextLoc.m2)){
@@ -333,7 +333,7 @@ public class PersonAgent extends Agent implements Person {
 					GoToMarket();
 				}
 				tourState = NextLoc.r2;
-				
+
 				return true;
 			}
 			else if(tourState.equals(NextLoc.m3)){
@@ -423,7 +423,7 @@ public class PersonAgent extends Agent implements Person {
 				return true;
 			}
 			else if(tourState.equals(NextLoc.home)){
-//				print("SHOULD BE GOING HOME");
+				//				print("SHOULD BE GOING HOME");
 				tourState = NextLoc.done; 
 				goToAll = false;
 				money = 75;
@@ -459,7 +459,7 @@ public class PersonAgent extends Agent implements Person {
 			return true;
 		}
 
-	
+
 		if((money>depositThreshold||(money<withdrawalThreshold && moneystate!=MoneyState.poor)) && !directory.get(BankChoice).down/*||(moneystate==MoneyState.rich)*/){
 			//System.err.println(!directory.get(BankChoice).down);
 			GoToBank(); //going to have to choose which bank
@@ -488,7 +488,7 @@ public class PersonAgent extends Agent implements Person {
 
 	//ACTIONS
 	private void EatAtHome() {
-	
+
 		Do("Eating at Home");
 		kitchenAmount--;
 		/*if(myLocation!=LocationState.atHome)*/ DoGoTo(homeAddress);
@@ -551,53 +551,53 @@ public class PersonAgent extends Agent implements Person {
 				tenantGui.LeaveHouse(); 
 			}			
 		}
-		
+
 		if(!goToAll && directory.get(RestChoice).down) {
-		/******decide where to eat*******/
-		//decision: closest restaurant to me
-		int myRestaurantChoice = 1;
-		//System.err.println(directory.get("Restaurant 1"));
-		String myAddress;
-		if(homeAddress.contains("Apartment"))
-			myAddress = homeAddress.substring(0, homeAddress.length()-1);
-		else 
-			myAddress = homeAddress;
-		
-		//System.err.println(directory.get(myAddress));
-		//int minTotDistance = Math.abs(directory.get("Restaurant 1").x- directory.get(myAddress).x) + Math.abs(directory.get("Restaurant 1").y- directory.get(myAddress).y);
-		
-		
-		boolean restaurantIsOpen=false;
-		
-		for(int i=1; i<=6; i++) {
-			if(!directory.get("Restaurant "+ Integer.toString(i)).down && directory.get("Restaurant "+ Integer.toString(i)).openHour<=hour && directory.get("Restaurant "+ Integer.toString(i)).closeHour>hour) {
-				restaurantIsOpen=true;
-				myRestaurantChoice = i;
-				break;
+			/******decide where to eat*******/
+			//decision: closest restaurant to me
+			int myRestaurantChoice = 1;
+			//System.err.println(directory.get("Restaurant 1"));
+			String myAddress;
+			if(homeAddress.contains("Apartment"))
+				myAddress = homeAddress.substring(0, homeAddress.length()-1);
+			else 
+				myAddress = homeAddress;
+
+			//System.err.println(directory.get(myAddress));
+			//int minTotDistance = Math.abs(directory.get("Restaurant 1").x- directory.get(myAddress).x) + Math.abs(directory.get("Restaurant 1").y- directory.get(myAddress).y);
+
+
+			boolean restaurantIsOpen=false;
+
+			for(int i=1; i<=6; i++) {
+				if(!directory.get("Restaurant "+ Integer.toString(i)).down && directory.get("Restaurant "+ Integer.toString(i)).openHour<=hour && directory.get("Restaurant "+ Integer.toString(i)).closeHour>hour) {
+					restaurantIsOpen=true;
+					myRestaurantChoice = i;
+					break;
 				}
 			}
-		
-		
-		if(!restaurantIsOpen) {
-			System.out.println("There are no restaurants open.. must eat at home");
-			EatAtHome();
-			return;
-		}
-		
-		
-		
-		
+
+
+			if(!restaurantIsOpen) {
+				System.out.println("There are no restaurants open.. must eat at home");
+				EatAtHome();
+				return;
+			}
+
+
+
+
 			String myChoice = "Restaurant "+ Integer.toString(myRestaurantChoice);
 			DoGoTo(myChoice);
 			restCustomerNum =myRestaurantChoice;
-		
+
 		}
 		else {
 			DoGoTo(RestChoice);
 			restCustomerNum = Integer.parseInt(RestChoice.substring(RestChoice.length()-1));
 		}
 
-		
+
 
 		if (myTravelPreference == TravelPreference.walk) {
 			Do("Going to "+RestChoice);
@@ -676,8 +676,8 @@ public class PersonAgent extends Agent implements Person {
 				tenantGui.LeaveHouse(); 
 			}			
 		}
-		
-		
+
+
 
 		transit=TransitState.walkingToBus;
 		DoGoTo(nearestStop);
@@ -716,7 +716,7 @@ public class PersonAgent extends Agent implements Person {
 
 		DoGoTo(MarketChoice);
 		int mktCustomerNum = Integer.parseInt(MarketChoice.substring(MarketChoice.length()-1));
-//		print("MKTCUSTOMERNUM: "+mktCustomerNum);
+		//		print("MKTCUSTOMERNUM: "+mktCustomerNum);
 
 		if (myTravelPreference == TravelPreference.walk) {
 			Do("Going to "+MarketChoice);
@@ -738,26 +738,26 @@ public class PersonAgent extends Agent implements Person {
 				else
 					amountOrdering--;
 			}
-			
+
 			//Do("here");
 			for(Role r: roles) {
 				if(r instanceof MarketCustomerRole ) {
 					if(((MarketCustomerRole)(r)).num == mktCustomerNum) {
-						
+
 						((MarketCustomerRole) r).populateOrderList("Steak", amountOrdering);
 						((MarketCustomerRole) r).populateOrderList("Chicken", amountOrdering);
 						((MarketCustomerRole) r).populateOrderList("Salad", amountOrdering);
 						((MarketCustomerRole) r).populateOrderList("Pizza", amountOrdering);
-						
+
 						print("STATE OF CUSTOMER IN GO TO: "+((MarketCustomerRole)r).state);
-						
+
 						r.isActive = true;
-						
+
 					}
 				}
 			}
-			
-			
+
+
 			stateChanged();
 		}
 
@@ -790,7 +790,7 @@ public class PersonAgent extends Agent implements Person {
 			for(Role r: roles) {
 				if(r instanceof BankCustomerRole) {
 					if(((BankCustomerRole)(r)).num == bCustomerNum){
-						
+
 						if(money>depositThreshold) r.purpose="deposit";
 						else if(money<withdrawalThreshold) r.purpose="withdraw";
 						//else r.purpose="loan";
@@ -827,20 +827,20 @@ public class PersonAgent extends Agent implements Person {
 			state= PersonState.doingNothing;
 			stateChanged();
 		}
-		
+
 		else if (myTravelPreference == TravelPreference.bus) {
-			 myDestination=jobLocation;
-			 String tempAddress;
-			 if(homeAddress.contains("Apartment")) {
-				 tempAddress=homeAddress.substring(0, homeAddress.length()-1);
-			 }
-			 else{
-				 tempAddress=homeAddress;
-			 }
+			myDestination=jobLocation;
+			String tempAddress;
+			if(homeAddress.contains("Apartment")) {
+				tempAddress=homeAddress.substring(0, homeAddress.length()-1);
+			}
+			else{
+				tempAddress=homeAddress;
+			}
 			nearestStop=directory.get(tempAddress).nearestBusStop;
-             destStop=directory.get(jobLocation).nearestBusStop;
-             transit=TransitState.goToBus;
-             state=PersonState.travelling;
+			destStop=directory.get(jobLocation).nearestBusStop;
+			transit=TransitState.goToBus;
+			state=PersonState.travelling;
 		}
 		else if (myTravelPreference == TravelPreference.car) {
 			DoGoTo("Car");
@@ -870,7 +870,7 @@ public class PersonAgent extends Agent implements Person {
 			}			
 		}
 
-		
+
 	}        
 
 	private void GoToBed() {
@@ -913,7 +913,7 @@ public class PersonAgent extends Agent implements Person {
 		System.out.println("going to " +destStop);
 		//PersonGui.setPresent(false);
 		bus.msgGettingOn(this, destStop);
-		
+
 		try {
 			travelSem.acquire();
 		} catch (InterruptedException e) {
@@ -939,7 +939,7 @@ public class PersonAgent extends Agent implements Person {
 
 		state= PersonState.doingNothing;
 		stateChanged();
-		
+
 	}
 
 	private void goToCar(){
@@ -974,7 +974,7 @@ public class PersonAgent extends Agent implements Person {
 
 		state= PersonState.doingNothing;
 		stateChanged();
-		
+
 	}
 
 	private void DoGoTo(String dest) {
@@ -994,9 +994,9 @@ public class PersonAgent extends Agent implements Person {
 		}
 		else 
 			RestChoicenum = Integer.parseInt(homeAddress.substring(6))%6+1;
-			//System.err.println(homeAddress.substring(6));
+		//System.err.println(homeAddress.substring(6));
 		//System.err.println("home address added ... "+ homeAddress);
-		
+
 		RestChoice = "Restaurant "+ Integer.toString(RestChoicenum);
 		primaryRestChoice=RestChoice;
 		//System.err.println(RestChoice);
@@ -1017,9 +1017,9 @@ public class PersonAgent extends Agent implements Person {
 	public void addCustomerRoles(ArrayList<Role> arrayList) {
 		//for (Role r: roles) {
 		for(Role r: arrayList) {
-//			if(r instanceof MarketCustomerRole){
-//				print("NUMBERRR: "+((MarketCustomerRole)r).num);
-//			}
+			//			if(r instanceof MarketCustomerRole){
+			//				print("NUMBERRR: "+((MarketCustomerRole)r).num);
+			//			}
 			roles.add(r);
 		}
 		//}
@@ -1050,7 +1050,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 	public void setDirectory(Map<String, Business>direc){
 		directory = direc;
-		
+
 	}
 
 	public void setGui(PersonGui gui) {
@@ -1091,8 +1091,8 @@ public class PersonAgent extends Agent implements Person {
 	public void msgAtDestination(String destination) {
 		travelSem.release();
 		transit=TransitState.getOutCar;
-        
-        stateChanged();
+
+		stateChanged();
 
 	}
 

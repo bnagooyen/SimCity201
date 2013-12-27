@@ -17,11 +17,11 @@ public class BuildingPanel extends JPanel {
 	String type;
 	SimCityGui gui;
 	public boolean isVisible;
-	
+
 	BuildingPanel(SimCityGui restaurantGui, String nm) {
 		this.gui=restaurantGui;
 		setSize(875, 325);
-		
+
 		if(nm.equals("Restaurant 1")) {
 			panel = new RestaurantAnimationPanel1(restaurantGui, nm);
 			type = "restaurant";
@@ -66,7 +66,7 @@ public class BuildingPanel extends JPanel {
 			panel = new HomelessAnimationPanel(restaurantGui, nm);
 			type = "homelessShelter";
 		}
-		
+
 		if(nm.contains("Restaurant")) {
 			info = new RestaurantListPanel(restaurantGui, nm);
 		}
@@ -79,15 +79,15 @@ public class BuildingPanel extends JPanel {
 		else {
 			info = new HousingListPanel(restaurantGui,nm);
 		}
-		
+
 		isVisible = false;
 		name = nm;
 		setLayout(new BorderLayout());
 		add(info, BorderLayout.WEST);
 		add(panel, BorderLayout.CENTER);
-		
+
 	}
-	
+
 	public void setVisible() {
 		//info.isVisible=true;
 		panel.isVisible=true;

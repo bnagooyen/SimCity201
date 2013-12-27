@@ -103,8 +103,8 @@ public class SimCityPanel extends JPanel {
 	public int aptNumCounter=1;
 	public char aptLetCounter='A';
 	private int hour=0;
-	
-	
+
+
 	// for location of restaurants
 	public static final int streetWidth = 30;
 	public static final int sidewalkWidth = 20;
@@ -126,12 +126,6 @@ public class SimCityPanel extends JPanel {
 	RestaurantPlace KRestaurant;
 	RestaurantPlace LRestaurant;
 	RestaurantPlace TRestaurant;
-
-//	// make bank
-//	BankPlace bank1=null;
-//	BankPlace bank2 = null;
-//	// make market 
-//	MarketPlace market1=null;
 
 	boolean first=true;
 
@@ -155,7 +149,6 @@ public class SimCityPanel extends JPanel {
 
 	private final int numMarkets = 4;
 	private final int numBanks = 2;
-	//private Vector<DMarketAgent> markets = new Vector<DMarketAgent>();
 
 	private JPanel restLabel = new JPanel();
 
@@ -171,15 +164,9 @@ public class SimCityPanel extends JPanel {
 	BusStopAgent bs3;
 	BusStopAgent bs4;
 
-	//Person
 
-
-	//Bank people workers
-//	private BankManagerRole Bmanager;
-//	private BankTellerRole Bteller;
-//	private BankLoanOfficerRole Bloanofficer;
 	private CityPanel city;
- 
+
 
 	public SimCityPanel(SimCityGui gui, CityPanel C) {
 		this.gui = gui;
@@ -188,7 +175,7 @@ public class SimCityPanel extends JPanel {
 		//initialize weekend to false to assure input is weekday on default
 		isWeekend=false;
 
-		
+
 		//Populate the map for balancing people
 		storebalance.put("Bank Manager", 0);
 		storebalance.put("Bank Teller", 0);
@@ -198,7 +185,7 @@ public class SimCityPanel extends JPanel {
 		storebalance.put("Market Cashier", 0);
 
 		/*****add markets and banks *******/
-		
+
 		for(int i=1; i<=numBanks; i++ ) {
 			myBanks.add(new BankPlace(i));
 		}
@@ -206,7 +193,7 @@ public class SimCityPanel extends JPanel {
 		for(int i=1; i<=numMarkets; i++) {
 			myMarkets.add(new MarketPlace(i));
 		}
-		
+
 
 		/*******add restaurants and set locations********/
 		DrewRestaurant = new RestaurantPlace(2);
@@ -217,29 +204,33 @@ public class SimCityPanel extends JPanel {
 		TRestaurant = new RestaurantPlace(6);
 
 
+
+		/***was going to have people choose restaurants based on closest proximity to current
+		 * location, but couldn't fix all the bugs due to shortage of time. That is what
+		 * the following code was for. initialized x and y coordinates to each place.
+		 */
 		
 
-		
 		LRestaurant.x=2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth+30;
 		LRestaurant.y= streetWidth+sidewalkWidth;
-		
+
 		DrewRestaurant.x=2*yardSpace+2*housingWidth+2*sidewalkWidth+streetWidth+30;
-	    DrewRestaurant.y=streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap;
-	    
-	    DRestaurant.x=2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth-10;
-	    DRestaurant.y=streetWidth+sidewalkWidth;
-	    
-	    KRestaurant.x=3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth+30;
-	    KRestaurant.y=streetWidth+sidewalkWidth;
-	    
-	    BRestaurant.x=3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth+30;
-	    BRestaurant.y= streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap;
-	    
-	    TRestaurant.x=3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth-10;
-	    TRestaurant.y= streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap;
-		
-	    
-	    
+		DrewRestaurant.y=streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap;
+
+		DRestaurant.x=2*yardSpace+3*housingWidth+4*sidewalkWidth+2*streetWidth-10;
+		DRestaurant.y=streetWidth+sidewalkWidth;
+
+		KRestaurant.x=3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth+30;
+		KRestaurant.y=streetWidth+sidewalkWidth;
+
+		BRestaurant.x=3*yardSpace+4*housingWidth+4*sidewalkWidth+2*streetWidth+30;
+		BRestaurant.y= streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap;
+
+		TRestaurant.x=3*yardSpace+5*housingWidth+6*sidewalkWidth+3*streetWidth-10;
+		TRestaurant.y= streetWidth+4*housingLength+ sidewalkWidth+ 5*parkingGap;
+
+
+
 
 		myRestaurants.add(LRestaurant);
 		myRestaurants.add(DrewRestaurant);
@@ -268,121 +259,121 @@ public class SimCityPanel extends JPanel {
 		gui.city.addGui(bgui);
 		bus.setStops(busStops);
 
-		
+
 		/*************add to directory ****************/
-		
+
 		for(MarketPlace m: myMarkets) {
 			directory.put("Market "+ Integer.toString(m.num), m);
 			//System.err.println("Market "+ Integer.toString(m.num));
 		}
-		
+
 		for(BankPlace b: myBanks) {
 			directory.put("Bank "+ Integer.toString(b.num), b);
 		}
-		
+
 		//we need this for houses and apartments too for transportation
-		
+
 		/***Housing***/
 		for(int i=1; i<=NUMHOUSES; i++) {
 			directory.put("House "+ Integer.toString(i), new Housing());
 		}
-		
+
 		directory.get("House 1").nearestBusStop = "Stop1";
-        directory.get("House 2").nearestBusStop = "Stop1";
-        directory.get("House 4").nearestBusStop = "Stop1";
-        directory.get("House 3").nearestBusStop = "Stop4";
-        directory.get("House 5").nearestBusStop = "Stop4";
-        directory.get("House 6").nearestBusStop = "Stop4";
-        directory.get("House 7").nearestBusStop = "Stop1";
-        directory.get("House 8").nearestBusStop = "Stop4";
-        directory.get("House 9").nearestBusStop = "Stop3";
-        directory.get("House 11").nearestBusStop = "Stop3";
-        directory.get("House 10").nearestBusStop = "Stop2";
-        directory.get("House 12").nearestBusStop = "Stop2";
-        directory.get("House 14").nearestBusStop = "Stop2";
-        directory.get("House 13").nearestBusStop = "Stop3";
-        directory.get("House 15").nearestBusStop = "Stop3";
-		
-        /***Apartemnts***/
+		directory.get("House 2").nearestBusStop = "Stop1";
+		directory.get("House 4").nearestBusStop = "Stop1";
+		directory.get("House 3").nearestBusStop = "Stop4";
+		directory.get("House 5").nearestBusStop = "Stop4";
+		directory.get("House 6").nearestBusStop = "Stop4";
+		directory.get("House 7").nearestBusStop = "Stop1";
+		directory.get("House 8").nearestBusStop = "Stop4";
+		directory.get("House 9").nearestBusStop = "Stop3";
+		directory.get("House 11").nearestBusStop = "Stop3";
+		directory.get("House 10").nearestBusStop = "Stop2";
+		directory.get("House 12").nearestBusStop = "Stop2";
+		directory.get("House 14").nearestBusStop = "Stop2";
+		directory.get("House 13").nearestBusStop = "Stop3";
+		directory.get("House 15").nearestBusStop = "Stop3";
+
+		/***Apartemnts***/
 		for(int i=1; i<=NUMAPTS; i++) {
 			directory.put("Apartment "+ Integer.toString(i), new Housing());
 		}
-		
+
 		directory.get("Apartment 1").nearestBusStop = "Stop1";
-        directory.get("Apartment 2").nearestBusStop = "Stop1";
-        directory.get("Apartment 3").nearestBusStop = "Stop1";
-        directory.get("Apartment 4").nearestBusStop = "Stop4";
-        directory.get("Apartment 5").nearestBusStop = "Stop4";
-        directory.get("Apartment 6").nearestBusStop = "Stop4";
-        directory.get("Apartment 7").nearestBusStop = "Stop2";
-        directory.get("Apartment 8").nearestBusStop = "Stop2";
-        directory.get("Apartment 9").nearestBusStop = "Stop2";
-        directory.get("Apartment 11").nearestBusStop = "Stop3";
-        directory.get("Apartment 10").nearestBusStop = "Stop3";
-        directory.get("Apartment 12").nearestBusStop = "Stop3";
+		directory.get("Apartment 2").nearestBusStop = "Stop1";
+		directory.get("Apartment 3").nearestBusStop = "Stop1";
+		directory.get("Apartment 4").nearestBusStop = "Stop4";
+		directory.get("Apartment 5").nearestBusStop = "Stop4";
+		directory.get("Apartment 6").nearestBusStop = "Stop4";
+		directory.get("Apartment 7").nearestBusStop = "Stop2";
+		directory.get("Apartment 8").nearestBusStop = "Stop2";
+		directory.get("Apartment 9").nearestBusStop = "Stop2";
+		directory.get("Apartment 11").nearestBusStop = "Stop3";
+		directory.get("Apartment 10").nearestBusStop = "Stop3";
+		directory.get("Apartment 12").nearestBusStop = "Stop3";
 
-		
 
-        
-        directory.put("Restaurant 5", BRestaurant);
-        directory.put("Restaurant 3", DRestaurant);
-        directory.put("Restaurant 2", DrewRestaurant);
-        directory.put("Restaurant 4", KRestaurant);
-        directory.put("Restaurant 1", LRestaurant);
-        directory.put("Restaurant 6", TRestaurant);
-        
-        // set nearest bus stop of all the buildings
-        directory.get("Market 1").nearestBusStop = "Stop1";
-        directory.get("Market 2").nearestBusStop = "Stop4";
-        directory.get("Market 3").nearestBusStop = "Stop2";
-        directory.get("Market 4").nearestBusStop = "Stop3";
-        directory.get("Bank 1").nearestBusStop = "Stop4";
-        directory.get("Bank 2").nearestBusStop = "Stop2";
-        directory.get("Restaurant 1").nearestBusStop = "Stop1";
-        directory.get("Restaurant 3").nearestBusStop = "Stop1";
-        directory.get("Restaurant 4").nearestBusStop = "Stop2";
-        directory.get("Restaurant 5").nearestBusStop = "Stop3";
-        directory.get("Restaurant 6").nearestBusStop = "Stop3";
-        directory.get("Restaurant 2").nearestBusStop = "Stop4";
-        
-        directory.get("Market 1").openHour = 9;
-        directory.get("Market 2").openHour = 9; 
-        directory.get("Market 3").openHour = 9;
-        directory.get("Market 4").openHour = 9;
-        directory.get("Bank 1").openHour = 9;
-        directory.get("Bank 2").openHour = 9;
-        directory.get("Restaurant 1").openHour = 9;
-        directory.get("Restaurant 3").openHour = 9;
-        directory.get("Restaurant 4").openHour = 9;
-        directory.get("Restaurant 5").openHour = 9;
-        directory.get("Restaurant 6").openHour = 9;
-        directory.get("Restaurant 2").openHour = 9;
-        
-        directory.get("Market 1").closeHour = 23;
-        directory.get("Market 2").closeHour = 23; 
-        directory.get("Market 3").closeHour = 23;
-        directory.get("Market 4").closeHour = 23;
-        directory.get("Bank 1").closeHour = 14;
-        directory.get("Bank 2").closeHour = 14;
-        directory.get("Restaurant 1").closeHour = 20;
-        directory.get("Restaurant 3").closeHour = 20;
-        directory.get("Restaurant 4").closeHour = 20;
-        directory.get("Restaurant 5").closeHour = 20;
-        directory.get("Restaurant 6").closeHour = 20;
-        directory.get("Restaurant 2").closeHour = 20;
-       
-        
-        
-        
-        // set all market places to not down
-        Iterator it = directory.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pairs = (Map.Entry)it.next();
-            Business b = (Business) pairs.getValue();
-            b.down = false;
-        }
-        
-    }
+
+
+		directory.put("Restaurant 5", BRestaurant);
+		directory.put("Restaurant 3", DRestaurant);
+		directory.put("Restaurant 2", DrewRestaurant);
+		directory.put("Restaurant 4", KRestaurant);
+		directory.put("Restaurant 1", LRestaurant);
+		directory.put("Restaurant 6", TRestaurant);
+
+		// set nearest bus stop of all the buildings
+		directory.get("Market 1").nearestBusStop = "Stop1";
+		directory.get("Market 2").nearestBusStop = "Stop4";
+		directory.get("Market 3").nearestBusStop = "Stop2";
+		directory.get("Market 4").nearestBusStop = "Stop3";
+		directory.get("Bank 1").nearestBusStop = "Stop4";
+		directory.get("Bank 2").nearestBusStop = "Stop2";
+		directory.get("Restaurant 1").nearestBusStop = "Stop1";
+		directory.get("Restaurant 3").nearestBusStop = "Stop1";
+		directory.get("Restaurant 4").nearestBusStop = "Stop2";
+		directory.get("Restaurant 5").nearestBusStop = "Stop3";
+		directory.get("Restaurant 6").nearestBusStop = "Stop3";
+		directory.get("Restaurant 2").nearestBusStop = "Stop4";
+
+		directory.get("Market 1").openHour = 9;
+		directory.get("Market 2").openHour = 9; 
+		directory.get("Market 3").openHour = 9;
+		directory.get("Market 4").openHour = 9;
+		directory.get("Bank 1").openHour = 9;
+		directory.get("Bank 2").openHour = 9;
+		directory.get("Restaurant 1").openHour = 9;
+		directory.get("Restaurant 3").openHour = 9;
+		directory.get("Restaurant 4").openHour = 9;
+		directory.get("Restaurant 5").openHour = 9;
+		directory.get("Restaurant 6").openHour = 9;
+		directory.get("Restaurant 2").openHour = 9;
+
+		directory.get("Market 1").closeHour = 23;
+		directory.get("Market 2").closeHour = 23; 
+		directory.get("Market 3").closeHour = 23;
+		directory.get("Market 4").closeHour = 23;
+		directory.get("Bank 1").closeHour = 14;
+		directory.get("Bank 2").closeHour = 14;
+		directory.get("Restaurant 1").closeHour = 20;
+		directory.get("Restaurant 3").closeHour = 20;
+		directory.get("Restaurant 4").closeHour = 20;
+		directory.get("Restaurant 5").closeHour = 20;
+		directory.get("Restaurant 6").closeHour = 20;
+		directory.get("Restaurant 2").closeHour = 20;
+
+
+
+
+		// set all market places to not down
+		Iterator it = directory.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pairs = (Map.Entry)it.next();
+			Business b = (Business) pairs.getValue();
+			b.down = false;
+		}
+
+	}
 
 	/***
 	 * These people are hard coded in, so they cannot be added through file i/o.
@@ -402,7 +393,7 @@ public class SimCityPanel extends JPanel {
 		addPerson("Person", "BHost", 100.0, "Brian Host", "Apartment", "Walk"); 
 		addPerson("Person", "LHost", 100.0, "Linda Host", "Apartment", "Walk"); 
 		addPerson("Person", "KHost", 100.0, "Kim Host", "Apartment", "Walk"); 
-		
+
 	}
 
 	public void LoadScenario(String type){
@@ -412,9 +403,9 @@ public class SimCityPanel extends JPanel {
 		aptNumCounter=1;
 		aptLetCounter='A';
 		try {	
-			
+
 			in  = new Scanner(new FileReader("config"+File.separator+type+".txt"));
-			
+
 			//read day or weekend first
 			String dayOrWeekend = in.next();
 			if(dayOrWeekend.equals("Weekend")) {
@@ -424,9 +415,9 @@ public class SimCityPanel extends JPanel {
 					directory.get("Bank "+Integer.toString(i)).down=true;
 				}
 			}
-			
+
 			AddManagers();
-			
+
 			in.next();
 			int numItems = in.nextInt();
 			//clear input template;
@@ -445,7 +436,7 @@ public class SimCityPanel extends JPanel {
 				addPerson("Person", name, money, role, houseOrApt, transport);
 			}
 			gui.AddPeople(people);
-		
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -459,14 +450,14 @@ public class SimCityPanel extends JPanel {
 	public boolean addPerson(String type, String name, double money, String role, String houseOrApt, String transport) {
 		if(type.equals("Person")) {
 			//    		System.out.println("added");
-			
+
 			PersonAgent p = new PersonAgent(name);
 			p.setDirectory(directory);
 			p.setMoney(money);
-			
+
 			p.SetTravelPreference(transport);
 			p.setStops(busStops);
-			
+
 			ArrayList<Role> tempRoles = GenerateAllCustomerRoles();
 			for(Role r: tempRoles) {
 				r.myPerson=p;
@@ -494,7 +485,7 @@ public class SimCityPanel extends JPanel {
 				else {
 					aptLetCounter++;
 				}
-				
+
 				TenantGui tg = new TenantGui(p, p.homeAddress.substring(p.homeAddress.length()-1));
 				p.setGui(tg);
 				String tempAddress = p.homeAddress.substring(0, p.homeAddress.length()-1);
@@ -509,7 +500,7 @@ public class SimCityPanel extends JPanel {
 
 
 
-			
+
 			//creating car
 			CarAgent car=new CarAgent();
 			CarGui cgui=new CarGui(car, gui);
@@ -526,10 +517,10 @@ public class SimCityPanel extends JPanel {
 				//System.err.println("Visitor added");
 				p.goToAll=true;
 			}
-			
+
 			//Managers&Hosts
 			if(role.equals("Inventory Person")){
-//				this.LoadScenario("config1");
+				//				this.LoadScenario("config1");
 				p.hungerLevel=100;
 				p.RestChoice="Restaurant 5";
 			}
@@ -781,7 +772,7 @@ public class SimCityPanel extends JPanel {
 				p.SetJob(LC, "Market 4", "InventoryPerson");
 			}
 
-			
+
 			//for our release we removed the 'add teller' functionality last minute, as we were going
 			//to implement role switching through it, but, due to time limitation, we could not remove the 
 			//bugs.. so it has been commented out.
@@ -806,7 +797,7 @@ public class SimCityPanel extends JPanel {
 					BT.myPerson=p;
 					p.SetJob(BT,"Bank 2", "Bank Teller");
 				}
-				
+
 				if(role.equals("BankLoanOfficer1")){
 					BankLoanOfficerRole BT=  myBanks.get(0).loanOfficer;
 					BT.myPerson=p;
@@ -817,15 +808,15 @@ public class SimCityPanel extends JPanel {
 					BT.myPerson=p;
 					p.SetJob(BT,"Bank 2", "Bank Loan Officer");
 				}
-				
+
 				if(role.equals("Bank Robber")){
 					BankRobberRole BR=  myBanks.get(0).addRobber();
 					BR.myPerson=p;
 					p.SetJob(BR,"Bank 1", "Bank Robber");
 					p.msgWorkTime();
 				}
-	
-				
+
+
 				//Add People that take another Person's Job
 				if(role.equals("Bank Loan Officer 1")){
 					BankCustomerRole BC = null;
@@ -848,18 +839,18 @@ public class SimCityPanel extends JPanel {
 			people.add(p);
 			return true;
 		}
-		
+
 		//will never happen.. everyone's a person
 		return false;
 	}
 
-	
+
 
 
 	private ArrayList<Role> GenerateAllCustomerRoles() {
 		ArrayList<Role> myCustomerRoles= new ArrayList<Role>();
 
-		
+
 		//add all bank and market customer roles
 		for(BankPlace b: myBanks) {
 			myCustomerRoles.add(b.addCustomer());
@@ -879,8 +870,8 @@ public class SimCityPanel extends JPanel {
 
 
 	}
-	
-	
+
+
 	/**************************ROLE FACTORY******************************/
 
 	public class Business {
@@ -893,7 +884,7 @@ public class SimCityPanel extends JPanel {
 		public String nearestBusStop;
 
 	}
-	
+
 	//we realized we need houses in here for transportation
 	public class Housing extends Business {
 	}
@@ -955,7 +946,7 @@ public class SimCityPanel extends JPanel {
 		ArrayList<BankCustomerRole> bankCustomers;
 		ArrayList<BankRobberRole> bankRobbers;
 
-		
+
 		public BankPlace(int num) {
 			this.num = num;
 			loanOfficer = new BankLoanOfficerRole(gui,num);
@@ -1010,19 +1001,19 @@ public class SimCityPanel extends JPanel {
 			cook = new BCookRole();
 			cashier = new BCashierRole();
 			((BHostRole)host).setCook((BCookRole)cook);
-			
-			
-			
+
+
+
 			((BHostRole)host).setCashier((BCashierRole)cashier);
 			((BCookRole) cook).setHost((BHostRole)host);
 			((BCookRole)cook).setCashier((BCashierRole)cashier);
 			for(MarketPlace m: myMarkets) {
 				((BCookRole)cook).addMarket(m.mManager);
 			}
-			
+
 			((BCashierRole)cashier).setHost((BHostRole)host);
 			((BCashierRole)cashier).setCook((BCookRole)cook);
-			
+
 			break;
 			case 3: host = new DHostRole();
 			cook = new DCookRole(gui);
@@ -1088,7 +1079,7 @@ public class SimCityPanel extends JPanel {
 			waiters.add(aw);
 			System.out.println("zxcvbnm"+host);
 			return aw;
-			
+
 			case 5: 
 				BWaiterRole bw = new BWaiterSharedDataRole(gui);
 				bw.setHost((BHostRole)host);
@@ -1145,7 +1136,7 @@ public class SimCityPanel extends JPanel {
 			aw.setHost((Drew_Host)host);
 			waiters.add(aw);
 			return aw;
-			
+
 			case 5: 
 				BWaiterRole bw = new BWaiterNormalRole(gui);
 				bw.setHost((BHostRole)host);
@@ -1240,7 +1231,7 @@ public class SimCityPanel extends JPanel {
 			}
 		}
 	}
-	
+
 	//this is for tracking guis
 	public void toggleTrackingOf(String name) {
 		for(PersonAgent p: people) {
@@ -1249,7 +1240,7 @@ public class SimCityPanel extends JPanel {
 			}
 		}
 	}
-	
+
 	//this is the hack for scenarios 2 and 3 to show a visitor going to all businesses
 	public void getWorkersToJob() {
 		boolean visitorExists=false;
@@ -1258,10 +1249,10 @@ public class SimCityPanel extends JPanel {
 				p.msgTimeUpdate(p.directory.get(p.jobLocation).openHour-2);
 			}
 			else {
-//				p.msgTimeUpdate(11); //for the visitors.. IF YOU CHANGE THIS VALUE, MUST CHANGE VALUE IN PERSONAGENT'S MSGTIMEUPDATE
+				//				p.msgTimeUpdate(11); //for the visitors.. IF YOU CHANGE THIS VALUE, MUST CHANGE VALUE IN PERSONAGENT'S MSGTIMEUPDATE
 				visitorExists=true;
 			}
-		
+
 		}
 		if(visitorExists) {
 			Timer t = new Timer();
@@ -1276,7 +1267,7 @@ public class SimCityPanel extends JPanel {
 			}, 20000);
 		}
 	}
-	
+
 	public void startTimer() {
 		Timer timer;
 
@@ -1295,7 +1286,7 @@ public class SimCityPanel extends JPanel {
 					if (counter == 24) {
 						counter = 0;
 					}
-					
+
 				}
 			}
 		}

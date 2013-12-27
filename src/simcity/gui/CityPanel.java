@@ -1,6 +1,8 @@
 /*
  * SimCity201, Released December 2013
  * Contributors to file: Doreen Hakimi
+ * Description: this file is the graphics and card layout implementation
+ * of the city view .. the panel including all the houses
  */
 
 package simcity.gui;
